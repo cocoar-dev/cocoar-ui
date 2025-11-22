@@ -52,7 +52,7 @@ All UI libraries use the prefix **`ui-`**:
 ## 2.4 Infrastructure package names
 
 ```
-@cocoar/logging-core
+@cocoar/logging
 @cocoar/logging-angular   (optional)
 ```
 
@@ -149,7 +149,7 @@ src/libs/ui-core/
 src/libs/ui-forms/
 src/libs/ui-grid/
 src/libs/ui-icons/
-src/libs/logging-core/
+src/libs/logging/
 ```
 
 **Note:** The Nx workspace is located in `src/`, not at the repository root.
@@ -235,7 +235,7 @@ Logging uses shorter, unprefixed TypeScript names (because the package already p
 
 ## 7.1 Types
 
-Inside **`@cocoar/logging-core`**, types MUST be clean and generic:
+Inside **`@cocoar/logging`**, types MUST be clean and generic:
 
 ```
 Logger
@@ -308,7 +308,7 @@ export class CoarButtonComponent {}
 ### Logging
 
 ```ts
-import { Logger } from '@cocoar/logging-core';
+import { Logger } from '@cocoar/logging';
 logger.debug('Value changed {Value}', { Value: 42 });
 ```
 

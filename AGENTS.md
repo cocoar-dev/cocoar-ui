@@ -56,7 +56,7 @@ When in doubt, **stay compatible with Angular 20 and Storybook 9**.
 - For Angular **publishable libraries** (e.g. `@cocoar/ui-forms`, `@cocoar/ui-grid`):
   - ALWAYS use `@nx/angular:package` as the packaging executor (APF via ng-packagr).
   - Do NOT introduce alternative packaging executors (`ng-packagr-lite`, custom builders, etc.) unless ARCHITECTURE.md is updated.
-- For **non-Angular / pure TypeScript** libraries (e.g. `@cocoar/logging-core`):
+- For **non-Angular / pure TypeScript** libraries (e.g. `@cocoar/logging`):
   - Use simple TS builds (e.g. `@nx/js:tsc` or equivalent) – never ng-packagr.
 
 If any blog, doc, or example uses a different builder/executor:
@@ -148,7 +148,7 @@ When working in this repository, AI assistants must:
 ### Architecture (see ARCHITECTURE.md)
 - [ ] Use CSS variables only (no Tailwind, no hardcoded colors)
 - [ ] Follow framework-pure patterns (no global CSS)
-- [ ] Use `@cocoar/logging-core` (no `console.log`)
+- [ ] Use `@cocoar/logging` (no `console.log`)
 - [ ] Respect Nx monorepo structure
 - [ ] Keep libraries isolated (minimal cross-dependencies)
 
@@ -198,7 +198,7 @@ If uncertain about a decision, AI assistants should:
 * **Follow ARCHITECTURE.md** — Framework purity, design tokens, component patterns
 * **Follow CONTRIBUTING.md** — Quality standards, testing, definition of done
 * **Use CSS variables only** — All styling from Figma tokens
-* **Use `@cocoar/logging-core`** — No `console.log` in libraries
+* **Use `@cocoar/logging`** — No `console.log` in libraries
 * **Test accessibility** — Keyboard navigation, ARIA, screen readers
 * **Keep docs in sync** — Update README, Storybook, and migration guides
 * **Follow Definition of Done** — See CONTRIBUTING.md for the complete checklist

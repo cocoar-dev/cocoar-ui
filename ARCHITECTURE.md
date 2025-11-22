@@ -15,7 +15,7 @@ The **Coar Design System** is an Nx monorepo providing:
 
 * **Angular-based UI component libraries** (`@cocoar/ui-*`)
 * **Design tokens** generated from Figma
-* **Shared logging infrastructure** (`@cocoar/logging-core`)
+* **Shared logging infrastructure** (`@cocoar/logging`)
 * **Storybook documentation** for all components
 * High-quality, brand-consistent UI components
 
@@ -67,7 +67,7 @@ We standardise on the following:
    - We do NOT introduce other package/build executors (e.g. `ng-packagr-lite`, custom builders) unless explicitly documented here.
 
 3. **Non-Angular / pure TypeScript libraries**  
-   (e.g. `@cocoar/logging-core`)
+   (e.g. `@cocoar/logging`)
    - Built using simple TypeScript builds, e.g. `@nx/js:tsc` (or equivalent).
    - These libraries do **not** use ng-packagr.
 
@@ -123,7 +123,7 @@ cocoar-ui/                  # Repository root
     │   ├── ui-forms/       # Form components
     │   ├── ui-grid/        # Data grid component
     │   ├── ui-icons/       # Icon system
-    │   └── logging-core/   # Structured logging library
+    │   └── logging/   # Structured logging library
     ├── apps/
     │   ├── storybook/      # Component documentation
     │   └── storybook-e2e/  # Playwright E2E tests
@@ -270,10 +270,10 @@ export class CoarButtonComponent {
 
 ### Logging Core Library
 
-**All logging must use `@cocoar/logging-core`:**
+**All logging must use `@cocoar/logging`:**
 
 ```typescript
-import { Logger } from '@cocoar/logging-core';
+import { Logger } from '@cocoar/logging';
 
 // ✅ GOOD - Structured logging
 logger.debug('Row selected {RowId}', { RowId: row.id });
@@ -285,7 +285,7 @@ console.log('Row selected:', row.id);
 ### Logging Rules
 
 **Libraries:**
-- Use `@cocoar/logging-core`
+- Use `@cocoar/logging`
 - Do not configure sinks
 - Do not set log levels
 - Use structured logging format

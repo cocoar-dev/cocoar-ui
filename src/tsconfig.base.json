@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@cocoar/logging-core": ["libs/logging-core/src/index.ts"]
+      "@cocoar/logging-abstractions": ["libs/logging-abstractions/src/index.ts"],
+      "@cocoar/logging": ["libs/logging/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
