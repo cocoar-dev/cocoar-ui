@@ -69,7 +69,8 @@ export class AppComponent {}
 ## Development
 
 ```bash
-# Install dependencies
+# Install dependencies (from src/ directory)
+cd src
 npm install
 
 # Run Storybook
@@ -89,15 +90,18 @@ nx e2e storybook-e2e
 
 ## Repository Structure
 
+**Note:** The Nx workspace is located in `src/`, not at the repository root.
+
 ```
-libs/
-  ui-tokens/          Design tokens from Figma
-  ui-core/            Core UI components
-  ui-forms/           Form components
-  ui-grid/            Data grid component
-  ui-icons/           Icon system
-  logging-core/       Structured logging library
-apps/
+src/                  # Nx workspace root
+  libs/
+    ui-tokens/        Design tokens from Figma
+    ui-core/          Core UI components
+    ui-forms/         Form components
+    ui-grid/          Data grid component
+    ui-icons/         Icon system
+    logging-core/     Structured logging library
+  apps/
   storybook/          Component documentation
 docs/                 Additional documentation
 ```

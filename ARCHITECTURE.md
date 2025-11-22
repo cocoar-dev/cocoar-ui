@@ -21,23 +21,118 @@ The **Coar Design System** is an Nx monorepo providing:
 
 ---
 
+## 🛠️ Technology Baseline
+
+This repository currently targets the following stack:
+
+- **Angular:** 20.x
+- **Nx:** 22.x
+- **Storybook:** 9.x (Angular)
+- **Node.js:** 20.x (or compatible LTS)
+
+**Rationale:**
+
+- Angular 20 is fully supported by Nx and Storybook 9.
+- Angular 21 introduces experimental features (e.g. Signal Forms) and currently has limited ecosystem support (Nx + Storybook).
+- We want a *boring, stable* foundation for the Coar Design System, with a clear migration path later.
+
+A future migration to Angular 21 and Storybook 10 will be handled as a dedicated milestone and documented here before implementation.
+
+---
+
+## 📦 Nx Usage Strategy
+
+Nx is used as an orchestration and monorepo tool:
+
+- to manage multiple libraries and apps,
+- to provide `affected` / project graph / caching,
+- to standardise generators and targets.
+
+Nx is **not** a replacement for Angular's own build system; where possible, we keep close to official Angular executors.
+
+### Executors / Builders Policy
+
+We standardise on the following:
+
+1. **Angular applications** (Storybook host, future styleguide app)
+   - Use Angular's official executors where practical, wired through Nx targets:
+     - e.g. `@angular-devkit/build-angular:application` (or the current recommended app builder for Angular 20).
+   - Nx may wrap these, but we do not introduce multiple competing "ways" to build apps without updating this document.
+
+2. **Angular publishable libraries**  
+   (e.g. `@cocoar/ui-tokens`, `@cocoar/ui-forms`, `@cocoar/ui-grid`, `@cocoar/ui-icons`)
+   - MUST use: `@nx/angular:package`
+   - This executor wraps **ng-packagr** and produces Angular Package Format (APF) libraries.
+   - We treat `@nx/angular:package` as the **single source of truth** for packaging Angular libraries.
+   - We do NOT introduce other package/build executors (e.g. `ng-packagr-lite`, custom builders) unless explicitly documented here.
+
+3. **Non-Angular / pure TypeScript libraries**  
+   (e.g. `@cocoar/logging-core`)
+   - Built using simple TypeScript builds, e.g. `@nx/js:tsc` (or equivalent).
+   - These libraries do **not** use ng-packagr.
+
+### Integration with External Examples
+
+When external docs/blogs refer to "builders" such as:
+
+- `@angular-devkit/build-angular:browser-esbuild`
+- `@angular-devkit/build-angular:ng-packagr`
+- or custom third-party builders
+
+We apply the following rules:
+
+- For apps: map the builder to a Nx target `executor` using Angular's official executor name.
+- For Angular libs: if they suggest `ng-packagr` directly, we model this via our standard `@nx/angular:package` executor.
+- For non-Angular tooling: wrap CLI commands using `@nx/workspace:run-commands` or a dedicated Nx plugin, but always keep the number of patterns minimal.
+
+Any deviation from this policy MUST be justified and documented in this file.
+
+### Angular 21 / Storybook 10 Roadmap (Future)
+
+We plan to adopt Angular 21 and Storybook 10 when:
+
+- Nx officially recommends an Nx + Angular 21 pairing in their version matrix.
+- Storybook 10 has stable (non-alpha) support for Angular 21.
+- Migration impact on `@cocoar/ui-*` libraries is understood and documented.
+
+At that point we will:
+
+- Add a "Migration to Angular 21" section here.
+- Provide guidance for Signal Forms integration (potentially in a separate `ui-forms-signals` package or adapter layer).
+
+---
+
 ## 📁 Repository Structure
 
+**Important:** The Nx workspace is located in `src/`, NOT at the repository root.
+
 ```
-cocoar-ui/
-├── libs/
-│   ├── ui-tokens/          # Design tokens from Figma
-│   ├── ui-core/            # Core UI components
-│   ├── ui-forms/           # Form components
-│   ├── ui-grid/            # Data grid component
-│   ├── ui-icons/           # Icon system
-│   └── logging-core/       # Structured logging library
-├── apps/
-│   ├── storybook/          # Component documentation
-│   └── storybook-e2e/      # Playwright E2E tests
-├── docs/                   # Additional documentation
-└── .local/                 # Git-ignored local working files
+cocoar-ui/                  # Repository root
+├── docs/                   # Repository-level documentation
+├── .github/                # GitHub workflows and configuration
+├── .local/                 # Git-ignored local working files
+├── AGENTS.md               # AI assistant guidelines
+├── ARCHITECTURE.md         # This file
+├── NAMING.md               # Naming conventions
+├── CONTRIBUTING.md         # Contribution guidelines
+├── README.md               # Repository overview
+└── src/                    # ⭐ Nx workspace root
+    ├── libs/
+    │   ├── ui-tokens/      # Design tokens from Figma
+    │   ├── ui-core/        # Core UI components
+    │   ├── ui-forms/       # Form components
+    │   ├── ui-grid/        # Data grid component
+    │   ├── ui-icons/       # Icon system
+    │   └── logging-core/   # Structured logging library
+    ├── apps/
+    │   ├── storybook/      # Component documentation
+    │   └── storybook-e2e/  # Playwright E2E tests
+    ├── nx.json             # Nx configuration
+    ├── package.json        # Workspace dependencies
+    └── tsconfig.base.json  # TypeScript base config
 ```
+
+All Nx commands must be run from the `src/` directory, or use `-p src` flag from the repository root.
 
 ---
 

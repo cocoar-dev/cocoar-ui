@@ -141,16 +141,18 @@ form-field.directive.ts
 
 ## 4.2 Library folder names
 
-Libraries inside `libs/` MUST use kebab-case:
+Libraries inside `src/libs/` MUST use kebab-case:
 
 ```
-libs/ui-tokens/
-libs/ui-core/
-libs/ui-forms/
-libs/ui-grid/
-libs/ui-icons/
-libs/logging-core/
+src/libs/ui-tokens/
+src/libs/ui-core/
+src/libs/ui-forms/
+src/libs/ui-grid/
+src/libs/ui-icons/
+src/libs/logging-core/
 ```
+
+**Note:** The Nx workspace is located in `src/`, not at the repository root.
 
 ---
 

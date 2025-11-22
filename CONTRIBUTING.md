@@ -17,9 +17,25 @@ These documents define the foundation of the Coar Design System.
 ## Getting Started
 
 1. Fork the repository and create a feature branch
-2. Install dependencies: `npm install`
-3. Run Storybook: `npm run storybook`
-4. Make your changes following the guidelines below
+2. Navigate to the Nx workspace: `cd src`
+3. Install dependencies: `npm install`
+4. Run Storybook: `npm run storybook`
+5. Make your changes following the guidelines below
+
+**Important:** All Nx commands must be run from the `src/` directory (the Nx workspace root), not from the repository root.
+
+---
+
+## Technology & Tooling Expectations
+
+- This repository currently targets **Angular 20.x**, **Nx 22.x**, and **Storybook 9.x**.
+- Do NOT upgrade Angular, Nx, or Storybook major versions on your own. Version upgrades are handled as dedicated, planned tasks and documented in ARCHITECTURE.md.
+- All builds, tests, and Storybook commands should be run via **Nx** (`nx serve`, `nx test`, `nx run <target>`) rather than calling `ng` directly.
+- Angular publishable libraries (e.g. `@cocoar/ui-*`) are packaged using `@nx/angular:package`. Do not introduce alternative packaging executors without discussion and an update to ARCHITECTURE.md.
+
+For deeper architectural rules, see [ARCHITECTURE.md](ARCHITECTURE.md).
+
+---
 
 ## Architecture Guidelines
 
@@ -49,7 +65,11 @@ See **[ARCHITECTURE.md](ARCHITECTURE.md)** for complete details on design tokens
 
 ## Development Workflow
 
+**All commands must be run from `src/` directory:**
+
 ```bash
+cd src
+
 # Build a specific library
 nx build ui-core
 

@@ -29,6 +29,42 @@ The goal: build Angular-based UI component libraries with design tokens from Fig
 
 ---
 
+## 🛠️ Technology Baseline (for all agents)
+
+You MUST assume the following technology stack for this repository:
+
+- Angular **20.x**
+- Nx **22.x** as the workspace/orchestration tool
+- Storybook **9.x** for Angular
+- Node.js **20.x** (or newer LTS compatible with Angular 20 and Nx 22)
+
+Do NOT introduce:
+
+- Angular 21–only features (e.g. Signal Forms APIs, ARIA v21 packages) without an explicit migration plan in ARCHITECTURE.md.
+- Storybook 10+ configuration or Angular 21 Storybook setups.
+- Breaking changes in executors/builders that conflict with our current Nx + Angular 20 setup.
+
+When in doubt, **stay compatible with Angular 20 and Storybook 9**.
+
+---
+
+## 📦 Nx Usage Rules for Agents
+
+- Nx is used as **monorepo orchestration**, NOT as a replacement for Angular itself.
+- For Angular **apps** (Storybook host, future styleguide app):
+  - Prefer official Angular executors (`@angular-devkit/build-angular:*`) wrapped in Nx targets, unless ARCHITECTURE.md explicitly says otherwise.
+- For Angular **publishable libraries** (e.g. `@cocoar/ui-forms`, `@cocoar/ui-grid`):
+  - ALWAYS use `@nx/angular:package` as the packaging executor (APF via ng-packagr).
+  - Do NOT introduce alternative packaging executors (`ng-packagr-lite`, custom builders, etc.) unless ARCHITECTURE.md is updated.
+- For **non-Angular / pure TypeScript** libraries (e.g. `@cocoar/logging-core`):
+  - Use simple TS builds (e.g. `@nx/js:tsc` or equivalent) – never ng-packagr.
+
+If any blog, doc, or example uses a different builder/executor:
+- Translate it into our model (see ARCHITECTURE.md).
+- Do NOT blindly copy arbitrary builders into this repo.
+
+---
+
 ## 🧭 Core Principles
 
 * **Explain Why, Not What** — Comments describe *intent and reasoning*, not code behavior
@@ -165,21 +201,7 @@ If uncertain about a decision, AI assistants should:
 * **Use `@cocoar/logging-core`** — No `console.log` in libraries
 * **Test accessibility** — Keyboard navigation, ARIA, screen readers
 * **Keep docs in sync** — Update README, Storybook, and migration guides
-
----
-
-## ✅ Definition of Done
-
-A change or release is complete when:
-
-* Code aligns with ARCHITECTURE.md patterns
-* NAMING.md conventions followed consistently
-* CONTRIBUTING.md quality standards met
-* No unused or redundant elements remain
-* Intent is clear through naming, structure, or concise *why* comments
-* Tests cover the changes and pass
-* Storybook stories demonstrate the feature
-* Breaking changes documented with migration guides
+* **Follow Definition of Done** — See CONTRIBUTING.md for the complete checklist
 
 ---
 
