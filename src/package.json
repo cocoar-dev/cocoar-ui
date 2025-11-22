@@ -53,12 +53,17 @@
     "eslint-config-prettier": "^10.0.0",
     "eslint-plugin-playwright": "^1.6.2",
     "jsdom": "~22.1.0",
+    "jsonc-eslint-parser": "^2.1.0",
     "nx": "22.1.1",
     "prettier": "^2.6.2",
     "tslib": "^2.3.0",
     "typescript": "~5.9.2",
     "typescript-eslint": "^8.40.0",
+    "verdaccio": "^6.0.5",
     "vite": "^7.0.0",
     "vitest": "^4.0.0"
+  },
+  "nx": {
+    "includedScripts": []
   }
 }
