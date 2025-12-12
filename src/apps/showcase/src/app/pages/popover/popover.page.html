@@ -1,0 +1,151 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Popover</h1>
+    <p class="page-description">
+      The popover is a lightweight overlay for rich tooltip-like content. It supports hover/focus for desktop and
+      click/tap for touch.
+    </p>
+  </header>
+
+  <coar-tab-group [(activeTab)]="activeTab">
+    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
+    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+  </coar-tab-group>
+</div>
+
+<ng-template #examplesTemplate>
+  <div class="examples-content">
+
+    <section class="example-section">
+      <h3>Basic (Hover / Focus)</h3>
+      <p>Default behavior: opens on hover and focus. Use for non-critical, informational content.</p>
+
+      <div class="example-demo example-demo--row">
+        <coar-popover [openOnHover]="true">
+          <coar-button coarPopoverTrigger variant="ghost" size="sm">Hover me</coar-button>
+
+          <div coarPopoverContent>
+            <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Popover</div>
+            <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">
+              Rich tooltip-like content.
+            </div>
+          </div>
+        </coar-popover>
+      </div>
+
+      <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <section class="example-section">
+      <h3>Click / Tap (Pinned)</h3>
+      <p>Touch-friendly behavior: click opens and pins the popover. Click outside (or click the trigger again) to close.</p>
+
+      <div class="example-demo example-demo--row">
+        <coar-popover [openOnHover]="false" [openOnClick]="true">
+          <coar-button coarPopoverTrigger variant="ghost" size="sm">Click to pin</coar-button>
+
+          <div coarPopoverContent>
+            <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Pinned</div>
+            <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">
+              Use this for content users might need to read on touch devices.
+            </div>
+          </div>
+        </coar-popover>
+      </div>
+
+      <coar-code-block [code]="codeExamples.clickOnly" language="html" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <section class="example-section">
+      <h3>Non-Interactive Overlay</h3>
+      <p>
+        When <code>interactive</code> is false, the panel does not capture pointer events. This is useful when the overlay
+        must not block interactions below it (for example: calendar day cells).
+      </p>
+
+      <coar-note variant="info">
+        The popover panel will not be scrollable/clickable when <code>interactive</code> is false.
+      </coar-note>
+
+      <div class="example-demo example-demo--stack">
+        <coar-popover [openOnClick]="true" [interactive]="false">
+          <coar-button coarPopoverTrigger variant="ghost" size="sm">Open overlay</coar-button>
+
+          <div coarPopoverContent>
+            <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Overlay</div>
+            <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">
+              Click the button below while this is open.
+            </div>
+            <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">
+              Line 2 to ensure overlap.
+            </div>
+            <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">
+              Line 3 to ensure overlap.
+            </div>
+          </div>
+        </coar-popover>
+
+        <coar-button variant="ghost" size="sm" (clicked)="onClickThroughOverlay()">Button below</coar-button>
+      </div>
+
+      <p class="demo-value">Clicks through overlay: {{ clicksThroughOverlay() }}</p>
+
+      <coar-code-block [code]="codeExamples.nonInteractive" language="html" [showLineNumbers]="false" />
+    </section>
+
+  </div>
+</ng-template>
+
+<ng-template #apiTemplate>
+  <div class="api-content">
+    <section class="api-section">
+      <h2>CoarPopover</h2>
+      <h3>Inputs</h3>
+
+      <coar-table class="api-table">
+        <thead>
+          <tr>
+            <th>Input</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (prop of popoverProperties; track prop.name) {
+          <tr>
+            <td><code>{{ prop.name }}</code></td>
+            <td><code class="type">{{ prop.type }}</code></td>
+            <td><code class="default">{{ prop.default }}</code></td>
+            <td>{{ prop.description }}</td>
+          </tr>
+          }
+        </tbody>
+      </coar-table>
+
+      <coar-divider [spacingTop]="32" [spacingBottom]="32" />
+
+      <h3>Content Slots</h3>
+      <coar-table class="api-table">
+        <thead>
+          <tr>
+            <th>Selector</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (slot of popoverSlots; track slot.name) {
+          <tr>
+            <td><code>{{ slot.name }}</code></td>
+            <td>{{ slot.description }}</td>
+          </tr>
+          }
+        </tbody>
+      </coar-table>
+    </section>
+  </div>
+</ng-template>

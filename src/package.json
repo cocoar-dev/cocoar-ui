@@ -11,7 +11,12 @@
     "lint": "nx run-many -t lint",
     "e2e": "nx run showcase-e2e:e2e",
     "e2e:ui": "nx run showcase-e2e:e2e-ui",
-    "start": "nx serve showcase"
+    "start": "nx serve showcase",
+    "pack:local": "pnpm run pack:ui-components && pnpm run pack:ui-tokens",
+    "pack:ui-components": "cd dist/libs/ui-components && pnpm pack --pack-destination ../../../../../timetodo/src/frontend/local-packages",
+    "pack:ui-tokens": "cd dist/libs/ui-tokens && pnpm pack --pack-destination ../../../../../timetodo/src/frontend/local-packages",
+    "install:timetodo": "cd ../../../timetodo/src/frontend && pnpm add file:local-packages/cocoar-ui-components-0.0.1.tgz file:local-packages/cocoar-ui-tokens-0.0.1.tgz",
+    "update:timetodo": "pnpm build && pnpm pack:local && pnpm install:timetodo"
   },
   "private": true,
   "dependencies": {
@@ -24,13 +29,19 @@
     "@angular/platform-server": "~20.3.0",
     "@angular/router": "~20.3.0",
     "@angular/ssr": "~20.3.0",
+    "@js-temporal/polyfill": "^0.5.1",
     "@maskito/core": "^4.0.1",
     "@maskito/kit": "^4.0.1",
     "@types/prismjs": "^1.26.5",
     "express": "^4.21.2",
     "overlayscrollbars": "^2.13.0",
     "prismjs": "^1.30.0",
+    "remark-gfm": "^4.0.1",
+    "remark-parse": "^11.0.0",
+    "remark-stringify": "^11.0.0",
     "rxjs": "~7.8.0",
+    "unified": "^11.0.5",
+    "vfile": "^6.0.3",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
@@ -60,6 +71,7 @@
     "@swc/helpers": "~0.5.11",
     "@tailwindcss/postcss": "^4.1.17",
     "@types/express": "^4.17.21",
+    "@types/mdast": "^4.0.4",
     "@types/node": "20.19.9",
     "@typescript-eslint/utils": "^8.40.0",
     "@vitest/coverage-v8": "^4.0.0",

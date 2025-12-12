@@ -1,0 +1,154 @@
+<div class="coar-select-wrapper">
+  <!-- Label -->
+  @if (label()) {
+  <label [for]="inputId()" class="coar-select-label">
+    {{ label() }}
+    @if (required()) {
+    <span class="coar-select-required">*</span>
+    }
+  </label>
+  }
+
+  <!-- Select Trigger -->
+  <div
+    class="coar-select-trigger"
+    #trigger
+    [class.coar-select-trigger--focused]="isFocused()"
+    [class.coar-select-trigger--disabled]="isDisabled()"
+    [class.coar-select-trigger--readonly]="readonly()"
+    [class.coar-select-trigger--error]="hasError()"
+    [class.coar-select-trigger--open]="isOpen()"
+    [id]="inputId()"
+    [attr.aria-expanded]="isOpen()"
+    [attr.aria-haspopup]="'listbox'"
+    [attr.aria-controls]="listboxId()"
+    [attr.aria-describedby]="displayMessage() ? messageId() : null"
+    [attr.aria-invalid]="hasError() ? 'true' : null"
+    [attr.aria-disabled]="isDisabled() ? 'true' : null"
+    [attr.tabindex]="isDisabled() ? -1 : 0"
+    role="combobox"
+    (click)="toggleDropdown(); $event.stopPropagation()"
+    (keydown)="onKeyDown($event)"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+  >
+    <!-- Selected Value or Placeholder -->
+    <span class="coar-select-value" [class.coar-select-placeholder]="!selectedOption()">
+      @if (selectedOption(); as option) {
+        @if (option.icon) {
+        <coar-icon [name]="option.icon" size="sm" class="coar-select-value-icon" />
+        }
+        {{ option.label }}
+      } @else {
+        {{ placeholder() }}
+      }
+    </span>
+
+    <!-- Actions -->
+    <span class="coar-select-actions">
+      <!-- Clear Button -->
+      @if (showClearButton()) {
+      <button
+        type="button"
+        class="coar-select-clear"
+        tabindex="-1"
+        aria-label="Clear selection"
+        (click)="clearSelection($event)"
+      >
+        <coar-icon name="x" size="auto" />
+      </button>
+      }
+
+      <!-- Dropdown Arrow -->
+      <coar-icon
+        name="caret-right"
+        size="auto"
+        class="coar-select-arrow"
+        [class.coar-select-arrow--open]="isOpen()"
+      />
+    </span>
+  </div>
+
+  <!-- Dropdown Panel (rendered via @cocoar/ui-overlay) -->
+  <ng-template #dropdownTemplate>
+    <div
+      class="coar-select-dropdown coar-select-dropdown--overlay"
+      [class.coar-select-dropdown--top]="dropdownPosition() === 'top'"
+      role="presentation"
+    >
+      <!-- Search Input -->
+      @if (searchable()) {
+      <div class="coar-select-search">
+        <input
+          #searchInput
+          type="text"
+          class="coar-select-search-input"
+          [id]="searchInputId()"
+          [placeholder]="searchPlaceholder()"
+          [value]="searchQuery()"
+          (input)="onSearchInput($event)"
+          (keydown)="onKeyDown($event)"
+        />
+      </div>
+      }
+
+      <!-- Options List -->
+      <div
+        #optionsList
+        class="coar-select-options"
+        [id]="listboxId()"
+        role="listbox"
+        [attr.aria-label]="label() || 'Options'"
+        coarScrollbar
+        [overflowX]="'hidden'"
+        [autoHide]="'never'"
+        [overscrollBehavior]="'contain'"
+        [defer]="false"
+      >
+        @for (option of displayOptions(); track option.value; let i = $index) {
+        <div
+          class="coar-select-option"
+          [class.coar-select-option--selected]="isSelected(option)"
+          [class.coar-select-option--highlighted]="isHighlighted(i)"
+          [class.coar-select-option--disabled]="option.disabled"
+          [id]="inputId() + '-option-' + i"
+          [attr.aria-selected]="isSelected(option)"
+          [attr.aria-disabled]="option.disabled ? 'true' : null"
+          [tabindex]="option.disabled ? -1 : 0"
+          role="option"
+          (click)="selectOption($any(option))"
+          (keydown.enter)="selectOption($any(option))"
+          (mouseenter)="setHighlightFromDisplay(i)"
+        >
+          @if (option.icon) {
+          <coar-icon [name]="option.icon" size="sm" class="coar-select-option-icon" />
+          }
+          <span class="coar-select-option-label">{{ option.label }}</span>
+          @if (isSelected(option)) {
+          <coar-icon name="check" size="sm" class="coar-select-option-check" />
+          }
+        </div>
+        } @empty {
+        <div class="coar-select-empty">
+          @if (searchQuery()) {
+            No results found
+          } @else {
+            No options available
+          }
+        </div>
+        }
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Hint/Error Message -->
+  @if (displayMessage()) {
+  <div
+    [id]="messageId()"
+    class="coar-select-message"
+    [class.coar-select-message--error]="hasError()"
+  >
+    {{ displayMessage() }}
+  </div>
+  }
+</div>

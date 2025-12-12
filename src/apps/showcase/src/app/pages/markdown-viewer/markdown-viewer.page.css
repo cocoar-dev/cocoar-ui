@@ -1,0 +1,8 @@
+/* Page-specific styles only. Shared styles live in app/shared/showcase-pages.css */
+
+.markdown-host {
+  display: block;
+  padding: var(--coar-spacing-l);
+  border: 1px solid var(--coar-border-neutral-tertiary);
+  border-radius: var(--coar-radius-s);
+}

@@ -1,0 +1,12 @@
+@if (kind() === 'text') {
+  <span class="coar-tooltip-text">{{ text() }}</span>
+} @else if (kind() === 'template') {
+  <ng-container
+    [ngTemplateOutlet]="templateRef()"
+    [ngTemplateOutletContext]="context() ?? {}"
+  />
+} @else if (kind() === 'component') {
+  <ng-container
+    *ngComponentOutlet="componentType(); injector: (contentInjector() ?? undefined)"
+  />
+}

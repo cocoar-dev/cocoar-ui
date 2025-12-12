@@ -38,8 +38,26 @@ export const appRoutes: Route[] = [
     loadComponent: () => import('./pages/code-block/code-block.page').then((m) => m.CodeBlockPage),
   },
   {
+    path: 'markdown-viewer',
+    loadComponent: () =>
+      import('./pages/markdown-viewer/markdown-viewer.page').then((m) => m.MarkdownViewerPage),
+  },
+  {
     path: 'tabs',
     loadComponent: () => import('./pages/tabs/tabs.page').then((m) => m.TabsPage),
+  },
+  {
+    path: 'popover',
+    redirectTo: 'tooltip',
+    pathMatch: 'full',
+  },
+  {
+    path: 'tooltip',
+    loadComponent: () => import('./pages/tooltip/tooltip.page').then((m) => m.TooltipPage),
+  },
+  {
+    path: 'overlay',
+    loadComponent: () => import('./pages/overlay/overlay.page').then((m) => m.OverlayPage),
   },
   {
     path: 'cards',
@@ -65,6 +83,15 @@ export const appRoutes: Route[] = [
   {
     path: 'checkboxes',
     loadComponent: () => import('./pages/checkboxes/checkboxes.page').then((m) => m.CheckboxesPage),
+  },
+  {
+    path: 'selects',
+    loadComponent: () => import('./pages/selects/selects.page').then((m) => m.SelectsPage),
+  },
+  {
+    path: 'date-picker',
+    loadComponent: () =>
+      import('./pages/date-picker/date-picker.page').then((m) => m.DatePickerPage),
   },
   {
     path: 'labels',

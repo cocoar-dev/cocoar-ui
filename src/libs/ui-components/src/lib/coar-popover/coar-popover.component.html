@@ -1,0 +1,38 @@
+<div
+  class="coar-popover"
+  (mouseenter)="onMouseEnter()"
+  (mouseleave)="onMouseLeave()"
+  (focusin)="onFocusIn()"
+  (focusout)="onFocusOut($event)"
+>
+  <span
+    #trigger
+    class="coar-popover-trigger"
+  >
+    <ng-content select="[coarPopoverTrigger]"></ng-content>
+  </span>
+
+  <ng-template #panelTemplate>
+  <div
+    class="coar-popover-panel coar-popover-panel--overlay"
+    [attr.id]="panelId"
+    [style.pointer-events]="interactive() ? 'auto' : 'none'"
+    role="tooltip"
+    (mouseenter)="onPanelMouseEnter()"
+    (mouseleave)="onPanelMouseLeave()"
+    (focusin)="onPanelFocusIn()"
+    (focusout)="onPanelFocusOut($event)"
+  >
+    <div
+      class="coar-popover-content"
+      coarScrollbar
+      [overflowX]="'hidden'"
+      [autoHide]="'never'"
+      [overscrollBehavior]="'contain'"
+      [defer]="false"
+    >
+      <ng-content select="[coarPopoverContent]"></ng-content>
+    </div>
+  </div>
+  </ng-template>
+</div>

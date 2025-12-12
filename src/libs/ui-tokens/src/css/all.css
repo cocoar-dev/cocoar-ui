@@ -26,6 +26,7 @@
 @import './motion.css';
 @import './shadows.css';
 @import './elevation.css';
+@import './layers.css';
 @import './focus.css';
 
 /* 6. Shared Component Tokens */

@@ -1,0 +1,17 @@
+/**
+ * Cocoar Design System - Layering Tokens
+ *
+ * Z-index values used for UI layering.
+ *
+ * Notes:
+ * - These are intentionally minimal. Overlays manage stacking by adding small runtime offsets.
+ * - Backdrop must always be below its overlay host.
+ */
+
+:root {
+  /* Overlay hosts (menus, tooltips, dialogs, etc.) */
+  --coar-z-overlay: 1000;
+
+  /* Modal backdrop behind overlays */
+  --coar-z-overlay-backdrop: 999;
+}

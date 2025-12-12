@@ -1,0 +1,19 @@
+:host {
+  display: block;
+
+  padding: var(--coar-spacing-xs);
+
+  background: var(--coar-background-neutral-primary);
+  border: 1px solid var(--coar-border-neutral);
+  border-radius: var(--coar-radius-s);
+  box-shadow: var(--coar-shadow-m);
+
+  max-width: var(--coar-tooltip-max-width, 320px);
+
+  /* Tooltips are intentionally non-interactive. */
+  pointer-events: none !important;
+}
+
+.coar-tooltip-text {
+  color: var(--coar-text-neutral-secondary);
+}

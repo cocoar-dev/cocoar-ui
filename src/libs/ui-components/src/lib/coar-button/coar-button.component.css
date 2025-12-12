@@ -13,6 +13,7 @@
 
 .coar-button {
   display: inline-flex;
+  width: 100%; /* Inherit width from host */
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
@@ -167,6 +168,39 @@
 /* Full Width */
 .coar-button--full-width {
   width: 100%;
+}
+
+/* ========================================
+   ICON-ONLY MODE (auto-detected)
+   ======================================== */
+
+/*
+ * Icon-only buttons are automatically detected when:
+ * - Button has an icon (.coar-button__icon or .coar-button__spinner--inline)
+ * - Content span is empty (no text projected)
+ *
+ * Usage: <coar-button iconStart="settings" />
+ */
+.coar-button:has(.coar-button__icon, .coar-button__spinner--inline):has(
+    .coar-button__content:empty
+  ) {
+  padding: 0;
+  aspect-ratio: 1;
+}
+
+/* Remove icon margins in icon-only mode */
+.coar-button:has(.coar-button__icon, .coar-button__spinner--inline):has(
+    .coar-button__content:empty
+  )
+  .coar-button__icon {
+  margin: 0;
+}
+
+.coar-button:has(.coar-button__icon, .coar-button__spinner--inline):has(
+    .coar-button__content:empty
+  )
+  .coar-button__spinner--inline {
+  margin: 0;
 }
 
 /* ========================================

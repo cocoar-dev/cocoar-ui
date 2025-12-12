@@ -1,0 +1,251 @@
+<div class="coar-markdown">
+  <ng-container
+    *ngTemplateOutlet="blockNodesTpl; context: { $implicit: doc().nodes }"
+  ></ng-container>
+</div>
+
+<ng-template #blockNodesTpl let-nodes>
+  @for (node of nodes; track node.id) {
+    @switch (node.type) {
+      @case ('heading') {
+        @switch (headingDepth(node)) {
+          @case (1) {
+            <h1 class="coar-markdown-heading" [attr.id]="headingAnchor(node)">
+              <ng-container
+                *ngTemplateOutlet="inlineNodesTpl; context: { $implicit: node.children ?? [] }"
+              ></ng-container>
+            </h1>
+          }
+          @case (2) {
+            <h2 class="coar-markdown-heading" [attr.id]="headingAnchor(node)">
+              <ng-container
+                *ngTemplateOutlet="inlineNodesTpl; context: { $implicit: node.children ?? [] }"
+              ></ng-container>
+            </h2>
+          }
+          @case (3) {
+            <h3 class="coar-markdown-heading" [attr.id]="headingAnchor(node)">
+              <ng-container
+                *ngTemplateOutlet="inlineNodesTpl; context: { $implicit: node.children ?? [] }"
+              ></ng-container>
+            </h3>
+          }
+          @case (4) {
+            <h4 class="coar-markdown-heading" [attr.id]="headingAnchor(node)">
+              <ng-container
+                *ngTemplateOutlet="inlineNodesTpl; context: { $implicit: node.children ?? [] }"
+              ></ng-container>
+            </h4>
+          }
+          @case (5) {
+            <h5 class="coar-markdown-heading" [attr.id]="headingAnchor(node)">
+              <ng-container
+                *ngTemplateOutlet="inlineNodesTpl; context: { $implicit: node.children ?? [] }"
+              ></ng-container>
+            </h5>
+          }
+          @default {
+            <h6 class="coar-markdown-heading" [attr.id]="headingAnchor(node)">
+              <ng-container
+                *ngTemplateOutlet="inlineNodesTpl; context: { $implicit: node.children ?? [] }"
+              ></ng-container>
+            </h6>
+          }
+        }
+      }
+      @case ('paragraph') {
+        <p class="coar-markdown-paragraph">
+          <ng-container
+            *ngTemplateOutlet="inlineNodesTpl; context: { $implicit: node.children ?? [] }"
+          ></ng-container>
+        </p>
+      }
+      @case ('blockquote') {
+        <blockquote class="coar-markdown-blockquote">
+          <ng-container
+            *ngTemplateOutlet="blockNodesTpl; context: { $implicit: node.children ?? [] }"
+          ></ng-container>
+        </blockquote>
+      }
+      @case ('list') {
+        @if (isOrderedList(node)) {
+          <ol
+            class="coar-markdown-list coar-markdown-list--ordered"
+            [attr.start]="listStart(node)"
+          >
+            <ng-container
+              *ngTemplateOutlet="blockNodesTpl; context: { $implicit: node.children ?? [] }"
+            ></ng-container>
+          </ol>
+        } @else {
+          <ul class="coar-markdown-list coar-markdown-list--unordered">
+            <ng-container
+              *ngTemplateOutlet="blockNodesTpl; context: { $implicit: node.children ?? [] }"
+            ></ng-container>
+          </ul>
+        }
+      }
+      @case ('listItem') {
+        <li
+          class="coar-markdown-list-item"
+          [class.coar-markdown-list-item--task]="isTaskListItem(node)"
+        >
+          @if (isTaskListItem(node)) {
+            <input
+              class="coar-markdown-task-checkbox"
+              type="checkbox"
+              [checked]="taskChecked(node)"
+              disabled
+              aria-hidden="true"
+              tabindex="-1"
+            />
+          }
+          <div class="coar-markdown-list-item-content">
+            <ng-container
+              *ngTemplateOutlet="blockNodesTpl; context: { $implicit: node.children ?? [] }"
+            ></ng-container>
+          </div>
+        </li>
+      }
+      @case ('codeBlock') {
+        <coar-code-block
+          class="coar-markdown-code-block"
+          [code]="node.text ?? ''"
+          [language]="codeBlockLanguage(node)"
+          [collapsible]="false"
+          [showCopy]="true"
+        />
+      }
+      @case ('thematicBreak') {
+        <hr class="coar-markdown-hr" />
+      }
+      @case ('table') {
+        <coar-table variant="plain" hover>
+          @if ((node.children ?? []).length > 0) {
+            <thead>
+              <tr>
+                @for (cell of ((node.children ?? [])[0]?.children ?? []); track cell.id; let colIndex = $index) {
+                  <th
+                    [class.text-right]="isTableColumnRightAligned(node, colIndex)"
+                    [class.text-center]="isTableColumnCenterAligned(node, colIndex)"
+                  >
+                    <ng-container
+                      *ngTemplateOutlet="inlineNodesTpl; context: { $implicit: cell.children ?? [] }"
+                    ></ng-container>
+                  </th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (row of (node.children ?? []).slice(1); track row.id) {
+                <tr>
+                  @for (cell of (row.children ?? []); track cell.id; let colIndex = $index) {
+                    <td
+                      [class.text-right]="isTableColumnRightAligned(node, colIndex)"
+                      [class.text-center]="isTableColumnCenterAligned(node, colIndex)"
+                    >
+                      <ng-container
+                        *ngTemplateOutlet="inlineNodesTpl; context: { $implicit: cell.children ?? [] }"
+                      ></ng-container>
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          }
+        </coar-table>
+      }
+      @case ('tableRow') {
+        <ng-container
+          *ngTemplateOutlet="blockNodesTpl; context: { $implicit: node.children ?? [] }"
+        ></ng-container>
+      }
+      @case ('tableCell') {
+        <td class="coar-markdown-table-cell">
+          <ng-container
+            *ngTemplateOutlet="inlineNodesTpl; context: { $implicit: node.children ?? [] }"
+          ></ng-container>
+        </td>
+      }
+      @case ('unsupported') {
+        <div class="coar-markdown-unsupported">
+          Unsupported markdown node: {{ unsupportedType(node) }}
+        </div>
+      }
+      @default {
+        <div class="coar-markdown-unsupported">
+          Unsupported markdown node: {{ unsupportedType(node) }}
+        </div>
+      }
+    }
+  }
+</ng-template>
+
+<ng-template #inlineNodesTpl let-nodes>
+  @for (node of nodes; track node.id) {
+    @switch (node.type) {
+      @case ('text') {
+        {{ node.text ?? '' }}
+      }
+      @case ('emphasis') {
+        <em>
+          <ng-container
+            *ngTemplateOutlet="inlineNodesTpl; context: { $implicit: node.children ?? [] }"
+          ></ng-container>
+        </em>
+      }
+      @case ('strong') {
+        <strong>
+          <ng-container
+            *ngTemplateOutlet="inlineNodesTpl; context: { $implicit: node.children ?? [] }"
+          ></ng-container>
+        </strong>
+      }
+      @case ('strikethrough') {
+        <del>
+          <ng-container
+            *ngTemplateOutlet="inlineNodesTpl; context: { $implicit: node.children ?? [] }"
+          ></ng-container>
+        </del>
+      }
+      @case ('inlineCode') {
+        <code class="coar-markdown-inline-code">{{ node.text ?? '' }}</code>
+      }
+      @case ('lineBreak') {
+        <br />
+      }
+      @case ('link') {
+        @if (linkHref(node)) {
+          <a
+            class="coar-markdown-link"
+            [href]="linkHref(node)"
+            [attr.target]="linkTarget(node)"
+            [attr.rel]="linkRel(node)"
+          >
+            <ng-container
+              *ngTemplateOutlet="inlineNodesTpl; context: { $implicit: node.children ?? [] }"
+            ></ng-container>
+          </a>
+        } @else {
+          <ng-container
+            *ngTemplateOutlet="inlineNodesTpl; context: { $implicit: node.children ?? [] }"
+          ></ng-container>
+        }
+      }
+      @case ('image') {
+        @if (imageSrc(node)) {
+          <img
+            class="coar-markdown-image"
+            [src]="imageSrc(node)"
+            [attr.alt]="imageAlt(node)"
+            [attr.title]="imageTitle(node)"
+            loading="lazy"
+          />
+        }
+      }
+      @default {
+        <span class="coar-markdown-unsupported-inline">[unsupported]</span>
+      }
+    }
+  }
+</ng-template>

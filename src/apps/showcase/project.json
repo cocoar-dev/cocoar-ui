@@ -6,9 +6,24 @@
   "sourceRoot": "apps/showcase/src",
   "tags": [],
   "targets": {
+    "sync-docs": {
+      "executor": "nx:run-commands",
+      "cache": false,
+      "inputs": [
+        "default",
+        "{workspaceRoot}/../docs/**/*",
+        "{workspaceRoot}/libs/ui-overlay/OVERLAY.md"
+      ],
+      "outputs": ["{workspaceRoot}/apps/showcase/public/docs"],
+      "options": {
+        "command": "node scripts/docs/sync-showcase-docs.mjs",
+        "cwd": "{workspaceRoot}"
+      }
+    },
     "build": {
       "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
+      "dependsOn": ["sync-docs"],
       "options": {
         "outputPath": "dist/apps/showcase",
         "browser": "apps/showcase/src/main.ts",

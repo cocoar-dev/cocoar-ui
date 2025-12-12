@@ -91,6 +91,14 @@ export class CoarScrollbarDirective implements AfterViewInit, OnDestroy {
   /** Whether to defer initialization until browser is idle */
   readonly defer = input<boolean, unknown>(true, { transform: booleanAttribute });
 
+  /**
+   * Overscroll behavior to prevent scroll chaining to parent elements.
+   * - 'auto': Default browser behavior (scroll chains to parent)
+   * - 'contain': Prevents scroll chaining when reaching scroll boundaries
+   * - 'none': Prevents scroll chaining and disables bounce effects
+   */
+  readonly overscrollBehavior = input<'auto' | 'contain' | 'none'>('auto');
+
   private osInstance: OverlayScrollbars | null = null;
   private initialized = false;
 
@@ -150,6 +158,26 @@ export class CoarScrollbarDirective implements AfterViewInit, OnDestroy {
   }
 
   /**
+   * Scrolls to the bottom of the scrollable content.
+   */
+  scrollToBottom(): void {
+    const viewport = this.osInstance?.elements().viewport;
+    if (viewport) {
+      viewport.scrollTop = viewport.scrollHeight;
+    }
+  }
+
+  /**
+   * Scrolls to the top of the scrollable content.
+   */
+  scrollToTop(): void {
+    const viewport = this.osInstance?.elements().viewport;
+    if (viewport) {
+      viewport.scrollTop = 0;
+    }
+  }
+
+  /**
    * Updates the scrollbar (useful after dynamic content changes).
    */
   update(): void {
@@ -170,6 +198,15 @@ export class CoarScrollbarDirective implements AfterViewInit, OnDestroy {
     this.ngZone.runOutsideAngular(() => {
       this.osInstance = OverlayScrollbars(this.elementRef.nativeElement, this.buildOptions());
       this.initialized = true;
+
+      // Apply overscroll-behavior to the viewport element to prevent scroll chaining
+      const overscroll = this.overscrollBehavior();
+      if (overscroll !== 'auto') {
+        const viewport = this.osInstance.elements().viewport;
+        if (viewport) {
+          viewport.style.overscrollBehavior = overscroll;
+        }
+      }
     });
   }
 

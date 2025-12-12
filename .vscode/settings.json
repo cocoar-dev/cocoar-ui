@@ -1,3 +1,4 @@
 {
-    "nxConsole.nxWorkspacePath": "src"
+    "nxConsole.nxWorkspacePath": "src",
+    "typescript.tsdk": "src/node_modules/typescript/lib"
 }

@@ -5,9 +5,6 @@
    Only page-specific overrides belong here.
    ======================================== */
 
-.component-page {
-  max-width: 900px;
-}
 
 /* Section Demo */
 .section-demo {

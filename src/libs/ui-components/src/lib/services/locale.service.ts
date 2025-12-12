@@ -6,16 +6,18 @@ export interface NumberFormatConfig {
   readonly thousand: string;
 }
 
-/** Configuration for date formatting (future use) */
+/** Configuration for date formatting */
 export interface DateFormatConfig {
-  readonly pattern: string;
-  readonly firstDayOfWeek: number;
+  /** Date format pattern: 'dd.mm.yyyy', 'dd/mm/yyyy', 'mm/dd/yyyy', 'yyyy-mm-dd' */
+  readonly pattern: 'dd.mm.yyyy' | 'dd/mm/yyyy' | 'mm/dd/yyyy' | 'yyyy-mm-dd';
+  /** First day of week: 1 = Monday, 7 = Sunday */
+  readonly firstDayOfWeek: 1 | 7;
 }
 
 /** Complete locale configuration */
 export interface LocaleConfig {
   readonly number: NumberFormatConfig;
-  readonly date?: DateFormatConfig; // Reserved for future date picker support
+  readonly date: DateFormatConfig;
 }
 
 /**
@@ -32,6 +34,19 @@ export interface ICoarLocaleService {
    * @returns Number format configuration with decimal and thousand separators
    */
   getNumberFormat(locale?: string): NumberFormatConfig;
+
+  /**
+   * Get date format configuration for a specific locale.
+   * @param locale - Optional locale identifier (e.g., 'de-AT', 'en-US'). If not provided, uses default locale.
+   * @returns Date format configuration with pattern and first day of week
+   */
+  getDateFormat(locale?: string): DateFormatConfig;
+
+  /**
+   * Get the current default locale identifier.
+   * @returns Current default locale (e.g., 'de-AT', 'en-US')
+   */
+  getDefaultLocale(): string;
 
   /**
    * Set the default locale used when no locale is explicitly specified.
@@ -72,6 +87,10 @@ export class CoarLocaleService implements ICoarLocaleService {
   private defaultLocale = signal<string>('en-US');
   private customLocales = new Map<string, LocaleConfig>();
 
+  getDefaultLocale(): string {
+    return this.defaultLocale();
+  }
+
   setDefaultLocale(locale: string): void {
     this.defaultLocale.set(locale);
   }
@@ -96,6 +115,18 @@ export class CoarLocaleService implements ICoarLocaleService {
     return this.getDefaults(targetLocale).number;
   }
 
+  getDateFormat(locale?: string): DateFormatConfig {
+    const targetLocale = locale ?? this.defaultLocale();
+
+    // Check custom locales first
+    if (this.customLocales.has(targetLocale)) {
+      return this.customLocales.get(targetLocale)!.date;
+    }
+
+    // Fall back to detected defaults
+    return this.getDefaults(targetLocale).date;
+  }
+
   /**
    * Extract default formatting rules from browser's Intl API
    */
@@ -109,6 +140,7 @@ export class CoarLocaleService implements ICoarLocaleService {
           decimal: parts.find((p) => p.type === 'decimal')?.value ?? '.',
           thousand: parts.find((p) => p.type === 'group')?.value ?? ',',
         },
+        date: this.detectDateFormat(locale),
       };
     } catch {
       // Fallback if locale is invalid
@@ -117,6 +149,73 @@ export class CoarLocaleService implements ICoarLocaleService {
           decimal: '.',
           thousand: ',',
         },
+        date: {
+          pattern: 'dd.mm.yyyy',
+          firstDayOfWeek: 1,
+        },
+      };
+    }
+  }
+
+  /**
+   * Detect date format based on locale.
+   *
+   * Uses Intl.DateTimeFormat to determine the date order for the locale,
+   * then maps to one of our supported patterns.
+   */
+  private detectDateFormat(locale: string): DateFormatConfig {
+    try {
+      // Use Intl.DateTimeFormat to get locale-specific date order
+      const formatter = new Intl.DateTimeFormat(locale, {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      });
+
+      // Format a test date to detect the order
+      const parts = formatter.formatToParts(new Date(2024, 11, 25)); // Dec 25, 2024
+      const order: string[] = [];
+
+      for (const part of parts) {
+        if (part.type === 'day') order.push('d');
+        else if (part.type === 'month') order.push('m');
+        else if (part.type === 'year') order.push('y');
+      }
+
+      const orderStr = order.join('');
+
+      // Detect separator from the formatted string
+      const formatted = formatter.format(new Date(2024, 11, 25));
+      const separator = formatted.match(/[.\-/]/)?.[0] ?? '.';
+
+      // Map detected order to our supported patterns
+      let pattern: DateFormatConfig['pattern'];
+      if (orderStr === 'mdy') {
+        pattern = 'mm/dd/yyyy';
+      } else if (orderStr === 'ymd') {
+        pattern = 'yyyy-mm-dd';
+      } else if (separator === '/') {
+        pattern = 'dd/mm/yyyy';
+      } else {
+        pattern = 'dd.mm.yyyy';
+      }
+
+      // Detect first day of week (Monday vs Sunday)
+      // US, Canada, Japan typically use Sunday; most others use Monday
+      const sundayFirstLocales = ['en-US', 'en-CA', 'ja-JP', 'ko-KR', 'zh-TW', 'he-IL'];
+      const baseLocale = locale.split('-')[0];
+      const firstDayOfWeek: 1 | 7 = sundayFirstLocales.some(
+        (l) => locale.startsWith(l) || (baseLocale === 'en' && locale.includes('US'))
+      )
+        ? 7
+        : 1;
+
+      return { pattern, firstDayOfWeek };
+    } catch {
+      // Fallback to European format
+      return {
+        pattern: 'dd.mm.yyyy',
+        firstDayOfWeek: 1,
       };
     }
   }

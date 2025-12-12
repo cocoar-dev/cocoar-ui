@@ -24,7 +24,11 @@
   },
   "peerDependencies": {
     "@angular/core": "^20.3.0",
-    "overlayscrollbars": "^2.0.0"
+    "@cocoar/ui-overlay": "^0.0.1",
+    "@maskito/core": "^4.0.0",
+    "@maskito/kit": "^4.0.0",
+    "overlayscrollbars": "^2.0.0",
+    "prismjs": "^1.0.0"
   },
   "sideEffects": false
 }

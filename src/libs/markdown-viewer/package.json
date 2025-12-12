@@ -1,0 +1,24 @@
+{
+  "name": "@cocoar/markdown-viewer",
+  "version": "0.0.1",
+  "description": "Angular Markdown viewer for the Cocoar Design System",
+  "author": "Cocoar",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cocoar-dev/cocoar-ui.git",
+    "directory": "src/libs/markdown-viewer"
+  },
+  "bugs": {
+    "url": "https://github.com/cocoar-dev/cocoar-ui/issues"
+  },
+  "homepage": "https://github.com/cocoar-dev/cocoar-ui",
+  "keywords": ["angular", "markdown", "viewer", "cocoar"],
+  "peerDependencies": {
+    "@angular/common": "^20.3.0",
+    "@angular/core": "^20.3.0",
+    "@cocoar/markdown-core": "^0.0.1",
+    "@cocoar/ui-components": "^0.0.1"
+  },
+  "sideEffects": false
+}

@@ -1,0 +1,377 @@
+:host {
+  display: block;
+  position: relative;
+}
+
+/* Wrapper */
+.coar-select-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Label */
+.coar-select-label {
+  display: block;
+  margin-bottom: var(--coar-component-md-label-margin);
+  font-family: var(--coar-body-small-bold-family);
+  font-size: var(--coar-component-md-label-font-size);
+  font-weight: var(--coar-body-small-bold-weight);
+  color: var(--coar-text-neutral-primary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.coar-select-required {
+  color: var(--coar-text-semantic-error-bold);
+  margin-left: var(--coar-spacing-xs);
+}
+
+/* Tag Container */
+.coar-tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--coar-spacing-xs);
+  min-height: var(--coar-component-md-height);
+  padding: var(--coar-spacing-xs) var(--coar-spacing-s);
+  border: 1px solid var(--coar-border-input);
+  border-radius: var(--coar-radius-xs);
+  background: var(--coar-surface-input);
+  cursor: text;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.coar-tag-container:hover:not(.coar-tag-container--disabled):not(.coar-tag-container--readonly):not(
+    .coar-tag-container--error
+  ):not(.coar-tag-container--focused) {
+  border-color: var(--coar-border-input-hover);
+}
+
+.coar-tag-container--focused:not(.coar-tag-container--error) {
+  border-color: var(--coar-border-accent-primary);
+  box-shadow: inset 0 0 0 1px var(--coar-border-accent-primary);
+}
+
+.coar-tag-container--disabled {
+  background: var(--coar-surface-input-disabled);
+  border-color: var(--coar-border-input);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.coar-tag-container--readonly {
+  background: var(--coar-surface-input);
+  border-color: var(--coar-border-input);
+  cursor: default;
+}
+
+.coar-tag-container--error {
+  border-color: var(--coar-border-semantic-error-bold);
+}
+
+.coar-tag-container--error.coar-tag-container--focused {
+  box-shadow: inset 0 0 0 1px var(--coar-border-semantic-error-bold);
+}
+
+/* Size variants */
+:host(.coar-tag-select--xs) .coar-tag-container {
+  min-height: var(--coar-component-xs-height);
+  padding: 2px var(--coar-spacing-xs);
+}
+
+:host(.coar-tag-select--sm) .coar-tag-container {
+  min-height: var(--coar-component-sm-height);
+  padding: 3px var(--coar-spacing-s);
+}
+
+:host(.coar-tag-select--lg) .coar-tag-container {
+  min-height: var(--coar-component-lg-height);
+  padding: var(--coar-spacing-s);
+}
+
+:host(.coar-tag-select--xs) .coar-select-label {
+  font-size: var(--coar-component-xs-label-font-size);
+  margin-bottom: var(--coar-component-xs-label-margin);
+}
+
+:host(.coar-tag-select--sm) .coar-select-label {
+  font-size: var(--coar-component-sm-label-font-size);
+  margin-bottom: var(--coar-component-sm-label-margin);
+}
+
+:host(.coar-tag-select--lg) .coar-select-label {
+  font-size: var(--coar-component-lg-label-font-size);
+  margin-bottom: var(--coar-component-lg-label-margin);
+}
+
+/* Tag */
+.coar-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--coar-spacing-xs);
+  height: 24px;
+  padding: 0 var(--coar-spacing-s);
+  background: var(--coar-surface-neutral-secondary);
+  border-radius: var(--coar-radius-full);
+  font-family: var(--coar-body-small-base-family);
+  font-size: var(--coar-body-caption-size);
+  color: var(--coar-text-neutral-primary);
+  white-space: nowrap;
+}
+
+:host(.coar-tag-select--xs) .coar-tag {
+  height: 18px;
+  padding: 0 var(--coar-spacing-xs);
+  font-size: 10px;
+}
+
+:host(.coar-tag-select--sm) .coar-tag {
+  height: 20px;
+  font-size: 11px;
+}
+
+:host(.coar-tag-select--lg) .coar-tag {
+  height: 28px;
+  font-size: var(--coar-body-small-base-size);
+}
+
+.coar-tag--disabled {
+  opacity: 0.6;
+}
+
+.coar-tag-icon {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.coar-tag-label {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.coar-tag-remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  margin-left: var(--coar-spacing-xs);
+  margin-right: calc(-1 * var(--coar-spacing-xs));
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--coar-icon-neutral-tertiary);
+  border-radius: var(--coar-radius-full);
+  cursor: pointer;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.coar-tag-remove:hover {
+  color: var(--coar-icon-neutral-primary);
+  background: var(--coar-background-neutral-tertiary);
+}
+
+.coar-tag-remove coar-icon {
+  width: 10px;
+  height: 10px;
+}
+
+/* Inline Input */
+.coar-tag-input {
+  flex: 1;
+  min-width: 60px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--coar-body-small-base-family);
+  font-size: var(--coar-body-small-base-size);
+  color: var(--coar-text-neutral-primary);
+}
+
+.coar-tag-input::placeholder {
+  color: var(--coar-text-neutral-tertiary);
+}
+
+.coar-tag-input:disabled {
+  cursor: not-allowed;
+}
+
+:host(.coar-tag-select--xs) .coar-tag-input {
+  height: 18px;
+  font-size: var(--coar-component-xs-font-size);
+}
+
+:host(.coar-tag-select--sm) .coar-tag-input {
+  height: 20px;
+  font-size: var(--coar-component-sm-font-size);
+}
+
+:host(.coar-tag-select--lg) .coar-tag-input {
+  height: 28px;
+  font-size: var(--coar-component-lg-font-size);
+}
+
+/**
+ * Dropdown panel positioning supports two modes:
+ * 1. Inline (default): Uses position:absolute relative to trigger
+ * 2. Portal: Uses position:fixed via inline styles to escape stacking contexts
+ */
+.coar-select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  margin-top: var(--coar-spacing-xs);
+  background: var(--coar-background-neutral-primary);
+  border: 1px solid var(--coar-border-neutral);
+  border-radius: var(--coar-radius-s);
+  box-shadow: var(--coar-shadow-m);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/*
+ * Overlay mode: dropdown is rendered inside @cocoar/ui-overlay host (attached to document.body).
+ * The overlay host is already positioned and layered, so the dropdown panel must not position itself.
+ */
+.coar-select-dropdown--overlay {
+  position: static;
+  top: auto;
+  bottom: auto;
+  left: auto;
+  right: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  z-index: auto;
+  width: 100%;
+}
+
+/**
+ * Portal mode: position:fixed is set via inline styles.
+ * Remove margins since offset is already in the calculated position.
+ */
+.coar-select-dropdown--portal {
+  margin-top: 0;
+  margin-bottom: 0;
+  right: auto; /* Don't stretch to right edge in portal mode */
+}
+
+/**
+ * CSS Anchor Positioning mode (modern browsers).
+ * Uses native browser positioning for zero-lag scroll tracking.
+ * position-anchor is set via inline style to use the unique anchor name.
+ */
+.coar-select-dropdown--css-anchor {
+  /* Position below anchor by default */
+  top: anchor(bottom);
+  left: anchor(left);
+  right: anchor(right);
+  bottom: auto;
+
+  /* Offset from trigger */
+  margin-top: var(--coar-spacing-xs);
+}
+
+.coar-select-dropdown--css-anchor.coar-select-dropdown--top {
+  /* Position above anchor */
+  top: auto;
+  bottom: anchor(top);
+
+  /* Offset from trigger */
+  margin-top: 0;
+  margin-bottom: var(--coar-spacing-xs);
+  flex-direction: column-reverse;
+}
+
+/* Top position - opens above the trigger (JS fallback) */
+.coar-select-dropdown--top:not(.coar-select-dropdown--overlay):not(.coar-select-dropdown--portal):not(
+    .coar-select-dropdown--css-anchor
+  ) {
+  top: auto;
+  bottom: 100%;
+  margin-top: 0;
+  margin-bottom: var(--coar-spacing-xs);
+  flex-direction: column-reverse;
+}
+
+.coar-select-dropdown--overlay.coar-select-dropdown--top {
+  flex-direction: column-reverse;
+}
+
+/* Options */
+.coar-select-options {
+  max-height: 200px;
+  overflow-y: auto;
+  padding: var(--coar-spacing-xs) 0;
+}
+
+/* Tag Option */
+.coar-tag-option {
+  display: flex;
+  align-items: center;
+  gap: var(--coar-spacing-xs);
+  padding: var(--coar-spacing-s) var(--coar-spacing-m);
+  font-family: var(--coar-body-small-base-family);
+  font-size: var(--coar-body-small-base-size);
+  color: var(--coar-text-neutral-primary);
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.coar-tag-option:hover:not(.coar-tag-option--disabled),
+.coar-tag-option--highlighted:not(.coar-tag-option--disabled) {
+  background: var(--coar-background-neutral-tertiary);
+}
+
+.coar-tag-option--disabled {
+  color: var(--coar-text-neutral-disabled);
+  cursor: not-allowed;
+}
+
+.coar-tag-option--create {
+  color: var(--coar-text-accent-primary);
+  font-weight: 500;
+}
+
+.coar-tag-option-icon {
+  flex-shrink: 0;
+  color: inherit;
+}
+
+.coar-tag-option-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Empty State */
+.coar-select-empty {
+  padding: var(--coar-spacing-m);
+  text-align: center;
+  font-family: var(--coar-body-small-base-family);
+  font-size: var(--coar-body-small-base-size);
+  color: var(--coar-text-neutral-tertiary);
+}
+
+/* Message */
+.coar-select-message {
+  margin-top: var(--coar-spacing-xs);
+  font-family: var(--coar-body-caption-family);
+  font-size: var(--coar-body-caption-size);
+  font-weight: var(--coar-body-caption-weight);
+  color: var(--coar-text-neutral-secondary);
+  line-height: 1.4;
+}
+
+.coar-select-message--error {
+  color: var(--coar-text-semantic-error-bold);
+}
