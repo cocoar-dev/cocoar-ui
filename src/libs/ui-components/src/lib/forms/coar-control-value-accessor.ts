@@ -12,15 +12,15 @@ export function coarProvideValueAccessor(type: () => Type<ControlValueAccessor>)
 export abstract class CoarControlValueAccessor<T> implements ControlValueAccessor {
   protected readonly cvaDisabled = signal(false);
 
-  protected onChange: (value: T) => void = () => undefined;
-  protected onTouched: () => void = () => undefined;
+  protected cvaOnChange: (value: T) => void = () => undefined;
+  protected cvaOnTouched: () => void = () => undefined;
 
   public registerOnChange(fn: (value: T) => void): void {
-    this.onChange = fn;
+    this.cvaOnChange = fn;
   }
 
   public registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
+    this.cvaOnTouched = fn;
   }
 
   public setDisabledState(isDisabled: boolean): void {

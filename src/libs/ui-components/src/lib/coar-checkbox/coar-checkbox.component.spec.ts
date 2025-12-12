@@ -1,11 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { vi } from 'vitest';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   CoarCheckboxComponent,
   CoarCheckboxSize,
   CoarCheckboxState,
 } from './coar-checkbox.component';
+
+@Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, CoarCheckboxComponent],
+  template: ` <coar-checkbox [formControl]="control" /> `,
+})
+class TestReactiveFormsHostComponent {
+  control = new FormControl<CoarCheckboxState | undefined | null>(null);
+}
 
 describe('CoarCheckboxComponent', () => {
   let component: CoarCheckboxComponent;
@@ -92,6 +102,8 @@ describe('CoarCheckboxComponent', () => {
       expect(input.disabled).toBe(true);
     });
   });
+
+  // Reactive forms tests live in a dedicated describe below to keep TestBed configuration isolated.
 
   describe('readonly state', () => {
     it('should apply readonly class when readonly', () => {
@@ -209,6 +221,45 @@ describe('CoarCheckboxComponent with label', () => {
     const labelEl = fixture.nativeElement.querySelector('.coar-checkbox-label');
     expect(labelEl).toBeTruthy();
     expect(labelEl.textContent).toContain('Accept terms');
+  });
+});
+
+describe('CoarCheckboxComponent (Reactive Forms)', () => {
+  let fixture: ComponentFixture<TestReactiveFormsHostComponent>;
+  let host: TestReactiveFormsHostComponent;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestReactiveFormsHostComponent],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(TestReactiveFormsHostComponent);
+    host = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  function getInput(): HTMLInputElement {
+    const el = fixture.nativeElement.querySelector('input') as HTMLInputElement | null;
+    if (!el) throw new Error('Expected input element');
+    return el;
+  }
+
+  it('should write control value into the checkbox', () => {
+    host.control.setValue('checked');
+    fixture.detectChanges();
+    expect(getInput().checked).toBe(true);
+  });
+
+  it('should propagate user toggle into the control', () => {
+    getInput().click();
+    fixture.detectChanges();
+    expect(host.control.value).toBe('checked');
+  });
+
+  it('should disable the input when the control is disabled', () => {
+    host.control.disable();
+    fixture.detectChanges();
+    expect(getInput().disabled).toBe(true);
   });
 });
 

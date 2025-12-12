@@ -125,7 +125,7 @@ export class CoarPasswordInputComponent extends CoarControlValueAccessor<string>
     const target = event.target as HTMLInputElement;
     this.value.set(target.value);
     this.valueChange.emit(target.value);
-    this.onChange(target.value);
+    this.cvaOnChange(target.value);
   }
 
   protected onFocus(event: FocusEvent): void {
@@ -135,14 +135,14 @@ export class CoarPasswordInputComponent extends CoarControlValueAccessor<string>
 
   protected onBlur(event: FocusEvent): void {
     this.isFocused.set(false);
-    this.onTouched();
+    this.cvaOnTouched();
     this.blurred.emit(event);
   }
 
   protected onClear(): void {
     this.value.set('');
     this.valueChange.emit('');
-    this.onChange('');
+    this.cvaOnChange('');
     this.clear.emit();
     this.inputRef()?.nativeElement.focus();
   }

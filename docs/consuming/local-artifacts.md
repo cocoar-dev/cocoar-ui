@@ -43,4 +43,6 @@ In the app global stylesheet:
 
 ## Current limitation: forms
 
-Coar input-like controls do not support `ControlValueAccessor` yet, so don’t use `formControlName` with them (see `docs/recipes/forms-status.md`).
+Some Coar form controls support Angular forms via `ControlValueAccessor`, but coverage is not universal yet.
+
+See `docs/recipes/forms-status.md` for the current supported list and the recommended temporary approach when a required control is not CVA-enabled.

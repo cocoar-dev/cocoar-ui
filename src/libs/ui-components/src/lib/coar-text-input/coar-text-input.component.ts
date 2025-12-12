@@ -129,7 +129,7 @@ export class CoarTextInputComponent extends CoarControlValueAccessor<string> {
     const newValue = target.value;
     this.value.set(newValue);
     this.valueChange.emit(newValue);
-    this.onChange(newValue);
+    this.cvaOnChange(newValue);
   }
 
   protected onFocus(event: FocusEvent): void {
@@ -139,14 +139,14 @@ export class CoarTextInputComponent extends CoarControlValueAccessor<string> {
 
   protected onBlur(event: FocusEvent): void {
     this.isFocused.set(false);
-    this.onTouched();
+    this.cvaOnTouched();
     this.blurred.emit(event);
   }
 
   protected onClear(): void {
     this.value.set('');
     this.valueChange.emit('');
-    this.onChange('');
+    this.cvaOnChange('');
     this.clear.emit();
     this.inputRef()?.nativeElement.focus();
   }

@@ -49,6 +49,7 @@ Coar now supports Angular forms via `ControlValueAccessor` for:
 - `coar-text-input`
 - `coar-password-input`
 - `coar-number-input`
+- `coar-checkbox`
 
 Signal Forms are still not supported (Angular 21+).
 

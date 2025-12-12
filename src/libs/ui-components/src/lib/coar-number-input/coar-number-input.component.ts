@@ -335,7 +335,7 @@ export class CoarNumberInputComponent extends CoarControlValueAccessor<number | 
   protected onBlur(event: FocusEvent): void {
     this.isFocused.set(false);
     this.commitValue();
-    this.onTouched();
+    this.cvaOnTouched();
     this.blurred.emit(event);
   }
 
@@ -348,12 +348,12 @@ export class CoarNumberInputComponent extends CoarControlValueAccessor<number | 
       // Don't reformat - Maskito already has the value formatted correctly
       // this.displayValue.set(this.formatValue(rounded));
       this.valueChange.emit(rounded);
-      this.onChange(rounded);
+      this.cvaOnChange(rounded);
     } else {
       this.value.set(null);
       this.displayValue.set('');
       this.valueChange.emit(null);
-      this.onChange(null);
+      this.cvaOnChange(null);
     }
   }
 
@@ -365,7 +365,7 @@ export class CoarNumberInputComponent extends CoarControlValueAccessor<number | 
     this.value.set(null);
     this.displayValue.set('');
     this.valueChange.emit(null);
-    this.onChange(null);
+    this.cvaOnChange(null);
     this.clear.emit();
     this.inputRef()?.nativeElement.focus();
   }
@@ -382,7 +382,7 @@ export class CoarNumberInputComponent extends CoarControlValueAccessor<number | 
     this.value.set(rounded);
     this.displayValue.set(this.formatValue(rounded));
     this.valueChange.emit(rounded);
-    this.onChange(rounded);
+    this.cvaOnChange(rounded);
   }
 
   protected decrement(): void {
@@ -393,7 +393,7 @@ export class CoarNumberInputComponent extends CoarControlValueAccessor<number | 
     this.value.set(rounded);
     this.displayValue.set(this.formatValue(rounded));
     this.valueChange.emit(rounded);
-    this.onChange(rounded);
+    this.cvaOnChange(rounded);
   }
 
   protected onKeyDown(event: KeyboardEvent): void {
@@ -428,7 +428,7 @@ export class CoarNumberInputComponent extends CoarControlValueAccessor<number | 
     this.value.set(rounded);
     this.displayValue.set(this.formatValue(rounded));
     this.valueChange.emit(rounded);
-    this.onChange(rounded);
+    this.cvaOnChange(rounded);
   }
 
   @HostListener('document:mouseup')

@@ -12,6 +12,10 @@ import {
   booleanAttribute,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  CoarControlValueAccessor,
+  coarProvideValueAccessor,
+} from '../forms/coar-control-value-accessor';
 
 export type CoarCheckboxSize = 'xs' | 'sm' | 'md' | 'lg';
 export type CoarCheckboxState = 'checked' | 'unchecked' | 'indeterminate';
@@ -23,17 +27,18 @@ export type CoarCheckboxState = 'checked' | 'unchecked' | 'indeterminate';
   templateUrl: './coar-checkbox.component.html',
   styleUrl: './coar-checkbox.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [coarProvideValueAccessor(() => CoarCheckboxComponent)],
   host: {
     '[class.coar-checkbox--xs]': 'size() === "xs"',
     '[class.coar-checkbox--sm]': 'size() === "sm"',
     '[class.coar-checkbox--md]': 'size() === "md"',
     '[class.coar-checkbox--lg]': 'size() === "lg"',
-    '[class.coar-checkbox--disabled]': 'disabled()',
+    '[class.coar-checkbox--disabled]': 'isDisabled()',
     '[class.coar-checkbox--readonly]': 'readonly()',
     '[class.coar-checkbox--error]': 'hasError()',
   },
 })
-export class CoarCheckboxComponent {
+export class CoarCheckboxComponent extends CoarControlValueAccessor<CoarCheckboxState | undefined> {
   /** Label text displayed next to the checkbox */
   label = input<string>('');
 
@@ -76,6 +81,8 @@ export class CoarCheckboxComponent {
   protected isFocused = signal(false);
   protected inputRef = viewChild<ElementRef<HTMLInputElement>>('checkboxElement');
 
+  protected isDisabled = computed(() => this.disabled() || this.cvaDisabled());
+
   protected isChecked = computed(() => this.checked() === 'checked');
   protected isIndeterminate = computed(() => this.checked() === 'indeterminate');
   protected hasError = computed(() => this.error().length > 0);
@@ -86,6 +93,7 @@ export class CoarCheckboxComponent {
   protected messageId = computed(() => `${this.inputId()}-message`);
 
   constructor() {
+    super();
     // Set indeterminate state on native input element
     effect(() => {
       const inputEl = this.inputRef()?.nativeElement;
@@ -93,6 +101,10 @@ export class CoarCheckboxComponent {
         inputEl.indeterminate = this.isIndeterminate();
       }
     });
+  }
+
+  public writeValue(value: CoarCheckboxState | undefined | null): void {
+    this.checked.set(value ?? undefined);
   }
 
   protected onChange(event: Event): void {
@@ -108,6 +120,7 @@ export class CoarCheckboxComponent {
 
     this.checked.set(newState);
     this.checkedChange.emit(newState);
+    this.cvaOnChange(newState);
   }
 
   protected onFocus(): void {
@@ -116,10 +129,11 @@ export class CoarCheckboxComponent {
 
   protected onBlur(): void {
     this.isFocused.set(false);
+    this.cvaOnTouched();
   }
 
   protected onLabelClick(): void {
-    if (!this.disabled()) {
+    if (!this.isDisabled()) {
       this.inputRef()?.nativeElement.click();
     }
   }
