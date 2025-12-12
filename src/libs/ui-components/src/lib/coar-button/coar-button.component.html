@@ -1,0 +1,56 @@
+<button
+  class="coar-button"
+  [class.coar-button--primary]="variant() === 'primary'"
+  [class.coar-button--secondary]="variant() === 'secondary'"
+  [class.coar-button--tertiary]="variant() === 'tertiary'"
+  [class.coar-button--danger]="variant() === 'danger'"
+  [class.coar-button--ghost]="variant() === 'ghost'"
+  [class.coar-button--xs]="size() === 'xs'"
+  [class.coar-button--sm]="size() === 'sm'"
+  [class.coar-button--md]="size() === 'md'"
+  [class.coar-button--lg]="size() === 'lg'"
+  [class.coar-button--loading]="loading()"
+  [class.coar-button--loading-overlay]="loading() && !iconStart() && !iconEnd()"
+  [class.coar-button--disabled]="disabled()"
+  [class.coar-button--full-width]="fullWidth()"
+  [type]="type()"
+  [disabled]="disabled() || loading()"
+  [attr.aria-disabled]="disabled() || loading()"
+  [attr.aria-busy]="loading()"
+  (click)="onClick($event)"
+>
+  <!-- Loading Spinner: Centered overlay when no icons, inline replacement when icons exist -->
+  @if (loading() && !iconStart() && !iconEnd()) {
+  <!-- Overlay spinner (centered, content hidden via opacity) -->
+  <span class="coar-button__spinner coar-button__spinner--overlay" aria-hidden="true">
+    <coar-icon name="load" [size]="iconSize()" [spin]="true" />
+  </span>
+  }
+
+  <!-- Icon Start: Show spinner instead when loading -->
+  @if (loading() && iconStart()) {
+  <span class="coar-button__spinner coar-button__spinner--inline" aria-hidden="true">
+    <coar-icon name="load" [size]="iconSize()" [spin]="true" />
+  </span>
+  } @else if (iconStart()) {
+  <span class="coar-button__icon coar-button__icon--start" aria-hidden="true">
+    <coar-icon [name]="iconStart()" [size]="iconSize()" />
+  </span>
+  }
+
+  <!-- Content -->
+  <span class="coar-button__content">
+    <ng-content />
+  </span>
+
+  <!-- Icon End: Show spinner instead when loading (only if no iconStart) -->
+  @if (loading() && !iconStart() && iconEnd()) {
+  <span class="coar-button__spinner coar-button__spinner--inline" aria-hidden="true">
+    <coar-icon name="load" [size]="iconSize()" [spin]="true" />
+  </span>
+  } @else if (iconEnd()) {
+  <span class="coar-button__icon coar-button__icon--end" aria-hidden="true">
+    <coar-icon [name]="iconEnd()" [size]="iconSize()" />
+  </span>
+  }
+</button>

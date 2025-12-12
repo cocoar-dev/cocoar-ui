@@ -1,0 +1,75 @@
+/**
+ * Cocoar Design System - Design Tokens
+ * Color Primitives - Light Mode
+ * Auto-generated from Figma - Do not edit manually
+ */
+
+:root,
+.light-mode {
+  --coar-color-black: #000000;
+  --coar-color-gray-100: #ededed;
+  --coar-color-gray-200: #d9d9d9;
+  --coar-color-gray-300: #c8c8c8;
+  --coar-color-gray-400: #adadad;
+  --coar-color-gray-50: #f7f7f7;
+  --coar-color-gray-500: #999999;
+  --coar-color-gray-600: #888888;
+  --coar-color-gray-700: #7b7b7b;
+  --coar-color-gray-800: #676767;
+  --coar-color-gray-900: #545454;
+  --coar-color-green-50: #e8f9ed;
+  --coar-color-green-100: #d2f1da;
+  --coar-color-green-200: #a4e3b5;
+  --coar-color-green-300: #76d591;
+  --coar-color-green-400: #4ac771;
+  --coar-color-green-500: #25b95a;
+  --coar-color-green-600: #1e8f48;
+  --coar-color-green-700: #186f39;
+  --coar-color-green-800: #134f2b;
+  --coar-color-green-900: #0e3a1f;
+  --coar-color-red-50: #fdecec;
+  --coar-color-red-100: #f9d3d3;
+  --coar-color-red-200: #f3a8a8;
+  --coar-color-red-300: #ec7c7c;
+  --coar-color-red-400: #e45555;
+  --coar-color-red-500: #d63b3b;
+  --coar-color-red-600: #b52f2f;
+  --coar-color-red-700: #922626;
+  --coar-color-red-800: #6f1d1d;
+  --coar-color-red-900: #4d1414;
+  --coar-color-slate-100: #e3e6ec;
+  --coar-color-slate-200: #c6cad4;
+  --coar-color-slate-300: #a6adbc;
+  --coar-color-slate-400: #8b94a7;
+  --coar-color-slate-50: #f0f4fc;
+  --coar-color-slate-500: #79849b;
+  --coar-color-slate-600: #707d97;
+  --coar-color-slate-700: #5e6b84;
+  --coar-color-slate-800: #525e76;
+  --coar-color-slate-900: #44526b;
+  --coar-color-white: #ffffff;
+
+  /* Accent Colors - Primary brand accent (Cocoar blue)
+     THEMING: Override these to customize the primary accent color */
+  --coar-color-accent-50: #e8f4fc;
+  --coar-color-accent-100: #cde6fa;
+  --coar-color-accent-200: #9fcdf5;
+  --coar-color-accent-300: #6eb4ef;
+  --coar-color-accent-400: #459fea;
+  --coar-color-accent-500: #278fe4;
+  --coar-color-accent-600: #1e80d1;
+  --coar-color-accent-700: #156db7;
+  --coar-color-accent-800: #0f5a99;
+  --coar-color-accent-900: #0a487a;
+
+  --coar-color-amber-50: #fff8e6;
+  --coar-color-amber-100: #ffeec2;
+  --coar-color-amber-200: #ffdfa0;
+  --coar-color-amber-300: #ffce78;
+  --coar-color-amber-400: #ffba4d;
+  --coar-color-amber-500: #ffa326;
+  --coar-color-amber-600: #cc821f;
+  --coar-color-amber-700: #996217;
+  --coar-color-amber-800: #66430f;
+  --coar-color-amber-900: #402908;
+}

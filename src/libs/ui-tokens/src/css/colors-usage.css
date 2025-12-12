@@ -1,0 +1,247 @@
+/**
+ * Cocoar Design System - Semantic Color Tokens
+ *
+ * Maps primitive colors to semantic usage contexts.
+ * Uses CSS variable references for automatic dark mode support.
+ *
+ * NAMING PATTERN:
+ *   --coar-{usage}-{category}-{variant}
+ *
+ *   Usage:     background | border | text | icon
+ *   Category:  neutral | brand | accent | semantic-{status}
+ *   Variant:   primary | secondary | tertiary | bold | subtle | disabled
+ */
+
+/* ============================================================================
+   LIGHT MODE (default)
+   ============================================================================ */
+
+:root,
+.light-mode {
+  /* ==========================================================================
+     NEUTRAL - Default UI colors (gray scale)
+     ========================================================================== */
+
+  /* Background */
+  --coar-background-neutral-primary: var(--coar-color-white);
+  --coar-background-neutral-secondary: var(--coar-color-gray-100);
+  --coar-background-neutral-tertiary: var(--coar-color-gray-200);
+  --coar-background-neutral-disabled: var(--coar-color-gray-300);
+
+  /* Text */
+  --coar-text-neutral-primary: var(--coar-color-gray-900);
+  --coar-text-neutral-secondary: var(--coar-color-gray-800);
+  --coar-text-neutral-tertiary: var(--coar-color-gray-700);
+  --coar-text-neutral-disabled: var(--coar-color-gray-500);
+
+  /* Border */
+  --coar-border-neutral-primary: var(--coar-color-gray-900);
+  --coar-border-neutral-secondary: var(--coar-color-gray-800);
+  --coar-border-neutral-tertiary: var(--coar-color-gray-200);
+
+  /* Icon */
+  --coar-icon-neutral-primary: var(--coar-color-gray-900);
+  --coar-icon-neutral-secondary: var(--coar-color-gray-800);
+  --coar-icon-neutral-tertiary: var(--coar-color-gray-700);
+  --coar-icon-neutral-disabled: var(--coar-color-gray-500);
+
+  /* ==========================================================================
+     BRAND - Company identity colors (slate)
+     ========================================================================== */
+
+  /* Background */
+  --coar-background-brand-primary: var(--coar-color-slate-500);
+  --coar-background-brand-secondary: var(--coar-color-slate-200);
+  --coar-background-brand-tertiary: var(--coar-color-slate-50);
+
+  /* Text */
+  --coar-text-brand-primary: var(--coar-color-slate-800);
+
+  /* Border */
+  --coar-border-brand-primary: var(--coar-color-slate-800);
+
+  /* Icon */
+  --coar-icon-brand-primary: var(--coar-color-slate-800);
+
+  /* ==========================================================================
+     ACCENT - Interactive/action colors (themeable)
+     Used for: primary buttons, links, focus rings, active states
+     THEMING: Override --coar-color-accent-* primitives to change these
+     ========================================================================== */
+
+  /* Background */
+  --coar-background-accent-primary: var(--coar-color-accent-700);
+  --coar-background-accent-secondary: var(--coar-color-accent-200);
+  --coar-background-accent-tertiary: var(--coar-color-accent-50);
+  --coar-background-accent-hover: var(--coar-color-accent-800);
+  --coar-background-accent-active: var(--coar-color-accent-900);
+
+  /* Text */
+  --coar-text-accent-primary: var(--coar-color-accent-700);
+  --coar-text-accent-secondary: var(--coar-color-accent-600);
+
+  /* Border */
+  --coar-border-accent-primary: var(--coar-color-accent-500);
+  --coar-border-accent-secondary: var(--coar-color-accent-400);
+
+  /* Icon */
+  --coar-icon-accent-primary: var(--coar-color-accent-700);
+
+  /* ==========================================================================
+     SEMANTIC - Status/feedback colors (success, error, warning, info)
+     Bold = high emphasis (solid backgrounds, strong text)
+     Subtle = low emphasis (light backgrounds, muted borders)
+     ========================================================================== */
+
+  /* Success (green) */
+  --coar-background-semantic-success-bold: var(--coar-color-green-600);
+  --coar-background-semantic-success-subtle: var(--coar-color-green-100);
+  --coar-text-semantic-success-bold: var(--coar-color-green-800);
+  --coar-text-semantic-success-subtle: var(--coar-color-green-100);
+  --coar-border-semantic-success-bold: var(--coar-color-green-800);
+  --coar-border-semantic-success-subtle: var(--coar-color-green-200);
+  --coar-icon-semantic-success-bold: var(--coar-color-green-800);
+  --coar-icon-semantic-success-subtle: var(--coar-color-green-100);
+
+  /* Error (red) */
+  --coar-background-semantic-error-bold: var(--coar-color-red-600);
+  --coar-background-semantic-error-subtle: var(--coar-color-red-100);
+  --coar-text-semantic-error-bold: var(--coar-color-red-800);
+  --coar-text-semantic-error-subtle: var(--coar-color-red-100);
+  --coar-border-semantic-error-bold: var(--coar-color-red-800);
+  --coar-border-semantic-error-subtle: var(--coar-color-red-200);
+  --coar-icon-semantic-error-bold: var(--coar-color-red-800);
+  --coar-icon-semantic-error-subtle: var(--coar-color-red-100);
+
+  /* Warning (amber) */
+  --coar-background-semantic-warning-bold: var(--coar-color-amber-600);
+  --coar-background-semantic-warning-subtle: var(--coar-color-amber-100);
+  --coar-text-semantic-warning-bold: var(--coar-color-amber-800);
+  --coar-text-semantic-warning-subtle: var(--coar-color-amber-100);
+  --coar-border-semantic-warning-bold: var(--coar-color-amber-800);
+  --coar-border-semantic-warning-subtle: var(--coar-color-amber-200);
+  --coar-icon-semantic-warning-bold: var(--coar-color-amber-800);
+  --coar-icon-semantic-warning-subtle: var(--coar-color-amber-100);
+
+  /* Info (slate blue) */
+  --coar-background-semantic-info-bold: var(--coar-color-slate-200);
+  --coar-background-semantic-info-subtle: var(--coar-color-slate-100);
+  --coar-text-semantic-info-bold: var(--coar-color-slate-800);
+  --coar-text-semantic-info-subtle: var(--coar-color-slate-100);
+  --coar-border-semantic-info-bold: var(--coar-color-slate-800);
+  --coar-border-semantic-info-subtle: var(--coar-color-slate-200);
+  --coar-icon-semantic-info-bold: var(--coar-color-slate-800);
+  --coar-icon-semantic-info-subtle: var(--coar-color-slate-100);
+
+  /* ==========================================================================
+     SPECIAL PURPOSE
+     ========================================================================== */
+
+  /* White/light text for use on bold/colored surfaces
+     Used for: text on primary buttons, badges, bold semantic backgrounds */
+  --coar-text-on-bold: var(--coar-color-white);
+
+  /* ==========================================================================
+     SURFACE - Elevated surfaces for form controls and interactive elements
+     In light mode, inputs are white. In dark mode, they're slightly elevated.
+     ========================================================================== */
+
+  /* Input surfaces - backgrounds for form controls */
+  --coar-surface-input: var(--coar-color-white);
+  --coar-surface-input-disabled: var(--coar-color-gray-100);
+
+  /* Input borders - more visible than neutral-tertiary */
+  --coar-border-input: var(--coar-color-gray-300);
+  --coar-border-input-hover: var(--coar-color-gray-400);
+}
+
+/* ============================================================================
+   DARK MODE
+   Only override values that change - inherits everything else from light mode
+   ============================================================================ */
+
+:root.dark-mode,
+.dark-mode {
+  /* ==========================================================================
+     NEUTRAL - Invert the gray scale
+     Background uses lighter grays to allow for shadows and depth
+     ========================================================================== */
+
+  /* Background */
+  --coar-background-neutral-primary: var(--coar-color-gray-200);
+  --coar-background-neutral-secondary: var(--coar-color-gray-100);
+  --coar-background-neutral-tertiary: var(--coar-color-gray-50);
+
+  /* Text */
+  --coar-text-neutral-primary: var(--coar-color-gray-900);
+  --coar-text-neutral-secondary: var(--coar-color-gray-700);
+  --coar-text-neutral-tertiary: var(--coar-color-gray-600);
+
+  /* Border */
+  --coar-border-neutral-primary: var(--coar-color-gray-700);
+  --coar-border-neutral-secondary: var(--coar-color-gray-600);
+  --coar-border-neutral-tertiary: var(--coar-color-gray-300);
+
+  /* Icon */
+  --coar-icon-neutral-primary: var(--coar-color-gray-900);
+  --coar-icon-neutral-secondary: var(--coar-color-gray-700);
+  --coar-icon-neutral-tertiary: var(--coar-color-gray-600);
+
+  /* ==========================================================================
+     ACCENT - Lighter values for visibility on dark backgrounds
+     ========================================================================== */
+
+  /* Background */
+  --coar-background-accent-primary: var(--coar-color-accent-500);
+  --coar-background-accent-secondary: var(--coar-color-accent-300);
+  --coar-background-accent-tertiary: var(--coar-color-accent-100);
+  --coar-background-accent-hover: var(--coar-color-accent-400);
+  --coar-background-accent-active: var(--coar-color-accent-300);
+
+  /* Text */
+  --coar-text-accent-primary: var(--coar-color-accent-500);
+  --coar-text-accent-secondary: var(--coar-color-accent-400);
+
+  /* ==========================================================================
+     SEMANTIC - Adjusted for dark backgrounds
+     Bold backgrounds are slightly lighter for better contrast
+     ========================================================================== */
+
+  /* Success */
+  --coar-background-semantic-success-bold: var(--coar-color-green-500);
+  --coar-background-semantic-success-subtle: var(--coar-color-green-200);
+  --coar-border-semantic-success-bold: var(--coar-color-green-600);
+  --coar-border-semantic-success-subtle: var(--coar-color-green-300);
+
+  /* Error */
+  --coar-background-semantic-error-bold: var(--coar-color-red-500);
+  --coar-background-semantic-error-subtle: var(--coar-color-red-200);
+  --coar-border-semantic-error-bold: var(--coar-color-red-600);
+  --coar-border-semantic-error-subtle: var(--coar-color-red-300);
+
+  /* Warning */
+  --coar-background-semantic-warning-bold: var(--coar-color-amber-400);
+  --coar-background-semantic-warning-subtle: var(--coar-color-amber-200);
+  --coar-border-semantic-warning-bold: var(--coar-color-amber-500);
+  --coar-border-semantic-warning-subtle: var(--coar-color-amber-300);
+
+  /* Info */
+  --coar-background-semantic-info-bold: var(--coar-color-slate-400);
+  --coar-background-semantic-info-subtle: var(--coar-color-slate-300);
+  --coar-border-semantic-info-bold: var(--coar-color-slate-600);
+  --coar-border-semantic-info-subtle: var(--coar-color-slate-400);
+
+  /* ==========================================================================
+     SURFACE - Input surfaces in dark mode are darker than cards
+     Creates visual depth hierarchy: card (gray-100) → input (gray-50)
+     This mirrors light mode: card (gray-100) → input (white)
+     ========================================================================== */
+
+  /* Input surfaces - darker than cards for inset appearance */
+  --coar-surface-input: var(--coar-color-gray-50);
+  --coar-surface-input-disabled: var(--coar-color-gray-100);
+
+  /* Input borders - visible on dark backgrounds */
+  --coar-border-input: var(--coar-color-gray-400);
+  --coar-border-input-hover: var(--coar-color-gray-500);
+}

@@ -8,7 +8,6 @@
 /src/.nx/cache
 /src/.nx/workspace-data
 /src/.angular
-/src/pnpm-lock.yaml
 
 # Compiled output
 /dist
@@ -51,11 +50,6 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-
-# Storybook
-storybook-static
-build-storybook.log
-/src/storybook-static
 
 # Playwright
 /test-results/

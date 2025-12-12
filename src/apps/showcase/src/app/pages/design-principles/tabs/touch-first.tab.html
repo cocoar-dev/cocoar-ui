@@ -1,0 +1,55 @@
+<!-- Touch-First Design -->
+<section class="tw:mb-16 tw:mt-4">
+  <h2 class="coar-heading">Touch-First Design</h2>
+  <p class="coar-body tw:mt-2 tw:mb-6">All components work with <strong>touch and focus</strong> — hover is an enhancement, not a requirement.</p>
+
+  <div class="responsive-grid responsive-grid--lg">
+    <coar-card padding="md" elevated>
+      <h4 class="coar-body-large">1. No Hover-Dependent UI</h4>
+      <ul class="content-list">
+        <li class="coar-body-small">Never require hover to reveal critical elements</li>
+        <li class="coar-body-small">All functionality works with tap/focus alone</li>
+      </ul>
+    </coar-card>
+
+    <coar-card padding="md" elevated>
+      <h4 class="coar-body-large">2. Progressive Enhancement</h4>
+      <ul class="content-list">
+        <li class="coar-body-small">Base experience works on touch</li>
+        <li class="coar-body-small">Desktop gets additional polish (hover states)</li>
+      </ul>
+    </coar-card>
+
+    <coar-card padding="md" elevated>
+      <h4 class="coar-body-large">3. Visible But Subtle</h4>
+      <ul class="content-list">
+        <li class="coar-body-small">Use dimmed states instead of hiding</li>
+        <li class="coar-body-small">On focus/hover: elements become prominent</li>
+      </ul>
+    </coar-card>
+
+    <coar-card padding="md" elevated>
+      <h4 class="coar-body-large">4. Adequate Touch Targets</h4>
+      <ul class="content-list">
+        <li class="coar-body-small">Minimum 44×44px for interactive elements</li>
+        <li class="coar-body-small">Adequate spacing between tappable areas</li>
+      </ul>
+    </coar-card>
+  </div>
+  <coar-divider [spacingTop]="32" />
+</section>
+
+<!-- Not Mobile-First -->
+<section class="tw:mb-16">
+  <h3 class="coar-heading">Not "Mobile First"</h3>
+  <coar-card color="info" elevated padding="md" class="note-card tw:mt-2">
+    <p class="coar-body">
+      <strong>Important distinction:</strong> This is <strong>not</strong> mobile-first design. Mobile phones have different constraints (small
+      screens, portrait orientation, one-handed use).
+    </p>
+    <p class="coar-body tw:mt-4">
+      <strong>This is tablet-first:</strong> Designing for touch interaction while maintaining desktop-appropriate information density and layout.
+      Tablets have similar screen real estate to laptops but use touch instead of mouse.
+    </p>
+  </coar-card>
+</section>

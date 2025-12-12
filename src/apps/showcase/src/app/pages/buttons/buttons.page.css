@@ -1,0 +1,40 @@
+/* ========================================
+   BUTTON PAGE - Component-specific styles
+   ========================================
+   Shared styles are inherited from showcase-pages.css
+   Only add styles specific to this page here
+   ======================================== */
+
+/* Button Row - using shared .demo-row pattern */
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.button-row--align-end {
+  align-items: flex-end;
+}
+
+/* Loading Demos */
+.loading-demos {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.loading-demo-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Full Width Demo */
+.full-width-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 400px;
+}

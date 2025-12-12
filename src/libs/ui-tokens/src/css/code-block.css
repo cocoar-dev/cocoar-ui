@@ -1,0 +1,72 @@
+/**
+ * Cocoar Design System - Code Block Tokens
+ * Theming tokens for the coar-code-block component
+ *
+ * These tokens allow consumers to customize code block appearance
+ * from a central location for consistent theming.
+ */
+
+:root {
+  /* ========================================
+     CODE BLOCK - LIGHT THEME (Default)
+     ======================================== */
+
+  /* Layout */
+  --coar-code-block-bg: #f8f9fa;
+  --coar-code-block-header-bg: #f0f1f2;
+  --coar-code-block-border: #e1e4e8;
+
+  /* Text */
+  --coar-code-block-text: #24292e;
+  --coar-code-block-text-muted: #6a737d;
+
+  /* Interactive */
+  --coar-code-block-button-bg-hover: rgba(0, 0, 0, 0.08);
+
+  /* Syntax Highlighting - Light (GitHub inspired) */
+  --coar-code-block-keyword: #d73a49;
+  --coar-code-block-string: #032f62;
+  --coar-code-block-number: #005cc5;
+  --coar-code-block-comment: #6a737d;
+  --coar-code-block-function: #6f42c1;
+  --coar-code-block-class: #22863a;
+  --coar-code-block-property: #005cc5;
+  --coar-code-block-operator: #24292e;
+  --coar-code-block-punctuation: #24292e;
+  --coar-code-block-tag: #22863a;
+  --coar-code-block-attr-name: #6f42c1;
+  --coar-code-block-attr-value: #032f62;
+}
+
+/* ========================================
+   CODE BLOCK - DARK THEME
+   ======================================== */
+
+.dark-mode,
+[data-theme='dark'] {
+  /* Layout */
+  --coar-code-block-bg: #1e1e1e;
+  --coar-code-block-header-bg: #2d2d2d;
+  --coar-code-block-border: #3d3d3d;
+
+  /* Text */
+  --coar-code-block-text: #d4d4d4;
+  --coar-code-block-text-muted: #888888;
+
+  /* Interactive */
+  --coar-code-block-button-bg-hover: rgba(255, 255, 255, 0.12);
+
+  /* Syntax Highlighting - Dark (VS Code inspired) */
+  --coar-code-block-keyword: #569cd6;
+  --coar-code-block-string: #ce9178;
+  --coar-code-block-number: #b5cea8;
+  --coar-code-block-comment: #6a9955;
+  --coar-code-block-function: #dcdcaa;
+  --coar-code-block-class: #4ec9b0;
+  --coar-code-block-property: #9cdcfe;
+  --coar-code-block-operator: #d4d4d4;
+  --coar-code-block-punctuation: #808080;
+  --coar-code-block-tag: #569cd6;
+  --coar-code-block-attr-name: #9cdcfe;
+  --coar-code-block-attr-value: #ce9178;
+}

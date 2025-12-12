@@ -1,0 +1,204 @@
+/* Host element styling */
+:host {
+  display: block;
+}
+
+/* Code Block Container */
+.coar-code-block {
+  border-radius: var(--coar-radius-s);
+  border: 1px solid var(--coar-code-block-border);
+  background: var(--coar-code-block-bg);
+  overflow: hidden;
+}
+
+/* Header */
+.coar-code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  background: var(--coar-code-block-header-bg);
+  border-bottom: 1px solid var(--coar-code-block-border);
+  min-height: 36px;
+}
+
+.coar-code-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.coar-code-header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Toggle Button */
+.coar-code-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: var(--coar-code-block-text-muted);
+  cursor: pointer;
+  border-radius: var(--coar-radius-xs);
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.coar-code-toggle:hover {
+  color: var(--coar-code-block-text);
+  background: var(--coar-code-block-button-bg-hover);
+}
+
+.coar-code-chevron {
+  transition: transform 0.2s ease;
+}
+
+.coar-code-chevron.rotated {
+  transform: rotate(90deg);
+}
+
+/* Title / Language */
+.coar-code-title {
+  font-family: var(--coar-body-small-base-family);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--coar-code-block-text);
+}
+
+.coar-code-language {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--coar-code-block-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Code Content */
+.coar-code-content {
+  overflow: auto;
+}
+
+.coar-code-pre {
+  margin: 0;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.coar-code-pre.with-line-numbers {
+  padding-left: 3rem;
+  position: relative;
+}
+
+.coar-code {
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--coar-code-block-text);
+  white-space: pre;
+  display: block;
+}
+
+/* Collapsed state */
+.coar-code-block.collapsed .coar-code-header {
+  border-bottom: none;
+}
+
+/* ========================================
+   PRISM SYNTAX HIGHLIGHTING
+
+   Using ::ng-deep because Prism injects HTML via [innerHTML]
+   which doesn't receive Angular's scoped attributes.
+   The .coar-code parent ensures styles are scoped to this component.
+   ======================================== */
+
+/* Tokens */
+.coar-code ::ng-deep .token.comment,
+.coar-code ::ng-deep .token.prolog,
+.coar-code ::ng-deep .token.doctype,
+.coar-code ::ng-deep .token.cdata {
+  color: var(--coar-code-block-comment);
+}
+
+.coar-code ::ng-deep .token.punctuation {
+  color: var(--coar-code-block-punctuation);
+}
+
+.coar-code ::ng-deep .token.property,
+.coar-code ::ng-deep .token.tag,
+.coar-code ::ng-deep .token.boolean,
+.coar-code ::ng-deep .token.number,
+.coar-code ::ng-deep .token.constant,
+.coar-code ::ng-deep .token.symbol,
+.coar-code ::ng-deep .token.deleted {
+  color: var(--coar-code-block-number);
+}
+
+.coar-code ::ng-deep .token.selector,
+.coar-code ::ng-deep .token.attr-name,
+.coar-code ::ng-deep .token.string,
+.coar-code ::ng-deep .token.char,
+.coar-code ::ng-deep .token.builtin,
+.coar-code ::ng-deep .token.inserted {
+  color: var(--coar-code-block-string);
+}
+
+.coar-code ::ng-deep .token.operator,
+.coar-code ::ng-deep .token.entity,
+.coar-code ::ng-deep .token.url,
+.coar-code ::ng-deep .language-css .token.string,
+.coar-code ::ng-deep .style .token.string {
+  color: var(--coar-code-block-operator);
+}
+
+.coar-code ::ng-deep .token.atrule,
+.coar-code ::ng-deep .token.attr-value,
+.coar-code ::ng-deep .token.keyword {
+  color: var(--coar-code-block-keyword);
+}
+
+.coar-code ::ng-deep .token.function,
+.coar-code ::ng-deep .token.class-name {
+  color: var(--coar-code-block-function);
+}
+
+.coar-code ::ng-deep .token.regex,
+.coar-code ::ng-deep .token.important,
+.coar-code ::ng-deep .token.variable {
+  color: var(--coar-code-block-class);
+}
+
+.coar-code ::ng-deep .token.important,
+.coar-code ::ng-deep .token.bold {
+  font-weight: bold;
+}
+
+.coar-code ::ng-deep .token.italic {
+  font-style: italic;
+}
+
+.coar-code ::ng-deep .token.entity {
+  cursor: help;
+}
+
+/* Tag names in HTML/XML */
+.coar-code ::ng-deep .token.tag .token.tag {
+  color: var(--coar-code-block-tag);
+}
+
+/* Attribute names */
+.coar-code ::ng-deep .token.tag .token.attr-name {
+  color: var(--coar-code-block-attr-name);
+}
+
+/* Attribute values */
+.coar-code ::ng-deep .token.tag .token.attr-value,
+.coar-code ::ng-deep .token.tag .token.attr-value .token.punctuation {
+  color: var(--coar-code-block-attr-value);
+}

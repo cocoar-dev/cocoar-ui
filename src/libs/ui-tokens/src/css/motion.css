@@ -1,0 +1,93 @@
+/**
+ * Cocoar Design System - Design Tokens
+ * Motion / Animation
+ * Consistent timing and easing for UI transitions
+ */
+
+:root {
+  /* ========================================
+     DURATION
+     ========================================
+     How long animations take to complete.
+     Use shorter durations for small/simple changes,
+     longer for complex/large movements.
+  */
+
+  /* Instant - for color changes, opacity */
+  --coar-duration-instant: 0ms;
+
+  /* Fast - micro-interactions, hover states, focus rings */
+  --coar-duration-fast: 100ms;
+
+  /* Normal - buttons, inputs, small movements */
+  --coar-duration-normal: 200ms;
+
+  /* Slow - dropdowns, panels, medium movements */
+  --coar-duration-slow: 300ms;
+
+  /* Slower - modals, large overlays, page transitions */
+  --coar-duration-slower: 400ms;
+
+  /* Slowest - complex animations, onboarding */
+  --coar-duration-slowest: 500ms;
+
+  /* ========================================
+     EASING
+     ========================================
+     How animations accelerate and decelerate.
+     Based on Material Design motion principles.
+  */
+
+  /* Linear - constant speed, use sparingly */
+  --coar-ease-linear: linear;
+
+  /* Ease Out - starts fast, ends slow (entering elements) */
+  --coar-ease-out: cubic-bezier(0, 0, 0.2, 1);
+
+  /* Ease In - starts slow, ends fast (exiting elements) */
+  --coar-ease-in: cubic-bezier(0.4, 0, 1, 1);
+
+  /* Ease In-Out - slow start and end (moving elements) */
+  --coar-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Bounce - slight overshoot for playful interactions */
+  --coar-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* ========================================
+     COMMON TRANSITIONS
+     ========================================
+     Pre-composed transitions for common use cases.
+  */
+
+  /* Default transition for most interactive elements */
+  --coar-transition-default: all var(--coar-duration-normal) var(--coar-ease-out);
+
+  /* Fast transition for hover/focus states */
+  --coar-transition-fast: all var(--coar-duration-fast) var(--coar-ease-out);
+
+  /* Color-only transitions */
+  --coar-transition-colors: color var(--coar-duration-fast) var(--coar-ease-out),
+    background-color var(--coar-duration-fast) var(--coar-ease-out),
+    border-color var(--coar-duration-fast) var(--coar-ease-out);
+
+  /* Transform transitions (scale, translate) */
+  --coar-transition-transform: transform var(--coar-duration-normal) var(--coar-ease-out);
+
+  /* Opacity transitions */
+  --coar-transition-opacity: opacity var(--coar-duration-normal) var(--coar-ease-out);
+
+  /* Shadow transitions (elevation changes) */
+  --coar-transition-shadow: box-shadow var(--coar-duration-normal) var(--coar-ease-out);
+}
+
+/* Reduced motion preference - respect user settings */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --coar-duration-instant: 0ms;
+    --coar-duration-fast: 0ms;
+    --coar-duration-normal: 0ms;
+    --coar-duration-slow: 0ms;
+    --coar-duration-slower: 0ms;
+    --coar-duration-slowest: 0ms;
+  }
+}

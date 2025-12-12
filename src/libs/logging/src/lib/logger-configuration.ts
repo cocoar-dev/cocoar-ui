@@ -19,23 +19,23 @@ export class LoggerConfiguration {
 
   /**
    * Write log events to a sink.
-   * 
+   *
    * Sinks are processed in configuration order, receiving events
    * after all preceding stages have been applied.
-   * 
+   *
    * @param sink - The sink to write to
    * @param predicate - Optional function that controls whether the sink is active
    *                    Evaluated at runtime for each log event batch
    *                    Return true to write to sink, false to skip
-   * 
+   *
    * @example
    * ```typescript
    * let consoleEnabled = true;
-   * 
+   *
    * const logger = new LoggerConfiguration()
    *   .writeTo(new ConsoleSink(), () => consoleEnabled)
    *   .create();
-   * 
+   *
    * // Later: disable console logging
    * consoleEnabled = false;
    * ```
@@ -47,25 +47,27 @@ export class LoggerConfiguration {
 
   /**
    * Filter log events by minimum level.
-   * 
+   *
    * @param levelOrSwitch - Static level or function that returns level at runtime
-   * 
+   *
    * @example Static level:
    * ```typescript
    * config.minLevel('debug')
    * ```
-   * 
+   *
    * @example Dynamic level:
    * ```typescript
    * let currentLevel: WriteLogLevel = 'info';
-   * 
+   *
    * config.minLevel(() => currentLevel)
-   * 
+   *
    * // Later: change level at runtime
    * currentLevel = 'debug';
    * ```
    */
-  public minLevel(levelOrSwitch: LogEventLevel | WriteLogLevel | LevelProvider): LoggerConfiguration {
+  public minLevel(
+    levelOrSwitch: LogEventLevel | WriteLogLevel | LevelProvider
+  ): LoggerConfiguration {
     if (typeof levelOrSwitch === 'function') {
       return this.filter((e) => {
         const level = getLogEventLevel(levelOrSwitch());
@@ -87,7 +89,9 @@ export class LoggerConfiguration {
     return this;
   }
 
-  public fork(configureFork: (forkConfig: Omit<LoggerConfiguration, 'create'>) => void): LoggerConfiguration {
+  public fork(
+    configureFork: (forkConfig: Omit<LoggerConfiguration, 'create'>) => void
+  ): LoggerConfiguration {
     this.pipeline.push(new ForkStage(configureFork));
     return this;
   }

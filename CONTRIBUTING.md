@@ -18,8 +18,8 @@ These documents define the foundation of the Coar Design System.
 
 1. Fork the repository and create a feature branch
 2. Navigate to the Nx workspace: `cd src`
-3. Install dependencies: `npm install`
-4. Run Storybook: `npm run storybook`
+3. Install dependencies: `pnpm install`
+4. Start the showcase app: `pnpm start`
 5. Make your changes following the guidelines below
 
 **Important:** All Nx commands must be run from the `src/` directory (the Nx workspace root), not from the repository root.
@@ -28,9 +28,9 @@ These documents define the foundation of the Coar Design System.
 
 ## Technology & Tooling Expectations
 
-- This repository currently targets **Angular 20.x**, **Nx 22.x**, and **Storybook 9.x**.
-- Do NOT upgrade Angular, Nx, or Storybook major versions on your own. Version upgrades are handled as dedicated, planned tasks and documented in ARCHITECTURE.md.
-- All builds, tests, and Storybook commands should be run via **Nx** (`nx serve`, `nx test`, `nx run <target>`) rather than calling `ng` directly.
+- This repository currently targets **Angular 20.x** and **Nx 22.x**.
+- Do NOT upgrade Angular or Nx major versions on your own. Version upgrades are handled as dedicated, planned tasks and documented in ARCHITECTURE.md.
+- All builds, tests, and app commands should be run via **Nx** targets (via `pnpm` scripts) rather than calling `ng` directly.
 - Angular publishable libraries (e.g. `@cocoar/ui-*`) are packaged using `@nx/angular:package`. Do not introduce alternative packaging executors without discussion and an update to ARCHITECTURE.md.
 
 For deeper architectural rules, see [ARCHITECTURE.md](ARCHITECTURE.md).
@@ -70,20 +70,16 @@ See **[ARCHITECTURE.md](ARCHITECTURE.md)** for complete details on design tokens
 ```bash
 cd src
 
-# Build a specific library
-nx build ui-core
+# Lint / test / build
+pnpm lint
+pnpm test
+pnpm build
 
-# Run tests for a library
-nx test ui-core
+# Start the showcase app
+pnpm start
 
-# Run Storybook
-npm run storybook
-
-# Run Playwright tests
-nx e2e storybook-e2e
-
-# Lint code
-nx lint ui-core
+# Run Playwright e2e tests
+pnpm e2e
 ```
 
 ---
@@ -95,7 +91,7 @@ nx lint ui-core
 - Keep components small and focused
 - Prefer composition over inheritance
 - Add unit tests for new functionality
-- Update Storybook stories for UI changes
+- Update docs / README when public APIs change
 
 ---
 
@@ -104,7 +100,7 @@ nx lint ui-core
 - Write tests that represent real-world behavior and critical paths
 - Add regression tests for fixed bugs
 - Test accessibility features (keyboard navigation, ARIA)
-- Test visual component states in Storybook
+- Validate component behavior in the showcase app
 - Keep test coverage from regressing
 
 **Test Structure:**
@@ -128,8 +124,8 @@ describe('CoarButtonComponent', () => {
 
 **Test Types:**
 - Unit tests: `*.spec.ts` files alongside components
-- E2E tests: Playwright tests in `apps/storybook-e2e/`
-- Visual tests: Storybook stories serve as visual regression tests
+- E2E tests: Playwright tests in `apps/showcase-e2e/`
+- Visual checks: validate component states in the showcase app
 
 ---
 
@@ -166,7 +162,7 @@ throw new TypeError(
 
 - Reference related issues in the PR description
 - Describe user-facing changes
-- Update Storybook documentation if needed
+- Update docs / showcase examples if needed
 - Ensure all tests pass
 - Follow the naming conventions in NAMING.md
 
@@ -179,7 +175,7 @@ A change is complete when:
 - [ ] Code follows ARCHITECTURE.md patterns
 - [ ] NAMING.md conventions followed consistently
 - [ ] Tests cover the changes and pass
-- [ ] Storybook stories demonstrate the feature
+- [ ] Showcase app demonstrates the feature
 - [ ] Documentation updated (README, component docs)
 - [ ] No unused imports or variables
 - [ ] Breaking changes documented with migration guides

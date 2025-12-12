@@ -23,22 +23,31 @@ describe('Interleaved Sinks', () => {
     const sink3 = new CollectorSink();
 
     const logger = new LoggerConfiguration()
-      .writeTo(sink1)  // Gets ALL events
-      .filter(e => e.level <= LogEventLevel.warn)  // Filter to warn and below (fatal, error, warn)
-      .enrich({ enriched: 'yes' })  // Add property
-      .writeTo(sink2)  // Gets warn+ with enrichment
-      .filter(e => e.level <= LogEventLevel.error)  // Filter to error and below (fatal, error)
-      .writeTo(sink3)  // Gets error+ with enrichment
+      .writeTo(sink1) // Gets ALL events
+      .filter((e) => e.level <= LogEventLevel.warn) // Filter to warn and below (fatal, error, warn)
+      .enrich({ enriched: 'yes' }) // Add property
+      .writeTo(sink2) // Gets warn+ with enrichment
+      .filter((e) => e.level <= LogEventLevel.error) // Filter to error and below (fatal, error)
+      .writeTo(sink3) // Gets error+ with enrichment
       .create();
 
-    logger.debug('Debug message');    // Only sink1
-    logger.info('Info message');      // Only sink1
-    logger.warn('Warning message');   // sink1 + sink2
-    logger.error('Error message');    // sink1 + sink2 + sink3
+    logger.debug('Debug message'); // Only sink1
+    logger.info('Info message'); // Only sink1
+    logger.warn('Warning message'); // sink1 + sink2
+    logger.error('Error message'); // sink1 + sink2 + sink3
 
-    console.log('sink1 events:', sink1.events.map(e => ({ level: e.level, enriched: e.enrichedProperties })));
-    console.log('sink2 events:', sink2.events.map(e => ({ level: e.level, enriched: e.enrichedProperties })));
-    console.log('sink3 events:', sink3.events.map(e => ({ level: e.level, enriched: e.enrichedProperties })));
+    console.log(
+      'sink1 events:',
+      sink1.events.map((e) => ({ level: e.level, enriched: e.enrichedProperties }))
+    );
+    console.log(
+      'sink2 events:',
+      sink2.events.map((e) => ({ level: e.level, enriched: e.enrichedProperties }))
+    );
+    console.log(
+      'sink3 events:',
+      sink3.events.map((e) => ({ level: e.level, enriched: e.enrichedProperties }))
+    );
 
     // sink1 should have all 4 events, none enriched
     expect(sink1.events.length).toBe(4);
@@ -64,14 +73,14 @@ describe('Interleaved Sinks', () => {
 
     const logger = new LoggerConfiguration()
       .minLevel('debug')
-      .writeTo(consoleSink)  // Console gets all debug+ events
-      .filter(e => e.level <= LogEventLevel.error)  // Only errors and below (fatal, error)
+      .writeTo(consoleSink) // Console gets all debug+ events
+      .filter((e) => e.level <= LogEventLevel.error) // Only errors and below (fatal, error)
       .enrich({
         userAgent: 'Mozilla/5.0',
         url: 'https://example.com',
-        buildVersion: '1.2.3'
+        buildVersion: '1.2.3',
       })
-      .writeTo(httpSink)  // HTTP gets only errors with client info
+      .writeTo(httpSink) // HTTP gets only errors with client info
       .create();
 
     logger.debug('Debug message');

@@ -1,0 +1,154 @@
+name: Release - Stable
+
+on:
+  release:
+    types: [published]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.release.id }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Lint, Test & Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: src
+
+    steps:
+      - name: Checkout tag
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: Setup Volta (Node + pnpm)
+        uses: volta-cli/action@v4
+        with:
+          package-json-path: ./src/package.json
+
+      - name: Install Node.js
+        run: volta install node
+
+      - name: Install pnpm
+        run: volta install pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+
+  build-stable:
+    name: Build stable packages
+    if: github.event.release.target_commitish == 'develop'
+    runs-on: ubuntu-latest
+    needs: validate
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: src
+
+    steps:
+      - name: Checkout tag
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: Setup Volta (Node + pnpm)
+        uses: volta-cli/action@v4
+        with:
+          package-json-path: ./src/package.json
+
+      - name: Install Node.js
+        run: volta install node
+
+      - name: Install pnpm
+        run: volta install pnpm
+
+      - name: Extract and validate release version
+        id: version
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          echo "Release tag: $TAG"
+          if [[ "$TAG" =~ ^v[0-9] ]]; then
+            VERSION="${TAG#v}"
+          else
+            echo "::error ::Tag must start with 'v' followed by version number (e.g., v1.2.3)"
+            exit 1
+          fi
+          if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "::error ::Invalid release version format. Expected X.Y.Z (e.g., 1.2.3), got: $VERSION"
+            exit 1
+          fi
+          echo "Using release version: $VERSION"
+          echo "RELEASE_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "RELEASE_VERSION=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Ensure jq is available
+        run: |
+          if ! command -v jq >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y jq
+          fi
+
+      - name: Update package versions
+        run: |
+          for pkg in dist/libs/*/package.json; do
+            if [ -f "$pkg" ]; then
+              echo "Updating $pkg to version $RELEASE_VERSION"
+              jq --arg v "$RELEASE_VERSION" '.version = $v' "$pkg" > tmp.json && mv tmp.json "$pkg"
+            fi
+          done
+
+      - name: Pack npm packages
+        run: |
+          mkdir -p ../artifacts
+          for pkg_dir in dist/libs/*; do
+            if [ -d "$pkg_dir" ] && [ -f "$pkg_dir/package.json" ]; then
+              echo "Packing $pkg_dir"
+              (cd "$pkg_dir" && npm pack --pack-destination ../../../artifacts)
+            fi
+          done
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: packages-${{ steps.version.outputs.RELEASE_VERSION }}
+          path: artifacts
+          retention-days: 90
+
+      # ============================================================
+      # TODO: Uncomment to publish stable releases to npmjs.com
+      # Requires NPM_TOKEN secret with publish access
+      # ============================================================
+      # - name: Setup npm registry
+      #   run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
+      #
+      # - name: Publish to npmjs.com
+      #   run: |
+      #     for pkg_dir in dist/libs/*; do
+      #       if [ -d "$pkg_dir" ] && [ -f "$pkg_dir/package.json" ]; then
+      #         PKG_NAME=$(jq -r '.name' "$pkg_dir/package.json")
+      #         echo "Publishing $PKG_NAME@$RELEASE_VERSION"
+      #         (cd "$pkg_dir" && npm publish --access public)
+      #       fi
+      #     done

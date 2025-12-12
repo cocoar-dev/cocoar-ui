@@ -1,0 +1,47 @@
+.section-intro {
+  margin: 0 0 1rem;
+}
+
+/* Rule cards with colored top accent */
+.rule-card {
+  overflow: hidden;
+}
+
+.rule-card__header {
+  padding: var(--coar-spacing-s) var(--coar-spacing-m);
+  font-weight: 600;
+  font-size: var(--coar-font-size-body);
+  border-top: 3px solid;
+}
+
+.rule-card__body {
+  padding: 0 var(--coar-spacing-m) var(--coar-spacing-m);
+}
+
+.rule-card--do .rule-card__header {
+  border-top-color: var(--coar-background-semantic-success-bold);
+  color: var(--coar-text-semantic-success-bold);
+}
+
+.rule-card--dont .rule-card__header {
+  border-top-color: var(--coar-background-semantic-error-bold);
+  color: var(--coar-text-semantic-error-bold);
+}
+
+.cls-comparison {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.cls-label {
+  font-weight: 600;
+}
+
+.cls-bad .cls-label {
+  color: var(--coar-text-semantic-error-bold);
+}
+
+.cls-good .cls-label {
+  color: var(--coar-text-semantic-success-bold);
+}

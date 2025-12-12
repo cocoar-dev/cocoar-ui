@@ -1,0 +1,30 @@
+/**
+ * Cocoar Design System - Elevation Tokens
+ *
+ * Semantic elevation levels for UI depth hierarchy.
+ * Elevation describes how "raised" an element appears from the surface.
+ *
+ * These tokens reference shadow primitives from shadows.css,
+ * providing a semantic layer for component usage.
+ */
+
+:root {
+  /* ========================================
+     SEMANTIC ELEVATION (usage intent)
+     ======================================== */
+
+  /* No elevation - flat on the surface */
+  --coar-elevation-none: none;
+
+  /* Low elevation - subtle lift for grouped content */
+  --coar-elevation-low: var(--coar-shadow-s);
+
+  /* Medium elevation - cards, panels, raised containers */
+  --coar-elevation-medium: var(--coar-shadow-m);
+
+  /* High elevation - dropdowns, popovers, tooltips */
+  --coar-elevation-high: var(--coar-shadow-l);
+
+  /* Highest elevation - modals, dialogs, overlays */
+  --coar-elevation-highest: var(--coar-shadow-xl);
+}

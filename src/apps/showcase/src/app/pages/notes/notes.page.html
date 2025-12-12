@@ -1,0 +1,245 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Note</h1>
+    <p class="description coar-body">
+      Notes are callout components for highlighting important information, tips, warnings, or contextual messages. They feature a colored left border
+      and subtle background to draw attention without being intrusive.
+    </p>
+  </header>
+
+  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
+    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
+    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+  </coar-tab-group>
+</div>
+
+<ng-template #examplesTemplate>
+  <div class="examples-content">
+    <!-- Color Variants -->
+    <section class="example-section">
+      <h2 class="coar-heading">Color Variants</h2>
+      <p class="section-intro coar-body-small">Six semantic color variants for different contexts and meanings.</p>
+
+      <div class="example-demo notes-stack">
+        <coar-note color="neutral"> <strong>Note:</strong> General information for the user. </coar-note>
+
+        <coar-note color="info"> <strong>Tip:</strong> Here's a helpful tip to improve your workflow. </coar-note>
+
+        <coar-note color="success"> <strong>Success:</strong> Your changes have been saved successfully. </coar-note>
+
+        <coar-note color="warning"> <strong>Warning:</strong> This action cannot be undone. </coar-note>
+
+        <coar-note color="error"> <strong>Error:</strong> Please fix the following issues before continuing. </coar-note>
+
+        <coar-note color="accent"> <strong>Featured:</strong> Check out our new feature! </coar-note>
+      </div>
+
+      <div class="variant-descriptions">
+        <coar-card padding="sm">
+          <strong class="coar-body-small-bold">Neutral</strong>
+          <p class="coar-body-small">Default, non-colored notes for general information.</p>
+        </coar-card>
+        <coar-card padding="sm">
+          <strong class="coar-body-small-bold">Info</strong>
+          <p class="coar-body-small">Tips, hints, and helpful information.</p>
+        </coar-card>
+        <coar-card padding="sm">
+          <strong class="coar-body-small-bold">Success</strong>
+          <p class="coar-body-small">Confirmations and positive feedback.</p>
+        </coar-card>
+        <coar-card padding="sm">
+          <strong class="coar-body-small-bold">Warning</strong>
+          <p class="coar-body-small">Cautions and important notices.</p>
+        </coar-card>
+        <coar-card padding="sm">
+          <strong class="coar-body-small-bold">Error</strong>
+          <p class="coar-body-small">Critical information and breaking changes.</p>
+        </coar-card>
+        <coar-card padding="sm">
+          <strong class="coar-body-small-bold">Accent</strong>
+          <p class="coar-body-small">Featured content and highlights.</p>
+        </coar-card>
+      </div>
+
+      <coar-code-block [code]="codeExamples.colors" language="html" [collapsed]="true" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
+    <!-- Padding Sizes -->
+    <section class="example-section">
+      <h2 class="coar-heading">Padding Sizes</h2>
+      <p class="section-intro coar-body-small">Three padding options for different content densities.</p>
+
+      <div class="example-demo notes-stack">
+        <coar-note color="info" padding="sm"> <strong>Small:</strong> Compact note with minimal padding. </coar-note>
+
+        <coar-note color="info" padding="md"> <strong>Medium:</strong> Standard note with balanced padding (default). </coar-note>
+
+        <coar-note color="info" padding="lg"> <strong>Large:</strong> Spacious note with generous padding for emphasis. </coar-note>
+      </div>
+
+      <coar-code-block [code]="codeExamples.padding" language="html" [collapsed]="true" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
+    <!-- Rich Content -->
+    <section class="example-section">
+      <h2 class="coar-heading">Rich Content</h2>
+      <p class="section-intro coar-body-small">Notes can contain headings, paragraphs, lists, and other HTML content.</p>
+
+      <div class="example-demo">
+        <coar-note color="warning">
+          <h4>Important Notice</h4>
+          <p>This action will affect all users in your organization.</p>
+          <ul>
+            <li>All pending changes will be applied</li>
+            <li>Users will be notified via email</li>
+            <li>This cannot be reversed</li>
+          </ul>
+        </coar-note>
+      </div>
+
+      <coar-code-block [code]="codeExamples.richContent" language="html" [collapsed]="true" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
+    <!-- Use Cases -->
+    <section class="example-section">
+      <h2 class="coar-heading">Common Use Cases</h2>
+      <p class="section-intro coar-body-small">Typical patterns for using notes in documentation and applications.</p>
+
+      <div class="use-cases-grid">
+        <div class="use-case">
+          <h3 class="coar-body-bold">Documentation Tips</h3>
+          <coar-note color="info"> <strong>Pro Tip:</strong> Use keyboard shortcuts for faster navigation. </coar-note>
+        </div>
+
+        <div class="use-case">
+          <h3 class="coar-body-bold">Deprecation Warnings</h3>
+          <coar-note color="warning">
+            <strong>Deprecated:</strong> This API will be removed in v3.0. Use <code>newMethod()</code> instead.
+          </coar-note>
+        </div>
+
+        <div class="use-case">
+          <h3 class="coar-body-bold">Breaking Changes</h3>
+          <coar-note color="error">
+            <strong>Breaking Change:</strong> The signature of this method has changed. Please update your code accordingly.
+          </coar-note>
+        </div>
+
+        <div class="use-case">
+          <h3 class="coar-body-bold">Success Messages</h3>
+          <coar-note color="success"> <strong>Complete:</strong> All tests passed. Ready for deployment. </coar-note>
+        </div>
+      </div>
+
+      <coar-code-block [code]="codeExamples.useCases" language="html" [collapsed]="true" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
+    <!-- Card vs Note -->
+    <section class="example-section">
+      <h2 class="coar-heading">Card vs Note</h2>
+      <p class="section-intro coar-body-small">When to use each component.</p>
+
+      <div class="comparison-grid">
+        <div class="comparison-column">
+          <h3 class="coar-body-bold">Card</h3>
+          <ul class="comparison-list">
+            <li>General content containers</li>
+            <li>Grouping related information</li>
+            <li>Full border around content</li>
+            <li>Optional elevation (shadow)</li>
+            <li>Layout and structure</li>
+          </ul>
+        </div>
+        <div class="comparison-column">
+          <h3 class="coar-body-bold">Note</h3>
+          <ul class="comparison-list">
+            <li>Callouts and highlighted info</li>
+            <li>Tips, warnings, errors</li>
+            <li>Left border accent only</li>
+            <li>Subtle colored background</li>
+            <li>Drawing attention to content</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </div>
+</ng-template>
+
+<ng-template #apiTemplate>
+  <div class="api-content">
+    <section class="api-section">
+      <h2 class="coar-heading">Properties</h2>
+      <coar-table class="api-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (prop of apiProperties; track prop.name) {
+          <tr>
+            <td>
+              <code>{{ prop.name }}</code>
+            </td>
+            <td>
+              <code class="type">{{ prop.type }}</code>
+            </td>
+            <td>
+              <code class="default">{{ prop.default }}</code>
+            </td>
+            <td>{{ prop.description }}</td>
+          </tr>
+          }
+        </tbody>
+      </coar-table>
+    </section>
+
+    <coar-divider [spacingTop]="24" [spacingBottom]="24" />
+
+    <section class="api-section">
+      <h2 class="coar-heading">CSS Custom Properties</h2>
+      <p class="coar-body-small">The note component uses internal CSS variables set by color variants:</p>
+      <coar-table class="api-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--coar-note-bg</code></td>
+            <td>Note background color</td>
+          </tr>
+          <tr>
+            <td><code>--coar-note-border-color</code></td>
+            <td>Left border color</td>
+          </tr>
+        </tbody>
+      </coar-table>
+    </section>
+
+    <coar-divider [spacingTop]="24" [spacingBottom]="24" />
+
+    <section class="api-section">
+      <h2 class="coar-heading">Accessibility</h2>
+      <ul class="accessibility-list">
+        <li>Notes are rendered as block elements with semantic content inside</li>
+        <li>Color alone does not convey meaning — always include text like "Warning:", "Note:", etc.</li>
+        <li>Sufficient color contrast is maintained between text and backgrounds</li>
+        <li>For critical information, consider using <code>role="alert"</code> on the note</li>
+      </ul>
+    </section>
+  </div>
+</ng-template>

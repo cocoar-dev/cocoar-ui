@@ -1,0 +1,159 @@
+name: npm Prerelease
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Lint, Test & Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: src
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Setup Volta (Node + pnpm)
+        uses: volta-cli/action@v4
+        with:
+          package-json-path: ./src/package.json
+
+      - name: Install Node.js
+        run: volta install node
+
+      - name: Install pnpm
+        run: volta install pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build
+
+  build-prerelease:
+    name: Build prerelease packages
+    runs-on: ubuntu-latest
+    needs: validate
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: src
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Setup Volta (Node + pnpm)
+        uses: volta-cli/action@v4
+        with:
+          package-json-path: ./src/package.json
+
+      - name: Install Node.js
+        run: volta install node
+
+      - name: Install pnpm
+        run: volta install pnpm
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v3
+        with:
+          versionSpec: '6.x'
+
+      - name: Calculate version
+        id: gv
+        uses: gittools/actions/gitversion/execute@v3
+
+      - name: Build prerelease version
+        id: prerelease
+        run: |
+          BASE="${{ steps.gv.outputs.MajorMinorPatch }}-${{ steps.gv.outputs.PreReleaseLabel }}"
+          N="${{ steps.gv.outputs.CommitsSinceVersionSource }}"
+          VERSION="$BASE.$N"
+          echo "PACKAGE_VERSION=$VERSION" >> $GITHUB_ENV
+          echo "PACKAGE_VERSION=$VERSION" >> $GITHUB_OUTPUT
+          echo "Calculated prerelease version: $VERSION"
+
+      - name: Log calculated version
+        run: |
+          echo "GitVersion SemVer (original): ${{ steps.gv.outputs.SemVer }}"
+          echo "Using PACKAGE_VERSION:        $PACKAGE_VERSION"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Ensure jq is available
+        run: |
+          if ! command -v jq >/dev/null 2>&1; then
+            sudo apt-get update
+            sudo apt-get install -y jq
+          fi
+
+      - name: Update package versions
+        run: |
+          for pkg in dist/libs/*/package.json; do
+            if [ -f "$pkg" ]; then
+              echo "Updating $pkg to version $PACKAGE_VERSION"
+              jq --arg v "$PACKAGE_VERSION" '.version = $v' "$pkg" > tmp.json && mv tmp.json "$pkg"
+            fi
+          done
+
+      - name: Pack npm packages
+        run: |
+          mkdir -p ../artifacts
+          for pkg_dir in dist/libs/*; do
+            if [ -d "$pkg_dir" ] && [ -f "$pkg_dir/package.json" ]; then
+              echo "Packing $pkg_dir"
+              (cd "$pkg_dir" && npm pack --pack-destination ../../../artifacts)
+            fi
+          done
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: prerelease-packages-${{ steps.prerelease.outputs.PACKAGE_VERSION }}
+          path: artifacts
+          retention-days: 30
+
+      # ============================================================
+      # TODO: Uncomment to publish prereleases to npmjs.com
+      # Requires NPM_TOKEN secret with publish access
+      # ============================================================
+      # - name: Setup npm registry
+      #   run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
+      #
+      # - name: Publish to npmjs.com (beta tag)
+      #   run: |
+      #     for pkg_dir in dist/libs/*; do
+      #       if [ -d "$pkg_dir" ] && [ -f "$pkg_dir/package.json" ]; then
+      #         PKG_NAME=$(jq -r '.name' "$pkg_dir/package.json")
+      #         echo "Publishing $PKG_NAME@$PACKAGE_VERSION with tag 'beta'"
+      #         (cd "$pkg_dir" && npm publish --tag beta --access public) || echo "Package may already exist"
+      #       fi
+      #     done

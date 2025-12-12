@@ -12,15 +12,16 @@ describe('Fork Isolation', () => {
     const config = new LoggerConfiguration()
       .minLevel('debug')
       .writeTo(consoleSink) // Gets all debug+ events (no filtering, no enrichment)
-      .fork((p) =>
-        p
-          .filter((e) => e.level <= LogEventLevel.error) // Filter to errors and below
-          .enrich({
-            userAgent: 'test-agent',
-            url: 'https://example.com',
-            buildVersion: '1.2.3',
-          })
-          .writeTo(httpSink) // Gets only errors with enrichment
+      .fork(
+        (p) =>
+          p
+            .filter((e) => e.level <= LogEventLevel.error) // Filter to errors and below
+            .enrich({
+              userAgent: 'test-agent',
+              url: 'https://example.com',
+              buildVersion: '1.2.3',
+            })
+            .writeTo(httpSink) // Gets only errors with enrichment
       )
       .writeTo(afterForkSink); // Should get all events, no fork enrichment
 

@@ -16,7 +16,7 @@ AGENTS.md refers to this file for all naming-related decisions.
 
 * **Brand-consistent** naming that reflects **COcoAR → coar**.
 * **Readable and pronounceable** for German and English developers.
-* **Consistent** across all UI libraries, infrastructure libraries, Storybook, and tokens.
+* **Consistent** across all UI libraries, infrastructure libraries, and tokens.
 * **Predictable** selectors and class names.
 * Easy to search, refactor, and reason about.
 
@@ -43,7 +43,7 @@ All UI libraries use the prefix **`ui-`**:
 
 ```
 @cocoar/ui-tokens
-@cocoar/ui-core
+@cocoar/ui-components
 @cocoar/ui-forms
 @cocoar/ui-grid
 @cocoar/ui-icons
@@ -145,10 +145,8 @@ Libraries inside `src/libs/` MUST use kebab-case:
 
 ```
 src/libs/ui-tokens/
-src/libs/ui-core/
-src/libs/ui-forms/
-src/libs/ui-grid/
-src/libs/ui-icons/
+src/libs/ui-components/
+src/libs/logging-abstractions/
 src/libs/logging/
 ```
 
@@ -204,7 +202,7 @@ Examples:
 
 # 6. Design Token Naming
 
-Tokens generated from Figma follow the **`coar-*`** naming.
+Tokens sourced from Figma and represented as CSS variables follow the **`coar-*`** naming.
 
 ## 6.1 Base token groups
 
@@ -219,7 +217,7 @@ coar-shadow-*
 
 ## 6.2 Conversion to CSS variables
 
-Figma → tokens.raw.json → tokens.css
+Figma → token definitions → CSS variables
 
 `coar-color-primary` becomes:
 

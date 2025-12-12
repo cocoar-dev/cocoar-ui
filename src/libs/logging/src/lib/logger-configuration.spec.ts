@@ -62,15 +62,15 @@ describe('LoggingService', () => {
     const emittedPromise = new Promise<LoggingEvent>((resolve) => {
       observableSink.subscribe((ev) => resolve(ev));
     });
-    
+
     logger.info('Info Message: {~timestamp}, {n}', 'now');
-    
+
     const emitted = await emittedPromise;
     expect(emitted.message).toBe(`Info Message: ${dt.toISOString()}, now`);
   }, 10000); // Increase timeout to 10s
 
   it('should support dynamic minLevel with function', () => {
-    let currentLevel: WriteLogLevel = 'info';
+    const currentLevel: WriteLogLevel = 'info';
     const config = new LoggerConfiguration().minLevel(() => currentLevel);
 
     const filterStage = config['pipeline'][0];
@@ -79,7 +79,7 @@ describe('LoggingService', () => {
 
   it('should evaluate minLevel function at runtime', async () => {
     let currentLevel: WriteLogLevel = 'warn';
-    
+
     const capturedLogs: LoggingEvent[] = [];
     const observableSink = new ObservableSink();
     observableSink.subscribe((event) => {
@@ -96,23 +96,24 @@ describe('LoggingService', () => {
     logger.info('Info message'); // Should be filtered out
 
     // Wait for async pipeline processing
-    await new Promise(resolve => setTimeout(resolve, 10));
+    await new Promise((resolve) => setTimeout(resolve, 10));
 
     expect(capturedLogs.length).toBeGreaterThan(0);
-    expect(capturedLogs.some(log => log.message.includes('Warning message'))).toBe(true);
-    expect(capturedLogs.some(log => log.message.includes('Info message'))).toBe(false);
+    expect(capturedLogs.some((log) => log.message.includes('Warning message'))).toBe(true);
+    expect(capturedLogs.some((log) => log.message.includes('Info message'))).toBe(false);
 
     // Change level to info
     capturedLogs.length = 0;
     currentLevel = 'info';
 
     logger.info('Info message after level change');
-    
+
     // Wait for async pipeline processing
-    await new Promise(resolve => setTimeout(resolve, 10));
-    
+    await new Promise((resolve) => setTimeout(resolve, 10));
+
     expect(capturedLogs.length).toBeGreaterThan(0);
-    expect(capturedLogs.some(log => log.message.includes('Info message after level change'))).toBe(true);
+    expect(
+      capturedLogs.some((log) => log.message.includes('Info message after level change'))
+    ).toBe(true);
   });
-  
 });

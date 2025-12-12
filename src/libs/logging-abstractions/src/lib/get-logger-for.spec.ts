@@ -62,10 +62,10 @@ describe('getLoggerFor', () => {
   it('should return different logger instances for different sources', () => {
     class ServiceA {}
     class ServiceB {}
-    
+
     const loggerA = getLoggerFor(ServiceA);
     const loggerB = getLoggerFor(ServiceB);
-    
+
     expect(loggerA).not.toBe(loggerB);
   });
 });

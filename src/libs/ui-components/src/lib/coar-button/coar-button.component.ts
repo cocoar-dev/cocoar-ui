@@ -1,0 +1,72 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+  output,
+  booleanAttribute,
+} from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { CoarIconComponent, CoarIconSize } from '../coar-icon/coar-icon.component';
+import { CoreIconName } from '../coar-icon/core-icons';
+
+export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'danger' | 'ghost';
+export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
+
+@Component({
+  selector: 'coar-button',
+  standalone: true,
+  imports: [CommonModule, CoarIconComponent],
+  templateUrl: './coar-button.component.html',
+  styleUrl: './coar-button.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.coar-button-host]': 'true',
+    '[class.coar-button--full-width]': 'fullWidth()',
+  },
+})
+export class CoarButtonComponent {
+  /** Button visual variant */
+  variant = input<ButtonVariant>('primary');
+
+  /** Button size */
+  size = input<ButtonSize>('md');
+
+  /** Whether the button is disabled */
+  disabled = input<boolean, unknown>(false, { transform: booleanAttribute });
+
+  /** Whether the button is in loading state */
+  loading = input<boolean, unknown>(false, { transform: booleanAttribute });
+
+  /** Button type attribute */
+  type = input<'button' | 'submit' | 'reset'>('button');
+
+  /** Icon to display before the label */
+  iconStart = input<CoreIconName | undefined>(undefined);
+
+  /** Icon to display after the label */
+  iconEnd = input<CoreIconName | undefined>(undefined);
+
+  /** Whether the button should take full width */
+  fullWidth = input<boolean, unknown>(false, { transform: booleanAttribute });
+
+  /** Emitted when the button is clicked (not emitted when disabled or loading) */
+  clicked = output<MouseEvent>();
+
+  /** Maps button size to appropriate icon size */
+  protected readonly iconSize = computed<CoarIconSize>(() => {
+    const sizeMap: Record<ButtonSize, CoarIconSize> = {
+      xs: 'xs',
+      sm: 'sm',
+      md: 'md',
+      lg: 'lg',
+    };
+    return sizeMap[this.size()];
+  });
+
+  protected onClick(event: MouseEvent): void {
+    if (!this.disabled() && !this.loading()) {
+      this.clicked.emit(event);
+    }
+  }
+}

@@ -1,0 +1,27 @@
+.showcase-section {
+  padding-bottom: 24px;
+}
+
+.showcase-section--first {
+  padding-top: 8px;
+}
+
+.showcase-section__title {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--coar-text-neutral-primary);
+}
+
+.showcase-section__description {
+  margin: 0 0 20px 0;
+  font-size: 14px;
+  color: var(--coar-text-neutral-secondary);
+  line-height: 1.5;
+}
+
+.showcase-section__content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}

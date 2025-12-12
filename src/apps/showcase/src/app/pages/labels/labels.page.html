@@ -1,0 +1,197 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Label</h1>
+    <p class="description coar-body">Standalone label component for section titles, field groups, and custom form layouts.</p>
+  </header>
+
+  <coar-card color="info" padding="sm" class="info-callout">
+    <strong>💡 Tip:</strong> For standard form fields, use the built-in <code>label</code> property on <code>&lt;coar-text-input&gt;</code>. Use the
+    standalone <code>&lt;coar-label&gt;</code> for section headings, custom layouts, or non-input elements.
+  </coar-card>
+
+  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
+    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
+    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+  </coar-tab-group>
+</div>
+
+<ng-template #examplesTemplate>
+  <div class="examples-content">
+    <!-- Section Headings -->
+    <section class="example-section">
+      <h2 class="coar-heading">Section Headings</h2>
+      <p class="section-intro coar-body-small">Use labels as section titles within forms or content areas.</p>
+      <div class="example-demo">
+        <div class="section-demo">
+          <coar-label size="lg">Account Information</coar-label>
+          <p class="coar-body-small muted">Personal details and preferences for your account.</p>
+
+          <coar-label size="md">Contact Details</coar-label>
+          <p class="coar-body-small muted">How we can reach you.</p>
+
+          <coar-label size="sm">Notification Settings</coar-label>
+          <p class="coar-body-small muted">Configure your email preferences.</p>
+        </div>
+      </div>
+      <coar-code-block [code]="codeExamples.sections" language="html" [collapsed]="true" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
+    <!-- Sizes -->
+    <section class="example-section">
+      <h2 class="coar-heading">Sizes</h2>
+      <p class="section-intro coar-body-small">Four sizes that match the component size system.</p>
+      <div class="example-demo">
+        <div class="standalone-sizes">
+          <div class="standalone-size-row">
+            <coar-label size="xs">Extra Small Label</coar-label>
+            <code class="coar-body-small">size="xs"</code>
+            <span class="size-spec coar-caption">11px</span>
+          </div>
+          <div class="standalone-size-row">
+            <coar-label size="sm">Small Label</coar-label>
+            <code class="coar-body-small">size="sm"</code>
+            <span class="size-spec coar-caption">13px</span>
+          </div>
+          <div class="standalone-size-row">
+            <coar-label size="md">Medium Label</coar-label>
+            <code class="coar-body-small">size="md"</code>
+            <span class="size-spec coar-caption">14px (default)</span>
+          </div>
+          <div class="standalone-size-row">
+            <coar-label size="lg">Large Label</coar-label>
+            <code class="coar-body-small">size="lg"</code>
+            <span class="size-spec coar-caption">15px</span>
+          </div>
+        </div>
+      </div>
+      <coar-code-block [code]="codeExamples.sizes" language="html" [collapsed]="true" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
+    <!-- Required Indicator -->
+    <section class="example-section">
+      <h2 class="coar-heading">Required Indicator</h2>
+      <p class="section-intro coar-body-small">Show an asterisk for required fields or sections.</p>
+      <div class="example-demo">
+        <div class="required-demos">
+          <coar-label [required]="true">Required Section</coar-label>
+          <coar-label>Optional Section</coar-label>
+        </div>
+      </div>
+      <coar-code-block [code]="codeExamples.required" language="html" [collapsed]="true" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
+    <!-- Field Groups -->
+    <section class="example-section">
+      <h2 class="coar-heading">Field Groups</h2>
+      <p class="section-intro coar-body-small">Label a group of related elements like radio buttons or checkboxes.</p>
+      <div class="example-demo">
+        <div class="field-group-demo">
+          <coar-label size="sm" [required]="true">Preferred Contact Method</coar-label>
+          <div class="radio-group">
+            <label class="radio-option">
+              <input type="radio" name="contact" value="email" checked />
+              <span>Email</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="contact" value="phone" />
+              <span>Phone</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="contact" value="sms" />
+              <span>SMS</span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <coar-code-block [code]="codeExamples.fieldGroup" language="html" [collapsed]="true" />
+    </section>
+  </div>
+</ng-template>
+
+<ng-template #apiTemplate>
+  <div class="api-content">
+    <section class="api-section">
+      <h2 class="coar-heading">Properties</h2>
+      <coar-table class="api-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (prop of apiProperties; track prop.name) {
+          <tr>
+            <td>
+              <code>{{ prop.name }}</code>
+            </td>
+            <td>
+              <code>{{ prop.type }}</code>
+            </td>
+            <td>
+              <code>{{ prop.default }}</code>
+            </td>
+            <td>{{ prop.description }}</td>
+          </tr>
+          }
+        </tbody>
+      </coar-table>
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
+    <section class="api-section">
+      <h2 class="coar-heading">Design Tokens</h2>
+      <p class="section-intro coar-body-small">The label component uses these CSS custom properties from the component size system:</p>
+      <coar-table class="api-table">
+        <thead>
+          <tr>
+            <th>Token</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--coar-label-font-family</code></td>
+            <td><code>Poppins</code></td>
+            <td>Font family for labels</td>
+          </tr>
+          <tr>
+            <td><code>--coar-label-font-weight</code></td>
+            <td><code>700</code></td>
+            <td>Font weight for labels</td>
+          </tr>
+          <tr>
+            <td><code>--coar-label-xs-font-size</code></td>
+            <td><code>11px</code></td>
+            <td>Font size for xs labels</td>
+          </tr>
+          <tr>
+            <td><code>--coar-label-sm-font-size</code></td>
+            <td><code>13px</code></td>
+            <td>Font size for sm labels</td>
+          </tr>
+          <tr>
+            <td><code>--coar-label-md-font-size</code></td>
+            <td><code>14px</code></td>
+            <td>Font size for md labels</td>
+          </tr>
+          <tr>
+            <td><code>--coar-label-lg-font-size</code></td>
+            <td><code>15px</code></td>
+            <td>Font size for lg labels</td>
+          </tr>
+        </tbody>
+      </coar-table>
+    </section>
+  </div>
+</ng-template>

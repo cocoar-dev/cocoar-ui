@@ -1,0 +1,89 @@
+:host {
+  display: block;
+  border-radius: 0 var(--coar-radius-xs) var(--coar-radius-xs) 0;
+  border-left: 4px solid var(--coar-note-border-color);
+  background-color: var(--coar-note-bg);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* ========================================
+   COLORS
+   ======================================== */
+
+/* Info (default) - accent/brand color for general notes */
+:host(.coar-note--info) {
+  --coar-note-bg: var(--coar-background-semantic-info-subtle);
+  --coar-note-border-color: var(--coar-border-semantic-info-bold);
+}
+
+/* Accent - primary interactive color */
+:host(.coar-note--accent) {
+  --coar-note-bg: var(--coar-background-accent-tertiary);
+  --coar-note-border-color: var(--coar-border-accent-primary);
+}
+
+/* Neutral - subtle, non-colored note */
+:host(.coar-note--neutral) {
+  --coar-note-bg: var(--coar-background-neutral-secondary);
+  --coar-note-border-color: var(--coar-border-neutral-secondary);
+}
+
+/* Success - positive information, tips */
+:host(.coar-note--success) {
+  --coar-note-bg: var(--coar-background-semantic-success-subtle);
+  --coar-note-border-color: var(--coar-border-semantic-success-bold);
+}
+
+/* Warning - caution, important notices */
+:host(.coar-note--warning) {
+  --coar-note-bg: var(--coar-background-semantic-warning-subtle);
+  --coar-note-border-color: var(--coar-border-semantic-warning-bold);
+}
+
+/* Error - critical information, danger */
+:host(.coar-note--error) {
+  --coar-note-bg: var(--coar-background-semantic-error-subtle);
+  --coar-note-border-color: var(--coar-border-semantic-error-bold);
+}
+
+/* ========================================
+   PADDING VARIANTS
+   ======================================== */
+
+:host(.coar-note--padding-sm) {
+  padding: var(--coar-spacing-s) var(--coar-spacing-m);
+}
+
+:host(.coar-note--padding-md) {
+  padding: var(--coar-spacing-m) var(--coar-spacing-l);
+}
+
+:host(.coar-note--padding-lg) {
+  padding: var(--coar-spacing-l) var(--coar-spacing-xl);
+}
+
+/* ========================================
+   CONTENT STYLING
+   Provides sensible defaults for common content patterns
+   ======================================== */
+
+/* First element has no top margin */
+::ng-deep :host > :first-child {
+  margin-top: 0;
+}
+
+/* Last element has no bottom margin */
+::ng-deep :host > :last-child {
+  margin-bottom: 0;
+}
+
+/* Lists inside notes */
+::ng-deep :host ul,
+::ng-deep :host ol {
+  margin: var(--coar-spacing-s) 0;
+  padding-left: var(--coar-spacing-l);
+}
+
+::ng-deep :host li {
+  margin: var(--coar-spacing-xs) 0;
+}

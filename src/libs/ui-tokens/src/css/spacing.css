@@ -1,0 +1,16 @@
+/**
+ * Cocoar Design System - Design Tokens
+ * Spacing - Margins, padding, and gaps
+ * Based on 4px grid system
+ */
+
+:root {
+  --coar-spacing-xxs: 2px;
+  --coar-spacing-xs: 4px;
+  --coar-spacing-s: 8px;
+  --coar-spacing-m: 16px;
+  --coar-spacing-l: 24px;
+  --coar-spacing-xl: 32px;
+  --coar-spacing-xxl: 48px;
+  --coar-spacing-xxxl: 64px;
+}

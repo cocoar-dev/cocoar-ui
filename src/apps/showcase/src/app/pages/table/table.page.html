@@ -1,0 +1,197 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Table</h1>
+    <p class="description coar-body">A simple, styled table component for displaying tabular data consistently.</p>
+  </header>
+
+  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
+    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
+    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+  </coar-tab-group>
+</div>
+
+<!-- ==================== EXAMPLES TAB ==================== -->
+<ng-template #examplesTemplate>
+  <!-- Basic Usage -->
+  <div class="example-section">
+    <h2 class="coar-heading">Basic Usage</h2>
+    <p class="section-intro coar-body-small">Tables use alternating row colors by default for better readability.</p>
+
+    <coar-table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of sampleData; track user.email) {
+        <tr>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.status }}</td>
+        </tr>
+        }
+      </tbody>
+    </coar-table>
+
+    <coar-code-block style="margin-top: 12px" [code]="basicExample" language="html" [collapsed]="true" />
+  </div>
+
+  <!-- Plain Variant -->
+  <div class="example-section">
+    <h2 class="coar-heading">Plain</h2>
+    <p class="section-intro coar-body-small">No alternating colors, uses subtle separator lines instead.</p>
+
+    <coar-table variant="plain">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of sampleData; track user.email) {
+        <tr>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.status }}</td>
+        </tr>
+        }
+      </tbody>
+    </coar-table>
+
+    <coar-code-block style="margin-top: 12px" [code]="plainExample" language="html" [collapsed]="true" />
+  </div>
+
+  <!-- Bordered Variant -->
+  <div class="example-section">
+    <h2 class="coar-heading">Bordered</h2>
+    <p class="section-intro coar-body-small">Full borders on all cells for a more structured look.</p>
+
+    <coar-table variant="bordered">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of sampleData; track user.email) {
+        <tr>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role }}</td>
+        </tr>
+        }
+      </tbody>
+    </coar-table>
+
+    <coar-code-block style="margin-top: 12px" [code]="borderedExample" language="html" [collapsed]="true" />
+  </div>
+
+  <!-- Compact -->
+  <div class="example-section">
+    <h2 class="coar-heading">Compact</h2>
+    <p class="section-intro coar-body-small">Reduced padding for data-dense views.</p>
+
+    <coar-table [compact]="true">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (user of sampleData; track user.email) {
+        <tr>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.status }}</td>
+        </tr>
+        }
+      </tbody>
+    </coar-table>
+
+    <coar-code-block style="margin-top: 12px" [code]="compactExample" language="html" [collapsed]="true" />
+  </div>
+</ng-template>
+
+<!-- ==================== API TAB ==================== -->
+<ng-template #apiTemplate>
+  <div class="api-section">
+    <h2 class="coar-heading">CoarTable</h2>
+    <p class="section-intro coar-body-small">A styled table wrapper that provides consistent appearance.</p>
+    <coar-table>
+      <thead>
+        <tr>
+          <th>Property</th>
+          <th>Type</th>
+          <th>Default</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (prop of tableProps; track prop.name) {
+        <tr>
+          <td>
+            <code>{{ prop.name }}</code>
+            @if (prop.required) {
+            <span class="required-badge">Required</span>
+            }
+          </td>
+          <td>
+            <code class="type">{{ prop.type }}</code>
+          </td>
+          <td>
+            <code class="default">{{ prop.default }}</code>
+          </td>
+          <td>{{ prop.description }}</td>
+        </tr>
+        }
+      </tbody>
+    </coar-table>
+
+    <h2 class="coar-heading">CSS Utility Classes</h2>
+    <p class="section-intro coar-body-small">Helper classes available inside table cells.</p>
+    <coar-table>
+      <thead>
+        <tr>
+          <th>Class</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (cls of cssClasses; track cls.name) {
+        <tr>
+          <td>
+            <code>{{ cls.name }}</code>
+          </td>
+          <td>{{ cls.description }}</td>
+        </tr>
+        }
+      </tbody>
+    </coar-table>
+
+    <h2 class="coar-heading">Accessibility</h2>
+    <div class="accessibility-info">
+      <p class="coar-body">The table component uses semantic HTML:</p>
+      <ul class="accessibility-list">
+        <li>Uses native <code>&lt;table&gt;</code>, <code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code> elements</li>
+        <li>Header cells use <code>&lt;th&gt;</code> for proper screen reader announcements</li>
+        <li>Supports keyboard navigation through native browser behavior</li>
+        <li>Color contrast meets WCAG AA standards</li>
+      </ul>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,20 @@
+/* ========================================
+   TEXT INPUT PAGE - SPECIFIC STYLES
+   ========================================
+   Common styles are in: app/shared/showcase-pages.css
+   Only page-specific overrides belong here.
+   ======================================== */
+
+/* Size demo uses 4 columns like shared --four-col */
+.example-demo--sizes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .example-demo--sizes {
+    grid-template-columns: 1fr;
+  }
+}

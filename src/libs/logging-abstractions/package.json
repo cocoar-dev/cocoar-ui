@@ -9,6 +9,10 @@
     "url": "https://github.com/cocoar-dev/cocoar-ui.git",
     "directory": "src/libs/logging-abstractions"
   },
+  "bugs": {
+    "url": "https://github.com/cocoar-dev/cocoar-ui/issues"
+  },
+  "homepage": "https://github.com/cocoar-dev/cocoar-ui",
   "keywords": [
     "logging",
     "abstractions",

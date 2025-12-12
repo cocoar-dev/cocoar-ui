@@ -1,0 +1,117 @@
+/* ========================================
+   HOME PAGE STYLES
+   ========================================
+   RULE: No font-size, font-weight, font-family here!
+   Typography is handled by .coar-* classes in HTML.
+   ======================================== */
+
+.home-page {
+  max-width: 900px;
+}
+
+/* ========================================
+   HERO SECTION
+   ======================================== */
+
+.hero {
+  margin-bottom: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--coar-border-neutral-tertiary);
+}
+
+.hero-title {
+  margin-bottom: 1rem;
+  color: var(--coar-text-accent-primary);
+}
+
+.hero-tagline {
+  color: var(--coar-text-neutral-secondary);
+  max-width: 600px;
+}
+
+/* ========================================
+   QUICK LINKS
+   ======================================== */
+
+.quick-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.quick-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.quick-link-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: all 0.2s ease;
+}
+
+.quick-link:hover .quick-link-card {
+  transform: scale(1.02);
+  box-shadow: var(--coar-shadow-l);
+}
+
+.quick-link-card h3 {
+  margin-bottom: 0.25rem;
+}
+
+.quick-link-card p {
+  margin: 0;
+  color: var(--coar-text-neutral-secondary);
+}
+
+/* ========================================
+   FEATURES SECTION
+   ======================================== */
+
+.features {
+  margin-bottom: 3rem;
+}
+
+.features > h2 {
+  margin-bottom: 1.5rem;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.feature-card {
+  /* Card handles background and padding */
+}
+
+.feature-icon {
+  display: inline-block;
+  margin-bottom: 0.75rem;
+}
+
+.feature-card h3 {
+  margin-bottom: 0.5rem;
+}
+
+.feature-card p {
+  margin: 0;
+  color: var(--coar-text-neutral-secondary);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .quick-links {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+}

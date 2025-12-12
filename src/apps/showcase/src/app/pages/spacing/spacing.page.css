@@ -1,0 +1,327 @@
+/* ========================================
+   SPACING PAGE STYLES
+   ========================================
+   RULE: No font-size, font-weight, font-family here!
+   Typography is handled by .coar-* classes in HTML.
+   ======================================== */
+
+/* Sections */
+.section {
+  margin-bottom: 3rem;
+}
+
+.section > h2 {
+  margin-bottom: 0.25rem;
+}
+
+.section > p {
+  margin-bottom: 0.5rem;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.token-pattern {
+  display: block;
+  color: var(--coar-text-neutral-tertiary);
+  margin-bottom: 1.5rem;
+  font-family: monospace;
+}
+
+/* ========================================
+   BORDER RADIUS
+   ======================================== */
+
+.radius-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.radius-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.radius-preview {
+  width: 80px;
+  height: 80px;
+  background: var(--coar-background-accent-secondary);
+  border: 1px solid var(--coar-border-neutral-secondary);
+}
+
+.token-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.125rem;
+}
+
+.token-value {
+  color: var(--coar-text-neutral-tertiary);
+  font-family: monospace;
+}
+
+/* ========================================
+   STROKE WIDTH
+   ======================================== */
+
+.stroke-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 400px;
+}
+
+.stroke-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stroke-preview {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.stroke-line {
+  width: 100%;
+  background: var(--coar-border-accent-primary);
+  min-height: 1px;
+}
+
+.stroke-item .token-info {
+  flex-direction: row;
+  gap: 0.5rem;
+  min-width: 100px;
+}
+
+/* ========================================
+   MISSING SECTION
+   ======================================== */
+
+.missing-section {
+  opacity: 0.8;
+}
+
+.missing-notice {
+  padding: 1.5rem;
+  background: var(--coar-background-semantic-warning-subtle);
+  border: 1px solid var(--coar-border-neutral-secondary);
+  border-radius: var(--coar-radius-m);
+  text-align: center;
+}
+
+.missing-notice code {
+  background: var(--coar-background-neutral-tertiary);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--coar-radius-xs);
+  font-family: monospace;
+}
+
+.missing-notice p {
+  margin-top: 0.5rem;
+  color: var(--coar-text-neutral-secondary);
+}
+
+/* ========================================
+   SPACING
+   ======================================== */
+
+.spacing-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 500px;
+}
+
+.spacing-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.spacing-label {
+  display: flex;
+  flex-direction: column;
+  min-width: 70px;
+}
+
+.spacing-bar-container {
+  flex: 1;
+  height: 24px;
+  background: var(--coar-background-neutral-secondary);
+  border-radius: var(--coar-radius-xs);
+  display: flex;
+  align-items: center;
+  padding-left: 4px;
+}
+
+.spacing-bar {
+  height: 16px;
+  background: var(--coar-background-accent-primary);
+  border-radius: var(--coar-radius-xxs);
+  min-width: 2px;
+}
+
+/* ========================================
+   SHADOWS / ELEVATION
+   ======================================== */
+
+.shadow-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  /* Light gray background to make shadows visible in light mode */
+  background: var(--coar-background-neutral-tertiary);
+  padding: var(--coar-spacing-l);
+  border-radius: var(--coar-radius-m);
+}
+
+/* Dark mode: no special background needed, boxes handle their own elevation */
+:host-context(.dark-mode) .shadow-grid,
+.dark-mode .shadow-grid {
+  background: transparent;
+}
+
+.shadow-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.shadow-preview {
+  width: 100%;
+  height: 80px;
+  /* Use card-like surface color that works with elevation system */
+  background: var(--coar-background-neutral-secondary);
+  border-radius: var(--coar-radius-m);
+  transition: box-shadow 0.2s ease;
+}
+
+/* Dark mode: surface color from token works with shadow glow effect */
+:host-context(.dark-mode) .shadow-preview,
+.dark-mode .shadow-preview {
+  background: var(--coar-background-neutral-secondary);
+}
+
+.shadow-preview.focus-preview {
+  /* For focus ring demo, add a subtle border to show element boundary */
+  border: 2px solid var(--coar-border-accent-primary);
+}
+
+.shadow-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.shadow-info .coar-caption {
+  color: var(--coar-text-neutral-tertiary);
+}
+
+/* ========================================
+   USAGE EXAMPLE
+   ======================================== */
+
+.usage-example {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.example-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.example-card {
+  width: 80px;
+  height: 80px;
+  background: var(--coar-background-neutral-secondary);
+  border: 1px solid var(--coar-border-neutral-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.example-card.card-xs {
+  border-radius: var(--coar-radius-xs);
+}
+
+.example-card.card-s {
+  border-radius: var(--coar-radius-s);
+}
+
+.example-card.card-m {
+  border-radius: var(--coar-radius-m);
+}
+
+.example-card.card-l {
+  border-radius: var(--coar-radius-l);
+}
+
+.example-card.card-xl {
+  border-radius: var(--coar-radius-xl);
+}
+
+.example-card.card-full {
+  border-radius: var(--coar-radius-full);
+}
+
+.example-strokes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.stroke-box {
+  width: 100px;
+  height: 60px;
+  background: var(--coar-background-neutral-secondary);
+  border-color: var(--coar-border-accent-primary);
+  border-style: solid;
+  border-radius: var(--coar-radius-s);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.stroke-box.stroke-xs {
+  border-width: var(--coar-stroke-width-xs);
+}
+
+.stroke-box.stroke-s {
+  border-width: var(--coar-stroke-width-s);
+}
+
+.stroke-box.stroke-m {
+  border-width: var(--coar-stroke-width-m);
+}
+
+.stroke-box.stroke-l {
+  border-width: var(--coar-stroke-width-l);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 600px) {
+  .radius-grid {
+    justify-content: center;
+  }
+
+  .example-cards {
+    justify-content: center;
+  }
+
+  .example-strokes {
+    justify-content: center;
+  }
+}

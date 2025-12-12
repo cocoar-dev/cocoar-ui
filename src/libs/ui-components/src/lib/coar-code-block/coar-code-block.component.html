@@ -1,0 +1,45 @@
+<div class="coar-code-block" [class.collapsed]="isCollapsed()">
+  <!-- Header -->
+  <div class="coar-code-header">
+    <div class="coar-code-header-left">
+      @if (collapsible()) {
+      <button
+        type="button"
+        class="coar-code-toggle"
+        (click)="toggleCollapsed()"
+        [attr.aria-expanded]="!isCollapsed()"
+        aria-label="Toggle code visibility"
+      >
+        <svg class="coar-code-chevron" [class.rotated]="!isCollapsed()" width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M6 4L10 8L6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+      } @if (title()) {
+      <span class="coar-code-title">{{ title() }}</span>
+      } @else {
+      <span class="coar-code-language">{{ language() }}</span>
+      }
+    </div>
+
+    <div class="coar-code-header-right">
+      @if (showCopy()) {
+      <coar-button
+        size="xs"
+        variant="secondary"
+        [iconStart]="copyFeedback() === 'copied' ? 'check' : 'copy'"
+        (clicked)="copyCode()"
+        [attr.aria-label]="copyFeedback() === 'copied' ? 'Copied!' : 'Copy code'"
+      >
+        {{ copyFeedback() === 'copied' ? 'Copied!' : copyFeedback() === 'error' ? 'Failed' : 'Copy' }}
+      </coar-button>
+      }
+    </div>
+  </div>
+
+  <!-- Code Content -->
+  @if (!isCollapsed()) {
+  <div class="coar-code-content" [style.max-height]="maxHeight() ? maxHeight() + 'px' : null">
+    <pre class="coar-code-pre" [class.with-line-numbers]="showLineNumbers()"><code class="coar-code" [innerHTML]="highlightedCode()"></code></pre>
+  </div>
+  }
+</div>

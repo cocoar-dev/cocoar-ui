@@ -1,0 +1,15 @@
+.subsection {
+  margin-top: 1.5rem;
+}
+
+.touch-comparison {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.touch-demo-input {
+  margin-top: 1rem;
+  max-width: 400px;
+}

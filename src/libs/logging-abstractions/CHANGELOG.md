@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - Initial release of `@cocoar/logging-abstractions`
 - `ILogger` interface with structured logging methods (verbose, debug, info, warning, error, fatal)
 - `getLogger()` and `getLoggerFor(context)` functions for retrieving global logger

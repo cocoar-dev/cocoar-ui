@@ -1,0 +1,172 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Dividers</h1>
+    <p class="page-description">
+      A flexible divider component for visually separating content sections. Supports optional text or icons with left, center, or right alignment.
+    </p>
+  </header>
+
+  <coar-tab-group [(activeTab)]="activeTab">
+    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
+    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+  </coar-tab-group>
+</div>
+
+<ng-template #examplesTemplate>
+  <div class="examples-content">
+    <!-- Basic -->
+    <app-section title="Basic Divider" description="A simple horizontal line to separate content sections." [first]="true">
+      <div class="demo-box demo-box--outlined">
+        <p>Content above the divider</p>
+        <coar-divider />
+        <p>Content below the divider</p>
+      </div>
+      <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" />
+    </app-section>
+
+    <!-- Width Variants -->
+    <app-section title="Width Variants" description="Control the width of the divider line.">
+      <div class="demo-box demo-box--outlined">
+        <p class="demo-label">100% width</p>
+        <coar-divider [width]="100" />
+      </div>
+      <div class="demo-box demo-box--outlined">
+        <p class="demo-label">90% width (default)</p>
+        <coar-divider [width]="90" />
+      </div>
+      <div class="demo-box demo-box--outlined">
+        <p class="demo-label">60% width</p>
+        <coar-divider [width]="60" />
+      </div>
+      <coar-code-block [code]="codeExamples.width" language="html" [showLineNumbers]="false" />
+    </app-section>
+
+    <!-- Variants -->
+    <app-section title="Style Variants" description="Choose between subtle (lighter) and strong (full opacity) styles.">
+      <div class="demo-box demo-box--outlined">
+        <p class="demo-label">Subtle (default)</p>
+        <coar-divider variant="subtle" />
+      </div>
+      <div class="demo-box demo-box--outlined">
+        <p class="demo-label">Strong</p>
+        <coar-divider variant="strong" />
+      </div>
+      <coar-code-block [code]="codeExamples.variants" language="html" [showLineNumbers]="false" />
+    </app-section>
+
+    <!-- Spacing -->
+    <app-section title="Spacing" description="Add vertical spacing above and/or below the divider.">
+      <div class="demo-box demo-box--outlined">
+        <p>Before</p>
+        <coar-divider [spacingTop]="16" [spacingBottom]="32" />
+        <p>After (16px top, 32px bottom)</p>
+      </div>
+      <coar-code-block [code]="codeExamples.spacing" language="html" [showLineNumbers]="false" />
+    </app-section>
+
+    <!-- With Text -->
+    <app-section title="With Text (Centered)" description="Add text content that appears centered with lines on both sides.">
+      <div class="demo-box demo-box--outlined">
+        <coar-divider>OR</coar-divider>
+      </div>
+      <div class="demo-box demo-box--outlined">
+        <coar-divider>Continue with</coar-divider>
+      </div>
+      <div class="demo-box demo-box--outlined">
+        <coar-divider>Section Break</coar-divider>
+      </div>
+      <coar-code-block [code]="codeExamples.withText" language="html" [showLineNumbers]="false" />
+    </app-section>
+
+    <!-- Left Aligned -->
+    <app-section title="Left Aligned Content" description="Content aligned to the left with the line extending to the right.">
+      <div class="demo-box demo-box--outlined">
+        <coar-divider align="left">Section Title</coar-divider>
+      </div>
+      <div class="demo-box demo-box--outlined">
+        <coar-divider align="left">📌 Important</coar-divider>
+      </div>
+      <div class="demo-box demo-box--outlined">
+        <coar-divider align="left">Step 1</coar-divider>
+      </div>
+      <coar-code-block [code]="codeExamples.alignLeft" language="html" [showLineNumbers]="false" />
+    </app-section>
+
+    <!-- Right Aligned -->
+    <app-section title="Right Aligned Content" description="Content aligned to the right with the line extending to the left.">
+      <div class="demo-box demo-box--outlined">
+        <coar-divider align="right">End of Section</coar-divider>
+      </div>
+      <div class="demo-box demo-box--outlined">
+        <coar-divider align="right">v1.0.0</coar-divider>
+      </div>
+      <coar-code-block [code]="codeExamples.alignRight" language="html" [showLineNumbers]="false" />
+    </app-section>
+
+    <!-- Real-world Examples -->
+    <app-section title="Real-world Examples" description="Common use cases combining multiple properties." [last]="true">
+      <div class="demo-box demo-box--form">
+        <div class="fake-button">Sign in with Email</div>
+        <coar-divider [spacingTop]="24" [spacingBottom]="24">or continue with</coar-divider>
+        <div class="social-buttons">
+          <div class="fake-button fake-button--outline">Google</div>
+          <div class="fake-button fake-button--outline">GitHub</div>
+        </div>
+      </div>
+      <div class="demo-box demo-box--outlined">
+        <coar-divider align="left" variant="strong" [spacingBottom]="16">Advanced Options</coar-divider>
+        <p class="demo-text">Configuration options for power users...</p>
+      </div>
+      <coar-code-block [code]="codeExamples.combinations" language="html" [showLineNumbers]="false" />
+    </app-section>
+  </div>
+</ng-template>
+
+<ng-template #apiTemplate>
+  <div class="api-content">
+    <app-section title="Inputs" [first]="true">
+      <coar-table class="api-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (prop of apiProperties; track prop.name) {
+          <tr>
+            <td>
+              <code>{{ prop.name }}</code>
+            </td>
+            <td>
+              <code>{{ prop.type }}</code>
+            </td>
+            <td>
+              <code>{{ prop.default }}</code>
+            </td>
+            <td>{{ prop.description }}</td>
+          </tr>
+          }
+        </tbody>
+      </coar-table>
+    </app-section>
+
+    <app-section title="Content Projection">
+      <p class="api-description">
+        The divider supports <code>ng-content</code> for adding text, icons, or any content between the lines. When content is provided, the divider
+        lines appear on either side based on the <code>align</code> property.
+      </p>
+      <coar-code-block code="<coar-divider>Your content here</coar-divider>" language="html" [showLineNumbers]="false" />
+    </app-section>
+
+    <app-section title="Accessibility" [last]="true">
+      <ul class="a11y-list">
+        <li>Uses <code>role="separator"</code> for proper semantic meaning</li>
+        <li>Includes <code>aria-orientation="horizontal"</code></li>
+        <li>Purely decorative dividers are correctly identified by assistive technologies</li>
+      </ul>
+    </app-section>
+  </div>
+</ng-template>

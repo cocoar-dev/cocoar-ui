@@ -169,17 +169,13 @@ describe('LoggerConfiguration with Forking', () => {
 
     const fl = await logger.flush();
 
-    mainSubscription();  // Unsubscribe
-    forkSubscription();  // Unsubscribe
+    mainSubscription(); // Unsubscribe
+    forkSubscription(); // Unsubscribe
 
     // Assertions
     expect(mainEvents.length).toBe(2);
-    expect(
-      mainEvents.some((e) => e.message.includes('Info message'))
-    ).toBeTruthy();
-    expect(
-      mainEvents.some((e) => e.message.includes('Error message'))
-    ).toBeTruthy();
+    expect(mainEvents.some((e) => e.message.includes('Info message'))).toBeTruthy();
+    expect(mainEvents.some((e) => e.message.includes('Error message'))).toBeTruthy();
 
     // Fork should only receive the error message
     expect(forkEvents.length).toBe(1);

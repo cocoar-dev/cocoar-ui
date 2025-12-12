@@ -1,0 +1,50 @@
+/* ========================================
+   COAR LABEL COMPONENT
+   Standalone label for form elements
+   Uses component size tokens for consistency
+
+   NOTE: Labels are margin-free by default.
+   Use parent container with gap for spacing.
+   ======================================== */
+
+:host {
+  display: block;
+}
+
+.coar-label {
+  display: block;
+  font-family: var(--coar-body-small-bold-family);
+  font-weight: var(--coar-body-small-bold-weight);
+  color: var(--coar-text-neutral-primary);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* ========================================
+   SIZES
+   ======================================== */
+
+.coar-label--xs {
+  font-size: var(--coar-component-xs-label-font-size);
+}
+
+.coar-label--sm {
+  font-size: var(--coar-component-sm-label-font-size);
+}
+
+.coar-label--md {
+  font-size: var(--coar-component-md-label-font-size);
+}
+
+.coar-label--lg {
+  font-size: var(--coar-component-lg-label-font-size);
+}
+
+/* ========================================
+   REQUIRED INDICATOR
+   ======================================== */
+
+.coar-label-required {
+  color: var(--coar-text-semantic-error-bold);
+  margin-left: var(--coar-spacing-xs);
+}

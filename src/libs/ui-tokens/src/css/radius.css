@@ -1,0 +1,15 @@
+/**
+ * Cocoar Design System - Design Tokens
+ * Border Radius
+ * Auto-generated from Figma - Do not edit manually
+ */
+
+:root {
+  --coar-radius-full: 999px;
+  --coar-radius-l: 12px;
+  --coar-radius-m: 8px;
+  --coar-radius-s: 6px;
+  --coar-radius-xl: 16px;
+  --coar-radius-xs: 4px;
+  --coar-radius-xxs: 2px;
+}

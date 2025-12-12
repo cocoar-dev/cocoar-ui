@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PipelineStage } from '../interfaces/pipeline-stage';
 import { ObjectFactory } from '../models/common-types';
 import { LogEvent } from '../models/log-event';
@@ -15,7 +16,7 @@ function deepClone<T>(obj: T): T {
   if (obj instanceof Object) {
     const clonedObj: any = {};
     for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
         clonedObj[key] = deepClone((obj as any)[key]);
       }
     }
@@ -30,10 +31,12 @@ export class EnrichStage implements PipelineStage {
   public process(events: LogEvent[]): LogEvent[] {
     return events.map((event) => {
       const enrichedProps =
-        this.enricher instanceof Function ? this.enricher(deepClone(event.properties)) : this.enricher;
-      
+        this.enricher instanceof Function
+          ? this.enricher(deepClone(event.properties))
+          : this.enricher;
+
       const mergedEnriched = { ...event.enrichedProperties, ...enrichedProps };
-      
+
       return new LogEvent(
         event.timestamp,
         event.level,

@@ -1,0 +1,47 @@
+<div class="coar-tab-group">
+  <div class="coar-tab-list" role="tablist">
+    @for (tab of tabs(); track tab.id()) {
+    <button
+      type="button"
+      role="tab"
+      class="coar-tab-button"
+      [class.active]="isActive(tab.id())"
+      [class.disabled]="tab.disabled()"
+      [attr.aria-selected]="isActive(tab.id())"
+      [attr.aria-controls]="'panel-' + tab.id()"
+      [attr.data-tab-id]="tab.id()"
+      [attr.tabindex]="isActive(tab.id()) ? 0 : -1"
+      [disabled]="tab.disabled()"
+      (click)="selectTab(tab.id())"
+      (keydown)="onKeydown($event, tab.id())"
+    >
+      <span class="coar-tab-label">
+        <ng-container [ngTemplateOutlet]="tab.labelTemplate()" />
+      </span>
+    </button>
+    }
+  </div>
+
+  <div class="coar-tab-content">
+    @for (tab of tabs(); track tab.id()) {
+    <div
+      role="tabpanel"
+      class="coar-tab-panel"
+      [class.active]="isActive(tab.id())"
+      [attr.id]="'panel-' + tab.id()"
+      [attr.aria-labelledby]="tab.id()"
+      [hidden]="!isActive(tab.id())"
+    >
+      @if (shouldRenderContent(tab)) {
+      <!-- Component content -->
+      @if (tab.isComponent) {
+      <ng-container *ngComponentOutlet="$any(tab.componentContent); inputs: tab.contentInputs()" />
+      }
+      <!-- Template content -->
+      @else if (tab.templateContent) {
+      <ng-container [ngTemplateOutlet]="tab.templateContent" />
+      } }
+    </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,23 @@
+/**
+ * Cocoar Design System - Design Tokens
+ * Type Primitives - Font families and base sizes
+ * Auto-generated from Figma - Do not edit manually
+ */
+
+:root {
+  --coar-font-family-body: Poppins;
+  --coar-font-family-title: Inter;
+  --coar-font-size-l: 24px;
+  --coar-font-size-m: 20px;
+  --coar-font-size-s: 16px;
+  --coar-font-size-xl: 32px;
+  --coar-font-size-xs: 14px;
+  --coar-font-size-xxl: 48px;
+  --coar-font-size-xxs: 12px;
+  --coar-font-size-xxxl: 72px;
+  --coar-font-size-xxxs: 10px;
+  --coar-font-weight-bold: 700;
+  --coar-font-weight-medium: 500;
+  --coar-font-weight-regular: 400;
+  --coar-font-weight-semi-bold: 600;
+}

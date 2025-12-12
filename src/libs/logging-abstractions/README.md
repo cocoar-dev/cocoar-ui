@@ -23,12 +23,12 @@ import { getLoggerFor } from '@cocoar/logging-abstractions';
 
 export class MyLibraryClass {
   private logger = getLoggerFor(this); // Extracts 'MyLibraryClass' automatically
-  
+
   doWork() {
     this.logger.debug('Starting work...');
     this.logger.info('Work completed');
   }
-  
+
   handleError(error: Error) {
     this.logger.error(error, 'Failed to process {action}', { action: 'work' });
   }
@@ -74,11 +74,7 @@ import { configureGlobalLogger } from '@cocoar/logging';
 import { ConsoleSink } from '@cocoar/logging';
 
 // Configure once at app startup
-configureGlobalLogger((config) =>
-  config
-    .minLevel('debug')
-    .writeTo(new ConsoleSink())
-);
+configureGlobalLogger((config) => config.minLevel('debug').writeTo(new ConsoleSink()));
 
 // Now all libraries using getLogger() will log
 ```
@@ -121,6 +117,7 @@ Get a logger instance.
 - If no logger configured → returns `NullLogger` (no-op)
 
 **Parameters:**
+
 - `source` (optional) - Source context (class name, module name, etc.)
 
 **Returns:** `ILogger` instance
@@ -137,22 +134,22 @@ Check if a logger is configured.
 interface ILogger {
   fatal(messageTemplate: string, ...properties: any[]): void | Promise<void>;
   fatal(error: Error, messageTemplate: string, ...properties: any[]): void | Promise<void>;
-  
+
   error(messageTemplate: string, ...properties: any[]): void | Promise<void>;
   error(error: Error, messageTemplate: string, ...properties: any[]): void | Promise<void>;
-  
+
   warn(messageTemplate: string, ...properties: any[]): void | Promise<void>;
   warn(error: Error, messageTemplate: string, ...properties: any[]): void | Promise<void>;
-  
+
   info(messageTemplate: string, ...properties: any[]): void | Promise<void>;
   info(error: Error, messageTemplate: string, ...properties: any[]): void | Promise<void>;
-  
+
   debug(messageTemplate: string, ...properties: any[]): void | Promise<void>;
   debug(error: Error, messageTemplate: string, ...properties: any[]): void | Promise<void>;
-  
+
   verbose(messageTemplate: string, ...properties: any[]): void | Promise<void>;
   verbose(error: Error, messageTemplate: string, ...properties: any[]): void | Promise<void>;
-  
+
   enrich(properties: Record<string, any>): ILogger;
 }
 ```
@@ -164,13 +161,14 @@ Use Serilog-style message templates with `{PropertyName}` placeholders:
 ```typescript
 logger.info('User {userId} logged in from {ipAddress}', {
   userId: 123,
-  ipAddress: '192.168.1.1'
+  ipAddress: '192.168.1.1',
 });
 ```
 
 ## Architecture
 
 This package follows the .NET pattern:
+
 - `@cocoar/logging-abstractions` = `Microsoft.Extensions.Logging.Abstractions`
 - `@cocoar/logging` = `Microsoft.Extensions.Logging` + providers
 

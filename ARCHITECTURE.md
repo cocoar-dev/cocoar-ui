@@ -14,9 +14,9 @@ This document defines the technical architecture, patterns, and constraints for 
 The **Coar Design System** is an Nx monorepo providing:
 
 * **Angular-based UI component libraries** (`@cocoar/ui-*`)
-* **Design tokens** generated from Figma
+* **Design tokens** delivered as CSS variables (`@cocoar/ui-tokens`)
 * **Shared logging infrastructure** (`@cocoar/logging`)
-* **Storybook documentation** for all components
+* **A showcase app** for interactive component previews
 * High-quality, brand-consistent UI components
 
 ---
@@ -27,16 +27,13 @@ This repository currently targets the following stack:
 
 - **Angular:** 20.x
 - **Nx:** 22.x
-- **Storybook:** 9.x (Angular)
 - **Node.js:** 20.x (or compatible LTS)
 
 **Rationale:**
 
-- Angular 20 is fully supported by Nx and Storybook 9.
-- Angular 21 introduces experimental features (e.g. Signal Forms) and currently has limited ecosystem support (Nx + Storybook).
+- Angular 20 is fully supported by Nx.
+- Angular 21 introduces experimental features (e.g. Signal Forms) and will be adopted only with a documented migration plan.
 - We want a *boring, stable* foundation for the Coar Design System, with a clear migration path later.
-
-A future migration to Angular 21 and Storybook 10 will be handled as a dedicated milestone and documented here before implementation.
 
 ---
 
@@ -54,7 +51,7 @@ Nx is **not** a replacement for Angular's own build system; where possible, we k
 
 We standardise on the following:
 
-1. **Angular applications** (Storybook host, future styleguide app)
+1. **Angular applications** (showcase app, future styleguide app)
    - Use Angular's official executors where practical, wired through Nx targets:
      - e.g. `@angular-devkit/build-angular:application` (or the current recommended app builder for Angular 20).
    - Nx may wrap these, but we do not introduce multiple competing "ways" to build apps without updating this document.
@@ -87,18 +84,14 @@ We apply the following rules:
 
 Any deviation from this policy MUST be justified and documented in this file.
 
-### Angular 21 / Storybook 10 Roadmap (Future)
+### Angular 21 Roadmap (Future)
 
-We plan to adopt Angular 21 and Storybook 10 when:
+We plan to adopt Angular 21 when:
 
 - Nx officially recommends an Nx + Angular 21 pairing in their version matrix.
-- Storybook 10 has stable (non-alpha) support for Angular 21.
 - Migration impact on `@cocoar/ui-*` libraries is understood and documented.
 
-At that point we will:
-
-- Add a "Migration to Angular 21" section here.
-- Provide guidance for Signal Forms integration (potentially in a separate `ui-forms-signals` package or adapter layer).
+At that point we will add a dedicated migration section here before implementation.
 
 ---
 
@@ -118,15 +111,13 @@ cocoar-ui/                  # Repository root
 ├── README.md               # Repository overview
 └── src/                    # ⭐ Nx workspace root
     ├── libs/
-    │   ├── ui-tokens/      # Design tokens from Figma
-    │   ├── ui-core/        # Core UI components
-    │   ├── ui-forms/       # Form components
-    │   ├── ui-grid/        # Data grid component
-    │   ├── ui-icons/       # Icon system
-    │   └── logging/   # Structured logging library
+  │   ├── ui-tokens/            # Design tokens as CSS variables
+  │   ├── ui-components/        # Angular UI components
+  │   ├── logging-abstractions/ # Lightweight logging interfaces
+  │   └── logging/              # Structured logging implementation
     ├── apps/
-    │   ├── storybook/      # Component documentation
-    │   └── storybook-e2e/  # Playwright E2E tests
+  │   ├── showcase/             # Component showcase app
+  │   └── showcase-e2e/          # Playwright E2E tests
     ├── nx.json             # Nx configuration
     ├── package.json        # Workspace dependencies
     └── tsconfig.base.json  # TypeScript base config
@@ -238,7 +229,7 @@ export class CoarButtonComponent {
 ```
 
 **No SCSS in libraries:**
-- SCSS can be used in **apps** (Storybook)
+- SCSS can be used in **apps** (showcase)
 - Libraries must use plain CSS with variables
 
 **Scoped styles only:**
@@ -290,7 +281,7 @@ console.log('Row selected:', row.id);
 - Do not set log levels
 - Use structured logging format
 
-**Applications (Storybook, etc.):**
+**Applications (showcase app, etc.):**
 - Configure sinks
 - Set minimum log levels
 - Add Playwright sinks for testing
@@ -302,51 +293,13 @@ console.log('Row selected:', row.id);
 
 ---
 
-## 📚 Storybook Guidelines
+## 📚 Showcase App Guidelines
 
-### Story Structure
+The repository includes an Angular showcase app under `src/apps/showcase/`.
 
-```typescript
-import type { Meta, StoryObj } from '@storybook/angular';
-import { CoarButtonComponent } from './button.component';
-
-const meta: Meta<CoarButtonComponent> = {
-  title: 'UI/Forms/Button',
-  component: CoarButtonComponent,
-  tags: ['autodocs'],
-};
-
-export default meta;
-type Story = StoryObj<CoarButtonComponent>;
-
-export const Primary: Story = {
-  args: {
-    variant: 'primary',
-    disabled: false,
-  },
-};
-
-export const Secondary: Story = {
-  args: {
-    variant: 'secondary',
-  },
-};
-
-export const Disabled: Story = {
-  args: {
-    disabled: true,
-  },
-};
-```
-
-### Story Guidelines
-
-- Keep stories small and focused
-- Import `@cocoar/ui-tokens` globally in Storybook config
-- Never add Tailwind to Storybook
-- Include stories for all states, themes, and interactions
-- Document component inputs/outputs in stories
-- Use consistent grouping (UI/Forms/, UI/Grid/, etc.)
+- The showcase app may use Tailwind (scoped to the app) for layout/spacing.
+- Libraries must remain framework-pure (no Tailwind in publishable libs).
+- Design tokens should be consumed via CSS imports from `@cocoar/ui-tokens/css/*`.
 
 ---
 
@@ -481,7 +434,7 @@ A repository-scoped **`.local/`** folder may exist and is **git-ignored**.
 * Meeting notes or discussion artifacts
 * Personal TODO lists or investigation notes
 * Temporary test data or sample files
-* Storybook screenshot comparisons
+* Screenshot comparisons from the showcase app
 
 ### ❌ Inappropriate Uses
 
@@ -506,8 +459,8 @@ A repository-scoped **`.local/`** folder may exist and is **git-ignored**.
 **Avoid cross-library dependencies unless intentional:**
 
 ```
-ui-tokens ← ui-core ← ui-forms    ✅ GOOD
-ui-tokens ← ui-core ← ui-grid     ✅ GOOD
+ui-tokens ← ui-components         ✅ GOOD
+logging-abstractions ← logging    ✅ GOOD
 
 ui-forms ← ui-grid                ❌ BAD - Creates coupling
 ```

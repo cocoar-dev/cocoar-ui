@@ -9,6 +9,10 @@
     "url": "https://github.com/cocoar-dev/cocoar-ui.git",
     "directory": "src/libs/logging"
   },
+  "bugs": {
+    "url": "https://github.com/cocoar-dev/cocoar-ui/issues"
+  },
+  "homepage": "https://github.com/cocoar-dev/cocoar-ui",
   "keywords": [
     "logging",
     "serilog",
@@ -32,7 +36,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@cocoar/logging-abstractions": "*",
+    "@cocoar/logging-abstractions": "^0.0.1",
     "tslib": "^2.3.0"
   }
 }

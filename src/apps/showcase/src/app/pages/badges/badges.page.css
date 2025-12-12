@@ -1,0 +1,174 @@
+/* ========================================
+   BADGES PAGE - SPECIFIC STYLES
+   ========================================
+   Common styles are in: app/shared/showcase-pages.css
+   Only page-specific overrides belong here.
+   ======================================== */
+
+/* Badge-specific row layout */
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.badge-row--align-end {
+  align-items: flex-end;
+}
+
+.badge-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.badge-label {
+  color: var(--coar-text-neutral-secondary);
+}
+
+/* Dot Grid */
+.dot-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-end;
+}
+
+.dot-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dot-variants {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* Bordered Demo */
+.bordered-demo-bg {
+  background: linear-gradient(135deg, var(--coar-color-slate-300), var(--coar-color-slate-400));
+  padding: 1rem;
+  border-radius: var(--coar-radius-xs);
+}
+
+.avatar-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  font-size: 1.5rem;
+  background: var(--coar-background-neutral-tertiary);
+  border-radius: 50%;
+}
+
+.avatar-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+}
+
+/* Interactive Demo */
+.interactive-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.notification-icon {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: var(--coar-background-neutral-tertiary);
+  border-radius: var(--coar-radius-m);
+}
+
+.bell-icon {
+  font-size: 2rem;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+}
+
+.demo-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.checkbox-label input {
+  cursor: pointer;
+}
+
+/* Usage Examples */
+.usage-examples {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.usage-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.usage-label {
+  color: var(--coar-text-neutral-secondary);
+}
+
+.mock-element {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: var(--coar-background-neutral-tertiary);
+  border-radius: var(--coar-radius-xs);
+  font-weight: 500;
+  color: var(--coar-text-neutral-primary);
+}
+
+.mock-element--wide {
+  justify-content: space-between;
+  width: 200px;
+}
+
+.status-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.mock-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--coar-text-neutral-primary);
+}

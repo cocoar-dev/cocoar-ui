@@ -1,0 +1,227 @@
+/* ========================================
+   DESIGN PRINCIPLES PAGE STYLES
+   ======================================== */
+
+/* Most styling comes from:
+   - Typography classes (coar-body, coar-heading, etc.)
+   - coar-card component with variants and padding
+   - Global utilities (.responsive-grid, .content-list) in showcase-pages.css
+
+   This file contains only truly page-specific styles. */
+
+/* ========================================
+   SECTIONS
+   ======================================== */
+
+.section-intro {
+  margin: 0 0 1rem;
+}
+
+.subsection {
+  margin-top: 1.5rem;
+}
+
+/* ========================================
+   TOKEN DISPLAYS
+   ======================================== */
+
+/* Color Swatches */
+.color-swatches {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 900px) {
+  .color-swatches {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .color-swatches {
+    grid-template-columns: 1fr;
+  }
+}
+
+.color-swatch {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.swatch-preview {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  flex-shrink: 0;
+  border-radius: var(--coar-radius-xs);
+  border: 1px solid var(--coar-border-neutral-secondary);
+}
+
+.swatch-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+/* Token Table (for radius and sizing tokens) */
+.token-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.token-row {
+  display: grid;
+  grid-template-columns: 180px 60px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--coar-background-neutral-secondary);
+  border-radius: var(--coar-radius-xs);
+}
+
+.token-name {
+  font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.token-value {
+  font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.radius-preview {
+  width: 32px;
+  height: 32px;
+  background: var(--coar-background-accent-secondary);
+  border: 2px solid var(--coar-border-accent-primary);
+}
+
+/* Sizing Demo */
+.sizing-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.sizing-row {
+  display: grid;
+  grid-template-columns: 60px 80px 1fr;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: var(--coar-background-neutral-secondary);
+  border-radius: var(--coar-radius-xs);
+}
+
+.size-name {
+  font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.size-height {
+  font-family: 'Consolas', 'Monaco', monospace;
+}
+
+/* Font Demo */
+.font-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.font-item {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  background: var(--coar-background-neutral-secondary);
+  border-radius: var(--coar-radius-xs);
+}
+
+.font-label {
+  width: 60px;
+}
+
+.font-sample {
+  font-size: 1.25rem;
+}
+
+/* Aesthetic Cards */
+.aesthetic-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  opacity: 0.7;
+}
+
+.aesthetic-value {
+  display: block;
+}
+
+/* ========================================
+   TOUCH-FIRST TAB
+   ======================================== */
+
+.touch-comparison {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.touch-demo-card {
+  background: var(--coar-background-accent-tertiary);
+}
+
+.touch-demo-input {
+  margin-top: 1rem;
+  max-width: 400px;
+}
+
+/* ========================================
+   DO'S & DON'TS TAB
+   ======================================== */
+
+.do-heading {
+  color: var(--coar-text-semantic-success-bold) !important;
+}
+
+.dont-heading {
+  color: var(--coar-text-semantic-error-bold) !important;
+}
+
+.cls-comparison {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.cls-label {
+  font-weight: 600;
+}
+
+.cls-bad .cls-label {
+  color: var(--coar-text-semantic-error-bold);
+}
+
+.cls-good .cls-label {
+  color: var(--coar-text-semantic-success-bold);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .token-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .sizing-row {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+}

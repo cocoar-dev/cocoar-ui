@@ -1,0 +1,413 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Cards</h1>
+    <p class="description coar-body">A versatile container component for grouping related content and actions.</p>
+  </header>
+
+  <!-- Page-level tabs -->
+  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
+    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
+    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+  </coar-tab-group>
+</div>
+
+<ng-template #examplesTemplate>
+  <div class="examples-content">
+    <!-- Basic Example -->
+    <section class="example-section">
+      <h2 class="coar-subheading">Basic Usage</h2>
+      <p class="section-intro coar-body">A simple card with default filled variant and medium padding.</p>
+      <div class="example-demo">
+        <coar-card>
+          <h3 class="coar-body-large">Card Title</h3>
+          <p class="coar-body">This is a basic card with default settings. Cards help organize content into distinct sections.</p>
+        </coar-card>
+      </div>
+      <coar-code-block [code]="basicExample" language="html" />
+    </section>
+
+    <!-- Variants -->
+    <section class="example-section">
+      <h2 class="coar-subheading">Variants</h2>
+      <p class="section-intro coar-body">
+        Cards have a visible border by default. Use <code>borderless</code> to remove the border, <code>elevated</code> to add depth.
+      </p>
+      <div class="example-demo">
+        <div class="variants-grid">
+          <div class="variant-demo">
+            <coar-card>
+              <h4 class="coar-body-large">Default</h4>
+              <p class="coar-body-small">With border (default).</p>
+            </coar-card>
+            <span class="variant-label coar-caption">(default)</span>
+          </div>
+          <div class="variant-demo">
+            <coar-card borderless>
+              <h4 class="coar-body-large">Borderless</h4>
+              <p class="coar-body-small">No border.</p>
+            </coar-card>
+            <span class="variant-label coar-caption">borderless</span>
+          </div>
+          <div class="variant-demo">
+            <coar-card elevated>
+              <h4 class="coar-body-large">Elevated</h4>
+              <p class="coar-body-small">Raised with box-shadow.</p>
+            </coar-card>
+            <span class="variant-label coar-caption">elevated</span>
+          </div>
+          <div class="variant-demo">
+            <coar-card elevated borderless>
+              <h4 class="coar-body-large">Elevated + Borderless</h4>
+              <p class="coar-body-small">Raised, no border.</p>
+            </coar-card>
+            <span class="variant-label coar-caption">elevated borderless</span>
+          </div>
+        </div>
+      </div>
+      <coar-code-block [code]="variantsExample" language="html" />
+    </section>
+
+    <!-- Padding Options -->
+    <section class="example-section">
+      <h2 class="coar-subheading">Padding</h2>
+      <p class="section-intro coar-body">Control the internal spacing with four padding options.</p>
+      <div class="example-demo">
+        <div class="padding-grid">
+          <div class="padding-demo">
+            <coar-card padding="none">
+              <div class="padding-content coar-body-small">none</div>
+            </coar-card>
+          </div>
+          <div class="padding-demo">
+            <coar-card padding="sm">
+              <div class="padding-content coar-body-small">sm</div>
+            </coar-card>
+          </div>
+          <div class="padding-demo">
+            <coar-card padding="md">
+              <div class="padding-content coar-body-small">md</div>
+            </coar-card>
+          </div>
+          <div class="padding-demo">
+            <coar-card padding="lg">
+              <div class="padding-content coar-body-small">lg</div>
+            </coar-card>
+          </div>
+        </div>
+      </div>
+      <coar-code-block [code]="paddingExample" language="html" />
+    </section>
+
+    <!-- Semantic Colors -->
+    <section class="example-section">
+      <h2 class="coar-subheading">Semantic Colors</h2>
+      <p class="section-intro coar-body">Use semantic color variants for status messages, alerts, and contextual information.</p>
+      <div class="example-demo">
+        <div class="colors-grid">
+          <coar-card color="neutral">
+            <h4 class="coar-body-large">Neutral</h4>
+            <p class="coar-body-small">Default card style for general content.</p>
+          </coar-card>
+          <coar-card color="success">
+            <h4 class="coar-body-large">✓ Success</h4>
+            <p class="coar-body-small">Operation completed successfully.</p>
+          </coar-card>
+          <coar-card color="warning">
+            <h4 class="coar-body-large">⚠ Warning</h4>
+            <p class="coar-body-small">Please review before proceeding.</p>
+          </coar-card>
+          <coar-card color="error">
+            <h4 class="coar-body-large">✕ Error</h4>
+            <p class="coar-body-small">Something went wrong. Please try again.</p>
+          </coar-card>
+          <coar-card color="info">
+            <h4 class="coar-body-large">ℹ Info</h4>
+            <p class="coar-body-small">Here's some helpful information.</p>
+          </coar-card>
+        </div>
+      </div>
+      <coar-code-block [code]="colorsExample" language="html" />
+    </section>
+
+    <!-- Semantic Colors with Elevation -->
+    <section class="example-section">
+      <h2 class="coar-subheading">Semantic Colors + Elevation</h2>
+      <p class="section-intro coar-body">Combine elevation with semantic colors for maximum visual impact.</p>
+      <div class="example-demo">
+        <div class="colors-grid">
+          <coar-card elevated color="neutral">
+            <h4 class="coar-body-large">Neutral</h4>
+            <p class="coar-body-small">Elevated.</p>
+          </coar-card>
+          <coar-card elevated color="success">
+            <h4 class="coar-body-large">✓ Success</h4>
+            <p class="coar-body-small">Elevated.</p>
+          </coar-card>
+          <coar-card elevated color="warning">
+            <h4 class="coar-body-large">⚠ Warning</h4>
+            <p class="coar-body-small">Elevated.</p>
+          </coar-card>
+          <coar-card elevated color="error">
+            <h4 class="coar-body-large">✕ Error</h4>
+            <p class="coar-body-small">Elevated.</p>
+          </coar-card>
+          <coar-card elevated color="info">
+            <h4 class="coar-body-large">ℹ Info</h4>
+            <p class="coar-body-small">Elevated.</p>
+          </coar-card>
+        </div>
+      </div>
+      <coar-code-block [code]="colorsElevatedExample" language="html" />
+    </section>
+
+    <!-- Combining Variants and Colors -->
+    <section class="example-section">
+      <h2 class="coar-subheading">Combining Variants & Colors</h2>
+      <p class="section-intro coar-body">Mix <code>borderless</code> and <code>elevated</code> with semantic colors for different visual effects.</p>
+      <div class="example-demo">
+        <div class="combo-grid">
+          <div class="combo-demo">
+            <coar-card color="success">
+              <h4 class="coar-body-large">Default Success</h4>
+              <p class="coar-body-small">With border (default)</p>
+            </coar-card>
+            <span class="variant-label coar-caption">success</span>
+          </div>
+          <div class="combo-demo">
+            <coar-card borderless color="success">
+              <h4 class="coar-body-large">Borderless Success</h4>
+              <p class="coar-body-small">No border</p>
+            </coar-card>
+            <span class="variant-label coar-caption">borderless + success</span>
+          </div>
+          <div class="combo-demo">
+            <coar-card elevated color="info">
+              <h4 class="coar-body-large">Elevated Info</h4>
+              <p class="coar-body-small">With elevation</p>
+            </coar-card>
+            <span class="variant-label coar-caption">elevated + info</span>
+          </div>
+          <div class="combo-demo">
+            <coar-card elevated borderless color="warning">
+              <h4 class="coar-body-large">Elevated Borderless Warning</h4>
+              <p class="coar-body-small">Elevated, no border</p>
+            </coar-card>
+            <span class="variant-label coar-caption">elevated + borderless + warning</span>
+          </div>
+        </div>
+      </div>
+      <coar-code-block [code]="comboExample" language="html" />
+    </section>
+
+    <!-- Card Sections -->
+    <section class="example-section">
+      <h2 class="coar-subheading">Card Sections</h2>
+      <p class="section-intro coar-body">Use header and footer slots to structure card content.</p>
+      <div class="example-demo">
+        <coar-card>
+          <div coar-card-header class="demo-header">
+            <h4 class="coar-body-large">Card Header</h4>
+            <p class="coar-body-small">Subtitle or meta information</p>
+          </div>
+          <p class="coar-body">Main content area for the card body. This is where the primary information goes.</p>
+          <div coar-card-footer class="demo-footer">
+            <coar-button variant="primary" size="sm">Primary</coar-button>
+            <coar-button variant="secondary" size="sm">Secondary</coar-button>
+          </div>
+        </coar-card>
+      </div>
+      <coar-code-block [code]="sectionsExample" language="html" />
+    </section>
+
+    <!-- Composition Example -->
+    <section class="example-section">
+      <h2 class="coar-subheading">Composition</h2>
+      <p class="section-intro coar-body">Combine variants, padding, and sections for rich card layouts.</p>
+      <div class="example-demo">
+        <div class="composition-grid">
+          <coar-card elevated padding="lg">
+            <div coar-card-header class="profile-header">
+              <div class="avatar">👤</div>
+              <div class="user-info">
+                <h4 class="coar-body-large">John Doe</h4>
+                <span class="coar-caption">Product Designer</span>
+              </div>
+            </div>
+            <p class="coar-body">Building beautiful interfaces and creating delightful user experiences.</p>
+            <div coar-card-footer class="profile-footer">
+              <coar-button variant="primary" size="sm">Follow</coar-button>
+              <coar-button variant="secondary" size="sm">Message</coar-button>
+            </div>
+          </coar-card>
+
+          <coar-card>
+            <div coar-card-header>
+              <coar-tag color="success" size="sm">New</coar-tag>
+              <h4 class="coar-body-large">Feature Update</h4>
+            </div>
+            <p class="coar-body-small">We've added new customization options for cards including padding controls and visual variants.</p>
+            <div coar-card-footer>
+              <a href="#" class="card-link coar-body-small">Learn more →</a>
+            </div>
+          </coar-card>
+
+          <coar-card padding="lg">
+            <div class="stat-card">
+              <span class="stat-icon">📊</span>
+              <div class="stat-content">
+                <span class="stat-value coar-heading">2,847</span>
+                <span class="stat-label coar-caption">Active Users</span>
+              </div>
+            </div>
+          </coar-card>
+        </div>
+      </div>
+      <coar-code-block [code]="compositionExample" language="html" />
+    </section>
+  </div>
+</ng-template>
+
+<ng-template #apiTemplate>
+  <div class="api-content">
+    <section class="api-section">
+      <h2 class="coar-subheading">CoarCard</h2>
+      <p class="section-intro coar-body">Container component for grouping related content with configurable styling.</p>
+
+      <coar-table class="api-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (prop of cardProps; track prop.name) {
+          <tr>
+            <td>
+              <code>{{ prop.name }}</code>
+              @if (prop.required) {
+              <span class="required-badge">Required</span>
+              }
+            </td>
+            <td>
+              <code class="type">{{ prop.type }}</code>
+            </td>
+            <td>
+              <code class="default">{{ prop.default }}</code>
+            </td>
+            <td>{{ prop.description }}</td>
+          </tr>
+          }
+        </tbody>
+      </coar-table>
+    </section>
+
+    <section class="api-section">
+      <h2 class="coar-subheading">Content Slots</h2>
+      <p class="section-intro coar-body">The card uses Angular content projection with named slots.</p>
+
+      <coar-table class="api-table">
+        <thead>
+          <tr>
+            <th>Selector</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (slot of contentSlots; track slot.name) {
+          <tr>
+            <td>
+              <code>{{ slot.name }}</code>
+            </td>
+            <td>{{ slot.description }}</td>
+          </tr>
+          }
+        </tbody>
+      </coar-table>
+    </section>
+
+    <section class="api-section">
+      <h2 class="coar-subheading">CSS Custom Properties</h2>
+      <p class="section-intro coar-body">The card component uses these design tokens.</p>
+
+      <coar-table class="api-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Usage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--coar-background-neutral-secondary</code></td>
+            <td>Default background color</td>
+          </tr>
+          <tr>
+            <td><code>--coar-shadow-elevation-low</code></td>
+            <td>Box-shadow for elevated attribute</td>
+          </tr>
+          <tr>
+            <td><code>--coar-radius-xs</code></td>
+            <td>Border radius (4px default)</td>
+          </tr>
+          <tr>
+            <td><code>--coar-spacing-s/m/l</code></td>
+            <td>Padding values for sm/md/lg</td>
+          </tr>
+        </tbody>
+      </coar-table>
+    </section>
+
+    <!-- Customization -->
+    <section class="api-section">
+      <h2 class="coar-subheading">Customization</h2>
+      <p class="coar-body">Override card styles using CSS custom properties:</p>
+      <coar-table class="api-table">
+        <thead>
+          <tr>
+            <th>Custom Property</th>
+            <th>Description</th>
+            <th>Default</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>--coar-card-bg</code></td>
+            <td>Background color</td>
+            <td><code>var(--coar-background-neutral-secondary)</code></td>
+          </tr>
+          <tr>
+            <td><code>--coar-card-border-color</code></td>
+            <td>Border color (use for standard border)</td>
+            <td><code>transparent</code></td>
+          </tr>
+          <tr>
+            <td><code>--coar-card-radius</code></td>
+            <td>Border radius</td>
+            <td><code>var(--coar-radius-xs)</code></td>
+          </tr>
+        </tbody>
+      </coar-table>
+      <div class="customization-example">
+        <h3 class="coar-body-bold">Example Usage</h3>
+        <coar-code-block [code]="customizationExample" language="html" [collapsed]="false" />
+      </div>
+    </section>
+
+    <section class="api-section">
+      <h2 class="coar-subheading">Accessibility</h2>
+      <div class="accessibility-info">
+        <p class="coar-body">Cards are semantic containers that group related content. Key considerations:</p>
+        <ul class="accessibility-list">
+          <li>Cards are rendered as block-level elements without implicit ARIA roles</li>
+          <li>Use appropriate heading hierarchy within cards (<code>h3</code>, <code>h4</code>)</li>
+          <li>Interactive cards should use <code>role="button"</code> or be wrapped in <code>&lt;a&gt;</code></li>
+          <li>Ensure sufficient color contrast for all card variants</li>
+          <li>Content within cards remains keyboard accessible</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</ng-template>

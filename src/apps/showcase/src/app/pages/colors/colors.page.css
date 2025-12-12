@@ -1,0 +1,195 @@
+/* ========================================
+   COLORS PAGE STYLES
+   ========================================
+   RULE: No font-size, font-weight, font-family here!
+   Typography is handled by .coar-* classes in HTML.
+   ======================================== */
+
+.colors-page {
+  max-width: 1000px;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 3rem;
+}
+
+.section > h2 {
+  margin-bottom: 0.25rem;
+}
+
+.section > p {
+  margin-bottom: 1.5rem;
+  color: var(--coar-text-neutral-secondary);
+}
+
+/* ========================================
+   COLOR PRIMITIVES
+   ======================================== */
+
+.primitives-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.palette h3 {
+  margin-bottom: 0.25rem;
+}
+
+.token-pattern {
+  display: block;
+  color: var(--coar-text-neutral-tertiary);
+  margin-bottom: 0.75rem;
+  font-family: monospace;
+}
+
+.shades {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.shade-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 64px;
+}
+
+.shade-swatch {
+  width: 100%;
+  height: 48px;
+  border-radius: var(--coar-radius-s);
+  border: 1px solid var(--coar-border-neutral-tertiary);
+}
+
+.shade-label {
+  margin-top: 0.25rem;
+  color: var(--coar-text-neutral-secondary);
+}
+
+/* ========================================
+   SEMANTIC COLORS
+   ======================================== */
+
+.semantic-group {
+  margin-bottom: 2rem;
+}
+
+.semantic-group h3 {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--coar-border-neutral-tertiary);
+}
+
+.semantic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.semantic-item {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--coar-background-neutral-secondary);
+  border-radius: var(--coar-radius-s);
+}
+
+.semantic-swatch {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: var(--coar-radius-xs);
+  border: 1px solid var(--coar-border-neutral-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.semantic-swatch.is-text {
+  background: var(--coar-background-neutral-primary);
+}
+
+.semantic-swatch.is-border {
+  background: var(--coar-background-neutral-primary);
+}
+
+.text-sample {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.border-sample {
+  width: 32px;
+  height: 32px;
+  border: 3px solid;
+  border-radius: var(--coar-radius-xs);
+}
+
+.semantic-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  min-width: 0;
+}
+
+.semantic-info .token-name {
+  color: var(--coar-text-accent-primary);
+  font-family: monospace;
+  word-break: break-all;
+}
+
+.semantic-info code {
+  color: var(--coar-text-accent-primary);
+  word-break: break-all;
+}
+
+/* ========================================
+   USAGE EXAMPLE
+   ======================================== */
+
+.example-card {
+  max-width: 400px;
+}
+
+.example-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.example-card > p {
+  margin-bottom: 1rem;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.example-footer {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .shades {
+    gap: 0.25rem;
+  }
+
+  .shade-item {
+    width: 60px;
+  }
+
+  .shade-swatch {
+    height: 40px;
+  }
+
+  .semantic-grid {
+    grid-template-columns: 1fr;
+  }
+}

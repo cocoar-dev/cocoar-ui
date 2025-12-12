@@ -1,0 +1,98 @@
+:host {
+  display: block;
+  border-radius: var(--coar-radius-s);
+  border: 1px solid transparent;
+  transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* ========================================
+   ELEVATED (Box-shadow for depth)
+   ======================================== */
+
+/* Elevated - adds box-shadow for visual depth */
+:host(.coar-card--elevated) {
+  box-shadow: var(--coar-elevation-medium);
+}
+
+/* ========================================
+   SEMANTIC COLORS (with default borders)
+   ======================================== */
+
+/* Neutral (default) */
+:host(.coar-card--neutral) {
+  background-color: var(--coar-background-neutral-secondary);
+  border-color: var(--coar-border-neutral-tertiary);
+}
+
+/* Success */
+:host(.coar-card--success) {
+  background-color: var(--coar-background-semantic-success-subtle);
+  border-color: var(--coar-border-semantic-success-subtle);
+}
+
+/* Warning */
+:host(.coar-card--warning) {
+  background-color: var(--coar-background-semantic-warning-subtle);
+  border-color: var(--coar-border-semantic-warning-subtle);
+}
+
+/* Error */
+:host(.coar-card--error) {
+  background-color: var(--coar-background-semantic-error-subtle);
+  border-color: var(--coar-border-semantic-error-subtle);
+}
+
+/* Info */
+:host(.coar-card--info) {
+  background-color: var(--coar-background-semantic-info-subtle);
+  border-color: var(--coar-border-semantic-info-subtle);
+}
+
+/* Accent (primary brand color) */
+:host(.coar-card--accent) {
+  background-color: var(--coar-background-accent-secondary);
+  border-color: var(--coar-border-accent-secondary);
+}
+
+/* ========================================
+   BORDERLESS (removes border)
+   By default, cards have a visible border.
+   Use `borderless` attribute to remove the border.
+   Must come AFTER color rules to override border-color.
+   ======================================== */
+
+:host(.coar-card--borderless) {
+  border-color: transparent;
+}
+
+/* ========================================
+   PADDING VARIANTS
+   ======================================== */
+
+:host(.coar-card--padding-none) {
+  padding: 0;
+}
+
+:host(.coar-card--padding-sm) {
+  padding: var(--coar-spacing-s);
+}
+
+:host(.coar-card--padding-md) {
+  padding: var(--coar-spacing-m);
+}
+
+:host(.coar-card--padding-lg) {
+  padding: var(--coar-spacing-l);
+}
+
+/* ========================================
+   CARD SECTIONS (Content projection)
+   ======================================== */
+
+::ng-deep [coar-card-header] {
+  margin-bottom: var(--coar-spacing-m);
+}
+
+::ng-deep [coar-card-footer] {
+  margin-top: var(--coar-spacing-m);
+}

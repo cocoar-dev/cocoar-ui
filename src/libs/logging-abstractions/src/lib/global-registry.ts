@@ -20,7 +20,7 @@ function getRegistry(): LoggerRegistry {
   const global = globalThis as Record<symbol, LoggerRegistry | undefined>;
   if (!global[LOGGER_REGISTRY_SYMBOL]) {
     global[LOGGER_REGISTRY_SYMBOL] = {
-      enrichments: new Map()
+      enrichments: new Map(),
     };
   }
   return global[LOGGER_REGISTRY_SYMBOL] as LoggerRegistry;
@@ -28,20 +28,20 @@ function getRegistry(): LoggerRegistry {
 
 /**
  * Get the configured logger or NullLogger if none configured.
- * 
+ *
  * Libraries should use this to get a logger instance.
  * If the application hasn't configured logging, returns NullLogger (no-op).
- * 
+ *
  * @param source - Optional source context (component name, module name)
  * @returns Configured logger or NullLogger
- * 
+ *
  * @example Library usage:
  * ```typescript
  * import { getLogger } from '@cocoar/logging-abstractions';
- * 
+ *
  * export class MyLibraryClass {
  *   private logger = getLogger('MyLibraryClass');
- *   
+ *
  *   doWork() {
  *     this.logger.debug('Working...');
  *   }
@@ -50,12 +50,12 @@ function getRegistry(): LoggerRegistry {
  */
 export function getLogger(source?: string): ILogger {
   const registry = getRegistry();
-  
+
   if (!registry.logger) {
     // No logger configured - return no-op logger
     return new NullLogger();
   }
-  
+
   if (source) {
     // Check if we have cached enriched logger for this source
     const enrichments = registry.enrichments;
@@ -64,14 +64,14 @@ export function getLogger(source?: string): ILogger {
     }
     return (enrichments?.get(source) ?? registry.logger.enrich({ source })) as ILogger;
   }
-  
+
   return registry.logger;
 }
 
 /**
  * Register a logger implementation (used by applications/@cocoar/logging).
  * Libraries should NEVER call this - only applications.
- * 
+ *
  * @internal
  */
 export function registerLogger(logger: ILogger): void {
@@ -82,7 +82,7 @@ export function registerLogger(logger: ILogger): void {
 
 /**
  * Check if a logger is configured.
- * 
+ *
  * @returns true if logger is configured, false if using NullLogger
  */
 export function hasLogger(): boolean {
@@ -92,7 +92,7 @@ export function hasLogger(): boolean {
 
 /**
  * Reset logger registry (for testing only).
- * 
+ *
  * @internal
  */
 export function resetLogger(): void {

@@ -1,0 +1,95 @@
+/* ========================================
+   LABELS PAGE - SPECIFIC STYLES
+   ========================================
+   Common styles are in: app/shared/showcase-pages.css
+   Only page-specific overrides belong here.
+   ======================================== */
+
+.component-page {
+  max-width: 900px;
+}
+
+/* Section Demo */
+.section-demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--coar-spacing-m);
+}
+
+.section-demo coar-label {
+  margin-bottom: 0;
+}
+
+.section-demo p.muted {
+  color: var(--coar-text-neutral-tertiary);
+  margin: 0;
+  padding-left: var(--coar-spacing-s);
+  border-left: 2px solid var(--coar-background-neutral-tertiary);
+}
+
+/* Standalone Sizes */
+.standalone-sizes {
+  display: flex;
+  flex-direction: column;
+  gap: var(--coar-spacing-m);
+}
+
+.standalone-size-row {
+  display: flex;
+  align-items: center;
+  gap: var(--coar-spacing-m);
+}
+
+.standalone-size-row coar-label {
+  min-width: 180px;
+  margin-bottom: 0;
+}
+
+.standalone-size-row code {
+  background: var(--coar-background-neutral-secondary);
+  padding: 4px 8px;
+  border-radius: var(--coar-radius-xs);
+  font-size: 0.75rem;
+}
+
+.size-spec {
+  color: var(--coar-text-neutral-tertiary);
+  margin-left: auto;
+}
+
+/* Required Demos */
+.required-demos {
+  display: flex;
+  gap: var(--coar-spacing-xl);
+}
+
+.required-demos coar-label {
+  margin-bottom: 0;
+}
+
+/* Field Group Demo */
+.field-group-demo {
+  display: flex;
+  flex-direction: column;
+}
+
+.field-group-demo coar-label {
+  margin-bottom: var(--coar-spacing-s);
+}
+
+.radio-group {
+  display: flex;
+  gap: var(--coar-spacing-m);
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: var(--coar-spacing-xs);
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.radio-option input[type='radio'] {
+  accent-color: var(--coar-background-accent-primary);
+}

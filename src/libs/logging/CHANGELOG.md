@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - Initial release of `@cocoar/logging`
 - Serilog-style structured logging with message templates
 - `Logger` class with fluent pipeline configuration API
@@ -31,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 90 comprehensive tests covering all features
 
 ### Dependencies
+
 - Requires `@cocoar/logging-abstractions` for interface definitions
 
 [Unreleased]: https://github.com/cocoar-dev/cocoar-ui/tree/HEAD/src/libs/logging

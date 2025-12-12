@@ -1,0 +1,36 @@
+/* ========================================
+   DIVIDERS PAGE - SPECIFIC STYLES
+   ========================================
+   Common styles are in: app/shared/showcase-pages.css
+   Only page-specific overrides belong here.
+   ======================================== */
+
+/* Demo boxes specific to dividers page */
+.demo-box--form {
+  max-width: 400px;
+}
+
+.fake-button {
+  padding: 12px 24px;
+  background: var(--coar-background-accent-primary);
+  color: var(--coar-text-on-bold);
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.fake-button--outline {
+  background: transparent;
+  border: 1px solid var(--coar-border-neutral-secondary);
+  color: var(--coar-text-neutral-primary);
+}
+
+.social-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.social-buttons .fake-button {
+  flex: 1;
+}

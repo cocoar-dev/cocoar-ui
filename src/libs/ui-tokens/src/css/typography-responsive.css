@@ -1,0 +1,44 @@
+/**
+ * Cocoar Design System - Responsive Typography Extensions
+ *
+ * This file extends the base typography tokens with responsive variants.
+ * These are NOT auto-generated from Figma - they can be edited manually.
+ *
+ * The base tokens (--coar-titles-display-size, etc.) come from Figma.
+ * These responsive variants scale typography for different screen sizes.
+ */
+
+:root {
+  /* ========================================
+     RESPONSIVE TYPOGRAPHY TOKENS
+     ========================================
+
+     Naming convention:
+     --coar-{category}-{style}-size-{breakpoint}
+
+     Breakpoints:
+     - (default): Desktop 1024px+
+     - tablet: 768px - 1023px
+     - mobile: < 768px
+     ======================================== */
+
+  /* Display - 72px → 48px → 36px */
+  --coar-titles-display-size-tablet: 48px;
+  --coar-titles-display-size-mobile: 36px;
+
+  /* Title - 48px → 36px → 28px */
+  --coar-titles-title-size-tablet: 36px;
+  --coar-titles-title-size-mobile: 28px;
+
+  /* Subtitle - 32px → 24px → 20px */
+  --coar-titles-subtitle-size-tablet: 24px;
+  --coar-titles-subtitle-size-mobile: 20px;
+
+  /* Heading - 24px → 20px → 18px */
+  --coar-headings-heading-size-tablet: 20px;
+  --coar-headings-heading-size-mobile: 18px;
+
+  /* Subheading - 20px → 18px → 16px */
+  --coar-headings-subheading-size-tablet: 18px;
+  --coar-headings-subheading-size-mobile: 16px;
+}

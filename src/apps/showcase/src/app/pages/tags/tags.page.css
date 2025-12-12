@@ -1,0 +1,107 @@
+/* ========================================
+   TAGS PAGE - SPECIFIC STYLES
+   ========================================
+   Common styles are in: app/shared/showcase-pages.css
+   Only page-specific overrides belong here.
+   ======================================== */
+
+/* Tag Row Layout */
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--coar-spacing-s);
+  align-items: flex-start;
+}
+
+.tag-row--align-center {
+  align-items: center;
+}
+
+.tag-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--coar-spacing-xs);
+}
+
+.tag-label {
+  color: var(--coar-text-neutral-tertiary);
+}
+
+/* Variant Descriptions Grid */
+.variant-descriptions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--coar-spacing-s);
+  margin-bottom: var(--coar-spacing-m);
+}
+
+.variant-descriptions strong {
+  display: block;
+  margin-bottom: var(--coar-spacing-xxs);
+}
+
+.variant-descriptions p {
+  color: var(--coar-text-neutral-secondary);
+  margin: 0;
+}
+
+/* Use Case Grid */
+.use-case-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--coar-spacing-m);
+  margin-bottom: var(--coar-spacing-m);
+}
+
+.use-case-demo {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--coar-spacing-xs);
+  margin-top: var(--coar-spacing-s);
+}
+
+/* Comparison Grid */
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--coar-spacing-m);
+}
+
+.comparison-list {
+  margin: var(--coar-spacing-s) 0 0 var(--coar-spacing-m);
+  padding: 0;
+}
+
+.comparison-list li {
+  margin-bottom: var(--coar-spacing-xs);
+}
+
+/* Empty State */
+.empty-state {
+  color: var(--coar-text-neutral-tertiary);
+  font-style: italic;
+}
+
+.reset-link {
+  background: none;
+  border: none;
+  color: var(--coar-text-accent-primary);
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.reset-link:hover {
+  color: var(--coar-text-accent-secondary);
+}
+
+/* Accessibility Info */
+.accessibility-info ul {
+  margin: 0;
+  padding-left: var(--coar-spacing-m);
+}
+
+.accessibility-info li {
+  margin-bottom: var(--coar-spacing-xs);
+}

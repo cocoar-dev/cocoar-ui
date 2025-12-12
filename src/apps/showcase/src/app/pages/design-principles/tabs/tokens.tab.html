@@ -1,0 +1,82 @@
+<!-- Color Theming -->
+<section class="tw:mb-16 tw:mt-4">
+  <h2 class="coar-heading">Color Theming</h2>
+  <p class="section-intro coar-body-small">
+    All colors adapt to light and dark mode. Use CSS variables — never hardcode colors. See the <strong>Colors</strong> page for the full palette.
+  </p>
+
+  <!-- Light Theme -->
+  <h3 class="coar-subheading tw:mt-6 tw:mb-3">Light Theme</h3>
+  <coar-card class="color-swatches light-mode">
+    @for (color of themeColors; track color.name) {
+    <coar-card [color]="color.color" elevated class="color-swatch-card">
+      <span class="coar-body-small">{{ color.name }}</span>
+    </coar-card>
+    }
+  </coar-card>
+
+  <!-- Dark Theme -->
+  <h3 class="coar-subheading tw:mt-6 tw:mb-3">Dark Theme</h3>
+  <coar-card class="color-swatches dark-mode">
+    @for (color of themeColors; track color.name) {
+    <coar-card [color]="color.color" elevated class="color-swatch-card">
+      <span class="coar-body-small">{{ color.name }}</span>
+    </coar-card>
+    }
+  </coar-card>
+
+  <coar-divider [spacingTop]="32" />
+</section>
+
+<!-- Border Radius -->
+<section class="tw:mb-16">
+  <h2 class="coar-heading">Border Radius</h2>
+  <p class="section-intro coar-body-small">
+    Subtle, small radii. This is <strong>not</strong> Bootstrap — no pill buttons or overly rounded corners.
+  </p>
+  <div class="token-table">
+    @for (radius of radiusTokens; track radius.token) {
+    <coar-card [color]="radius.value === '4px' ? 'info' : 'neutral'" elevated class="token-row">
+      <code class="token-name coar-body-small">{{ radius.token }}</code>
+      <span class="token-value coar-body-small">{{ radius.value }}</span>
+      <span class="token-usage coar-caption">{{ radius.usage }}</span>
+      <div class="radius-preview" [style.border-radius]="radius.value"></div>
+    </coar-card>
+    }
+  </div>
+  <!-- <coar-card padding="sm" color="info">
+    <p class="coar-body-small"><strong>Default radius:</strong> <code>4px</code> (--coar-radius-xs)</p>
+  </coar-card> -->
+  <coar-divider [spacingTop]="32" />
+</section>
+
+<!-- Component Sizing -->
+<section class="tw:mb-16">
+  <h2 class="coar-heading">Component Sizing</h2>
+  <p class="section-intro coar-body-small">All interactive components follow a consistent 3-tier sizing system.</p>
+  <div class="sizing-demo">
+    @for (size of sizingTokens; track size.size) {
+    <coar-card [color]="size.size === 'md' ? 'info' : 'neutral'" elevated class="sizing-row">
+      <code class="size-name coar-body-small">{{ size.size }}</code>
+      <span class="size-height coar-body-small">{{ size.height }}</span>
+      <span class="size-usage coar-caption">{{ size.usage }}</span>
+    </coar-card>
+    }
+  </div>
+  <coar-divider [spacingTop]="32" />
+</section>
+
+<!-- Typography -->
+<section class="tw:mb-16">
+  <h2 class="coar-heading">Typography</h2>
+  <div class="font-demo">
+    <coar-card color="info" elevated class="font-item">
+      <span class="font-label coar-caption">Titles</span>
+      <span class="font-sample" style="font-family: Inter, sans-serif; font-weight: 700">Inter Bold</span>
+    </coar-card>
+    <coar-card color="info" elevated class="font-item">
+      <span class="font-label coar-caption">Body</span>
+      <span class="font-sample" style="font-family: Poppins, sans-serif">Poppins Regular</span>
+    </coar-card>
+  </div>
+</section>

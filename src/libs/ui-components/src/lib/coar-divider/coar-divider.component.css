@@ -1,0 +1,81 @@
+:host {
+  display: block;
+  width: 100%;
+}
+
+.coar-divider__container {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.coar-divider__line {
+  flex: 1;
+  height: 1px;
+  background-color: var(--coar-border-neutral-tertiary);
+}
+
+/* Subtle variant (default) - lighter line */
+:host(.coar-divider--subtle) .coar-divider__line {
+  opacity: 0.6;
+}
+
+/* Strong variant - full opacity line */
+:host(.coar-divider--strong) .coar-divider__line {
+  opacity: 1;
+}
+
+/* Content wrapper - only takes space when content exists */
+.coar-divider__content {
+  display: flex;
+  align-items: center;
+  color: var(--coar-text-neutral-secondary);
+  font-size: var(--coar-body-small-base-size);
+  white-space: nowrap;
+}
+
+/* Hide empty content container */
+.coar-divider__content:empty {
+  display: none;
+}
+
+/* Add spacing around content when present */
+.coar-divider__content:not(:empty) {
+  padding-left: var(--coar-spacing-m);
+  padding-right: var(--coar-spacing-m);
+}
+
+/* Alignment: Center (default) - equal flex on both lines */
+:host(.coar-divider--center) .coar-divider__line--before,
+:host(.coar-divider--center) .coar-divider__line--after {
+  flex: 1;
+}
+
+/* Alignment: Left - short line before, long line after */
+:host(.coar-divider--left) .coar-divider__line--before {
+  flex: 0 0 0;
+  display: none;
+}
+
+:host(.coar-divider--left) .coar-divider__line--after {
+  flex: 1;
+}
+
+:host(.coar-divider--left) .coar-divider__content:not(:empty) {
+  padding-left: 0;
+}
+
+/* Alignment: Right - long line before, short line after */
+:host(.coar-divider--right) .coar-divider__line--before {
+  flex: 1;
+}
+
+:host(.coar-divider--right) .coar-divider__line--after {
+  flex: 0 0 0;
+  display: none;
+}
+
+:host(.coar-divider--right) .coar-divider__content:not(:empty) {
+  padding-right: 0;
+}

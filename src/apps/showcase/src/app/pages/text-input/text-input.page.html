@@ -1,0 +1,214 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Text Input</h1>
+    <p class="page-description">
+      A versatile text input component for single-line and multiline text entry. Supports prefix/suffix, clear button, and can render as a textarea
+      for longer content.
+    </p>
+  </header>
+
+  <coar-tab-group [(activeTab)]="activeTab">
+    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
+    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+  </coar-tab-group>
+</div>
+
+<ng-template #examplesTemplate>
+  <div class="examples-content">
+    <!-- Basic -->
+    <section class="example-section">
+      <h3>Basic Usage</h3>
+      <p>Simple text input with label, placeholder, and hint.</p>
+      <div class="example-demo">
+        <coar-text-input
+          label="Username"
+          placeholder="Enter your username"
+          hint="Choose a unique username"
+          [value]="basicValue()"
+          (valueChange)="basicValue.set($event)"
+        />
+      </div>
+      <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <!-- Required & Error -->
+    <section class="example-section">
+      <h3>Validation States</h3>
+      <p>Required field indicator and error message display.</p>
+      <div class="example-demo example-demo--two-col">
+        <coar-text-input
+          label="Email"
+          placeholder="your@email.com"
+          [required]="true"
+          hint="Required field"
+          [value]="emailValue()"
+          (valueChange)="emailValue.set($event)"
+        />
+        <coar-text-input label="Email" value="invalid-email" error="Please enter a valid email address" />
+      </div>
+      <coar-code-block [code]="codeExamples.required" language="html" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <!-- Disabled & Readonly -->
+    <section class="example-section">
+      <h3>Disabled & Readonly</h3>
+      <p>Non-interactive states for display or locked fields.</p>
+      <div class="example-demo example-demo--two-col">
+        <coar-text-input label="Disabled" value="Cannot edit" [disabled]="true" />
+        <coar-text-input label="Readonly" value="View only" [readonly]="true" />
+      </div>
+      <coar-code-block [code]="codeExamples.disabled" language="html" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <!-- Prefix & Suffix -->
+    <section class="example-section">
+      <h3>Prefix & Suffix</h3>
+      <p>Add context with prefix or suffix text.</p>
+      <div class="example-demo example-demo--two-col">
+        <coar-text-input
+          label="Website"
+          placeholder="example.com"
+          prefix="https://"
+          [value]="websiteValue()"
+          (valueChange)="websiteValue.set($event)"
+        />
+        <coar-text-input label="Price" placeholder="0.00" suffix="EUR" [value]="priceValue()" (valueChange)="priceValue.set($event)" />
+      </div>
+      <coar-code-block [code]="codeExamples.prefixSuffix" language="html" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <!-- Clear Button -->
+    <section class="example-section">
+      <h3>Clear Button</h3>
+      <p>Optional clear button appears when input has value and is focused/hovered.</p>
+      <div class="example-demo">
+        <coar-text-input
+          label="Search"
+          placeholder="Type to search..."
+          [clearable]="true"
+          [value]="searchValue()"
+          (valueChange)="searchValue.set($event)"
+          (clear)="onClear()"
+        />
+      </div>
+      <coar-code-block [code]="codeExamples.clear" language="html" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <!-- Sizes -->
+    <section class="example-section">
+      <h3>Sizes</h3>
+      <p>Four size variants for different contexts.</p>
+      <div class="example-demo example-demo--sizes">
+        <coar-text-input size="xs" label="Extra Small" placeholder="27px height" />
+        <coar-text-input size="sm" label="Small" placeholder="32px height" />
+        <coar-text-input size="md" label="Medium" placeholder="40px height" />
+        <coar-text-input size="lg" label="Large" placeholder="48px height" />
+      </div>
+      <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <!-- Multiline -->
+    <section class="example-section">
+      <h3>Multiline (Textarea)</h3>
+      <p>Enable multiline mode for longer text content like bios or descriptions.</p>
+      <div class="example-demo">
+        <coar-text-input
+          label="Bio"
+          placeholder="Tell us about yourself..."
+          [rows]="4"
+          hint="Max 500 characters"
+          [value]="bioValue()"
+          (valueChange)="bioValue.set($event)"
+        />
+      </div>
+      <coar-code-block [code]="codeExamples.multiline" language="html" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <!-- Multiline Rows -->
+    <section class="example-section">
+      <h3>Multiline Row Heights</h3>
+      <p>Control initial height with the rows property.</p>
+      <div class="example-demo example-demo--two-col">
+        <coar-text-input label="3 Rows" [rows]="3" placeholder="Default height..." />
+        <coar-text-input label="6 Rows" [rows]="6" placeholder="Taller..." />
+      </div>
+      <coar-code-block [code]="codeExamples.multilineRows" language="html" [showLineNumbers]="false" />
+    </section>
+  </div>
+</ng-template>
+
+<ng-template #apiTemplate>
+  <div class="api-content">
+    <section class="api-section">
+      <h3>Inputs</h3>
+      <coar-table class="api-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Default</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (prop of apiProperties; track prop.name) {
+          <tr>
+            <td>
+              <code>{{ prop.name }}</code>
+            </td>
+            <td>
+              <code class="type">{{ prop.type }}</code>
+            </td>
+            <td>
+              <code class="default">{{ prop.default }}</code>
+            </td>
+            <td>{{ prop.description }}</td>
+          </tr>
+          }
+        </tbody>
+      </coar-table>
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <section class="api-section">
+      <h3>Outputs</h3>
+      <coar-table class="api-table">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Type</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (output of apiOutputs; track output.name) {
+          <tr>
+            <td>
+              <code>{{ output.name }}</code>
+            </td>
+            <td>
+              <code class="type">{{ output.type }}</code>
+            </td>
+            <td>{{ output.description }}</td>
+          </tr>
+          }
+        </tbody>
+      </coar-table>
+    </section>
+  </div>
+</ng-template>

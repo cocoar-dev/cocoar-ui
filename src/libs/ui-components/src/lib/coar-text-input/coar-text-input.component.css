@@ -1,0 +1,296 @@
+:host {
+  display: block;
+}
+
+/* Container */
+.coar-text-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Label */
+.coar-text-input-label {
+  display: block;
+  margin-bottom: var(--coar-component-md-label-margin);
+  font-family: var(--coar-body-small-bold-family);
+  font-size: var(--coar-component-md-label-font-size);
+  font-weight: var(--coar-body-small-bold-weight);
+  color: var(--coar-text-neutral-primary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.coar-text-input-required {
+  color: var(--coar-text-semantic-error-bold);
+  margin-left: var(--coar-spacing-xs);
+}
+
+/* Input Container */
+.coar-text-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: var(--coar-component-md-height);
+  border: 1px solid var(--coar-border-input);
+  border-radius: var(--coar-radius-xs);
+  background: var(--coar-surface-input);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  overflow: hidden;
+}
+
+/* Multiline container adjustments */
+:host(.coar-text-input--multiline) .coar-text-input-container {
+  height: auto;
+  min-height: var(--coar-component-md-height);
+  align-items: flex-start;
+}
+
+/* Size variants */
+:host(.coar-text-input--xs) .coar-text-input-container {
+  height: var(--coar-component-xs-height);
+}
+
+:host(.coar-text-input--sm) .coar-text-input-container {
+  height: var(--coar-component-sm-height);
+}
+
+:host(.coar-text-input--md) .coar-text-input-container {
+  height: var(--coar-component-md-height);
+}
+
+:host(.coar-text-input--lg) .coar-text-input-container {
+  height: var(--coar-component-lg-height);
+}
+
+/* Multiline overrides for sizes */
+:host(.coar-text-input--multiline.coar-text-input--xs) .coar-text-input-container,
+:host(.coar-text-input--multiline.coar-text-input--sm) .coar-text-input-container,
+:host(.coar-text-input--multiline.coar-text-input--md) .coar-text-input-container,
+:host(.coar-text-input--multiline.coar-text-input--lg) .coar-text-input-container {
+  height: auto;
+}
+
+/* Size-specific typography */
+:host(.coar-text-input--xs) .coar-text-input-field {
+  font-size: var(--coar-component-xs-font-size);
+}
+
+:host(.coar-text-input--xs) .coar-text-input-label {
+  font-size: var(--coar-component-xs-label-font-size);
+  margin-bottom: var(--coar-component-xs-label-margin);
+}
+
+:host(.coar-text-input--sm) .coar-text-input-field {
+  font-size: var(--coar-component-sm-font-size);
+}
+
+:host(.coar-text-input--sm) .coar-text-input-label {
+  font-size: var(--coar-component-sm-label-font-size);
+  margin-bottom: var(--coar-component-sm-label-margin);
+}
+
+:host(.coar-text-input--lg) .coar-text-input-field {
+  font-size: var(--coar-component-lg-font-size);
+}
+
+:host(.coar-text-input--lg) .coar-text-input-label {
+  font-size: var(--coar-component-lg-label-font-size);
+  margin-bottom: var(--coar-component-lg-label-margin);
+}
+
+.coar-text-input-container:hover:not(.coar-text-input-disabled):not(.coar-text-input-readonly):not(
+    .coar-text-input-error
+  ):not(.coar-text-input-focused) {
+  border-color: var(--coar-border-input-hover);
+}
+
+/* Focus state - accent border with inset shadow for emphasis */
+.coar-text-input-container.coar-text-input-focused:not(.coar-text-input-error) {
+  border-color: var(--coar-border-accent-primary);
+  box-shadow: inset 0 0 0 1px var(--coar-border-accent-primary);
+  outline: none;
+}
+
+.coar-text-input-container.coar-text-input-disabled {
+  background: var(--coar-surface-input-disabled);
+  border-color: var(--coar-border-input);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.coar-text-input-container.coar-text-input-readonly {
+  background: var(--coar-surface-input);
+  border-color: var(--coar-border-input);
+  cursor: default;
+}
+
+/* Error state - red border takes priority over focus and hover */
+.coar-text-input-container.coar-text-input-error {
+  border-color: var(--coar-border-semantic-error-bold);
+}
+
+/* Error + focus - keep red border with red shadow for consistency */
+.coar-text-input-container.coar-text-input-error.coar-text-input-focused {
+  border-color: var(--coar-border-semantic-error-bold);
+  box-shadow: inset 0 0 0 1px var(--coar-border-semantic-error-bold);
+  outline: none;
+}
+
+/* Error + hover - keep red border */
+.coar-text-input-container.coar-text-input-error:hover:not(.coar-text-input-disabled) {
+  border-color: var(--coar-border-semantic-error-bold);
+}
+
+/* Input Field */
+.coar-text-input-field {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0 4px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: var(--coar-body-small-base-family);
+  font-size: var(--coar-body-small-base-size);
+  font-weight: var(--coar-body-small-base-weight);
+  color: var(--coar-text-neutral-primary);
+}
+
+/* Textarea specific */
+.coar-text-input-textarea {
+  padding: var(--coar-spacing-s);
+  resize: vertical;
+  min-height: 60px;
+}
+
+.coar-text-input-field::placeholder {
+  color: var(--coar-text-neutral-tertiary);
+}
+
+.coar-text-input-field:disabled {
+  color: var(--coar-text-neutral-disabled);
+  cursor: not-allowed;
+}
+
+.coar-text-input-field:read-only {
+  cursor: default;
+}
+
+/* Prefix */
+.coar-text-input-prefix {
+  display: flex;
+  align-items: center;
+  padding-left: var(--coar-spacing-s);
+  color: var(--coar-icon-neutral-secondary);
+  font-size: var(--coar-body-small-base-size);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Suffix */
+.coar-text-input-suffix {
+  display: flex;
+  align-items: center;
+  padding-right: var(--coar-spacing-s);
+  color: var(--coar-icon-neutral-secondary);
+  font-size: var(--coar-body-small-base-size);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.coar-text-input-suffix:empty {
+  display: none;
+  padding-right: 0;
+}
+
+/* Suffix Actions (always visible, like action buttons) */
+.coar-text-input-suffix-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--coar-spacing-xs);
+  padding-right: var(--coar-spacing-s);
+  flex-shrink: 0;
+}
+
+.coar-text-input-suffix-actions:empty {
+  display: none;
+}
+
+/* Clear Button */
+.coar-text-input-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+  margin-right: var(--coar-spacing-s);
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--coar-icon-neutral-disabled);
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.15s ease, opacity 0.15s ease;
+  flex-shrink: 0;
+  opacity: 0.4; /* Dimmed by default when not focused */
+}
+
+/* More visible when container is focused */
+.coar-text-input-focused .coar-text-input-clear {
+  opacity: 1;
+  color: var(--coar-icon-neutral-tertiary);
+}
+
+/* More visible when hovering the container (desktop) */
+.coar-text-input-container:hover .coar-text-input-clear {
+  opacity: 1;
+  color: var(--coar-icon-neutral-tertiary);
+}
+
+:host(.coar-text-input--xs) .coar-text-input-clear {
+  font-size: 11px;
+}
+
+:host(.coar-text-input--sm) .coar-text-input-clear {
+  font-size: 12px;
+}
+
+:host(.coar-text-input--lg) .coar-text-input-clear {
+  font-size: 16px;
+}
+
+/* Clear button positioned at top-right for multiline */
+.coar-text-input-clear--multiline {
+  position: absolute;
+  top: var(--coar-spacing-s);
+  right: var(--coar-spacing-s);
+  margin-right: 0;
+}
+
+/* Additional hover for the clear button itself for even more prominence */
+.coar-text-input-clear:hover {
+  color: var(--coar-icon-neutral-primary);
+}
+
+.coar-text-input-clear:focus {
+  outline: none;
+}
+
+.coar-text-input-clear:focus-visible {
+  color: var(--coar-icon-neutral-primary);
+}
+
+/* Message */
+.coar-text-input-message {
+  margin-top: var(--coar-spacing-xs);
+  font-family: var(--coar-body-caption-family);
+  font-size: var(--coar-body-caption-size);
+  font-weight: var(--coar-body-caption-weight);
+  color: var(--coar-text-neutral-secondary);
+  line-height: 1.4;
+}
+
+.coar-text-input-message-error {
+  color: var(--coar-text-semantic-error-bold);
+}

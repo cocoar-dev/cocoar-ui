@@ -1,0 +1,111 @@
+/**
+ * COAR Icon Component Styles
+ *
+ * Size tokens:
+ * xs = 12px, sm = 16px, md = 20px, lg = 24px, xl = 32px, auto = fills parent
+ */
+
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.coar-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  line-height: 1;
+  aspect-ratio: 1;
+}
+
+/* Ensure SVG fills the container and inherits color */
+.coar-icon ::ng-deep svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  fill: currentColor;
+}
+
+/* Override any hardcoded fills/strokes in SVG elements */
+.coar-icon ::ng-deep svg path,
+.coar-icon ::ng-deep svg circle,
+.coar-icon ::ng-deep svg rect,
+.coar-icon ::ng-deep svg polygon,
+.coar-icon ::ng-deep svg polyline,
+.coar-icon ::ng-deep svg line,
+.coar-icon ::ng-deep svg ellipse {
+  fill: currentColor;
+}
+
+/* For stroke-based icons, inherit stroke color too */
+.coar-icon ::ng-deep svg[stroke='currentColor'] path,
+.coar-icon ::ng-deep svg[stroke='currentColor'] circle,
+.coar-icon ::ng-deep svg[stroke='currentColor'] line {
+  fill: none;
+  stroke: currentColor;
+}
+
+.coar-icon--xs {
+  width: 12px;
+  height: 12px;
+}
+
+.coar-icon--sm {
+  width: 16px;
+  height: 16px;
+}
+
+.coar-icon--md {
+  width: 20px;
+  height: 20px;
+}
+
+.coar-icon--lg {
+  width: 24px;
+  height: 24px;
+}
+
+.coar-icon--xl {
+  width: 32px;
+  height: 32px;
+}
+
+.coar-icon--auto {
+  width: auto;
+  height: 100%;
+  max-width: 1em;
+  max-height: 1em;
+}
+
+.coar-icon--loading {
+  opacity: 0.3;
+  background: currentColor;
+  border-radius: 2px;
+}
+
+.coar-icon--spin {
+  animation: coar-icon-spin 1s linear infinite;
+}
+
+/* Label text next to icon */
+.coar-icon__label {
+  margin-left: var(--coar-spacing-xs);
+}
+
+.coar-icon__label:empty {
+  margin-left: 0;
+}
+
+@keyframes coar-icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

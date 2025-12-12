@@ -1,0 +1,464 @@
+/* ========================================
+   FORMS PAGE - SPECIFIC STYLES
+   ========================================
+   Common styles are in: app/shared/showcase-pages.css
+   Only page-specific overrides belong here.
+   ======================================== */
+
+/* Form card */
+.form-card {
+  max-width: 500px;
+  margin-bottom: 1rem;
+}
+
+/* Form rows */
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-row.two-columns {
+  flex-direction: row;
+  gap: 1rem;
+}
+
+.form-row.two-columns > * {
+  flex: 1;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+/* Inline form */
+.inline-form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.inline-form coar-text-input {
+  flex: 1;
+}
+
+/* Search form */
+.search-form {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.search-form coar-text-input {
+  flex: 1;
+}
+
+/* Sizing grid - uses shared size-row pattern */
+.sizing-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sizing-row {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+}
+
+.sizing-label {
+  color: var(--coar-text-neutral-secondary);
+}
+
+.sizing-demo {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.sizing-demo coar-text-input {
+  flex: 1;
+  max-width: 200px;
+}
+
+.sizing-value {
+  background: var(--coar-background-neutral-tertiary);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--coar-radius-xxs);
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.85rem;
+  color: var(--coar-text-accent-primary);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .form-row.two-columns {
+    flex-direction: column;
+  }
+
+  .sizing-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .sizing-demo {
+    flex-direction: column;
+  }
+}
+
+/* ========================================
+   INSPIRATION TAB - LOGIN FORMS
+   ======================================== */
+
+.inspiration-container {
+  margin-bottom: 1rem;
+}
+
+/* Full width button helper */
+.full-width {
+  width: 100%;
+}
+
+/* Logo styles */
+.logo-img {
+  height: 40px;
+  width: auto;
+}
+
+.logo-img-sm {
+  height: 32px;
+  width: auto;
+}
+
+.logo-img-white {
+  height: 48px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+
+/* Forgot link */
+.forgot-link {
+  color: var(--coar-text-accent-primary);
+  text-decoration: none;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+/* ----------------------------------------
+   1. MINIMAL LOGIN
+   ---------------------------------------- */
+.login-minimal {
+  max-width: 380px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+  background: var(--coar-background-neutral-primary);
+  border: 1px solid var(--coar-border-neutral-tertiary);
+  border-radius: var(--coar-radius-s);
+}
+
+.login-minimal-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-logo {
+  margin-bottom: 1rem;
+}
+
+.login-minimal-header h3 {
+  margin: 0 0 0.5rem;
+  color: var(--coar-text-neutral-primary);
+}
+
+.login-minimal-header p {
+  margin: 0;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.login-minimal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.login-minimal-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.login-minimal-footer {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.login-minimal-footer p {
+  margin: 0;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.login-minimal-footer a {
+  color: var(--coar-text-accent-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-minimal-footer a:hover {
+  text-decoration: underline;
+}
+
+/* ----------------------------------------
+   2. SPLIT SCREEN LOGIN
+   ---------------------------------------- */
+.login-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 450px;
+  border-radius: var(--coar-radius-s);
+  overflow: hidden;
+  border: 1px solid var(--coar-border-neutral-tertiary);
+}
+
+.login-split-brand {
+  background: linear-gradient(
+    135deg,
+    var(--coar-background-accent-primary) 0%,
+    var(--coar-background-accent-secondary) 100%
+  );
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-content {
+  text-align: center;
+  color: var(--coar-text-on-bold);
+}
+
+.brand-content .logo-img-white {
+  margin-bottom: 1.5rem;
+}
+
+.brand-content p {
+  margin: 0;
+  opacity: 0.9;
+  line-height: 1.5;
+  font-size: 1.1rem;
+}
+
+.login-split-form {
+  background: var(--coar-background-neutral-primary);
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.split-form-content {
+  width: 100%;
+  max-width: 320px;
+}
+
+.split-form-content h3 {
+  margin: 0 0 0.25rem;
+}
+
+.split-form-content > p {
+  margin: 0 0 1.5rem;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.split-form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.split-divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.split-divider::before,
+.split-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--coar-border-neutral-tertiary);
+}
+
+.split-divider span {
+  color: var(--coar-text-neutral-tertiary);
+}
+
+.social-buttons {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.social-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* ----------------------------------------
+   3. FLOATING CARD LOGIN
+   ---------------------------------------- */
+.login-card-bg {
+  background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 50%, #f5f0ff 100%);
+  padding: 3rem 2rem;
+  border-radius: var(--coar-radius-s);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-floating-card {
+  width: 100%;
+  max-width: 400px;
+}
+
+.floating-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.floating-header h3 {
+  margin: 0;
+  text-align: center;
+}
+
+.floating-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.floating-actions {
+  margin-top: 0.5rem;
+}
+
+.floating-footer {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--coar-border-neutral-tertiary);
+}
+
+.floating-footer a {
+  color: var(--coar-text-accent-primary);
+  text-decoration: none;
+}
+
+.floating-footer a:hover {
+  text-decoration: underline;
+}
+
+.floating-footer span {
+  color: var(--coar-text-neutral-tertiary);
+}
+
+/* ----------------------------------------
+   4. COMPACT INLINE LOGIN
+   ---------------------------------------- */
+.login-compact-wrapper {
+  background: var(--coar-background-neutral-secondary);
+  padding: 1rem 1.5rem;
+  border-radius: var(--coar-radius-s);
+}
+
+.login-compact {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  max-width: 600px;
+}
+
+.login-compact coar-text-input {
+  flex: 1;
+}
+
+.login-compact coar-password-input {
+  flex: 1;
+}
+
+/* ----------------------------------------
+   5. STEP BY STEP LOGIN
+   ---------------------------------------- */
+.login-steps {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+  background: var(--coar-background-neutral-primary);
+  border: 1px solid var(--coar-border-neutral-tertiary);
+  border-radius: var(--coar-radius-s);
+  text-align: center;
+}
+
+.steps-header {
+  margin-bottom: 2rem;
+}
+
+.steps-header h3 {
+  margin: 0 0 0.5rem;
+}
+
+.steps-header p {
+  margin: 0;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.steps-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
+}
+
+.steps-footer {
+  margin-top: 2rem;
+}
+
+.steps-footer p {
+  margin: 0;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.steps-footer a {
+  color: var(--coar-text-accent-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.steps-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive for inspiration */
+@media (max-width: 700px) {
+  .login-split {
+    grid-template-columns: 1fr;
+  }
+
+  .login-split-brand {
+    padding: 2rem;
+    min-height: auto;
+  }
+
+  .login-compact {
+    flex-direction: column;
+  }
+}

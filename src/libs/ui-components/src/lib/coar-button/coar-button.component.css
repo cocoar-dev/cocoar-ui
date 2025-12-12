@@ -1,0 +1,237 @@
+/* ========================================
+   COAR BUTTON COMPONENT
+   ======================================== */
+
+:host {
+  display: inline-block;
+}
+
+:host(.coar-button--full-width) {
+  display: block;
+  width: 100%;
+}
+
+.coar-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: none;
+  border-radius: var(--coar-radius-xs);
+  font-family: var(--coar-body-base-family);
+  font-weight: var(--coar-body-base-weight);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.coar-button:focus-visible {
+  outline: 2px solid var(--coar-border-accent-primary);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   SIZES
+   ======================================== */
+
+.coar-button--xs {
+  height: var(--coar-component-xs-height);
+  padding: 0 10px;
+  font-size: var(--coar-component-xs-font-size);
+  gap: 0.375rem;
+}
+
+.coar-button--sm {
+  height: var(--coar-component-sm-height);
+  padding: 0 12px;
+  font-size: var(--coar-component-sm-font-size);
+  gap: 0.375rem;
+}
+
+.coar-button--md {
+  height: var(--coar-component-md-height);
+  padding: 0 16px;
+  font-size: var(--coar-component-md-font-size);
+}
+
+.coar-button--lg {
+  height: var(--coar-component-lg-height);
+  padding: 0 24px;
+  font-size: var(--coar-component-lg-font-size);
+  gap: 0.625rem;
+}
+
+/* ========================================
+   VARIANTS
+   ======================================== */
+
+/* Primary */
+.coar-button--primary {
+  background: var(--coar-background-accent-primary);
+  color: var(--coar-color-white);
+}
+
+.coar-button--primary:hover:not(:disabled) {
+  background: var(--coar-background-accent-hover);
+}
+
+.coar-button--primary:active:not(:disabled) {
+  background: var(--coar-background-accent-active);
+}
+
+/* Secondary */
+.coar-button--secondary {
+  background: var(--coar-background-neutral-secondary);
+  color: var(--coar-text-neutral-secondary);
+  border: 1px solid var(--coar-border-neutral-tertiary);
+}
+
+.coar-button--secondary:hover:not(:disabled) {
+  background: var(--coar-background-neutral-tertiary);
+  color: var(--coar-text-neutral-primary);
+}
+
+.coar-button--secondary:active:not(:disabled) {
+  background: var(--coar-color-gray-500);
+}
+
+/* Tertiary - Soft accent style */
+.coar-button--tertiary {
+  background: var(--coar-background-accent-tertiary);
+  color: var(--coar-text-accent-primary);
+}
+
+.coar-button--tertiary:hover:not(:disabled) {
+  background: var(--coar-background-accent-secondary);
+}
+
+.coar-button--tertiary:active:not(:disabled) {
+  background: var(--coar-color-accent-300);
+}
+
+/* Danger */
+.coar-button--danger {
+  background: var(--coar-background-semantic-error-bold);
+  color: var(--coar-text-on-bold);
+}
+
+.coar-button--danger:hover:not(:disabled) {
+  background: var(--coar-color-red-700);
+}
+
+.coar-button--danger:active:not(:disabled) {
+  background: var(--coar-color-red-800);
+}
+
+/* Ghost */
+.coar-button--ghost {
+  background: transparent;
+  color: var(--coar-text-neutral-primary);
+}
+
+.coar-button--ghost:hover:not(:disabled) {
+  background: var(--coar-background-neutral-secondary);
+}
+
+.coar-button--ghost:active:not(:disabled) {
+  background: var(--coar-background-neutral-tertiary);
+}
+
+/* ========================================
+   STATES
+   ======================================== */
+
+/* Disabled */
+.coar-button--disabled,
+.coar-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Loading */
+.coar-button--loading {
+  cursor: wait;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Only hide content when using overlay spinner (no icons) */
+.coar-button--loading-overlay .coar-button__content {
+  opacity: 0;
+}
+
+/* Full Width */
+.coar-button--full-width {
+  width: 100%;
+}
+
+/* ========================================
+   INNER ELEMENTS
+   ======================================== */
+
+.coar-button__content {
+  display: inline-flex;
+  align-items: center;
+  gap: inherit;
+}
+
+.coar-button__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25em;
+  height: 1.25em;
+  font-size: 1.125em;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.coar-button__icon--start {
+  margin-left: -0.125rem;
+}
+
+.coar-button__icon--end {
+  margin-right: -0.125rem;
+}
+
+/* Spinner */
+.coar-button__spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Overlay spinner: centered absolutely */
+.coar-button__spinner--overlay {
+  position: absolute;
+}
+
+/* Inline spinner: replaces icon, same sizing as icon */
+.coar-button__spinner--inline {
+  width: 1.25em;
+  height: 1.25em;
+  font-size: 1.125em;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.coar-button__spinner--inline:first-child {
+  margin-left: -0.125rem;
+}
+
+.coar-button__spinner--inline:last-of-type {
+  margin-right: -0.125rem;
+}
+
+/* ========================================
+   DARK MODE OVERRIDES
+   ======================================== */
+
+:host-context(.dark-mode) .coar-button--primary,
+:host-context(:root.dark-mode) .coar-button--primary {
+  color: var(--coar-color-black);
+}

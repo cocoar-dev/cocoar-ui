@@ -25,7 +25,7 @@
 
 This document defines how AI assistants (GitHub Copilot, Claude, ChatGPT, etc.) work with the **Cocoar Design System** repository.
 
-The goal: build Angular-based UI component libraries with design tokens from Figma, structured logging, and Storybook documentation.
+The goal: build Angular-based UI component libraries with design tokens (CSS variables) and structured logging.
 
 ---
 
@@ -35,23 +35,22 @@ You MUST assume the following technology stack for this repository:
 
 - Angular **20.x**
 - Nx **22.x** as the workspace/orchestration tool
-- Storybook **9.x** for Angular
 - Node.js **20.x** (or newer LTS compatible with Angular 20 and Nx 22)
 
 Do NOT introduce:
 
 - Angular 21–only features (e.g. Signal Forms APIs, ARIA v21 packages) without an explicit migration plan in ARCHITECTURE.md.
-- Storybook 10+ configuration or Angular 21 Storybook setups.
+- Unplanned major upgrades that conflict with our current Angular 20 + Nx 22 setup.
 - Breaking changes in executors/builders that conflict with our current Nx + Angular 20 setup.
 
-When in doubt, **stay compatible with Angular 20 and Storybook 9**.
+When in doubt, **stay compatible with Angular 20**.
 
 ---
 
 ## 📦 Nx Usage Rules for Agents
 
 - Nx is used as **monorepo orchestration**, NOT as a replacement for Angular itself.
-- For Angular **apps** (Storybook host, future styleguide app):
+- For Angular **apps** (showcase app, future styleguide app):
   - Prefer official Angular executors (`@angular-devkit/build-angular:*`) wrapped in Nx targets, unless ARCHITECTURE.md explicitly says otherwise.
 - For Angular **publishable libraries** (e.g. `@cocoar/ui-forms`, `@cocoar/ui-grid`):
   - ALWAYS use `@nx/angular:package` as the packaging executor (APF via ng-packagr).
@@ -163,7 +162,7 @@ When working in this repository, AI assistants must:
 - [ ] Follow Angular style guides
 - [ ] Add tests for new functionality
 - [ ] Document public APIs
-- [ ] Update Storybook stories for UI changes
+- [ ] Update showcase app usage/examples for UI changes
 - [ ] Remove unused imports/variables
 
 ### Performance (see ARCHITECTURE.md)
@@ -200,7 +199,7 @@ If uncertain about a decision, AI assistants should:
 * **Use CSS variables only** — All styling from Figma tokens
 * **Use `@cocoar/logging`** — No `console.log` in libraries
 * **Test accessibility** — Keyboard navigation, ARIA, screen readers
-* **Keep docs in sync** — Update README, Storybook, and migration guides
+* **Keep docs in sync** — Update README, showcase, and migration guides
 * **Follow Definition of Done** — See CONTRIBUTING.md for the complete checklist
 
 ---

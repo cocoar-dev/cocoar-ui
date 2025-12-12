@@ -1,0 +1,168 @@
+/* ========================================
+   SHOWCASE V2 - GLOBAL STYLES
+   ========================================
+   Clean start with proper design system foundation.
+   ======================================== */
+
+/* Tailwind CSS v4 with 'tw' prefix - use classes like tw:mt-4, tw:flex, tw:gap-2 */
+@import 'tailwindcss' prefix(tw);
+
+/* Import Design Tokens from ui-tokens */
+@import '../../../libs/ui-tokens/src/css/all.css';
+
+/* Import UI Components tokens */
+@import '../../../libs/ui-components/src/styles.css';
+
+/* Import OverlayScrollbars styles */
+@import 'overlayscrollbars/overlayscrollbars.css';
+
+/* Import shared showcase page styles */
+@import './app/shared/showcase-pages.css';
+
+/* ========================================
+   CSS RESET & BASE
+   ======================================== */
+
+/* Note: Tailwind's Preflight already provides a CSS reset.
+   Only add custom base styles that don't conflict with utilities. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--coar-body-base-family), sans-serif;
+  font-size: var(--coar-body-base-size);
+  font-weight: var(--coar-body-base-weight);
+  line-height: 1.6;
+  color: var(--coar-text-neutral-primary);
+  background: var(--coar-background-neutral-primary);
+}
+
+/* ========================================
+   TYPOGRAPHY UTILITY CLASSES
+   ========================================
+   All typography is controlled by these classes.
+   No hardcoded font-size, font-weight, font-family anywhere else!
+   ======================================== */
+
+/* Titles - Inter */
+.coar-display {
+  font-family: var(--coar-titles-display-family), sans-serif;
+  font-size: var(--coar-titles-display-size);
+  font-weight: var(--coar-titles-display-weight);
+  line-height: 1.15;
+  color: var(--coar-text-neutral-primary);
+}
+
+.coar-title {
+  font-family: var(--coar-titles-title-family), sans-serif;
+  font-size: var(--coar-titles-title-size);
+  font-weight: var(--coar-titles-title-weight);
+  line-height: 1.2;
+  color: var(--coar-text-neutral-primary);
+}
+
+.coar-subtitle {
+  font-family: var(--coar-titles-subtitle-family), sans-serif;
+  font-size: var(--coar-titles-subtitle-size);
+  font-weight: var(--coar-titles-subtitle-weight);
+  line-height: 1.3;
+  color: var(--coar-text-neutral-primary);
+}
+
+/* Headings - Poppins */
+.coar-heading {
+  font-family: var(--coar-headings-heading-family), sans-serif;
+  font-size: var(--coar-headings-heading-size);
+  font-weight: var(--coar-headings-heading-weight);
+  line-height: 1.3;
+  color: var(--coar-text-neutral-primary);
+}
+
+.coar-subheading {
+  font-family: var(--coar-headings-subheading-family), sans-serif;
+  font-size: var(--coar-headings-subheading-size);
+  font-weight: var(--coar-headings-subheading-weight);
+  line-height: 1.4;
+  color: var(--coar-text-neutral-primary);
+}
+
+/* Body - Poppins */
+.coar-body {
+  font-family: var(--coar-body-base-family), sans-serif;
+  font-size: var(--coar-body-base-size);
+  font-weight: var(--coar-body-base-weight);
+  line-height: 1.6;
+  color: var(--coar-text-neutral-primary);
+}
+
+.coar-body-bold {
+  font-family: var(--coar-body-bold-family), sans-serif;
+  font-size: var(--coar-body-bold-size);
+  font-weight: var(--coar-body-bold-weight);
+  line-height: 1.6;
+  color: var(--coar-text-neutral-primary);
+}
+
+.coar-body-small {
+  font-family: var(--coar-body-small-base-family), sans-serif;
+  font-size: var(--coar-body-small-base-size);
+  font-weight: var(--coar-body-small-base-weight);
+  line-height: 1.5;
+  color: var(--coar-text-neutral-primary);
+}
+
+.coar-body-small-bold {
+  font-family: var(--coar-body-small-bold-family), sans-serif;
+  font-size: var(--coar-body-small-bold-size);
+  font-weight: var(--coar-body-small-bold-weight);
+  line-height: 1.5;
+  color: var(--coar-text-neutral-primary);
+}
+
+.coar-caption {
+  font-family: var(--coar-body-caption-family), sans-serif;
+  font-size: var(--coar-body-caption-size);
+  font-weight: var(--coar-body-caption-weight);
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.coar-footnote {
+  font-family: var(--coar-body-footnote-family), sans-serif;
+  font-size: var(--coar-body-footnote-size);
+  font-weight: var(--coar-body-footnote-weight);
+  line-height: 1.4;
+  color: var(--coar-text-neutral-tertiary);
+}
+
+/* ========================================
+   TEXT COLOR UTILITIES
+   ======================================== */
+
+.coar-text-primary {
+  color: var(--coar-text-neutral-primary);
+}
+.coar-text-secondary {
+  color: var(--coar-text-neutral-secondary);
+}
+.coar-text-tertiary {
+  color: var(--coar-text-neutral-tertiary);
+}
+.coar-text-brand {
+  color: var(--coar-text-brand-primary);
+}
+.coar-text-accent {
+  color: var(--coar-text-accent-primary);
+}

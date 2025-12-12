@@ -46,7 +46,9 @@ describe('MessageParser', () => {
 
   it('should handle complex objects with destructuring', () => {
     const template = new MessageParser('Event details: {@event}');
-    const properties = template.bindProperties({ event: { type: 'click', coordinates: { x: 100, y: 200 } } });
+    const properties = template.bindProperties({
+      event: { type: 'click', coordinates: { x: 100, y: 200 } },
+    });
     const output = template.render(properties.boundProperties, {});
     expect(output).toBe('Event details: {"type":"click","coordinates":{"x":100,"y":200}}');
   });
@@ -123,13 +125,4 @@ describe('MessageParser', () => {
     const output = template.render(properties.boundProperties, { name: 'Jane Doe' });
     expect(output).toBe('User logged in: Jane Doe, age: {~age}');
   });
-
-  // it('should ignore first argument if it is a Date', () => {
-  //   const template = new MessageParser('User logged in: {date}');
-  //   const dt = new Date();
-  //   const properties = dt;
-  //   const properties = template.bindProperties(properties);
-  //   const output = template.render(properties.boundProperties, {});
-  //   expect(output).toBe('User logged in: Jane Doe, age: {~age}');
-  // });
 });

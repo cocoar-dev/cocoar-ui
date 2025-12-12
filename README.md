@@ -25,9 +25,9 @@
 The **Coar Design System** is an Nx monorepo providing:
 
 * **Angular UI component libraries** (`@cocoar/ui-*`)
-* **Design tokens** generated from Figma
+* **Design tokens** delivered as CSS variables (`@cocoar/ui-tokens`)
 * **Shared logging infrastructure** (`@cocoar/logging-abstractions` + `@cocoar/logging`)
-* **Storybook documentation** for all components
+* **A showcase app** for interactive component previews
 * High-quality, brand-consistent UI components
 
 ---
@@ -35,9 +35,9 @@ The **Coar Design System** is an Nx monorepo providing:
 ## Architecture
 
 * **Framework-pure libraries** - No Tailwind, only CSS variables
-* **Design tokens from Figma** - All styling via CSS variables
+* **Design tokens as CSS variables** - All styling via `--coar-*` tokens
 * **Nx monorepo** - Efficient build and test caching
-* **Storybook** - Interactive component documentation
+* **Showcase app** - Interactive component previews
 * **Playwright** - End-to-end testing
 * **Structured logging** - Serilog-style logging with abstractions for libraries and full implementation for applications
 
@@ -101,7 +101,7 @@ See [`src/libs/logging-abstractions/README.md`](src/libs/logging-abstractions/RE
 ## Install
 
 ```bash
-npm install @cocoar/ui-core @cocoar/ui-tokens
+npm install @cocoar/ui-components @cocoar/ui-tokens
 ```
 
 ---
@@ -109,7 +109,7 @@ npm install @cocoar/ui-core @cocoar/ui-tokens
 ## Usage
 
 ```typescript
-import { CoarButtonComponent } from '@cocoar/ui-core';
+import { CoarButtonComponent } from '@cocoar/ui-components';
 
 @Component({
   selector: 'app-root',
@@ -126,20 +126,30 @@ export class AppComponent {}
 ```bash
 # Install dependencies (from src/ directory)
 cd src
-npm install
+pnpm install
 
-# Run Storybook
-npm run storybook
+# Start the showcase app
+pnpm start
 
-# Build all libraries
-nx run-many --target=build --all
-
-# Run tests
-nx run-many --target=test --all
+# Lint / test / build
+pnpm lint
+pnpm test
+pnpm build
 
 # Run e2e tests
-nx e2e storybook-e2e
+pnpm e2e
 ```
+
+---
+
+## Release
+
+This repository currently uses an **artifacts-only** release approach ("Option C"):
+
+- CI builds packages, runs `npm pack`, and uploads `.tgz` artifacts.
+- Publishing to npm is intentionally disabled (publish steps are present but commented out).
+
+See [src/RELEASE_READINESS.md](src/RELEASE_READINESS.md) for the current release checklist.
 
 ---
 
@@ -150,15 +160,13 @@ nx e2e storybook-e2e
 ```
 src/                      # Nx workspace root
   libs/
-    ui-tokens/            Design tokens from Figma
-    ui-core/              Core UI components
-    ui-forms/             Form components
-    ui-grid/              Data grid component
-    ui-icons/             Icon system
+    ui-tokens/            Design tokens as CSS variables
+    ui-components/        Angular UI components
     logging-abstractions/ Lightweight logging interfaces (~2KB)
     logging/              Full Serilog-style logging implementation
   apps/
-    storybook/            Component documentation
+    showcase/             Component showcase app
+    showcase-e2e/         Playwright e2e tests
 docs/                     Additional documentation
 ```
 

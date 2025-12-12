@@ -1,0 +1,13 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Design Principles</h1>
+    <p class="description coar-body">The foundation of the COAR Design System — UI components for Angular.</p>
+  </header>
+
+  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
+    <coar-tab id="overview" [content]="OverviewTab">Overview</coar-tab>
+    <coar-tab id="tokens" [content]="TokensTab">Key Tokens</coar-tab>
+    <coar-tab id="touch-first" [content]="TouchFirstTab">Touch-First</coar-tab>
+    <coar-tab id="dos-donts" [content]="DosDontsTab">Do's & Don'ts</coar-tab>
+  </coar-tab-group>
+</div>

@@ -1,0 +1,173 @@
+/* ========================================
+   COAR TABLE - Base Styles
+   ======================================== */
+
+:host {
+  display: block;
+}
+
+.coar-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--coar-border-neutral-tertiary);
+  border-radius: var(--coar-radius-xs);
+  background: var(--coar-background-neutral-primary);
+}
+
+.coar-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--coar-body-base-family);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* ========================================
+   Header Styles
+   ======================================== */
+
+.coar-table ::ng-deep thead {
+  background: var(--coar-background-neutral-secondary);
+}
+
+.coar-table ::ng-deep th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  color: var(--coar-text-neutral-primary);
+  border-bottom: 1px solid var(--coar-border-neutral-tertiary);
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+/* ========================================
+   Body Styles
+   ======================================== */
+
+/* Alternating row colors by default for better readability */
+.coar-table ::ng-deep tbody tr:nth-child(odd) {
+  background: var(--coar-background-neutral-primary);
+}
+
+.coar-table ::ng-deep tbody tr:nth-child(even) {
+  background: var(--coar-background-neutral-secondary);
+}
+
+.coar-table ::ng-deep td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  color: var(--coar-text-neutral-secondary);
+  vertical-align: top;
+  /* No border between rows - using alternating colors instead */
+}
+
+/* ========================================
+   Code Styling within Table
+   ======================================== */
+
+.coar-table ::ng-deep code {
+  background: var(--coar-background-neutral-tertiary);
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--coar-radius-xxs);
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.8125rem;
+  color: var(--coar-text-neutral-primary);
+  white-space: nowrap;
+}
+
+/* ========================================
+   Variants
+   ======================================== */
+
+/* Plain variant - no alternating colors, subtle separator line */
+:host(.coar-table--plain) .coar-table ::ng-deep tbody tr:nth-child(odd),
+:host(.coar-table--plain) .coar-table ::ng-deep tbody tr:nth-child(even) {
+  background: var(--coar-background-neutral-primary);
+}
+
+:host(.coar-table--plain) .coar-table ::ng-deep td {
+  border-bottom: 1px solid var(--coar-border-neutral-tertiary);
+}
+
+:host(.coar-table--plain) .coar-table ::ng-deep tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Bordered variant - all cells have borders */
+:host(.coar-table--bordered) .coar-table-wrapper {
+  border: none; /* Remove wrapper border since cells provide the outer border */
+}
+
+:host(.coar-table--bordered) .coar-table ::ng-deep th,
+:host(.coar-table--bordered) .coar-table ::ng-deep td {
+  border: 1px solid var(--coar-border-neutral-tertiary);
+}
+
+:host(.coar-table--bordered) .coar-table ::ng-deep tbody tr:nth-child(odd),
+:host(.coar-table--bordered) .coar-table ::ng-deep tbody tr:nth-child(even) {
+  background: var(--coar-background-neutral-primary);
+}
+
+/* ========================================
+   Modifiers
+   ======================================== */
+
+/* Compact padding */
+:host(.coar-table--compact) .coar-table ::ng-deep th,
+:host(.coar-table--compact) .coar-table ::ng-deep td {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+}
+
+/* Hover effect */
+:host(.coar-table--hover) .coar-table ::ng-deep tbody tr:hover {
+  background: var(--coar-background-neutral-secondary);
+}
+
+/* ========================================
+   Common Cell Utilities (via classes)
+   ======================================== */
+
+.coar-table ::ng-deep .text-right {
+  text-align: right;
+}
+
+.coar-table ::ng-deep .text-center {
+  text-align: center;
+}
+
+.coar-table ::ng-deep .nowrap {
+  white-space: nowrap;
+}
+
+/* Property name styling (for API tables) */
+.coar-table ::ng-deep .prop-name code {
+  color: var(--coar-text-accent-primary);
+  font-weight: 500;
+}
+
+/* Type styling (for API tables) */
+.coar-table ::ng-deep .type {
+  color: var(--coar-text-neutral-tertiary);
+}
+
+/* Default value styling (for API tables) */
+.coar-table ::ng-deep .default {
+  color: var(--coar-text-neutral-tertiary);
+}
+
+/* Required badge */
+.coar-table ::ng-deep .required-badge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.125rem 0.375rem;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--coar-text-semantic-warning-bold);
+  background: var(--coar-background-semantic-warning-subtle);
+  border-radius: var(--coar-radius-xxs);
+  vertical-align: middle;
+}

@@ -1,0 +1,43 @@
+/* ========================================
+   TYPOGRAPHY PAGE STYLES
+   ========================================
+   RULE: No font-size, font-weight, font-family here!
+   Typography is handled by .coar-* classes in HTML.
+   ======================================== */
+
+/* Sections */
+.section {
+  margin-bottom: 3rem;
+}
+
+.section h2 {
+  margin-bottom: 0.25rem;
+}
+
+.section > p {
+  margin-bottom: 1.5rem;
+}
+
+/* Type Scale */
+.type-scale {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.type-item .coar-caption {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.type-item > p:not(.coar-caption) {
+  margin-bottom: 0.5rem;
+}
+
+.usage-example > * {
+  margin-bottom: 1rem;
+}
+
+.usage-example > *:last-child {
+  margin-bottom: 0;
+}

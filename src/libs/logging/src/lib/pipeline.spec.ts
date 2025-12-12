@@ -9,7 +9,14 @@ import { SinkStage } from './stages/sink-stage';
 
 describe('EnrichStage', () => {
   const createLogEvent = (level: WriteLogLevel) => {
-    return new LogEvent(new Date().toISOString(), getLogEventLevel(level), new MessageParser(`[${level}] Testmessage`), {}, [], {});
+    return new LogEvent(
+      new Date().toISOString(),
+      getLogEventLevel(level),
+      new MessageParser(`[${level}] Testmessage`),
+      {},
+      [],
+      {}
+    );
   };
 
   it('enriches log events with additional properties', async () => {
@@ -19,7 +26,7 @@ describe('EnrichStage', () => {
     const pipeline = new Pipeline([enrichStage, sinkStage]);
 
     const inputEvent = createLogEvent('info');
-    
+
     const event = await new Promise<LogEvent>((resolve) => {
       observableSink.subscribe((loggingEvent) => {
         // ObservableSink emits LoggingEvent, not LogEvent
@@ -31,7 +38,7 @@ describe('EnrichStage', () => {
 
       pipeline.emit(inputEvent);
     });
-    
+
     // Test passed if we got here
     expect(event).toBeDefined();
   });

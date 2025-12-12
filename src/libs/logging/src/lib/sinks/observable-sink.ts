@@ -20,11 +20,9 @@ type Subscriber = (event: LoggingEvent) => void;
 export class ObservableSink implements Sink {
   private subscribers: Subscriber[] = [];
 
-  public constructor() {}
-
   public subscribe(subscriber: Subscriber): () => void {
     this.subscribers.push(subscriber);
-    
+
     return () => {
       const index = this.subscribers.indexOf(subscriber);
       if (index > -1) {
@@ -43,7 +41,7 @@ export class ObservableSink implements Sink {
         timestamp: event.timestamp,
         error: event.error,
       };
-      
+
       for (const subscriber of this.subscribers) {
         try {
           subscriber(loggingEvent);

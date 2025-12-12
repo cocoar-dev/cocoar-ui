@@ -9,10 +9,10 @@ describe('Global Logger Registry', () => {
   describe('getLogger without configured logger', () => {
     it('should return NullLogger when no logger configured', () => {
       const logger = getLogger();
-      
+
       expect(logger).toBeDefined();
       expect(hasLogger()).toBe(false);
-      
+
       // Should be safe to call (no-op)
       logger.info('This does nothing');
       logger.error('Error message', { error: 'details' });
@@ -21,10 +21,10 @@ describe('Global Logger Registry', () => {
 
     it('should return enriched NullLogger for source context', () => {
       const logger = getLogger('MyLibrary');
-      
+
       expect(logger).toBeDefined();
       expect(hasLogger()).toBe(false);
-      
+
       // Should be safe to call
       logger.debug('Library is working');
     });
@@ -33,7 +33,7 @@ describe('Global Logger Registry', () => {
       const logger1 = getLogger('Source1');
       const logger2 = getLogger('Source1');
       const logger3 = getLogger('Source2');
-      
+
       // Without configured logger, no caching happens
       expect(logger1).toBeDefined();
       expect(logger2).toBeDefined();

@@ -6,11 +6,8 @@ export type SinkPredicate = () => boolean;
 
 export class SinkStage implements PipelineStage {
   private lastEmitResult: void | Promise<void> = undefined;
-  
-  public constructor(
-    private sink: Sink,
-    private predicate?: SinkPredicate
-  ) {}
+
+  public constructor(private sink: Sink, private predicate?: SinkPredicate) {}
 
   public process(events: LogEvent[]): LogEvent[] {
     if (!this.predicate || this.predicate()) {
@@ -23,7 +20,7 @@ export class SinkStage implements PipelineStage {
     } else {
       this.lastEmitResult = undefined;
     }
-    
+
     return events;
   }
 

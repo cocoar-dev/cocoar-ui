@@ -17,20 +17,14 @@ export class Pipeline {
 
     let processedEvents = event;
     const asyncResults: Promise<void>[] = [];
-    
+
     for (const stage of this.stages) {
-      const stageName = stage.constructor.name;
-      const beforeCount = processedEvents.length;
-      
       processedEvents = stage.process(processedEvents);
-      
-      const afterCount = processedEvents.length;
-      // console.log(`${stageName}: ${beforeCount} events in, ${afterCount} events out`);
-      
+
       if (processedEvents.length === 0) {
         break;
       }
-      
+
       if (stage instanceof SinkStage) {
         const emitResult = stage.getLastEmitResult();
         if (emitResult instanceof Promise) {

@@ -1,0 +1,133 @@
+/* ========================================
+   ICONS PAGE - SPECIFIC STYLES
+   ========================================
+   Common styles are in: app/shared/showcase-pages.css
+   Only page-specific overrides belong here.
+   ======================================== */
+
+/* Use bordered section variant */
+
+/* Search */
+.search-wrapper {
+  max-width: 300px;
+  margin-bottom: 1rem;
+}
+
+/* Icons Grid */
+.icons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 0.5rem;
+}
+
+.icon-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: var(--coar-radius-xs);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.icon-item:hover {
+  background: var(--coar-background-neutral-tertiary);
+  border-color: var(--coar-border-neutral-secondary);
+}
+
+.icon-item:active {
+  background: var(--coar-background-accent-tertiary);
+}
+
+.icon-name {
+  color: var(--coar-text-neutral-secondary);
+  text-align: center;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 2rem;
+  color: var(--coar-text-neutral-tertiary);
+}
+
+/* Sizes Row - using shared .demo-row pattern */
+.sizes-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-end;
+}
+
+/* Colors Row */
+.colors-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+}
+
+/* Rotation Row */
+.rotation-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+}
+
+/* Spin Row */
+.spin-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3rem;
+  align-items: center;
+}
+
+.spin-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.spin-label {
+  color: var(--coar-text-neutral-secondary);
+}
+
+/* Eye Icons Row */
+.eye-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+}
+
+/* Usage Notes */
+.usage-notes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.usage-notes strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--coar-text-neutral-primary);
+}
+
+.usage-notes p {
+  margin: 0;
+  color: var(--coar-text-neutral-tertiary);
+}
+
+.usage-notes code {
+  background: var(--coar-background-neutral-tertiary);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--coar-radius-xxs);
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.85em;
+}

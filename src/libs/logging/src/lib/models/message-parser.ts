@@ -11,7 +11,6 @@ interface Token {
 export class MessageParser {
   private tokens: Token[];
 
-
   public constructor(messageTemplate?: string) {
     this.tokens = this.tokenize(messageTemplate ?? '');
   }
@@ -38,7 +37,10 @@ export class MessageParser {
     return message;
   }
 
-  public bindProperties(...args: any[]): { boundProperties: Record<string, any>; unboundProperties: any[] } {
+  public bindProperties(...args: any[]): {
+    boundProperties: Record<string, any>;
+    unboundProperties: any[];
+  } {
     let properties: Record<string, any> = {};
     const unboundProperties: any[] = [];
     let argIndex = 0;
@@ -64,7 +66,6 @@ export class MessageParser {
 
     return { boundProperties: properties, unboundProperties };
   }
-
 
   private tokenize(template: string): Token[] {
     const tokenizer = /\{[@~]?\w+}/g;
@@ -118,7 +119,7 @@ export class MessageParser {
     }
 
     if (value instanceof Error) {
-      return value.message; // Or any other representation you prefer
+      return value.message;
     }
 
     if (typeof value.toISOString === 'function') {

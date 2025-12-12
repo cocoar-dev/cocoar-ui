@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { ILogger, LogProperties } from './logger.interface';
 
 /**
@@ -13,7 +14,7 @@ export class NullLogger implements ILogger {
   info(_errorOrMessageTemplate: Error | string, ..._properties: any[]): void {}
   debug(_errorOrMessageTemplate: Error | string, ..._properties: any[]): void {}
   verbose(_errorOrMessageTemplate: Error | string, ..._properties: any[]): void {}
-  
+
   enrich(_properties: LogProperties): ILogger {
     return this;
   }

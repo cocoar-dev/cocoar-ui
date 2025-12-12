@@ -1,0 +1,12 @@
+/**
+ * Cocoar Design System - Design Tokens
+ * Stroke Width - Border widths
+ * Auto-generated from Figma - Do not edit manually
+ */
+
+:root {
+  --coar-stroke-width-l: 4px;
+  --coar-stroke-width-m: 2px;
+  --coar-stroke-width-s: 1px;
+  --coar-stroke-width-xs: 0.5px;
+}

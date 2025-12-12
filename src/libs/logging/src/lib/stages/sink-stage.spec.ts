@@ -31,9 +31,7 @@ describe('SinkStage', () => {
 
   it('should emit events to sink when no predicate provided', () => {
     const sink = new TestSink();
-    const logger = new LoggerConfiguration()
-      .writeTo(sink)
-      .create();
+    const logger = new LoggerConfiguration().writeTo(sink).create();
 
     logger.info('Test message');
 
@@ -42,10 +40,8 @@ describe('SinkStage', () => {
 
   it('should emit events when predicate returns true', () => {
     const sink = new TestSink();
-    const logger = new LoggerConfiguration()
-      .writeTo(sink, () => true)
-      .create();
-    
+    const logger = new LoggerConfiguration().writeTo(sink, () => true).create();
+
     logger.info('Test message');
 
     expect(sink.emittedEvents.length).toBe(1);
@@ -53,10 +49,8 @@ describe('SinkStage', () => {
 
   it('should not emit events when predicate returns false', () => {
     const sink = new TestSink();
-    const logger = new LoggerConfiguration()
-      .writeTo(sink, () => false)
-      .create();
-    
+    const logger = new LoggerConfiguration().writeTo(sink, () => false).create();
+
     logger.info('Test message');
 
     expect(sink.emittedEvents.length).toBe(0);
@@ -65,10 +59,8 @@ describe('SinkStage', () => {
   it('should evaluate predicate at runtime for each batch', () => {
     const sink = new TestSink();
     let enabled = true;
-    
-    const logger = new LoggerConfiguration()
-      .writeTo(sink, () => enabled)
-      .create();
+
+    const logger = new LoggerConfiguration().writeTo(sink, () => enabled).create();
 
     logger.info('Message 1');
     expect(sink.emittedEvents.length).toBe(1);
@@ -85,7 +77,7 @@ describe('SinkStage', () => {
   it('should pass through events even when sink is disabled', () => {
     const sink1 = new TestSink();
     const sink2 = new TestSink();
-    
+
     const logger = new LoggerConfiguration()
       .writeTo(sink1, () => false)
       .writeTo(sink2, () => true)

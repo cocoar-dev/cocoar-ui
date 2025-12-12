@@ -1,0 +1,183 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Forms</h1>
+    <p class="description coar-body">Form patterns and layouts demonstrating how input components work together.</p>
+  </header>
+
+  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
+    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
+    <coar-tab id="sizing" [content]="sizingTemplate">Size Alignment</coar-tab>
+  </coar-tab-group>
+</div>
+
+<ng-template #examplesTemplate>
+  <!-- Login Form -->
+  <div class="example-section">
+    <h2 class="coar-heading">Login Form</h2>
+    <p class="section-intro coar-body-small">A simple authentication form with email and password fields.</p>
+    <coar-card class="form-card">
+      <div class="form-container login-form">
+        <coar-text-input label="Email" placeholder="your@email.com" [required]="true" [value]="loginEmail()" (valueChange)="loginEmail.set($event)" />
+        <coar-password-input label="Password" [required]="true" [value]="loginPassword()" (valueChange)="loginPassword.set($event)" />
+        <coar-checkbox label="Remember me" [checked]="rememberMe()" (checkedChange)="rememberMe.set($event)" />
+        <div class="form-actions">
+          <coar-button variant="primary" [loading]="loginLoading()" (clicked)="simulateLogin()"> Sign In </coar-button>
+          <coar-button variant="ghost">Forgot Password?</coar-button>
+        </div>
+      </div>
+    </coar-card>
+    <coar-code-block [code]="codeExamples.loginForm" language="html" [collapsed]="true" />
+  </div>
+
+  <!-- Inline Form -->
+  <div class="example-section">
+    <h2 class="coar-heading">Inline Form</h2>
+    <p class="section-intro coar-body-small">Horizontal layout for simple single-field forms like newsletter signup.</p>
+
+    <coar-note color="accent">
+      <h4>Size Alignment</h4>
+      <p>Use matching sizes for inputs and buttons to ensure perfect vertical alignment.</p>
+    </coar-note>
+
+    <coar-card class="form-card tw:mt-8">
+      <div class="inline-form">
+        <coar-text-input placeholder="Enter your email" size="sm" [value]="inlineEmail()" (valueChange)="inlineEmail.set($event)" />
+        <coar-button variant="primary" size="sm">Subscribe</coar-button>
+      </div>
+      <p class="demo-hint coar-body-small">Both input and button are 32px (size="sm") for perfect alignment.</p>
+    </coar-card>
+    <coar-code-block [code]="codeExamples.inlineForm" language="html" [collapsed]="true" />
+  </div>
+
+  <!-- Registration Form -->
+  <div class="example-section">
+    <h2 class="coar-heading">Registration Form</h2>
+    <p class="section-intro coar-body-small">Multi-field form with validation indicators and two-column layout.</p>
+    <coar-card class="form-card">
+      <div class="form-container registration-form">
+        <div class="form-row">
+          <coar-text-input label="Full Name" placeholder="John Doe" [required]="true" [value]="regName()" (valueChange)="regName.set($event)" />
+        </div>
+        <div class="form-row">
+          <coar-text-input
+            label="Email"
+            placeholder="your@email.com"
+            [required]="true"
+            hint="We'll never share your email"
+            [value]="regEmail()"
+            (valueChange)="regEmail.set($event)"
+          />
+        </div>
+        <div class="form-row two-columns">
+          <coar-password-input
+            label="Password"
+            [required]="true"
+            hint="Min. 8 characters"
+            [value]="regPassword()"
+            (valueChange)="regPassword.set($event)"
+          />
+          <coar-password-input
+            label="Confirm Password"
+            [required]="true"
+            [value]="regConfirmPassword()"
+            (valueChange)="regConfirmPassword.set($event)"
+          />
+        </div>
+        <div class="form-row checkboxes">
+          <coar-checkbox
+            label="I accept the Terms of Service"
+            [required]="true"
+            [checked]="acceptTerms()"
+            (checkedChange)="acceptTerms.set($event)"
+          />
+          <coar-checkbox
+            label="Subscribe to newsletter"
+            hint="Get product updates and tips"
+            [checked]="subscribeNewsletter()"
+            (checkedChange)="subscribeNewsletter.set($event)"
+          />
+        </div>
+        <div class="form-actions">
+          <coar-button variant="primary" iconEnd="caret-right">Create Account</coar-button>
+          <coar-button variant="secondary">Cancel</coar-button>
+        </div>
+      </div>
+    </coar-card>
+    <coar-code-block [code]="codeExamples.registrationForm" language="html" [collapsed]="true" />
+  </div>
+
+  <!-- Search Form -->
+  <div class="example-section">
+    <h2 class="coar-heading">Search Form</h2>
+    <p class="section-intro coar-body-small">Search input with button using default md size (40px).</p>
+    <coar-card class="form-card">
+      <div class="search-form">
+        <coar-text-input placeholder="Search..." [value]="searchQuery()" (valueChange)="searchQuery.set($event)" />
+        <coar-button variant="primary">Search</coar-button>
+      </div>
+      <p class="demo-hint coar-body-small">Default md size (40px) for both components.</p>
+    </coar-card>
+    <coar-code-block [code]="codeExamples.searchForm" language="html" [collapsed]="true" />
+  </div>
+</ng-template>
+
+<ng-template #sizingTemplate>
+  <!-- Size Comparison -->
+  <div class="example-section">
+    <h2 class="coar-heading">Component Height Comparison</h2>
+    <p class="section-intro coar-body-small">Input sizes match button sizes for consistent form layouts.</p>
+
+    <coar-card padding="lg">
+      <div class="sizing-grid">
+        <div class="sizing-row">
+          <span class="sizing-label coar-body-small">Extra Small (xs)</span>
+          <div class="sizing-demo">
+            <coar-text-input placeholder="Input xs" size="xs" />
+            <coar-checkbox label="Checkbox xs" size="xs" checked="checked" />
+            <coar-button size="xs">Button xs</coar-button>
+          </div>
+          <code class="sizing-value">27px</code>
+        </div>
+        <div class="sizing-row">
+          <span class="sizing-label coar-body-small">Small (sm)</span>
+          <div class="sizing-demo">
+            <coar-text-input placeholder="Input sm" size="sm" />
+            <coar-checkbox label="Checkbox sm" size="sm" checked="checked" />
+            <coar-button size="sm">Button sm</coar-button>
+          </div>
+          <code class="sizing-value">32px</code>
+        </div>
+        <div class="sizing-row">
+          <span class="sizing-label coar-body-small">Medium (md)</span>
+          <div class="sizing-demo">
+            <coar-text-input placeholder="Input md" size="md" />
+            <coar-checkbox label="Checkbox md" size="md" checked="checked" />
+            <coar-button size="md">Button md</coar-button>
+          </div>
+          <code class="sizing-value">40px</code>
+        </div>
+        <div class="sizing-row">
+          <span class="sizing-label coar-body-small">Large (lg)</span>
+          <div class="sizing-demo">
+            <coar-text-input placeholder="Input lg" size="lg" />
+            <coar-checkbox label="Checkbox lg" size="lg" checked="checked" />
+            <coar-button size="lg">Button lg</coar-button>
+          </div>
+          <code class="sizing-value">48px</code>
+        </div>
+      </div>
+    </coar-card>
+  </div>
+
+  <!-- Best Practices -->
+  <div class="example-section">
+    <h2 class="coar-heading">Best Practices</h2>
+    <ul class="a11y-list">
+      <li class="coar-body-small">Always use the same size for inputs and buttons in inline forms</li>
+      <li class="coar-body-small">Use <code>sm</code> for compact UI like toolbars or data tables</li>
+      <li class="coar-body-small">Use <code>md</code> (default) for most forms and dialogs</li>
+      <li class="coar-body-small">Use <code>lg</code> for prominent forms like login or hero sections</li>
+      <li class="coar-body-small">Required fields should have the <code>required</code> attribute for accessibility</li>
+    </ul>
+  </div>
+</ng-template>

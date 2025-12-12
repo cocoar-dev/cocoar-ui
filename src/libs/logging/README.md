@@ -8,6 +8,7 @@ Structured, Serilog-style logging for TypeScript — designed for monorepos and 
 - **Applications** should depend on `@cocoar/logging` (full implementation)
 
 This follows the .NET pattern:
+
 - `@cocoar/logging-abstractions` = `Microsoft.Extensions.Logging.Abstractions`
 - `@cocoar/logging` = `Microsoft.Extensions.Logging`
 
@@ -62,9 +63,7 @@ import { ConsoleSink } from '@cocoar/logging';
 
 // Configure once at application startup
 configureGlobalLogger((config) =>
-  config
-    .minLevel('debug')
-    .writeTo(new ConsoleSink({ includeProperties: true }))
+  config.minLevel('debug').writeTo(new ConsoleSink({ includeProperties: true }))
 );
 
 // Now all libraries using getLoggerFor() will log automatically
@@ -79,7 +78,7 @@ import { getLoggerFor } from '@cocoar/logging-abstractions';
 
 export class DataService {
   private logger = getLoggerFor(this); // Automatically uses 'DataService' as source
-  
+
   async fetchData(id: number) {
     this.logger.info('Fetching data for {id}', { id });
     // ... implementation
@@ -95,14 +94,15 @@ The `ConsoleSink` writes logs to the browser console with CSS styling and suppor
 
 ```typescript
 new ConsoleSink({
-  includeTimestamps: true,              // Prepend ISO timestamp (default: false)
-  includeProperties: true,              // Show property objects (default: false)
-  restrictedToMinimumLevel: 'warn',     // Per-sink minimum level (default: none)
-  useGroups: true                       // Use collapsible console.group() (default: false)
-})
+  includeTimestamps: true, // Prepend ISO timestamp (default: false)
+  includeProperties: true, // Show property objects (default: false)
+  restrictedToMinimumLevel: 'warn', // Per-sink minimum level (default: none)
+  useGroups: true, // Use collapsible console.group() (default: false)
+});
 ```
 
 **Features:**
+
 - ✅ **Browser-optimized CSS styling** - Distinctive colors for each log level (Fatal: red badge, Error: bold red, Warning: bold orange, Info: blue, Debug/Verbose: gray)
 - ✅ **Safe for circular references** - Handles DOM nodes, self-referencing objects, and complex structures without crashing
 - ✅ **Error stack traces** - Error objects are passed as separate arguments so browsers render expandable stack traces
@@ -110,14 +110,15 @@ new ConsoleSink({
 - ✅ **Collapsible groups** - With `useGroups: true`, logs with properties/errors are wrapped in expandable groups for cleaner DevTools
 
 **Example with groups:**
+
 ```typescript
 configureGlobalLogger((config) =>
-  config
-    .minLevel('debug')
-    .writeTo(new ConsoleSink({ 
+  config.minLevel('debug').writeTo(
+    new ConsoleSink({
       includeProperties: true,
-      useGroups: true  // Large objects become collapsible
-    }))
+      useGroups: true, // Large objects become collapsible
+    })
+  )
 );
 
 // Logs appear as:
@@ -134,9 +135,7 @@ import { configureGlobalLogger, getLogger, ConsoleSink } from '@cocoar/logging';
 
 // Configure once at application startup
 configureGlobalLogger((config) =>
-  config
-    .minLevel('debug')
-    .writeTo(new ConsoleSink({ includeProperties: true }))
+  config.minLevel('debug').writeTo(new ConsoleSink({ includeProperties: true }))
 );
 
 // Use anywhere in your application or in any package
@@ -147,6 +146,7 @@ logger.info('Component initialized');
 ### Why Global Logger?
 
 In a monorepo with multiple packages, you want:
+
 - **Single configuration point** - Configure logging once, use everywhere
 - **Cross-package consistency** - All packages log with the same format
 - **True singleton** - Uses `Symbol.for()` to work even if multiple versions are loaded (e.g. in monorepos with multiple `node_modules` trees)
@@ -197,12 +197,14 @@ await logger.error(error, 'Payment failed for {OrderId}', { OrderId: 789 });
 ```
 
 **When to await:**
+
 - Security/audit logs that must be persisted
 - Payment/financial transaction logs
 - Compliance-critical events
 - Before process exit (ensure logs flushed)
 
 **When to fire-and-forget:**
+
 - Debug/diagnostic logs
 - UI interaction logs
 - Performance traces
@@ -214,6 +216,7 @@ await logger.error(error, 'Payment failed for {OrderId}', { OrderId: 789 });
 - If **any sink is asynchronous**, it returns **Promise<void>**
 
 This allows:
+
 - Fast fire-and-forget logging by default
 - `await` for critical logs only when needed
 
@@ -226,7 +229,7 @@ import { getLoggerFor } from '@cocoar/logging';
 
 class UserService {
   private logger = getLoggerFor(UserService);
-  
+
   async createUser(email: string) {
     this.logger.info('Creating user {Email}', { Email: email });
     // ...
@@ -241,7 +244,7 @@ import { getLogger } from '@cocoar/logging';
 
 export class MyComponent {
   private logger = getLogger('MyComponent');
-  
+
   ngOnInit() {
     this.logger.debug('Component initialized');
   }
@@ -253,9 +256,9 @@ export class MyComponent {
 Use `{PropertyName}` placeholders inside message templates:
 
 ```typescript
-logger.debug('Processing order {OrderId} for user {UserId}', { 
-  OrderId: 789, 
-  UserId: 123 
+logger.debug('Processing order {OrderId} for user {UserId}', {
+  OrderId: 789,
+  UserId: 123,
 });
 ```
 
@@ -313,12 +316,13 @@ Filter log events based on custom logic:
 import { LoggerConfiguration, ConsoleSink, LogEventLevel } from '@cocoar/logging';
 
 const logger = new LoggerConfiguration()
-  .filter((event) => event.level <= LogEventLevel.warn)  // Warn and higher severity (fatal, error, warn)
+  .filter((event) => event.level <= LogEventLevel.warn) // Warn and higher severity (fatal, error, warn)
   .writeTo(new ConsoleSink())
   .create();
 ```
 
 **Note:** LogEventLevel uses bitwise flags where **lower numbers = higher severity** (matching Serilog's bitmask severity model):
+
 - `fatal = 1`, `error = 3`, `warn = 7`, `info = 15`, `debug = 31`, `verbose = 63`
 - Use `<=` to filter "this level and higher severity" (e.g., `<= warn` includes fatal, error, warn)
 - Use `>=` to filter "this level and lower severity" (e.g., `>= warn` includes warn, info, debug, verbose)
@@ -333,10 +337,7 @@ import { configureGlobalLogger, ConsoleSink, ObservableSink } from '@cocoar/logg
 const observableSink = new ObservableSink();
 
 configureGlobalLogger((config) =>
-  config
-    .minLevel('debug')
-    .writeTo(new ConsoleSink())
-    .writeTo(observableSink)
+  config.minLevel('debug').writeTo(new ConsoleSink()).writeTo(observableSink)
 );
 
 // Subscribe to log events with a callback
@@ -363,34 +364,37 @@ const consoleSink = new ConsoleSink();
 // HttpSink is a custom implementation (see "Custom Async Sinks" section below)
 const httpSink = new HttpSink('https://logs.example.com/api');
 
-configureGlobalLogger((config) =>
-  config
-    .minLevel('debug')
-    .writeTo(consoleSink)  // Gets ALL debug+ events (no filtering, no enrichment)
-    
-    .filter(e => e.level <= LogEventLevel.error)  // Filter to errors and higher severity (fatal + error)
-    .enrich({
-      userAgent: navigator.userAgent,
-      url: window.location.href,
-      buildVersion: '1.2.3'
-    })
-    
-    .writeTo(httpSink)  // Gets only ERRORS with client enrichment
+configureGlobalLogger(
+  (config) =>
+    config
+      .minLevel('debug')
+      .writeTo(consoleSink) // Gets ALL debug+ events (no filtering, no enrichment)
+
+      .filter((e) => e.level <= LogEventLevel.error) // Filter to errors and higher severity (fatal + error)
+      .enrich({
+        userAgent: navigator.userAgent,
+        url: window.location.href,
+        buildVersion: '1.2.3',
+      })
+
+      .writeTo(httpSink) // Gets only ERRORS with client enrichment
 );
 
-logger.debug('Debug info');  // → Console only
-logger.info('User action');  // → Console only
-logger.warn('Warning');      // → Console only
+logger.debug('Debug info'); // → Console only
+logger.info('User action'); // → Console only
+logger.warn('Warning'); // → Console only
 await logger.error('Error'); // → Console (no enrichment) + HTTP (with enrichment)
 ```
 
 **Key points:**
+
 - Sinks process **in configuration order**
 - Each sink receives events **after all preceding stages have processed them**
 - Filtering and enrichment **only affect downstream sinks**
 - Mix sync (ConsoleSink) and async (HttpSink) freely
 
 **Use cases:**
+
 - Local console gets everything for debugging,  
   remote server gets only errors with extra context
 - Different sinks with different filtering/enrichment rules
@@ -408,59 +412,70 @@ const consoleSink = new ConsoleSink();
 const httpSink = new HttpSink('https://logs.example.com/api');
 const auditSink = new AuditSink();
 
-configureGlobalLogger((config) =>
-  config
-    .minLevel('debug')
-    .writeTo(consoleSink)  // Gets ALL debug+ events
-    
-    .fork(p => p
-      .filter(e => e.level <= LogEventLevel.error)  // Filter to errors and higher severity (fatal + error)
-      .enrich({
-        userAgent: navigator.userAgent,
-        url: window.location.href,
-        buildVersion: '1.2.3'
-      })
-      .writeTo(httpSink)  // Gets only errors with enrichment
-    )
-    
-    .writeTo(auditSink)  // Gets ALL events, NO fork enrichment (fork is isolated)
+configureGlobalLogger(
+  (config) =>
+    config
+      .minLevel('debug')
+      .writeTo(consoleSink) // Gets ALL debug+ events
+
+      .fork(
+        (p) =>
+          p
+            .filter((e) => e.level <= LogEventLevel.error) // Filter to errors and higher severity (fatal + error)
+            .enrich({
+              userAgent: navigator.userAgent,
+              url: window.location.href,
+              buildVersion: '1.2.3',
+            })
+            .writeTo(httpSink) // Gets only errors with enrichment
+      )
+
+      .writeTo(auditSink) // Gets ALL events, NO fork enrichment (fork is isolated)
 );
 
-logger.debug('Debug info');  // → Console + Audit (all get it)
-logger.info('User action');  // → Console + Audit
+logger.debug('Debug info'); // → Console + Audit (all get it)
+logger.info('User action'); // → Console + Audit
 await logger.error('Error'); // → Console + Audit (no enrichment) + HTTP (with enrichment)
 ```
 
 **Key differences from interleaved:**
+
 - **Fork is isolated** — filtering/enrichment inside fork doesn't affect main pipeline
 - **Main pipeline continues** — sinks after fork get the original events
 - **Parallel processing** — fork runs alongside main pipeline
 - **Nested forks** — you can fork within a fork for complex routing
 
 **When to use fork vs interleaving:**
+
 - **Interleaved** (`.filter().enrich().writeTo()`) — sequential processing, each sink sees cumulative changes
 - **Fork** (`.fork(p => p.filter().enrich().writeTo())`) — isolated branching, main pipeline unaffected
 
 **Example: Multiple forks with different rules**
+
 ```typescript
-configureGlobalLogger((config) =>
-  config
-    .minLevel('debug')
-    .writeTo(consoleSink)  // All events
-    
-    .fork(p => p
-      .filter(e => e.level <= LogEventLevel.error)
-      .enrich({ destination: 'error-service' })
-      .writeTo(errorServiceSink)  // Only errors (fatal + error)
-    )
-    
-    .fork(p => p
-      .filter(e => e.level <= LogEventLevel.warn)
-      .enrich({ destination: 'warning-service' })
-      .writeTo(warningServiceSink)  // Warnings and higher severity (fatal + error + warn)
-    )
-    
-    .writeTo(auditSink)  // All events, no fork enrichment
+configureGlobalLogger(
+  (config) =>
+    config
+      .minLevel('debug')
+      .writeTo(consoleSink) // All events
+
+      .fork(
+        (p) =>
+          p
+            .filter((e) => e.level <= LogEventLevel.error)
+            .enrich({ destination: 'error-service' })
+            .writeTo(errorServiceSink) // Only errors (fatal + error)
+      )
+
+      .fork(
+        (p) =>
+          p
+            .filter((e) => e.level <= LogEventLevel.warn)
+            .enrich({ destination: 'warning-service' })
+            .writeTo(warningServiceSink) // Warnings and higher severity (fatal + error + warn)
+      )
+
+      .writeTo(auditSink) // All events, no fork enrichment
 );
 ```
 
@@ -475,7 +490,9 @@ let consoleLoggingEnabled = true;
 let debugMode = false;
 
 // Custom sink example (not included in library)
-class DebugSink { /* ... */ }
+class DebugSink {
+  /* ... */
+}
 
 configureGlobalLogger((config) =>
   config
@@ -488,7 +505,7 @@ configureGlobalLogger((config) =>
 
 // Later in your code: toggle logging dynamically (cheap, no re-initialization)
 consoleLoggingEnabled = false; // Disables console logging
-debugMode = true;              // Enables debug sink
+debugMode = true; // Enables debug sink
 ```
 
 The predicate function is evaluated at runtime for each log event batch, giving you complete control without rebuilding the pipeline.
@@ -504,16 +521,17 @@ let currentLogLevel: WriteLogLevel = 'info';
 
 configureGlobalLogger((config) =>
   config
-    .minLevel(() => currentLogLevel)  // Function evaluated at runtime
+    .minLevel(() => currentLogLevel) // Function evaluated at runtime
     .writeTo(new ConsoleSink())
 );
 
 // Later in your code: change level dynamically (cheap, no re-initialization)
-currentLogLevel = 'debug';  // Now debug messages will be logged
-currentLogLevel = 'error';  // Now only errors and fatal messages
+currentLogLevel = 'debug'; // Now debug messages will be logged
+currentLogLevel = 'error'; // Now only errors and fatal messages
 ```
 
 This is useful for:
+
 - Development vs production environments
 - Debug mode toggles
 - Feature flags
@@ -552,20 +570,22 @@ class HttpSink implements Sink {
     if (this.buffer.length === 0) return;
 
     const batch = this.buffer.splice(0, this.buffer.length);
-    
+
     // Serialize LogEvent objects for HTTP transmission
-    const payload = batch.map(event => ({
+    const payload = batch.map((event) => ({
       timestamp: event.timestamp,
       level: event.level,
       message: event.message.render(event.properties, event.enrichedProperties),
       properties: event.properties,
       enrichedProperties: event.enrichedProperties,
-      error: event.error ? {
-        message: event.error.message,
-        stack: event.error.stack
-      } : null
+      error: event.error
+        ? {
+            message: event.error.message,
+            stack: event.error.stack,
+          }
+        : null,
     }));
-    
+
     await fetch(this.endpoint, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -575,22 +595,24 @@ class HttpSink implements Sink {
 }
 
 // Usage with interleaved filtering and enrichment
-configureGlobalLogger((config) =>
-  config
-    .minLevel('info')
-    .writeTo(new ConsoleSink())  // Immediate (sync) - all logs
-    
-    .filter(e => e.level <= LogEventLevel.error)  // Only errors
-    .enrich({ 
-      environment: 'production',
-      version: '1.2.3' 
-    })
-    
-    .writeTo(new HttpSink('https://logs.example.com/api/logs', { batchSize: 20 }))  // Batched (async) - only errors with enrichment
+configureGlobalLogger(
+  (config) =>
+    config
+      .minLevel('info')
+      .writeTo(new ConsoleSink()) // Immediate (sync) - all logs
+
+      .filter((e) => e.level <= LogEventLevel.error) // Only errors
+      .enrich({
+        environment: 'production',
+        version: '1.2.3',
+      })
+
+      .writeTo(new HttpSink('https://logs.example.com/api/logs', { batchSize: 20 })) // Batched (async) - only errors with enrichment
 );
 ```
 
 **Key points:**
+
 - Each sink controls its own buffering strategy
 - Console logs appear immediately (sync)
 - HTTP logs batch automatically (async, reduces network calls)
@@ -661,10 +683,12 @@ SinkStage (sink3)     ──→  FileSink (sync) emits doubly-filtered events
 **Components:**
 
 1. **Logger** - Entry point for logging calls (`info`, `error`, `debug`, etc.)
+
    - Returns `void` if all sinks are synchronous (fire-and-forget)
    - Returns `Promise<void>` if any sink is asynchronous (awaitable)
 
 2. **Pipeline** - Sequential processing of interleaved stages and sinks
+
    - Stages process events in configuration order
    - Each SinkStage emits to its sink at that point in the pipeline
    - FilterStage and EnrichStage affect only downstream sinks
@@ -672,6 +696,7 @@ SinkStage (sink3)     ──→  FileSink (sync) emits doubly-filtered events
    - Zero dependencies (no RxJS, pure TypeScript)
 
 3. **Stages** - Transform, filter, or route events
+
    - `FilterStage` - Filter events by predicate (level, custom logic)
    - `EnrichStage` - Add properties to events (creates new LogEvent objects, doesn't mutate)
    - `SinkStage` - Wraps a sink, emits events and passes them through to next stage

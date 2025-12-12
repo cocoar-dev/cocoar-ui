@@ -4,27 +4,27 @@ import { getLogger } from './global-registry';
 
 /**
  * Get a logger with source context extracted from class, instance, or string.
- * 
+ *
  * This is a convenience method that accepts:
  * - String: Used as-is
  * - Class constructor: Extracts class name
  * - Class instance: Extracts class name from constructor
  * - Plain object: Extracts "Object" (not useful, but won't crash)
- * 
+ *
  * @param source - String, class constructor, or instance to extract source name from
  * @returns Logger instance enriched with source context
- * 
+ *
  * @example String source:
  * ```typescript
  * const logger = getLoggerFor('MyModule');
  * ```
- * 
+ *
  * @example Class source:
  * ```typescript
  * class MyService {}
  * const logger = getLoggerFor(MyService);  // source: 'MyService'
  * ```
- * 
+ *
  * @example Instance source:
  * ```typescript
  * class MyComponent {
@@ -34,7 +34,7 @@ import { getLogger } from './global-registry';
  */
 export function getLoggerFor<T>(source: string | (new (...args: any[]) => T) | T): ILogger {
   let name: string;
-  
+
   if (typeof source === 'string') {
     // Direct string - use as-is (preserve underscores, special chars, etc.)
     name = source;
@@ -54,6 +54,6 @@ export function getLoggerFor<T>(source: string | (new (...args: any[]) => T) | T
     // Fallback for primitives/null/undefined (shouldn't happen in normal usage)
     name = 'Unknown';
   }
-  
+
   return getLogger(name);
 }

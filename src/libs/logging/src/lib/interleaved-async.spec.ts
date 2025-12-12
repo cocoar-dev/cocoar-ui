@@ -32,7 +32,7 @@ describe('Interleaved Async/Sync Sinks', () => {
 
     async emit(events: LogEvent[]): Promise<void> {
       // Simulate async operation (e.g., HTTP call)
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 10));
       this.events.push(...events);
     }
 
@@ -47,11 +47,11 @@ describe('Interleaved Async/Sync Sinks', () => {
     const syncSink2 = new SyncSink('sync2');
 
     const logger = new LoggerConfiguration()
-      .writeTo(syncSink1)    // Sync - gets all events
-      .filter(e => e.level <= LogEventLevel.warn)
-      .writeTo(asyncSink)    // Async - gets filtered events
+      .writeTo(syncSink1) // Sync - gets all events
+      .filter((e) => e.level <= LogEventLevel.warn)
+      .writeTo(asyncSink) // Async - gets filtered events
       .enrich({ extra: 'data' })
-      .writeTo(syncSink2)    // Sync - gets filtered + enriched
+      .writeTo(syncSink2) // Sync - gets filtered + enriched
       .create();
 
     // Fire-and-forget (all sinks process, but we don't wait)
@@ -59,11 +59,11 @@ describe('Interleaved Async/Sync Sinks', () => {
     logger.warn('Warning message');
 
     // Give async sink time to complete
-    await new Promise(resolve => setTimeout(resolve, 50));
+    await new Promise((resolve) => setTimeout(resolve, 50));
 
-    expect(syncSink1.events.length).toBe(2);  // info, warn
-    expect(asyncSink.events.length).toBe(1);  // only warn (filtered)
-    expect(syncSink2.events.length).toBe(1);  // only warn (filtered + enriched)
+    expect(syncSink1.events.length).toBe(2); // info, warn
+    expect(asyncSink.events.length).toBe(1); // only warn (filtered)
+    expect(syncSink2.events.length).toBe(1); // only warn (filtered + enriched)
     expect(syncSink2.events[0].enrichedProperties['extra']).toBe('data');
   });
 
@@ -73,18 +73,18 @@ describe('Interleaved Async/Sync Sinks', () => {
 
     const logger = new LoggerConfiguration()
       .writeTo(syncSink)
-      .filter(e => e.level <= LogEventLevel.error)
-      .writeTo(asyncSink)  // Async sink present
+      .filter((e) => e.level <= LogEventLevel.error)
+      .writeTo(asyncSink) // Async sink present
       .create();
 
     logger.info('Info');
-    
+
     // Await for critical log to ensure async sink completes
     await logger.error('Critical error');
 
     // No need to wait - async sink completed because we awaited
-    expect(syncSink.events.length).toBe(2);   // info, error
-    expect(asyncSink.events.length).toBe(1);  // only error
+    expect(syncSink.events.length).toBe(2); // info, error
+    expect(asyncSink.events.length).toBe(1); // only error
     expect(asyncSink.events[0].level).toBe(LogEventLevel.error);
   });
 
@@ -94,16 +94,16 @@ describe('Interleaved Async/Sync Sinks', () => {
 
     const logger = new LoggerConfiguration()
       .writeTo(sync1)
-      .filter(e => e.level <= LogEventLevel.warn)
+      .filter((e) => e.level <= LogEventLevel.warn)
       .writeTo(sync2)
       .create();
 
     // Should return void (not Promise)
     const result = logger.info('Test');
-    
+
     expect(result).toBeUndefined();
     expect(sync1.events.length).toBe(1);
-    expect(sync2.events.length).toBe(0);  // filtered out
+    expect(sync2.events.length).toBe(0); // filtered out
   });
 
   it('should return Promise when any sink is async', async () => {
@@ -112,15 +112,16 @@ describe('Interleaved Async/Sync Sinks', () => {
 
     const logger = new LoggerConfiguration()
       .writeTo(syncSink)
-      .writeTo(asyncSink)  // Async sink makes result a Promise
+      .writeTo(asyncSink) // Async sink makes result a Promise
       .create();
 
     // Should return Promise<void>
     const result = logger.info('Test');
-    
+
     expect(result).toBeInstanceOf(Promise);
 
-    await result;    expect(syncSink.events.length).toBe(1);
+    await result;
+    expect(syncSink.events.length).toBe(1);
     expect(asyncSink.events.length).toBe(1);
   });
 
@@ -130,13 +131,13 @@ describe('Interleaved Async/Sync Sinks', () => {
 
     const logger = new LoggerConfiguration()
       .minLevel('debug')
-      .writeTo(consoleSink)  // Sync - immediate console output
-      .filter(e => e.level <= LogEventLevel.error)
-      .enrich({ 
+      .writeTo(consoleSink) // Sync - immediate console output
+      .filter((e) => e.level <= LogEventLevel.error)
+      .enrich({
         userAgent: 'Mozilla/5.0',
-        timestamp: Date.now() 
+        timestamp: Date.now(),
       })
-      .writeTo(httpSink)  // Async - batched HTTP calls
+      .writeTo(httpSink) // Async - batched HTTP calls
       .create();
 
     // Fire-and-forget for normal logs

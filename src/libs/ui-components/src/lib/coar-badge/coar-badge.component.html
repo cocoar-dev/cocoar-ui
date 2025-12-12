@@ -1,0 +1,23 @@
+<span
+  class="coar-badge"
+  [class.coar-badge--primary]="variant() === 'primary'"
+  [class.coar-badge--secondary]="variant() === 'secondary'"
+  [class.coar-badge--success]="variant() === 'success'"
+  [class.coar-badge--warning]="variant() === 'warning'"
+  [class.coar-badge--error]="variant() === 'error'"
+  [class.coar-badge--info]="variant() === 'info'"
+  [class.coar-badge--xs]="size() === 'xs'"
+  [class.coar-badge--sm]="size() === 'sm'"
+  [class.coar-badge--md]="size() === 'md'"
+  [class.coar-badge--lg]="size() === 'lg'"
+  [class.coar-badge--xl]="size() === 'xl'"
+  [class.coar-badge--auto]="size() === 'auto'"
+  [class.coar-badge--dot]="dot()"
+  [class.coar-badge--bordered]="bordered()"
+  role="status"
+  [attr.aria-label]="displayValue() || 'status indicator'"
+>
+  @if (!dot() && displayValue()) {
+  <span class="coar-badge__content">{{ displayValue() }}</span>
+  }
+</span>

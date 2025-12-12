@@ -1,0 +1,838 @@
+/* ========================================
+   SHOWCASE PAGES - SHARED STYLES
+   ========================================
+   Common styles used across showcase component pages.
+   Import this file in styles.css to make these classes
+   available globally in the showcase app.
+   ======================================== */
+
+/* ========================================
+   PAGE LAYOUT
+   ======================================== */
+
+.component-page {
+  max-width: 1200px;
+}
+
+/* ========================================
+   PAGE HEADER
+   ======================================== */
+
+.page-header {
+  margin-bottom: 1.5rem;
+}
+
+.page-header h1 {
+  margin: 0 0 0.5rem;
+  color: var(--coar-text-neutral-primary);
+}
+
+.page-description,
+.description {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.description code {
+  background: var(--coar-background-neutral-tertiary);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--coar-radius-xxs);
+  font-family: 'Consolas', 'Monaco', monospace;
+}
+
+/* ========================================
+   CODE BLOCKS
+   ========================================
+   Ensure code blocks have proper spacing from
+   preceding elements in showcase pages.
+   ======================================== */
+
+coar-code-block {
+  display: block;
+  margin-top: 1rem;
+}
+
+/* Remove top margin when code block is first child */
+coar-code-block:first-child {
+  margin-top: 0;
+}
+
+/* ========================================
+   CONTENT AREAS
+   ======================================== */
+
+.examples-content,
+.api-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding-top: 24px;
+}
+
+/* ========================================
+   SECTIONS
+   ======================================== */
+
+.example-section,
+.api-section {
+  margin-bottom: 0;
+  padding-bottom: 1.5rem;
+  border-bottom: none;
+}
+
+.example-section:first-child,
+.api-section:first-child {
+  padding-top: 0.5rem;
+}
+
+.example-section h2,
+.api-section h2 {
+  margin: 0 0 0.5rem;
+  color: var(--coar-text-neutral-primary);
+}
+
+.example-section h3,
+.api-section h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--coar-text-neutral-primary);
+}
+
+.example-section p,
+.api-section p {
+  margin: 0 0 16px 0;
+  font-size: 14px;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.section-intro {
+  margin: 0 0 1rem;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.section-intro code {
+  background: var(--coar-background-neutral-tertiary);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--coar-radius-xxs);
+  font-family: 'Consolas', 'Monaco', monospace;
+}
+
+/* ========================================
+   EXAMPLE CARDS & DEMOS
+   ======================================== */
+
+.example-card {
+  margin-bottom: 1rem;
+}
+
+.example-preview {
+  max-width: 400px;
+}
+
+.example-content {
+  margin-bottom: 1rem;
+}
+
+/* Example demo layouts */
+.example-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+/* Constrained width for form inputs that shouldn't stretch full width */
+.example-demo--form {
+  max-width: 400px;
+}
+
+.example-demo--two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 100%;
+}
+
+.example-demo--three-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 100%;
+}
+
+.example-demo--four-col {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 100%;
+}
+
+/* Legacy row-based layouts */
+.example-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 16px;
+  max-width: 300px;
+}
+
+.example-row--two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 100%;
+}
+
+.example-row--three-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 100%;
+}
+
+.example-row--four-col {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .example-demo--two-col,
+  .example-demo--three-col,
+  .example-demo--four-col,
+  .example-row--two-col,
+  .example-row--three-col,
+  .example-row--four-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================
+   DEMO BOXES
+   ======================================== */
+
+.demo-box {
+  padding: 16px;
+  background: var(--coar-background-neutral-secondary);
+  border-radius: 8px;
+}
+
+.demo-box--outlined {
+  background: transparent;
+  border: 1px dashed var(--coar-border-neutral-secondary);
+}
+
+.demo-box p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.demo-label {
+  margin: 0 0 12px 0 !important;
+  font-size: 12px !important;
+  font-weight: 500;
+  color: var(--coar-text-neutral-tertiary) !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.demo-hint {
+  margin: 1rem 0 0;
+  color: var(--coar-text-neutral-tertiary);
+  font-style: italic;
+}
+
+/* ========================================
+   VALUE DISPLAY (for interactive demos)
+   ======================================== */
+
+.value-display {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--coar-border-neutral-secondary);
+  color: var(--coar-text-neutral-tertiary);
+}
+
+.value-display code {
+  background: var(--coar-background-neutral-tertiary);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--coar-radius-xxs);
+  font-family: 'Consolas', 'Monaco', monospace;
+  color: var(--coar-text-neutral-primary);
+}
+
+.value-display div {
+  margin: 0.25rem 0;
+}
+
+/* ========================================
+   COMMON ROW LAYOUTS
+   ======================================== */
+
+/* Generic row for displaying items horizontally */
+.demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.demo-row--align-end {
+  align-items: flex-end;
+}
+
+.demo-row--large-gap {
+  gap: 1.5rem;
+}
+
+.demo-row--extra-large-gap {
+  gap: 2rem;
+}
+
+/* ========================================
+   COMMON ITEM PATTERNS
+   ======================================== */
+
+/* Generic labeled item (used for sizes, colors, etc.) */
+.demo-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.demo-item__label {
+  color: var(--coar-text-neutral-secondary);
+  text-align: center;
+}
+
+/* ========================================
+   SIZE ROWS (for size demos)
+   ======================================== */
+
+.sizes-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.size-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+.size-label {
+  color: var(--coar-text-neutral-secondary);
+}
+
+.size-demo {
+  max-width: 300px;
+}
+
+.size-code {
+  background: transparent;
+  padding: 0;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.85rem;
+  color: var(--coar-text-neutral-tertiary);
+}
+
+/* Size specifications display */
+.size-specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.size-specs code {
+  background: var(--coar-background-neutral-tertiary);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--coar-radius-xxs);
+  font-family: 'Consolas', 'Monaco', monospace;
+  color: var(--coar-text-accent-primary);
+}
+
+@media (max-width: 600px) {
+  .size-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+/* ========================================
+   VARIANT DESCRIPTIONS
+   ======================================== */
+
+.variant-descriptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.variant-descriptions > * {
+  flex: 0 1 auto;
+  min-width: 160px;
+  max-width: 220px;
+}
+
+.variant-descriptions strong {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--coar-text-neutral-primary);
+}
+
+.variant-descriptions p {
+  margin: 0;
+  color: var(--coar-text-neutral-tertiary);
+  line-height: 1.4;
+}
+
+/* ========================================
+   BEHAVIOR NOTE / INFO CALLOUT
+   ======================================== */
+
+/* .behavior-note {
+  background: var(--coar-background-accent-tertiary);
+  border-left: 4px solid var(--coar-border-accent-primary);
+  padding: 1rem 1.25rem;
+  margin: 0 0 1rem;
+  border-radius: 0 4px 4px 0;
+} */
+
+.behavior-note h4 {
+  margin: 0 0 0.5rem;
+}
+
+.behavior-note ul {
+  margin: 0 0 0.5rem;
+  padding-left: 1.25rem;
+}
+
+.behavior-note li {
+  margin: 0.25rem 0;
+}
+
+.behavior-note p {
+  color: var(--coar-text-neutral-secondary);
+  margin: 0;
+}
+
+.info-callout {
+  padding: var(--coar-spacing-m);
+  margin-bottom: var(--coar-spacing-xl);
+  background: var(--coar-background-accent-tertiary);
+  border-radius: var(--coar-radius-xs);
+  font-size: 0.875rem;
+  color: var(--coar-text-neutral-primary);
+}
+
+.info-callout code {
+  background: rgba(0, 0, 0, 0.08);
+  padding: 2px 6px;
+  border-radius: var(--coar-radius-xs);
+  font-size: 0.8125rem;
+}
+
+/* ========================================
+   STATES GRID
+   ======================================== */
+
+.states-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.state-item {
+  padding: 1rem;
+  border: 1px solid var(--coar-background-neutral-tertiary);
+  border-radius: var(--coar-radius-xs);
+  background: var(--coar-background-neutral-primary);
+}
+
+.state-item h3 {
+  margin-bottom: 0.25rem;
+}
+
+.state-item p {
+  margin: 0;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.state-item code {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.75rem;
+  padding: 0.125rem 0.25rem;
+  background: var(--coar-background-neutral-tertiary);
+  border-radius: var(--coar-radius-xs);
+}
+
+/* ========================================
+   RESPONSIVE GRIDS (REUSABLE UTILITIES)
+   ======================================== */
+
+/* Base responsive grid - use these instead of repeating grid CSS */
+.responsive-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+/* Card grid variants - different minimum widths for different content types */
+.responsive-grid--sm {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.responsive-grid--md {
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.responsive-grid--lg {
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+/* ========================================
+   LIST UTILITIES
+   ======================================== */
+
+/* Standard content list - use with typography classes on <li> elements */
+.content-list {
+  margin: 0;
+  padding-left: 1.5rem;
+  list-style: disc;
+}
+
+.content-list li {
+  margin: 0.5rem 0;
+}
+
+/* ========================================
+   API TABLE
+   ======================================== */
+
+/* API table styling - used across all component documentation pages */
+/* Global CSS doesn't need ::ng-deep - it already has global scope */
+coar-table.api-table td code,
+coar-table.api-table th {
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+/* Remove borders between rows for cleaner look */
+coar-table.api-table tbody tr {
+  border: none;
+}
+
+coar-table.api-table td {
+  border: none;
+  vertical-align: top;
+  padding: 12px;
+}
+
+/* Property name column */
+coar-table.api-table td:nth-child(1) {
+  width: 15%;
+  min-width: 120px;
+}
+
+coar-table.api-table td:nth-child(1) code {
+  font-weight: 600;
+  background: transparent;
+  padding: 0;
+}
+
+/* Type column */
+coar-table.api-table td:nth-child(2) {
+  width: 20%;
+  min-width: 150px;
+}
+
+coar-table.api-table td:nth-child(2) code {
+  background: transparent;
+  padding: 0;
+  color: var(--coar-text-neutral-tertiary);
+}
+
+/* Default column (for inputs table) */
+coar-table.api-table td:nth-child(3) {
+  width: 20%;
+  min-width: 150px;
+}
+
+coar-table.api-table td:nth-child(3) code {
+  background: transparent;
+  padding: 0;
+  color: var(--coar-text-neutral-tertiary);
+}
+
+/* Description column */
+coar-table.api-table td:nth-child(4),
+coar-table.api-table td:nth-child(3):last-child {
+  width: 45%;
+}
+
+/* Card-based API property layout (preferred for long types/defaults) */
+.api-properties {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.api-property {
+  padding: 1rem;
+  background: var(--coar-background-neutral-secondary);
+  border: 1px solid var(--coar-border-neutral-secondary);
+  border-radius: var(--coar-radius-xs);
+  transition: border-color 0.2s;
+}
+
+.api-property:hover {
+  border-color: var(--coar-border-accent-secondary);
+}
+
+.api-property__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.api-property__name {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--coar-text-accent-primary);
+  background: transparent;
+  padding: 0;
+}
+
+.api-property__required {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--coar-text-semantic-error-bold);
+  background: var(--coar-background-semantic-error-subtle);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--coar-radius-xxs);
+}
+
+.api-property__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.8125rem;
+}
+
+.api-property__type,
+.api-property__default {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.api-property__label {
+  font-weight: 500;
+  color: var(--coar-text-neutral-tertiary);
+  white-space: nowrap;
+}
+
+.api-property__type code,
+.api-property__default code {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.8125rem;
+  color: var(--coar-text-neutral-primary);
+  background: var(--coar-background-neutral-tertiary);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--coar-radius-xxs);
+  word-break: break-word;
+}
+
+.api-property__description {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--coar-text-neutral-secondary);
+  white-space: pre-line;
+}
+
+/* Legacy table-based API layout */
+.api-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid var(--coar-border-neutral-secondary);
+  border-radius: var(--coar-radius-xs);
+}
+
+.api-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.api-table th,
+.api-table td {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--coar-border-neutral-secondary);
+}
+
+.api-table th {
+  background: var(--coar-background-neutral-secondary);
+  font-weight: 600;
+  color: var(--coar-text-neutral-primary);
+}
+
+.api-table td {
+  color: var(--coar-text-neutral-secondary);
+}
+
+.api-table code {
+  background: var(--coar-background-neutral-secondary);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--coar-radius-xxs);
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.8125rem;
+  color: var(--coar-text-neutral-primary);
+}
+
+.api-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.api-table tbody tr:hover {
+  background: var(--coar-background-neutral-secondary);
+}
+
+/* API Table property styling */
+.prop-name {
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-weight: 600;
+  color: var(--coar-text-accent-primary);
+}
+
+.prop-type {
+  font-family: 'Consolas', 'Monaco', monospace;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.prop-default {
+  font-family: 'Consolas', 'Monaco', monospace;
+  color: var(--coar-text-neutral-tertiary);
+}
+
+.prop-desc {
+  color: var(--coar-text-neutral-primary);
+}
+
+.api-description {
+  line-height: 1.6;
+}
+
+.api-description code {
+  padding: 2px 6px;
+  background: var(--coar-background-neutral-secondary);
+  border-radius: 4px;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 13px;
+}
+
+/* ========================================
+   ACCESSIBILITY LIST
+   ======================================== */
+
+.a11y-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.a11y-list li {
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  font-size: 14px;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.a11y-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--coar-text-semantic-success-bold);
+}
+
+.a11y-list code {
+  background: var(--coar-background-neutral-secondary);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--coar-radius-xxs);
+  font-size: 0.85em;
+}
+
+/* ========================================
+   KEYBOARD NAVIGATION
+   ======================================== */
+
+.keyboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.keyboard-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: var(--coar-background-neutral-secondary);
+  border-radius: var(--coar-radius-s);
+}
+
+.keyboard-item kbd {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.75rem;
+  background: var(--coar-background-neutral-primary);
+  border-radius: var(--coar-radius-xs);
+  box-shadow: var(--coar-shadow-xs);
+}
+
+.keyboard-item span {
+  color: var(--coar-text-neutral-secondary);
+  font-size: 0.875rem;
+}
+
+/* ========================================
+   FORM CONTAINERS
+   ======================================== */
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 500px;
+  margin-bottom: 1rem;
+}
+
+/* Input row layout */
+.input-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.input-row .example-preview {
+  flex: 1;
+  min-width: 200px;
+}

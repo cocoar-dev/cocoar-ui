@@ -1,0 +1,38 @@
+/**
+ * Cocoar Design System - Design Tokens
+ * Shadows / Elevation
+ * For depth and layering in the UI
+ */
+
+:root {
+  /* Shadow Colors - using rgba for transparency */
+  --coar-shadow-color: rgba(0, 0, 0, 0.08);
+  --coar-shadow-color-strong: rgba(0, 0, 0, 0.12);
+
+  /* Elevation Levels - classic drop shadows for light mode */
+  --coar-shadow-xs: 0 1px 2px var(--coar-shadow-color);
+  --coar-shadow-s: 0 2px 4px var(--coar-shadow-color), 0 1px 2px var(--coar-shadow-color);
+  --coar-shadow-m: 0 4px 8px var(--coar-shadow-color), 0 2px 4px var(--coar-shadow-color);
+  --coar-shadow-l: 0 8px 16px var(--coar-shadow-color), 0 4px 8px var(--coar-shadow-color);
+  --coar-shadow-xl: 0 16px 32px var(--coar-shadow-color-strong), 0 8px 16px var(--coar-shadow-color);
+
+  /* Directional shadows - for sidebars, panels, drawers */
+  --coar-shadow-right: 4px 0 8px var(--coar-shadow-color), 2px 0 4px var(--coar-shadow-color);
+}
+
+/* Dark mode - use lighter borders/glows since shadows don't work on dark backgrounds */
+.dark-mode {
+  /* In dark mode, we combine a subtle dark outer shadow with a light inner glow/edge */
+  --coar-shadow-color: rgba(0, 0, 0, 0.5);
+  --coar-shadow-color-strong: rgba(0, 0, 0, 0.6);
+
+  /* Light edge highlight for elevation perception */
+  --coar-shadow-xs: 0 1px 2px var(--coar-shadow-color), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --coar-shadow-s: 0 2px 4px var(--coar-shadow-color), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  --coar-shadow-m: 0 4px 12px var(--coar-shadow-color), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  --coar-shadow-l: 0 8px 24px var(--coar-shadow-color), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  --coar-shadow-xl: 0 16px 48px var(--coar-shadow-color-strong), 0 0 0 1px rgba(255, 255, 255, 0.12);
+
+  /* Directional shadows - for sidebars, panels, drawers */
+  --coar-shadow-right: 4px 0 8px rgba(0, 0, 0, 0.3), inset -1px 0 0 0 rgba(255, 255, 255, 0.08);
+}

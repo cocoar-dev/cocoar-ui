@@ -1,0 +1,113 @@
+.section-intro {
+  margin: 0 0 1rem;
+}
+
+/* Color Swatches */
+.color-swatches {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.color-swatch-card {
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .color-swatches {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .color-swatches {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Token Table */
+.token-table {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.token-row {
+  display: grid;
+  grid-template-columns: 180px 60px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+}
+
+.token-name {
+  font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.token-value {
+  font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.radius-preview {
+  width: 32px;
+  height: 32px;
+  background: var(--coar-background-accent-secondary);
+  border: 2px solid var(--coar-border-accent-primary);
+}
+
+/* Sizing Demo */
+.sizing-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.sizing-row {
+  display: grid;
+  grid-template-columns: 60px 80px 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+.size-name {
+  font-family: 'Consolas', 'Monaco', monospace;
+}
+
+.size-height {
+  font-family: 'Consolas', 'Monaco', monospace;
+}
+
+/* Font Demo */
+.font-demo {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.font-item {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.font-label {
+  width: 60px;
+}
+
+.font-sample {
+  font-size: 1.25rem;
+}
+
+@media (max-width: 768px) {
+  .token-row {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .sizing-row {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+}

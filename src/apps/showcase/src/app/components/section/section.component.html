@@ -1,0 +1,13 @@
+<section class="showcase-section" [class.showcase-section--first]="first()">
+  <h3 class="showcase-section__title">{{ title() }}</h3>
+  @if (description()) {
+  <p class="showcase-section__description">{{ description() }}</p>
+  }
+  <div class="showcase-section__content">
+    <ng-content />
+  </div>
+</section>
+
+@if (showDivider() && !last()) {
+<coar-divider [spacingTop]="16" [spacingBottom]="64" />
+}

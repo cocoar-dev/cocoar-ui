@@ -1,0 +1,110 @@
+<div class="component-page">
+  <!-- Page Header -->
+  <header class="page-header">
+    <h1 class="coar-title">Motion</h1>
+    <p class="coar-body">Timing and easing tokens for consistent, accessible animations across the UI.</p>
+  </header>
+
+  <coar-divider variant="strong" [width]="100" [spacingTop]="24" [spacingBottom]="8"></coar-divider>
+
+  <!-- Duration -->
+  <section class="section">
+    <h2 class="coar-heading">Duration</h2>
+    <p class="coar-body-small">
+      How long animations take to complete. Use shorter durations for small/simple changes, longer for complex/large movements.
+    </p>
+    <code class="coar-caption token-pattern">--coar-duration-[instant|fast|normal|slow|slower|slowest]</code>
+
+    <div class="duration-grid">
+      @for (token of durationTokens; track token.name) {
+      <div class="duration-item">
+        <div class="duration-preview">
+          <div class="duration-bar" [style.animation-duration]="'var(' + token.variable + ')'"></div>
+        </div>
+        <div class="duration-info">
+          <span class="coar-body-small">{{ token.name }}</span>
+          <span class="coar-caption token-value">{{ token.value }}</span>
+          <span class="coar-caption">{{ token.description }}</span>
+        </div>
+      </div>
+      }
+    </div>
+  </section>
+
+  <!-- Easing -->
+  <section class="section">
+    <h2 class="coar-heading">Easing</h2>
+    <p class="coar-body-small">How animations accelerate and decelerate. Based on Material Design motion principles.</p>
+    <code class="coar-caption token-pattern">--coar-ease-[linear|out|in|in-out|bounce]</code>
+
+    <div class="easing-grid">
+      @for (token of easingTokens; track token.name) {
+      <div class="easing-item">
+        <div class="easing-preview">
+          <div class="easing-dot" [style.animation-timing-function]="'var(' + token.variable + ')'"></div>
+        </div>
+        <div class="easing-info">
+          <span class="coar-body-small">{{ token.name }}</span>
+          <span class="coar-caption">{{ token.description }}</span>
+        </div>
+      </div>
+      }
+    </div>
+  </section>
+
+  <!-- Pre-composed Transitions -->
+  <section class="section">
+    <h2 class="coar-heading">Transitions</h2>
+    <p class="coar-body-small">Pre-composed transition values combining duration and easing for common use cases.</p>
+    <code class="coar-caption token-pattern">--coar-transition-[default|fast|colors|transform|opacity|shadow]</code>
+
+    <div class="transition-grid">
+      @for (token of transitionTokens; track token.name) {
+      <div class="transition-item">
+        <button class="transition-demo transition-{{ token.name.toLowerCase() }}" [style.transition]="'var(' + token.variable + ')'">Hover me</button>
+        <div class="transition-info">
+          <span class="coar-body-small">{{ token.name }}</span>
+          <span class="coar-caption">{{ token.description }}</span>
+        </div>
+      </div>
+      }
+    </div>
+  </section>
+
+  <!-- Usage Examples -->
+  <section class="section">
+    <h2 class="coar-heading">Usage</h2>
+    <p class="coar-body-small">How to use motion tokens in your CSS. Reference the CSS custom properties directly.</p>
+
+    <div class="usage-examples">
+      <div class="usage-example">
+        <h3 class="coar-body-small">Basic transition</h3>
+        <coar-code-block [code]="codeExamples.basicTransition" language="css" [showLineNumbers]="false" />
+      </div>
+
+      <div class="usage-example">
+        <h3 class="coar-body-small">Custom transition with tokens</h3>
+        <coar-code-block [code]="codeExamples.customTransition" language="css" [showLineNumbers]="false" />
+      </div>
+
+      <div class="usage-example">
+        <h3 class="coar-body-small">Animation with duration</h3>
+        <coar-code-block [code]="codeExamples.animation" language="css" [showLineNumbers]="false" />
+      </div>
+
+      <div class="usage-example">
+        <h3 class="coar-body-small">Hover state with fast transition</h3>
+        <coar-code-block [code]="codeExamples.hoverState" language="css" [showLineNumbers]="false" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Accessibility Note -->
+  <h2 class="coar-heading">Accessibility</h2>
+  <p class="coar-body-small">
+    All motion tokens respect the <code>prefers-reduced-motion</code> media query. When users prefer reduced motion, all durations automatically
+    become 0ms.
+  </p>
+
+  <coar-code-block [code]="codeExamples.reducedMotion" language="css" [showLineNumbers]="false" />
+</div>

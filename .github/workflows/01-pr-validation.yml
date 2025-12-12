@@ -1,0 +1,57 @@
+name: PR Validation
+
+on:
+  pull_request:
+    branches: [develop]
+
+jobs:
+  validate:
+    name: Lint, Test & Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: src
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Volta (Node + pnpm)
+        uses: volta-cli/action@v4
+        with:
+          package-json-path: ./src/package.json
+
+      - name: Install Node.js
+        run: volta install node
+
+      - name: Install pnpm
+        run: volta install pnpm
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v3
+        with:
+          versionSpec: '6.x'
+
+      - name: Calculate version
+        id: gv
+        uses: gittools/actions/gitversion/execute@v3
+
+      - name: Log calculated version
+        run: echo "GitVersion calculated version ${{ steps.gv.outputs.SemVer }}"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Test
+        run: pnpm test
+
+      - name: Build
+        run: pnpm build

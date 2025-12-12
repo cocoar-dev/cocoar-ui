@@ -13,7 +13,9 @@ describe('LogEventLevel Utilities', () => {
     });
 
     it('should throw for invalid string input', () => {
-      expect(() => getLogEventLevel('invalid' as WriteLogLevel)).toThrow('no matching LogLevel found!');
+      expect(() => getLogEventLevel('invalid' as WriteLogLevel)).toThrow(
+        'no matching LogLevel found!'
+      );
     });
   });
 

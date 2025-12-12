@@ -1,0 +1,27 @@
+/* ========================================
+   CODE-BLOCK PAGE - SPECIFIC STYLES
+   ========================================
+   Common styles are in: app/shared/showcase-pages.css
+   Only page-specific overrides belong here.
+   ======================================== */
+
+/* Code Stack - for multiple code blocks in sequence */
+.code-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Required badge - used in API tables */
+.required-badge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 0.125rem 0.375rem;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: var(--coar-background-semantic-warning-subtle);
+  color: var(--coar-text-semantic-warning-bold);
+  border-radius: var(--coar-radius-xs);
+}

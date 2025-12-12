@@ -1,0 +1,113 @@
+.component-page {
+  max-width: 900px;
+}
+
+.page-header {
+  margin-bottom: var(--coar-spacing-xl);
+}
+
+.page-header h1 {
+  margin: 0 0 var(--coar-spacing-s) 0;
+}
+
+.description {
+  color: var(--coar-text-secondary);
+  margin: 0;
+}
+
+.examples-content,
+.api-content {
+  padding: var(--coar-spacing-l) 0;
+}
+
+.example-section {
+  margin-bottom: var(--coar-spacing-m);
+}
+
+.example-section h2 {
+  margin: 0 0 var(--coar-spacing-xs) 0;
+}
+
+.section-intro {
+  color: var(--coar-text-secondary);
+  margin: 0 0 var(--coar-spacing-l) 0;
+}
+
+.example-demo {
+  margin-bottom: var(--coar-spacing-l);
+}
+
+/* Notes stacked vertically */
+.notes-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--coar-spacing-m);
+}
+
+/* Variant descriptions grid */
+.variant-descriptions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--coar-spacing-m);
+  margin-bottom: var(--coar-spacing-l);
+}
+
+.variant-descriptions p {
+  margin: var(--coar-spacing-xs) 0 0 0;
+  color: var(--coar-text-secondary);
+}
+
+/* Use cases grid */
+.use-cases-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: var(--coar-spacing-l);
+}
+
+.use-case h3 {
+  margin: 0 0 var(--coar-spacing-s) 0;
+}
+
+/* Comparison grid */
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--coar-spacing-l);
+}
+
+.comparison-column h3 {
+  margin: 0 0 var(--coar-spacing-s) 0;
+}
+
+.comparison-list {
+  margin: 0;
+  padding-left: var(--coar-spacing-l);
+  color: var(--coar-text-secondary);
+}
+
+.comparison-list li {
+  margin-bottom: var(--coar-spacing-xs);
+}
+
+/* API section */
+.api-section h2 {
+  margin: 0 0 var(--coar-spacing-m) 0;
+}
+
+.accessibility-list {
+  margin: 0;
+  padding-left: var(--coar-spacing-l);
+  color: var(--coar-text-secondary);
+}
+
+.accessibility-list li {
+  margin-bottom: var(--coar-spacing-s);
+}
+
+.accessibility-list code {
+  background-color: var(--coar-background-neutral-secondary);
+  padding: 2px 6px;
+  border-radius: var(--coar-radius-xs);
+  font-family: var(--coar-font-mono);
+  font-size: 0.875em;
+}

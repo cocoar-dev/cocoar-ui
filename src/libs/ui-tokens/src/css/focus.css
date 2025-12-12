@@ -1,0 +1,30 @@
+/**
+ * Focus Tokens
+ * Part of the global token set (not component-specific)
+ * Used by: buttons, inputs, dropdowns, checkboxes, tabs, lists, menus, etc.
+ */
+
+:root {
+  /* The visible color of the focus ring */
+  --coar-focus-color: var(--coar-color-accent-300);
+
+  /* The width of the focus outline or ring */
+  --coar-focus-width: 3px;
+
+  /* Optional offset between the component and the ring */
+  --coar-focus-offset: 2px;
+
+  /* Style: solid, dashed, dotted (rare), or even none */
+  --coar-focus-style: solid;
+
+  /* If you want a shadow-based focus instead of outline */
+  --coar-focus-shadow: 0 0 0 var(--coar-focus-width) var(--coar-focus-color);
+}
+
+/* Dark mode override */
+:root.dark-mode,
+.dark-mode {
+  /* Typically slightly brighter or desaturated…
+     You can tune this later via semantic building blocks */
+  --coar-focus-color: var(--coar-color-accent-300);
+}

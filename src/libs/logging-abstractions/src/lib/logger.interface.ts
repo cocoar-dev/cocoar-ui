@@ -11,21 +11,21 @@ export type LogProperties = Record<string, any>;
 export interface ILogger {
   fatal(messageTemplate: string, ...properties: any[]): void | Promise<void>;
   fatal(error: Error, messageTemplate: string, ...properties: any[]): void | Promise<void>;
-  
+
   error(messageTemplate: string, ...properties: any[]): void | Promise<void>;
   error(error: Error, messageTemplate: string, ...properties: any[]): void | Promise<void>;
-  
+
   warn(messageTemplate: string, ...properties: any[]): void | Promise<void>;
   warn(error: Error, messageTemplate: string, ...properties: any[]): void | Promise<void>;
-  
+
   info(messageTemplate: string, ...properties: any[]): void | Promise<void>;
   info(error: Error, messageTemplate: string, ...properties: any[]): void | Promise<void>;
-  
+
   debug(messageTemplate: string, ...properties: any[]): void | Promise<void>;
   debug(error: Error, messageTemplate: string, ...properties: any[]): void | Promise<void>;
-  
+
   verbose(messageTemplate: string, ...properties: any[]): void | Promise<void>;
   verbose(error: Error, messageTemplate: string, ...properties: any[]): void | Promise<void>;
-  
+
   enrich(properties: LogProperties): ILogger;
 }

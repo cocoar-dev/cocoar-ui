@@ -1,3 +1,6 @@
+/* eslint-disable no-console */
+/* eslint-disable @typescript-eslint/no-unsafe-function-type */
+
 import { isEnabled } from '../helper-functions';
 import { Sink } from '../interfaces/sink';
 import { LogEvent } from '../models/log-event';
@@ -76,6 +79,7 @@ export class ConsoleSink implements Sink {
       values.push(...e.unboundProperties);
     }
 
+    // Use console.group for logs with multiple values when useGroups is enabled
     if (this.options.useGroups && values.length > 0) {
       console.groupCollapsed(output, this.colorPrefix(prefix), '');
       for (const value of values) {
