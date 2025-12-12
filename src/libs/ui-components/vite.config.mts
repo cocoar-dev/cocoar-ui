@@ -8,7 +8,8 @@ export default defineConfig(() => {
   // Angular's TestBed has shared global state and is sensitive to concurrency.
   // CI is faster and more parallel, so we disable file parallelism there for stability.
   // Locally we keep the default to retain fast feedback.
-  const isCi = process.env.CI === 'true' || process.env.CI === '1';
+  const ciEnv = process.env['CI'];
+  const isCi = ciEnv === 'true' || ciEnv === '1';
 
   return {
     root: __dirname,
