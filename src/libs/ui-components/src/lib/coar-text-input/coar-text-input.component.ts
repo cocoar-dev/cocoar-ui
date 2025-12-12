@@ -13,6 +13,10 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CoarIconComponent } from '../coar-icon/coar-icon.component';
+import {
+  CoarControlValueAccessor,
+  coarProvideValueAccessor,
+} from '../forms/coar-control-value-accessor';
 
 export type CoarTextInputSize = 'xs' | 'sm' | 'md' | 'lg';
 
@@ -23,6 +27,7 @@ export type CoarTextInputSize = 'xs' | 'sm' | 'md' | 'lg';
   templateUrl: './coar-text-input.component.html',
   styleUrl: './coar-text-input.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [coarProvideValueAccessor(() => CoarTextInputComponent)],
   host: {
     '[class.coar-text-input--xs]': 'size() === "xs"',
     '[class.coar-text-input--sm]': 'size() === "sm"',
@@ -31,7 +36,7 @@ export type CoarTextInputSize = 'xs' | 'sm' | 'md' | 'lg';
     '[class.coar-text-input--multiline]': 'isMultiline()',
   },
 })
-export class CoarTextInputComponent {
+export class CoarTextInputComponent extends CoarControlValueAccessor<string> {
   /** Label text displayed above the input */
   label = input<string>('');
 
@@ -101,9 +106,11 @@ export class CoarTextInputComponent {
 
   protected isMultiline = computed(() => this.rows() > 1);
 
+  protected isDisabled = computed(() => this.disabled() || this.cvaDisabled());
+
   protected showClearButton = computed(() => {
     // Show clear button when there's a value (dimmed when not focused, prominent when focused)
-    return this.clearable() && this.value().length > 0 && !this.disabled() && !this.readonly();
+    return this.clearable() && this.value().length > 0 && !this.isDisabled() && !this.readonly();
   });
 
   protected hasError = computed(() => this.error().length > 0);
@@ -113,11 +120,16 @@ export class CoarTextInputComponent {
   );
   protected messageId = computed(() => `${this.inputId()}-message`);
 
+  public writeValue(value: string | null): void {
+    this.value.set(value ?? '');
+  }
+
   protected onInput(event: Event): void {
     const target = event.target as HTMLInputElement | HTMLTextAreaElement;
     const newValue = target.value;
     this.value.set(newValue);
     this.valueChange.emit(newValue);
+    this.onChange(newValue);
   }
 
   protected onFocus(event: FocusEvent): void {
@@ -127,12 +139,14 @@ export class CoarTextInputComponent {
 
   protected onBlur(event: FocusEvent): void {
     this.isFocused.set(false);
+    this.onTouched();
     this.blurred.emit(event);
   }
 
   protected onClear(): void {
     this.value.set('');
     this.valueChange.emit('');
+    this.onChange('');
     this.clear.emit();
     this.inputRef()?.nativeElement.focus();
   }

@@ -1,57 +1,62 @@
-# Login form skeleton (today)
+# Login form skeleton
 
-This is a safe baseline until Coar inputs implement `ControlValueAccessor`.
+This is the recommended baseline using Coar inputs with Angular Reactive Forms.
 
-## Example (native inputs + Coar layout)
+## Example (Reactive Forms + Coar inputs)
 
 ```ts
-import { Component, signal } from '@angular/core';
-import { CoarButtonComponent, CoarCardComponent } from '@cocoar/ui-components';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  CoarButtonComponent,
+  CoarCardComponent,
+  CoarPasswordInputComponent,
+  CoarTextInputComponent,
+} from '@cocoar/ui-components';
 
 @Component({
   standalone: true,
-  imports: [CoarCardComponent, CoarButtonComponent],
+  imports: [
+    ReactiveFormsModule,
+    CoarCardComponent,
+    CoarButtonComponent,
+    CoarTextInputComponent,
+    CoarPasswordInputComponent,
+  ],
   template: `
     <coar-card>
-      <form (submit)="onSubmit($event)">
-        <label>
-          Email
-          <input
-            type="email"
-            [value]="email()"
-            (input)="email.set(($any($event.target).value))"
-            autocomplete="username"
-            required
-          />
-        </label>
+      <form [formGroup]="form" (submit)="onSubmit($event)">
+        <coar-text-input
+          label="Email"
+          placeholder="you@example.com"
+          autocomplete="username"
+          formControlName="email"
+        />
 
-        <label>
-          Password
-          <input
-            type="password"
-            [value]="password()"
-            (input)="password.set(($any($event.target).value))"
-            autocomplete="current-password"
-            required
-          />
-        </label>
+        <coar-password-input
+          label="Password"
+          autocomplete="current-password"
+          formControlName="password"
+        />
 
-        <coar-button type="submit">Login</coar-button>
+        <coar-button type="submit" [disabled]="form.invalid">Login</coar-button>
       </form>
     </coar-card>
   `,
 })
 export class LoginFormSkeletonComponent {
-  readonly email = signal('');
-  readonly password = signal('');
+  readonly form = new FormGroup({
+    email: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+    password: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+  });
 
   onSubmit(event: SubmitEvent): void {
     event.preventDefault();
+    if (this.form.invalid) return;
     // TODO: call auth service
   }
 }
 ```
 
 Notes:
-- This intentionally avoids `formControlName` until Coar inputs support CVA.
 - Add tokens in global styles: `@import '@cocoar/ui-tokens/css/all.css';`

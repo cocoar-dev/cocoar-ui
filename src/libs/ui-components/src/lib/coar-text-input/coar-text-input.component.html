@@ -13,7 +13,7 @@
   <div
     class="coar-text-input-container"
     [class.coar-text-input-focused]="isFocused()"
-    [class.coar-text-input-disabled]="disabled()"
+    [class.coar-text-input-disabled]="isDisabled()"
     [class.coar-text-input-readonly]="readonly()"
     [class.coar-text-input-error]="hasError()"
   >
@@ -36,7 +36,7 @@
       type="text"
       [value]="value()"
       [placeholder]="placeholder()"
-      [disabled]="disabled()"
+      [disabled]="isDisabled()"
       [readonly]="readonly()"
       [required]="required()"
       [autocomplete]="autocomplete()"
@@ -58,7 +58,7 @@
       [name]="name()"
       [value]="value()"
       [placeholder]="placeholder()"
-      [disabled]="disabled()"
+      [disabled]="isDisabled()"
       [readonly]="readonly()"
       [required]="required()"
       [attr.maxlength]="maxlength()"

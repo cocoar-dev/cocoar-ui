@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CoarPasswordInputComponent, CoarPasswordInputSize } from './coar-password-input.component';
 
 // Test host component
@@ -64,6 +65,15 @@ class TestHostComponent {
   }
 }
 
+@Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, CoarPasswordInputComponent],
+  template: ` <coar-password-input [formControl]="control" /> `,
+})
+class TestReactiveFormsHostComponent {
+  control = new FormControl<string | null>(null);
+}
+
 describe('CoarPasswordInputComponent', () => {
   let fixture: ComponentFixture<TestHostComponent>;
   let hostComponent: TestHostComponent;
@@ -71,7 +81,7 @@ describe('CoarPasswordInputComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHostComponent],
+      imports: [TestHostComponent, TestReactiveFormsHostComponent],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
@@ -113,6 +123,50 @@ describe('CoarPasswordInputComponent', () => {
 
     it('should render password input by default', () => {
       expect(getInputElement()?.type).toBe('password');
+    });
+  });
+
+  describe('ControlValueAccessor (Reactive Forms)', () => {
+    let reactiveFixture: ComponentFixture<TestReactiveFormsHostComponent>;
+    let reactiveHost: TestReactiveFormsHostComponent;
+
+    beforeEach(async () => {
+      reactiveFixture = TestBed.createComponent(TestReactiveFormsHostComponent);
+      reactiveHost = reactiveFixture.componentInstance;
+      reactiveFixture.detectChanges();
+    });
+
+    function getReactiveInput(): HTMLInputElement {
+      const el = reactiveFixture.nativeElement.querySelector('input') as HTMLInputElement | null;
+      if (!el) throw new Error('Expected input element');
+      return el;
+    }
+
+    it('should write control value into the input', () => {
+      reactiveHost.control.setValue('secret');
+      reactiveFixture.detectChanges();
+      expect(getReactiveInput().value).toBe('secret');
+    });
+
+    it('should propagate user input into the control', () => {
+      const input = getReactiveInput();
+      input.value = 'new';
+      input.dispatchEvent(new Event('input'));
+      reactiveFixture.detectChanges();
+      expect(reactiveHost.control.value).toBe('new');
+    });
+
+    it('should mark control as touched on blur', () => {
+      const input = getReactiveInput();
+      input.dispatchEvent(new FocusEvent('blur'));
+      reactiveFixture.detectChanges();
+      expect(reactiveHost.control.touched).toBe(true);
+    });
+
+    it('should disable the input when the control is disabled', () => {
+      reactiveHost.control.disable();
+      reactiveFixture.detectChanges();
+      expect(getReactiveInput().disabled).toBe(true);
     });
   });
 

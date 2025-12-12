@@ -15,6 +15,9 @@ export * from './lib/coar-label/coar-label.component';
 export * from './lib/coar-table/coar-table.component';
 export * from './lib/coar-scrollbar';
 
+// Forms
+export * from './lib/forms/coar-control-value-accessor';
+
 // Services
 export {
   COAR_LOCALE_SERVICE,

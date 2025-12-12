@@ -18,6 +18,10 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CoarIconComponent, CoarIconSize } from '../coar-icon/coar-icon.component';
+import {
+  CoarControlValueAccessor,
+  coarProvideValueAccessor,
+} from '../forms/coar-control-value-accessor';
 import { Maskito } from '@maskito/core';
 import { maskitoNumberOptionsGenerator } from '@maskito/kit';
 import {
@@ -59,6 +63,7 @@ function transformStepperButtons(value: boolean | string): CoarNumberInputSteppe
   templateUrl: './coar-number-input.component.html',
   styleUrl: './coar-number-input.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [coarProvideValueAccessor(() => CoarNumberInputComponent)],
   host: {
     '[class.coar-number-input--xs]': 'size() === "xs"',
     '[class.coar-number-input--sm]': 'size() === "sm"',
@@ -66,7 +71,7 @@ function transformStepperButtons(value: boolean | string): CoarNumberInputSteppe
     '[class.coar-number-input--lg]': 'size() === "lg"',
   },
 })
-export class CoarNumberInputComponent {
+export class CoarNumberInputComponent extends CoarControlValueAccessor<number | null> {
   private readonly destroyRef = inject(DestroyRef);
   private readonly localeService = inject(COAR_LOCALE_SERVICE, { optional: true });
   private maskitoInstance?: Maskito;
@@ -173,9 +178,11 @@ export class CoarNumberInputComponent {
   protected dragStartValue = signal(0);
   protected inputRef = viewChild<ElementRef<HTMLInputElement>>('inputElement');
 
+  protected isDisabled = computed(() => this.disabled() || this.cvaDisabled());
+
   protected showClearButton = computed(() => {
     // Show clear button when there's a value (dimmed when not focused, prominent when focused)
-    return this.clearable() && this.value() !== null && !this.disabled() && !this.readonly();
+    return this.clearable() && this.value() !== null && !this.isDisabled() && !this.readonly();
   });
 
   protected hasError = computed(() => this.error().length > 0);
@@ -222,6 +229,7 @@ export class CoarNumberInputComponent {
   });
 
   constructor() {
+    super();
     // Sync displayValue when value changes from outside
     effect(() => {
       const newValue = this.value();
@@ -327,6 +335,7 @@ export class CoarNumberInputComponent {
   protected onBlur(event: FocusEvent): void {
     this.isFocused.set(false);
     this.commitValue();
+    this.onTouched();
     this.blurred.emit(event);
   }
 
@@ -339,17 +348,24 @@ export class CoarNumberInputComponent {
       // Don't reformat - Maskito already has the value formatted correctly
       // this.displayValue.set(this.formatValue(rounded));
       this.valueChange.emit(rounded);
+      this.onChange(rounded);
     } else {
       this.value.set(null);
       this.displayValue.set('');
       this.valueChange.emit(null);
+      this.onChange(null);
     }
+  }
+
+  public writeValue(value: number | null): void {
+    this.value.set(value);
   }
 
   protected onClear(): void {
     this.value.set(null);
     this.displayValue.set('');
     this.valueChange.emit(null);
+    this.onChange(null);
     this.clear.emit();
     this.inputRef()?.nativeElement.focus();
   }
@@ -359,23 +375,25 @@ export class CoarNumberInputComponent {
   }
 
   protected increment(): void {
-    if (this.disabled() || this.readonly() || !this.canIncrement()) return;
+    if (this.isDisabled() || this.readonly() || !this.canIncrement()) return;
     const current = this.value() ?? 0;
     const newValue = this.clampValue(current + this.step());
     const rounded = parseFloat(newValue.toFixed(this.decimals()));
     this.value.set(rounded);
     this.displayValue.set(this.formatValue(rounded));
     this.valueChange.emit(rounded);
+    this.onChange(rounded);
   }
 
   protected decrement(): void {
-    if (this.disabled() || this.readonly() || !this.canDecrement()) return;
+    if (this.isDisabled() || this.readonly() || !this.canDecrement()) return;
     const current = this.value() ?? 0;
     const newValue = this.clampValue(current - this.step());
     const rounded = parseFloat(newValue.toFixed(this.decimals()));
     this.value.set(rounded);
     this.displayValue.set(this.formatValue(rounded));
     this.valueChange.emit(rounded);
+    this.onChange(rounded);
   }
 
   protected onKeyDown(event: KeyboardEvent): void {
@@ -390,7 +408,7 @@ export class CoarNumberInputComponent {
 
   // Figma-style drag to change value
   protected onDragStart(event: MouseEvent): void {
-    if (this.disabled() || this.readonly()) return;
+    if (this.isDisabled() || this.readonly()) return;
     event.preventDefault();
     this.isDragging.set(true);
     this.dragStartX.set(event.clientX);
@@ -410,6 +428,7 @@ export class CoarNumberInputComponent {
     this.value.set(rounded);
     this.displayValue.set(this.formatValue(rounded));
     this.valueChange.emit(rounded);
+    this.onChange(rounded);
   }
 
   @HostListener('document:mouseup')

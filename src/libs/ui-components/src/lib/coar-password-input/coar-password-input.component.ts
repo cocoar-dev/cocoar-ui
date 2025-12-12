@@ -13,6 +13,10 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CoarIconComponent } from '../coar-icon/coar-icon.component';
+import {
+  CoarControlValueAccessor,
+  coarProvideValueAccessor,
+} from '../forms/coar-control-value-accessor';
 
 export type CoarPasswordInputSize = 'xs' | 'sm' | 'md' | 'lg';
 
@@ -23,6 +27,7 @@ export type CoarPasswordInputSize = 'xs' | 'sm' | 'md' | 'lg';
   templateUrl: './coar-password-input.component.html',
   styleUrl: './coar-password-input.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [coarProvideValueAccessor(() => CoarPasswordInputComponent)],
   host: {
     '[class.coar-password-input--xs]': 'size() === "xs"',
     '[class.coar-password-input--sm]': 'size() === "sm"',
@@ -30,7 +35,7 @@ export type CoarPasswordInputSize = 'xs' | 'sm' | 'md' | 'lg';
     '[class.coar-password-input--lg]': 'size() === "lg"',
   },
 })
-export class CoarPasswordInputComponent {
+export class CoarPasswordInputComponent extends CoarControlValueAccessor<string> {
   /** Label text displayed above the input */
   label = input<string>('');
 
@@ -98,9 +103,11 @@ export class CoarPasswordInputComponent {
     this.showPassword() ? 'Hide password' : 'Show password'
   );
 
+  protected isDisabled = computed(() => this.disabled() || this.cvaDisabled());
+
   protected showClearButton = computed(() => {
     // Show clear button when there's a value (dimmed when not focused, prominent when focused)
-    return this.clearable() && this.value().length > 0 && !this.disabled() && !this.readonly();
+    return this.clearable() && this.value().length > 0 && !this.isDisabled() && !this.readonly();
   });
 
   protected hasError = computed(() => this.error().length > 0);
@@ -110,10 +117,15 @@ export class CoarPasswordInputComponent {
   );
   protected messageId = computed(() => `${this.inputId()}-message`);
 
+  public writeValue(value: string | null): void {
+    this.value.set(value ?? '');
+  }
+
   protected onInput(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.value.set(target.value);
     this.valueChange.emit(target.value);
+    this.onChange(target.value);
   }
 
   protected onFocus(event: FocusEvent): void {
@@ -123,12 +135,14 @@ export class CoarPasswordInputComponent {
 
   protected onBlur(event: FocusEvent): void {
     this.isFocused.set(false);
+    this.onTouched();
     this.blurred.emit(event);
   }
 
   protected onClear(): void {
     this.value.set('');
     this.valueChange.emit('');
+    this.onChange('');
     this.clear.emit();
     this.inputRef()?.nativeElement.focus();
   }
@@ -138,7 +152,7 @@ export class CoarPasswordInputComponent {
   }
 
   protected togglePasswordVisibility(): void {
-    if (!this.disabled() && !this.readonly()) {
+    if (!this.isDisabled() && !this.readonly()) {
       this.showPassword.update((v) => !v);
     }
   }

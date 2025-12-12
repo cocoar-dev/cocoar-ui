@@ -44,12 +44,15 @@ export class ExampleComponent {}
 
 ## Current limitation: form controls
 
-As of today, Coar input-like components are **not** integrated with:
+Coar now supports Angular forms via `ControlValueAccessor` for:
 
-- Angular `ControlValueAccessor` (Reactive Forms / Template-driven forms)
-- Signal Forms (Angular 21+) 
+- `coar-text-input`
+- `coar-password-input`
+- `coar-number-input`
+
+Signal Forms are still not supported (Angular 21+).
 
 Track the current status and recommended temporary approach in:
 - `docs/recipes/forms-status.md`
 
-If you need a login form right now, use native `<input>` elements alongside Coar layout components.
+If you need a form control that is not CVA-enabled yet, use native inputs temporarily.

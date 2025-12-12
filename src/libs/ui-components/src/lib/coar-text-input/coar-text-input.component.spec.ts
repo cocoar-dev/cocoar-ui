@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { Component } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CoarTextInputComponent, CoarTextInputSize } from './coar-text-input.component';
 
 // Test host component for testing two-way binding and events
@@ -70,6 +71,15 @@ class TestHostComponent {
   }
 }
 
+@Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, CoarTextInputComponent],
+  template: ` <coar-text-input [formControl]="control" /> `,
+})
+class TestReactiveFormsHostComponent {
+  control = new FormControl<string | null>(null);
+}
+
 describe('CoarTextInputComponent', () => {
   let fixture: ComponentFixture<TestHostComponent>;
   let hostComponent: TestHostComponent;
@@ -77,7 +87,7 @@ describe('CoarTextInputComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHostComponent],
+      imports: [TestHostComponent, TestReactiveFormsHostComponent],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
@@ -127,6 +137,50 @@ describe('CoarTextInputComponent', () => {
       fixture.detectChanges();
       expect(getInputElement()).toBeNull();
       expect(getTextareaElement()).toBeTruthy();
+    });
+  });
+
+  describe('ControlValueAccessor (Reactive Forms)', () => {
+    let reactiveFixture: ComponentFixture<TestReactiveFormsHostComponent>;
+    let reactiveHost: TestReactiveFormsHostComponent;
+
+    beforeEach(async () => {
+      reactiveFixture = TestBed.createComponent(TestReactiveFormsHostComponent);
+      reactiveHost = reactiveFixture.componentInstance;
+      reactiveFixture.detectChanges();
+    });
+
+    function getReactiveInput(): HTMLInputElement {
+      const el = reactiveFixture.nativeElement.querySelector('input') as HTMLInputElement | null;
+      if (!el) throw new Error('Expected input element');
+      return el;
+    }
+
+    it('should write control value into the input', () => {
+      reactiveHost.control.setValue('hello');
+      reactiveFixture.detectChanges();
+      expect(getReactiveInput().value).toBe('hello');
+    });
+
+    it('should propagate user input into the control', () => {
+      const input = getReactiveInput();
+      input.value = 'abc';
+      input.dispatchEvent(new Event('input'));
+      reactiveFixture.detectChanges();
+      expect(reactiveHost.control.value).toBe('abc');
+    });
+
+    it('should mark control as touched on blur', () => {
+      const input = getReactiveInput();
+      input.dispatchEvent(new FocusEvent('blur'));
+      reactiveFixture.detectChanges();
+      expect(reactiveHost.control.touched).toBe(true);
+    });
+
+    it('should disable the input when the control is disabled', () => {
+      reactiveHost.control.disable();
+      reactiveFixture.detectChanges();
+      expect(getReactiveInput().disabled).toBe(true);
     });
   });
 

@@ -3,6 +3,7 @@ import { Component, InjectionToken } from '@angular/core';
 import { vi } from 'vitest';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   CoarNumberInputComponent,
   CoarNumberInputSize,
@@ -89,6 +90,15 @@ class TestHostComponent {
   }
 }
 
+@Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, CoarNumberInputComponent],
+  template: ` <coar-number-input [formControl]="control" /> `,
+})
+class TestReactiveFormsHostComponent {
+  control = new FormControl<number | null>(null);
+}
+
 describe('CoarNumberInputComponent', () => {
   let fixture: ComponentFixture<TestHostComponent>;
   let hostComponent: TestHostComponent;
@@ -96,7 +106,7 @@ describe('CoarNumberInputComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHostComponent],
+      imports: [TestHostComponent, TestReactiveFormsHostComponent],
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
@@ -139,6 +149,51 @@ describe('CoarNumberInputComponent', () => {
   function getDecrementButton(): HTMLButtonElement | null {
     return hostElement.querySelector('.coar-number-input-button--decrement');
   }
+
+  describe('ControlValueAccessor (Reactive Forms)', () => {
+    let reactiveFixture: ComponentFixture<TestReactiveFormsHostComponent>;
+    let reactiveHost: TestReactiveFormsHostComponent;
+
+    beforeEach(async () => {
+      reactiveFixture = TestBed.createComponent(TestReactiveFormsHostComponent);
+      reactiveHost = reactiveFixture.componentInstance;
+      reactiveFixture.detectChanges();
+    });
+
+    function getReactiveInput(): HTMLInputElement {
+      const el = reactiveFixture.nativeElement.querySelector('input') as HTMLInputElement | null;
+      if (!el) throw new Error('Expected input element');
+      return el;
+    }
+
+    it('should write control value into the input display', () => {
+      reactiveHost.control.setValue(12);
+      reactiveFixture.detectChanges();
+      expect(getReactiveInput().value).toBe('12');
+    });
+
+    it('should propagate typed value into the control on blur', () => {
+      const input = getReactiveInput();
+      input.value = '42';
+      input.dispatchEvent(new Event('input'));
+      input.dispatchEvent(new FocusEvent('blur'));
+      reactiveFixture.detectChanges();
+      expect(reactiveHost.control.value).toBe(42);
+    });
+
+    it('should mark control as touched on blur', () => {
+      const input = getReactiveInput();
+      input.dispatchEvent(new FocusEvent('blur'));
+      reactiveFixture.detectChanges();
+      expect(reactiveHost.control.touched).toBe(true);
+    });
+
+    it('should disable the input when the control is disabled', () => {
+      reactiveHost.control.disable();
+      reactiveFixture.detectChanges();
+      expect(getReactiveInput().disabled).toBe(true);
+    });
+  });
 
   describe('rendering', () => {
     it('should create', () => {

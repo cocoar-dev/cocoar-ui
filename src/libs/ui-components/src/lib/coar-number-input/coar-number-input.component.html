@@ -4,7 +4,7 @@
   <label
     [for]="inputId()"
     class="coar-number-input-label"
-    [class.coar-number-input-label--draggable]="!disabled() && !readonly()"
+    [class.coar-number-input-label--draggable]="!isDisabled() && !readonly()"
     (mousedown)="onDragStart($event)"
   >
     {{ label() }}
@@ -18,7 +18,7 @@
   <div
     class="coar-number-input-container"
     [class.coar-number-input-focused]="isFocused()"
-    [class.coar-number-input-disabled]="disabled()"
+    [class.coar-number-input-disabled]="isDisabled()"
     [class.coar-number-input-readonly]="readonly()"
     [class.coar-number-input-error]="hasError()"
     [class.coar-number-input-dragging]="isDragging()"
@@ -50,7 +50,7 @@
       inputmode="decimal"
       [value]="displayValue()"
       [placeholder]="placeholder()"
-      [disabled]="disabled()"
+      [disabled]="isDisabled()"
       [readonly]="readonly()"
       [required]="required()"
       [attr.aria-describedby]="displayMessage() ? messageId() : null"
@@ -74,7 +74,7 @@
     </span>
 
     <!-- Increment/Decrement Buttons -->
-    @if ((showIncrementButton() || showDecrementButton()) && !disabled() && !readonly()) {
+    @if ((showIncrementButton() || showDecrementButton()) && !isDisabled() && !readonly()) {
     <div class="coar-number-input-buttons">
       @if (showDecrementButton()) {
       <button

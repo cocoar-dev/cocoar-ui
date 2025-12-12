@@ -23,4 +23,5 @@ If you are an AI assistant (e.g., GitHub Copilot) and need to help a developer b
 Notes:
 - Components are layout-agnostic (apps control spacing).
 - Styling is via CSS variables from @cocoar/ui-tokens.
-- Form controls integration (ControlValueAccessor / Signal Forms) is NOT implemented yet (see recipes).
+- Form controls integration (ControlValueAccessor) exists for: coar-text-input, coar-password-input, coar-number-input.
+- Signal Forms (Angular 21+) are NOT implemented yet (see recipes).
