@@ -126,7 +126,7 @@ jobs:
 
       - name: Pack npm packages
         run: |
-          mkdir -p ../artifacts
+          mkdir -p artifacts
           for pkg_dir in dist/libs/*; do
             if [ -d "$pkg_dir" ] && [ -f "$pkg_dir/package.json" ]; then
               echo "Packing $pkg_dir"
