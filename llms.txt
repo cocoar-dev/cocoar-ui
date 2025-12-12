@@ -1,0 +1,26 @@
+# Cocoar UI — AI Quickstart (llms.txt)
+
+This repository contains the Cocoar (Coar) design system for Angular.
+
+If you are an AI assistant (e.g., GitHub Copilot) and need to help a developer build UI with Coar, start here:
+
+1) Read architecture + naming rules:
+- ARCHITECTURE.md
+- NAMING.md
+- CONTRIBUTING.md
+
+2) Consumer setup (how to use packages in an app):
+- docs/consuming/angular.md
+
+3) Component reference (authoritative public API):
+- docs/reference/ui-components.api.json
+- docs/reference/ui-components.md
+
+4) Recipes (copy/paste patterns):
+- docs/recipes/forms-status.md
+- docs/recipes/login-form-skeleton.md
+
+Notes:
+- Components are layout-agnostic (apps control spacing).
+- Styling is via CSS variables from @cocoar/ui-tokens.
+- Form controls integration (ControlValueAccessor / Signal Forms) is NOT implemented yet (see recipes).

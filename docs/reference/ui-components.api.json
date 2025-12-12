@@ -1,0 +1,1004 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2025-12-12T13:29:40.283Z",
+  "package": "@cocoar/ui-components",
+  "components": [
+    {
+      "className": "CoarBadgeComponent",
+      "selector": "coar-badge",
+      "inputs": [
+        {
+          "name": "content",
+          "type": "string | number",
+          "default": "''",
+          "description": "Content to display in the badge (number, text, or icon)",
+          "required": false
+        },
+        {
+          "name": "variant",
+          "type": "'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info'",
+          "default": "'primary'",
+          "description": "Badge visual variant",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'auto'",
+          "default": "'md'",
+          "description": "Badge size",
+          "required": false
+        },
+        {
+          "name": "pulse",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Whether the badge should pulse/animate (for notifications)",
+          "required": false
+        },
+        {
+          "name": "dot",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Whether to show as a dot without content",
+          "required": false
+        },
+        {
+          "name": "max",
+          "type": "number | null",
+          "default": "null",
+          "description": "Maximum number to display (shows \"99+\" if exceeded)",
+          "required": false
+        },
+        {
+          "name": "bordered",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Whether to show a border around the badge",
+          "required": false
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "className": "CoarButtonComponent",
+      "selector": "coar-button",
+      "inputs": [
+        {
+          "name": "variant",
+          "type": "'primary' | 'secondary' | 'tertiary' | 'danger' | 'ghost'",
+          "default": "'primary'",
+          "description": "Button visual variant",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "'xs' | 'sm' | 'md' | 'lg'",
+          "default": "'md'",
+          "description": "Button size",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Whether the button is disabled",
+          "required": false
+        },
+        {
+          "name": "loading",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Whether the button is in loading state",
+          "required": false
+        },
+        {
+          "name": "type",
+          "type": "'button' | 'submit' | 'reset'",
+          "default": "'button'",
+          "description": "Button type attribute",
+          "required": false
+        },
+        {
+          "name": "iconStart",
+          "type": "CoreIconName | undefined",
+          "default": "undefined",
+          "description": "Icon to display before the label",
+          "required": false
+        },
+        {
+          "name": "iconEnd",
+          "type": "CoreIconName | undefined",
+          "default": "undefined",
+          "description": "Icon to display after the label",
+          "required": false
+        },
+        {
+          "name": "fullWidth",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Whether the button should take full width",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "clicked",
+          "type": "MouseEvent",
+          "description": "Emitted when the button is clicked (not emitted when disabled or loading)"
+        }
+      ]
+    },
+    {
+      "className": "CoarCardComponent",
+      "selector": "coar-card",
+      "inputs": [
+        {
+          "name": "elevated",
+          "type": "unknown",
+          "default": "false",
+          "description": "Adds a box-shadow for elevation/depth.\nUse as boolean attribute: `<coar-card elevated>` or `[elevated]=\"true\"`",
+          "required": false
+        },
+        {
+          "name": "borderless",
+          "type": "unknown",
+          "default": "false",
+          "description": "Removes the border from the card, leaving only background color.\nBy default (false), cards have a visible border matching their color.\nUse as boolean attribute: `<coar-card borderless>` or `[borderless]=\"true\"`",
+          "required": false
+        },
+        {
+          "name": "color",
+          "type": "'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent'",
+          "default": "'neutral'",
+          "description": "Card color scheme",
+          "required": false
+        },
+        {
+          "name": "padding",
+          "type": "'none' | 'sm' | 'md' | 'lg'",
+          "default": "'md'",
+          "description": "Card padding size",
+          "required": false
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "className": "CoarCheckboxComponent",
+      "selector": "coar-checkbox",
+      "inputs": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": "''",
+          "description": "Label text displayed next to the checkbox",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Disables the checkbox (greyed out, not focusable)",
+          "required": false
+        },
+        {
+          "name": "readonly",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Prevents changes but keeps normal appearance and focus",
+          "required": false
+        },
+        {
+          "name": "required",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Marks as required, shows asterisk on label",
+          "required": false
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "default": "''",
+          "description": "Error message to display below the checkbox",
+          "required": false
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "default": "''",
+          "description": "Hint text displayed below the checkbox",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "'xs' | 'sm' | 'md' | 'lg'",
+          "default": "'md'",
+          "description": "Checkbox size - matches input/button heights for consistent layouts",
+          "required": false
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "default": "''",
+          "description": "HTML id attribute for the checkbox element",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "''",
+          "description": "HTML name attribute for form submission",
+          "required": false
+        },
+        {
+          "name": "value",
+          "type": "string",
+          "default": "''",
+          "description": "Value submitted with form when checked",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "checkedChange",
+          "type": "CoarCheckboxState",
+          "description": "Emits when state changes: 'checked' or 'unchecked'"
+        }
+      ]
+    },
+    {
+      "className": "CoarCodeBlockComponent",
+      "selector": "coar-code-block",
+      "inputs": [
+        {
+          "name": "language",
+          "type": "string",
+          "default": "'html'",
+          "description": "Language for syntax highlighting",
+          "required": false
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "default": "''",
+          "description": "Title/label for the code block",
+          "required": false
+        },
+        {
+          "name": "collapsible",
+          "type": "boolean, unknown",
+          "default": "true",
+          "description": "Whether the code block can be collapsed",
+          "required": false
+        },
+        {
+          "name": "collapsed",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Whether the code block starts collapsed",
+          "required": false
+        },
+        {
+          "name": "showCopy",
+          "type": "boolean, unknown",
+          "default": "true",
+          "description": "Whether to show the copy button",
+          "required": false
+        },
+        {
+          "name": "showLineNumbers",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Whether to show line numbers",
+          "required": false
+        },
+        {
+          "name": "maxHeight",
+          "type": "number",
+          "default": "0",
+          "description": "Maximum height before scrolling (0 = no limit)",
+          "required": false
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "className": "CoarDividerComponent",
+      "selector": "coar-divider",
+      "inputs": [
+        {
+          "name": "align",
+          "type": "'left' | 'center' | 'right'",
+          "default": "'center'",
+          "description": "Content alignment when ng-content is provided",
+          "required": false
+        },
+        {
+          "name": "variant",
+          "type": "'subtle' | 'strong'",
+          "default": "'subtle'",
+          "description": "Visual style variant",
+          "required": false
+        },
+        {
+          "name": "width",
+          "type": "number",
+          "default": "90",
+          "description": "Width of the divider as a percentage (0-100)",
+          "required": false
+        },
+        {
+          "name": "spacingTop",
+          "type": "number",
+          "default": "0",
+          "description": "Spacing above the divider in pixels",
+          "required": false
+        },
+        {
+          "name": "spacingBottom",
+          "type": "number",
+          "default": "0",
+          "description": "Spacing below the divider in pixels",
+          "required": false
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "className": "CoarIconComponent",
+      "selector": "coar-icon",
+      "inputs": [
+        {
+          "name": "name",
+          "type": "CoreIconName",
+          "default": "''",
+          "description": "Icon identifier.\nExamples: \"settings\", \"user\", \"customer:invoicePaid\"",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "CoarIconSize | string",
+          "default": "'md'",
+          "description": "Icon size. Defaults to 'md' (20px).\nCan be a preset token (xs, sm, md, lg, xl, auto) or a custom CSS value (e.g., '42px', '3rem').",
+          "required": false
+        },
+        {
+          "name": "rotate",
+          "type": "number",
+          "default": "0",
+          "description": "Rotation angle in degrees (0, 90, 180, 270, or any number).",
+          "required": false
+        },
+        {
+          "name": "rotateTransition",
+          "type": "number | string",
+          "default": "''",
+          "description": "Rotation transition animation.\n- Empty/undefined: No animation\n- Number: Duration in milliseconds (e.g., 300)\n- String: Full CSS transition value (e.g., '0.3s ease-in-out', '500ms cubic-bezier(0.4, 0, 0.2, 1)')",
+          "required": false
+        },
+        {
+          "name": "spin",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Enable continuous spinning animation.",
+          "required": false
+        },
+        {
+          "name": "color",
+          "type": "string",
+          "default": "'inherit'",
+          "description": "Icon color. Can be any valid CSS color value.\nExamples: 'red', '#ff0000', 'rgb(255, 0, 0)', 'var(--coar-text-semantic-error-bold)'\nUse 'inherit' to inherit the parent element's color.",
+          "required": false
+        },
+        {
+          "name": "label",
+          "type": "string | number",
+          "default": "''",
+          "description": "Optional text label to display next to the icon.",
+          "required": false
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "className": "CoarLabelComponent",
+      "selector": "coar-label",
+      "inputs": [
+        {
+          "name": "size",
+          "type": "'xs' | 'sm' | 'md' | 'lg'",
+          "default": "'md'",
+          "description": "Size of the label. Should match the size of the associated input/form element.",
+          "required": false
+        },
+        {
+          "name": "required",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Whether to show a required indicator (*) after the label text.",
+          "required": false
+        },
+        {
+          "name": "for",
+          "type": "string | undefined",
+          "default": "undefined",
+          "description": "The ID of the form element this label is associated with.\nSets the 'for' attribute for accessibility.",
+          "required": false
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "className": "CoarNoteComponent",
+      "selector": "coar-note",
+      "inputs": [
+        {
+          "name": "color",
+          "type": "'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent'",
+          "default": "'neutral'",
+          "description": "Note color scheme.\nDetermines the left border color and background tint.",
+          "required": false
+        },
+        {
+          "name": "padding",
+          "type": "'sm' | 'md' | 'lg'",
+          "default": "'md'",
+          "description": "Note padding size.",
+          "required": false
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "className": "CoarNumberInputComponent",
+      "selector": "coar-number-input",
+      "inputs": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": "''",
+          "description": "Label text displayed above the input",
+          "required": false
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "''",
+          "description": "Placeholder text shown when input is empty",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "'xs' | 'sm' | 'md' | 'lg'",
+          "default": "'md'",
+          "description": "Input size - matches button/checkbox sizes for consistent layouts",
+          "required": false
+        },
+        {
+          "name": "min",
+          "type": "number | undefined",
+          "default": "undefined",
+          "description": "Minimum allowed value",
+          "required": false
+        },
+        {
+          "name": "max",
+          "type": "number | undefined",
+          "default": "undefined",
+          "description": "Maximum allowed value",
+          "required": false
+        },
+        {
+          "name": "step",
+          "type": "number",
+          "default": "1",
+          "description": "Step increment for arrows and keyboard",
+          "required": false
+        },
+        {
+          "name": "decimals",
+          "type": "number",
+          "default": "0",
+          "description": "Number of decimal places to display",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Disables the input (greyed out, not focusable)",
+          "required": false
+        },
+        {
+          "name": "readonly",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Makes the input read-only (focusable but not editable)",
+          "required": false
+        },
+        {
+          "name": "required",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Marks the input as required, shows asterisk on label",
+          "required": false
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "default": "''",
+          "description": "Error message to display below the input",
+          "required": false
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "default": "''",
+          "description": "Hint text displayed below the input",
+          "required": false
+        },
+        {
+          "name": "clearable",
+          "type": "boolean, unknown",
+          "default": "true",
+          "description": "Show clear button when input has value and is focused/hovered",
+          "required": false
+        },
+        {
+          "name": "stepperButtons",
+          "type": "'none' | 'increment' | 'decrement' | 'both'",
+          "default": "'none'",
+          "description": "Controls visibility of increment/decrement stepper buttons.\nSupports both boolean attribute pattern and granular string control:\n- No attribute → no buttons\n- `stepperButtons` (attribute) → both buttons\n- `stepperButtons=\"increment\"` → only increment\n- `stepperButtons=\"decrement\"` → only decrement\n- `stepperButtons=\"both\"` → both buttons (explicit)\n- `stepperButtons=\"none\"` → no buttons (explicit)",
+          "required": false
+        },
+        {
+          "name": "prefix",
+          "type": "string",
+          "default": "''",
+          "description": "Text or symbol displayed before the input value",
+          "required": false
+        },
+        {
+          "name": "suffix",
+          "type": "string",
+          "default": "''",
+          "description": "Text or symbol displayed after the input value",
+          "required": false
+        },
+        {
+          "name": "locale",
+          "type": "string",
+          "default": "''",
+          "description": "Locale identifier for number formatting (e.g., 'de-AT', 'en-US').\nUses global locale service default if not specified.",
+          "required": false
+        },
+        {
+          "name": "numberFormat",
+          "type": "NumberFormatConfig",
+          "default": "''",
+          "description": "Number format configuration (decimal and thousand separators).\nIf not provided, uses locale service default or falls back to { decimal: '.', thousand: '' }.",
+          "required": false
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "default": "''",
+          "description": "HTML id attribute for the input element",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "''",
+          "description": "HTML name attribute for form submission",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "valueChange",
+          "type": "number | null",
+          "description": "Emits when input value changes"
+        },
+        {
+          "name": "blurred",
+          "type": "FocusEvent",
+          "description": "Emits when input loses focus"
+        },
+        {
+          "name": "focused",
+          "type": "FocusEvent",
+          "description": "Emits when input gains focus"
+        },
+        {
+          "name": "clear",
+          "type": "void",
+          "description": "Emits when clear button is clicked"
+        }
+      ]
+    },
+    {
+      "className": "CoarPasswordInputComponent",
+      "selector": "coar-password-input",
+      "inputs": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": "''",
+          "description": "Label text displayed above the input",
+          "required": false
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "''",
+          "description": "Placeholder text shown when input is empty",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "'xs' | 'sm' | 'md' | 'lg'",
+          "default": "'md'",
+          "description": "Input size - matches other form elements for consistent layouts",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Disables the input (greyed out, not focusable)",
+          "required": false
+        },
+        {
+          "name": "readonly",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Makes the input read-only (focusable but not editable)",
+          "required": false
+        },
+        {
+          "name": "required",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Marks the input as required, shows asterisk on label",
+          "required": false
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "default": "''",
+          "description": "Error message to display below the input",
+          "required": false
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "default": "''",
+          "description": "Hint text displayed below the input",
+          "required": false
+        },
+        {
+          "name": "clearable",
+          "type": "boolean, unknown",
+          "default": "true",
+          "description": "Show clear button when input has value and is focused/hovered",
+          "required": false
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "default": "''",
+          "description": "HTML id attribute for the input element",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "''",
+          "description": "HTML name attribute for form submission",
+          "required": false
+        },
+        {
+          "name": "autocomplete",
+          "type": "string",
+          "default": "'current-password'",
+          "description": "HTML autocomplete attribute for browser autofill",
+          "required": false
+        },
+        {
+          "name": "maxlength",
+          "type": "number | undefined",
+          "default": "undefined",
+          "description": "Maximum character length",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "valueChange",
+          "type": "string",
+          "description": "Emits when password value changes"
+        },
+        {
+          "name": "blurred",
+          "type": "FocusEvent",
+          "description": "Emits when input loses focus"
+        },
+        {
+          "name": "focused",
+          "type": "FocusEvent",
+          "description": "Emits when input gains focus"
+        },
+        {
+          "name": "clear",
+          "type": "void",
+          "description": "Emits when clear button is clicked"
+        }
+      ]
+    },
+    {
+      "className": "CoarTabComponent",
+      "selector": "coar-tab",
+      "inputs": [
+        {
+          "name": "disabled",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Whether the tab is disabled",
+          "required": false
+        },
+        {
+          "name": "contentInputs",
+          "type": "Record<string, unknown",
+          "default": "''",
+          "description": "Inputs to pass when content is a Component.\nIgnored when content is a TemplateRef.",
+          "required": false
+        },
+        {
+          "name": "loadingStrategy",
+          "type": "'eager' | 'lazy'",
+          "default": "'lazy'",
+          "description": "Loading strategy for the tab content.\n- 'lazy' (default): Content is only rendered when tab becomes active\n- 'eager': Content is always rendered, just hidden when inactive",
+          "required": false
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "className": "CoarTabGroupComponent",
+      "selector": "coar-tab-group",
+      "inputs": [
+        {
+          "name": "activeTab",
+          "type": "string",
+          "default": "''",
+          "description": "The currently active tab id",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "activeTabChange",
+          "type": "string",
+          "description": "Emits when the active tab changes"
+        }
+      ]
+    },
+    {
+      "className": "CoarTableComponent",
+      "selector": "coar-table",
+      "inputs": [
+        {
+          "name": "variant",
+          "type": "'default' | 'plain' | 'bordered'",
+          "default": "'default'",
+          "description": "Visual variant of the table: default (zebra stripes), plain (no stripes), bordered (cell borders)",
+          "required": false
+        },
+        {
+          "name": "compact",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Whether to use compact padding",
+          "required": false
+        },
+        {
+          "name": "hover",
+          "type": "boolean, unknown",
+          "default": "true",
+          "description": "Whether rows should highlight on hover",
+          "required": false
+        }
+      ],
+      "outputs": []
+    },
+    {
+      "className": "CoarTagComponent",
+      "selector": "coar-tag",
+      "inputs": [
+        {
+          "name": "elevated",
+          "type": "unknown",
+          "default": "false",
+          "description": "Adds a box-shadow for elevation/depth.\nUse as boolean attribute: `<coar-tag elevated>` or `[elevated]=\"true\"`",
+          "required": false
+        },
+        {
+          "name": "borderless",
+          "type": "unknown",
+          "default": "false",
+          "description": "Removes the border from the tag, leaving only background color.\nBy default (false), tags have a visible border matching their color.\nUse as boolean attribute: `<coar-tag borderless>` or `[borderless]=\"true\"`",
+          "required": false
+        },
+        {
+          "name": "color",
+          "type": "'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent'",
+          "default": "'neutral'",
+          "description": "Tag color scheme - matches Card colors",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "'sm' | 'md' | 'lg'",
+          "default": "'md'",
+          "description": "Tag size",
+          "required": false
+        },
+        {
+          "name": "closable",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Whether the tag can be closed/removed",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "closed",
+          "type": "void",
+          "description": "Emitted when the close button is clicked"
+        }
+      ]
+    },
+    {
+      "className": "CoarTextInputComponent",
+      "selector": "coar-text-input",
+      "inputs": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": "''",
+          "description": "Label text displayed above the input",
+          "required": false
+        },
+        {
+          "name": "placeholder",
+          "type": "string",
+          "default": "''",
+          "description": "Placeholder text shown when input is empty",
+          "required": false
+        },
+        {
+          "name": "size",
+          "type": "'xs' | 'sm' | 'md' | 'lg'",
+          "default": "'md'",
+          "description": "Input size - matches button/checkbox sizes for consistent layouts",
+          "required": false
+        },
+        {
+          "name": "rows",
+          "type": "number",
+          "default": "1",
+          "description": "Number of visible text rows (1 = single-line input, 2+ = textarea)",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Disables the input (greyed out, not focusable)",
+          "required": false
+        },
+        {
+          "name": "readonly",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Makes the input read-only (focusable but not editable)",
+          "required": false
+        },
+        {
+          "name": "required",
+          "type": "boolean, unknown",
+          "default": "false",
+          "description": "Marks the input as required, shows asterisk on label",
+          "required": false
+        },
+        {
+          "name": "error",
+          "type": "string",
+          "default": "''",
+          "description": "Error message to display below the input",
+          "required": false
+        },
+        {
+          "name": "hint",
+          "type": "string",
+          "default": "''",
+          "description": "Hint text displayed below the input",
+          "required": false
+        },
+        {
+          "name": "clearable",
+          "type": "boolean, unknown",
+          "default": "true",
+          "description": "Show clear button when input has value and is focused/hovered",
+          "required": false
+        },
+        {
+          "name": "prefix",
+          "type": "string",
+          "default": "''",
+          "description": "Text or symbol displayed before the input value",
+          "required": false
+        },
+        {
+          "name": "suffix",
+          "type": "string",
+          "default": "''",
+          "description": "Text or symbol displayed after the input value",
+          "required": false
+        },
+        {
+          "name": "id",
+          "type": "string",
+          "default": "''",
+          "description": "HTML id attribute for the input element",
+          "required": false
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "default": "''",
+          "description": "HTML name attribute for form submission",
+          "required": false
+        },
+        {
+          "name": "autocomplete",
+          "type": "string",
+          "default": "''",
+          "description": "HTML autocomplete attribute",
+          "required": false
+        },
+        {
+          "name": "maxlength",
+          "type": "number | undefined",
+          "default": "undefined",
+          "description": "Maximum character length",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "valueChange",
+          "type": "string",
+          "description": "Emits when input value changes"
+        },
+        {
+          "name": "blurred",
+          "type": "FocusEvent",
+          "description": "Emits when input loses focus"
+        },
+        {
+          "name": "focused",
+          "type": "FocusEvent",
+          "description": "Emits when input gains focus"
+        },
+        {
+          "name": "clear",
+          "type": "void",
+          "description": "Emits when clear button is clicked"
+        }
+      ]
+    }
+  ]
+}

@@ -157,17 +157,17 @@ export const CardApi: ComponentApi = {
   "selector": "coar-card",
   "inputs": [
     {
-      "name": "shadow",
+      "name": "elevated",
       "type": "unknown",
       "default": "false",
-      "description": "Adds a box-shadow for elevation/depth.\nUse as boolean attribute: `<coar-card shadow>` or `[shadow]=\"true\"`\nFuture: May support predefined sizes like 'sm', 'md', 'lg'",
+      "description": "Adds a box-shadow for elevation/depth.\nUse as boolean attribute: `<coar-card elevated>` or `[elevated]=\"true\"`",
       "required": false
     },
     {
-      "name": "outline",
+      "name": "borderless",
       "type": "unknown",
       "default": "false",
-      "description": "Adds a visible border to the card.\nUse as boolean attribute: `<coar-card outline>` or `[outline]=\"true\"`\nCan be combined with shadow: `<coar-card shadow outline>`",
+      "description": "Removes the border from the card, leaving only background color.\nBy default (false), cards have a visible border matching their color.\nUse as boolean attribute: `<coar-card borderless>` or `[borderless]=\"true\"`",
       "required": false
     },
     {
@@ -323,13 +323,6 @@ export const CodeBlockApi: ComponentApi = {
       "type": "number",
       "default": "0",
       "description": "Maximum height before scrolling (0 = no limit)",
-      "required": false
-    },
-    {
-      "name": "theme",
-      "type": "'dark' | 'light' | undefined",
-      "default": "undefined",
-      "description": "Theme override: 'dark' or 'light'. Leave undefined to follow global theme.",
       "required": false
     }
   ],
@@ -860,10 +853,17 @@ export const TagApi: ComponentApi = {
   "selector": "coar-tag",
   "inputs": [
     {
-      "name": "shadow",
+      "name": "elevated",
       "type": "unknown",
       "default": "false",
-      "description": "Adds a box-shadow for elevation/depth.\nUse as boolean attribute: `<coar-tag shadow>` or `[shadow]=\"true\"`",
+      "description": "Adds a box-shadow for elevation/depth.\nUse as boolean attribute: `<coar-tag elevated>` or `[elevated]=\"true\"`",
+      "required": false
+    },
+    {
+      "name": "borderless",
+      "type": "unknown",
+      "default": "false",
+      "description": "Removes the border from the tag, leaving only background color.\nBy default (false), tags have a visible border matching their color.\nUse as boolean attribute: `<coar-tag borderless>` or `[borderless]=\"true\"`",
       "required": false
     },
     {
