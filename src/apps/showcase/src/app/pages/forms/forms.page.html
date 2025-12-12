@@ -16,16 +16,19 @@
     <h2 class="coar-heading">Login Form</h2>
     <p class="section-intro coar-body-small">A simple authentication form with email and password fields.</p>
     <coar-card class="form-card">
-      <div class="form-container login-form">
-        <coar-text-input label="Email" placeholder="your@email.com" [required]="true" [value]="loginEmail()" (valueChange)="loginEmail.set($event)" />
-        <coar-password-input label="Password" [required]="true" [value]="loginPassword()" (valueChange)="loginPassword.set($event)" />
-        <coar-checkbox label="Remember me" [checked]="rememberMe()" (checkedChange)="rememberMe.set($event)" />
+      <form class="form-container login-form" [formGroup]="loginForm" (submit)="onLoginSubmit($event)">
+        <coar-text-input label="Email" placeholder="your@email.com" [required]="true" formControlName="email" />
+        <coar-password-input label="Password" [required]="true" formControlName="password" />
+        <coar-checkbox label="Remember me" formControlName="rememberMe" />
         <div class="form-actions">
-          <coar-button variant="primary" [loading]="loginLoading()" (clicked)="simulateLogin()"> Sign In </coar-button>
-          <coar-button variant="ghost">Forgot Password?</coar-button>
+          <coar-button variant="primary" type="submit" [loading]="loginLoading()" [disabled]="loginForm.invalid">
+            Sign In
+          </coar-button>
+          <coar-button variant="ghost" type="button">Forgot Password?</coar-button>
         </div>
-      </div>
+      </form>
     </coar-card>
+    <pre class="coar-body-small">{{ loginForm.getRawValue() | json }}</pre>
     <coar-code-block [code]="codeExamples.loginForm" language="html" [collapsed]="true" />
   </div>
 
@@ -40,12 +43,13 @@
     </coar-note>
 
     <coar-card class="form-card tw:mt-8">
-      <div class="inline-form">
-        <coar-text-input placeholder="Enter your email" size="sm" [value]="inlineEmail()" (valueChange)="inlineEmail.set($event)" />
-        <coar-button variant="primary" size="sm">Subscribe</coar-button>
-      </div>
+      <form class="inline-form" [formGroup]="inlineForm">
+        <coar-text-input placeholder="Enter your email" size="sm" formControlName="email" />
+        <coar-button variant="primary" size="sm" type="button">Subscribe</coar-button>
+      </form>
       <p class="demo-hint coar-body-small">Both input and button are 32px (size="sm") for perfect alignment.</p>
     </coar-card>
+    <pre class="coar-body-small">{{ inlineForm.getRawValue() | json }}</pre>
     <coar-code-block [code]="codeExamples.inlineForm" language="html" [collapsed]="true" />
   </div>
 
@@ -54,9 +58,9 @@
     <h2 class="coar-heading">Registration Form</h2>
     <p class="section-intro coar-body-small">Multi-field form with validation indicators and two-column layout.</p>
     <coar-card class="form-card">
-      <div class="form-container registration-form">
+      <form class="form-container registration-form" [formGroup]="registrationForm">
         <div class="form-row">
-          <coar-text-input label="Full Name" placeholder="John Doe" [required]="true" [value]="regName()" (valueChange)="regName.set($event)" />
+          <coar-text-input label="Full Name" placeholder="John Doe" [required]="true" formControlName="fullName" />
         </div>
         <div class="form-row">
           <coar-text-input
@@ -64,8 +68,7 @@
             placeholder="your@email.com"
             [required]="true"
             hint="We'll never share your email"
-            [value]="regEmail()"
-            (valueChange)="regEmail.set($event)"
+            formControlName="email"
           />
         </div>
         <div class="form-row two-columns">
@@ -73,36 +76,33 @@
             label="Password"
             [required]="true"
             hint="Min. 8 characters"
-            [value]="regPassword()"
-            (valueChange)="regPassword.set($event)"
+            formControlName="password"
           />
           <coar-password-input
             label="Confirm Password"
             [required]="true"
-            [value]="regConfirmPassword()"
-            (valueChange)="regConfirmPassword.set($event)"
+            formControlName="confirmPassword"
           />
         </div>
         <div class="form-row checkboxes">
           <coar-checkbox
             label="I accept the Terms of Service"
             [required]="true"
-            [checked]="acceptTerms()"
-            (checkedChange)="acceptTerms.set($event)"
+            formControlName="acceptTerms"
           />
           <coar-checkbox
             label="Subscribe to newsletter"
             hint="Get product updates and tips"
-            [checked]="subscribeNewsletter()"
-            (checkedChange)="subscribeNewsletter.set($event)"
+            formControlName="subscribeNewsletter"
           />
         </div>
         <div class="form-actions">
-          <coar-button variant="primary" iconEnd="caret-right">Create Account</coar-button>
-          <coar-button variant="secondary">Cancel</coar-button>
+          <coar-button variant="primary" iconEnd="caret-right" type="button">Create Account</coar-button>
+          <coar-button variant="secondary" type="button">Cancel</coar-button>
         </div>
-      </div>
+      </form>
     </coar-card>
+    <pre class="coar-body-small">{{ registrationForm.getRawValue() | json }}</pre>
     <coar-code-block [code]="codeExamples.registrationForm" language="html" [collapsed]="true" />
   </div>
 
@@ -111,12 +111,13 @@
     <h2 class="coar-heading">Search Form</h2>
     <p class="section-intro coar-body-small">Search input with button using default md size (40px).</p>
     <coar-card class="form-card">
-      <div class="search-form">
-        <coar-text-input placeholder="Search..." [value]="searchQuery()" (valueChange)="searchQuery.set($event)" />
-        <coar-button variant="primary">Search</coar-button>
-      </div>
+      <form class="search-form" [formGroup]="searchForm">
+        <coar-text-input placeholder="Search..." formControlName="query" />
+        <coar-button variant="primary" type="button">Search</coar-button>
+      </form>
       <p class="demo-hint coar-body-small">Default md size (40px) for both components.</p>
     </coar-card>
+    <pre class="coar-body-small">{{ searchForm.getRawValue() | json }}</pre>
     <coar-code-block [code]="codeExamples.searchForm" language="html" [collapsed]="true" />
   </div>
 </ng-template>

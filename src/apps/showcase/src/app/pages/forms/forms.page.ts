@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   CoarTextInputComponent,
   CoarPasswordInputComponent,
@@ -18,6 +19,7 @@ import {
   standalone: true,
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     CoarTextInputComponent,
     CoarPasswordInputComponent,
     CoarButtonComponent,
@@ -34,25 +36,30 @@ import {
 export class FormsPage {
   activeTab = 'examples';
 
-  // Login form
-  loginEmail = signal('');
-  loginPassword = signal('');
   loginLoading = signal(false);
-  rememberMe = signal<CoarCheckboxState | undefined>(undefined);
 
-  // Registration form
-  regName = signal('');
-  regEmail = signal('');
-  regPassword = signal('');
-  regConfirmPassword = signal('');
-  acceptTerms = signal<CoarCheckboxState | undefined>(undefined);
-  subscribeNewsletter = signal<CoarCheckboxState | undefined>(undefined);
+  readonly loginForm = new FormGroup({
+    email: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+    password: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+    rememberMe: new FormControl<CoarCheckboxState>('unchecked', { nonNullable: true }),
+  });
 
-  // Inline form
-  inlineEmail = signal('');
+  readonly inlineForm = new FormGroup({
+    email: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+  });
 
-  // Search form
-  searchQuery = signal('');
+  readonly registrationForm = new FormGroup({
+    fullName: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+    email: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+    password: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+    confirmPassword: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+    acceptTerms: new FormControl<CoarCheckboxState>('unchecked', { nonNullable: true }),
+    subscribeNewsletter: new FormControl<CoarCheckboxState>('unchecked', { nonNullable: true }),
+  });
+
+  readonly searchForm = new FormGroup({
+    query: new FormControl<string>('', { nonNullable: true }),
+  });
 
   simulateLogin() {
     this.loginLoading.set(true);
@@ -61,94 +68,78 @@ export class FormsPage {
     }, 2000);
   }
 
+  onLoginSubmit(event: SubmitEvent): void {
+    event.preventDefault();
+
+    if (this.loginForm.invalid) {
+      this.loginForm.markAllAsTouched();
+      return;
+    }
+
+    this.simulateLogin();
+  }
+
   codeExamples = {
-    loginForm: `<div class="login-form">
-  <coar-input
+    loginForm: `<form class="login-form" [formGroup]="loginForm" (submit)="onLoginSubmit($event)">
+  <coar-text-input
     label="Email"
     placeholder="your@email.com"
     [required]="true"
-    [(value)]="email"
+    formControlName="email"
   />
   <coar-password-input
     label="Password"
     [required]="true"
-    [(value)]="password"
+    formControlName="password"
   />
-  <coar-checkbox
-    label="Remember me"
-    [checked]="rememberMe()"
-    (checkedChange)="rememberMe.set($event)"
-  />
+  <coar-checkbox label="Remember me" formControlName="rememberMe" />
   <div class="form-actions">
-    <coar-button
-      variant="primary"
-      [loading]="isLoading()"
-      (clicked)="login()"
-    >
+    <coar-button variant="primary" type="submit" [loading]="loginLoading()" [disabled]="loginForm.invalid">
       Sign In
     </coar-button>
   </div>
-</div>`,
+</form>`,
 
     inlineForm: `<!-- Use matching sizes for input + button alignment -->
-<div class="inline-form">
-  <coar-input
-    placeholder="Enter your email"
-    size="sm"
-    [(value)]="email"
-  />
-  <coar-button variant="primary" size="sm">
-    Subscribe
-  </coar-button>
-</div>`,
+<form class="inline-form" [formGroup]="inlineForm">
+  <coar-text-input placeholder="Enter your email" size="sm" formControlName="email" />
+  <coar-button variant="primary" size="sm" type="button">Subscribe</coar-button>
+</form>`,
 
-    registrationForm: `<div class="registration-form">
-  <coar-input
-    label="Full Name"
-    placeholder="John Doe"
-    [required]="true"
-  />
-  <coar-input
+    registrationForm: `<form class="registration-form" [formGroup]="registrationForm">
+  <coar-text-input label="Full Name" placeholder="John Doe" [required]="true" formControlName="fullName" />
+  <coar-text-input
     label="Email"
     placeholder="your@email.com"
     [required]="true"
     hint="We'll never share your email"
+    formControlName="email"
   />
   <div class="two-columns">
     <coar-password-input
       label="Password"
       [required]="true"
       hint="Min. 8 characters"
+      formControlName="password"
     />
-    <coar-password-input
-      label="Confirm Password"
-      [required]="true"
-    />
+    <coar-password-input label="Confirm Password" [required]="true" formControlName="confirmPassword" />
   </div>
-  <coar-checkbox
-    label="I accept the Terms of Service"
-    [required]="true"
-    [checked]="acceptTerms()"
-    (checkedChange)="acceptTerms.set($event)"
-  />
+  <coar-checkbox label="I accept the Terms of Service" [required]="true" formControlName="acceptTerms" />
   <coar-checkbox
     label="Subscribe to newsletter"
     hint="Get product updates and tips"
-    [checked]="newsletter()"
-    (checkedChange)="newsletter.set($event)"
+    formControlName="subscribeNewsletter"
   />
   <div class="form-actions">
-    <coar-button variant="primary" iconEnd="caret-right">
-      Create Account
-    </coar-button>
-    <coar-button variant="secondary">Cancel</coar-button>
+    <coar-button variant="primary" iconEnd="caret-right" type="button">Create Account</coar-button>
+    <coar-button variant="secondary" type="button">Cancel</coar-button>
   </div>
-</div>`,
+</form>`,
 
     searchForm: `<!-- Default md size (40px) for both -->
-<div class="search-form">
-  <coar-text-input placeholder="Search..." />
-  <coar-button variant="primary">Search</coar-button>
-</div>`,
+<form class="search-form" [formGroup]="searchForm">
+  <coar-text-input placeholder="Search..." formControlName="query" />
+  <coar-button variant="primary" type="button">Search</coar-button>
+</form>`,
   };
 }
