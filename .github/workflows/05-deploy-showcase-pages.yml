@@ -1,16 +1,6 @@
 name: Deploy Showcase (GitHub Pages)
 
 on:
-  push:
-    branches: [develop]
-    paths:
-      - '.github/workflows/05-deploy-showcase-pages.yml'
-      - 'src/apps/showcase/**'
-      - 'src/libs/**'
-      - 'src/package.json'
-      - 'src/pnpm-lock.yaml'
-      - 'src/nx.json'
-      - 'src/tsconfig.base.json'
   workflow_dispatch:
 
 permissions:
