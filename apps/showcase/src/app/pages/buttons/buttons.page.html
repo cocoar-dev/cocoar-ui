@@ -4,9 +4,10 @@
     <p class="description coar-body">Buttons trigger actions and communicate what will happen when pressed.</p>
   </header>
 
-  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
+  <coar-tab-group [(activeTab)]="activeTab">
     <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
   </coar-tab-group>
 </div>
 
@@ -167,85 +168,6 @@
         <coar-button variant="secondary" [fullWidth]="true">Full Width Secondary</coar-button>
       </div>
       <coar-code-block [code]="codeExamples.fullWidth" language="html" [collapsed]="true" />
-    </section>
-  </div>
-</ng-template>
-
-<ng-template #apiTemplate>
-  <div class="api-content">
-    <!-- Component -->
-    <section class="api-section">
-      <h2 class="coar-heading">CoarButton</h2>
-      <p class="section-intro coar-body-small">Import from <code>&#64;cocoar/ui-components</code></p>
-
-      <!-- Inputs -->
-      <h3 class="coar-subheading">Inputs</h3>
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (prop of apiProperties; track prop.name) {
-          <tr>
-            <td>
-              <code>{{ prop.name }}</code>
-            </td>
-            <td>
-              <code class="type">{{ prop.type }}</code>
-            </td>
-            <td>
-              <code class="default">{{ prop.default }}</code>
-            </td>
-            <td>{{ prop.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
-
-      <coar-divider [spacingTop]="24" [spacingBottom]="24" />
-
-      <!-- Outputs -->
-      <h3 class="coar-subheading">Outputs</h3>
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Output</th>
-            <th>Type</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (out of apiOutputs; track out.name) {
-          <tr>
-            <td>
-              <code>{{ out.name }}</code>
-            </td>
-            <td>
-              <code class="type">{{ out.type }}</code>
-            </td>
-            <td>{{ out.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Accessibility -->
-    <section class="api-section">
-      <h2 class="coar-heading">Accessibility</h2>
-      <ul class="a11y-list">
-        <li class="coar-body-small">Buttons use native <code>&lt;button&gt;</code> element for full keyboard support</li>
-        <li class="coar-body-small">Focus states are visible with <code>--coar-shadow-focus</code></li>
-        <li class="coar-body-small">Disabled buttons have <code>aria-disabled</code> and reduced opacity</li>
-        <li class="coar-body-small">Loading state prevents interaction but keeps button in tab order</li>
-      </ul>
     </section>
   </div>
 </ng-template>

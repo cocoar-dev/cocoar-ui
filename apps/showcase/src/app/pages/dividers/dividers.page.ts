@@ -5,9 +5,9 @@ import {
   CoarCodeBlockComponent,
   CoarTabGroupComponent,
   CoarTabComponent,
-  CoarTableComponent,
 } from '@cocoar/ui-components';
 import { ShowcaseSectionComponent } from '../../components/section';
+import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-dividers',
@@ -18,7 +18,6 @@ import { ShowcaseSectionComponent } from '../../components/section';
     CoarCodeBlockComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
-    CoarTableComponent,
     ShowcaseSectionComponent,
   ],
   templateUrl: './dividers.page.html',
@@ -27,39 +26,10 @@ import { ShowcaseSectionComponent } from '../../components/section';
 export class DividersPage {
   activeTab = 'examples';
 
-  /** API properties */
-  apiProperties = [
-    {
-      name: 'align',
-      type: "'left' | 'center' | 'right'",
-      default: "'center'",
-      description: 'Content alignment when ng-content is provided',
-    },
-    {
-      name: 'variant',
-      type: "'subtle' | 'strong'",
-      default: "'subtle'",
-      description: 'Visual style - subtle (lighter) or strong (full opacity)',
-    },
-    {
-      name: 'width',
-      type: 'number',
-      default: '90',
-      description: 'Width of the divider as a percentage (0-100)',
-    },
-    {
-      name: 'spacingTop',
-      type: 'number',
-      default: '0',
-      description: 'Spacing above the divider in pixels',
-    },
-    {
-      name: 'spacingBottom',
-      type: 'number',
-      default: '0',
-      description: 'Spacing below the divider in pixels',
-    },
-  ];
+  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
+
+  protected readonly docsPath = '/docs/components/divider/overview.md';
+  protected readonly apiPath = '/docs/components/divider/api.md';
 
   /** Code examples */
   codeExamples = {

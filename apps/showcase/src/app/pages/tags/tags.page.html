@@ -9,7 +9,8 @@
 
   <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
     <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
   </coar-tab-group>
 </div>
 
@@ -198,99 +199,6 @@
             <li>Can be closable/selectable</li>
           </ul>
         </coar-card>
-      </div>
-    </section>
-  </div>
-</ng-template>
-
-<ng-template #apiTemplate>
-  <div class="api-content">
-    <section class="api-section">
-      <h2 class="coar-heading">Properties</h2>
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (prop of apiProperties; track prop.name) {
-          <tr>
-            <td>
-              <code>{{ prop.name }}</code>
-            </td>
-            <td>
-              <code class="type">{{ prop.type }}</code>
-            </td>
-            <td>
-              <code class="default">{{ prop.default }}</code>
-            </td>
-            <td>{{ prop.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
-    </section>
-
-    <section class="api-section">
-      <h2 class="coar-heading">CSS Custom Properties</h2>
-      <p class="section-intro coar-body">Tags share the same token system as Cards.</p>
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Token</th>
-            <th>Usage</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>--coar-tag-bg</code></td>
-            <td>Internal custom property for background color (set per color variant)</td>
-          </tr>
-          <tr>
-            <td><code>--coar-tag-border-color</code></td>
-            <td>Internal custom property for border color (set per color variant)</td>
-          </tr>
-          <tr>
-            <td><code>--coar-background-semantic-*-subtle</code></td>
-            <td>Background colors for semantic variants</td>
-          </tr>
-          <tr>
-            <td><code>--coar-border-semantic-*-subtle</code></td>
-            <td>Border colors for semantic variants</td>
-          </tr>
-          <tr>
-            <td><code>--coar-text-semantic-*-bold</code></td>
-            <td>Text colors for semantic variants</td>
-          </tr>
-          <tr>
-            <td><code>--coar-elevation-medium</code></td>
-            <td>Box-shadow for elevated tags</td>
-          </tr>
-          <tr>
-            <td><code>--coar-radius-xs</code></td>
-            <td>Border radius (4px)</td>
-          </tr>
-          <tr>
-            <td><code>--coar-spacing-*</code></td>
-            <td>Internal padding</td>
-          </tr>
-        </tbody>
-      </coar-table>
-    </section>
-
-    <section class="api-section">
-      <h2 class="coar-heading">Accessibility</h2>
-      <div class="accessibility-info">
-        <ul class="coar-body">
-          <li>Close button has <code>aria-label="Remove tag"</code> for screen readers</li>
-          <li>Close button is keyboard accessible with focus-visible styling</li>
-          <li>Tags use semantic colors with sufficient contrast ratios</li>
-          <li>Uppercase text uses letter-spacing for readability</li>
-        </ul>
       </div>
     </section>
   </div>

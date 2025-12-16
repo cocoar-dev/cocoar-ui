@@ -9,9 +9,10 @@
     standalone <code>&lt;coar-label&gt;</code> for section headings, custom layouts, or non-input elements.
   </coar-card>
 
-  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
+  <coar-tab-group [(activeTab)]="activeTab">
     <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }">API</coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }">Docs</coar-tab>
   </coar-tab-group>
 </div>
 
@@ -110,88 +111,6 @@
         </div>
       </div>
       <coar-code-block [code]="codeExamples.fieldGroup" language="html" [collapsed]="true" />
-    </section>
-  </div>
-</ng-template>
-
-<ng-template #apiTemplate>
-  <div class="api-content">
-    <section class="api-section">
-      <h2 class="coar-heading">Properties</h2>
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (prop of apiProperties; track prop.name) {
-          <tr>
-            <td>
-              <code>{{ prop.name }}</code>
-            </td>
-            <td>
-              <code>{{ prop.type }}</code>
-            </td>
-            <td>
-              <code>{{ prop.default }}</code>
-            </td>
-            <td>{{ prop.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <section class="api-section">
-      <h2 class="coar-heading">Design Tokens</h2>
-      <p class="section-intro coar-body-small">The label component uses these CSS custom properties from the component size system:</p>
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Token</th>
-            <th>Default</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>--coar-label-font-family</code></td>
-            <td><code>Poppins</code></td>
-            <td>Font family for labels</td>
-          </tr>
-          <tr>
-            <td><code>--coar-label-font-weight</code></td>
-            <td><code>700</code></td>
-            <td>Font weight for labels</td>
-          </tr>
-          <tr>
-            <td><code>--coar-label-xs-font-size</code></td>
-            <td><code>11px</code></td>
-            <td>Font size for xs labels</td>
-          </tr>
-          <tr>
-            <td><code>--coar-label-sm-font-size</code></td>
-            <td><code>13px</code></td>
-            <td>Font size for sm labels</td>
-          </tr>
-          <tr>
-            <td><code>--coar-label-md-font-size</code></td>
-            <td><code>14px</code></td>
-            <td>Font size for md labels</td>
-          </tr>
-          <tr>
-            <td><code>--coar-label-lg-font-size</code></td>
-            <td><code>15px</code></td>
-            <td>Font size for lg labels</td>
-          </tr>
-        </tbody>
-      </coar-table>
     </section>
   </div>
 </ng-template>

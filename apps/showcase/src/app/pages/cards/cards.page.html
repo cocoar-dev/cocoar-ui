@@ -7,7 +7,8 @@
   <!-- Page-level tabs -->
   <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
     <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
   </coar-tab-group>
 </div>
 
@@ -16,7 +17,7 @@
     <!-- Basic Example -->
     <section class="example-section">
       <h2 class="coar-subheading">Basic Usage</h2>
-      <p class="section-intro coar-body">A simple card with default filled variant and medium padding.</p>
+      <p class="section-intro coar-body">A simple card with neutral color and medium padding.</p>
       <div class="example-demo">
         <coar-card>
           <h3 class="coar-body-large">Card Title</h3>
@@ -263,151 +264,6 @@
         </div>
       </div>
       <coar-code-block [code]="compositionExample" language="html" />
-    </section>
-  </div>
-</ng-template>
-
-<ng-template #apiTemplate>
-  <div class="api-content">
-    <section class="api-section">
-      <h2 class="coar-subheading">CoarCard</h2>
-      <p class="section-intro coar-body">Container component for grouping related content with configurable styling.</p>
-
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (prop of cardProps; track prop.name) {
-          <tr>
-            <td>
-              <code>{{ prop.name }}</code>
-              @if (prop.required) {
-              <span class="required-badge">Required</span>
-              }
-            </td>
-            <td>
-              <code class="type">{{ prop.type }}</code>
-            </td>
-            <td>
-              <code class="default">{{ prop.default }}</code>
-            </td>
-            <td>{{ prop.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
-    </section>
-
-    <section class="api-section">
-      <h2 class="coar-subheading">Content Slots</h2>
-      <p class="section-intro coar-body">The card uses Angular content projection with named slots.</p>
-
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Selector</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (slot of contentSlots; track slot.name) {
-          <tr>
-            <td>
-              <code>{{ slot.name }}</code>
-            </td>
-            <td>{{ slot.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
-    </section>
-
-    <section class="api-section">
-      <h2 class="coar-subheading">CSS Custom Properties</h2>
-      <p class="section-intro coar-body">The card component uses these design tokens.</p>
-
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Usage</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>--coar-background-neutral-secondary</code></td>
-            <td>Default background color</td>
-          </tr>
-          <tr>
-            <td><code>--coar-shadow-elevation-low</code></td>
-            <td>Box-shadow for elevated attribute</td>
-          </tr>
-          <tr>
-            <td><code>--coar-radius-xs</code></td>
-            <td>Border radius (4px default)</td>
-          </tr>
-          <tr>
-            <td><code>--coar-spacing-s/m/l</code></td>
-            <td>Padding values for sm/md/lg</td>
-          </tr>
-        </tbody>
-      </coar-table>
-    </section>
-
-    <!-- Customization -->
-    <section class="api-section">
-      <h2 class="coar-subheading">Customization</h2>
-      <p class="coar-body">Override card styles using CSS custom properties:</p>
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Custom Property</th>
-            <th>Description</th>
-            <th>Default</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>--coar-card-bg</code></td>
-            <td>Background color</td>
-            <td><code>var(--coar-background-neutral-secondary)</code></td>
-          </tr>
-          <tr>
-            <td><code>--coar-card-border-color</code></td>
-            <td>Border color (use for standard border)</td>
-            <td><code>transparent</code></td>
-          </tr>
-          <tr>
-            <td><code>--coar-card-radius</code></td>
-            <td>Border radius</td>
-            <td><code>var(--coar-radius-xs)</code></td>
-          </tr>
-        </tbody>
-      </coar-table>
-      <div class="customization-example">
-        <h3 class="coar-body-bold">Example Usage</h3>
-        <coar-code-block [code]="customizationExample" language="html" [collapsed]="false" />
-      </div>
-    </section>
-
-    <section class="api-section">
-      <h2 class="coar-subheading">Accessibility</h2>
-      <div class="accessibility-info">
-        <p class="coar-body">Cards are semantic containers that group related content. Key considerations:</p>
-        <ul class="accessibility-list">
-          <li>Cards are rendered as block-level elements without implicit ARIA roles</li>
-          <li>Use appropriate heading hierarchy within cards (<code>h3</code>, <code>h4</code>)</li>
-          <li>Interactive cards should use <code>role="button"</code> or be wrapped in <code>&lt;a&gt;</code></li>
-          <li>Ensure sufficient color contrast for all card variants</li>
-          <li>Content within cards remains keyboard accessible</li>
-        </ul>
-      </div>
     </section>
   </div>
 </ng-template>

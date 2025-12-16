@@ -6,9 +6,9 @@ import {
   CoarTabGroupComponent,
   CoarTabComponent,
   CoarDividerComponent,
-  CoarTableComponent,
 } from '@cocoar/ui-components';
-import { NumberInputApi } from '../../../generated/component-api.generated';
+
+import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-number-input',
@@ -20,13 +20,20 @@ import { NumberInputApi } from '../../../generated/component-api.generated';
     CoarTabGroupComponent,
     CoarTabComponent,
     CoarDividerComponent,
-    CoarTableComponent,
   ],
   templateUrl: './number-input.page.html',
   styleUrl: './number-input.page.css',
 })
 export class NumberInputPage {
+  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
+
   activeTab = 'examples';
+
+  protected readonly docsPath = '/docs/components/number-input/overview.md';
+  protected readonly apiPath = '/docs/components/number-input/api.md';
+
+  protected readonly germanNumberFormat = { decimal: ',', thousand: '.' } as const;
+  protected readonly usNumberFormat = { decimal: '.', thousand: ',' } as const;
 
   // Demo values
   basicValue = signal<number | null>(42);
@@ -48,17 +55,13 @@ export class NumberInputPage {
     this.formSimulationValue.set(value);
   }
 
-  // API from generated docs
-  apiProperties = NumberInputApi.inputs;
-  apiOutputs = NumberInputApi.outputs;
-
   codeExamples = {
     basic: `<coar-number-input
   stepperButtons
   label="Quantity"
   placeholder="Enter amount"
-  [value]="quantity()"
-  (valueChange)="quantity.set($event)"
+  [value]="basicValue()"
+  (valueChange)="basicValue.set($event)"
 />`,
 
     minMax: `<coar-number-input
@@ -66,8 +69,8 @@ export class NumberInputPage {
   label="Quantity"
   [min]="1"
   [max]="99"
-  [value]="quantity()"
-  (valueChange)="quantity.set($event)"
+  [value]="quantityValue()"
+  (valueChange)="quantityValue.set($event)"
   hint="Between 1 and 99"
 />`,
 
@@ -86,8 +89,8 @@ export class NumberInputPage {
   [decimals]="2"
   [step]="0.01"
   suffix="EUR"
-  [value]="price()"
-  (valueChange)="price.set($event)"
+  [value]="priceValue()"
+  (valueChange)="priceValue.set($event)"
 />`,
 
     locale: `<!-- German locale: comma as decimal, period as thousands -->
@@ -115,16 +118,16 @@ export class NumberInputPage {
 <coar-number-input label="Temperature" suffix="°C" [min]="-40" [max]="50" [value]="20" />`,
 
     stepperButtons: `<!-- No buttons (default) -->
-<coar-number-input label="No Buttons" [value]="value()" (valueChange)="value.set($event)" />
+  <coar-number-input label="No Buttons" [value]="basicValue()" (valueChange)="basicValue.set($event)" />
 
 <!-- Both buttons via attribute -->
-<coar-number-input stepperButtons label="Both Buttons" [value]="value()" (valueChange)="value.set($event)" />
+  <coar-number-input stepperButtons label="Both Buttons" [value]="basicValue()" (valueChange)="basicValue.set($event)" />
 
 <!-- Only increment button (counter) -->
-<coar-number-input stepperButtons="increment" label="Increment Only" [value]="value()" (valueChange)="value.set($event)" />
+  <coar-number-input stepperButtons="increment" label="Increment Only" [value]="basicValue()" (valueChange)="basicValue.set($event)" />
 
 <!-- Only decrement button (countdown) -->
-<coar-number-input stepperButtons="decrement" label="Decrement Only" [value]="value()" (valueChange)="value.set($event)" />`,
+  <coar-number-input stepperButtons="decrement" label="Decrement Only" [value]="basicValue()" (valueChange)="basicValue.set($event)" />`,
 
     sizes: `<!-- Extra Small - 27px height -->
 <coar-number-input stepperButtons size="xs" label="Extra Small" [value]="10" />
@@ -142,8 +145,8 @@ export class NumberInputPage {
 <coar-number-input
   label="Drag me ↔"
   hint="Click and drag the label to adjust"
-  [value]="value()"
-  (valueChange)="value.set($event)"
+  [value]="basicValue()"
+  (valueChange)="basicValue.set($event)"
 />`,
 
     disabled: `<coar-number-input stepperButtons label="Disabled" [value]="100" [disabled]="true" />

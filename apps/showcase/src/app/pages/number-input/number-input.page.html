@@ -9,7 +9,8 @@
 
   <coar-tab-group [(activeTab)]="activeTab">
     <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
   </coar-tab-group>
 </div>
 
@@ -116,8 +117,7 @@
           <coar-number-input
             label="German Format"
             [decimals]="2"
-            decimalSeparator=","
-            thousandSeparator="."
+            [numberFormat]="germanNumberFormat"
             suffix="EUR"
             [value]="formSimulationValue()"
             (valueChange)="onFormSimulationValueChange($event)"
@@ -128,8 +128,7 @@
           <coar-number-input
             label="US Format"
             [decimals]="2"
-            decimalSeparator="."
-            thousandSeparator=","
+            [numberFormat]="usNumberFormat"
             prefix="$"
             [value]="formSimulationValue()"
             (valueChange)="onFormSimulationValueChange($event)"
@@ -150,8 +149,7 @@
           <coar-number-input
             label="Preis (DE)"
             [decimals]="2"
-            decimalSeparator=","
-            thousandSeparator="."
+            [numberFormat]="germanNumberFormat"
             suffix="EUR"
             [value]="germanPrice()"
             (valueChange)="germanPrice.set($event)"
@@ -175,8 +173,7 @@
           <coar-number-input
             label="Price (US)"
             [decimals]="2"
-            decimalSeparator="."
-            thousandSeparator=","
+            [numberFormat]="usNumberFormat"
             prefix="$"
             [value]="usPrice()"
             (valueChange)="usPrice.set($event)"
@@ -307,68 +304,6 @@
         language="html"
         [showLineNumbers]="false"
       />
-    </section>
-  </div>
-</ng-template>
-
-<ng-template #apiTemplate>
-  <div class="api-content">
-    <section class="api-section">
-      <h3>Inputs</h3>
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (prop of apiProperties; track prop.name) {
-          <tr>
-            <td>
-              <code>{{ prop.name }}</code>
-            </td>
-            <td>
-              <code>{{ prop.type }}</code>
-            </td>
-            <td>
-              <code>{{ prop.default }}</code>
-            </td>
-            <td>{{ prop.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <section class="api-section">
-      <h3>Outputs</h3>
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Type</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (output of apiOutputs; track output.name) {
-          <tr>
-            <td>
-              <code>{{ output.name }}</code>
-            </td>
-            <td>
-              <code>{{ output.type }}</code>
-            </td>
-            <td>{{ output.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
     </section>
   </div>
 </ng-template>

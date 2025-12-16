@@ -8,7 +8,8 @@
 
   <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
     <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
   </coar-tab-group>
 </div>
 
@@ -277,121 +278,6 @@
           </div>
         </div>
       </div>
-    </section>
-  </div>
-</ng-template>
-
-<ng-template #apiTemplate>
-  <div class="api-content">
-    <!-- Component -->
-    <section class="api-section">
-      <h2 class="coar-heading">CoarBadge</h2>
-      <p class="section-intro coar-body-small">Import from <code>&#64;cocoar/ui-components</code></p>
-
-      <!-- Inputs -->
-      <h3 class="coar-subheading">Inputs</h3>
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (prop of apiProperties; track prop.name) {
-          <tr>
-            <td>
-              <code class="prop-name">{{ prop.name }}</code>
-            </td>
-            <td>
-              <code class="prop-type">{{ prop.type }}</code>
-            </td>
-            <td>
-              <code class="prop-default">{{ prop.default }}</code>
-            </td>
-            <td class="prop-desc">{{ prop.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Size Specifications -->
-    <section class="api-section">
-      <h2 class="coar-heading">Size Specifications</h2>
-      <coar-table>
-        <thead>
-          <tr>
-            <th>Size</th>
-            <th>Height</th>
-            <th>Min Width</th>
-            <th>Font Size</th>
-            <th>Dot Size</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>xs</code></td>
-            <td>12px</td>
-            <td>12px</td>
-            <td>8px</td>
-            <td>4px</td>
-          </tr>
-          <tr>
-            <td><code>sm</code></td>
-            <td>16px</td>
-            <td>16px</td>
-            <td>10px</td>
-            <td>6px</td>
-          </tr>
-          <tr>
-            <td><code>md</code></td>
-            <td>20px</td>
-            <td>20px</td>
-            <td>11px</td>
-            <td>8px</td>
-          </tr>
-          <tr>
-            <td><code>lg</code></td>
-            <td>24px</td>
-            <td>24px</td>
-            <td>12px</td>
-            <td>10px</td>
-          </tr>
-          <tr>
-            <td><code>xl</code></td>
-            <td>32px</td>
-            <td>32px</td>
-            <td>14px</td>
-            <td>12px</td>
-          </tr>
-          <tr>
-            <td><code>auto</code></td>
-            <td>100%</td>
-            <td>auto</td>
-            <td>inherit</td>
-            <td>N/A</td>
-          </tr>
-        </tbody>
-      </coar-table>
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Accessibility -->
-    <section class="api-section">
-      <h2 class="coar-heading">Accessibility</h2>
-      <ul class="a11y-list">
-        <li class="coar-body-small">Badges are inline elements that don't interrupt reading flow</li>
-        <li class="coar-body-small">Use semantic colors consistently (error for urgent, success for positive)</li>
-        <li class="coar-body-small">Pulse animations respect <code>prefers-reduced-motion</code></li>
-        <li class="coar-body-small">Ensure sufficient color contrast for all variants</li>
-        <li class="coar-body-small">Consider adding <code>aria-label</code> to parent elements for screen readers</li>
-      </ul>
     </section>
   </div>
 </ng-template>

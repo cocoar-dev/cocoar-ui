@@ -2,15 +2,14 @@ import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   CoarIconComponent,
-  CoarCardComponent,
   CoarCodeBlockComponent,
   CoarTabGroupComponent,
   CoarTabComponent,
   CoarTextInputComponent,
-  CoarTableComponent,
   CoarDividerComponent,
   CORE_ICONS,
 } from '@cocoar/ui-components';
+import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-icons',
@@ -18,12 +17,10 @@ import {
   imports: [
     CommonModule,
     CoarIconComponent,
-    CoarCardComponent,
     CoarCodeBlockComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
     CoarTextInputComponent,
-    CoarTableComponent,
     CoarDividerComponent,
   ],
   templateUrl: './icons.page.html',
@@ -31,6 +28,11 @@ import {
 })
 export class IconsPage {
   activeTab = 'examples';
+
+  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
+
+  protected readonly docsPath = '/docs/components/icon/overview.md';
+  protected readonly apiPath = '/docs/components/icon/api.md';
 
   /** All available icon names */
   allIcons = Object.keys(CORE_ICONS).sort();
@@ -60,58 +62,6 @@ export class IconsPage {
 
   /** Currently selected icon for demo */
   selectedIcon = signal('settings');
-
-  /** API properties */
-  apiProperties = [
-    {
-      name: 'name',
-      type: 'CoreIconName',
-      default: 'undefined',
-      description: 'Icon identifier from the built-in registry or custom namespace',
-    },
-    {
-      name: 'size',
-      type: "'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'auto' | string",
-      default: "'md'",
-      description: 'Size token or custom CSS value (e.g., "42px", "3rem")',
-    },
-    {
-      name: 'color',
-      type: 'string',
-      default: "'inherit'",
-      description: 'Any valid CSS color value or CSS variable',
-    },
-    {
-      name: 'rotate',
-      type: 'number',
-      default: '0',
-      description: 'Rotation angle in degrees',
-    },
-    {
-      name: 'rotateTransition',
-      type: 'number | string',
-      default: 'undefined',
-      description: 'Transition for rotation animation (ms or CSS value)',
-    },
-    {
-      name: 'spin',
-      type: 'boolean',
-      default: 'false',
-      description: 'Enable continuous spinning animation',
-    },
-    {
-      name: 'label',
-      type: 'string | number',
-      default: 'undefined',
-      description: 'Optional text label displayed next to the icon',
-    },
-    {
-      name: 'fallback',
-      type: 'string',
-      default: 'undefined',
-      description: 'Fallback icon if the requested icon fails to load',
-    },
-  ];
 
   /** Code examples */
   codeExamples = {

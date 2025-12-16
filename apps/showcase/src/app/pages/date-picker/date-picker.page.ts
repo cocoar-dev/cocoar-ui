@@ -9,10 +9,11 @@ import {
   CoarNoteComponent,
   CoarTabGroupComponent,
   CoarTabComponent,
-  CoarTableComponent,
   type DateFormatConfig,
   type CoarDateMarker,
 } from '@cocoar/ui-components';
+
+import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-date-picker',
@@ -26,19 +27,21 @@ import {
     CoarNoteComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
-    CoarTableComponent,
   ],
   templateUrl: './date-picker.page.html',
   styleUrl: './date-picker.page.css',
 })
 export class DatePickerPage {
+  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
+
   activeTab = 'examples';
+
+  protected readonly docsPath = '/docs/components/date-picker/overview.md';
+  protected readonly apiPath = '/docs/components/date-picker/api.md';
 
   // Demo values
   basicDate = signal<Temporal.PlainDate | null>(null);
-  preselectedDate = signal<Temporal.PlainDate | null>(
-    Temporal.PlainDate.from('2025-06-15')
-  );
+  preselectedDate = signal<Temporal.PlainDate | null>(Temporal.PlainDate.from('2025-06-15'));
   minMaxDate = signal<Temporal.PlainDate | null>(null);
 
   // Min/max constraints
@@ -52,25 +55,15 @@ export class DatePickerPage {
   lgDate = signal<Temporal.PlainDate | null>(null);
 
   // State demo values
-  disabledDate = signal<Temporal.PlainDate | null>(
-    Temporal.PlainDate.from('2025-01-01')
-  );
-  readonlyDate = signal<Temporal.PlainDate | null>(
-    Temporal.PlainDate.from('2025-12-25')
-  );
+  disabledDate = signal<Temporal.PlainDate | null>(Temporal.PlainDate.from('2025-01-01'));
+  readonlyDate = signal<Temporal.PlainDate | null>(Temporal.PlainDate.from('2025-12-25'));
   errorDate = signal<Temporal.PlainDate | null>(null);
   requiredDate = signal<Temporal.PlainDate | null>(null);
 
   // Locale demo values
-  europeanDate = signal<Temporal.PlainDate | null>(
-    Temporal.PlainDate.from('2025-12-25')
-  );
-  usDate = signal<Temporal.PlainDate | null>(
-    Temporal.PlainDate.from('2025-12-25')
-  );
-  isoDate = signal<Temporal.PlainDate | null>(
-    Temporal.PlainDate.from('2025-12-25')
-  );
+  europeanDate = signal<Temporal.PlainDate | null>(Temporal.PlainDate.from('2025-12-25'));
+  usDate = signal<Temporal.PlainDate | null>(Temporal.PlainDate.from('2025-12-25'));
+  isoDate = signal<Temporal.PlainDate | null>(Temporal.PlainDate.from('2025-12-25'));
 
   // Locale format configs
   europeanFormat: DateFormatConfig = { pattern: 'dd.mm.yyyy', firstDayOfWeek: 1 };
@@ -240,31 +233,6 @@ holidayMarkers: CoarDateMarker[] = [
   [(value)]="date"
   [markers]="holidayMarkers"
 />`;
-
-  // API table data
-  inputsData = [
-    { name: 'label', type: 'string', default: "''", description: 'Label text displayed above the input' },
-    { name: 'placeholder', type: 'string', default: "'Select date...'", description: 'Placeholder text when no date is selected' },
-    { name: 'size', type: "'xs' | 'sm' | 'md' | 'lg'", default: "'md'", description: 'Size variant of the picker' },
-    { name: 'readonly', type: 'boolean', default: 'false', description: 'Whether the picker is readonly' },
-    { name: 'required', type: 'boolean', default: 'false', description: 'Whether the field is required' },
-    { name: 'error', type: 'boolean', default: 'false', description: 'Error state styling' },
-    { name: 'message', type: 'string', default: "''", description: 'Helper or error message text' },
-    { name: 'min', type: 'Temporal.PlainDate | null', default: 'null', description: 'Minimum selectable date' },
-    { name: 'max', type: 'Temporal.PlainDate | null', default: 'null', description: 'Maximum selectable date' },
-    { name: 'locale', type: 'string', default: 'undefined', description: 'Locale for formatting (uses locale service default if not set)' },
-    { name: 'dateFormatConfig', type: 'DateFormatConfig', default: 'undefined', description: 'Date format config (uses locale service if not set)' },
-    { name: 'showTodayButton', type: 'boolean', default: 'true', description: 'Whether to show a "Today" button' },
-    { name: 'showWeekNumbers', type: 'boolean', default: 'false', description: 'Display ISO week numbers on the left side of the calendar' },
-    { name: 'highlightWeekends', type: 'boolean', default: 'false', description: 'Highlight Saturday/Sunday with a subtle background' },
-    { name: 'markers', type: 'CoarDateMarker[]', default: '[]', description: 'Date markers for holidays/events (shows dot indicator and tooltip)' },
-  ];
-
-  outputsData = [
-    { name: 'valueChange', type: 'Temporal.PlainDate | null', description: 'Emitted when the selected date changes' },
-    { name: 'opened', type: 'void', description: 'Emitted when the calendar opens' },
-    { name: 'closed', type: 'void', description: 'Emitted when the calendar closes' },
-  ];
 
   formatDate(date: Temporal.PlainDate | null): string {
     if (!date) return 'null';

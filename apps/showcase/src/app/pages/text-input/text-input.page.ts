@@ -6,9 +6,9 @@ import {
   CoarTabGroupComponent,
   CoarTabComponent,
   CoarDividerComponent,
-  CoarTableComponent,
 } from '@cocoar/ui-components';
-import { TextInputApi } from '../../../generated/component-api.generated';
+
+import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-text-input',
@@ -20,13 +20,17 @@ import { TextInputApi } from '../../../generated/component-api.generated';
     CoarTabGroupComponent,
     CoarTabComponent,
     CoarDividerComponent,
-    CoarTableComponent,
   ],
   templateUrl: './text-input.page.html',
   styleUrl: './text-input.page.css',
 })
 export class TextInputPage {
+  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
+
   activeTab = 'examples';
+
+  protected readonly docsPath = '/docs/components/text-input/overview.md';
+  protected readonly apiPath = '/docs/components/text-input/api.md';
 
   // Demo values
   basicValue = signal('');
@@ -37,17 +41,13 @@ export class TextInputPage {
   bioValue = signal('');
   notesValue = signal('');
 
-  // API from generated docs
-  apiProperties = TextInputApi.inputs;
-  apiOutputs = TextInputApi.outputs;
-
   codeExamples = {
     basic: `<coar-text-input
   label="Username"
   placeholder="Enter your username"
   hint="Choose a unique username"
-  [value]="username()"
-  (valueChange)="username.set($event)"
+  [value]="basicValue()"
+  (valueChange)="basicValue.set($event)"
 />`,
 
     required: `<coar-text-input
@@ -55,13 +55,13 @@ export class TextInputPage {
   placeholder="your@email.com"
   [required]="true"
   hint="Required field"
-  [value]="email()"
-  (valueChange)="email.set($event)"
+  [value]="emailValue()"
+  (valueChange)="emailValue.set($event)"
 />`,
 
     error: `<coar-text-input
   label="Email"
-  [value]="email()"
+  [value]="emailValue()"
   error="Please enter a valid email address"
 />`,
 
@@ -75,8 +75,8 @@ export class TextInputPage {
   label="Search"
   placeholder="Type to search..."
   [clearable]="true"
-  [value]="search()"
-  (valueChange)="search.set($event)"
+  [value]="searchValue()"
+  (valueChange)="searchValue.set($event)"
   (clear)="onClear()"
 />`,
 
@@ -97,8 +97,8 @@ export class TextInputPage {
   placeholder="Tell us about yourself..."
   [rows]="4"
   hint="Max 500 characters"
-  [value]="bio()"
-  (valueChange)="bio.set($event)"
+  [value]="bioValue()"
+  (valueChange)="bioValue.set($event)"
 />`,
 
     multilineRows: `<!-- 3 rows (textarea) -->

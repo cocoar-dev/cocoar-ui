@@ -8,9 +8,10 @@ import {
   CoarPopoverComponent,
   CoarTabComponent,
   CoarTabGroupComponent,
-  CoarTableComponent,
   CoarTooltipDirective,
 } from '@cocoar/ui-components';
+
+import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-tooltip',
@@ -25,23 +26,29 @@ import {
     CoarNoteComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
-    CoarTableComponent,
   ],
   templateUrl: './tooltip.page.html',
   styleUrl: './tooltip.page.css',
 })
 export class TooltipPage {
+  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
+
   activeTab = 'examples';
+
+  protected readonly docsPath = '/docs/components/tooltip/overview.md';
+  protected readonly apiPath = '/docs/components/tooltip/api.md';
 
   protected readonly clicksThroughOverlay = signal(0);
 
   protected readonly demoDisabled = signal(false);
-  protected readonly demoPlacement = signal<typeof this.placementOptions[number]>('right');
+  protected readonly demoPlacement = signal<(typeof this.placementOptions)[number]>('right');
   protected readonly demoOpenDelay = signal(0);
   protected readonly demoCloseDelay = signal(0);
   protected readonly demoClampToViewport = signal(true);
   protected readonly demoFallbackToBestFit = signal(false);
-  protected readonly demoText = signal('This is a tooltip with longer text to show clamping/fallback near edges.');
+  protected readonly demoText = signal(
+    'This is a tooltip with longer text to show clamping/fallback near edges.'
+  );
 
   protected onClickThroughOverlay(): void {
     this.clicksThroughOverlay.update((v) => v + 1);
@@ -71,95 +78,6 @@ export class TooltipPage {
     }
     this.demoCloseDelay.set(next);
   }
-
-  tooltipProperties = [
-    {
-      name: 'coarTooltip',
-      type: "string | TemplateRef | Type<Component>",
-      default: 'null',
-      description: 'Tooltip content (text, template ref, or component type).',
-    },
-    {
-      name: 'coarTooltipContext',
-      type: 'object',
-      default: 'null',
-      description: 'Optional context for TemplateRef tooltips.',
-    },
-    {
-      name: 'coarTooltipDisabled',
-      type: 'boolean',
-      default: 'false',
-      description: 'Disables tooltip behavior (trigger still renders).',
-    },
-    {
-      name: 'coarTooltipPlacement',
-      type: "'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end' | 'auto'",
-      default: "'top'",
-      description: "Controls the tooltip placement. Use 'auto' for best-fit. Supports all 12 standard placements with optional -start/-end alignment.",
-    },
-    {
-      name: 'coarTooltipClampToViewport',
-      type: 'boolean',
-      default: 'true',
-      description: 'Clamps coordinates to keep the tooltip visible in the viewport.',
-    },
-    {
-      name: 'coarTooltipFallbackToBestFit',
-      type: 'boolean',
-      default: 'false',
-      description: 'When placement is explicit (not auto), fall back to best-fit if it does not fit.',
-    },
-    {
-      name: 'coarTooltipOpenDelay',
-      type: 'number',
-      default: '0',
-      description: 'Delay (ms) before opening on hover/focus.',
-    },
-    {
-      name: 'coarTooltipCloseDelay',
-      type: 'number',
-      default: '0',
-      description: 'Delay (ms) before closing on leave/blur.',
-    },
-  ];
-
-  popoverProperties = [
-    {
-      name: 'disabled',
-      type: 'boolean',
-      default: 'false',
-      description: 'Disables popover behavior (trigger still renders).',
-    },
-    {
-      name: 'openOnHover',
-      type: 'boolean',
-      default: 'false',
-      description: 'Opens on hover/focus (desktop-friendly).',
-    },
-    {
-      name: 'openOnClick',
-      type: 'boolean',
-      default: 'false',
-      description: 'Opens on click/tap and pins open until closed.',
-    },
-    {
-      name: 'interactive',
-      type: 'boolean',
-      default: 'true',
-      description: 'When false, popover does not capture pointer events.',
-    },
-  ];
-
-  popoverSlots = [
-    {
-      name: '[coarPopoverTrigger]',
-      description: 'Projected trigger content (what users hover/click).',
-    },
-    {
-      name: '[coarPopoverContent]',
-      description: 'Projected panel content (what the popover shows).',
-    },
-  ];
 
   codeExamples = {
     basic: `<coar-button

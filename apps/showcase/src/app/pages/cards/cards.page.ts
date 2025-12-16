@@ -6,9 +6,10 @@ import {
   CoarCodeBlockComponent,
   CoarCardComponent,
   CoarButtonComponent,
-  CoarTableComponent,
   CoarTagComponent,
 } from '@cocoar/ui-components';
+
+import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-cards-page',
@@ -20,13 +21,17 @@ import {
     CoarCodeBlockComponent,
     CoarCardComponent,
     CoarButtonComponent,
-    CoarTableComponent,
     CoarTagComponent,
   ],
   templateUrl: './cards.page.html',
   styleUrl: './cards.page.css',
 })
 export class CardsPage {
+  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
+
+  protected readonly docsPath = '/docs/components/cards/overview.md';
+  protected readonly apiPath = '/docs/components/cards/api.md';
+
   // Page-level tabs
   activeTab = 'examples';
 
@@ -155,69 +160,4 @@ export class CardsPage {
     <button class="btn-secondary">Message</button>
   </div>
 </coar-card>`;
-
-  customizationExample = `<!-- Inline style override -->
-<coar-card style="--card-bg: var(--coar-background-brand-secondary)">
-  Brand colored card
-</coar-card>
-
-<!-- CSS class override -->
-<coar-card class="success-card">
-  Success styled card
-</coar-card>
-
-/* In your CSS */
-.success-card {
-  --coar-card-bg: var(--coar-background-semantic-success-subtle);
-  --coar-card-border-color: var(--coar-border-semantic-success-subtle);
-}`;
-
-  // API properties
-  cardProps = [
-    {
-      name: 'elevated',
-      type: 'boolean',
-      required: false,
-      default: 'false',
-      description:
-        'Adds box-shadow for visual depth/elevation. Use as: elevated or [elevated]="true"',
-    },
-    {
-      name: 'borderless',
-      type: 'boolean',
-      required: false,
-      default: 'false',
-      description: 'Removes the border. By default, cards have a visible border',
-    },
-    {
-      name: 'color',
-      type: "'neutral' | 'success' | 'warning' | 'error' | 'info'",
-      required: false,
-      default: "'neutral'",
-      description: 'Semantic color scheme of the card',
-    },
-    {
-      name: 'padding',
-      type: "'none' | 'sm' | 'md' | 'lg'",
-      required: false,
-      default: "'md'",
-      description: 'Internal padding size of the card',
-    },
-  ];
-
-  // Content projection selectors
-  contentSlots = [
-    {
-      name: '[coar-card-header]',
-      description: 'Header section projected at the top of the card',
-    },
-    {
-      name: 'Default slot',
-      description: 'Main content area of the card',
-    },
-    {
-      name: '[coar-card-footer]',
-      description: 'Footer section projected at the bottom of the card',
-    },
-  ];
 }

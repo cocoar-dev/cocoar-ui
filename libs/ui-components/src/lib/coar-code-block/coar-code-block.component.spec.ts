@@ -226,6 +226,19 @@ describe('CoarCodeBlockComponent', () => {
     });
   });
 
+  describe('line numbers', () => {
+    it('should render line numbers when enabled', () => {
+      hostComponent.code = 'line 1\nline 2\nline 3';
+      hostComponent.showLineNumbers = true;
+      fixture.detectChanges();
+
+      const lineNumbers = hostElement.querySelectorAll('.coar-code-line-number');
+      expect(lineNumbers.length).toBe(3);
+      expect(lineNumbers[0]?.textContent).toContain('1');
+      expect(lineNumbers[2]?.textContent).toContain('3');
+    });
+  });
+
   describe('max height', () => {
     it('should not set max-height when maxHeight is 0', () => {
       const content = getCodeContent();

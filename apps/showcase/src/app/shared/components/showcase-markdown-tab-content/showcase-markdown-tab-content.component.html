@@ -1,0 +1,13 @@
+@if (state$ | async; as state) { @switch (state.status) { @case ('loading') {
+<div class="docs-loading" aria-busy="true">
+  <coar-icon name="load" size="md" [spin]="true" />
+  <span class="coar-body-small">Loading…</span>
+</div>
+} @case ('error') {
+<coar-note color="error">
+  Failed to load <code>{{ state.path }}</code
+  >.
+</coar-note>
+} @case ('loaded') {
+<coar-markdown class="docs-markdown" [doc]="state.doc" />
+} } }

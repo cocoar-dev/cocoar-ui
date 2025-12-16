@@ -8,7 +8,8 @@
 
   <coar-tab-group [(activeTab)]="activeTab">
     <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
   </coar-tab-group>
 </div>
 
@@ -118,55 +119,6 @@
         <p class="demo-text">Configuration options for power users...</p>
       </div>
       <coar-code-block [code]="codeExamples.combinations" language="html" [showLineNumbers]="false" />
-    </app-section>
-  </div>
-</ng-template>
-
-<ng-template #apiTemplate>
-  <div class="api-content">
-    <app-section title="Inputs" [first]="true">
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (prop of apiProperties; track prop.name) {
-          <tr>
-            <td>
-              <code>{{ prop.name }}</code>
-            </td>
-            <td>
-              <code>{{ prop.type }}</code>
-            </td>
-            <td>
-              <code>{{ prop.default }}</code>
-            </td>
-            <td>{{ prop.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
-    </app-section>
-
-    <app-section title="Content Projection">
-      <p class="api-description">
-        The divider supports <code>ng-content</code> for adding text, icons, or any content between the lines. When content is provided, the divider
-        lines appear on either side based on the <code>align</code> property.
-      </p>
-      <coar-code-block code="<coar-divider>Your content here</coar-divider>" language="html" [showLineNumbers]="false" />
-    </app-section>
-
-    <app-section title="Accessibility" [last]="true">
-      <ul class="a11y-list">
-        <li>Uses <code>role="separator"</code> for proper semantic meaning</li>
-        <li>Includes <code>aria-orientation="horizontal"</code></li>
-        <li>Purely decorative dividers are correctly identified by assistive technologies</li>
-      </ul>
     </app-section>
   </div>
 </ng-template>

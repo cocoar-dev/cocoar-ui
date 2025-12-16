@@ -1,0 +1,90 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Tag Select</h1>
+    <p class="page-description">Select multiple values and display them as removable tags. Optionally allows creating new tags.</p>
+  </header>
+
+  <coar-tab-group [(activeTab)]="activeTab">
+    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
+  </coar-tab-group>
+</div>
+
+<ng-template #examplesTemplate>
+  <div class="examples-content">
+    <section class="example-section">
+      <h3>Basic Usage</h3>
+      <p>Selected values are shown as removable tags.</p>
+      <div class="example-demo">
+        <coar-tag-select label="Tags" [options]="tagOptions" [value]="tags()" (valueChange)="tags.set($event)" placeholder="Add tags..." />
+      </div>
+      <p class="demo-value">Selected: {{ tags().join(', ') || 'none' }}</p>
+      <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <section class="example-section">
+      <h3>Allow Create</h3>
+      <p>Create new tags that don’t exist in the options.</p>
+      <div class="example-demo">
+        <coar-tag-select
+          label="Tags"
+          [options]="tagOptions"
+          [value]="tagsWithValue()"
+          (valueChange)="tagsWithValue.set($event)"
+          [allowCreate]="true"
+          placeholder="Type to add..."
+          (tagCreated)="onTagCreated($event)"
+        />
+      </div>
+      <coar-note variant="info">Type a new tag name and press Enter, comma, or Tab to create it.</coar-note>
+      <coar-code-block [code]="codeExamples.allowCreate" language="html" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <section class="example-section">
+      <h3>maxTags</h3>
+      <p>Limit how many tags can be selected. When reached, the inline input is hidden.</p>
+      <div class="example-demo">
+        <coar-tag-select
+          label="Tags"
+          [options]="tagOptions"
+          [value]="tagsWithValue()"
+          (valueChange)="tagsWithValue.set($event)"
+          [maxTags]="3"
+          [allowCreate]="true"
+          placeholder="Max 3 tags"
+        />
+      </div>
+      <coar-code-block [code]="codeExamples.maxTags" language="html" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <section class="example-section">
+      <h3>Sizes</h3>
+      <p>Available in xs, sm, md, and lg sizes.</p>
+      <div class="example-demo example-demo--sizes">
+        <coar-tag-select label="Extra Small" [options]="tagOptions" size="xs" placeholder="xs" />
+        <coar-tag-select label="Small" [options]="tagOptions" size="sm" placeholder="sm" />
+        <coar-tag-select label="Medium" [options]="tagOptions" size="md" placeholder="md" />
+        <coar-tag-select label="Large" [options]="tagOptions" size="lg" placeholder="lg" />
+      </div>
+      <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <section class="example-section">
+      <h3>Dropdown Position (Top)</h3>
+      <p>Prefer opening upwards with <code>dropdownPositionPreference</code>.</p>
+      <div class="example-demo">
+        <coar-tag-select label="Tags" [options]="tagOptions" dropdownPositionPreference="top" placeholder="Add tags..." />
+      </div>
+      <coar-code-block [code]="codeExamples.dropdownPositionTop" language="html" [showLineNumbers]="false" />
+    </section>
+  </div>
+</ng-template>

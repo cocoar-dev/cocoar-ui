@@ -2,20 +2,20 @@
   <header class="page-header">
     <h1 class="coar-title">Tooltip &amp; Popover</h1>
     <p class="page-description">
-      Tooltips and popovers are lightweight overlays for extra context.
-      Tooltips are non-interactive hints (hover/focus). Popovers are for richer content and can be touch-friendly.
+      Tooltips and popovers are lightweight overlays for extra context. Tooltips are non-interactive hints (hover/focus). Popovers are for richer
+      content and can be touch-friendly.
     </p>
   </header>
 
   <coar-tab-group [(activeTab)]="activeTab">
     <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
   </coar-tab-group>
 </div>
 
 <ng-template #examplesTemplate>
   <div class="examples-content">
-
     <section class="example-section">
       <h3>When to use which</h3>
       <ul class="coar-body">
@@ -23,9 +23,7 @@
         <li><strong>Popover</strong>: richer content (can include interactive UI). Use click/tap to pin for touch-first flows.</li>
       </ul>
 
-      <coar-note variant="info">
-        Touch-first: if the content matters on mobile/tablet, prefer a popover that opens on click/tap.
-      </coar-note>
+      <coar-note variant="info"> Touch-first: if the content matters on mobile/tablet, prefer a popover that opens on click/tap. </coar-note>
     </section>
 
     <coar-divider [spacingTop]="16" [spacingBottom]="64" />
@@ -35,14 +33,7 @@
       <p>Opens on hover and focus. Only one tooltip can be open globally at a time.</p>
 
       <div class="example-demo example-demo--row">
-        <coar-button
-          variant="ghost"
-          size="sm"
-          coarTooltip="This is a tooltip."
-          [coarTooltipPlacement]="'top'"
-        >
-          Hover me (directive)
-        </coar-button>
+        <coar-button variant="ghost" size="sm" coarTooltip="This is a tooltip." [coarTooltipPlacement]="'top'"> Hover me (directive) </coar-button>
       </div>
 
       <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" />
@@ -58,39 +49,23 @@
         <div class="interactive-demo">
           <div class="demo-controls">
             <label class="checkbox-label coar-body-small">
-              <input
-                type="checkbox"
-                [checked]="demoDisabled()"
-                (change)="demoDisabled.set(!demoDisabled())"
-              />
+              <input type="checkbox" [checked]="demoDisabled()" (change)="demoDisabled.set(!demoDisabled())" />
               Disabled
             </label>
 
             <label class="checkbox-label coar-body-small">
-              <input
-                type="checkbox"
-                [checked]="demoClampToViewport()"
-                (change)="demoClampToViewport.set(!demoClampToViewport())"
-              />
+              <input type="checkbox" [checked]="demoClampToViewport()" (change)="demoClampToViewport.set(!demoClampToViewport())" />
               Clamp to viewport
             </label>
 
             <label class="checkbox-label coar-body-small">
-              <input
-                type="checkbox"
-                [checked]="demoFallbackToBestFit()"
-                (change)="demoFallbackToBestFit.set(!demoFallbackToBestFit())"
-              />
+              <input type="checkbox" [checked]="demoFallbackToBestFit()" (change)="demoFallbackToBestFit.set(!demoFallbackToBestFit())" />
               Fallback to best-fit
             </label>
 
             <label class="control-field coar-body-small">
               <span class="control-label">Placement</span>
-              <select
-                class="control-input"
-                [value]="demoPlacement()"
-                (change)="demoPlacement.set(($any($event.target).value))"
-              >
+              <select class="control-input" [value]="demoPlacement()" (change)="demoPlacement.set($any($event.target).value)">
                 @for (p of placementOptions; track p) {
                 <option [value]="p" [selected]="p === demoPlacement()">{{ p }}</option>
                 }
@@ -104,7 +79,7 @@
                 type="number"
                 min="0"
                 [value]="demoOpenDelay()"
-                (input)="onDelayChange(($any($event.target).value), 'open')"
+                (input)="onDelayChange($any($event.target).value, 'open')"
               />
             </label>
 
@@ -115,18 +90,13 @@
                 type="number"
                 min="0"
                 [value]="demoCloseDelay()"
-                (input)="onDelayChange(($any($event.target).value), 'close')"
+                (input)="onDelayChange($any($event.target).value, 'close')"
               />
             </label>
 
             <label class="control-field coar-body-small">
               <span class="control-label">Text</span>
-              <input
-                class="control-input"
-                type="text"
-                [value]="demoText()"
-                (input)="demoText.set(($any($event.target).value))"
-              />
+              <input class="control-input" type="text" [value]="demoText()" (input)="demoText.set($any($event.target).value)" />
             </label>
           </div>
 
@@ -156,9 +126,7 @@
       <p>Uses the floating system's best-fit algorithm to choose a placement.</p>
 
       <div class="example-demo example-demo--row">
-        <coar-button variant="ghost" size="sm" coarTooltip="Uses best-fit placement." [coarTooltipPlacement]="'auto'">
-          Best-fit
-        </coar-button>
+        <coar-button variant="ghost" size="sm" coarTooltip="Uses best-fit placement." [coarTooltipPlacement]="'auto'"> Best-fit </coar-button>
       </div>
 
       <coar-code-block [code]="codeExamples.auto" language="html" [showLineNumbers]="false" />
@@ -176,9 +144,7 @@
 
           <div coarPopoverContent>
             <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Popover</div>
-            <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">
-              Rich tooltip-like content.
-            </div>
+            <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">Rich tooltip-like content.</div>
           </div>
         </coar-popover>
       </div>
@@ -213,13 +179,11 @@
     <section class="example-section">
       <h3>Popover: Non-Interactive Overlay</h3>
       <p>
-        When <code>interactive</code> is false, the panel does not capture pointer events. This is useful when the overlay
-        must not block interactions below it (for example: calendar day cells).
+        When <code>interactive</code> is false, the panel does not capture pointer events. This is useful when the overlay must not block interactions
+        below it (for example: calendar day cells).
       </p>
 
-      <coar-note variant="info">
-        The popover panel will not be scrollable/clickable when <code>interactive</code> is false.
-      </coar-note>
+      <coar-note variant="info"> The popover panel will not be scrollable/clickable when <code>interactive</code> is false. </coar-note>
 
       <div class="example-demo example-demo--stack">
         <coar-popover [openOnClick]="true" [interactive]="false">
@@ -227,9 +191,7 @@
 
           <div coarPopoverContent>
             <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Overlay</div>
-            <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">
-              Click the button below while this is open.
-            </div>
+            <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">Click the button below while this is open.</div>
             <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">Line 2 to ensure overlap.</div>
             <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">Line 3 to ensure overlap.</div>
           </div>
@@ -241,83 +203,6 @@
       <p class="demo-value">Clicks through overlay: {{ clicksThroughOverlay() }}</p>
 
       <coar-code-block [code]="codeExamples.popoverNonInteractive" language="html" [showLineNumbers]="false" />
-    </section>
-
-  </div>
-</ng-template>
-
-<ng-template #apiTemplate>
-  <div class="api-content">
-    <section class="api-section">
-      <h2>CoarTooltip</h2>
-      <h3>Inputs</h3>
-
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Input</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (prop of tooltipProperties; track prop.name) {
-          <tr>
-            <td><code>{{ prop.name }}</code></td>
-            <td><code class="type">{{ prop.type }}</code></td>
-            <td><code class="default">{{ prop.default }}</code></td>
-            <td>{{ prop.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
-
-      <coar-divider [spacingTop]="32" [spacingBottom]="32" />
-
-      <h2>CoarPopover</h2>
-      <h3>Inputs</h3>
-
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Input</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (prop of popoverProperties; track prop.name) {
-          <tr>
-            <td><code>{{ prop.name }}</code></td>
-            <td><code class="type">{{ prop.type }}</code></td>
-            <td><code class="default">{{ prop.default }}</code></td>
-            <td>{{ prop.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
-
-      <coar-divider [spacingTop]="32" [spacingBottom]="32" />
-
-      <h3>Content Slots</h3>
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Selector</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (slot of popoverSlots; track slot.name) {
-          <tr>
-            <td><code>{{ slot.name }}</code></td>
-            <td>{{ slot.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
     </section>
   </div>
 </ng-template>

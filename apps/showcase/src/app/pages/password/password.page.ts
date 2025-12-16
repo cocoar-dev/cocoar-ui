@@ -6,8 +6,9 @@ import {
   CoarTabGroupComponent,
   CoarTabComponent,
   CoarDividerComponent,
-  CoarTableComponent,
 } from '@cocoar/ui-components';
+
+import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-password',
@@ -19,13 +20,17 @@ import {
     CoarTabGroupComponent,
     CoarTabComponent,
     CoarDividerComponent,
-    CoarTableComponent,
   ],
   templateUrl: './password.page.html',
   styleUrl: './password.page.css',
 })
 export class PasswordPage {
+  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
+
   activeTab = 'examples';
+
+  protected readonly docsPath = '/docs/components/password-input/overview.md';
+  protected readonly apiPath = '/docs/components/password-input/api.md';
 
   // Demo values
   basicValue = signal('');
@@ -38,56 +43,12 @@ export class PasswordPage {
   newPassword = signal('');
   confirmPassword = signal('');
 
-  // API properties
-  apiProperties = [
-    {
-      name: 'label',
-      type: 'string',
-      default: "''",
-      description: 'Label text displayed above the input',
-    },
-    {
-      name: 'placeholder',
-      type: 'string',
-      default: "''",
-      description: 'Placeholder text when empty',
-    },
-    { name: 'value', type: 'string', default: "''", description: 'Current input value' },
-    {
-      name: 'size',
-      type: "'sm' | 'md' | 'lg'",
-      default: "'md'",
-      description: 'Input size: sm (32px), md (40px), lg (48px)',
-    },
-    { name: 'disabled', type: 'boolean', default: 'false', description: 'Disables the input' },
-    { name: 'readonly', type: 'boolean', default: 'false', description: 'Makes input read-only' },
-    {
-      name: 'required',
-      type: 'boolean',
-      default: 'false',
-      description: 'Marks as required, shows asterisk',
-    },
-    { name: 'error', type: 'string', default: "''", description: 'Error message to display' },
-    { name: 'hint', type: 'string', default: "''", description: 'Hint text displayed below input' },
-    {
-      name: 'autocomplete',
-      type: 'string',
-      default: "'off'",
-      description: 'Autocomplete attribute (current-password, new-password)',
-    },
-  ];
-
-  apiOutputs = [
-    { name: 'valueChange', type: 'string', description: 'Emitted when value changes' },
-    { name: 'focused', type: 'FocusEvent', description: 'Emitted when input gains focus' },
-    { name: 'blurred', type: 'FocusEvent', description: 'Emitted when input loses focus' },
-  ];
-
   codeExamples = {
     basic: `<coar-password-input
   label="Password"
   placeholder="Enter your password"
-  [(value)]="password"
+  [value]="basicValue()"
+  (valueChange)="basicValue.set($event)"
 />`,
 
     required: `<coar-password-input
@@ -95,12 +56,14 @@ export class PasswordPage {
   placeholder="Password is required"
   [required]="true"
   hint="This field is required"
-  [(value)]="password"
+  [value]="requiredPassword()"
+  (valueChange)="requiredPassword.set($event)"
 />`,
 
     error: `<coar-password-input
   label="Password"
-  [(value)]="password"
+  [value]="errorPassword()"
+  (valueChange)="errorPassword.set($event)"
   error="Password must be at least 8 characters"
 />`,
 
@@ -132,7 +95,8 @@ export class PasswordPage {
   placeholder="Enter current password"
   [required]="true"
   autocomplete="current-password"
-  [(value)]="currentPassword"
+  [value]="currentPassword()"
+  (valueChange)="currentPassword.set($event)"
 />
 
 <coar-password-input
@@ -141,7 +105,8 @@ export class PasswordPage {
   [required]="true"
   hint="Min. 8 characters with uppercase, lowercase, and numbers"
   autocomplete="new-password"
-  [(value)]="newPassword"
+  [value]="newPassword()"
+  (valueChange)="newPassword.set($event)"
 />
 
 <coar-password-input
@@ -149,7 +114,8 @@ export class PasswordPage {
   placeholder="Re-enter new password"
   [required]="true"
   autocomplete="new-password"
-  [(value)]="confirmPassword"
+  [value]="confirmPassword()"
+  (valueChange)="confirmPassword.set($event)"
 />`,
   };
 }

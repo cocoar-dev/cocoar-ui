@@ -9,6 +9,7 @@
       [class.disabled]="tab.disabled()"
       [attr.aria-selected]="isActive(tab.id())"
       [attr.aria-controls]="'panel-' + tab.id()"
+      [attr.id]="tab.id()"
       [attr.data-tab-id]="tab.id()"
       [attr.tabindex]="isActive(tab.id()) ? 0 : -1"
       [disabled]="tab.disabled()"

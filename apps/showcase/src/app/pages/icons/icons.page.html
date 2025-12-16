@@ -8,7 +8,8 @@
 
   <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
     <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
   </coar-tab-group>
 </div>
 
@@ -173,127 +174,6 @@
             <span class="eye-label coar-caption">eye-closed</span>
           </div>
         </div>
-      </div>
-    </section>
-  </div>
-</ng-template>
-
-<ng-template #apiTemplate>
-  <div class="api-content">
-    <!-- Component -->
-    <section class="api-section">
-      <h2 class="coar-heading">CoarIcon</h2>
-      <p class="section-intro coar-body-small">Import from <code>&#64;cocoar/ui-components</code></p>
-
-      <!-- Inputs -->
-      <h3 class="coar-subheading">Inputs</h3>
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (prop of apiProperties; track prop.name) {
-          <tr>
-            <td>
-              <code class="prop-name">{{ prop.name }}</code>
-            </td>
-            <td>
-              <code class="prop-type">{{ prop.type }}</code>
-            </td>
-            <td>
-              <code class="prop-default">{{ prop.default }}</code>
-            </td>
-            <td class="prop-desc">{{ prop.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Size Tokens -->
-    <section class="api-section">
-      <h2 class="coar-heading">Size Tokens</h2>
-      <coar-table>
-        <thead>
-          <tr>
-            <th>Token</th>
-            <th>Size</th>
-            <th>Use Case</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>xs</code></td>
-            <td>12px</td>
-            <td>Inline with small text, badges</td>
-          </tr>
-          <tr>
-            <td><code>sm</code></td>
-            <td>16px</td>
-            <td>Small buttons, compact UI</td>
-          </tr>
-          <tr>
-            <td><code>md</code></td>
-            <td>20px</td>
-            <td>Default size, standard buttons</td>
-          </tr>
-          <tr>
-            <td><code>lg</code></td>
-            <td>24px</td>
-            <td>Prominent icons, navigation</td>
-          </tr>
-          <tr>
-            <td><code>xl</code></td>
-            <td>32px</td>
-            <td>Hero sections, empty states</td>
-          </tr>
-          <tr>
-            <td><code>auto</code></td>
-            <td>100%</td>
-            <td>Fill parent container</td>
-          </tr>
-        </tbody>
-      </coar-table>
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Accessibility -->
-    <section class="api-section">
-      <h2 class="coar-heading">Accessibility</h2>
-      <ul class="a11y-list">
-        <li class="coar-body-small">Icons are decorative by default and hidden from screen readers</li>
-        <li class="coar-body-small">Use the <code>label</code> input to add accessible text when the icon conveys meaning</li>
-        <li class="coar-body-small">Icons in buttons inherit the button's accessible name</li>
-        <li class="coar-body-small">Colors should maintain sufficient contrast with backgrounds</li>
-        <li class="coar-body-small">Spinning animations respect <code>prefers-reduced-motion</code></li>
-      </ul>
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Usage Notes -->
-    <section class="api-section">
-      <h2 class="coar-heading">Usage Notes</h2>
-      <div class="usage-notes">
-        <coar-card padding="sm">
-          <strong>Adding Custom Icons</strong>
-          <p class="coar-body-small">
-            Place SVG files in <code>/assets/icons/</code> and run <code>npm run build:icons</code> to regenerate the icon registry.
-          </p>
-        </coar-card>
-        <coar-card padding="sm">
-          <strong>Custom Namespaces</strong>
-          <p class="coar-body-small">Use namespaced icons for customer uploads: <code>name="customer:invoicePaid"</code></p>
-        </coar-card>
-        <coar-card padding="sm">
-          <strong>Performance</strong>
-          <p class="coar-body-small">Icons are inlined as strings for maximum portability. No external HTTP requests needed.</p>
-        </coar-card>
       </div>
     </section>
   </div>

@@ -7,6 +7,8 @@ import {
   CoarTableComponent,
 } from '@cocoar/ui-components';
 
+import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
+
 @Component({
   selector: 'app-table-page',
   standalone: true,
@@ -21,7 +23,12 @@ import {
   styleUrl: './table.page.css',
 })
 export class TablePage {
+  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
+
   activeTab = 'examples';
+
+  protected readonly docsPath = '/docs/components/table/overview.md';
+  protected readonly apiPath = '/docs/components/table/api.md';
 
   // Sample data for demos
   sampleData = [
@@ -98,39 +105,4 @@ export class TablePage {
     </tr>
   </tbody>
 </coar-table>`;
-
-  // API properties
-  tableProps = [
-    {
-      name: 'variant',
-      type: "'default' | 'plain' | 'bordered'",
-      required: false,
-      default: "'default'",
-      description:
-        'Visual variant: default (zebra stripes), plain (no stripes), bordered (cell borders)',
-    },
-    {
-      name: 'compact',
-      type: 'boolean',
-      required: false,
-      default: 'false',
-      description: 'Whether to use compact padding for dense tables',
-    },
-    {
-      name: 'hover',
-      type: 'boolean',
-      required: false,
-      default: 'true',
-      description: 'Whether rows should highlight on hover',
-    },
-  ];
-
-  cssClasses = [
-    { name: '.type', description: 'Styles code as a type annotation (muted color)' },
-    { name: '.default', description: 'Styles code as a default value (lighter color)' },
-    { name: '.required-badge', description: 'Adds a warning-colored "Required" badge' },
-    { name: '.text-right', description: 'Right-aligns cell content' },
-    { name: '.text-center', description: 'Center-aligns cell content' },
-    { name: '.nowrap', description: 'Prevents text wrapping in cell' },
-  ];
 }

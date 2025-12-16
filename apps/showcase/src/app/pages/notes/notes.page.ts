@@ -7,9 +7,8 @@ import {
   CoarDividerComponent,
   CoarTabGroupComponent,
   CoarTabComponent,
-  CoarTableComponent,
 } from '@cocoar/ui-components';
-import type { NoteColor, NotePadding } from '@cocoar/ui-components';
+import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-notes',
@@ -22,7 +21,6 @@ import type { NoteColor, NotePadding } from '@cocoar/ui-components';
     CoarDividerComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
-    CoarTableComponent,
   ],
   templateUrl: './notes.page.html',
   styleUrl: './notes.page.css',
@@ -30,27 +28,10 @@ import type { NoteColor, NotePadding } from '@cocoar/ui-components';
 export class NotesPage {
   activeTab = 'examples';
 
-  /** Note color variants */
-  colors: NoteColor[] = ['neutral', 'success', 'warning', 'error', 'info', 'accent'];
+  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
 
-  /** Note padding sizes */
-  paddings: NotePadding[] = ['sm', 'md', 'lg'];
-
-  /** API properties */
-  apiProperties = [
-    {
-      name: 'color',
-      type: "'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent'",
-      default: "'neutral'",
-      description: 'Semantic color variant for the note border and background',
-    },
-    {
-      name: 'padding',
-      type: "'sm' | 'md' | 'lg'",
-      default: "'md'",
-      description: 'Internal padding size',
-    },
-  ];
+  protected readonly docsPath = '/docs/components/note/overview.md';
+  protected readonly apiPath = '/docs/components/note/api.md';
 
   /** Code examples */
   codeExamples = {

@@ -8,10 +8,14 @@
   --coar-markdown-muted-text: var(--coar-text-neutral-tertiary);
   --coar-markdown-border: var(--coar-border-neutral-tertiary);
   --coar-markdown-surface: var(--coar-background-neutral-primary);
-  --coar-markdown-surface-muted: var(--coar-background-neutral-tertiary, var(--coar-background-neutral-primary));
+  --coar-markdown-surface-muted: var(
+    --coar-background-neutral-tertiary,
+    var(--coar-background-neutral-primary)
+  );
   --coar-markdown-radius: var(--coar-radius-xs);
-  --coar-markdown-space-1: var(--coar-spacing-2, 0.5rem);
-  --coar-markdown-space-2: var(--coar-spacing-4, 1rem);
+  --coar-markdown-space-1: var(--coar-spacing-s, 0.5rem);
+  --coar-markdown-space-2: var(--coar-spacing-m, 1rem);
+  --coar-markdown-heading-block-start: var(--coar-spacing-xxxl, 4rem);
 }
 
 .coar-markdown {
@@ -70,12 +74,34 @@
   margin: 0;
 }
 
-.coar-markdown > :where(h1, h2, h3, h4, h5, h6, p, blockquote, ul, ol, pre, table, hr, coar-code-block, coar-table) {
+.coar-markdown
+  > :where(
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    blockquote,
+    ul,
+    ol,
+    pre,
+    table,
+    hr,
+    coar-code-block,
+    coar-table
+  ) {
   margin-block: 0 var(--coar-markdown-space-2);
 }
 
 .coar-markdown > :where(h1, h2, h3, h4, h5, h6) {
-  margin-block-start: var(--coar-markdown-space-2);
+  margin-block-start: var(--coar-markdown-heading-block-start);
+}
+
+/* Large section spacing is great, but keep heading hierarchies tight (e.g. h2 -> h3). */
+.coar-markdown > :where(h1, h2, h3, h4, h5, h6) + :where(h1, h2, h3, h4, h5, h6) {
+  margin-block-start: var(--coar-markdown-space-1);
 }
 
 .coar-markdown > :where(h1, h2, h3, h4, h5, h6):first-child {
@@ -88,7 +114,7 @@
 }
 
 .coar-markdown-list {
-  padding-inline-start: var(--coar-spacing-6, 1.5rem);
+  padding-inline-start: var(--coar-spacing-l, 1.5rem);
   list-style-position: outside;
 }
 
@@ -109,7 +135,7 @@
   list-style: none;
   display: flex;
   align-items: flex-start;
-  gap: var(--coar-spacing-2, 0.5rem);
+  gap: var(--coar-spacing-s, 0.5rem);
 }
 
 .coar-markdown-list-item-content {

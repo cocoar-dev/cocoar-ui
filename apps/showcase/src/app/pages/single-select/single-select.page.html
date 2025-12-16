@@ -1,0 +1,120 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Single Select</h1>
+    <p class="page-description">
+      Select a single option from a list. Supports search/filter, keyboard navigation, and object values via
+      <code>compareWith</code>.
+    </p>
+  </header>
+
+  <coar-tab-group [(activeTab)]="activeTab">
+    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
+  </coar-tab-group>
+</div>
+
+<ng-template #examplesTemplate>
+  <div class="examples-content">
+    <section class="example-section">
+      <h3>Basic Usage</h3>
+      <p>Simple dropdown for selecting one option.</p>
+      <div class="example-demo">
+        <coar-single-select
+          label="Country"
+          [options]="countryOptions"
+          [value]="singleValue()"
+          (valueChange)="singleValue.set($event)"
+          placeholder="Select a country..."
+        />
+      </div>
+      <p class="demo-value">Selected: {{ singleValue() || 'none' }}</p>
+      <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <section class="example-section">
+      <h3>Searchable</h3>
+      <p>Enable search/filter functionality for longer lists.</p>
+      <div class="example-demo">
+        <coar-single-select
+          label="Country"
+          [options]="countryOptions"
+          [value]="singleWithValue()"
+          (valueChange)="singleWithValue.set($event)"
+          [searchable]="true"
+          searchPlaceholder="Search countries..."
+        />
+      </div>
+      <coar-code-block [code]="codeExamples.searchable" language="html" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <section class="example-section">
+      <h3>Object Values with compareWith</h3>
+      <p>
+        If option values are objects and the current value is a different object instance, provide
+        <code>compareWith</code> to match by a stable key (e.g. <code>id</code>).
+      </p>
+      <div class="example-demo">
+        <coar-single-select
+          label="Country"
+          [options]="countryObjectOptions"
+          [value]="selectedCountryObject()"
+          (valueChange)="selectedCountryObject.set($event)"
+          [compareWith]="compareCountryById"
+          placeholder="Select a country..."
+        />
+      </div>
+      <div class="demo-value-object">
+        <strong>Selected value (full object):</strong>
+        <pre>{{ selectedCountryObject() | json }}</pre>
+      </div>
+      <coar-note variant="info">
+        The form value and options are different object instances, but <code>compareWith</code> matches them by <code>id</code>.
+      </coar-note>
+      <coar-code-block [code]="codeExamples.compareWith" language="typescript" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <section class="example-section">
+      <h3>States</h3>
+      <p>Disabled, readonly, required, and error states.</p>
+      <div class="example-demo example-demo--grid">
+        <coar-single-select label="Disabled" [options]="basicOptions" value="option-1" [disabled]="true" />
+        <coar-single-select label="Readonly" [options]="basicOptions" value="option-2" [readonly]="true" />
+        <coar-single-select label="Required" [options]="basicOptions" [required]="true" hint="This field is required" />
+        <coar-single-select label="Error" [options]="basicOptions" error="Please select an option" />
+      </div>
+      <coar-code-block [code]="codeExamples.states" language="html" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <section class="example-section">
+      <h3>Sizes</h3>
+      <p>Available in xs, sm, md, and lg sizes.</p>
+      <div class="example-demo example-demo--sizes">
+        <coar-single-select label="Extra Small" [options]="basicOptions" size="xs" placeholder="xs" />
+        <coar-single-select label="Small" [options]="basicOptions" size="sm" placeholder="sm" />
+        <coar-single-select label="Medium" [options]="basicOptions" size="md" placeholder="md" />
+        <coar-single-select label="Large" [options]="basicOptions" size="lg" placeholder="lg" />
+      </div>
+      <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <section class="example-section">
+      <h3>Dropdown Position (Top)</h3>
+      <p>Use <code>dropdownPositionPreference</code> to prefer opening to the top.</p>
+      <div class="example-demo">
+        <coar-single-select label="Country" [options]="countryOptions" dropdownPositionPreference="top" placeholder="Select a country..." />
+      </div>
+      <coar-code-block [code]="codeExamples.dropdownPositionTop" language="html" [showLineNumbers]="false" />
+    </section>
+  </div>
+</ng-template>

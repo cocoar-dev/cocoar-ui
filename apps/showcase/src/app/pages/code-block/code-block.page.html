@@ -6,7 +6,8 @@
 
   <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
     <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
   </coar-tab-group>
 </div>
 
@@ -59,56 +60,19 @@
     </section>
     <coar-divider [spacingTop]="16" [spacingBottom]="48" />
 
+    <!-- Line numbers -->
+    <section class="example-section">
+      <h2 class="coar-heading">Line Numbers</h2>
+      <p class="section-intro coar-body-small">Enable line numbers for easier referencing in docs and reviews.</p>
+      <coar-code-block [code]="tsExample" language="typescript" title="example.component.ts" [showLineNumbers]="true" />
+    </section>
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
     <!-- Max Height -->
     <section class="example-section">
       <h2 class="coar-heading">Max Height (Scrollable)</h2>
       <p class="section-intro coar-body-small">Limits the height with internal scrolling for long code snippets.</p>
       <coar-code-block [code]="longExample" language="typescript" [maxHeight]="200" />
-    </section>
-  </div>
-</ng-template>
-
-<!-- ==================== API TAB ==================== -->
-<ng-template #apiTemplate>
-  <div class="api-content">
-    <section class="api-section">
-      <h2 class="coar-heading">CoarCodeBlock</h2>
-      <p class="section-intro coar-body-small">Import from <code>&#64;cocoar/ui-components</code></p>
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (prop of apiProperties; track prop.name) {
-          <tr>
-            <td>
-              <code class="prop-name">{{ prop.name }}</code>
-              @if (prop.required) {
-              <span class="required-badge">required</span>
-              }
-            </td>
-            <td>
-              <code class="prop-type">{{ prop.type }}</code>
-            </td>
-            <td>
-              <code class="prop-default">{{ prop.default }}</code>
-            </td>
-            <td class="prop-desc">{{ prop.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <section class="example-section">
-      <h2 class="coar-heading">Usage Example</h2>
-      <coar-code-block [code]="usageCode" language="html" title="Template usage" />
     </section>
   </div>
 </ng-template>

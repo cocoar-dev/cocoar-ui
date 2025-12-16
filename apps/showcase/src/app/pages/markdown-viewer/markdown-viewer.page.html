@@ -2,32 +2,44 @@
   <header class="page-header">
     <h1 class="coar-title">Markdown Viewer</h1>
     <p class="coar-body">
-      Renders a pre-parsed <code>MarkdownDocument</code> via <code>&lt;coar-markdown [doc]&gt;</code>.
-      External links open in a new tab with basic security attributes.
+      Renders a pre-parsed <code>MarkdownDocument</code> via <code>&lt;coar-markdown [doc]&gt;</code>. External links open in a new tab with basic
+      security attributes.
     </p>
   </header>
 
-  <section class="example-section">
-    <h2 class="coar-heading">Rendered Output</h2>
-    <p class="section-intro coar-body-small">
-      The markdown below is loaded from <code>{{ markdownPath }}</code>, parsed with <code>parse()</code>,
-      and rendered without HTML string injection.
-    </p>
+  <!-- Tabs follow the standard showcase pattern -->
 
-    <coar-markdown class="markdown-host" [doc]="doc()" />
-  </section>
-
-  <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-  <section class="example-section">
-    <h2 class="coar-heading">Input Markdown</h2>
-    <coar-code-block [code]="markdownSource()" language="markdown" [title]="markdownPath" [maxHeight]="260" />
-  </section>
-
-  <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-  <section class="example-section">
-    <h2 class="coar-heading">Usage</h2>
-    <coar-code-block [code]="usageCode" language="typescript" title="Example usage" />
-  </section>
+  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
+    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
+  </coar-tab-group>
 </div>
+
+<ng-template #examplesTemplate>
+  <div class="examples-content">
+    <section class="example-section">
+      <h2 class="coar-heading">Rendered Output</h2>
+      <p class="section-intro coar-body-small">
+        The markdown below is loaded from <code>{{ markdownPath }}</code
+        >, parsed with <code>parse()</code>, and rendered without HTML string injection.
+      </p>
+
+      <coar-markdown class="markdown-host" [doc]="doc()" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
+    <section class="example-section">
+      <h2 class="coar-heading">Input Markdown</h2>
+      <coar-code-block [code]="markdownSource()" language="markdown" [title]="markdownPath" [maxHeight]="260" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
+    <section class="example-section">
+      <h2 class="coar-heading">Usage</h2>
+      <coar-code-block [code]="usageCode" language="typescript" title="Example usage" />
+    </section>
+  </div>
+</ng-template>

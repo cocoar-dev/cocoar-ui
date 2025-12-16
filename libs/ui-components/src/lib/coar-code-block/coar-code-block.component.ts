@@ -71,6 +71,9 @@ export class CoarCodeBlockComponent {
     return this.escapeHtml(code);
   });
 
+  /** Highlighted code split by line for optional line-number rendering */
+  protected highlightedLines = computed(() => this.highlightedCode().split('\n'));
+
   constructor() {
     setTimeout(() => {
       this.isCollapsed.set(this.collapsed());

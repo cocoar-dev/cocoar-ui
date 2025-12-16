@@ -7,8 +7,9 @@ import {
   CoarDividerComponent,
   CoarTabGroupComponent,
   CoarTabComponent,
-  CoarTableComponent,
 } from '@cocoar/ui-components';
+
+import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-labels',
@@ -21,35 +22,17 @@ import {
     CoarDividerComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
-    CoarTableComponent,
   ],
   templateUrl: './labels.page.html',
   styleUrl: './labels.page.css',
 })
 export class LabelsPage {
+  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
+
   activeTab = 'examples';
 
-  // API properties
-  apiProperties = [
-    {
-      name: 'size',
-      type: "'xs' | 'sm' | 'md' | 'lg'",
-      default: "'md'",
-      description: 'Size of the label. Should match the associated form element size.',
-    },
-    {
-      name: 'required',
-      type: 'boolean',
-      default: 'false',
-      description: 'Shows a required indicator (*) after the label text.',
-    },
-    {
-      name: 'for',
-      type: 'string',
-      default: 'undefined',
-      description: 'The ID of the form element this label is associated with.',
-    },
-  ];
+  protected readonly docsPath = '/docs/components/labels/overview.md';
+  protected readonly apiPath = '/docs/components/labels/api.md';
 
   // Code examples
   codeExamples = {

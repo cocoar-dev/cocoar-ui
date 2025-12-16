@@ -6,9 +6,10 @@
     </p>
   </header>
 
-  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
+  <coar-tab-group [(activeTab)]="activeTab">
     <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
   </coar-tab-group>
 </div>
 
@@ -217,86 +218,6 @@
           <coar-checkbox label="Error state" [readonly]="true" checked="unchecked" error="Required" />
         </coar-card>
       </div>
-    </section>
-  </div>
-</ng-template>
-
-<ng-template #apiTemplate>
-  <div class="api-content">
-    <section class="api-section">
-      <h2 class="coar-heading">CoarCheckbox</h2>
-      <p class="section-intro coar-body-small">Import from <code>&#64;cocoar/ui-components</code></p>
-
-      <!-- Inputs -->
-      <h3 class="coar-subheading">Inputs</h3>
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (prop of apiProperties; track prop.name) {
-          <tr>
-            <td>
-              <code class="prop-name">{{ prop.name }}</code>
-            </td>
-            <td>
-              <code class="prop-type">{{ prop.type }}</code>
-            </td>
-            <td>
-              <code class="prop-default">{{ prop.default }}</code>
-            </td>
-            <td class="prop-desc">{{ prop.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
-
-      <coar-divider [spacingTop]="24" [spacingBottom]="24" />
-
-      <!-- Outputs -->
-      <h3 class="coar-subheading">Outputs</h3>
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Output</th>
-            <th>Type</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (out of apiOutputs; track out.name) {
-          <tr>
-            <td>
-              <code class="prop-name">{{ out.name }}</code>
-            </td>
-            <td>
-              <code class="prop-type">{{ out.type }}</code>
-            </td>
-            <td class="prop-desc">{{ out.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Accessibility -->
-    <section class="api-section">
-      <h2 class="coar-heading">Accessibility</h2>
-      <ul class="a11y-list">
-        <li class="coar-body-small">Uses native <code>&lt;input type="checkbox"&gt;</code> for proper semantics</li>
-        <li class="coar-body-small">Labels are clickable and properly associated via <code>for</code> attribute</li>
-        <li class="coar-body-small">Supports keyboard navigation with Space and Enter keys</li>
-        <li class="coar-body-small">Focus states are clearly visible</li>
-        <li class="coar-body-small">Indeterminate state uses <code>aria-checked="mixed"</code></li>
-        <li class="coar-body-small">Error and hint messages linked via <code>aria-describedby</code></li>
-      </ul>
     </section>
   </div>
 </ng-template>

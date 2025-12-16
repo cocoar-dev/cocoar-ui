@@ -5,10 +5,11 @@ import {
   CoarTabComponent,
   CoarCodeBlockComponent,
   CoarButtonComponent,
-  CoarTableComponent,
   CoarDividerComponent,
 } from '@cocoar/ui-components';
 import { LazyDemoComponent } from './lazy-demo.component';
+
+import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-tabs-page',
@@ -19,7 +20,6 @@ import { LazyDemoComponent } from './lazy-demo.component';
     CoarTabComponent,
     CoarCodeBlockComponent,
     CoarButtonComponent,
-    CoarTableComponent,
     CoarDividerComponent,
     LazyDemoComponent,
   ],
@@ -27,6 +27,11 @@ import { LazyDemoComponent } from './lazy-demo.component';
   styleUrl: './tabs.page.css',
 })
 export class TabsPage {
+  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
+
+  protected readonly docsPath = '/docs/components/tabs/overview.md';
+  protected readonly apiPath = '/docs/components/tabs/api.md';
+
   // Page-level tabs
   activeTab = 'examples';
 
@@ -111,69 +116,4 @@ LazyDemoComponent = LazyDemoComponent;
     <coar-icon name="settings" /> Settings
   </coar-tab>
 </coar-tab-group>`;
-
-  // API properties
-  tabGroupProps = [
-    {
-      name: 'activeTab',
-      type: 'string',
-      required: false,
-      default: "''",
-      description: 'The id of the currently active tab',
-    },
-    {
-      name: 'activeTabChange',
-      type: 'EventEmitter<string>',
-      required: false,
-      default: '-',
-      description: 'Emits when the active tab changes',
-    },
-  ];
-
-  tabProps = [
-    {
-      name: 'id',
-      type: 'string',
-      required: true,
-      default: '-',
-      description: 'Unique identifier for the tab',
-    },
-    {
-      name: 'content',
-      type: 'TemplateRef | Type<any>',
-      required: true,
-      default: '-',
-      description:
-        'The content to display in the tab panel. Can be a template reference or component class.',
-    },
-    {
-      name: 'disabled',
-      type: 'boolean',
-      required: false,
-      default: 'false',
-      description: 'Whether the tab is disabled',
-    },
-    {
-      name: 'loadingStrategy',
-      type: "'eager' | 'lazy'",
-      required: false,
-      default: "'lazy'",
-      description:
-        "Controls when content is rendered. 'lazy' (default) only renders when active, 'eager' keeps content in DOM.",
-    },
-    {
-      name: 'contentInputs',
-      type: 'Record<string, unknown>',
-      required: false,
-      default: '{}',
-      description: 'Input properties to pass when content is a Component',
-    },
-    {
-      name: '(content)',
-      type: 'ng-content',
-      required: true,
-      default: '-',
-      description: 'Tab label content. Supports text, icons, badges, or any HTML.',
-    },
-  ];
 }

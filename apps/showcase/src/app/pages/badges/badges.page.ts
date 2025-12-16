@@ -8,10 +8,11 @@ import {
   CoarTabGroupComponent,
   CoarTabComponent,
   CoarButtonComponent,
-  CoarTableComponent,
   BadgeVariant,
   BadgeSize,
 } from '@cocoar/ui-components';
+
+import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-badges',
@@ -25,13 +26,17 @@ import {
     CoarTabGroupComponent,
     CoarTabComponent,
     CoarButtonComponent,
-    CoarTableComponent,
   ],
   templateUrl: './badges.page.html',
   styleUrl: './badges.page.css',
 })
 export class BadgesPage {
+  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
+
   activeTab = 'examples';
+
+  protected readonly docsPath = '/docs/components/badge/overview.md';
+  protected readonly apiPath = '/docs/components/badge/api.md';
 
   /** Badge variants */
   variants: BadgeVariant[] = ['primary', 'secondary', 'success', 'warning', 'error', 'info'];
@@ -64,52 +69,6 @@ export class BadgesPage {
   resetCount(): void {
     this.notificationCount.set(0);
   }
-
-  /** API properties */
-  apiProperties = [
-    {
-      name: 'content',
-      type: 'string | number',
-      default: "''",
-      description: 'The content to display (number, text, or empty for dot mode)',
-    },
-    {
-      name: 'variant',
-      type: "'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info'",
-      default: "'primary'",
-      description: 'Visual style variant',
-    },
-    {
-      name: 'size',
-      type: "'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'auto'",
-      default: "'md'",
-      description: 'Badge size',
-    },
-    {
-      name: 'dot',
-      type: 'boolean',
-      default: 'false',
-      description: 'Show as a small dot without content',
-    },
-    {
-      name: 'pulse',
-      type: 'boolean',
-      default: 'false',
-      description: 'Add a pulsing animation for attention',
-    },
-    {
-      name: 'max',
-      type: 'number | null',
-      default: 'null',
-      description: 'Maximum number to display (shows "max+" when exceeded)',
-    },
-    {
-      name: 'bordered',
-      type: 'boolean',
-      default: 'false',
-      description: 'Add a white border around the badge',
-    },
-  ];
 
   /** Code examples */
   codeExamples = {

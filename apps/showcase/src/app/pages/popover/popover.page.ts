@@ -8,8 +8,9 @@ import {
   CoarPopoverComponent,
   CoarTabComponent,
   CoarTabGroupComponent,
-  CoarTableComponent,
 } from '@cocoar/ui-components';
+
+import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-popover',
@@ -23,57 +24,23 @@ import {
     CoarNoteComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
-    CoarTableComponent,
   ],
   templateUrl: './popover.page.html',
   styleUrl: './popover.page.css',
 })
 export class PopoverPage {
+  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
+
   activeTab = 'examples';
+
+  protected readonly docsPath = '/docs/components/popover/overview.md';
+  protected readonly apiPath = '/docs/components/popover/api.md';
 
   protected readonly clicksThroughOverlay = signal(0);
 
   protected onClickThroughOverlay(): void {
     this.clicksThroughOverlay.update((v) => v + 1);
   }
-
-  popoverProperties = [
-    {
-      name: 'disabled',
-      type: 'boolean',
-      default: 'false',
-      description: 'Disables popover behavior (trigger still renders).',
-    },
-    {
-      name: 'openOnHover',
-      type: 'boolean',
-      default: 'false',
-      description: 'Opens on hover/focus (desktop-friendly).',
-    },
-    {
-      name: 'openOnClick',
-      type: 'boolean',
-      default: 'false',
-      description: 'Opens on click/tap and pins open until closed.',
-    },
-    {
-      name: 'interactive',
-      type: 'boolean',
-      default: 'true',
-      description: 'When false, popover does not capture pointer events.',
-    },
-  ];
-
-  popoverSlots = [
-    {
-      name: '[coarPopoverTrigger]',
-      description: 'Projected trigger content (what users hover/click).',
-    },
-    {
-      name: '[coarPopoverContent]',
-      description: 'Projected panel content (what the popover shows).',
-    },
-  ];
 
   codeExamples = {
     basic: `<coar-popover [openOnHover]="true">

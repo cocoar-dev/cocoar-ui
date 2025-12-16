@@ -67,12 +67,12 @@
    ======================================== */
 
 .coar-table ::ng-deep code {
-  background: var(--coar-background-neutral-tertiary);
+  /* background: var(--coar-background-neutral-tertiary);
   padding: 0.2rem 0.5rem;
-  border-radius: var(--coar-radius-xxs);
+  border-radius: var(--coar-radius-xxs); */
   font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
   font-size: 0.8125rem;
-  color: var(--coar-text-neutral-primary);
+  color: var(--coar-text-accent-secondary);
   white-space: nowrap;
 }
 

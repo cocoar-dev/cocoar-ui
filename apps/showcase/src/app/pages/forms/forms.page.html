@@ -4,9 +4,10 @@
     <p class="description coar-body">Form patterns and layouts demonstrating how input components work together.</p>
   </header>
 
-  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
+  <coar-tab-group [(activeTab)]="activeTab">
     <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
     <coar-tab id="sizing" [content]="sizingTemplate">Size Alignment</coar-tab>
+    <coar-tab id="docs" [content]="docsTemplate">Docs</coar-tab>
   </coar-tab-group>
 </div>
 
@@ -21,9 +22,7 @@
         <coar-password-input label="Password" [required]="true" formControlName="password" />
         <coar-checkbox label="Remember me" formControlName="rememberMe" />
         <div class="form-actions">
-          <coar-button variant="primary" type="submit" [loading]="loginLoading()" [disabled]="loginForm.invalid">
-            Sign In
-          </coar-button>
+          <coar-button variant="primary" type="submit" [loading]="loginLoading()" [disabled]="loginForm.invalid"> Sign In </coar-button>
           <coar-button variant="ghost" type="button">Forgot Password?</coar-button>
         </div>
       </form>
@@ -63,38 +62,15 @@
           <coar-text-input label="Full Name" placeholder="John Doe" [required]="true" formControlName="fullName" />
         </div>
         <div class="form-row">
-          <coar-text-input
-            label="Email"
-            placeholder="your@email.com"
-            [required]="true"
-            hint="We'll never share your email"
-            formControlName="email"
-          />
+          <coar-text-input label="Email" placeholder="your@email.com" [required]="true" hint="We'll never share your email" formControlName="email" />
         </div>
         <div class="form-row two-columns">
-          <coar-password-input
-            label="Password"
-            [required]="true"
-            hint="Min. 8 characters"
-            formControlName="password"
-          />
-          <coar-password-input
-            label="Confirm Password"
-            [required]="true"
-            formControlName="confirmPassword"
-          />
+          <coar-password-input label="Password" [required]="true" hint="Min. 8 characters" formControlName="password" />
+          <coar-password-input label="Confirm Password" [required]="true" formControlName="confirmPassword" />
         </div>
         <div class="form-row checkboxes">
-          <coar-checkbox
-            label="I accept the Terms of Service"
-            [required]="true"
-            formControlName="acceptTerms"
-          />
-          <coar-checkbox
-            label="Subscribe to newsletter"
-            hint="Get product updates and tips"
-            formControlName="subscribeNewsletter"
-          />
+          <coar-checkbox label="I accept the Terms of Service" [required]="true" formControlName="acceptTerms" />
+          <coar-checkbox label="Subscribe to newsletter" hint="Get product updates and tips" formControlName="subscribeNewsletter" />
         </div>
         <div class="form-actions">
           <coar-button variant="primary" iconEnd="caret-right" type="button">Create Account</coar-button>
@@ -181,4 +157,17 @@
       <li class="coar-body-small">Required fields should have the <code>required</code> attribute for accessibility</li>
     </ul>
   </div>
+</ng-template>
+
+<ng-template #docsTemplate>
+  @if (docsState$ | async; as state) { @switch (state.status) { @case ('loading') {
+  <p class="coar-body-small" aria-busy="true">Loading…</p>
+  } @case ('error') {
+  <coar-note color="error">
+    Failed to load <code>{{ state.path }}</code
+    >.
+  </coar-note>
+  } @case ('loaded') {
+  <coar-markdown [doc]="state.doc"></coar-markdown>
+  } } }
 </ng-template>

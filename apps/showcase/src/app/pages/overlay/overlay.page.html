@@ -2,35 +2,29 @@
   <header class="page-header">
     <h1 class="coar-title">Overlay</h1>
     <p class="page-description">
-      A spec-driven imperative API for floating panels.
-      Define WHAT you want to render and how it behaves (anchor, position, backdrop).
+      A spec-driven imperative API for floating panels. Define WHAT you want to render and how it behaves (anchor, position, backdrop).
     </p>
   </header>
 
   <coar-tab-group [(activeTab)]="activeTab">
     <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
-    <coar-tab id="docs" [content]="docsTemplate">Docs</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
   </coar-tab-group>
 </div>
 
 <ng-template #examplesTemplate>
   <div class="examples-content">
-
     <section class="example-section">
       <h3>Connected overlay (element anchor)</h3>
       <p>Defines a template overlay and opens it anchored to an element.</p>
 
       <div class="example-demo example-demo--row">
         <span #connectedOrigin>
-          <coar-button variant="ghost" size="sm" (clicked)="openConnected()">
-            Open connected overlay
-          </coar-button>
+          <coar-button variant="ghost" size="sm" (clicked)="openConnected()"> Open connected overlay </coar-button>
         </span>
 
-        <coar-button variant="ghost" size="sm" (clicked)="close()" [disabled]="!isOpen()">
-          Close
-        </coar-button>
+        <coar-button variant="ghost" size="sm" (clicked)="close()" [disabled]="!isOpen()"> Close </coar-button>
       </div>
 
       <coar-code-block [code]="codeExamples.defineTemplate" language="ts" [showLineNumbers]="false" />
@@ -45,9 +39,8 @@
 
       <div class="example-demo">
         <div class="context-area" (contextmenu)="onContextMenu($event)">
-          Right-click me
-          @if (lastContextMenuPosition(); as p) {
-            <div class="coar-caption context-hint">Last: {{ p.x }}, {{ p.y }}</div>
+          Right-click me @if (lastContextMenuPosition(); as p) {
+          <div class="coar-caption context-hint">Last: {{ p.x }}, {{ p.y }}</div>
           }
         </div>
       </div>
@@ -73,15 +66,11 @@
 
     <section class="example-section">
       <h3>resolveSpec via DI (global policy)</h3>
-      <p>
-        This page registers a DI resolver that defaults menu overlays to close-on-scroll when no scroll strategy is set.
-      </p>
+      <p>This page registers a DI resolver that defaults menu overlays to close-on-scroll when no scroll strategy is set.</p>
 
       <div class="example-demo example-demo--row">
         <span #resolvedMenuOrigin>
-          <coar-button variant="ghost" size="sm" (clicked)="openResolvedMenu()">
-            Open resolved menu
-          </coar-button>
+          <coar-button variant="ghost" size="sm" (clicked)="openResolvedMenu()"> Open resolved menu </coar-button>
         </span>
         <coar-button variant="ghost" size="sm" (clicked)="close()" [disabled]="!isOpen()">Close</coar-button>
       </div>
@@ -93,87 +82,17 @@
 
     <section class="example-section">
       <h3>Parent-attached overlay (container boundaries)</h3>
-      <p>
-        Overlay attached to a specific parent container instead of body. Clamp/fallback use container boundaries.
-      </p>
+      <p>Overlay attached to a specific parent container instead of body. Clamp/fallback use container boundaries.</p>
 
       <div class="example-demo">
         <div #containerBox class="container-box">
           <span #containerTrigger>
-            <coar-button variant="ghost" size="sm" (clicked)="openParentAttached()">
-              Open in container
-            </coar-button>
+            <coar-button variant="ghost" size="sm" (clicked)="openParentAttached()"> Open in container </coar-button>
           </span>
         </div>
       </div>
 
       <coar-code-block [code]="codeExamples.parentAttached" language="ts" [showLineNumbers]="false" />
-    </section>
-
-  </div>
-</ng-template>
-
-<ng-template #apiTemplate>
-  <div class="api-content">
-    <section class="api-section">
-      <h2>Overlay</h2>
-      <p class="coar-body-small" style="color: var(--coar-text-neutral-secondary)">
-        The overlay API is spec-driven: build an immutable spec and open it with the overlay service.
-      </p>
-
-      <h3>Core calls</h3>
-
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Call</th>
-            <th>Returns</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (row of apiRows; track row.name) {
-            <tr>
-              <td><code>{{ row.name }}</code></td>
-              <td><code class="type">{{ row.type }}</code></td>
-              <td>{{ row.description }}</td>
-            </tr>
-          }
-        </tbody>
-      </coar-table>
-
-      <coar-divider [spacingTop]="32" [spacingBottom]="32" />
-
-      <h3>Strategies</h3>
-      <coar-note variant="info">
-        For now the overlay service uses JavaScript positioning only. CSS anchor positioning can be added later as an internal optimization.
-      </coar-note>
-    </section>
-  </div>
-</ng-template>
-
-<ng-template #docsTemplate>
-  <div class="api-content">
-    <section class="api-section">
-
-      @if (docsState$ | async; as state) {
-        @switch (state.status) {
-          @case ('loading') {
-            <div class="docs-loading" aria-busy="true">
-              <coar-icon name="load" size="md" [spin]="true" />
-              <span class="coar-body-small">Loading documentation…</span>
-            </div>
-          }
-          @case ('error') {
-            <coar-note color="error">
-              Failed to load <code>{{ state.path }}</code>.
-            </coar-note>
-          }
-          @case ('loaded') {
-            <coar-markdown class="docs-markdown" [doc]="state.doc" />
-          }
-        }
-      }
     </section>
   </div>
 </ng-template>
@@ -185,9 +104,7 @@
 <ng-template #connectedTemplate>
   <div class="overlay-panel">
     <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Connected Overlay</div>
-    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">
-      Positioned relative to an element.
-    </div>
+    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">Positioned relative to an element.</div>
     <coar-divider [spacingTop]="12" [spacingBottom]="12" />
     <coar-button variant="ghost" size="sm" (clicked)="close()">Close</coar-button>
   </div>
@@ -196,9 +113,7 @@
 <ng-template #contextMenuTemplate let-x="x" let-y="y">
   <div class="overlay-panel overlay-panel--menu">
     <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Context Menu</div>
-    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">
-      Opened at {{ x }}, {{ y }}
-    </div>
+    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">Opened at {{ x }}, {{ y }}</div>
     <coar-divider [spacingTop]="12" [spacingBottom]="12" />
     <button type="button" class="menu-item" (click)="openSubmenu($event)">More…</button>
     <button type="button" class="menu-item" (click)="close()">Close</button>
@@ -208,9 +123,7 @@
 <ng-template #submenuTemplate>
   <div class="overlay-panel overlay-panel--menu">
     <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Submenu</div>
-    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">
-      This is a child overlay.
-    </div>
+    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">This is a child overlay.</div>
     <coar-divider [spacingTop]="12" [spacingBottom]="12" />
     <button type="button" class="menu-item" (click)="close()">Close all</button>
   </div>
@@ -236,9 +149,7 @@
 <ng-template #resolvedMenuTemplate>
   <div class="overlay-panel overlay-panel--menu">
     <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Resolved Menu</div>
-    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">
-      Scroll the page to see it close (DI default).
-    </div>
+    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">Scroll the page to see it close (DI default).</div>
     <coar-divider [spacingTop]="12" [spacingBottom]="12" />
     <button type="button" class="menu-item" (click)="close()">Close</button>
   </div>

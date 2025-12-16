@@ -9,7 +9,8 @@
 
   <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
     <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
   </coar-tab-group>
 </div>
 
@@ -169,77 +170,6 @@
           </ul>
         </div>
       </div>
-    </section>
-  </div>
-</ng-template>
-
-<ng-template #apiTemplate>
-  <div class="api-content">
-    <section class="api-section">
-      <h2 class="coar-heading">Properties</h2>
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (prop of apiProperties; track prop.name) {
-          <tr>
-            <td>
-              <code>{{ prop.name }}</code>
-            </td>
-            <td>
-              <code class="type">{{ prop.type }}</code>
-            </td>
-            <td>
-              <code class="default">{{ prop.default }}</code>
-            </td>
-            <td>{{ prop.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
-    </section>
-
-    <coar-divider [spacingTop]="24" [spacingBottom]="24" />
-
-    <section class="api-section">
-      <h2 class="coar-heading">CSS Custom Properties</h2>
-      <p class="coar-body-small">The note component uses internal CSS variables set by color variants:</p>
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>--coar-note-bg</code></td>
-            <td>Note background color</td>
-          </tr>
-          <tr>
-            <td><code>--coar-note-border-color</code></td>
-            <td>Left border color</td>
-          </tr>
-        </tbody>
-      </coar-table>
-    </section>
-
-    <coar-divider [spacingTop]="24" [spacingBottom]="24" />
-
-    <section class="api-section">
-      <h2 class="coar-heading">Accessibility</h2>
-      <ul class="accessibility-list">
-        <li>Notes are rendered as block elements with semantic content inside</li>
-        <li>Color alone does not convey meaning — always include text like "Warning:", "Note:", etc.</li>
-        <li>Sufficient color contrast is maintained between text and backgrounds</li>
-        <li>For critical information, consider using <code>role="alert"</code> on the note</li>
-      </ul>
     </section>
   </div>
 </ng-template>

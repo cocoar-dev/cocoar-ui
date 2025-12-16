@@ -7,7 +7,8 @@
   <!-- Main page tabs -->
   <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
     <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="apiTemplate">API</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
   </coar-tab-group>
 </div>
 
@@ -149,94 +150,6 @@
         </coar-tab-group>
       </div>
       <coar-code-block [code]="richLabelExample" language="html" [collapsed]="true" />
-    </section>
-  </div>
-</ng-template>
-
-<!-- ==================== API TAB ==================== -->
-<ng-template #apiTemplate>
-  <div class="api-content">
-    <section class="api-section">
-      <h2 class="coar-heading">CoarTabGroup</h2>
-      <p class="section-intro coar-body-small">Container component that manages tab state and renders the tab list and panels.</p>
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (prop of tabGroupProps; track prop.name) {
-          <tr>
-            <td>
-              <code>{{ prop.name }}</code>
-              @if (prop.required) {
-              <span class="required-badge">Required</span>
-              }
-            </td>
-            <td>
-              <code class="type">{{ prop.type }}</code>
-            </td>
-            <td>
-              <code class="default">{{ prop.default }}</code>
-            </td>
-            <td>{{ prop.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <section class="api-section">
-      <h2 class="coar-heading">CoarTab</h2>
-      <p class="section-intro coar-body-small">Individual tab definition. Content and configuration are cleanly separated.</p>
-      <coar-table class="api-table">
-        <thead>
-          <tr>
-            <th>Property</th>
-            <th>Type</th>
-            <th>Default</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (prop of tabProps; track prop.name) {
-          <tr>
-            <td>
-              <code>{{ prop.name }}</code>
-              @if (prop.required) {
-              <span class="required-badge">Required</span>
-              }
-            </td>
-            <td>
-              <code class="type">{{ prop.type }}</code>
-            </td>
-            <td>
-              <code class="default">{{ prop.default }}</code>
-            </td>
-            <td>{{ prop.description }}</td>
-          </tr>
-          }
-        </tbody>
-      </coar-table>
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <section class="api-section">
-      <h2 class="coar-heading">Accessibility</h2>
-      <p class="section-intro coar-body">The tabs component follows WAI-ARIA Tabs Pattern:</p>
-      <ul class="a11y-list">
-        <li>Tab list has <code>role="tablist"</code></li>
-        <li>Each tab button has <code>role="tab"</code></li>
-        <li>Each panel has <code>role="tabpanel"</code></li>
-        <li>Active tab has <code>aria-selected="true"</code></li>
-        <li>Panels are linked via <code>aria-controls</code> and <code>aria-labelledby</code></li>
-        <li>Disabled tabs have <code>aria-disabled="true"</code></li>
-      </ul>
     </section>
   </div>
 </ng-template>

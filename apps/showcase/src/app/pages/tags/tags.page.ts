@@ -7,9 +7,10 @@ import {
   CoarDividerComponent,
   CoarTabGroupComponent,
   CoarTabComponent,
-  CoarTableComponent,
 } from '@cocoar/ui-components';
 import type { TagColor, TagSize } from '@cocoar/ui-components';
+
+import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-tags',
@@ -22,13 +23,17 @@ import type { TagColor, TagSize } from '@cocoar/ui-components';
     CoarDividerComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
-    CoarTableComponent,
   ],
   templateUrl: './tags.page.html',
   styleUrl: './tags.page.css',
 })
 export class TagsPage {
+  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
+
   activeTab = 'examples';
+
+  protected readonly docsPath = '/docs/components/tag/overview.md';
+  protected readonly apiPath = '/docs/components/tag/api.md';
 
   /** Tag color variants */
   colors: TagColor[] = ['neutral', 'success', 'warning', 'error', 'info', 'accent'];
@@ -48,46 +53,6 @@ export class TagsPage {
   resetTags(): void {
     this.tags.set(['Angular', 'TypeScript', 'Design System', 'UI Components']);
   }
-
-  /** API properties */
-  apiProperties = [
-    {
-      name: 'color',
-      type: "'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent'",
-      default: "'neutral'",
-      description: 'Semantic color variant for the tag',
-    },
-    {
-      name: 'size',
-      type: "'sm' | 'md' | 'lg'",
-      default: "'md'",
-      description: 'Tag size',
-    },
-    {
-      name: 'elevated',
-      type: 'boolean',
-      default: 'false',
-      description: 'Add elevation (box-shadow) for visual depth',
-    },
-    {
-      name: 'borderless',
-      type: 'boolean',
-      default: 'false',
-      description: 'Remove the border, leaving only background color',
-    },
-    {
-      name: 'closable',
-      type: 'boolean',
-      default: 'false',
-      description: 'Show a close button to allow removal',
-    },
-    {
-      name: 'closed',
-      type: 'EventEmitter<void>',
-      default: '-',
-      description: 'Emitted when the close button is clicked',
-    },
-  ];
 
   /** Code examples */
   codeExamples = {

@@ -1,0 +1,10 @@
+.docs-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--coar-spacing-s);
+  color: var(--coar-text-neutral-secondary);
+}
+
+.docs-markdown {
+  display: block;
+}

@@ -8,8 +8,9 @@ import {
   CoarNoteComponent,
   CoarTabGroupComponent,
   CoarTabComponent,
-  CoarTableComponent,
 } from '@cocoar/ui-components';
+
+import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-buttons',
@@ -23,13 +24,17 @@ import {
     CoarNoteComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
-    CoarTableComponent,
   ],
   templateUrl: './buttons.page.html',
   styleUrl: './buttons.page.css',
 })
 export class ButtonsPage {
+  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
+
   activeTab = 'examples';
+
+  protected readonly docsPath = '/docs/components/buttons/overview.md';
+  protected readonly apiPath = '/docs/components/buttons/api.md';
 
   // Loading demos - multiple scenarios
   isLoading = signal(false);
@@ -83,61 +88,6 @@ export class ButtonsPage {
 
   // Click counter demo
   clickCount = signal(0);
-
-  // API properties
-  apiProperties = [
-    {
-      name: 'variant',
-      type: "'primary' | 'secondary' | 'tertiary' | 'danger' | 'ghost'",
-      default: "'primary'",
-      description: 'Visual style variant',
-    },
-    {
-      name: 'size',
-      type: "'xs' | 'sm' | 'md' | 'lg'",
-      default: "'md'",
-      description: 'Button size: xs (27px), sm (32px), md (40px), lg (48px)',
-    },
-    { name: 'disabled', type: 'boolean', default: 'false', description: 'Disables the button' },
-    {
-      name: 'loading',
-      type: 'boolean',
-      default: 'false',
-      description: 'Shows loading spinner and disables interaction',
-    },
-    {
-      name: 'type',
-      type: "'button' | 'submit' | 'reset'",
-      default: "'button'",
-      description: 'HTML button type attribute',
-    },
-    {
-      name: 'iconStart',
-      type: 'CoreIconName',
-      default: 'undefined',
-      description: 'Icon displayed before the label',
-    },
-    {
-      name: 'iconEnd',
-      type: 'CoreIconName',
-      default: 'undefined',
-      description: 'Icon displayed after the label',
-    },
-    {
-      name: 'fullWidth',
-      type: 'boolean',
-      default: 'false',
-      description: 'Makes button take full container width',
-    },
-  ];
-
-  apiOutputs = [
-    {
-      name: 'clicked',
-      type: 'MouseEvent',
-      description: 'Emitted when clicked (not emitted when disabled or loading)',
-    },
-  ];
 
   // Code examples
   codeExamples = {

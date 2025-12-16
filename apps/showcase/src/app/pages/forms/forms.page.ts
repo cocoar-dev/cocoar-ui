@@ -1,6 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CoarMarkdownComponent } from '@cocoar/markdown-viewer';
 import {
   CoarTextInputComponent,
   CoarPasswordInputComponent,
@@ -14,12 +15,15 @@ import {
   CoarCheckboxState,
 } from '@cocoar/ui-components';
 
+import { ShowcaseMarkdownDocsService } from '../../shared/services/showcase-markdown-docs.service';
+
 @Component({
   selector: 'app-forms',
   standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    CoarMarkdownComponent,
     CoarTextInputComponent,
     CoarPasswordInputComponent,
     CoarButtonComponent,
@@ -34,7 +38,12 @@ import {
   styleUrl: './forms.page.css',
 })
 export class FormsPage {
+  private readonly markdownDocs = inject(ShowcaseMarkdownDocsService);
+
   activeTab = 'examples';
+
+  protected readonly docsPath = '/docs/patterns/forms/overview.md';
+  protected readonly docsState$ = this.markdownDocs.load(this.docsPath);
 
   loginLoading = signal(false);
 
@@ -52,7 +61,10 @@ export class FormsPage {
     fullName: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
     email: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
     password: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
-    confirmPassword: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
+    confirmPassword: new FormControl<string>('', {
+      nonNullable: true,
+      validators: [Validators.required],
+    }),
     acceptTerms: new FormControl<CoarCheckboxState>('unchecked', { nonNullable: true }),
     subscribeNewsletter: new FormControl<CoarCheckboxState>('unchecked', { nonNullable: true }),
   });

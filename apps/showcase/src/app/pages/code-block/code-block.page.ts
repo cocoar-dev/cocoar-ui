@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   CoarCodeBlockComponent,
-  CoarTableComponent,
   CoarDividerComponent,
   CoarTabGroupComponent,
   CoarTabComponent,
 } from '@cocoar/ui-components';
+import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-code-block',
@@ -14,7 +14,6 @@ import {
   imports: [
     CommonModule,
     CoarCodeBlockComponent,
-    CoarTableComponent,
     CoarDividerComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
@@ -24,6 +23,11 @@ import {
 })
 export class CodeBlockPage {
   activeTab = 'examples';
+
+  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
+
+  protected readonly docsPath = '/docs/components/code-block/overview.md';
+  protected readonly apiPath = '/docs/components/code-block/api.md';
 
   // Example code snippets
   basicExample = `<coar-button variant="primary">
@@ -107,79 +111,4 @@ export class ApiService {
     throw error;
   }
 }`;
-
-  usageCode = `<coar-code-block
-  [code]="myCode"
-  language="typescript"
-  title="Example"
-  [collapsible]="true"
-  [showCopy]="true"
-  theme="dark"
-/>`;
-
-  apiProperties = [
-    {
-      name: 'code',
-      type: 'string',
-      required: true,
-      default: '-',
-      description: 'The code string to display',
-    },
-    {
-      name: 'language',
-      type: 'string',
-      required: false,
-      default: "'html'",
-      description: 'Language hint shown in header',
-    },
-    {
-      name: 'title',
-      type: 'string',
-      required: false,
-      default: "''",
-      description: 'Title for the code block (replaces language label)',
-    },
-    {
-      name: 'collapsible',
-      type: 'boolean',
-      required: false,
-      default: 'true',
-      description: 'Whether the block can be collapsed',
-    },
-    {
-      name: 'collapsed',
-      type: 'boolean',
-      required: false,
-      default: 'false',
-      description: 'Initial collapsed state',
-    },
-    {
-      name: 'showCopy',
-      type: 'boolean',
-      required: false,
-      default: 'true',
-      description: 'Show copy-to-clipboard button',
-    },
-    {
-      name: 'showLineNumbers',
-      type: 'boolean',
-      required: false,
-      default: 'false',
-      description: 'Display line numbers',
-    },
-    {
-      name: 'maxHeight',
-      type: 'number',
-      required: false,
-      default: '0',
-      description: 'Max height in px (0 = no limit)',
-    },
-    {
-      name: 'theme',
-      type: "'dark' | 'light'",
-      required: false,
-      default: "'dark'",
-      description: 'Color theme override',
-    },
-  ];
 }

@@ -1,41 +1,47 @@
-.page {
-  max-width: 900px;
+.component-page {
   margin: 0 auto;
   padding: var(--coar-spacing-xl);
 }
 
 .page-header {
-  margin-bottom: var(--coar-spacing-2xl);
+  margin-bottom: var(--coar-spacing-xl);
 }
 
 .page-header h1 {
-  margin: 0 0 var(--coar-spacing-m);
-  font-size: var(--coar-heading-h1-size);
-  font-weight: var(--coar-heading-h1-weight);
-  color: var(--coar-text-neutral-primary);
+  margin-bottom: var(--coar-spacing-s);
 }
 
 .page-description {
-  margin: 0;
-  font-size: var(--coar-body-base-size);
   color: var(--coar-text-neutral-secondary);
+  font-size: var(--coar-body-base-size);
   line-height: 1.6;
+  max-width: 700px;
 }
 
-.section {
-  margin: var(--coar-spacing-xl) 0;
+.examples-content {
+  padding-top: var(--coar-spacing-l);
 }
 
-.section h2 {
-  margin: 0 0 var(--coar-spacing-m);
-  font-size: var(--coar-heading-h3-size);
-  font-weight: var(--coar-heading-h3-weight);
+.example-section {
+  margin-bottom: var(--coar-spacing-m);
+}
+
+.example-section h3 {
+  font-size: var(--coar-heading-h4-size);
+  font-weight: var(--coar-heading-h4-weight);
+  margin-bottom: var(--coar-spacing-xs);
+}
+
+.example-section h4 {
+  font-size: var(--coar-body-base-size);
+  font-weight: var(--coar-heading-h4-weight);
+  margin-bottom: var(--coar-spacing-xs);
   color: var(--coar-text-neutral-primary);
 }
 
-.section p {
-  margin: 0 0 var(--coar-spacing-m);
+.example-section p {
   color: var(--coar-text-neutral-secondary);
+  margin-bottom: var(--coar-spacing-m);
 }
 
 .demo-row {
@@ -43,7 +49,7 @@
   gap: var(--coar-spacing-l);
   align-items: flex-start;
   margin-bottom: var(--coar-spacing-m);
-  max-width: 300px;
+  max-width: 420px;
 }
 
 .demo-grid {
@@ -54,8 +60,8 @@
 }
 
 .value-display {
-  font-family: var(--coar-code-font-family);
-  font-size: var(--coar-body-small-base-size);
+  font-family: var(--coar-font-mono);
+  font-size: var(--coar-body-caption-size);
   color: var(--coar-text-neutral-secondary);
   margin-bottom: var(--coar-spacing-m);
 }

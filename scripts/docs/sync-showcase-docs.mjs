@@ -3,11 +3,11 @@ import path from 'node:path';
 
 const workspaceRoot = process.cwd();
 const sourceDocsDir = path.resolve(workspaceRoot, 'docs');
-const sourceOverlayDocsFile = path.resolve(workspaceRoot, 'libs/ui-overlay/OVERLAY.md');
+const sourceOverlayDocsFile = path.resolve(workspaceRoot, 'docs/libs/ui-overlay/overview.md');
 const showcasePublicDocsDir = path.resolve(workspaceRoot, 'apps/showcase/public/docs');
 const showcasePublicOverlayDocsFile = path.resolve(
   showcasePublicDocsDir,
-  'libs/ui-overlay/OVERLAY.md'
+  'docs/libs/ui-overlay/overview.md'
 );
 
 async function main() {

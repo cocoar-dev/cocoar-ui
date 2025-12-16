@@ -34,6 +34,11 @@ export const appRoutes: Route[] = [
     loadComponent: () => import('./pages/motion/motion.page').then((m) => m.MotionPage),
   },
   {
+    path: 'localization',
+    loadComponent: () =>
+      import('./pages/localization/localization.page').then((m) => m.LocalizationPage),
+  },
+  {
     path: 'code-block',
     loadComponent: () => import('./pages/code-block/code-block.page').then((m) => m.CodeBlockPage),
   },
@@ -81,12 +86,27 @@ export const appRoutes: Route[] = [
     loadComponent: () => import('./pages/password/password.page').then((m) => m.PasswordPage),
   },
   {
-    path: 'checkboxes',
-    loadComponent: () => import('./pages/checkboxes/checkboxes.page').then((m) => m.CheckboxesPage),
+    path: 'selects',
+    redirectTo: 'single-select',
+    pathMatch: 'full',
   },
   {
-    path: 'selects',
-    loadComponent: () => import('./pages/selects/selects.page').then((m) => m.SelectsPage),
+    path: 'single-select',
+    loadComponent: () =>
+      import('./pages/single-select/single-select.page').then((m) => m.SingleSelectPage),
+  },
+  {
+    path: 'multi-select',
+    loadComponent: () =>
+      import('./pages/multi-select/multi-select.page').then((m) => m.MultiSelectPage),
+  },
+  {
+    path: 'tag-select',
+    loadComponent: () => import('./pages/tag-select/tag-select.page').then((m) => m.TagSelectPage),
+  },
+  {
+    path: 'checkboxes',
+    loadComponent: () => import('./pages/checkboxes/checkboxes.page').then((m) => m.CheckboxesPage),
   },
   {
     path: 'date-picker',

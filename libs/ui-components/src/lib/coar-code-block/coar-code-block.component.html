@@ -39,7 +39,20 @@
   <!-- Code Content -->
   @if (!isCollapsed()) {
   <div class="coar-code-content" [style.max-height]="maxHeight() ? maxHeight() + 'px' : null">
-    <pre class="coar-code-pre" [class.with-line-numbers]="showLineNumbers()"><code class="coar-code" [innerHTML]="highlightedCode()"></code></pre>
+    @if (showLineNumbers()) {
+    <pre class="coar-code-pre" aria-label="Code">
+      <div class="coar-code-lines-grid">
+        @for (line of highlightedLines(); track $index) {
+        <div class="coar-code-line">
+          <span class="coar-code-line-number">{{ $index + 1 }}</span>
+          <span class="coar-code-line-content" [innerHTML]="line || '\u200b'"></span>
+        </div>
+        }
+      </div>
+    </pre>
+    } @else {
+    <pre class="coar-code-pre"><code class="coar-code" [innerHTML]="highlightedCode()"></code></pre>
+    }
   </div>
   }
 </div>

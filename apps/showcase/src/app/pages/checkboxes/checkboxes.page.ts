@@ -8,8 +8,9 @@ import {
   CoarDividerComponent,
   CoarTabGroupComponent,
   CoarTabComponent,
-  CoarTableComponent,
 } from '@cocoar/ui-components';
+
+import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-checkboxes',
@@ -22,13 +23,17 @@ import {
     CoarDividerComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
-    CoarTableComponent,
   ],
   templateUrl: './checkboxes.page.html',
   styleUrl: './checkboxes.page.css',
 })
 export class CheckboxesPage {
+  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
+
   activeTab = 'examples';
+
+  protected readonly docsPath = '/docs/components/checkboxes/overview.md';
+  protected readonly apiPath = '/docs/components/checkboxes/api.md';
 
   // Demo values - now using CoarCheckboxState
   basicChecked = signal<CoarCheckboxState | undefined>(undefined);
@@ -50,75 +55,6 @@ export class CheckboxesPage {
     if (count === this.fruits.length) return 'checked';
     return 'indeterminate';
   });
-
-  // API properties
-  apiProperties = [
-    {
-      name: 'label',
-      type: 'string',
-      default: "''",
-      description: 'Label text displayed next to the checkbox',
-    },
-    {
-      name: 'checked',
-      type: 'CoarCheckboxState | undefined',
-      default: 'undefined',
-      description:
-        "Checkbox state: 'checked', 'unchecked', 'indeterminate', or undefined (pristine)",
-    },
-    {
-      name: 'disabled',
-      type: 'boolean',
-      default: 'false',
-      description: 'Disables the checkbox (greyed out, not focusable)',
-    },
-    {
-      name: 'readonly',
-      type: 'boolean',
-      default: 'false',
-      description: 'Prevents changes but keeps normal appearance and focus',
-    },
-    {
-      name: 'required',
-      type: 'boolean',
-      default: 'false',
-      description: 'Marks as required, shows asterisk',
-    },
-    { name: 'error', type: 'string', default: "''", description: 'Error message to display' },
-    {
-      name: 'hint',
-      type: 'string',
-      default: "''",
-      description: 'Hint text displayed below checkbox',
-    },
-    {
-      name: 'size',
-      type: "'xs' | 'sm' | 'md' | 'lg'",
-      default: "'md'",
-      description: 'Checkbox size, matches input/button heights',
-    },
-    { name: 'id', type: 'string', default: 'auto', description: 'HTML id attribute' },
-    {
-      name: 'name',
-      type: 'string',
-      default: "''",
-      description: 'HTML name attribute for form submission',
-    },
-    {
-      name: 'value',
-      type: 'string',
-      default: "''",
-      description: 'Value submitted with form when checked',
-    },
-  ];
-
-  apiOutputs = [
-    {
-      name: 'checkedChange',
-      type: 'CoarCheckboxState',
-      description: "Emitted when state changes: 'checked' or 'unchecked'",
-    },
-  ];
 
   // Code examples
   codeExamples = {

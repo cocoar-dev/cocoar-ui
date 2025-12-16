@@ -14,17 +14,12 @@ import {
   CoarButtonComponent,
   CoarCodeBlockComponent,
   CoarDividerComponent,
-  CoarIconComponent,
-  CoarNoteComponent,
   CoarTabComponent,
   CoarTabGroupComponent,
-  CoarTableComponent,
   CoarTextInputComponent,
 } from '@cocoar/ui-components';
 
-import { CoarMarkdownComponent } from '@cocoar/markdown-viewer';
-
-import { ShowcaseMarkdownDocsService } from '../../shared/services/showcase-markdown-docs.service';
+import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 import {
   CoarOverlayService,
@@ -48,35 +43,33 @@ import {
     CoarTextInputComponent,
     CoarCodeBlockComponent,
     CoarDividerComponent,
-    CoarNoteComponent,
-    CoarTableComponent,
-    CoarMarkdownComponent,
-    CoarIconComponent,
   ],
   templateUrl: './overlay.page.html',
   styleUrl: './overlay.page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OverlayPage {
+  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
+
   private readonly overlayService = inject(CoarOverlayService);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly markdownDocs = inject(ShowcaseMarkdownDocsService);
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/libs/ui-overlay/OVERLAY.md';
-  protected readonly docsState$ = this.markdownDocs.load(this.docsPath);
+  protected readonly docsPath = '/docs/libs/ui-overlay/overview.md';
+
+  protected readonly apiPath = '/docs/libs/ui-overlay/api.md';
 
   private overlayRef: OverlayRef | null = null;
 
   private readonly connectedTemplateRef = viewChild<TemplateRef<object>>('connectedTemplate');
   private readonly centeredTemplateRef = viewChild<TemplateRef<object>>('centeredTemplate');
-  private readonly contextMenuTemplateRef = viewChild<TemplateRef<{ x: number; y: number }>>(
-    'contextMenuTemplate'
-  );
+  private readonly contextMenuTemplateRef =
+    viewChild<TemplateRef<{ x: number; y: number }>>('contextMenuTemplate');
   private readonly submenuTemplateRef = viewChild<TemplateRef<object>>('submenuTemplate');
   private readonly resolvedMenuTemplateRef = viewChild<TemplateRef<object>>('resolvedMenuTemplate');
-  private readonly parentAttachedTemplateRef = viewChild<TemplateRef<object>>('parentAttachedTemplate');
+  private readonly parentAttachedTemplateRef =
+    viewChild<TemplateRef<object>>('parentAttachedTemplate');
 
   private readonly connectedOriginRef = viewChild<ElementRef<HTMLElement>>('connectedOrigin');
   private readonly resolvedMenuOriginRef = viewChild<ElementRef<HTMLElement>>('resolvedMenuOrigin');
@@ -295,27 +288,4 @@ const childSpec = Overlay.define((b) => {
 
 overlayService.openChild(parentRef, childSpec, {});`,
   };
-
-  protected readonly apiRows = [
-    {
-      name: 'Overlay.define((b) => ...)',
-      type: 'OverlaySpec',
-      description: 'Defines WHAT to render and how it should behave (anchor, position, backdrop).',
-    },
-    {
-      name: 'overlayService.open(spec, inputs)',
-      type: 'OverlayRef',
-      description: 'Creates and attaches an overlay instance based on the spec and inputs/context.',
-    },
-    {
-      name: 'Overlay.fork(base, (b) => ...)',
-      type: 'OverlaySpec',
-      description: 'Creates a modified spec from an existing base spec without mutation.',
-    },
-    {
-      name: 'ref.close()',
-      type: 'void',
-      description: 'Closes and cleans up the overlay instance.',
-    },
-  ];
 }

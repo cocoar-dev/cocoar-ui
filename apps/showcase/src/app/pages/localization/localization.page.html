@@ -1,0 +1,69 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Localization Service</h1>
+    <p class="page-description">
+      Provides locale-aware formatting rules (numbers and dates). This is intentionally not translation/i18n — it defines formatting like decimal
+      separators and date patterns.
+    </p>
+  </header>
+
+  <coar-tab-group [(activeTab)]="activeTab">
+    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
+  </coar-tab-group>
+</div>
+
+<ng-template #examplesTemplate>
+  <div class="examples-content">
+    <section class="example-section">
+      <h3>Default usage</h3>
+      <p>
+        Components inject the service via <strong>COAR_LOCALE_SERVICE</strong> (optional). If you do nothing, the default
+        <strong>CoarLocaleService</strong> is used.
+      </p>
+      <coar-code-block [code]="codeExamples.provideDefault" language="ts" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <section class="example-section">
+      <h3>Set the default locale once</h3>
+      <p>
+        If your app has a known default locale, set it during startup. Components that do not receive an explicit
+        <strong>locale</strong> input can use this default.
+      </p>
+      <coar-code-block [code]="codeExamples.setDefaultLocale" language="ts" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <section class="example-section">
+      <h3>Provide a custom implementation</h3>
+      <p>If you already have a locale/formatting system (user preferences, tenant settings, etc.), provide your own implementation via Angular DI.</p>
+      <coar-code-block [code]="codeExamples.provideCustomImplementation" language="ts" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <section class="example-section">
+      <h3>Register custom locale IDs</h3>
+      <p>
+        You can register an app-specific locale id to override formatting rules (partially or fully). This is useful for specialized contexts (e.g.
+        financial exports).
+      </p>
+      <coar-code-block [code]="codeExamples.registerLocale" language="ts" [showLineNumbers]="false" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <section class="example-section">
+      <h3>How UI components consume it</h3>
+      <p>
+        Both <strong>Date Picker</strong> and <strong>Number Input</strong> use the localization service as a fallback for formatting rules. You can
+        always override per component via inputs.
+      </p>
+      <coar-code-block [code]="codeExamples.componentUsage" language="html" [showLineNumbers]="false" />
+    </section>
+  </div>
+</ng-template>
