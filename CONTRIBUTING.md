@@ -17,12 +17,12 @@ These documents define the foundation of the Coar Design System.
 ## Getting Started
 
 1. Fork the repository and create a feature branch
-2. Navigate to the Nx workspace: `cd src`
+2. Navigate to the repository root (Nx workspace root)
 3. Install dependencies: `pnpm install`
 4. Start the showcase app: `pnpm start`
 5. Make your changes following the guidelines below
 
-**Important:** All Nx commands must be run from the `src/` directory (the Nx workspace root), not from the repository root.
+**Important:** All Nx commands must be run from the repository root (the Nx workspace root).
 
 ---
 
@@ -65,11 +65,9 @@ See **[ARCHITECTURE.md](ARCHITECTURE.md)** for complete details on design tokens
 
 ## Development Workflow
 
-**All commands must be run from `src/` directory:**
+**All commands must be run from the repository root:**
 
 ```bash
-cd src
-
 # Lint / test / build
 pnpm lint
 pnpm test
@@ -112,10 +110,10 @@ describe('CoarButtonComponent', () => {
     const fixture = TestBed.createComponent(CoarButtonComponent);
     const spy = jest.fn();
     fixture.componentInstance.clicked.subscribe(spy);
-    
+
     // Act
     fixture.nativeElement.querySelector('button').click();
-    
+
     // Assert
     expect(spy).toHaveBeenCalledTimes(1);
   });
@@ -147,14 +145,14 @@ throw new TypeError(
 
 ## Common Pitfalls to Avoid
 
-❌ **Documentation lag** — Examples reference old API signatures  
-❌ **Inconsistent naming** — Not following NAMING.md conventions  
-❌ **Hardcoded values** — Colors, spacing not using design tokens  
-❌ **Missing accessibility** — Components without keyboard support or ARIA  
-❌ **Console.log debugging** — Use `@cocoar/logging` instead  
-❌ **Global styles** — CSS that leaks outside component scope  
-❌ **Breaking changes unmarked** — Changed APIs without migration guide  
-❌ **Orphaned tests** — Tests for removed features still present  
+❌ **Documentation lag** — Examples reference old API signatures
+❌ **Inconsistent naming** — Not following NAMING.md conventions
+❌ **Hardcoded values** — Colors, spacing not using design tokens
+❌ **Missing accessibility** — Components without keyboard support or ARIA
+❌ **Console.log debugging** — Use `@cocoar/logging` instead
+❌ **Global styles** — CSS that leaks outside component scope
+❌ **Breaking changes unmarked** — Changed APIs without migration guide
+❌ **Orphaned tests** — Tests for removed features still present
 
 ---
 
@@ -186,11 +184,11 @@ A change is complete when:
 
 ## What Not To Do
 
-❌ Don't add Tailwind or global CSS  
-❌ Don't hardcode colors or spacing  
-❌ Don't use `console.log` - use `@cocoar/logging`  
-❌ Don't bypass the design token system  
-❌ Don't introduce cross-library dependencies without discussion  
+❌ Don't add Tailwind or global CSS
+❌ Don't hardcode colors or spacing
+❌ Don't use `console.log` - use `@cocoar/logging`
+❌ Don't bypass the design token system
+❌ Don't introduce cross-library dependencies without discussion
 
 ---
 

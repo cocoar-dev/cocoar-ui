@@ -16,7 +16,7 @@ jobs:
       contents: read
     defaults:
       run:
-        working-directory: src
+        working-directory: .
 
     steps:
       - name: Checkout code
@@ -29,7 +29,7 @@ jobs:
       - name: Setup Volta (Node + pnpm)
         uses: volta-cli/action@v4
         with:
-          package-json-path: ./src/package.json
+          package-json-path: ./package.json
 
       - name: Install Node.js
         run: volta install node
@@ -57,7 +57,7 @@ jobs:
       contents: read
     defaults:
       run:
-        working-directory: src
+        working-directory: .
 
     steps:
       - name: Checkout code
@@ -70,7 +70,7 @@ jobs:
       - name: Setup Volta (Node + pnpm)
         uses: volta-cli/action@v4
         with:
-          package-json-path: ./src/package.json
+          package-json-path: ./package.json
 
       - name: Install Node.js
         run: volta install node
@@ -138,7 +138,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: prerelease-packages-${{ steps.prerelease.outputs.PACKAGE_VERSION }}
-          path: src/artifacts
+           path: artifacts
           retention-days: 30
 
       # ============================================================

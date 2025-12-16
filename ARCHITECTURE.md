@@ -56,14 +56,14 @@ We standardise on the following:
      - e.g. `@angular-devkit/build-angular:application` (or the current recommended app builder for Angular 20).
    - Nx may wrap these, but we do not introduce multiple competing "ways" to build apps without updating this document.
 
-2. **Angular publishable libraries**  
+2. **Angular publishable libraries**
    (e.g. `@cocoar/ui-tokens`, `@cocoar/ui-forms`, `@cocoar/ui-grid`, `@cocoar/ui-icons`)
    - MUST use: `@nx/angular:package`
    - This executor wraps **ng-packagr** and produces Angular Package Format (APF) libraries.
    - We treat `@nx/angular:package` as the **single source of truth** for packaging Angular libraries.
    - We do NOT introduce other package/build executors (e.g. `ng-packagr-lite`, custom builders) unless explicitly documented here.
 
-3. **Non-Angular / pure TypeScript libraries**  
+3. **Non-Angular / pure TypeScript libraries**
    (e.g. `@cocoar/logging`)
    - Built using simple TypeScript builds, e.g. `@nx/js:tsc` (or equivalent).
    - These libraries do **not** use ng-packagr.
@@ -97,10 +97,10 @@ At that point we will add a dedicated migration section here before implementati
 
 ## 📁 Repository Structure
 
-**Important:** The Nx workspace is located in `src/`, NOT at the repository root.
+**Important:** The Nx workspace is located at the repository root.
 
 ```
-cocoar-ui/                  # Repository root
+cocoar-ui/                  # Nx workspace root
 ├── docs/                   # Repository-level documentation
 ├── .github/                # GitHub workflows and configuration
 ├── .local/                 # Git-ignored local working files
@@ -109,21 +109,20 @@ cocoar-ui/                  # Repository root
 ├── NAMING.md               # Naming conventions
 ├── CONTRIBUTING.md         # Contribution guidelines
 ├── README.md               # Repository overview
-└── src/                    # ⭐ Nx workspace root
-    ├── libs/
-  │   ├── ui-tokens/            # Design tokens as CSS variables
-  │   ├── ui-components/        # Angular UI components
-  │   ├── logging-abstractions/ # Lightweight logging interfaces
-  │   └── logging/              # Structured logging implementation
-    ├── apps/
-  │   ├── showcase/             # Component showcase app
-  │   └── showcase-e2e/          # Playwright E2E tests
-    ├── nx.json             # Nx configuration
-    ├── package.json        # Workspace dependencies
-    └── tsconfig.base.json  # TypeScript base config
+├── libs/
+│   ├── ui-tokens/            # Design tokens as CSS variables
+│   ├── ui-components/        # Angular UI components
+│   ├── logging-abstractions/ # Lightweight logging interfaces
+│   └── logging/              # Structured logging implementation
+├── apps/
+│   ├── showcase/             # Component showcase app
+│   └── showcase-e2e/          # Playwright E2E tests
+├── nx.json               # Nx configuration
+├── package.json          # Workspace dependencies
+└── tsconfig.base.json    # TypeScript base config
 ```
 
-All Nx commands must be run from the `src/` directory, or use `-p src` flag from the repository root.
+All Nx commands must be run from the repository root.
 
 ---
 
@@ -295,7 +294,7 @@ console.log('Row selected:', row.id);
 
 ## 📚 Showcase App Guidelines
 
-The repository includes an Angular showcase app under `src/apps/showcase/`.
+The repository includes an Angular showcase app under `apps/showcase/`.
 
 - The showcase app may use Tailwind (scoped to the app) for layout/spacing.
 - Libraries must remain framework-pure (no Tailwind in publishable libs).

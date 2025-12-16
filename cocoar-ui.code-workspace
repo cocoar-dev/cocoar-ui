@@ -1,13 +1,13 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {
-		"angular.log": "verbose",
-		"angular.enable-strict-mode-prompt": false,
-		"typescript.tsdk": "src/node_modules/typescript/lib",
-		"typescript.enablePromptUseWorkspaceTsdk": true
-	}
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "angular.log": "verbose",
+    "angular.enable-strict-mode-prompt": false,
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true
+  }
 }

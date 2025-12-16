@@ -56,7 +56,7 @@ import { getLoggerFor } from '@cocoar/logging-abstractions';
 
 export class MyLibraryClass {
   private logger = getLoggerFor(this); // Or getLoggerFor('MyClass')
-  
+
   doWork() {
     this.logger.info('Processing item {id}', { id: 123 });
   }
@@ -94,7 +94,7 @@ configureGlobalLogger((config) =>
 - Async/sync sink coordination
 - Automatic registration with abstractions
 
-See [`src/libs/logging-abstractions/README.md`](src/libs/logging-abstractions/README.md) and [`src/libs/logging/README.md`](src/libs/logging/README.md) for complete documentation.
+See [`libs/logging-abstractions/README.md`](libs/logging-abstractions/README.md) and [`libs/logging/README.md`](libs/logging/README.md) for complete documentation.
 
 ---
 
@@ -124,8 +124,7 @@ export class AppComponent {}
 ## Development
 
 ```bash
-# Install dependencies (from src/ directory)
-cd src
+# Install dependencies
 pnpm install
 
 # Start the showcase app
@@ -149,24 +148,17 @@ This repository currently uses an **artifacts-only** release approach ("Option C
 - CI builds packages, runs `npm pack`, and uploads `.tgz` artifacts.
 - Publishing to npm is intentionally disabled (publish steps are present but commented out).
 
-See [src/RELEASE_READINESS.md](src/RELEASE_READINESS.md) for the current release checklist.
+See [docs/consuming/local-artifacts.md](docs/consuming/local-artifacts.md) for validating the built `.tgz` artifacts locally.
 
 ---
 
 ## Repository Structure
 
-**Note:** The Nx workspace is located in `src/`, not at the repository root.
-
 ```
-src/                      # Nx workspace root
-  libs/
-    ui-tokens/            Design tokens as CSS variables
-    ui-components/        Angular UI components
-    logging-abstractions/ Lightweight logging interfaces (~2KB)
-    logging/              Full Serilog-style logging implementation
-  apps/
-    showcase/             Component showcase app
-    showcase-e2e/         Playwright e2e tests
+libs/                     # Publishable libraries
+apps/                     # Angular apps
+  showcase/               Component showcase app
+  showcase-e2e/           Playwright e2e tests
 docs/                     Additional documentation
 ```
 

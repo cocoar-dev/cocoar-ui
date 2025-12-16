@@ -5,7 +5,7 @@
 ## [0.0.1] - 2025-12-12
 
 ### Added
-- Nx monorepo with Angular workspace (workspace root: `src/`)
+- Nx monorepo with Angular workspace (workspace root: repository root)
 - Showcase app for interactive component previews
 - Playwright E2E tests (`pnpm -s e2e`) with a Windows-friendly runner that starts/stops the dev server
 - GitHub Actions workflows (Option C: build + pack artifacts; npm publish steps are present but commented out)

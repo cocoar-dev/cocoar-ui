@@ -1,0 +1,50 @@
+<label class="coar-checkbox-wrapper" [class.coar-checkbox-focused]="isFocused()">
+  <!-- Hidden native checkbox -->
+  <input
+    #checkboxElement
+    type="checkbox"
+    class="coar-checkbox-input"
+    [id]="inputId()"
+    [name]="name()"
+    [value]="value()"
+    [checked]="isChecked()"
+    [disabled]="isDisabled()"
+    [required]="required()"
+    [attr.aria-describedby]="displayMessage() ? messageId() : null"
+    [attr.aria-invalid]="hasError() ? 'true' : null"
+    [attr.aria-readonly]="readonly() ? 'true' : null"
+    [attr.aria-checked]="isIndeterminate() ? 'mixed' : isChecked()"
+    (change)="onChange($event)"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+  />
+
+  <!-- Custom checkbox visual -->
+  <span class="coar-checkbox-box" [class.coar-checkbox-checked]="isChecked()" [class.coar-checkbox-indeterminate]="isIndeterminate()">
+    <!-- Checkmark icon (always rendered, visibility controlled by CSS) -->
+    <svg class="coar-checkbox-icon coar-checkbox-icon-check" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M13.5 4.5L6.5 11.5L3 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+    <!-- Indeterminate icon (minus) -->
+    <svg class="coar-checkbox-icon coar-checkbox-icon-indeterminate" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M4 8H12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+    </svg>
+  </span>
+
+  <!-- Label text -->
+  @if (label()) {
+  <span class="coar-checkbox-label">
+    {{ label() }}
+    @if (required()) {
+    <span class="coar-checkbox-required">*</span>
+    }
+  </span>
+  }
+</label>
+
+<!-- Hint/Error Message -->
+@if (displayMessage()) {
+<div [id]="messageId()" class="coar-checkbox-message" [class.coar-checkbox-message-error]="hasError()">
+  {{ displayMessage() }}
+</div>
+}

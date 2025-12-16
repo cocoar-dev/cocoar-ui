@@ -1,0 +1,34 @@
+{
+  "name": "@cocoar/ui-components",
+  "version": "0.0.1",
+  "description": "Angular UI components for the Cocoar Design System",
+  "author": "Cocoar",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cocoar-dev/cocoar-ui.git",
+    "directory": "libs/ui-components"
+  },
+  "bugs": {
+    "url": "https://github.com/cocoar-dev/cocoar-ui/issues"
+  },
+  "homepage": "https://github.com/cocoar-dev/cocoar-ui",
+  "keywords": [
+    "angular",
+    "design-system",
+    "ui-components",
+    "cocoar"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@angular/core": "^20.3.0",
+    "@cocoar/ui-overlay": "^0.0.1",
+    "@maskito/core": "^4.0.0",
+    "@maskito/kit": "^4.0.0",
+    "overlayscrollbars": "^2.0.0",
+    "prismjs": "^1.0.0"
+  },
+  "sideEffects": false
+}
