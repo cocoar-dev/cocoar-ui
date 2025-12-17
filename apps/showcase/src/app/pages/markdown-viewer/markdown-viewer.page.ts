@@ -1,6 +1,6 @@
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, computed, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import {
   CoarCodeBlockComponent,
   CoarDividerComponent,
@@ -27,6 +27,7 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
 })
 export class MarkdownViewerPage {
   private readonly http = inject(HttpClient);
+  private readonly document = inject(DOCUMENT);
 
   activeTab = 'examples';
 
@@ -73,7 +74,12 @@ export class MarkdownViewerPage {
   protected readonly doc = computed<MarkdownDocument>(() => parse(this.markdownSource()));
 
   public constructor() {
-    this.http.get(this.markdownPath, { responseType: 'text' }).subscribe({
+    const requestUrl = new URL(
+      this.markdownPath.replace(/^\/+/, ''),
+      this.document.baseURI
+    ).toString();
+
+    this.http.get(requestUrl, { responseType: 'text' }).subscribe({
       next: (markdown) => this.markdownSource.set(markdown),
       error: () => this.markdownSource.set(this.fallbackMarkdown),
     });
