@@ -120,5 +120,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: prerelease-${{ steps.gv.outputs.SemVer }}
-           path: artifacts
+          path: artifacts
           retention-days: 7

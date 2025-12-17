@@ -138,7 +138,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: prerelease-packages-${{ steps.prerelease.outputs.PACKAGE_VERSION }}
-           path: artifacts
+          path: artifacts
           retention-days: 30
 
       # ============================================================
