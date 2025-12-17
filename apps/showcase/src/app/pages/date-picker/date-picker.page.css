@@ -1,57 +1,11 @@
-.component-page {
-  margin: 0 auto;
-  padding: var(--coar-spacing-xl);
-}
+/* ========================================
+   DATE PICKER PAGE - Component-specific styles
+   ========================================
+   Shared styles are inherited from showcase-pages.css
+   Only add styles specific to this page here
+   ======================================== */
 
-.page-header {
-  margin-bottom: var(--coar-spacing-xl);
-}
-
-.page-header h1 {
-  margin-bottom: var(--coar-spacing-s);
-}
-
-.page-description {
-  color: var(--coar-text-neutral-secondary);
-  font-size: var(--coar-body-base-size);
-  line-height: 1.6;
-  max-width: 700px;
-}
-
-.examples-content {
-  padding-top: var(--coar-spacing-l);
-}
-
-.example-section {
-  margin-bottom: var(--coar-spacing-m);
-}
-
-.example-section h3 {
-  font-size: var(--coar-heading-h4-size);
-  font-weight: var(--coar-heading-h4-weight);
-  margin-bottom: var(--coar-spacing-xs);
-}
-
-.example-section h4 {
-  font-size: var(--coar-body-base-size);
-  font-weight: var(--coar-heading-h4-weight);
-  margin-bottom: var(--coar-spacing-xs);
-  color: var(--coar-text-neutral-primary);
-}
-
-.example-section p {
-  color: var(--coar-text-neutral-secondary);
-  margin-bottom: var(--coar-spacing-m);
-}
-
-.demo-row {
-  display: flex;
-  gap: var(--coar-spacing-l);
-  align-items: flex-start;
-  margin-bottom: var(--coar-spacing-m);
-  max-width: 420px;
-}
-
+/* Date picker demo grid */
 .demo-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -59,20 +13,7 @@
   margin-bottom: var(--coar-spacing-m);
 }
 
-.value-display {
-  font-family: var(--coar-font-mono);
-  font-size: var(--coar-body-caption-size);
-  color: var(--coar-text-neutral-secondary);
-  margin-bottom: var(--coar-spacing-m);
-}
-
-.value-display code {
-  background: var(--coar-background-neutral-secondary);
-  padding: var(--coar-spacing-xs) var(--coar-spacing-s);
-  border-radius: var(--coar-radius-xs);
-  color: var(--coar-text-accent-primary);
-}
-
+/* Date picker specific note styling */
 coar-note ul {
   margin: var(--coar-spacing-s) 0 0;
   padding-left: var(--coar-spacing-l);

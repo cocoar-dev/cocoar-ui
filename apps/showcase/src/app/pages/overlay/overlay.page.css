@@ -1,45 +1,11 @@
-.component-page {
-  margin: 0 auto;
-  padding: var(--coar-spacing-xl);
-}
+/* ========================================
+   OVERLAY PAGE - Component-specific styles
+   ========================================
+   Shared styles are inherited from showcase-pages.css
+   Only add styles specific to this page here
+   ======================================== */
 
-.page-header {
-  margin-bottom: var(--coar-spacing-l);
-}
-
-.page-header h1 {
-  margin-bottom: var(--coar-spacing-s);
-}
-
-.page-description {
-  color: var(--coar-text-neutral-secondary);
-  font-size: var(--coar-body-base-size);
-  line-height: 1.6;
-  max-width: 860px;
-}
-
-.examples-content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--coar-spacing-xl);
-  padding-top: var(--coar-spacing-l);
-}
-
-.example-section h3 {
-  margin-bottom: var(--coar-spacing-s);
-}
-
-.example-demo {
-  margin-top: var(--coar-spacing-s);
-}
-
-.example-demo--row {
-  display: flex;
-  align-items: center;
-  gap: var(--coar-spacing-s);
-  flex-wrap: wrap;
-}
-
+/* Context area for right-click demos */
 .context-area {
   user-select: none;
   padding: var(--coar-spacing-l);
@@ -53,6 +19,7 @@
   margin-top: var(--coar-spacing-s);
 }
 
+/* Container for positioning demos */
 .container-box {
   position: relative;
   width: 100%;
@@ -68,6 +35,7 @@
   justify-content: flex-start;
 }
 
+/* Control inputs for overlay configuration */
 .control-field {
   display: inline-flex;
   align-items: center;

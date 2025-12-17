@@ -1,37 +1,9 @@
-.page-header {
-  margin-bottom: var(--coar-spacing-xl);
-}
-
-.page-header h1 {
-  margin: 0 0 var(--coar-spacing-s) 0;
-}
-
-.description {
-  color: var(--coar-text-secondary);
-  margin: 0;
-}
-
-.examples-content,
-.examples-content {
-  padding: var(--coar-spacing-l) 0;
-}
-
-.example-section {
-  margin-bottom: var(--coar-spacing-m);
-}
-
-.example-section h2 {
-  margin: 0 0 var(--coar-spacing-xs) 0;
-}
-
-.section-intro {
-  color: var(--coar-text-secondary);
-  margin: 0 0 var(--coar-spacing-l) 0;
-}
-
-.example-demo {
-  margin-bottom: var(--coar-spacing-l);
-}
+/* ========================================
+   NOTES PAGE - Component-specific styles
+   ========================================
+   Shared styles are inherited from showcase-pages.css
+   Only add styles specific to this page here
+   ======================================== */
 
 /* Notes stacked vertically */
 .notes-stack {

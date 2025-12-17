@@ -1,7 +1,16 @@
 /* ========================================
    SHOWCASE PAGES - SHARED STYLES
    ========================================
-   Common styles used across showcase component pages.
+   Common styles used across ALL showcase component pages.
+   This file defines the standard layout, spacing, and patterns
+   for consistent page structure throughout the showcase app.
+
+   RULES FOR PAGE-SPECIFIC CSS FILES:
+   - DO NOT override .page-header, .component-page, .examples-content, .example-section
+   - DO NOT duplicate standard patterns defined here
+   - ONLY add page-specific demo layouts that don't fit standard patterns
+   - Keep page-specific files minimal and document why custom styles are needed
+
    Import this file in styles.css to make these classes
    available globally in the showcase app.
    ======================================== */
@@ -19,8 +28,14 @@
    PAGE HEADER
    ======================================== */
 
+/* Fixed height header ensures tab group stays at consistent vertical position across all pages */
 .page-header {
+  min-height: 100px;
+  max-height: 100px;
   margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .page-header h1 {
@@ -59,6 +74,11 @@ coar-code-block:first-child {
   margin-top: 0;
 }
 
+/* DEFAULT PATTERN: Code blocks should be collapsed to reduce visual clutter
+   - Use [collapsed]="true" by default in templates
+   - Use [collapsed]="false" only for simple, essential code snippets (<10 lines)
+   - Always include the copy button ([showCopyButton]="true" is default) */
+
 /* ========================================
    CONTENT AREAS
    ======================================== */
@@ -74,6 +94,10 @@ coar-code-block:first-child {
 /* ========================================
    SECTIONS
    ======================================== */
+
+/* Standard section layout for all example pages
+   Each section contains: h2 title, intro paragraph, demo, coar-code-block
+   Separated by <coar-divider [spacingTop]="16" [spacingBottom]="48" /> */
 
 .example-section,
 .api-section {

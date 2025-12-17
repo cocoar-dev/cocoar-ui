@@ -1,38 +1,8 @@
-.component-page {
-  margin: 0 auto;
-  padding: var(--coar-spacing-xl);
-}
+/* ========================================
+   LOCALIZATION PAGE - Component-specific styles
+   ========================================
+   Shared styles are inherited from showcase-pages.css
+   Only add styles specific to this page here
+   ======================================== */
 
-.page-header {
-  margin-bottom: var(--coar-spacing-xl);
-}
-
-.page-header h1 {
-  margin-bottom: var(--coar-spacing-s);
-}
-
-.page-description {
-  color: var(--coar-text-neutral-secondary);
-  font-size: var(--coar-body-base-size);
-  line-height: 1.6;
-  max-width: 700px;
-}
-
-.examples-content {
-  padding-top: var(--coar-spacing-l);
-}
-
-.example-section {
-  margin-bottom: var(--coar-spacing-m);
-}
-
-.example-section h3 {
-  font-size: var(--coar-heading-h4-size);
-  font-weight: var(--coar-heading-h4-weight);
-  margin-bottom: var(--coar-spacing-xs);
-}
-
-.example-section p {
-  color: var(--coar-text-neutral-secondary);
-  margin-bottom: var(--coar-spacing-m);
-}
+/* Minimal page-specific styles - localization uses standard demo patterns */

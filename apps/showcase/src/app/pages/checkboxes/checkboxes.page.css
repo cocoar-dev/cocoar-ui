@@ -1,8 +1,8 @@
 /* ========================================
-   CHECKBOX PAGE - SPECIFIC STYLES
+   CHECKBOX PAGE - Component-specific styles
    ========================================
-   Common styles are in: app/shared/showcase-pages.css
-   Only page-specific overrides belong here.
+   Shared styles are inherited from showcase-pages.css
+   Only add styles specific to this page here
    ======================================== */
 
 /* Checkbox row */
