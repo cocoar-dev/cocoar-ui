@@ -8,7 +8,7 @@ import { switchMap } from 'rxjs';
 import { ShowcaseMarkdownDocsService } from '../../services/showcase-markdown-docs.service';
 
 @Component({
-  selector: 'showcase-markdown-tab-content',
+  selector: 'app-showcase-markdown-tab-content',
   standalone: true,
   imports: [CommonModule, CoarMarkdownComponent, CoarIconComponent, CoarNoteComponent],
   templateUrl: './showcase-markdown-tab-content.component.html',
