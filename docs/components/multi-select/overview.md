@@ -40,3 +40,29 @@ Use `maxDisplayItems` to limit the number of labels shown before switching to `"
   [maxDisplayItems]="2"
 />
 ```
+
+## Forms
+
+The component implements Angular `ControlValueAccessor` and works with reactive forms.
+
+**Reactive Forms:**
+```ts
+import { FormControl } from '@angular/forms';
+
+interface Skill {
+  id: number;
+  name: string;
+}
+
+skills = new FormControl<Skill[]>([]);
+```
+
+```html
+<coar-multi-select
+  label="Skills"
+  [options]="skillOptions"
+  [formControl]="skills"
+/>
+```
+
+See [forms-status.md](../../recipes/forms-status.md) for complete form control support.

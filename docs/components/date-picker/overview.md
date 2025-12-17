@@ -89,3 +89,24 @@ holidayMarkers: CoarDateMarker[] = [
   [markers]="holidayMarkers"
 />
 ```
+
+## Forms
+
+The component implements Angular `ControlValueAccessor`, so it works with both template-driven and reactive forms.
+
+**Reactive Forms:**
+```ts
+import { FormControl } from '@angular/forms';
+import { Temporal } from '@js-temporal/polyfill';
+
+birthDate = new FormControl<Temporal.PlainDate | null>(null);
+```
+
+```html
+<coar-date-picker
+  label="Birth Date"
+  [formControl]="birthDate"
+/>
+```
+
+See [login-form-skeleton.md](../../recipes/login-form-skeleton.md) for a complete forms example.

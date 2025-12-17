@@ -51,3 +51,30 @@ compareCountryById = (a: Country | null, b: Country | null) => a?.id === b?.id;
   [compareWith]="compareCountryById"
 />
 ```
+
+## Forms
+
+The component implements Angular `ControlValueAccessor` and works seamlessly with reactive forms.
+
+**Reactive Forms:**
+```ts
+import { FormControl } from '@angular/forms';
+
+interface Country {
+  id: number;
+  name: string;
+}
+
+country = new FormControl<Country | null>(null);
+```
+
+```html
+<coar-single-select
+  label="Country"
+  [options]="countryOptions"
+  [formControl]="country"
+  [compareWith]="compareCountryById"
+/>
+```
+
+See [forms-status.md](../../recipes/forms-status.md) for complete form control support.

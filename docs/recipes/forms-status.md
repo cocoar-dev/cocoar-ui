@@ -11,6 +11,10 @@ Goal: make it safe for assistants and developers to build forms without guessing
    - `coar-password-input`
    - `coar-number-input`
    - `coar-checkbox`
+   - `coar-date-picker`
+   - `coar-single-select`
+   - `coar-multi-select`
+   - `coar-tag-select`
 - ❌ **No Signal Forms integration yet** (Angular 21 feature).
 
 ## What this means for consumers
@@ -27,11 +31,9 @@ Other components may still not support forms APIs yet (check the component refer
 
 ## Next implementation milestones
 
-1) Expand CVA coverage to other form controls (e.g. select, etc.).
-2) Provide a small set of reference recipes:
-   - login form
-   - validation messages
-   - disabled / loading / submit
+1) ✅ CVA coverage expanded (text, password, number, checkbox, date-picker, all selects)
+2) ✅ Login form reference recipe provided (see `recipes/login-form-skeleton.md`)
+3) Future: Validation patterns and error handling recipes
 
 ## Guidance for AI assistants
 
