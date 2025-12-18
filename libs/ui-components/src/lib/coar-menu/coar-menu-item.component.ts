@@ -1,4 +1,6 @@
 import { Component, ChangeDetectionStrategy, input, output, HostListener } from '@angular/core';
+import { CoarIconComponent } from '../coar-icon/coar-icon.component';
+import { type CoreIconName } from '../coar-icon/core-icons';
 
 /**
  * CoarMenuItem: Individual menu item with optional icon and submenu support.
@@ -22,7 +24,7 @@ import { Component, ChangeDetectionStrategy, input, output, HostListener } from 
 @Component({
   selector: 'coar-menu-item',
   standalone: true,
-  imports: [],
+  imports: [CoarIconComponent],
   templateUrl: './coar-menu-item.component.html',
   styleUrl: './coar-menu-item.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,8 +40,8 @@ export class CoarMenuItemComponent {
   /** Item text content */
   readonly label = input<string>();
 
-  /** Optional icon identifier (to be rendered via icon component) */
-  readonly icon = input<string>();
+  /** Optional icon identifier (rendered via CoarIconComponent) */
+  readonly icon = input<CoreIconName | undefined>(undefined);
 
   /** Disabled state prevents interaction */
   readonly disabled = input(false);

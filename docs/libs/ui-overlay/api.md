@@ -10,7 +10,8 @@ This is the public API surface of `@cocoar/ui-overlay`.
 | Open/close overlays | `CoarOverlayService` (also exported as `OverlayService`), `OverlayRef` |
 | Spec model (types) | `OverlaySpec`, `ContentSpec`, `AnchorSpec`, `PositionSpec`, `SizeSpec`, `BackdropSpec`, `ScrollSpec`, `DismissSpec`, `FocusSpec`, `A11ySpec`, `AttachmentSpec`, `Placement` |
 | Defaults & policies | `COAR_OVERLAY_DEFAULTS`, `COAR_OVERLAY_SPEC_RESOLVERS`, `OverlaySpecResolver`, `ResolvedOverlaySpec` |
-| Presets | `coarTooltipPreset`, `coarModalPreset`, `coarMenuPreset` + aliases `tooltipPreset`, `modalPreset`, `menuPreset` |
+| Presets | `coarTooltipPreset`, `coarModalPreset`, `coarMenuPreset`, `coarHoverMenuPreset` + aliases `tooltipPreset`, `modalPreset`, `menuPreset`, `hoverMenuPreset` |
+| Overlay context | `COAR_OVERLAY_REF` |
 | Positioning helpers | `computeOverlayCoordinates`, `getAnchorRect`, `getViewportRect`, `getContainerRect`, `getScrollParents`, and related geometry types |
 
 ## Core entry points
@@ -51,6 +52,21 @@ ref.close();
 | `openChild(parent, spec, inputs)` | `OverlayRef` | Opens a child overlay (menus/submenus). |
 | `closeAll()` | `void` | Closes all open overlays. |
 | `OverlayOpenOptions` | type | Supports `{ parent?: OverlayRef }`. |
+
+## Overlay context
+
+### `COAR_OVERLAY_REF`
+
+Injection token that resolves to the current `OverlayRef` inside overlay content.
+
+```ts
+import { inject } from '@angular/core';
+import { COAR_OVERLAY_REF } from '@cocoar/ui-overlay';
+
+const overlayRef = inject(COAR_OVERLAY_REF, { optional: true });
+```
+
+This is useful for opening true child overlays without manually passing the parent ref around.
 
 ## Spec builder API
 
@@ -99,10 +115,35 @@ These are the building blocks that make up an `OverlaySpec<TInputs>`.
 | `SizeSpec` | `{ mode, minWidth?, minHeight?, maxWidth?, maxHeight? }` | Sizing policy (content, clamped, fixed). |
 | `BackdropSpec` | `{ kind: 'none' } \| { kind: 'modal', closeOnBackdropClick? }` | Backdrop policy. |
 | `ScrollSpec` | `{ strategy: 'noop' \| 'reposition' \| 'close' }` | What to do on scroll. |
-| `DismissSpec` | `{ outsideClick?, escapeKey? }` | Dismissal triggers. |
+| `DismissSpec` | `{ outsideClick?, escapeKey?, hoverTree? }` | Dismissal triggers. |
 | `FocusSpec` | `{ trap?, restore? }` | Focus management. |
 | `A11ySpec` | `{ role?, label?, labelledBy?, describedBy? }` | Accessibility metadata. |
 | `AttachmentSpec` | `{ strategy: 'body' } \| { strategy: 'parent', container }` | DOM attachment + boundary source. |
+
+## DismissSpec
+
+Dismiss policies for the overlay.
+
+```ts
+export interface DismissSpec {
+  outsideClick?: boolean;
+  escapeKey?: boolean;
+
+  hoverTree?: {
+    enabled?: boolean;
+    delayMs?: number;
+  };
+}
+```
+
+Defaults:
+- `outsideClick`: `true`
+- `escapeKey`: `true`
+- `hoverTree.enabled`: `false`
+- `hoverTree.delayMs`: `300`
+
+Notes:
+- Backdrop click behavior is configured via `BackdropSpec` (`closeOnBackdropClick`).
 
 ## Defaults & global policies
 
@@ -139,6 +180,7 @@ export const appProviders = [
 | `coarTooltipPreset` (alias: `tooltipPreset`) | preset | Tooltips and small hint overlays (no dismiss, no scroll). |
 | `coarModalPreset` (alias: `modalPreset`) | preset | Modal-like overlays (center, backdrop, focus trap). |
 | `coarMenuPreset` (alias: `menuPreset`) | preset | Menus/context menus (close-on-scroll, dismissable). |
+| `coarHoverMenuPreset` (alias: `hoverMenuPreset`) | preset | Hover-driven menus (cascading flyouts) with `dismiss.hoverTree` enabled. |
 
 ## Positioning helpers
 

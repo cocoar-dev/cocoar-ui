@@ -41,14 +41,14 @@ The Overlay System is built on these principles:
 
 ### Key Features
 
-✅ **12 Placement Options** — All standard positions (top/bottom/left/right × start/end/center)  
-✅ **Attachment Strategies** — Portal to body or attach to parent container  
-✅ **Container Boundaries** — Clamp and fallback within parent containers, not just viewport  
-✅ **Auto-Placement** — Best-fit algorithm when space is constrained  
-✅ **Focus Management** — Trap, restore, and auto-focus with accessibility support  
-✅ **Dismiss Modes** — ESC key, outside clicks, backdrop clicks, programmatic  
-✅ **Z-Index Stacking** — Automatic layering for nested overlays  
-✅ **Multiple Content Types** — Component, template, or HTML string  
+✅ **12 Placement Options** — All standard positions (top/bottom/left/right × start/end/center)
+✅ **Attachment Strategies** — Portal to body or attach to parent container
+✅ **Container Boundaries** — Clamp and fallback within parent containers, not just viewport
+✅ **Auto-Placement** — Best-fit algorithm when space is constrained
+✅ **Focus Management** — Trap, restore, and auto-focus with accessibility support
+✅ **Dismiss Modes** — ESC key, outside clicks, backdrop clicks, programmatic
+✅ **Z-Index Stacking** — Automatic layering for nested overlays
+✅ **Multiple Content Types** — Component, template, or HTML string
 
 ---
 
@@ -130,7 +130,7 @@ import { MyPopupComponent } from './my-popup.component';
 export class ExampleComponent {
   private overlayService = inject(CoarOverlayService);
   private trigger = viewChild.required<ElementRef>('trigger');
-  
+
   openOverlay() {
     const ref = Overlay.builder()
       .anchorToElement(this.trigger().nativeElement)
@@ -259,7 +259,7 @@ Close overlay when clicking outside.
 
 **`.dismissOnBackdropClick(enabled: boolean = true): this`**
 
-Close overlay when clicking backdrop.
+Close overlay when clicking the modal backdrop (ultimately controlled by `BackdropSpec.closeOnBackdropClick`).
 
 #### Focus
 
@@ -392,11 +392,23 @@ Controls how the overlay can be closed.
 
 ```typescript
 interface DismissSpec {
+  outsideClick?: boolean;        // Default: true
   escapeKey?: boolean;           // Default: true
-  outsideClick?: boolean;        // Default: false
-  backdropClick?: boolean;       // Default: false
+
+  /**
+   * Optional pointer-based dismissal for menu-like overlays.
+   *
+   * When enabled, the overlay closes after the pointer leaves the overlay tree
+   * (this overlay and any child overlays opened via openChild()).
+   */
+  hoverTree?: {
+    enabled?: boolean;           // Default: false
+    delayMs?: number;            // Default: 300
+  };
 }
 ```
+
+> Note: modal backdrop click behavior is configured on `BackdropSpec`.
 
 #### FocusSpec
 
@@ -518,9 +530,9 @@ Portals the overlay to `document.body`:
 Attaches the overlay to a specific container:
 
 ```typescript
-.attachment({ 
-  strategy: 'parent', 
-  container: parentElement 
+.attachment({
+  strategy: 'parent',
+  container: parentElement
 })
 ```
 
@@ -658,6 +670,28 @@ Close overlay when clicking outside:
 - Clicks on the anchor element are treated as "inside"
 - Prevents toggle race condition (click to close → immediately reopens)
 
+### Hover Tree (menus / flyouts)
+
+Enable "hover to keep open, leave to close" behavior across a parent-child overlay chain:
+
+```ts
+import { Overlay, coarHoverMenuPreset } from '@cocoar/ui-overlay';
+
+const spec = Overlay.define<void>((b) => {
+  b.content((c) => c.fromTemplate(menuTemplate));
+  b.anchor({ kind: 'element', element: triggerEl });
+  b.position({ placement: 'bottom-start', offset: 4, flip: true, shift: true });
+}, coarHoverMenuPreset);
+```
+
+What it does:
+- Closes the overlay after the pointer leaves the *overlay tree* (this panel + all `openChild(...)` descendants).
+- Entering any child overlay cancels the parent's pending close timer.
+- Leaving a deeper child schedules closing for the full chain (child + parents).
+
+Inheritance rule:
+- If a parent overlay has `dismiss.hoverTree.enabled: true`, overlays opened via `openChild(parent, ...)` inherit the same `hoverTree` config (including `delayMs`) unless the child overrides/turns it off.
+
 ### Backdrop Click
 
 Close overlay when clicking the backdrop:
@@ -730,6 +764,22 @@ const spec = modalPreset({
 - Body attachment
 - Viewport anchor (centered)
 
+### Hover Menu Preset
+
+For hover-driven menus (context menus, cascading flyouts), use the hover-menu preset:
+
+```ts
+import { Overlay, hoverMenuPreset } from '@cocoar/ui-overlay';
+
+const spec = Overlay.define<void>((b) => {
+  b.content((c) => c.fromTemplate(menuTemplate));
+  b.anchor({ kind: 'point', x: 120, y: 120 });
+  b.position({ placement: 'bottom-start', offset: 4, flip: true, shift: true });
+}, hoverMenuPreset);
+```
+
+This preset is equivalent to the normal menu preset plus `dismiss.hoverTree` enabled (default `delayMs: 300`).
+
 ### Custom Presets
 
 Create your own presets:
@@ -791,6 +841,40 @@ const childRef = parentRef.openChild({
 - Closing parent automatically closes children
 - Outside-click detection considers parent chain
 
+### Overlay Context (`COAR_OVERLAY_REF`)
+
+Content rendered inside an overlay can inject the current `OverlayRef`:
+
+```ts
+import { inject } from '@angular/core';
+import { COAR_OVERLAY_REF, CoarOverlayService, Overlay } from '@cocoar/ui-overlay';
+
+const overlayService = inject(CoarOverlayService);
+const currentOverlay = inject(COAR_OVERLAY_REF, { optional: true });
+
+if (currentOverlay) {
+  const spec = Overlay.define<void>((b) => {
+    b.content((c) => c.fromText());
+    b.anchor({ kind: 'point', x: 10, y: 10 });
+  });
+
+  overlayService.openChild(currentOverlay, spec, undefined);
+}
+```
+
+Use this when you want to open a true child overlay from within overlay content without plumbing the parent ref manually.
+
+### Angular Content Projection Caveat
+
+If your overlay content uses `<ng-content>`, remember:
+- Projected components keep the injector context of where they were *declared*, not where they are *projected into*.
+
+That means nested overlay triggers inside projected content may inject the "wrong" `COAR_OVERLAY_REF`.
+
+Recommended solutions for advanced reusable components:
+- Prefer a `TemplateRef`-based API for nested overlay content (so the embedded view is created inside the overlay injector).
+- Or provide an internal component-level context (similar to how the Cocoar menu components handle nested submenus).
+
 ### Dynamic Content Updates
 
 Pass inputs to component overlays:
@@ -802,9 +886,9 @@ interface MyComponentInputs {
 }
 
 const ref = Overlay.builder()
-  .component(MyComponent, { 
+  .component(MyComponent, {
     title: 'Initial Title',
-    count: 0 
+    count: 0
   })
   .build(overlayService);
 ```
@@ -823,7 +907,7 @@ const ref = overlayService.open({
 // In the overlay component:
 class DialogComponent {
   private overlayRef = inject(OverlayRef);
-  
+
   confirm() {
     this.overlayRef.close({ confirmed: true, value: this.form.value });
   }
@@ -885,10 +969,10 @@ export class TooltipExample {
   private overlayService = inject(CoarOverlayService);
   private trigger = viewChild.required<ElementRef>('trigger');
   private overlayRef: OverlayRef | null = null;
-  
+
   open() {
     if (this.overlayRef?.isOpen) return;
-    
+
     this.overlayRef = Overlay.builder()
       .anchorToElement(this.trigger().nativeElement)
       .html('This is a tooltip')
@@ -897,7 +981,7 @@ export class TooltipExample {
       .dismissOnEscape()
       .build(this.overlayService);
   }
-  
+
   close() {
     this.overlayRef?.close();
   }
@@ -917,7 +1001,7 @@ export class DropdownExample {
   private overlayService = inject(CoarOverlayService);
   private trigger = viewChild.required<ElementRef>('trigger');
   private overlayRef: OverlayRef | null = null;
-  
+
   toggle() {
     if (this.overlayRef?.isOpen) {
       this.overlayRef.close();
@@ -947,7 +1031,7 @@ export class DropdownExample {
 })
 export class ModalExample {
   private overlayService = inject(CoarOverlayService);
-  
+
   async openModal() {
     const ref = Overlay.builder()
       .anchorToViewport()
@@ -962,7 +1046,7 @@ export class ModalExample {
       .restoreFocus()
       .autoFocus('[data-primary]')
       .build(this.overlayService);
-    
+
     // Wait for result (if needed)
     if (ref.result?.confirmed) {
       console.log('User confirmed');
@@ -984,10 +1068,10 @@ export class ModalExample {
 })
 export class ContextMenuExample {
   private overlayService = inject(CoarOverlayService);
-  
+
   openContextMenu(event: MouseEvent) {
     event.preventDefault();
-    
+
     Overlay.builder()
       .anchorToPoint(event.clientX, event.clientY)
       .component(ContextMenuComponent)
@@ -1023,7 +1107,7 @@ export class ConstrainedDropdownExample {
   private trigger = viewChild.required<ElementRef>('trigger');
   private container = viewChild.required<ElementRef>('container');
   private overlayRef: OverlayRef | null = null;
-  
+
   toggle() {
     if (this.overlayRef?.isOpen) {
       this.overlayRef.close();
@@ -1032,9 +1116,9 @@ export class ConstrainedDropdownExample {
         .anchorToElement(this.trigger().nativeElement)
         .component(OptionsComponent)
         .placement('bottom')
-        .attachment({ 
-          strategy: 'parent', 
-          container: this.container().nativeElement 
+        .attachment({
+          strategy: 'parent',
+          container: this.container().nativeElement
         })
         .clampToContainer(true)
         .fallbackToBestFit(true)
@@ -1229,6 +1313,6 @@ See [LICENSE](../../LICENSE) for details.
 
 ---
 
-**Version:** 2.0.0  
-**Last Updated:** December 16, 2025  
+**Version:** 2.0.0
+**Last Updated:** December 16, 2025
 **Maintainer:** Cocoar Design System Team

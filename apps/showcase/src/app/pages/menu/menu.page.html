@@ -40,11 +40,11 @@
 
       <div class="menu-demo">
         <coar-menu>
-          <coar-menu-item icon="➕" (itemClick)="handleMenuItemClick('create')">Create New</coar-menu-item>
-          <coar-menu-item icon="📋" (itemClick)="handleMenuItemClick('duplicate')">Duplicate</coar-menu-item>
-          <coar-menu-item icon="📄" (itemClick)="handleMenuItemClick('copy')">Copy</coar-menu-item>
+          <coar-menu-item icon="plus" (itemClick)="handleMenuItemClick('create')">Create New</coar-menu-item>
+          <coar-menu-item icon="copy" (itemClick)="handleMenuItemClick('duplicate')">Duplicate</coar-menu-item>
+          <coar-menu-item icon="clipboard" (itemClick)="handleMenuItemClick('copy')">Copy</coar-menu-item>
           <coar-menu-divider></coar-menu-divider>
-          <coar-menu-item icon="🗑️" (itemClick)="handleMenuItemClick('delete')">Delete</coar-menu-item>
+          <coar-menu-item icon="trash" (itemClick)="handleMenuItemClick('delete')">Delete</coar-menu-item>
         </coar-menu>
       </div>
 
@@ -64,7 +64,7 @@
           <coar-menu-item (itemClick)="handleMenuItemClick('copy')">Copy</coar-menu-item>
           <coar-menu-item [disabled]="true" (itemClick)="handleMenuItemClick('paste')">Paste (disabled)</coar-menu-item>
           <coar-menu-divider></coar-menu-divider>
-          <coar-menu-item [disabled]="true" icon="🗑️" (itemClick)="handleMenuItemClick('delete')">Delete (disabled)</coar-menu-item>
+          <coar-menu-item [disabled]="true" icon="trash" (itemClick)="handleMenuItemClick('delete')">Delete (disabled)</coar-menu-item>
         </coar-menu>
       </div>
 
@@ -98,30 +98,24 @@
 <!-- Context Menu Template -->
 <ng-template #contextMenuTemplate>
   <coar-menu>
-    <coar-menu-item icon="✂️" (itemClick)="handleAction('cut')">Cut</coar-menu-item>
-    <coar-menu-item icon="📋" (itemClick)="handleAction('copy')">Copy</coar-menu-item>
-    <coar-menu-item icon="📄" (itemClick)="handleAction('paste')">Paste</coar-menu-item>
+    <coar-menu-item icon="minus" (itemClick)="handleAction('cut')">Cut</coar-menu-item>
+    <coar-menu-item icon="copy" (itemClick)="handleAction('copy')">Copy</coar-menu-item>
+    <coar-menu-item icon="clipboard" (itemClick)="handleAction('paste')">Paste</coar-menu-item>
     <coar-menu-divider></coar-menu-divider>
-    <coar-menu-item icon="🔗" (itemHover)="openShareSubmenu($event)" (mouseleave)="onShareMenuLeave()">Share</coar-menu-item>
+    <coar-submenu-item label="Share" icon="users">
+      <coar-menu>
+        <coar-menu-item icon="chat" (itemClick)="handleAction('email')">Email</coar-menu-item>
+        <coar-submenu-item label="Copy Link" icon="copy">
+          <coar-menu>
+            <coar-menu-item icon="copy" (itemClick)="handleAction('copyMarkdown')">Copy as Markdown</coar-menu-item>
+            <coar-menu-item icon="copy" (itemClick)="handleAction('copyHtml')">Copy as HTML</coar-menu-item>
+            <coar-menu-item icon="copy" (itemClick)="handleAction('copyPlain')">Copy as Plain Text</coar-menu-item>
+          </coar-menu>
+        </coar-submenu-item>
+        <coar-menu-item icon="load" (itemClick)="handleAction('download')">Download</coar-menu-item>
+      </coar-menu>
+    </coar-submenu-item>
     <coar-menu-divider></coar-menu-divider>
-    <coar-menu-item icon="🗑️" (itemClick)="handleAction('delete')">Delete</coar-menu-item>
-  </coar-menu>
-</ng-template>
-
-<!-- Submenu Template -->
-<ng-template #submenuTemplate>
-  <coar-menu (mouseenter)="onSubmenuEnter()" (mouseleave)="onSubmenuLeave()">
-    <coar-menu-item icon="✉️" (itemClick)="handleAction('email')">Email</coar-menu-item>
-    <coar-menu-item icon="🔗" (itemHover)="openSubSubmenu($event)" (mouseleave)="onCopyLinkLeave()">Copy Link</coar-menu-item>
-    <coar-menu-item icon="📥" (itemClick)="handleAction('download')">Download</coar-menu-item>
-  </coar-menu>
-</ng-template>
-
-<!-- Sub-Submenu Template -->
-<ng-template #subSubmenuTemplate>
-  <coar-menu (mouseenter)="onSubSubmenuEnter()" (mouseleave)="onSubSubmenuLeave()">
-    <coar-menu-item icon="📋" (itemClick)="handleAction('copyMarkdown')">Copy as Markdown</coar-menu-item>
-    <coar-menu-item icon="🌐" (itemClick)="handleAction('copyHtml')">Copy as HTML</coar-menu-item>
-    <coar-menu-item icon="📝" (itemClick)="handleAction('copyPlain')">Copy as Plain Text</coar-menu-item>
+    <coar-menu-item icon="trash" (itemClick)="handleAction('delete')">Delete</coar-menu-item>
   </coar-menu>
 </ng-template>

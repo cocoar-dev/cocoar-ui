@@ -10,6 +10,7 @@ import {
   CoarMenuComponent,
   CoarMenuItemComponent,
   CoarMenuDividerComponent,
+  CoarSubmenuItemComponent,
 } from '@cocoar/ui-components';
 
 import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
@@ -27,6 +28,7 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarMenuComponent,
     CoarMenuItemComponent,
     CoarMenuDividerComponent,
+    CoarSubmenuItemComponent,
     ShowcaseMarkdownTabContentComponent,
   ],
   templateUrl: './menu.page.html',
@@ -209,11 +211,11 @@ export class MenuPage {
 </coar-menu>`,
 
     withIcons: `<coar-menu>
-  <coar-menu-item icon="➕" (itemClick)="handleMenuItemClick('create')">Create New</coar-menu-item>
-  <coar-menu-item icon="📋" (itemClick)="handleMenuItemClick('duplicate')">Duplicate</coar-menu-item>
-  <coar-menu-item icon="📄" (itemClick)="handleMenuItemClick('copy')">Copy</coar-menu-item>
+  <coar-menu-item icon="plus" (itemClick)="handleMenuItemClick('create')">Create New</coar-menu-item>
+  <coar-menu-item icon="copy" (itemClick)="handleMenuItemClick('duplicate')">Duplicate</coar-menu-item>
+  <coar-menu-item icon="clipboard" (itemClick)="handleMenuItemClick('copy')">Copy</coar-menu-item>
   <coar-menu-divider></coar-menu-divider>
-  <coar-menu-item icon="🗑️" (itemClick)="handleMenuItemClick('delete')">Delete</coar-menu-item>
+  <coar-menu-item icon="trash" (itemClick)="handleMenuItemClick('delete')">Delete</coar-menu-item>
 </coar-menu>`,
 
     disabled: `<coar-menu>
@@ -221,7 +223,7 @@ export class MenuPage {
   <coar-menu-item (itemClick)="handleMenuItemClick('copy')">Copy</coar-menu-item>
   <coar-menu-item [disabled]="true" (itemClick)="handleMenuItemClick('paste')">Paste (disabled)</coar-menu-item>
   <coar-menu-divider></coar-menu-divider>
-  <coar-menu-item [disabled]="true" icon="🗑️" (itemClick)="handleMenuItemClick('delete')">Delete (disabled)</coar-menu-item>
+  <coar-menu-item [disabled]="true" icon="trash" (itemClick)="handleMenuItemClick('delete')">Delete (disabled)</coar-menu-item>
 </coar-menu>`,
 
     contextMenu: `onContextMenu(event: MouseEvent): void {

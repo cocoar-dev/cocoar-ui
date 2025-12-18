@@ -1,11 +1,15 @@
 /**
- * CoarMenuItem Styles
+ * CoarSubmenuItem Styles
  *
- * Interactive menu item with hover/focus states.
- * All styling via CSS variables from Figma tokens.
+ * Interactive menu item with submenu indicator and hover states.
+ * Matches coar-menu-item styling with additional arrow indicator.
  */
 
 :host {
+  display: block;
+}
+
+.coar-submenu-item {
   /* Layout */
   display: flex;
   align-items: center;
@@ -16,12 +20,12 @@
   /* Spacing */
   padding: var(--coar-menu-item-padding, 0.5rem 0.75rem);
 
-  /* Typography - using actual existing tokens */
+  /* Typography */
   font-size: var(--coar-menu-item-font-size, var(--coar-font-size-s, 16px));
   font-weight: var(--coar-menu-item-font-weight, var(--coar-font-weight-regular, 400));
   line-height: var(--coar-menu-item-line-height, 1.5);
 
-  /* Styling - using actual existing tokens */
+  /* Styling */
   color: var(--coar-menu-item-color, var(--coar-text-neutral-primary, #545454));
   background: var(--coar-menu-item-background, transparent);
   border-radius: var(--coar-menu-item-border-radius, var(--coar-radius-s, 4px));
@@ -34,7 +38,7 @@
 }
 
 /* Hover state */
-:host(:hover:not(.coar-menu-item--disabled)) {
+.coar-submenu-item:hover:not(.coar-submenu-item--disabled) {
   background: var(
     --coar-menu-item-background-hover,
     var(--coar-surface-accent-subtle, rgba(0, 0, 0, 0.04))
@@ -42,8 +46,16 @@
   color: var(--coar-menu-item-color-hover, var(--coar-text-neutral-primary, #545454));
 }
 
+/* Open state */
+.coar-submenu-item--open {
+  background: var(
+    --coar-menu-item-background-hover,
+    var(--coar-surface-accent-subtle, rgba(0, 0, 0, 0.04))
+  );
+}
+
 /* Focus state */
-:host(:focus-visible) {
+.coar-submenu-item:focus-visible {
   background: var(
     --coar-menu-item-background-focus,
     var(--coar-surface-accent-subtle, rgba(0, 0, 0, 0.04))
@@ -53,24 +65,36 @@
 }
 
 /* Disabled state */
-:host(.coar-menu-item--disabled) {
+.coar-submenu-item--disabled {
   color: var(--coar-menu-item-color-disabled, var(--coar-text-neutral-disabled, #999999));
   cursor: not-allowed;
-  opacity: var(--coar-menu-item-opacity-disabled, 0.5);
+  opacity: 0.6;
 }
 
 /* Icon */
-.coar-menu-item__icon {
+.coar-submenu-item__icon {
+  flex-shrink: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
 }
 
 /* Label */
-.coar-menu-item__label {
+.coar-submenu-item__label {
   flex: 1;
-  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Arrow indicator */
+.coar-submenu-item__arrow {
+  flex-shrink: 0;
+  margin-left: auto;
+  opacity: 0.6;
+  transition: var(--coar-transition-fast, all 100ms ease);
+}
+
+.coar-submenu-item:hover:not(.coar-submenu-item--disabled) .coar-submenu-item__arrow {
+  opacity: 1;
 }

@@ -34,3 +34,18 @@ export const coarMenuPreset: OverlayPreset = (b) => {
   b.a11y({ role: 'menu' });
   b.position({ placement: 'bottom', offset: 4, flip: true, shift: true });
 };
+
+/**
+ * Menu preset for hover-driven menus (context menus, cascading flyouts).
+ *
+ * Enables hoverTree dismissal so a parent overlay stays open while the pointer
+ * is inside any child overlay opened via openChild().
+ */
+export const coarHoverMenuPreset: OverlayPreset = (b) => {
+  coarMenuPreset(b);
+  b.dismiss({
+    outsideClick: true,
+    escapeKey: true,
+    hoverTree: { enabled: true, delayMs: 300 },
+  });
+};

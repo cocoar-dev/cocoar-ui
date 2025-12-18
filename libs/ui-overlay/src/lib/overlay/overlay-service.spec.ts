@@ -53,7 +53,9 @@ describe('CoarOverlayService', () => {
       // noop
     }
 
-    for (const el of Array.from(document.body.querySelectorAll('.coar-overlay-host, .coar-overlay-backdrop'))) {
+    for (const el of Array.from(
+      document.body.querySelectorAll('.coar-overlay-host, .coar-overlay-backdrop')
+    )) {
       el.remove();
     }
   });
@@ -113,7 +115,9 @@ describe('CoarOverlayService', () => {
       b.content((c) => c.fromComponent(TestOverlayComponent));
     });
 
-    const ref = service.open(spec, { text: 'From component' } as unknown as Partial<TestOverlayComponent>);
+    const ref = service.open(spec, {
+      text: 'From component',
+    } as unknown as Partial<TestOverlayComponent>);
 
     const host = document.body.querySelector('.coar-overlay-host');
     expect(host?.textContent).toContain('From component');
@@ -138,7 +142,7 @@ describe('CoarOverlayService', () => {
         x: 10,
         y: 10,
         toJSON: () => ({}),
-      }) as unknown as DOMRect;
+      } as unknown as DOMRect);
 
     const spec = Overlay.define((b) => {
       b.content((c) => c.fromText());
@@ -155,7 +159,7 @@ describe('CoarOverlayService', () => {
     origin.remove();
   });
 
-  it("applies resolveSpec overrides via DI when fields are missing (e.g. default scroll strategy)", () => {
+  it('applies resolveSpec overrides via DI when fields are missing (e.g. default scroll strategy)', () => {
     TestBed.resetTestingModule();
 
     const service = TestBed.configureTestingModule({
@@ -366,6 +370,42 @@ describe('CoarOverlayService', () => {
     expect(document.body.querySelectorAll('.coar-overlay-host')).toHaveLength(0);
   });
 
+  it('inherits dismiss.hoverTree from the parent when opening a child overlay', () => {
+    vi.useFakeTimers();
+    const service = TestBed.inject(CoarOverlayService);
+
+    const anchor = document.createElement('button');
+    document.body.appendChild(anchor);
+
+    const parentSpec = Overlay.define((b) => {
+      b.content((c) => c.fromText());
+      b.anchor({ kind: 'element', element: anchor });
+      b.dismiss({ outsideClick: true, escapeKey: true, hoverTree: { enabled: true, delayMs: 10 } });
+    });
+
+    // Child does NOT set hoverTree.
+    const childSpec = Overlay.define((b) => {
+      b.content((c) => c.fromText());
+      b.anchor({ kind: 'point', x: 10, y: 10 });
+      b.dismiss({ outsideClick: true, escapeKey: true });
+    });
+
+    const parent = service.open(parentSpec, { text: 'Parent' });
+    service.openChild(parent, childSpec, { text: 'Child' });
+
+    const hosts = Array.from(document.body.querySelectorAll('.coar-overlay-host')) as HTMLElement[];
+    expect(hosts).toHaveLength(2);
+
+    // Leaving the child should schedule close for the child and its parents.
+    hosts[1].dispatchEvent(new Event('pointerleave'));
+    vi.advanceTimersByTime(11);
+
+    expect(document.body.querySelectorAll('.coar-overlay-host')).toHaveLength(0);
+
+    anchor.remove();
+    vi.useRealTimers();
+  });
+
   it("closes the overlay on window scroll when scroll.strategy is 'close' (point anchor)", () => {
     const service = TestBed.inject(CoarOverlayService);
 
@@ -501,7 +541,9 @@ describe('CoarOverlayService', () => {
 
       // Wrap: first -> last
       first.focus();
-      document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, bubbles: true }));
+      document.dispatchEvent(
+        new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true, bubbles: true })
+      );
       expect(document.activeElement).toBe(third);
     } finally {
       globalThis.requestAnimationFrame = originalRaf;

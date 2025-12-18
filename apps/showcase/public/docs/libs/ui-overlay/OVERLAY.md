@@ -19,7 +19,7 @@ The Cocoar Overlay System provides a flexible, imperative API for creating float
 - [Positioning](#positioning)
   - [Placement Options](#placement-options)
   - [Attachment Strategies](#attachment-strategies)
-  - [Auto-Placement](#auto-placement)
+  - [Placement Selection](#placement-selection)
   - [Boundary Constraints](#boundary-constraints)
 - [Focus Management](#focus-management)
 - [Dismiss Behavior](#dismiss-behavior)
@@ -41,14 +41,14 @@ The Overlay System is built on these principles:
 
 ### Key Features
 
-✅ **12 Placement Options** — All standard positions (top/bottom/left/right × start/end/center)  
-✅ **Attachment Strategies** — Portal to body or attach to parent container  
-✅ **Container Boundaries** — Clamp and fallback within parent containers, not just viewport  
-✅ **Auto-Placement** — Best-fit algorithm when space is constrained  
-✅ **Focus Management** — Trap, restore, and auto-focus with accessibility support  
-✅ **Dismiss Modes** — ESC key, outside clicks, backdrop clicks, programmatic  
-✅ **Z-Index Stacking** — Automatic layering for nested overlays  
-✅ **Multiple Content Types** — Component, template, or HTML string  
+✅ **12 Placement Options** — All standard positions (top/bottom/left/right × start/end/center)
+✅ **Attachment Strategies** — Portal to body or attach to parent container
+✅ **Container Boundaries** — Placement evaluation and shifting can use parent containers (not just viewport)
+✅ **Placement Selection** — Best-overflow selection with optional “prefer-first-fit” (`position.flip`) and explicit fallback order
+✅ **Focus Management** — Trap and restore with accessibility support
+✅ **Dismiss Modes** — ESC key, outside clicks, backdrop clicks, programmatic
+✅ **Z-Index Stacking** — Automatic layering for nested overlays
+✅ **Multiple Content Types** — Component, template, or text
 
 ---
 
@@ -59,47 +59,46 @@ The Overlay System is built on these principles:
 An `OverlaySpec` is a configuration object describing how an overlay should behave:
 
 ```typescript
-interface OverlaySpec<TInputs = unknown> {
-  anchor: AnchorSpec;           // What to anchor to
-  content: ContentSpec<TInputs>; // What to render
-  position?: PositionSpec;       // Where to place it
-  attachment?: AttachmentSpec;   // How to attach it
-  dismiss?: DismissSpec;         // How to close it
-  focus?: FocusSpec;             // Focus management
-  backdrop?: BackdropSpec;       // Backdrop dimming
-  style?: StyleSpec;             // Custom styling
+interface OverlaySpec<TInputs = void> {
+  content?: ContentSpec<TInputs>;
+  anchor?: AnchorSpec;
+  position?: PositionSpec;
+  size?: SizeSpec;
+  backdrop?: BackdropSpec;
+  scroll?: ScrollSpec;
+  dismiss?: DismissSpec;
+  focus?: FocusSpec;
+  a11y?: A11ySpec;
+  attachment?: AttachmentSpec;
 }
 ```
 
 ### Overlay Ref
 
-An `OverlayRef` represents an open overlay instance. Use it to:
-
-- Check if the overlay is open
-- Close the overlay programmatically
-- Access result/value from the overlay
-- Create child overlays
+An `OverlayRef` represents an open overlay instance.
 
 ```typescript
-const ref = overlayService.open(spec);
-
-// Later...
-if (ref.isOpen) {
-  ref.close();
+interface OverlayRef {
+  close(result?: unknown): void;
+  updatePosition(): void;
+  readonly afterClosed$: Observable<unknown>;
 }
 ```
 
-### Builder API
+### Spec builder API
 
-The builder provides a fluent interface for constructing overlay specs:
+Use `Overlay.define(...)` to build immutable specs (optionally applying presets):
 
 ```typescript
-const ref = Overlay.builder()
-  .anchorToElement(triggerElement)
-  .component(MyComponent)
-  .placement('bottom')
-  .dismissOnOutsideClick()
-  .build(overlayService);
+import { CoarOverlayService, Overlay, coarMenuPreset } from '@cocoar/ui-overlay';
+
+const spec = Overlay.define<void>((b) => {
+  b.content((c) => c.fromComponent(MyComponent));
+  b.anchor({ kind: 'element', element: triggerElement });
+  b.position({ placement: 'bottom-start', offset: 4, flip: true, shift: true });
+}, coarMenuPreset);
+
+const ref = overlayService.open(spec, undefined);
 ```
 
 ---
@@ -130,15 +129,16 @@ import { MyPopupComponent } from './my-popup.component';
 export class ExampleComponent {
   private overlayService = inject(CoarOverlayService);
   private trigger = viewChild.required<ElementRef>('trigger');
-  
+
   openOverlay() {
-    const ref = Overlay.builder()
-      .anchorToElement(this.trigger().nativeElement)
-      .component(MyPopupComponent)
-      .placement('bottom')
-      .dismissOnEscape()
-      .dismissOnOutsideClick()
-      .build(this.overlayService);
+    const spec = Overlay.define<void>((b) => {
+      b.content((c) => c.fromComponent(MyPopupComponent));
+      b.anchor({ kind: 'element', element: this.trigger().nativeElement });
+      b.position({ placement: 'bottom-start', offset: 4, flip: true, shift: true });
+      b.dismiss({ outsideClick: true, escapeKey: true });
+    });
+
+    this.overlayService.open(spec, undefined);
   }
 }
 ```
@@ -153,151 +153,111 @@ The service manages overlay lifecycle and global event handling.
 
 #### Methods
 
-**`open<T>(spec: OverlaySpec<T>): OverlayRef`**
+**`open<TInputs>(spec: OverlaySpec<TInputs>, inputs: TInputs, options?: OverlayOpenOptions): OverlayRef`**
 
 Opens a new overlay with the given specification.
 
 ```typescript
-const ref = this.overlayService.open({
-  anchor: { kind: 'element', element: triggerEl },
-  content: { kind: 'component', component: MyComponent },
-  position: { placement: 'bottom' }
+const spec = Overlay.define<void>((b) => {
+  b.content((c) => c.fromComponent(MyComponent));
+  b.anchor({ kind: 'element', element: triggerEl });
+  b.position({ placement: 'bottom-start', offset: 4, flip: true, shift: true });
 });
+
+const ref = this.overlayService.open(spec, undefined);
 ```
 
-**`getTopmostOverlayAtPoint(x: number, y: number): OverlayRef | null`**
+**`openChild<TInputs>(parent: OverlayRef, spec: OverlaySpec<TInputs>, inputs: TInputs): OverlayRef`**
 
-Returns the topmost overlay at the given screen coordinates, or `null` if none.
+Opens a child overlay (menus/submenus). Closing a parent closes its children.
 
 ---
 
-### Overlay Builder
+### Spec builder API
 
-Fluent API for constructing overlay specs.
+Use `Overlay.define(...)` and `Overlay.fork(...)` to create immutable specs.
 
-#### Anchoring
+#### `Overlay` / `CoarOverlay`
 
-**`.anchorToElement(element: HTMLElement): this`**
+```ts
+Overlay.define((b) => {
+  // configure builder
+});
 
-Anchor the overlay to a specific element.
-
-**`.anchorToPoint(x: number, y: number): this`**
-
-Anchor the overlay to screen coordinates.
-
-**`.anchorToViewport(): this`**
-
-Anchor the overlay to the center of the viewport (for modals).
-
-#### Content
-
-**`.component<T>(component: Type<T>, inputs?: Partial<T>): this`**
-
-Render an Angular component.
-
-```typescript
-.component(MyComponent, { title: 'Hello', count: 42 })
+Overlay.fork(baseSpec, (b) => {
+  // tweak builder
+});
 ```
 
-**`.template(template: TemplateRef<C>, context?: C): this`**
+#### `OverlayBuilder` calls
 
-Render a template with optional context.
+- `b.content((c) => ...)`
+- `b.anchor(...)`
+- `b.position(...)`
+- `b.size(...)`
+- `b.backdrop('none' | 'modal' | BackdropSpec)`
+- `b.scroll(...)`
+- `b.dismiss(...)`
+- `b.focus(...)`
+- `b.a11y(...)`
+- `b.attachment(...)`
 
-**`.html(html: string): this`**
+#### `ContentBuilder` calls
 
-Render raw HTML (sanitized by Angular).
+- `c.fromComponent(SomeComponent)`
+- `c.fromTemplate(someTemplate)`
+- `c.fromText()`
 
-#### Positioning
+#### Positioning (`PositionSpec`)
 
-**`.placement(placement: Placement): this`**
+Configure positioning via `b.position(...)`:
 
-Set preferred placement. Options:
-- `'top'`, `'top-start'`, `'top-end'`
-- `'bottom'`, `'bottom-start'`, `'bottom-end'`
-- `'left'`, `'left-start'`, `'left-end'`
-- `'right'`, `'right-start'`, `'right-end'`
-
-**`.offset(offset: number): this`**
-
-Set distance (in pixels) from anchor element.
-
-**`.clampToViewport(clamp: boolean = true): this`**
-
-Keep overlay within viewport boundaries.
-
-**`.clampToContainer(clamp: boolean = true): this`**
-
-Keep overlay within parent container boundaries.
-
-**`.fallbackToBestFit(fallback: boolean = true): this`**
-
-Try alternative placements if preferred placement doesn't fit.
-
-#### Attachment
-
-**`.attachment(spec: AttachmentSpec): this`**
-
-Set attachment strategy:
-
-```typescript
-// Portal to document.body (default)
-.attachment({ strategy: 'body' })
-
-// Attach to parent container
-.attachment({ strategy: 'parent', container: parentElement })
+```ts
+b.position({
+  placement: 'bottom-start',
+  offset: 4,
+  flip: true,
+  shift: true,
+});
 ```
 
-#### Dismissal
+#### Attachment (`AttachmentSpec`)
 
-**`.dismissOnEscape(enabled: boolean = true): this`**
+Controls where the overlay host is attached:
 
-Close overlay when ESC key is pressed.
-
-**`.dismissOnOutsideClick(enabled: boolean = true): this`**
-
-Close overlay when clicking outside.
-
-**`.dismissOnBackdropClick(enabled: boolean = true): this`**
-
-Close overlay when clicking backdrop.
-
-#### Focus
-
-**`.autoFocus(selector?: string): this`**
-
-Auto-focus an element when overlay opens.
-
-```typescript
-.autoFocus('input') // Focus first input
+```ts
+b.attachment({ strategy: 'body' });
+// or
+b.attachment({ strategy: 'parent', container: someElement });
 ```
 
-**`.trapFocus(enabled: boolean = true): this`**
+#### Dismiss (`DismissSpec`) and backdrop click
 
-Trap keyboard focus within overlay (for modals).
+Dismiss triggers:
 
-**`.restoreFocus(enabled: boolean = true): this`**
-
-Restore focus to trigger element when overlay closes.
-
-#### Backdrop
-
-**`.backdrop(opacity?: number): this`**
-
-Show a backdrop with optional opacity (0-1).
-
-```typescript
-.backdrop(0.5) // 50% opacity backdrop
+```ts
+b.dismiss({ outsideClick: true, escapeKey: true });
 ```
 
-#### Building
+Backdrop click behavior is configured via `BackdropSpec`:
 
-**`.build(service: CoarOverlayService): OverlayRef`**
+```ts
+b.backdrop({ kind: 'modal', closeOnBackdropClick: true });
+```
 
-Build and open the overlay.
+#### Focus (`FocusSpec`)
 
-**`.toSpec(): OverlaySpec`**
+```ts
+b.focus({ trap: true, restore: true });
+```
 
-Build the spec without opening (useful for presets).
+#### Backdrop (`BackdropSpec`)
+
+```ts
+b.backdrop('none');
+// or
+b.backdrop('modal');
+```
 
 ---
 
@@ -311,9 +271,9 @@ Defines what the overlay is anchored to.
 
 ```typescript
 type AnchorSpec =
-  | { kind: 'element'; element: HTMLElement }
+  | { kind: 'element'; element: Element }
   | { kind: 'point'; x: number; y: number }
-  | { kind: 'viewport' };
+  | { kind: 'virtual'; placement: 'center' | 'top' | 'bottom' };
 ```
 
 **Element Anchor:**
@@ -326,9 +286,9 @@ type AnchorSpec =
 { kind: 'point', x: 150, y: 200 }
 ```
 
-**Viewport Anchor** (centered):
+**Virtual Anchor** (centered):
 ```typescript
-{ kind: 'viewport' }
+{ kind: 'virtual', placement: 'center' }
 ```
 
 #### ContentSpec
@@ -336,10 +296,14 @@ type AnchorSpec =
 Defines what to render inside the overlay.
 
 ```typescript
-type ContentSpec<TInputs = unknown> =
-  | { kind: 'component'; component: Type<unknown>; inputs?: TInputs }
-  | { kind: 'template'; template: TemplateRef<unknown>; context?: unknown }
-  | { kind: 'html'; html: string };
+type ContentSpec<TInputs> = {
+  kind: 'component' | 'template' | 'text';
+  component?: Type<unknown>;
+  template?: TemplateRef<unknown>;
+
+  /** Optional defaults merged with runtime inputs. */
+  defaults?: Partial<TInputs>;
+};
 ```
 
 #### PositionSpec
@@ -348,22 +312,21 @@ Controls positioning behavior.
 
 ```typescript
 interface PositionSpec {
-  placement?: Placement;            // Default: 'auto'
-  offset?: number;                  // Default: 8
-  clampToViewport?: boolean;        // Default: true
-  clampToContainer?: boolean;       // Default: false
-  fallbackToBestFit?: boolean;      // Default: false
+  placement: Placement | readonly Placement[];
+  offset?: number;
+  flip?: boolean;
+  shift?: boolean;
 }
 ```
 
 **Placement Types:**
 ```typescript
 type Placement =
-  | 'auto'
   | 'top' | 'top-start' | 'top-end'
   | 'bottom' | 'bottom-start' | 'bottom-end'
   | 'left' | 'left-start' | 'left-end'
-  | 'right' | 'right-start' | 'right-end';
+  | 'right' | 'right-start' | 'right-end'
+  | 'center';
 ```
 
 #### AttachmentSpec
@@ -383,7 +346,7 @@ type AttachmentSpec =
 
 **Parent Strategy:**
 - Attach to specific container
-- Respects container boundaries (clamp/fallback)
+- Uses the container as the positioning boundary
 - Best for contained dropdowns, inline popovers
 
 #### DismissSpec
@@ -392,11 +355,23 @@ Controls how the overlay can be closed.
 
 ```typescript
 interface DismissSpec {
+  outsideClick?: boolean;        // Default: true
   escapeKey?: boolean;           // Default: true
-  outsideClick?: boolean;        // Default: false
-  backdropClick?: boolean;       // Default: false
+
+  /**
+   * Optional pointer-based dismissal for menu-like overlays.
+   *
+   * When enabled, the overlay closes after the pointer leaves the overlay tree
+   * (this overlay and any child overlays opened via openChild()).
+   */
+  hoverTree?: {
+    enabled?: boolean;            // Default: false
+    delayMs?: number;             // Default: 300
+  };
 }
 ```
+
+> Note: modal backdrop click behavior is configured on `BackdropSpec`.
 
 #### FocusSpec
 
@@ -404,7 +379,6 @@ Controls focus management.
 
 ```typescript
 interface FocusSpec {
-  autoFocus?: boolean | string;   // Default: false (or CSS selector)
   trap?: boolean;                 // Default: false
   restore?: boolean;              // Default: true
 }
@@ -412,27 +386,16 @@ interface FocusSpec {
 
 #### BackdropSpec
 
-Controls backdrop appearance.
+Controls backdrop behavior.
 
 ```typescript
-interface BackdropSpec {
-  opacity?: number;               // Default: 0.5 (0-1 range)
-}
+type BackdropSpec =
+  | { kind: 'none' }
+  | { kind: 'modal'; closeOnBackdropClick?: boolean };
 ```
 
-#### StyleSpec
-
-Custom styling for the overlay host.
-
-```typescript
-interface StyleSpec {
-  minWidth?: string;
-  maxWidth?: string;
-  minHeight?: string;
-  maxHeight?: string;
-  zIndex?: number;
-}
-```
+> Note: Custom styling is intentionally not modeled as a first-class spec field.
+> Style the overlay content itself (component/template), and use `size` / `position` for layout behavior.
 
 ---
 
@@ -440,19 +403,9 @@ interface StyleSpec {
 
 The `OverlayRef` represents an active overlay instance.
 
-#### Properties
-
-**`isOpen: boolean`** (readonly)
-
-Whether the overlay is currently open.
-
-**`result: T | undefined`** (readonly)
-
-Result value after overlay closes (useful for dialogs).
-
 #### Methods
 
-**`close(result?: T): void`**
+**`close(result?: unknown): void`**
 
 Close the overlay, optionally passing a result value.
 
@@ -460,16 +413,17 @@ Close the overlay, optionally passing a result value.
 ref.close({ confirmed: true, value: 'User input' });
 ```
 
-**`openChild<TChild>(spec: OverlaySpec<TChild>): OverlayRef`**
+**`updatePosition(): void`**
 
-Open a child overlay (e.g., nested dropdown).
+Recompute and apply the overlay position.
 
 ```typescript
-const childRef = ref.openChild({
-  anchor: { kind: 'element', element: subMenuTrigger },
-  content: { kind: 'component', component: SubMenuComponent }
-});
+ref.updatePosition();
 ```
+
+**`afterClosed$`**
+
+Observable that emits the close result when the overlay is closed.
 
 ---
 
@@ -511,16 +465,16 @@ Portals the overlay to `document.body`:
 - Full-screen overlays
 
 **Boundaries:**
-- Clamp/fallback respect **viewport** only
+- Placement evaluation and shifting use **viewport** boundaries
 
 #### Parent Strategy
 
 Attaches the overlay to a specific container:
 
 ```typescript
-.attachment({ 
-  strategy: 'parent', 
-  container: parentElement 
+.attachment({
+  strategy: 'parent',
+  container: parentElement
 })
 ```
 
@@ -530,95 +484,69 @@ Attaches the overlay to a specific container:
 - Contained overlays within a specific region
 
 **Boundaries:**
-- Clamp/fallback respect **container** boundaries when `clampToContainer` is enabled
+- Placement evaluation and shifting use the **container** boundaries
 
-### Auto-Placement
+### Placement Selection
 
-When `placement: 'auto'`, the system uses a best-fit algorithm:
+The overlay positions itself using `position.placement`.
 
-1. Calculate available space in all 4 directions (top/bottom/left/right)
-2. Choose the direction with the most space
-3. Apply center alignment by default
+- Provide a single placement (e.g. `'bottom-start'`) for a stable preferred placement.
+- Provide an ordered array of placements (e.g. `['bottom-start', 'top-start']`) as an explicit fallback order.
 
-```typescript
-.placement('auto')
-.fallbackToBestFit(false) // Only use auto for initial placement
-```
+`position.flip` changes the selection strategy:
+
+- When `flip: true`, the system returns the **first** placement that fully fits within the boundary.
+- Otherwise, it chooses the placement with the **smallest total overflow**.
 
 ### Boundary Constraints
 
-#### Clamp to Viewport
+#### Shift Into Boundary
 
-Shifts the overlay to stay within viewport boundaries:
+Enable shifting to keep the overlay within the boundary (viewport by default, or the parent container when using `attachment.strategy: 'parent'`):
 
-```typescript
-.clampToViewport(true) // Default: true
+```ts
+b.attachment({ strategy: 'body' });
+b.position({ placement: 'bottom-start', offset: 4, flip: true, shift: true });
 ```
 
-**Behavior:**
-- Horizontal shift: Adjust `left` position to keep overlay visible
-- Vertical shift: Adjust `top` position to keep overlay visible
-- Preserves preferred placement direction
+#### Container Boundaries
 
-#### Clamp to Container
+Use a parent attachment strategy to apply container boundaries:
 
-Shifts the overlay to stay within parent container:
-
-```typescript
-.clampToContainer(true)
-.attachment({ strategy: 'parent', container: parentEl })
+```ts
+b.attachment({ strategy: 'parent', container: parentEl });
+b.position({ placement: 'bottom-start', offset: 4, flip: true, shift: true });
 ```
 
 **Requirements:**
 - Only works with `strategy: 'parent'`
 - Container must have defined boundaries
 
-#### Fallback to Best Fit
+#### Fallback placements
 
-Tries alternative placements if preferred doesn't fit:
+Use `position.placement` as an array to provide an explicit fallback order:
 
-```typescript
-.placement('top')
-.fallbackToBestFit(true)
+```ts
+b.position({
+  placement: ['bottom-start', 'top-start', 'right-start', 'left-start'],
+  offset: 4,
+  flip: true,
+  shift: true,
+});
 ```
-
-**Behavior:**
-1. Try preferred placement (`top`)
-2. If doesn't fit, try opposite (`bottom`)
-3. If still doesn't fit, try perpendicular sides (`left`, `right`)
-4. Choose placement with best fit
-
-**Fallback order:**
-- `top` → `bottom` → `left` → `right`
-- `bottom` → `top` → `left` → `right`
-- `left` → `right` → `top` → `bottom`
-- `right` → `left` → `top` → `bottom`
 
 ---
 
 ## Focus Management
 
-### Auto Focus
-
-Automatically focus an element when overlay opens:
-
-```typescript
-// Focus first focusable element
-.autoFocus(true)
-
-// Focus specific element
-.autoFocus('input[name="username"]')
-
-// No auto-focus
-.autoFocus(false)
-```
+The overlay system intentionally keeps focus behavior minimal and explicit.
 
 ### Focus Trap
 
 Trap keyboard navigation within the overlay:
 
 ```typescript
-.trapFocus(true) // For modals
+b.focus({ trap: true }) // For modals
 ```
 
 **Behavior:**
@@ -631,7 +559,7 @@ Trap keyboard navigation within the overlay:
 Restore focus to trigger element when overlay closes:
 
 ```typescript
-.restoreFocus(true) // Default: true
+b.focus({ restore: true }) // Default: true
 ```
 
 ---
@@ -643,7 +571,7 @@ Restore focus to trigger element when overlay closes:
 Close overlay when ESC is pressed:
 
 ```typescript
-.dismissOnEscape(true) // Default: true for most presets
+b.dismiss({ escapeKey: true })
 ```
 
 ### Outside Click
@@ -651,20 +579,41 @@ Close overlay when ESC is pressed:
 Close overlay when clicking outside:
 
 ```typescript
-.dismissOnOutsideClick(true)
+b.dismiss({ outsideClick: true })
 ```
 
 **Special handling:**
 - Clicks on the anchor element are treated as "inside"
 - Prevents toggle race condition (click to close → immediately reopens)
 
+### Hover Tree (menus / flyouts)
+
+Enable "hover to keep open, leave to close" behavior across a parent-child overlay chain:
+
+```ts
+dismiss: {
+  hoverTree: {
+    enabled: true,
+    delayMs: 300,
+  },
+}
+```
+
+What it does:
+- Closes the overlay after the pointer leaves the *overlay tree* (this panel + all `openChild(...)` descendants).
+- Entering any child overlay cancels the parent's pending close timer.
+- Leaving a deeper child schedules closing for the full chain (child + parents).
+
+Inheritance rule:
+- If a parent overlay has `dismiss.hoverTree.enabled: true`, overlays opened via `openChild(parent, ...)` inherit the same `hoverTree` config (including `delayMs`) unless the child overrides/turns it off.
+
 ### Backdrop Click
 
 Close overlay when clicking the backdrop:
 
 ```typescript
-.backdrop(0.5)
-.dismissOnBackdropClick(true)
+// Configure on the spec builder:
+b.backdrop({ kind: 'modal', closeOnBackdropClick: true });
 ```
 
 ### Programmatic
@@ -672,7 +621,7 @@ Close overlay when clicking the backdrop:
 Close overlay from code:
 
 ```typescript
-const ref = overlayService.open(spec);
+const ref = overlayService.open(spec, inputs);
 
 // Later...
 ref.close();
@@ -692,77 +641,73 @@ Pre-configured overlay specs for common use cases.
 Lightweight hover tooltips:
 
 ```typescript
-import { tooltipPreset } from '@cocoar/ui-overlay';
+import { Overlay, tooltipPreset } from '@cocoar/ui-overlay';
 
-const spec = tooltipPreset({
-  anchor: { kind: 'element', element: triggerEl },
-  content: { kind: 'html', html: 'Tooltip text' },
-  position: { placement: 'top' }
-});
+const spec = Overlay.define<{ text: string }>((b) => {
+  b.content((c) => c.fromText());
+  b.anchor({ kind: 'element', element: triggerEl });
+  b.position({ placement: 'top', offset: 8, flip: true, shift: true });
+}, tooltipPreset);
 ```
 
 **Configuration:**
 - No backdrop
-- Dismiss on ESC
+- No outside-click / ESC dismiss (tooltips are controlled by the caller)
 - No focus trap
 - Body attachment
-- Clamp to viewport
+- Viewport-aware positioning (`flip` + `shift`)
 
 ### Modal Preset
 
 Full-screen modal dialogs:
 
 ```typescript
-import { modalPreset } from '@cocoar/ui-overlay';
+import { Overlay, modalPreset } from '@cocoar/ui-overlay';
 
-const spec = modalPreset({
-  anchor: { kind: 'viewport' },
-  content: { kind: 'component', component: DialogComponent },
-  backdrop: { opacity: 0.6 }
-});
+const spec = Overlay.define<Partial<DialogComponent>>((b) => {
+  b.content((c) => c.fromComponent(DialogComponent));
+}, modalPreset);
 ```
 
 **Configuration:**
-- Backdrop with 60% opacity
-- Dismiss on ESC and backdrop click
+- Modal backdrop (optionally close on backdrop click)
+- Dismiss on ESC
 - Focus trap enabled
 - Focus restore enabled
 - Body attachment
-- Viewport anchor (centered)
+- Virtual center anchor
+
+### Hover Menu Preset
+
+For hover-driven menus (context menus, cascading flyouts), use the hover-menu preset:
+
+```ts
+import { Overlay, hoverMenuPreset } from '@cocoar/ui-overlay';
+
+const spec = Overlay.define<void>((b) => {
+  b.content((c) => c.fromTemplate(menuTemplate));
+  b.anchor({ kind: 'point', x: 120, y: 120 });
+  b.position({ placement: 'bottom-start', offset: 4, flip: true, shift: true });
+}, hoverMenuPreset);
+```
+
+This preset is equivalent to the normal menu preset plus `dismiss.hoverTree` enabled (default `delayMs: 300`).
 
 ### Custom Presets
 
 Create your own presets:
 
 ```typescript
-export function dropdownPreset(
-  partial: Partial<OverlaySpec>
-): OverlaySpec {
-  return {
-    anchor: partial.anchor!,
-    content: partial.content!,
-    position: {
-      placement: 'bottom-start',
-      offset: 4,
-      clampToViewport: true,
-      fallbackToBestFit: true,
-      ...partial.position
-    },
-    dismiss: {
-      escapeKey: true,
-      outsideClick: true,
-      ...partial.dismiss
-    },
-    focus: {
-      autoFocus: true,
-      restore: true,
-      ...partial.focus
-    },
-    attachment: { strategy: 'body', ...partial.attachment },
-    backdrop: partial.backdrop,
-    style: partial.style
-  };
-}
+import { type OverlayPreset } from '@cocoar/ui-overlay';
+
+export const dropdownPreset: OverlayPreset = (b) => {
+  b.backdrop('none');
+  b.scroll({ strategy: 'close' });
+  b.dismiss({ outsideClick: true, escapeKey: true });
+  b.focus({ trap: false, restore: true });
+  b.position({ placement: 'bottom-start', offset: 4, flip: true, shift: true });
+  b.attachment({ strategy: 'body' });
+};
 ```
 
 ---
@@ -791,6 +736,40 @@ const childRef = parentRef.openChild({
 - Closing parent automatically closes children
 - Outside-click detection considers parent chain
 
+#### Overlay Context (`COAR_OVERLAY_REF`)
+
+Content rendered inside an overlay can inject the current `OverlayRef`:
+
+```ts
+import { inject } from '@angular/core';
+import { COAR_OVERLAY_REF, CoarOverlayService, Overlay } from '@cocoar/ui-overlay';
+
+const overlayService = inject(CoarOverlayService);
+const currentOverlay = inject(COAR_OVERLAY_REF, { optional: true });
+
+if (currentOverlay) {
+  const spec = Overlay.define<void>((b) => {
+    b.content((c) => c.fromText());
+    b.anchor({ kind: 'point', x: 10, y: 10 });
+  });
+
+  overlayService.openChild(currentOverlay, spec, undefined);
+}
+```
+
+Use this when you want to open a true child overlay from within overlay content without plumbing the parent ref manually.
+
+#### Angular Content Projection Caveat
+
+If your overlay content uses `<ng-content>`, remember:
+- Projected components keep the injector context of where they were *declared*, not where they are *projected into*.
+
+That means nested overlay triggers inside projected content may inject the "wrong" `COAR_OVERLAY_REF`.
+
+Recommended solutions for advanced reusable components:
+- Prefer a `TemplateRef`-based API for nested overlay content (so the embedded view is created inside the overlay injector).
+- Or provide an internal component-level context (similar to how the Cocoar menu components handle nested submenus).
+
 ### Dynamic Content Updates
 
 Pass inputs to component overlays:
@@ -801,12 +780,12 @@ interface MyComponentInputs {
   count: number;
 }
 
-const ref = Overlay.builder()
-  .component(MyComponent, { 
-    title: 'Initial Title',
-    count: 0 
-  })
-  .build(overlayService);
+const spec = Overlay.define<Partial<MyComponentInputs>>((b) => {
+  b.content((c) => c.fromComponent(MyComponent));
+  b.anchor({ kind: 'point', x: 10, y: 10 });
+});
+
+const ref = overlayService.open(spec, { title: 'Initial Title', count: 0 });
 ```
 
 **Note:** Inputs are set once at creation. For reactive updates, use a shared service or signal.
@@ -816,21 +795,20 @@ const ref = Overlay.builder()
 Get result data when overlay closes:
 
 ```typescript
-const ref = overlayService.open({
-  // ... spec
+// Caller:
+const ref = overlayService.open(spec, inputs);
+ref.afterClosed$.subscribe((result) => {
+  // result is the value passed to close(result)
 });
 
-// In the overlay component:
+// In overlay content (component rendered inside the overlay):
 class DialogComponent {
-  private overlayRef = inject(OverlayRef);
-  
+  private overlayRef = inject(COAR_OVERLAY_REF);
+
   confirm() {
     this.overlayRef.close({ confirmed: true, value: this.form.value });
   }
 }
-
-// Back in the caller:
-console.log(ref.result); // { confirmed: true, value: {...} }
 ```
 
 ### Container-Based Boundaries
@@ -840,29 +818,17 @@ Constrain overlay to a scrollable container:
 ```typescript
 const container = document.getElementById('scrollable-container')!;
 
-Overlay.builder()
-  .anchorToElement(trigger)
-  .component(DropdownComponent)
-  .placement('bottom')
-  .attachment({ strategy: 'parent', container })
-  .clampToContainer(true)
-  .fallbackToBestFit(true)
-  .build(overlayService);
+const spec = Overlay.define<void>((b) => {
+  b.content((c) => c.fromComponent(DropdownComponent));
+  b.anchor({ kind: 'element', element: trigger });
+  b.attachment({ strategy: 'parent', container });
+  b.position({ placement: 'bottom-start', offset: 4, flip: true, shift: true });
+});
+
+overlayService.open(spec, undefined);
 ```
 
 **Use case:** Dropdown in a dashboard widget with `overflow: auto`
-
-### Custom Z-Index
-
-Override default z-index stacking:
-
-```typescript
-.style({ zIndex: 9999 })
-```
-
-**Default z-index:**
-- Base overlay: `1000 + stackIndex * 10`
-- Backdrop: `zIndex - 1`
 
 ---
 
@@ -871,7 +837,7 @@ Override default z-index stacking:
 ### Tooltip
 
 ```typescript
-import { Overlay } from '@cocoar/ui-overlay';
+import { CoarOverlayService, Overlay, type OverlayRef, coarTooltipPreset } from '@cocoar/ui-overlay';
 
 @Component({
   selector: 'app-tooltip-example',
@@ -885,19 +851,22 @@ export class TooltipExample {
   private overlayService = inject(CoarOverlayService);
   private trigger = viewChild.required<ElementRef>('trigger');
   private overlayRef: OverlayRef | null = null;
-  
+
   open() {
-    if (this.overlayRef?.isOpen) return;
-    
-    this.overlayRef = Overlay.builder()
-      .anchorToElement(this.trigger().nativeElement)
-      .html('This is a tooltip')
-      .placement('top')
-      .offset(8)
-      .dismissOnEscape()
-      .build(this.overlayService);
+    if (this.overlayRef) return;
+
+    const spec = Overlay.define<{ text: string }>((b) => {
+      b.content((c) => c.fromText());
+      b.anchor({ kind: 'element', element: this.trigger().nativeElement });
+      b.position({ placement: 'top', offset: 8, flip: true, shift: true });
+    }, coarTooltipPreset);
+
+    this.overlayRef = this.overlayService.open(spec, { text: 'This is a tooltip' });
+    this.overlayRef.afterClosed$.subscribe(() => {
+      this.overlayRef = null;
+    });
   }
-  
+
   close() {
     this.overlayRef?.close();
   }
@@ -917,21 +886,23 @@ export class DropdownExample {
   private overlayService = inject(CoarOverlayService);
   private trigger = viewChild.required<ElementRef>('trigger');
   private overlayRef: OverlayRef | null = null;
-  
+
   toggle() {
-    if (this.overlayRef?.isOpen) {
+    if (this.overlayRef) {
       this.overlayRef.close();
-    } else {
-      this.overlayRef = Overlay.builder()
-        .anchorToElement(this.trigger().nativeElement)
-        .component(MenuComponent)
-        .placement('bottom-start')
-        .offset(4)
-        .dismissOnEscape()
-        .dismissOnOutsideClick()
-        .fallbackToBestFit(true)
-        .build(this.overlayService);
+      return;
     }
+
+    const spec = Overlay.define<void>((b) => {
+      b.content((c) => c.fromComponent(MenuComponent));
+      b.anchor({ kind: 'element', element: this.trigger().nativeElement });
+      b.position({ placement: 'bottom-start', offset: 4, flip: true, shift: true });
+    }, coarMenuPreset);
+
+    this.overlayRef = this.overlayService.open(spec, undefined);
+    this.overlayRef.afterClosed$.subscribe(() => {
+      this.overlayRef = null;
+    });
   }
 }
 ```
@@ -947,26 +918,23 @@ export class DropdownExample {
 })
 export class ModalExample {
   private overlayService = inject(CoarOverlayService);
-  
+
   async openModal() {
-    const ref = Overlay.builder()
-      .anchorToViewport()
-      .component(ConfirmDialogComponent, {
-        title: 'Confirm Action',
-        message: 'Are you sure?'
-      })
-      .backdrop(0.6)
-      .dismissOnEscape()
-      .dismissOnBackdropClick()
-      .trapFocus()
-      .restoreFocus()
-      .autoFocus('[data-primary]')
-      .build(this.overlayService);
-    
-    // Wait for result (if needed)
-    if (ref.result?.confirmed) {
-      console.log('User confirmed');
-    }
+    const spec = Overlay.define<Partial<ConfirmDialogComponent>>((b) => {
+      b.content((c) => c.fromComponent(ConfirmDialogComponent));
+      // Modal preset configures virtual center anchor, modal backdrop, focus trap, etc.
+    }, coarModalPreset);
+
+    const ref = this.overlayService.open(spec, {
+      title: 'Confirm Action',
+      message: 'Are you sure?',
+    });
+
+    ref.afterClosed$.subscribe((result) => {
+      if ((result as { confirmed?: boolean } | null)?.confirmed) {
+        console.log('User confirmed');
+      }
+    });
   }
 }
 ```
@@ -984,18 +952,17 @@ export class ModalExample {
 })
 export class ContextMenuExample {
   private overlayService = inject(CoarOverlayService);
-  
+
   openContextMenu(event: MouseEvent) {
     event.preventDefault();
-    
-    Overlay.builder()
-      .anchorToPoint(event.clientX, event.clientY)
-      .component(ContextMenuComponent)
-      .placement('bottom-start')
-      .dismissOnEscape()
-      .dismissOnOutsideClick()
-      .fallbackToBestFit(true)
-      .build(this.overlayService);
+
+    const spec = Overlay.define<void>((b) => {
+      b.content((c) => c.fromComponent(ContextMenuComponent));
+      b.anchor({ kind: 'point', x: event.clientX, y: event.clientY });
+      b.position({ placement: 'bottom-start', offset: 4, flip: true, shift: true });
+    }, coarMenuPreset);
+
+    this.overlayService.open(spec, undefined);
   }
 }
 ```
@@ -1023,25 +990,25 @@ export class ConstrainedDropdownExample {
   private trigger = viewChild.required<ElementRef>('trigger');
   private container = viewChild.required<ElementRef>('container');
   private overlayRef: OverlayRef | null = null;
-  
+
   toggle() {
-    if (this.overlayRef?.isOpen) {
+    if (this.overlayRef) {
       this.overlayRef.close();
-    } else {
-      this.overlayRef = Overlay.builder()
-        .anchorToElement(this.trigger().nativeElement)
-        .component(OptionsComponent)
-        .placement('bottom')
-        .attachment({ 
-          strategy: 'parent', 
-          container: this.container().nativeElement 
-        })
-        .clampToContainer(true)
-        .fallbackToBestFit(true)
-        .dismissOnEscape()
-        .dismissOnOutsideClick()
-        .build(this.overlayService);
+      return;
     }
+
+    const spec = Overlay.define<void>((b) => {
+      b.content((c) => c.fromComponent(OptionsComponent));
+      b.anchor({ kind: 'element', element: this.trigger().nativeElement });
+      b.attachment({ strategy: 'parent', container: this.container().nativeElement });
+      b.position({ placement: 'bottom', offset: 4, flip: true, shift: true });
+      b.dismiss({ outsideClick: true, escapeKey: true });
+    });
+
+    this.overlayRef = this.overlayService.open(spec, undefined);
+    this.overlayRef.afterClosed$.subscribe(() => {
+      this.overlayRef = null;
+    });
   }
 }
 ```
@@ -1069,13 +1036,12 @@ The Cocoar Overlay System is **framework-pure** and doesn't use Popper.js, Float
 
 The system uses a straightforward positioning algorithm:
 
-1. **Measure anchor element** (or use point/viewport)
+1. **Measure anchor** (element/point/virtual)
 2. **Calculate overlay dimensions** (estimate or measure after render)
-3. **Apply placement** (top/bottom/left/right with alignment)
+3. **Generate candidates** from `position.placement` (single or array)
 4. **Apply offset** (distance from anchor)
-5. **Check boundaries** (viewport or container)
-6. **Shift if needed** (horizontal/vertical adjustment)
-7. **Fallback if enabled** (try alternative placements)
+5. **Choose placement** (first that fully fits when `flip: true`, otherwise smallest overflow)
+6. **Shift if enabled** (move into the active boundary)
 8. **Set fixed position** (top, left CSS values)
 
 ### Performance Considerations
@@ -1101,9 +1067,10 @@ The system uses a straightforward positioning algorithm:
 ### Overlay Not Visible
 
 **Check z-index conflicts:**
-```typescript
-.style({ zIndex: 9999 })
-```
+The overlay host/backdrop z-index is derived from CSS variables:
+
+- `--coar-z-overlay`
+- `--coar-z-overlay-backdrop`
 
 **Verify attachment strategy:**
 ```typescript
@@ -1112,37 +1079,39 @@ The system uses a straightforward positioning algorithm:
 
 ### Positioning Issues
 
-**Enable clamping:**
-```typescript
-.clampToViewport(true)
-.fallbackToBestFit(true)
+**Prefer a specific placement first:**
+
+```ts
+b.position({
+  placement: ['bottom-start', 'top-start', 'right-start', 'left-start'],
+  offset: 4,
+  flip: true,
+  shift: true,
+});
 ```
 
 **Check container boundaries:**
 ```typescript
 .attachment({ strategy: 'parent', container: parentEl })
-.clampToContainer(true)
+// The parent container becomes the boundary.
+.position({ placement: 'bottom-start', offset: 4, flip: true, shift: true })
 ```
 
 ### Focus Not Working
 
 **Enable focus trap for modals:**
-```typescript
-.trapFocus(true)
-.autoFocus(true)
+```ts
+b.focus({ trap: true, restore: true });
 ```
 
 **Ensure focusable elements exist:**
-```typescript
-.autoFocus('button, input, [tabindex="0"]')
-```
+Make sure your overlay content contains a focusable element (e.g. a button or an input), or add `tabindex="0"` to an element that should be focusable.
 
 ### Dismiss Not Working
 
 **Verify dismiss configuration:**
-```typescript
-.dismissOnEscape(true)
-.dismissOnOutsideClick(true)
+```ts
+b.dismiss({ escapeKey: true, outsideClick: true });
 ```
 
 **Check for event.stopPropagation()** in your component templates.
@@ -1166,19 +1135,20 @@ this.floatingHelper.open(trigger, 'bottom');
 
 **New (Overlay System):**
 ```typescript
-this.overlayRef = Overlay.builder()
-  .anchorToElement(trigger)
-  .component(MyComponent)
-  .placement('bottom')
-  .dismissOnEscape()
-  .dismissOnOutsideClick()
-  .build(this.overlayService);
+const spec = Overlay.define<void>((b) => {
+  b.content((c) => c.fromComponent(MyComponent));
+  b.anchor({ kind: 'element', element: trigger });
+  b.position({ placement: 'bottom', offset: 4, flip: true, shift: true });
+  b.dismiss({ outsideClick: true, escapeKey: true });
+});
+
+this.overlayRef = this.overlayService.open(spec, undefined);
 ```
 
 **Key differences:**
 - No more `usePortal` / `usesCssAnchor` flags (always portaled)
 - Explicit `attachment` strategy instead
-- Builder API instead of constructor configuration
+- Spec builder (`Overlay.define`) instead of constructor configuration
 - `OverlayRef` instead of helper methods
 
 ---
@@ -1190,9 +1160,11 @@ this.overlayRef = Overlay.builder()
 - ✨ Full overlay system implementation
 - ✨ 12 placement options with `-start`/`-end` variants
 - ✨ Attachment strategies (`body` vs `parent`)
-- ✨ Container-based boundaries for clamp/fallback
-- ✨ Builder API for fluent configuration
+- ✨ Container-aware attachment boundaries (`attachment: 'parent'`)
+- ✨ Spec builder (`Overlay.define` / `Overlay.fork`)
 - ✨ Presets for common use cases (tooltip, modal)
+- ✨ Hover-tree dismiss for cascading menus
+- ✨ Overlay DI context (`COAR_OVERLAY_REF`) for child overlays
 - 🔥 Removed old floating system
 - 🐛 Fixed select toggle race condition (anchor element handling)
 
@@ -1229,6 +1201,6 @@ See [LICENSE](../../LICENSE) for details.
 
 ---
 
-**Version:** 2.0.0  
-**Last Updated:** December 16, 2025  
+**Version:** 2.0.0
+**Last Updated:** December 16, 2025
 **Maintainer:** Cocoar Design System Team

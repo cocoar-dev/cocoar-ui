@@ -29,10 +29,18 @@ export const COAR_OVERLAY_SPEC_RESOLVERS = new InjectionToken<readonly OverlaySp
 );
 
 export type Placement =
-  | 'top' | 'top-start' | 'top-end'
-  | 'bottom' | 'bottom-start' | 'bottom-end'
-  | 'left' | 'left-start' | 'left-end'
-  | 'right' | 'right-start' | 'right-end'
+  | 'top'
+  | 'top-start'
+  | 'top-end'
+  | 'bottom'
+  | 'bottom-start'
+  | 'bottom-end'
+  | 'left'
+  | 'left-start'
+  | 'left-end'
+  | 'right'
+  | 'right-start'
+  | 'right-end'
   | 'center';
 
 export interface ContentSpec<TInputs> {
@@ -81,6 +89,17 @@ export interface ScrollSpec {
 export interface DismissSpec {
   outsideClick?: boolean;
   escapeKey?: boolean;
+  /**
+   * Optional pointer-based dismissal for menu-like overlays.
+   *
+   * When enabled, the overlay closes after the pointer leaves the overlay *tree*
+   * (the overlay itself and any child overlays opened via openChild()).
+   * Entering any child overlay cancels the parent's close timer.
+   */
+  hoverTree?: {
+    enabled?: boolean;
+    delayMs?: number;
+  };
 }
 
 export interface FocusSpec {
@@ -102,9 +121,7 @@ export interface A11ySpec {
  * - 'body': Attach to document.body (portal pattern), use viewport boundaries
  * - 'parent': Attach to a specific container element, use that container's boundaries
  */
-export type AttachmentSpec =
-  | { strategy: 'body' }
-  | { strategy: 'parent'; container: HTMLElement };
+export type AttachmentSpec = { strategy: 'body' } | { strategy: 'parent'; container: HTMLElement };
 
 export const COAR_OVERLAY_DEFAULTS = {
   anchor: { kind: 'virtual', placement: 'center' } as const satisfies AnchorSpec,

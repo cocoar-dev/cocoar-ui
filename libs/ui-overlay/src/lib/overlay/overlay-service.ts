@@ -2,9 +2,11 @@ import {
   ApplicationRef,
   EnvironmentInjector,
   Injectable,
+  Injector,
   TemplateRef,
   Type,
   createComponent,
+  createEnvironmentInjector,
   inject,
 } from '@angular/core';
 import { Subject } from 'rxjs';
@@ -24,6 +26,7 @@ import {
   getScrollParents,
   getViewportRect,
 } from './overlay-position';
+import { COAR_OVERLAY_REF } from './overlay-context';
 
 export interface OverlayOpenOptions {
   /**
@@ -153,10 +156,12 @@ export class CoarOverlayService {
     const parent = this.getInternalRefOrNull(options?.parent);
     const stackIndex = this.openOverlays.size;
 
+    const effectiveSpec = this.inheritDismissFromParent(spec, parent);
+
     const ref = new CoarOverlayRef(
       this.appRef,
       this.environmentInjector,
-      spec,
+      effectiveSpec,
       this.mergeInputs(spec.content, inputs),
       stackIndex,
       parent,
@@ -170,6 +175,42 @@ export class CoarOverlayService {
     this.installGlobalListenersIfNeeded();
     ref.open();
     return ref;
+  }
+
+  private inheritDismissFromParent<TInputs>(
+    spec: ResolvedOverlaySpec<TInputs>,
+    parent: CoarOverlayRef | null
+  ): ResolvedOverlaySpec<TInputs> {
+    if (!parent) return spec;
+
+    const parentHoverTree = parent.getHoverTreeDismissConfig();
+    if (!parentHoverTree?.enabled) return spec;
+
+    const childHoverTree = spec.dismiss.hoverTree;
+
+    // Explicit disable in child wins.
+    if (childHoverTree?.enabled === false) return spec;
+
+    let mergedHoverTree: typeof childHoverTree;
+    if (!childHoverTree) {
+      mergedHoverTree = { ...parentHoverTree };
+    } else {
+      mergedHoverTree = {
+        enabled: true,
+        delayMs: childHoverTree.delayMs ?? parentHoverTree.delayMs,
+      };
+    }
+
+    // No change.
+    if (mergedHoverTree === childHoverTree) return spec;
+
+    return {
+      ...(spec as unknown as object),
+      dismiss: {
+        ...(spec.dismiss as object),
+        hoverTree: mergedHoverTree,
+      },
+    } as ResolvedOverlaySpec<TInputs>;
   }
 
   private getInternalRefOrNull(ref: OverlayRef | undefined): CoarOverlayRef | null {
@@ -325,6 +366,9 @@ class CoarOverlayRef implements OverlayRef {
   private presented = false;
   private readonly restoreFocusTarget: Element | null;
   private readonly children = new Set<CoarOverlayRef>();
+  private hoverCloseTimer: ReturnType<typeof setTimeout> | null = null;
+  private readonly contentInjector: Injector;
+  private readonly contentEnvironmentInjector: EnvironmentInjector;
 
   constructor(
     private readonly appRef: ApplicationRef,
@@ -337,6 +381,16 @@ class CoarOverlayRef implements OverlayRef {
   ) {
     this.host = document.createElement('div');
     this.host.className = 'coar-overlay-host';
+
+    this.contentInjector = Injector.create({
+      providers: [{ provide: COAR_OVERLAY_REF, useValue: this }],
+      parent: this.environmentInjector,
+    });
+
+    this.contentEnvironmentInjector = createEnvironmentInjector(
+      [{ provide: COAR_OVERLAY_REF, useValue: this }],
+      this.environmentInjector
+    );
 
     Object.assign(this.host.style, {
       position: 'fixed',
@@ -354,6 +408,10 @@ class CoarOverlayRef implements OverlayRef {
     if (this.parent) {
       this.parent.children.add(this);
     }
+  }
+
+  getHoverTreeDismissConfig(): { enabled?: boolean; delayMs?: number } | undefined {
+    return this.spec.dismiss.hoverTree;
   }
 
   getRoot(): CoarOverlayRef {
@@ -403,6 +461,8 @@ class CoarOverlayRef implements OverlayRef {
       attachment.strategy === 'parent' ? attachment.container : document.body;
     attachmentParent.appendChild(this.host);
 
+    this.installHoverTreeDismissIfEnabled();
+
     this.applyA11y();
 
     this.destroyContent = this.renderContent(this.spec.content, this.host, this.inputs);
@@ -415,6 +475,66 @@ class CoarOverlayRef implements OverlayRef {
 
     this.installRepositionTriggers();
     this.updatePosition();
+  }
+
+  private installHoverTreeDismissIfEnabled(): void {
+    const hoverTree = this.spec.dismiss.hoverTree;
+    if (!hoverTree?.enabled) return;
+
+    const delayMs = typeof hoverTree.delayMs === 'number' ? hoverTree.delayMs : 300;
+
+    const onEnter = () => {
+      this.cancelHoverCloseUpTree();
+    };
+
+    const onLeave = () => {
+      this.scheduleHoverCloseUpTree(delayMs);
+    };
+
+    this.host.addEventListener('pointerenter', onEnter);
+    this.host.addEventListener('pointerleave', onLeave);
+    this.cleanupFns.push(() => {
+      this.host.removeEventListener('pointerenter', onEnter);
+      this.host.removeEventListener('pointerleave', onLeave);
+      this.cancelHoverClose();
+    });
+
+    if (this.spec.anchor.kind === 'element') {
+      const el = this.spec.anchor.element;
+      el.addEventListener('pointerenter', onEnter);
+      el.addEventListener('pointerleave', onLeave);
+      this.cleanupFns.push(() => {
+        el.removeEventListener('pointerenter', onEnter);
+        el.removeEventListener('pointerleave', onLeave);
+      });
+    }
+  }
+
+  private cancelHoverClose(): void {
+    if (!this.hoverCloseTimer) return;
+    clearTimeout(this.hoverCloseTimer);
+    this.hoverCloseTimer = null;
+  }
+
+  private cancelHoverCloseUpTree(): void {
+    this.cancelHoverClose();
+    this.parent?.cancelHoverCloseUpTree();
+  }
+
+  private scheduleHoverClose(delayMs: number): void {
+    const hoverTree = this.spec.dismiss.hoverTree;
+    if (!hoverTree?.enabled) return;
+
+    this.cancelHoverClose();
+    this.hoverCloseTimer = setTimeout(() => {
+      this.hoverCloseTimer = null;
+      this.close();
+    }, delayMs);
+  }
+
+  private scheduleHoverCloseUpTree(delayMs: number): void {
+    this.scheduleHoverClose(delayMs);
+    this.parent?.scheduleHoverCloseUpTree(delayMs);
   }
 
   hasFocusTrap(): boolean {
@@ -530,6 +650,8 @@ class CoarOverlayRef implements OverlayRef {
     this.closed = true;
     this.lastResult = result;
 
+    this.cancelHoverClose();
+
     // Ensure overlay trees (menus/submenus) close consistently.
     this.closeChildren();
 
@@ -543,7 +665,6 @@ class CoarOverlayRef implements OverlayRef {
 
     this.destroyContent?.();
     this.destroyContent = null;
-
     this.host.remove();
     this.backdropElement?.remove();
     this.backdropElement = null;
@@ -796,7 +917,10 @@ class CoarOverlayRef implements OverlayRef {
         const template = content.template as TemplateRef<unknown> | undefined;
         if (!template) throw new Error('Template overlay requires a template');
 
-        const viewRef = template.createEmbeddedView(inputs as unknown as object);
+        const viewRef = template.createEmbeddedView(
+          inputs as unknown as object,
+          this.contentInjector
+        );
         this.appRef.attachView(viewRef);
         viewRef.detectChanges();
 
@@ -814,7 +938,7 @@ class CoarOverlayRef implements OverlayRef {
         if (!component) throw new Error('Component overlay requires a component');
 
         const componentRef = createComponent(component, {
-          environmentInjector: this.environmentInjector,
+          environmentInjector: this.contentEnvironmentInjector,
           hostElement: host,
         });
 
