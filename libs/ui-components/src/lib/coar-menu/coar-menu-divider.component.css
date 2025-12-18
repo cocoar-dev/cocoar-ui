@@ -1,0 +1,12 @@
+/**
+ * CoarMenuDivider Styles
+ *
+ * Horizontal separator line between menu items.
+ */
+
+:host {
+  display: block;
+  height: 1px;
+  margin: var(--coar-menu-divider-margin, 0.25rem 0);
+  background: var(--coar-menu-divider-color, var(--coar-border-neutral-tertiary, #e0e0e0));
+}

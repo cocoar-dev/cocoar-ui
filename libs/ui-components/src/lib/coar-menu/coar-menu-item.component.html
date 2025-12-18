@@ -1,0 +1,10 @@
+@if (icon()) {
+<span class="coar-menu-item__icon">{{ icon() }}</span>
+}
+<span class="coar-menu-item__label">
+  @if (label()) {
+  {{ label() }}
+  } @else {
+  <ng-content />
+  }
+</span>

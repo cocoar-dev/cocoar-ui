@@ -1,0 +1,26 @@
+/**
+ * CoarMenu Styles
+ *
+ * All styling via CSS variables from Figma tokens.
+ * Framework-pure: no assumptions about parent container.
+ */
+
+:host {
+  /* Layout */
+  display: flex;
+  flex-direction: column;
+  min-width: var(--coar-menu-min-width, 12rem);
+  max-width: var(--coar-menu-max-width, 20rem);
+
+  /* Spacing */
+  /* padding: var(--coar-menu-padding, 0.5rem); */
+  gap: var(--coar-menu-gap, 0.25rem);
+
+  /* Styling - using existing design tokens */
+  background: var(--coar-menu-background, var(--coar-surface-input, #ffffff));
+  border: var(--coar-menu-border, 1px solid var(--coar-border-neutral-secondary, #e0e0e0));
+  border-radius: var(--coar-menu-border-radius, var(--coar-radius-m, 8px));
+
+  /* Shadow for overlay menus */
+  box-shadow: var(--coar-menu-shadow, var(--coar-shadow-l, 0 8px 16px rgba(0, 0, 0, 0.08)));
+}

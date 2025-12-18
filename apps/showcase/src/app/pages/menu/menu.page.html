@@ -1,0 +1,127 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Menu</h1>
+    <p class="description coar-body">Context menus, dropdown menus, and navigation menus with support for nested submenus.</p>
+  </header>
+
+  <coar-tab-group [(activeTab)]="activeTab">
+    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
+  </coar-tab-group>
+</div>
+
+<ng-template #examplesTemplate>
+  <div class="examples-content">
+    <!-- Basic Menu -->
+    <section class="example-section">
+      <h2 class="coar-heading">Basic Menu</h2>
+      <p class="section-intro coar-body-small">A simple menu with items and dividers.</p>
+
+      <div class="menu-demo">
+        <coar-menu>
+          <coar-menu-item (itemClick)="handleMenuItemClick('new')">New File</coar-menu-item>
+          <coar-menu-item (itemClick)="handleMenuItemClick('open')">Open...</coar-menu-item>
+          <coar-menu-divider></coar-menu-divider>
+          <coar-menu-item (itemClick)="handleMenuItemClick('save')">Save</coar-menu-item>
+          <coar-menu-item (itemClick)="handleMenuItemClick('saveAs')">Save As...</coar-menu-item>
+        </coar-menu>
+      </div>
+
+      <coar-code-block [code]="codeExamples.basic" language="html" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
+    <!-- With Icons -->
+    <section class="example-section">
+      <h2 class="coar-heading">With Icons</h2>
+      <p class="section-intro coar-body-small">Add icons to menu items for better visual recognition.</p>
+
+      <div class="menu-demo">
+        <coar-menu>
+          <coar-menu-item icon="➕" (itemClick)="handleMenuItemClick('create')">Create New</coar-menu-item>
+          <coar-menu-item icon="📋" (itemClick)="handleMenuItemClick('duplicate')">Duplicate</coar-menu-item>
+          <coar-menu-item icon="📄" (itemClick)="handleMenuItemClick('copy')">Copy</coar-menu-item>
+          <coar-menu-divider></coar-menu-divider>
+          <coar-menu-item icon="🗑️" (itemClick)="handleMenuItemClick('delete')">Delete</coar-menu-item>
+        </coar-menu>
+      </div>
+
+      <coar-code-block [code]="codeExamples.withIcons" language="html" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
+    <!-- Disabled Items -->
+    <section class="example-section">
+      <h2 class="coar-heading">Disabled Items</h2>
+      <p class="section-intro coar-body-small">Prevent interaction with disabled menu items.</p>
+
+      <div class="menu-demo">
+        <coar-menu>
+          <coar-menu-item (itemClick)="handleMenuItemClick('cut')">Cut</coar-menu-item>
+          <coar-menu-item (itemClick)="handleMenuItemClick('copy')">Copy</coar-menu-item>
+          <coar-menu-item [disabled]="true" (itemClick)="handleMenuItemClick('paste')">Paste (disabled)</coar-menu-item>
+          <coar-menu-divider></coar-menu-divider>
+          <coar-menu-item [disabled]="true" icon="🗑️" (itemClick)="handleMenuItemClick('delete')">Delete (disabled)</coar-menu-item>
+        </coar-menu>
+      </div>
+
+      <coar-code-block [code]="codeExamples.disabled" language="html" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
+    <!-- Context Menu with Flyout Submenu -->
+    <section class="example-section">
+      <h2 class="coar-heading">Context Menu with Flyout Submenu</h2>
+      <p class="section-intro coar-body-small">
+        Right-click the demo area to open a context menu. Hover over "Share" to see a flyout submenu using the overlay system.
+      </p>
+
+      <div class="context-demo-area" (contextmenu)="onContextMenu($event)">
+        <p>Right-click anywhere in this area</p>
+        <p class="coar-body-small" style="color: #999">Context menu with flyout submenu will appear</p>
+      </div>
+
+      <coar-code-block [code]="codeExamples.contextMenu" language="typescript" />
+    </section>
+
+    <coar-note type="info" style="margin-top: 2rem">
+      <strong>Note:</strong> Flyout submenus leverage the CoarOverlayService for proper hierarchy management, z-index stacking, and click-outside
+      handling.
+    </coar-note>
+  </div>
+</ng-template>
+
+<!-- Context Menu Template -->
+<ng-template #contextMenuTemplate>
+  <coar-menu>
+    <coar-menu-item icon="✂️" (itemClick)="handleAction('cut')">Cut</coar-menu-item>
+    <coar-menu-item icon="📋" (itemClick)="handleAction('copy')">Copy</coar-menu-item>
+    <coar-menu-item icon="📄" (itemClick)="handleAction('paste')">Paste</coar-menu-item>
+    <coar-menu-divider></coar-menu-divider>
+    <coar-menu-item icon="🔗" (itemHover)="openShareSubmenu($event)" (mouseleave)="onShareMenuLeave()">Share</coar-menu-item>
+    <coar-menu-divider></coar-menu-divider>
+    <coar-menu-item icon="🗑️" (itemClick)="handleAction('delete')">Delete</coar-menu-item>
+  </coar-menu>
+</ng-template>
+
+<!-- Submenu Template -->
+<ng-template #submenuTemplate>
+  <coar-menu (mouseenter)="onSubmenuEnter()" (mouseleave)="onSubmenuLeave()">
+    <coar-menu-item icon="✉️" (itemClick)="handleAction('email')">Email</coar-menu-item>
+    <coar-menu-item icon="🔗" (itemHover)="openSubSubmenu($event)" (mouseleave)="onCopyLinkLeave()">Copy Link</coar-menu-item>
+    <coar-menu-item icon="📥" (itemClick)="handleAction('download')">Download</coar-menu-item>
+  </coar-menu>
+</ng-template>
+
+<!-- Sub-Submenu Template -->
+<ng-template #subSubmenuTemplate>
+  <coar-menu (mouseenter)="onSubSubmenuEnter()" (mouseleave)="onSubSubmenuLeave()">
+    <coar-menu-item icon="📋" (itemClick)="handleAction('copyMarkdown')">Copy as Markdown</coar-menu-item>
+    <coar-menu-item icon="🌐" (itemClick)="handleAction('copyHtml')">Copy as HTML</coar-menu-item>
+    <coar-menu-item icon="📝" (itemClick)="handleAction('copyPlain')">Copy as Plain Text</coar-menu-item>
+  </coar-menu>
+</ng-template>
