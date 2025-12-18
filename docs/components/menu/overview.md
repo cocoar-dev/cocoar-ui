@@ -299,17 +299,21 @@ The `coar-submenu-item` component provides flyout submenus:
 
   <coar-submenu-item icon="users" label="Share">
     <ng-template>
-      <!-- Nested submenus are supported -->
-      <coar-menu-item icon="chat">Email</coar-menu-item>
-      <coar-menu-item icon="copy">Copy Link</coar-menu-item>
+      <coar-menu>
+        <!-- Nested submenus are supported -->
+        <coar-menu-item icon="chat">Email</coar-menu-item>
+        <coar-menu-item icon="copy">Copy Link</coar-menu-item>
 
-      <coar-submenu-item icon="load" label="Export">
-        <ng-template>
-          <coar-menu-item>PDF</coar-menu-item>
-          <coar-menu-item>CSV</coar-menu-item>
-          <coar-menu-item>JSON</coar-menu-item>
-        </ng-template>
-      </coar-submenu-item>
+        <coar-submenu-item icon="load" label="Export">
+          <ng-template>
+            <coar-menu>
+              <coar-menu-item>PDF</coar-menu-item>
+              <coar-menu-item>CSV</coar-menu-item>
+              <coar-menu-item>JSON</coar-menu-item>
+            </coar-menu>
+          </ng-template>
+        </coar-submenu-item>
+      </coar-menu>
     </ng-template>
   </coar-submenu-item>
 </coar-menu>

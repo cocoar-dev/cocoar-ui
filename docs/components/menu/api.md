@@ -181,8 +181,10 @@ A special menu item that triggers a flyout submenu when hovered. Uses the Cocoar
 ```html
 <coar-submenu-item icon="users" label="Share">
   <ng-template>
-    <coar-menu-item icon="chat" (itemClick)="shareEmail()">Email</coar-menu-item>
-    <coar-menu-item icon="copy" (itemClick)="shareCopyLink()">Copy Link</coar-menu-item>
+    <coar-menu>
+      <coar-menu-item icon="chat" (itemClick)="shareEmail()">Email</coar-menu-item>
+      <coar-menu-item icon="copy" (itemClick)="shareCopyLink()">Copy Link</coar-menu-item>
+    </coar-menu>
   </ng-template>
 </coar-submenu-item>
 
@@ -190,8 +192,10 @@ A special menu item that triggers a flyout submenu when hovered. Uses the Cocoar
 <coar-submenu-item icon="users" label="Share" [submenuTemplate]="shareMenu" />
 
 <ng-template #shareMenu>
-  <coar-menu-item icon="chat">Email</coar-menu-item>
-  <coar-menu-item icon="copy">Copy Link</coar-menu-item>
+  <coar-menu>
+    <coar-menu-item icon="chat">Email</coar-menu-item>
+    <coar-menu-item icon="copy">Copy Link</coar-menu-item>
+  </coar-menu>
 </ng-template>
 ```
 
@@ -243,9 +247,11 @@ None.
 ```html
 <coar-submenu-item icon="settings" label="Settings">
   <ng-template>
-    <coar-menu-item>Preferences</coar-menu-item>
-    <coar-menu-item>Keyboard Shortcuts</coar-menu-item>
-    <coar-menu-item>Extensions</coar-menu-item>
+    <coar-menu>
+      <coar-menu-item>Preferences</coar-menu-item>
+      <coar-menu-item>Keyboard Shortcuts</coar-menu-item>
+      <coar-menu-item>Extensions</coar-menu-item>
+    </coar-menu>
   </ng-template>
 </coar-submenu-item>
 ```

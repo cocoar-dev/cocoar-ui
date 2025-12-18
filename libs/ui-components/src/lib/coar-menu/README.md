@@ -65,15 +65,19 @@ Visual separator.
 <coar-menu>
   <coar-submenu-item label="Share" icon="users">
     <ng-template>
-      <coar-menu-item (itemClick)="shareEmail()">Email</coar-menu-item>
-      <coar-menu-item (itemClick)="shareCopyLink()">Copy link</coar-menu-item>
+      <coar-menu>
+        <coar-menu-item (itemClick)="shareEmail()">Email</coar-menu-item>
+        <coar-menu-item (itemClick)="shareCopyLink()">Copy link</coar-menu-item>
 
-      <coar-submenu-item label="Social" icon="share">
-        <ng-template>
-          <coar-menu-item>Twitter</coar-menu-item>
-          <coar-menu-item>LinkedIn</coar-menu-item>
-        </ng-template>
-      </coar-submenu-item>
+        <coar-submenu-item label="Social" icon="share">
+          <ng-template>
+            <coar-menu>
+              <coar-menu-item>Twitter</coar-menu-item>
+              <coar-menu-item>LinkedIn</coar-menu-item>
+            </coar-menu>
+          </ng-template>
+        </coar-submenu-item>
+      </coar-menu>
     </ng-template>
   </coar-submenu-item>
 </coar-menu>
@@ -87,8 +91,10 @@ Visual separator.
 </coar-menu>
 
 <ng-template #shareMenu>
-  <coar-menu-item>Email</coar-menu-item>
-  <coar-menu-item>Copy link</coar-menu-item>
+  <coar-menu>
+    <coar-menu-item>Email</coar-menu-item>
+    <coar-menu-item>Copy link</coar-menu-item>
+  </coar-menu>
 </ng-template>
 ```
 
