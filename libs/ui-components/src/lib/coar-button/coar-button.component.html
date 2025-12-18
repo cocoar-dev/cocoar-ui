@@ -17,6 +17,7 @@
   [disabled]="disabled() || loading()"
   [attr.aria-disabled]="disabled() || loading()"
   [attr.aria-busy]="loading()"
+  [attr.aria-label]="ariaLabel() || null"
   (click)="onClick($event)"
 >
   <!-- Loading Spinner: Centered overlay when no icons, inline replacement when icons exist -->

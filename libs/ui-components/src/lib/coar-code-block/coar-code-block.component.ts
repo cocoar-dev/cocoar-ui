@@ -1,9 +1,12 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Injector,
+  afterNextRender,
   computed,
   input,
   signal,
+  inject,
   booleanAttribute,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -27,6 +30,7 @@ import 'prismjs/components/prism-markup';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CoarCodeBlockComponent {
+  private readonly injector = inject(Injector);
   /** The code to display */
   code = input.required<string>();
 
@@ -75,9 +79,14 @@ export class CoarCodeBlockComponent {
   protected highlightedLines = computed(() => this.highlightedCode().split('\n'));
 
   constructor() {
-    setTimeout(() => {
-      this.isCollapsed.set(this.collapsed());
-    });
+    // Signal inputs can be bound after construction; apply the initial collapsed state once
+    // the component has been rendered.
+    afterNextRender(
+      () => {
+        this.isCollapsed.set(this.collapsed());
+      },
+      { injector: this.injector }
+    );
   }
 
   /** Map common language aliases to Prism language names */

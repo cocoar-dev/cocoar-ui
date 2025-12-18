@@ -196,30 +196,33 @@ export class MenuPage {
 
     siblings: `<coar-menu>
   <coar-menu-item icon="file" (itemClick)="handleMenuItemClick('file')">File</coar-menu-item>
-  <coar-submenu-item label="Export" icon="download" [submenuTemplate]="exportMenu" />
-  <coar-submenu-item label="Share" icon="users" [submenuTemplate]="shareMenu" />
-  <coar-submenu-item label="Settings" icon="settings" [submenuTemplate]="settingsMenu" />
+  <coar-submenu-item label="Export" icon="download">
+    <ng-template>
+      <coar-menu-item icon="file" (itemClick)="handleAction('exportPdf')">Export as PDF</coar-menu-item>
+      <coar-menu-item icon="file" (itemClick)="handleAction('exportWord')">Export as Word</coar-menu-item>
+      <coar-menu-item icon="file" (itemClick)="handleAction('exportExcel')">Export as Excel</coar-menu-item>
+    </ng-template>
+  </coar-submenu-item>
+
+  <coar-submenu-item label="Share" icon="users">
+    <ng-template>
+      <coar-menu-item icon="chat" (itemClick)="handleAction('shareEmail')">Share via Email</coar-menu-item>
+      <coar-menu-item icon="link" (itemClick)="handleAction('shareLink')">Copy Link</coar-menu-item>
+      <coar-menu-item icon="slack" (itemClick)="handleAction('shareSlack')">Share to Slack</coar-menu-item>
+    </ng-template>
+  </coar-submenu-item>
+
+  <coar-submenu-item label="Settings" icon="settings">
+    <ng-template>
+      <coar-menu-item icon="palette" (itemClick)="handleAction('theme')">Change Theme</coar-menu-item>
+      <coar-menu-item icon="globe" (itemClick)="handleAction('language')">Language</coar-menu-item>
+      <coar-menu-item icon="bell" (itemClick)="handleAction('notifications')">Notifications</coar-menu-item>
+    </ng-template>
+  </coar-submenu-item>
   <coar-menu-divider></coar-menu-divider>
   <coar-menu-item icon="question" (itemClick)="handleMenuItemClick('help')">Help</coar-menu-item>
 </coar-menu>
-
-<ng-template #exportMenu>
-  <coar-menu-item icon="file" (itemClick)="handleAction('exportPdf')">Export as PDF</coar-menu-item>
-  <coar-menu-item icon="file" (itemClick)="handleAction('exportWord')">Export as Word</coar-menu-item>
-  <coar-menu-item icon="file" (itemClick)="handleAction('exportExcel')">Export as Excel</coar-menu-item>
-</ng-template>
-
-<ng-template #shareMenu>
-  <coar-menu-item icon="chat" (itemClick)="handleAction('shareEmail')">Share via Email</coar-menu-item>
-  <coar-menu-item icon="link" (itemClick)="handleAction('shareLink')">Copy Link</coar-menu-item>
-  <coar-menu-item icon="slack" (itemClick)="handleAction('shareSlack')">Share to Slack</coar-menu-item>
-</ng-template>
-
-<ng-template #settingsMenu>
-  <coar-menu-item icon="palette" (itemClick)="handleAction('theme')">Change Theme</coar-menu-item>
-  <coar-menu-item icon="globe" (itemClick)="handleAction('language')">Language</coar-menu-item>
-  <coar-menu-item icon="bell" (itemClick)="handleAction('notifications')">Notifications</coar-menu-item>
-</ng-template>`,
+`,
 
     contextMenu: `onContextMenu(event: MouseEvent): void {
   event.preventDefault();
@@ -233,7 +236,7 @@ export class MenuPage {
   this.contextMenuRef = this.overlayService.open(spec, undefined);
 }
 
-// In the template, use <coar-submenu-item> with [submenuTemplate] to define flyouts.
+// In the template, use <coar-submenu-item> with an inline <ng-template> (or [submenuTemplate]) to define flyouts.
 // Hover dismissal and multi-level behavior are handled by the overlay system (hoverTree).`,
   };
 }

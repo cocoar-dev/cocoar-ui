@@ -33,16 +33,21 @@ Use standalone for inline menus, or as content in `CoarOverlayService` for conte
 
 ```html
 <coar-menu>
-  <coar-menu-item icon="plus" label="Create" />
-  <coar-menu-item icon="copy" label="Duplicate" />
+  <coar-menu-item icon="plus">Create</coar-menu-item>
+  <coar-menu-item icon="copy">Duplicate</coar-menu-item>
   <coar-menu-divider />
-  <coar-menu-item icon="trash" label="Delete" />
+  <coar-menu-item icon="trash">Delete</coar-menu-item>
 </coar-menu>
 ```
 
 ### Inputs
 
-None.
+| Name | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| `aimEnabled` | `boolean \| undefined` | No | `true` | Enable/disable menu-aim (delayed switching between sibling submenus) |
+| `aimDebugEnabled` | `boolean \| undefined` | No | `false` | Emits debug events used by the showcase aim overlay |
+| `aimSwitchDelayMs` | `number \| undefined` | No | `500` | Delay before switching to a newly hovered sibling submenu when aim is detected |
+| `aimSampleMaxAgeMs` | `number \| undefined` | No | `200` | Max age of pointer samples used for aim detection |
 
 ### Outputs
 
@@ -85,10 +90,9 @@ Represents a single actionable menu item. Supports icons, disabled state, and cl
 ```html
 <coar-menu-item
   icon="copy"
-  label="Copy Item"
   [disabled]="false"
   (itemClick)="onCopy()"
-/>
+>Copy Item</coar-menu-item>
 ```
 
 ### Inputs
@@ -175,11 +179,19 @@ A special menu item that triggers a flyout submenu when hovered. Uses the Cocoar
 ### Usage
 
 ```html
+<coar-submenu-item icon="users" label="Share">
+  <ng-template>
+    <coar-menu-item icon="chat" (itemClick)="shareEmail()">Email</coar-menu-item>
+    <coar-menu-item icon="copy" (itemClick)="shareCopyLink()">Copy Link</coar-menu-item>
+  </ng-template>
+</coar-submenu-item>
+
+<!-- Also supported (external template): -->
 <coar-submenu-item icon="users" label="Share" [submenuTemplate]="shareMenu" />
 
 <ng-template #shareMenu>
-  <coar-menu-item icon="chat" label="Email" (itemClick)="shareEmail()" />
-  <coar-menu-item icon="copy" label="Copy Link" (itemClick)="shareCopyLink()" />
+  <coar-menu-item icon="chat">Email</coar-menu-item>
+  <coar-menu-item icon="copy">Copy Link</coar-menu-item>
 </ng-template>
 ```
 
@@ -187,10 +199,10 @@ A special menu item that triggers a flyout submenu when hovered. Uses the Cocoar
 
 | Name | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
-| `label` | `string` | No | `''` | Submenu trigger text |
+| `label` | `string` | Yes | — | Submenu trigger text |
 | `icon` | `CoreIconName \| undefined` | No | `undefined` | Optional icon identifier |
 | `disabled` | `boolean` | No | `false` | Disabled state prevents interaction |
-| `submenuTemplate` | `TemplateRef<unknown>` | Yes | — | Template containing submenu content |
+| `submenuTemplate` | `TemplateRef<unknown> \| null` | No | `null` | External template containing submenu content (used when no inline `<ng-template>` is provided) |
 
 ### Outputs
 
@@ -210,8 +222,8 @@ None.
 ### Behavior
 
 #### Hover Delay
-- **Open delay:** None (opens immediately on hover)
-- **Close delay:** 1000ms (prevents accidental closes when moving mouse to submenu)
+- Opens immediately on hover
+- Uses hoverTree dismissal from the overlay preset (default delay 300ms)
 
 #### Keyboard Navigation
 - `→` — Open submenu
@@ -221,56 +233,50 @@ None.
 #### Mouse Interaction
 - Hover over item opens submenu
 - Moving mouse to submenu keeps it open
-- Moving mouse away closes after 1000ms
-- Hovering over parent again cancels the scheduled close
+- Leaving the submenu “hover tree” closes after the hoverTree delay (default 300ms)
+- Re-entering the hover tree cancels the scheduled close
 
 ### Examples
 
 #### Basic Submenu
 
 ```html
-<coar-submenu-item icon="settings" label="Settings" [submenuTemplate]="settingsMenu" />
-
-<ng-template #settingsMenu>
-  <coar-menu-item label="Preferences" />
-  <coar-menu-item label="Keyboard Shortcuts" />
-  <coar-menu-item label="Extensions" />
-</ng-template>
+<coar-submenu-item icon="settings" label="Settings">
+  <ng-template>
+    <coar-menu-item>Preferences</coar-menu-item>
+    <coar-menu-item>Keyboard Shortcuts</coar-menu-item>
+    <coar-menu-item>Extensions</coar-menu-item>
+  </ng-template>
+</coar-submenu-item>
 ```
 
 #### Nested Submenu
 
 ```html
-<coar-submenu-item icon="load" label="Export" [submenuTemplate]="exportMenu" />
+<coar-submenu-item icon="load" label="Export">
+  <ng-template>
+    <coar-menu-item>PDF</coar-menu-item>
+    <coar-menu-item>CSV</coar-menu-item>
 
-<ng-template #exportMenu>
-  <coar-menu-item label="PDF" />
-  <coar-menu-item label="CSV" />
-
-  <coar-submenu-item label="Advanced" [submenuTemplate]="advancedMenu" />
-
-  <ng-template #advancedMenu>
-    <coar-menu-item label="JSON" />
-    <coar-menu-item label="XML" />
-    <coar-menu-item label="YAML" />
+    <coar-submenu-item label="Advanced">
+      <ng-template>
+        <coar-menu-item>JSON</coar-menu-item>
+        <coar-menu-item>XML</coar-menu-item>
+        <coar-menu-item>YAML</coar-menu-item>
+      </ng-template>
+    </coar-submenu-item>
   </ng-template>
-</ng-template>
+</coar-submenu-item>
 ```
 
 #### Disabled Submenu
 
 ```html
-<coar-submenu-item
-  icon="users"
-  label="Share"
-  [disabled]="!canShare"
-  [submenuTemplate]="shareMenu"
->
-</coar-submenu-item>
+<coar-submenu-item icon="users" label="Share" [disabled]="!canShare" [submenuTemplate]="shareMenu" />
 
 <ng-template #shareMenu>
-  <coar-menu-item label="Email" />
-  <coar-menu-item label="Copy Link" />
+  <coar-menu-item>Email</coar-menu-item>
+  <coar-menu-item>Copy Link</coar-menu-item>
 </ng-template>
 ```
 
@@ -289,8 +295,8 @@ All styles use design tokens:
 - `role="menuitem"` with `aria-haspopup="menu"`
 - `aria-expanded` reflects submenu state
 - `aria-disabled="true"` when disabled
-- Keyboard navigation with arrow keys
-- Focus management for nested items
+- Focusable via `tabindex` (disabled items are not focusable)
+- `Enter`/`Space` toggles the submenu when focused
 
 ### Integration with Overlay System
 
@@ -300,16 +306,8 @@ The submenu uses `CoarOverlayService` with `coarHoverMenuPreset`:
 // Internal implementation (reference only)
 const spec = Overlay.define<void>((b) => {
   b.content((c) => c.fromTemplate(submenuTemplate));
-  b.anchor({
-    kind: 'element',
-    element: triggerElement,
-    attachment: 'end-start'
-  });
-  b.position({
-    placement: 'right-start',
-    offset: 4,
-    flip: true
-  });
+  b.anchor({ kind: 'element', element: triggerElement });
+  b.position({ placement: ['right-start', 'left-start'], offset: -4, flip: true, shift: true });
 }, coarHoverMenuPreset);
 ```
 

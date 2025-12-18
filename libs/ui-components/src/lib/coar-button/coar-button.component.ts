@@ -50,6 +50,9 @@ export class CoarButtonComponent {
   /** Whether the button should take full width */
   fullWidth = input<boolean, unknown>(false, { transform: booleanAttribute });
 
+  /** Optional aria-label applied to the underlying <button> element */
+  ariaLabel = input<string>('');
+
   /** Emitted when the button is clicked (not emitted when disabled or loading) */
   clicked = output<MouseEvent>();
 

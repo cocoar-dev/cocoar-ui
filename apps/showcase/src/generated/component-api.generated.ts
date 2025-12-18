@@ -52,14 +52,14 @@ export const BadgeApi: ComponentApi = {
     },
     {
       "name": "pulse",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Whether the badge should pulse/animate (for notifications)",
       "required": false
     },
     {
       "name": "dot",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Whether to show as a dot without content",
       "required": false
@@ -73,7 +73,7 @@ export const BadgeApi: ComponentApi = {
     },
     {
       "name": "bordered",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Whether to show a border around the badge",
       "required": false
@@ -102,14 +102,14 @@ export const ButtonApi: ComponentApi = {
     },
     {
       "name": "disabled",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Whether the button is disabled",
       "required": false
     },
     {
       "name": "loading",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Whether the button is in loading state",
       "required": false
@@ -137,9 +137,16 @@ export const ButtonApi: ComponentApi = {
     },
     {
       "name": "fullWidth",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Whether the button should take full width",
+      "required": false
+    },
+    {
+      "name": "ariaLabel",
+      "type": "string",
+      "default": "''",
+      "description": "Optional aria-label applied to the underlying <button> element",
       "required": false
     }
   ],
@@ -158,14 +165,14 @@ export const CardApi: ComponentApi = {
   "inputs": [
     {
       "name": "elevated",
-      "type": "unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Adds a box-shadow for elevation/depth.\nUse as boolean attribute: `<coar-card elevated>` or `[elevated]=\"true\"`",
       "required": false
     },
     {
       "name": "borderless",
-      "type": "unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Removes the border from the card, leaving only background color.\nBy default (false), cards have a visible border matching their color.\nUse as boolean attribute: `<coar-card borderless>` or `[borderless]=\"true\"`",
       "required": false
@@ -201,21 +208,21 @@ export const CheckboxApi: ComponentApi = {
     },
     {
       "name": "disabled",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Disables the checkbox (greyed out, not focusable)",
       "required": false
     },
     {
       "name": "readonly",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Prevents changes but keeps normal appearance and focus",
       "required": false
     },
     {
       "name": "required",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Marks as required, shows asterisk on label",
       "required": false
@@ -277,6 +284,13 @@ export const CodeBlockApi: ComponentApi = {
   "selector": "coar-code-block",
   "inputs": [
     {
+      "name": "code",
+      "type": "string",
+      "default": "required",
+      "description": "The code to display",
+      "required": true
+    },
+    {
       "name": "language",
       "type": "string",
       "default": "'html'",
@@ -292,28 +306,28 @@ export const CodeBlockApi: ComponentApi = {
     },
     {
       "name": "collapsible",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "true",
       "description": "Whether the code block can be collapsed",
       "required": false
     },
     {
       "name": "collapsed",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Whether the code block starts collapsed",
       "required": false
     },
     {
       "name": "showCopy",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "true",
       "description": "Whether to show the copy button",
       "required": false
     },
     {
       "name": "showLineNumbers",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Whether to show line numbers",
       "required": false
@@ -356,28 +370,28 @@ export const DatePickerApi: ComponentApi = {
     },
     {
       "name": "readonly",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Whether the picker is readonly",
       "required": false
     },
     {
       "name": "disabled",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Whether the picker is disabled",
       "required": false
     },
     {
       "name": "required",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Whether the field is required",
       "required": false
     },
     {
       "name": "error",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Error state",
       "required": false
@@ -419,21 +433,21 @@ export const DatePickerApi: ComponentApi = {
     },
     {
       "name": "showTodayButton",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "true",
       "description": "Whether to show a \"Today\" button",
       "required": false
     },
     {
       "name": "showWeekNumbers",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Whether to show week numbers",
       "required": false
     },
     {
       "name": "highlightWeekends",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Whether to highlight weekend days (Saturday/Sunday) with a subtle background",
       "required": false
@@ -542,7 +556,7 @@ export const IconApi: ComponentApi = {
     },
     {
       "name": "spin",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Enable continuous spinning animation.",
       "required": false
@@ -578,7 +592,7 @@ export const LabelApi: ComponentApi = {
     },
     {
       "name": "required",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Whether to show a required indicator (*) after the label text.",
       "required": false
@@ -639,6 +653,13 @@ export const SubmenuItemApi: ComponentApi = {
   "selector": "coar-submenu-item",
   "inputs": [
     {
+      "name": "label",
+      "type": "string",
+      "default": "required",
+      "description": "Label text for the menu item",
+      "required": true
+    },
+    {
       "name": "icon",
       "type": "CoreIconName | undefined",
       "default": "undefined",
@@ -650,6 +671,13 @@ export const SubmenuItemApi: ComponentApi = {
       "type": "boolean",
       "default": "false",
       "description": "Disabled state prevents interaction",
+      "required": false
+    },
+    {
+      "name": "submenuTemplate",
+      "type": "TemplateRef<unknown> | null",
+      "default": "null",
+      "description": "Optional external submenu template.\n\nPrefer an inline `<ng-template>` child when possible.",
       "required": false
     }
   ],
@@ -733,21 +761,21 @@ export const NumberInputApi: ComponentApi = {
     },
     {
       "name": "disabled",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Disables the input (greyed out, not focusable)",
       "required": false
     },
     {
       "name": "readonly",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Makes the input read-only (focusable but not editable)",
       "required": false
     },
     {
       "name": "required",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Marks the input as required, shows asterisk on label",
       "required": false
@@ -768,7 +796,7 @@ export const NumberInputApi: ComponentApi = {
     },
     {
       "name": "clearable",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "true",
       "description": "Show clear button when input has value and is focused/hovered",
       "required": false
@@ -874,21 +902,21 @@ export const PasswordInputApi: ComponentApi = {
     },
     {
       "name": "disabled",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Disables the input (greyed out, not focusable)",
       "required": false
     },
     {
       "name": "readonly",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Makes the input read-only (focusable but not editable)",
       "required": false
     },
     {
       "name": "required",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Marks the input as required, shows asterisk on label",
       "required": false
@@ -909,7 +937,7 @@ export const PasswordInputApi: ComponentApi = {
     },
     {
       "name": "clearable",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "true",
       "description": "Show clear button when input has value and is focused/hovered",
       "required": false
@@ -973,42 +1001,42 @@ export const PopoverApi: ComponentApi = {
   "inputs": [
     {
       "name": "disabled",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Disable popover behavior (still renders trigger content).",
       "required": false
     },
     {
       "name": "openOnHover",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Enable hover/focus behavior (desktop-friendly). Default: false",
       "required": false
     },
     {
       "name": "openOnClick",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Enable click/tap behavior (touch-friendly). Default: false",
       "required": false
     },
     {
       "name": "interactive",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "true",
       "description": "Whether the panel should receive pointer events. Default: true",
       "required": false
     },
     {
       "name": "fallbackToBestFit",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "When a concrete placement is set, fall back to best-fit when it doesn't fit. Default: false",
       "required": false
     },
     {
       "name": "clampToViewport",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "true",
       "description": "Whether the panel should be clamped into the viewport. Default: true",
       "required": false
@@ -1023,7 +1051,7 @@ export const MultiSelectApi: ComponentApi = {
   "inputs": [
     {
       "name": "clearable",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "true",
       "description": "Whether to show a clear button when values are selected",
       "required": false
@@ -1037,7 +1065,7 @@ export const MultiSelectApi: ComponentApi = {
     },
     {
       "name": "showSelectAll",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Whether to show \"Select All\" option",
       "required": false
@@ -1058,7 +1086,7 @@ export const SingleSelectApi: ComponentApi = {
   "inputs": [
     {
       "name": "clearable",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "true",
       "description": "Whether to show a clear button when a value is selected",
       "required": false
@@ -1079,7 +1107,7 @@ export const TagSelectApi: ComponentApi = {
   "inputs": [
     {
       "name": "allowCreate",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Allow creating new tags that don't exist in options",
       "required": false
@@ -1126,14 +1154,14 @@ export const TableApi: ComponentApi = {
     },
     {
       "name": "compact",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Whether to use compact padding",
       "required": false
     },
     {
       "name": "hover",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "true",
       "description": "Whether rows should highlight on hover",
       "required": false
@@ -1168,16 +1196,30 @@ export const TabApi: ComponentApi = {
   "selector": "coar-tab",
   "inputs": [
     {
+      "name": "id",
+      "type": "string",
+      "default": "required",
+      "description": "Unique identifier for the tab",
+      "required": true
+    },
+    {
       "name": "disabled",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Whether the tab is disabled",
       "required": false
     },
     {
+      "name": "content",
+      "type": "TemplateRef<unknown> | Type<unknown>",
+      "default": "required",
+      "description": "The content to display in the tab panel.\nCan be either a TemplateRef (from ng-template) or a Component class.",
+      "required": true
+    },
+    {
       "name": "contentInputs",
-      "type": "Record<string, unknown",
-      "default": "''",
+      "type": "Record<string, unknown>",
+      "default": "{}",
       "description": "Inputs to pass when content is a Component.\nIgnored when content is a TemplateRef.",
       "required": false
     },
@@ -1198,14 +1240,14 @@ export const TagApi: ComponentApi = {
   "inputs": [
     {
       "name": "elevated",
-      "type": "unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Adds a box-shadow for elevation/depth.\nUse as boolean attribute: `<coar-tag elevated>` or `[elevated]=\"true\"`",
       "required": false
     },
     {
       "name": "borderless",
-      "type": "unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Removes the border from the tag, leaving only background color.\nBy default (false), tags have a visible border matching their color.\nUse as boolean attribute: `<coar-tag borderless>` or `[borderless]=\"true\"`",
       "required": false
@@ -1226,7 +1268,7 @@ export const TagApi: ComponentApi = {
     },
     {
       "name": "closable",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Whether the tag can be closed/removed",
       "required": false
@@ -1275,21 +1317,21 @@ export const TextInputApi: ComponentApi = {
     },
     {
       "name": "disabled",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Disables the input (greyed out, not focusable)",
       "required": false
     },
     {
       "name": "readonly",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Makes the input read-only (focusable but not editable)",
       "required": false
     },
     {
       "name": "required",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "false",
       "description": "Marks the input as required, shows asterisk on label",
       "required": false
@@ -1310,7 +1352,7 @@ export const TextInputApi: ComponentApi = {
     },
     {
       "name": "clearable",
-      "type": "boolean, unknown",
+      "type": "boolean",
       "default": "true",
       "description": "Show clear button when input has value and is focused/hovered",
       "required": false

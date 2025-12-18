@@ -246,26 +246,21 @@ export class OverlayPage {
     });
 
     this.nestedTestParentOverlay = this.overlayService.open(spec, {});
-    console.log('[NestedTest] Opened parent overlay');
   }
 
   openChildA(button: HTMLElement): void {
-    this.openChildOverlay(button, this.nestedTestChildARef(), 'Child A');
+    this.openChildOverlay(button, this.nestedTestChildARef());
   }
 
   openChildB(button: HTMLElement): void {
-    this.openChildOverlay(button, this.nestedTestChildBRef(), 'Child B');
+    this.openChildOverlay(button, this.nestedTestChildBRef());
   }
 
   openChildC(button: HTMLElement): void {
-    this.openChildOverlay(button, this.nestedTestChildCRef(), 'Child C');
+    this.openChildOverlay(button, this.nestedTestChildCRef());
   }
 
-  private openChildOverlay(
-    button: HTMLElement,
-    template: TemplateRef<object> | undefined,
-    name: string
-  ): void {
+  private openChildOverlay(button: HTMLElement, template: TemplateRef<object> | undefined): void {
     if (!template || !this.nestedTestParentOverlay) return;
 
     const spec = Overlay.define<object>((b) => {
@@ -273,8 +268,6 @@ export class OverlayPage {
       b.anchor({ kind: 'element', element: button });
       b.position({ placement: 'right-start', offset: 8 });
     });
-
-    console.log(`[NestedTest] Opening ${name}, closing siblings first`);
 
     // Create the new child
     const newChild = this.overlayService.openChild(this.nestedTestParentOverlay, spec, {});
@@ -310,8 +303,6 @@ export class OverlayPage {
       b.anchor({ kind: 'element', element: button });
       b.position({ placement: 'right-start', offset: 8 });
     });
-
-    console.log(`[NestedTest] Opening ${name}, closing siblings first`);
 
     // Create the new grandchild
     const newGrandchild = this.overlayService.openChild(this.nestedTestChildOverlay, spec, {

@@ -1,315 +1,150 @@
-# Coar Menu Components
+# Coar Menu
 
-A complete set of menu components for creating context menus, dropdown menus, and navigation menus in your Angular application.
+Menu building blocks from `@cocoar/ui-components`.
 
-✅ **Full keyboard navigation** • ✅ **Accessible (ARIA)** • ✅ **Design token styling** • ✅ **Size variants**
+Use them inline, or inside `@cocoar/ui-overlay` for context menus and nested flyout submenus.
 
 ## Components
 
-### CoarMenuComponent
-Main container for menu items.
+### `CoarMenuComponent` (`coar-menu`)
+
+Container for menu items. Also hosts “menu-aim” configuration inputs (delayed switching between sibling submenus).
+
+**Inputs (menu-aim):**
+- `aimEnabled?: boolean` (default `true`)
+- `aimDebugEnabled?: boolean` (default `false`, for showcase/debugging)
+- `aimSwitchDelayMs?: number` (default `500`)
+- `aimSampleMaxAgeMs?: number` (default `200`)
+
+### `CoarMenuItemComponent` (`coar-menu-item`)
+
+Action item.
 
 **Inputs:**
-- `mode: 'vertical' | 'horizontal' | 'inline'` - Menu display mode (default: 'vertical')
-- `theme: 'light' | 'dark'` - Menu theme (default: 'light')
-- `size: 'xs' | 'sm' | 'md' | 'lg'` - Menu size variant (default: 'md')
-- `ariaLabel: string` - Accessible label for the menu (default: 'Menu')
-
-**Keyboard Navigation:**
-- `↓` / `↑` - Navigate menu items (wraps around, skips disabled)
-- `Enter` / `Space` - Activate focused item
-- `Home` / `End` - Jump to first/last item
-- `→` / `←` - Expand/collapse submenus
-
-**Accessibility:**
-- Full ARIA support (`role="menu"`, `aria-orientation`, `aria-label`)
-- Roving tabindex for keyboard navigation
-- Focus management for disabled items
-- Screen reader announcements
-
-### CoarMenuItemComponent
-Individual menu item.
-
-**Inputs:**
-- `icon?: CoreIconName` - Icon to display before the title
-- `title: string` - Menu item text
-- `disabled: boolean` - Whether the item is disabled (default: false)
-- `selected: boolean` - Whether the item is selected/active (default: false)
+- `icon?: CoreIconName`
+- `label?: string` (optional; you can also project the text as content)
+- `disabled?: boolean` (default `false`)
 
 **Outputs:**
-- `clicked: EventEmitter<MouseEvent>` - Emitted when the menu item is clicked (not fired when disabled)
+- `itemClick: void`
 
-**Methods:**
-- `focus(): void` - Focus this item (used by keyboard navigation)
-- `activate(): void` - Programmatically activate this item
+### `CoarSubmenuItemComponent` (`coar-submenu-item`)
 
-**Accessibility:**
-- `role="menuitem"`, `tabindex="-1"` (managed by parent)
-- `aria-disabled`, `aria-selected` attributes
-- Focus-visible styles for keyboard users
-
-### CoarMenuSubmenuComponent
-Expandable submenu with nested items.
+Menu item that opens a flyout submenu.
 
 **Inputs:**
-- `icon?: CoreIconName` - Icon to display before the title
-- `title: string` - Submenu title (required)
-- `defaultOpen: boolean` - Whether the submenu is initially open (default: false)
-- `disabled: boolean` - Whether the submenu is disabled (default: false)
+- `label: string` (required)
+- `icon?: CoreIconName`
+- `disabled?: boolean` (default `false`)
+- `submenuTemplate?: TemplateRef<unknown> | null` (optional fallback)
 
-**Methods:**
-- `open(): void` - Open the submenu programmatically
-- `close(): void` - Close the submenu programmatically
-- `toggleOpen(): void` - Toggle open/closed state
+Submenu content can be authored either:
+- Inline via a direct child `<ng-template>` (recommended), or
+- As an external `<ng-template #ref>` passed into `[submenuTemplate]`.
 
-**Keyboard Navigation:**
-- `→` - Expand submenu
-- `←` - Collapse submenu
-- `Enter` / `Space` - Toggle submenu
+### `CoarMenuDividerComponent` (`coar-menu-divider`)
 
-**Accessibility:**
-- `role="button"`, `aria-expanded`, `aria-haspopup="true"`
-- Focus management for disabled state
-- Proper nesting with child `role="menu"`
-
-### CoarMenuDividerComponent
-Visual separator between menu items.
+Visual separator.
 
 ## Usage
 
 ### Basic Menu
 
-```typescript
-import {
-  CoarMenuComponent,
-  CoarMenuItemComponent,
-  CoarMenuDividerComponent
-} from '@cocoar/ui-components';
-
-@Component({
-  imports: [CoarMenuComponent, CoarMenuItemComponent, CoarMenuDividerComponent],
-  template: `
-    <coar-menu mode="vertical" size="md" ariaLabel="Actions menu">
-      <coar-menu-item
-        icon="add"
-        title="Create New"
-        (clicked)="onCreate()"
-      />
-      <coar-menu-item
-        icon="copy"
-        title="Duplicate"
-        (clicked)="onDuplicate()"
-      />
-      <coar-menu-divider />
-      <coar-menu-item
-        icon="bin"
-        title="Delete"
-        (clicked)="onDelete()"
-      />
-    </coar-menu>
-  `
-})
+```html
+<coar-menu>
+  <coar-menu-item icon="plus" (itemClick)="onCreate()">Create</coar-menu-item>
+  <coar-menu-item icon="copy" (itemClick)="onDuplicate()">Duplicate</coar-menu-item>
+  <coar-menu-divider />
+  <coar-menu-item icon="trash" (itemClick)="onDelete()">Delete</coar-menu-item>
+</coar-menu>
 ```
 
-### Menu with Submenu
+### Flyout Submenu (inline `<ng-template>`)
 
-```typescript
-import {
-  CoarMenuComponent,
-  CoarMenuItemComponent,
-  CoarMenuSubmenuComponent,
-  CoarMenuDividerComponent
-} from '@cocoar/ui-components';
+```html
+<coar-menu>
+  <coar-submenu-item label="Share" icon="users">
+    <ng-template>
+      <coar-menu-item (itemClick)="shareEmail()">Email</coar-menu-item>
+      <coar-menu-item (itemClick)="shareCopyLink()">Copy link</coar-menu-item>
 
-@Component({
-  imports: [
-    CoarMenuComponent,
-    CoarMenuItemComponent,
-    CoarMenuSubmenuComponent,
-    CoarMenuDividerComponent
-  ],
-  template: `
-    <coar-menu mode="vertical" size="md">
-      <coar-menu-item title="Open" (clicked)="onOpen()" />
-
-      <coar-menu-submenu title="Status" icon="settings" [defaultOpen]="false">
-        <coar-menu-item title="New" (clicked)="setStatus('new')" />
-        <coar-menu-item title="In Progress" (clicked)="setStatus('inProgress')" />
-        <coar-menu-item title="Done" (clicked)="setStatus('done')" />
-      </coar-menu-submenu>
-
-      <coar-menu-divider />
-
-      <coar-menu-item
-        title="Delete"
-        icon="bin"
-        (clicked)="onDelete()"
-      />
-    </coar-menu>
-  `
-})
+      <coar-submenu-item label="Social" icon="share">
+        <ng-template>
+          <coar-menu-item>Twitter</coar-menu-item>
+          <coar-menu-item>LinkedIn</coar-menu-item>
+        </ng-template>
+      </coar-submenu-item>
+    </ng-template>
+  </coar-submenu-item>
+</coar-menu>
 ```
 
-### Size Variants
+### Flyout Submenu (external template)
 
-```typescript
-@Component({
-  template: `
-    <!-- Extra small menu -->
-    <coar-menu size="xs">
-      <coar-menu-item title="Small item" />
-    </coar-menu>
+```html
+<coar-menu>
+  <coar-submenu-item label="Share" icon="users" [submenuTemplate]="shareMenu" />
+</coar-menu>
 
-    <!-- Small menu -->
-    <coar-menu size="sm">
-      <coar-menu-item title="Medium item" />
-    </coar-menu>
-
-    <!-- Medium (default) -->
-    <coar-menu size="md">
-      <coar-menu-item title="Default item" />
-    </coar-menu>
-
-    <!-- Large menu -->
-    <coar-menu size="lg">
-      <coar-menu-item title="Large item" />
-    </coar-menu>
-  `
-})
+<ng-template #shareMenu>
+  <coar-menu-item>Email</coar-menu-item>
+  <coar-menu-item>Copy link</coar-menu-item>
+</ng-template>
 ```
 
-### Dark Theme
+### Context Menu (with `@cocoar/ui-overlay`)
 
 ```typescript
-@Component({
-  template: `
-    <coar-menu theme="dark">
-      <coar-menu-item title="Dark theme item" />
-    </coar-menu>
-  `
-})
-```
-
-### Context Menu (with CoarOverlayService)
-
-For right-click context menus, combine with `@cocoar/ui-overlay`:
-
-```typescript
-import { CoarOverlayService, Overlay } from '@cocoar/ui-overlay';
-import { CoarMenuComponent, CoarMenuItemComponent } from '@cocoar/ui-components';
+import { Component, TemplateRef, ViewChild, inject } from '@angular/core';
+import { CoarOverlayService, Overlay, coarMenuPreset } from '@cocoar/ui-overlay';
 
 @Component({
   template: `
-    <div (contextmenu)="onContextMenu($event)">
-      Right-click me
-    </div>
+    <div (contextmenu)="onContextMenu($event)">Right-click me</div>
 
     <ng-template #contextMenuTemplate>
-      <coar-menu mode="vertical" size="sm" ariaLabel="Context menu">
-        <coar-menu-item icon="scissors" title="Cut" (clicked)="onCut()" />
-        <coar-menu-item icon="copy" title="Copy" (clicked)="onCopy()" />
-        <coar-menu-item icon="clipboard" title="Paste" (clicked)="onPaste()" />
+      <coar-menu>
+        <coar-menu-item icon="copy" (itemClick)="onCopy()">Copy</coar-menu-item>
+        <coar-menu-item icon="clipboard" (itemClick)="onPaste()">Paste</coar-menu-item>
+        <coar-menu-divider />
+        <coar-menu-item icon="trash" (itemClick)="onDelete()">Delete</coar-menu-item>
       </coar-menu>
     </ng-template>
-  `
+  `,
 })
 export class MyComponent {
-  overlayService = inject(CoarOverlayService);
-  contextMenuTemplate = viewChild<TemplateRef>('contextMenuTemplate');
+  private readonly overlayService = inject(CoarOverlayService);
 
-  onContextMenu(event: MouseEvent) {
+  @ViewChild('contextMenuTemplate') contextMenuTemplate!: TemplateRef<unknown>;
+
+  private contextMenuRef: ReturnType<typeof this.overlayService.open> | null = null;
+
+  onContextMenu(event: MouseEvent): void {
     event.preventDefault();
 
-    const template = this.contextMenuTemplate();
-    if (!template) return;
+    this.contextMenuRef?.close();
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromTemplate(template));
+    const spec = Overlay.define<void>((b) => {
+      b.content((c) => c.fromTemplate(this.contextMenuTemplate));
       b.anchor({ kind: 'point', x: event.clientX, y: event.clientY });
-      b.position({ placement: 'bottom-start' });
-      b.dismiss({ outsideClick: true, escapeKey: true });
-    });
+      b.position({ placement: 'bottom-start', offset: 4, flip: true, shift: true });
+    }, coarMenuPreset);
 
-    this.overlayService.open(spec, {});
+    this.contextMenuRef = this.overlayService.open(spec, undefined);
   }
 
-  onCut() { /* implementation */ }
-  onCopy() { /* implementation */ }
-  onPaste() { /* implementation */ }
+  onCopy(): void {
+    this.contextMenuRef?.close();
+  }
+  onPaste(): void {
+    this.contextMenuRef?.close();
+  }
+  onDelete(): void {
+    this.contextMenuRef?.close();
+  }
 }
 ```
 
-## Styling
+## More docs
 
-The menu components use CSS custom properties (design tokens) for theming:
-
-### Background & Text
-- `--coar-background-neutral-primary` - Menu background
-- `--coar-background-neutral-secondary` - Submenu background
-- `--coar-background-neutral-tertiary` - Hover state
-- `--coar-text-neutral-primary` - Default text color
-- `--coar-text-accent-primary` - Selected item text
-
-### Borders & Icons
-- `--coar-border-neutral-tertiary` - Divider and submenu borders
-- `--coar-icon-neutral-primary` - Default icon color
-- `--coar-icon-accent-primary` - Selected item icon
-
-### Spacing & Typography
-- `--coar-spacing-xs`, `-s`, `-m`, `-l` - Internal spacing
-- `--coar-body-base-family` - Font family
-- `--coar-body-small-base-size` - Default text size
-- `--coar-body-caption-size` - XS variant text size
-
-### Effects
-- `--coar-shadow-m` - Menu shadow
-- `--coar-radius-xs` - Border radius
-
-## Keyboard Navigation Reference
-
-| Key | Action |
-|-----|--------|
-| `↓` (ArrowDown) | Focus next item (wraps to first) |
-| `↑` (ArrowUp) | Focus previous item (wraps to last) |
-| `Enter` or `Space` | Activate focused item |
-| `Home` | Focus first item |
-| `End` | Focus last item |
-| `→` (ArrowRight) | Expand focused submenu |
-| `←` (ArrowLeft) | Collapse focused submenu |
-
-**Note:** Disabled items are automatically skipped during navigation.
-
-## Accessibility Features
-
-✅ **ARIA Roles:** `menu`, `menuitem`, `separator`, `button`
-✅ **ARIA Attributes:** `aria-disabled`, `aria-selected`, `aria-expanded`, `aria-haspopup`, `aria-label`, `aria-orientation`
-✅ **Keyboard Navigation:** Full arrow key + Enter/Space support
-✅ **Focus Management:** Roving tabindex, focus-visible styles
-✅ **Screen Readers:** Proper announcements for state changes
-✅ **Disabled States:** Items are skipped and announced as disabled
-
-## Migration from Basic Version
-
-If you're using the initial menu component, update:
-
-```diff
-- <coar-menu mode="vertical" theme="light">
-+ <coar-menu mode="vertical" theme="light" size="md" ariaLabel="Main menu">
-
-- <coar-menu-submenu title="Settings" [defaultOpen]="true">
-+ <coar-menu-submenu title="Settings" [defaultOpen]="false">
-  ^^^^ Bug fix: defaultOpen now works correctly
-```
-
-## Roadmap / Future Improvements
-
-- [x] ~~Keyboard navigation (Arrow keys, Home/End)~~
-- [x] ~~Full accessibility (ARIA roles, focus management)~~
-- [x] ~~Size variants (xs, sm, md, lg)~~
-- [x] ~~Design token alignment~~
-- [ ] Menu item checkboxes/radios
-- [ ] Icons on the right side
-- [ ] Horizontal submenu positioning
-- [ ] Menu groups/sections with headers
-- [ ] Animation/transition customization
-- [ ] Virtual scrolling for large menus
+- Component docs live under `docs/components/menu/*` in this repo.

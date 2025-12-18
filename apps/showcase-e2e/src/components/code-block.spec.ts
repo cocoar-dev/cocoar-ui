@@ -12,25 +12,33 @@ test.describe('Code Block Component', () => {
 
   test('code block displays code', async ({ page }) => {
     // Target the example that is explicitly configured as collapsible + collapsed by default.
-    const codeBlock = page.locator('coar-code-block:has(button.coar-code-toggle[aria-expanded="false"])').first();
+    // Selecting by title keeps this test resilient to timing/initialization differences.
+    const codeBlock = page
+      .locator('coar-code-block')
+      .filter({ has: page.locator('.coar-code-title', { hasText: 'Collapsed by default' }) })
+      .first();
     await expect(codeBlock).toBeVisible();
 
-    const toggle = codeBlock.locator('button.coar-code-toggle[aria-expanded="false"]').first();
+    const toggle = codeBlock.locator('button.coar-code-toggle').first();
     await expect(toggle).toBeVisible();
     await toggle.click();
 
-    const codeContent = codeBlock.locator('pre.coar-code-pre, code.coar-code');
-    await expect(codeContent.first()).toBeVisible();
+    const codeContent = codeBlock.locator('.coar-code-content');
+    await expect(codeContent).toBeVisible();
   });
 
   test('copy button is visible', async ({ page }) => {
-    const copyButton = page.locator('coar-code-block .coar-code-header-right button.coar-button').first();
+    const copyButton = page
+      .locator('coar-code-block .coar-code-header-right button.coar-button')
+      .first();
     await expect(copyButton).toBeVisible();
     await expect(copyButton).toBeEnabled();
   });
 
   test('copy button provides feedback when clicked', async ({ page }) => {
-    const copyButton = page.locator('coar-code-block .coar-code-header-right button.coar-button').first();
+    const copyButton = page
+      .locator('coar-code-block .coar-code-header-right button.coar-button')
+      .first();
     await expect(copyButton).toBeVisible();
 
     await copyButton.click();
@@ -41,9 +49,7 @@ test.describe('Code Block Component', () => {
   });
 
   test('collapse/expand toggle works', async ({ page }) => {
-    const toggleButton = page
-      .locator('coar-code-block .coar-code-toggle[aria-expanded]')
-      .first();
+    const toggleButton = page.locator('coar-code-block .coar-code-toggle[aria-expanded]').first();
     await expect(toggleButton).toBeVisible();
 
     // Click once to toggle state
@@ -59,7 +65,9 @@ test.describe('Code Block Component', () => {
 
   test('syntax highlighting is applied', async ({ page }) => {
     const highlightedCode = page
-      .locator('coar-code-block code.coar-code .token, coar-code-block code.coar-code span[class*="token"]')
+      .locator(
+        'coar-code-block code.coar-code .token, coar-code-block code.coar-code span[class*="token"]'
+      )
       .first();
 
     // If syntax highlighting is working, there should be token spans

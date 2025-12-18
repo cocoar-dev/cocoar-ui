@@ -8,11 +8,11 @@ The Cocoar Menu System provides a flexible set of components for building access
 
 ## Features
 
-- ✅ **Full keyboard navigation** — Arrow keys, Home/End, Enter/Space
+- ✅ **Keyboard-friendly** — Tab/Shift+Tab, Enter/Space
 - ✅ **Accessible** — Complete ARIA support, screen reader friendly
 - ✅ **Design token styling** — All styles via CSS variables
 - ✅ **Icon support** — Type-safe icons via `CoreIconName`
-- ✅ **Nested submenus** — Flyout submenus with hover delay
+- ✅ **Nested submenus** — Flyout submenus with optional “menu-aim” sibling switching
 - ✅ **Context menu support** — Works with overlay positioning system
 
 ---
@@ -26,7 +26,7 @@ Container for menu items. Provides the semantic menu structure and styling.
 Individual menu action item with optional icon, label, and click handler.
 
 ### CoarSubmenuItemComponent
-Menu item that opens a nested submenu on hover, with 300ms hover delay.
+Menu item that opens a nested submenu (flyout) on hover/click.
 
 ### CoarMenuDividerComponent
 Visual separator for grouping related menu items.
@@ -67,17 +67,17 @@ import {
   ],
   template: `
     <coar-menu>
-      <coar-menu-item icon="plus" label="Create New" (itemClick)="onCreate()" />
-      <coar-menu-item icon="copy" label="Duplicate" (itemClick)="onDuplicate()" />
+      <coar-menu-item icon="plus" (itemClick)="onCreate()">Create New</coar-menu-item>
+      <coar-menu-item icon="copy" (itemClick)="onDuplicate()">Duplicate</coar-menu-item>
       <coar-menu-divider />
-      <coar-menu-item icon="trash" label="Delete" (itemClick)="onDelete()" />
+      <coar-menu-item icon="trash" (itemClick)="onDelete()">Delete</coar-menu-item>
     </coar-menu>
   `
 })
 export class MyComponent {
-  onCreate() { console.log('Create'); }
-  onDuplicate() { console.log('Duplicate'); }
-  onDelete() { console.log('Delete'); }
+  onCreate() {}
+  onDuplicate() {}
+  onDelete() {}
 }
 ```
 
@@ -101,25 +101,25 @@ import {
   ],
   template: `
     <coar-menu>
-      <coar-menu-item icon="copy" label="Copy" (itemClick)="onCopy()" />
+      <coar-menu-item icon="copy" (itemClick)="onCopy()">Copy</coar-menu-item>
 
-      <coar-submenu-item icon="users" label="Share" [submenuTemplate]="shareMenu" />
-
-      <ng-template #shareMenu>
-        <coar-menu-item icon="chat" label="Email" (itemClick)="shareEmail()" />
-        <coar-menu-item icon="copy" label="Copy Link" (itemClick)="shareCopyLink()" />
-      </ng-template>
+      <coar-submenu-item icon="users" label="Share">
+        <ng-template>
+          <coar-menu-item icon="chat" (itemClick)="shareEmail()">Email</coar-menu-item>
+          <coar-menu-item icon="copy" (itemClick)="shareCopyLink()">Copy Link</coar-menu-item>
+        </ng-template>
+      </coar-submenu-item>
 
       <coar-menu-divider />
-      <coar-menu-item icon="trash" label="Delete" (itemClick)="onDelete()" />
+      <coar-menu-item icon="trash" (itemClick)="onDelete()">Delete</coar-menu-item>
     </coar-menu>
   `
 })
 export class MyComponent {
-  onCopy() { console.log('Copy'); }
-  shareEmail() { console.log('Share via email'); }
-  shareCopyLink() { console.log('Copy link'); }
-  onDelete() { console.log('Delete'); }
+  onCopy() {}
+  shareEmail() {}
+  shareCopyLink() {}
+  onDelete() {}
 }
 ```
 
@@ -153,10 +153,10 @@ import {
 
     <ng-template #contextMenuTemplate>
       <coar-menu>
-        <coar-menu-item icon="copy" label="Copy" (itemClick)="onCopy()" />
-        <coar-menu-item icon="clipboard" label="Paste" (itemClick)="onPaste()" />
+        <coar-menu-item icon="copy" (itemClick)="onCopy()">Copy</coar-menu-item>
+        <coar-menu-item icon="clipboard" (itemClick)="onPaste()">Paste</coar-menu-item>
         <coar-menu-divider />
-        <coar-menu-item icon="trash" label="Delete" (itemClick)="onDelete()" />
+        <coar-menu-item icon="trash" (itemClick)="onDelete()">Delete</coar-menu-item>
       </coar-menu>
     </ng-template>
   `
@@ -184,9 +184,9 @@ export class MyComponent {
     this.contextMenuRef = this.overlayService.open(spec, undefined);
   }
 
-  onCopy() { console.log('Copy'); this.contextMenuRef?.close(); }
-  onPaste() { console.log('Paste'); this.contextMenuRef?.close(); }
-  onDelete() { console.log('Delete'); this.contextMenuRef?.close(); }
+  onCopy() { this.contextMenuRef?.close(); }
+  onPaste() { this.contextMenuRef?.close(); }
+  onDelete() { this.contextMenuRef?.close(); }
 }
 ```
 
@@ -203,10 +203,10 @@ export class MyComponent {
 Menu items support type-safe icons via `CoreIconName`:
 
 ```html
-<coar-menu-item icon="plus" label="Add" />
-<coar-menu-item icon="copy" label="Copy" />
-<coar-menu-item icon="trash" label="Delete" />
-<coar-menu-item icon="settings" label="Settings" />
+<coar-menu-item icon="plus">Add</coar-menu-item>
+<coar-menu-item icon="copy">Copy</coar-menu-item>
+<coar-menu-item icon="trash">Delete</coar-menu-item>
+<coar-menu-item icon="settings">Settings</coar-menu-item>
 ```
 
 Available icons: `plus`, `minus`, `copy`, `clipboard`, `trash`, `bin`, `chat`, `users`, `settings`, `chevron-right`, `chevron-left`, `chevron-down`, `chevron-up`, `check`, `load`, and [many more](../icon/core-icons.md).
@@ -241,18 +241,13 @@ Disabled items:
 
 ## Keyboard Navigation
 
-Menus support full keyboard navigation out of the box:
+Menus are keyboard accessible:
 
 | Key | Action |
 | --- | --- |
-| `Tab` | Focus the menu (first/last item based on direction) |
-| `↓` `↑` | Navigate between items (wraps around, skips disabled) |
-| `Enter` `Space` | Activate focused item |
-| `→` | Open submenu (if on submenu item) |
-| `←` | Close submenu and return to parent |
-| `Escape` | Close menu (when used with overlay system) |
-| `Home` | Jump to first item |
-| `End` | Jump to last item |
+| `Tab` / `Shift+Tab` | Move focus between items (disabled items are not focusable) |
+| `Enter` / `Space` | Activate a focused item (`coar-submenu-item` toggles its submenu) |
+| `Escape` | Close the menu when hosted in an overlay preset that enables it (e.g. `coarMenuPreset`) |
 
 ---
 
@@ -261,7 +256,7 @@ Menus support full keyboard navigation out of the box:
 All menu components follow [ARIA Authoring Practices Guide for Menu](https://www.w3.org/WAI/ARIA/apg/patterns/menubar/):
 
 - **Semantic HTML**: `role="menu"`, `role="menuitem"`, `role="separator"`
-- **Keyboard Support**: Full arrow key navigation with roving tabindex
+- **Keyboard Support**: Focusable items + Enter/Space activation
 - **Screen Readers**: Proper ARIA attributes (`aria-disabled`, `aria-haspopup`, `aria-expanded`)
 - **Focus Management**: Visible focus indicators for keyboard users
 - **State Announcements**: Disabled state communicated to assistive technologies
@@ -300,28 +295,28 @@ The `coar-submenu-item` component provides flyout submenus:
 
 ```html
 <coar-menu>
-  <coar-menu-item icon="copy" label="Copy" />
+  <coar-menu-item icon="copy">Copy</coar-menu-item>
 
-  <coar-submenu-item icon="users" label="Share" [submenuTemplate]="shareMenu" />
+  <coar-submenu-item icon="users" label="Share">
+    <ng-template>
+      <!-- Nested submenus are supported -->
+      <coar-menu-item icon="chat">Email</coar-menu-item>
+      <coar-menu-item icon="copy">Copy Link</coar-menu-item>
 
-  <ng-template #shareMenu>
-    <!-- Nested submenus are supported -->
-    <coar-menu-item icon="chat" label="Email" />
-    <coar-menu-item icon="copy" label="Copy Link" />
-
-    <coar-submenu-item icon="load" label="Export" [submenuTemplate]="exportMenu" />
-
-    <ng-template #exportMenu>
-      <coar-menu-item label="PDF" />
-      <coar-menu-item label="CSV" />
-      <coar-menu-item label="JSON" />
+      <coar-submenu-item icon="load" label="Export">
+        <ng-template>
+          <coar-menu-item>PDF</coar-menu-item>
+          <coar-menu-item>CSV</coar-menu-item>
+          <coar-menu-item>JSON</coar-menu-item>
+        </ng-template>
+      </coar-submenu-item>
     </ng-template>
-  </ng-template>
+  </coar-submenu-item>
 </coar-menu>
 ```
 
 ### Submenu Behavior
-- **Hover delay**: 1000ms before closing (prevents accidental closes)
+- **HoverTree close delay**: defaults to 300ms via `coarHoverMenuPreset` (configurable in the overlay spec)
 - **Mouse movement**: Moving mouse to submenu keeps both parent and child open
 - **Keyboard**: Use `→` to open, `←` to close
 - **Disabled**: Submenu items can be disabled like regular items
@@ -364,8 +359,9 @@ const spec = Overlay.define((b) => {
 **`coarHoverMenuPreset`:**
 - Close on outside click: ✅
 - Close on Escape: ✅
-- Close on scroll: ❌ (keeps submenu open while hovering)
+- Close on scroll: ✅
 - Close on blur: ✅
+- HoverTree dismissal: ✅ (default delay 300ms)
 
 See [Overlay System — Presets](../../libs/ui-overlay/overview.md#presets) for more details.
 
@@ -384,10 +380,10 @@ See [Overlay System — Presets](../../libs/ui-overlay/overview.md#presets) for 
 
     <ng-template #menuTemplate>
       <coar-menu>
-        <coar-menu-item icon="plus" label="New Item" (itemClick)="onNew()" />
-        <coar-menu-item icon="copy" label="Duplicate" (itemClick)="onDuplicate()" />
+        <coar-menu-item icon="plus" (itemClick)="onNew()">New Item</coar-menu-item>
+        <coar-menu-item icon="copy" (itemClick)="onDuplicate()">Duplicate</coar-menu-item>
         <coar-menu-divider />
-        <coar-menu-item icon="trash" label="Delete" (itemClick)="onDelete()" />
+        <coar-menu-item icon="trash" (itemClick)="onDelete()">Delete</coar-menu-item>
       </coar-menu>
     </ng-template>
   `
@@ -406,9 +402,9 @@ export class ActionMenuComponent {
     this.overlayService.open(spec, undefined);
   }
 
-  onNew() { console.log('New'); }
-  onDuplicate() { console.log('Duplicate'); }
-  onDelete() { console.log('Delete'); }
+  onNew() {}
+  onDuplicate() {}
+  onDelete() {}
 }
 ```
 
@@ -416,29 +412,29 @@ export class ActionMenuComponent {
 
 ```html
 <coar-menu>
-  <coar-menu-item icon="copy" label="Copy" />
-  <coar-menu-item icon="clipboard" label="Paste" />
+  <coar-menu-item icon="copy">Copy</coar-menu-item>
+  <coar-menu-item icon="clipboard">Paste</coar-menu-item>
 
   <coar-menu-divider />
 
-  <coar-submenu-item icon="load" label="Export" [submenuTemplate]="exportMenu" />
+  <coar-submenu-item icon="load" label="Export">
+    <ng-template>
+      <coar-menu-item>PDF</coar-menu-item>
+      <coar-menu-item>CSV</coar-menu-item>
 
-  <ng-template #exportMenu>
-    <coar-menu-item label="PDF" />
-    <coar-menu-item label="CSV" />
-
-    <coar-submenu-item label="Advanced" [submenuTemplate]="advancedMenu" />
-
-    <ng-template #advancedMenu>
-      <coar-menu-item label="JSON" />
-      <coar-menu-item label="XML" />
-      <coar-menu-item label="YAML" />
+      <coar-submenu-item label="Advanced">
+        <ng-template>
+          <coar-menu-item>JSON</coar-menu-item>
+          <coar-menu-item>XML</coar-menu-item>
+          <coar-menu-item>YAML</coar-menu-item>
+        </ng-template>
+      </coar-submenu-item>
     </ng-template>
-  </ng-template>
+  </coar-submenu-item>
 
   <coar-menu-divider />
 
-  <coar-menu-item icon="settings" label="Settings" />
+  <coar-menu-item icon="settings">Settings</coar-menu-item>
 </coar-menu>
 ```
 

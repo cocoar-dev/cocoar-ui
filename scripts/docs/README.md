@@ -2,6 +2,8 @@
 
 This folder contains scripts for auto-generating documentation from source code.
 
+Handwritten documentation lives in `/docs` at the repo root. The showcase app serves that folder directly as build assets (see `apps/showcase/project.json`), so no manual copying/syncing is needed.
+
 ## Component API Extractor
 
 `extract-component-api.mjs` parses Angular component files to extract API documentation from JSDoc comments.

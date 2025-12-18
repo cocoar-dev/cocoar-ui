@@ -96,7 +96,10 @@ function extractInput(prop, sourceFile) {
 
   // Match input(), input.required(), input<Type>(), etc.
   const isInput =
-    text.startsWith('input(') || text.startsWith('input.required(') || text.startsWith('input<');
+    text.startsWith('input(') ||
+    text.startsWith('input<') ||
+    text.startsWith('input.required(') ||
+    text.startsWith('input.required<');
   if (!isInput) return null;
 
   // Skip protected/private inputs (internal state)
@@ -152,7 +155,9 @@ function extractOutput(prop) {
  * Parse input() signature to extract type and default value
  */
 function parseInputSignature(text, prop, sourceFile) {
-  const required = text.includes('input.required');
+  const callExpr = prop.getInitializerIfKind(SyntaxKind.CallExpression);
+  const calleeText = callExpr?.getExpression()?.getText() ?? '';
+  const required = calleeText === 'input.required' || text.startsWith('input.required');
 
   // Try to get type from property type annotation first
   const typeNode = prop.getTypeNode();
@@ -160,48 +165,25 @@ function parseInputSignature(text, prop, sourceFile) {
 
   if (typeNode) {
     type = resolveType(typeNode, sourceFile);
-  } else {
-    // Extract from generic: input<boolean>(true) -> boolean
-    const genericMatch = text.match(/input(?:\.required)?<([^>]+)>/);
-    if (genericMatch) {
-      const genericType = genericMatch[1];
-      // Try to resolve the type if it's a type alias
-      type = resolveTypeString(genericType, sourceFile);
+  } else if (callExpr) {
+    // Prefer AST-derived type arguments (handles nested generics like TemplateRef<unknown> | null)
+    const typeArgs = callExpr.getTypeArguments();
+    if (typeArgs.length > 0) {
+      type = resolveTypeString(typeArgs[0].getText(), sourceFile);
     } else {
-      // Infer from default value
-      const defaultMatch = text.match(/input(?:\.required)?\(([^)]*)\)/);
-      if (defaultMatch && defaultMatch[1]) {
-        type = inferTypeFromValue(defaultMatch[1].trim());
+      const args = callExpr.getArguments();
+      if (args.length > 0) {
+        type = inferTypeFromValue(args[0].getText().trim());
       }
     }
   }
 
-  // Extract default value - only first argument, ignore options object
+  // Extract default value - only first argument
   let defaultValue = required ? 'required' : "''";
-  const valueMatch = text.match(/input(?:\.required)?(?:<[^>]+>)?\(([^)]*)\)/);
-  if (valueMatch && valueMatch[1]) {
-    const args = valueMatch[1].trim();
-
-    // Split by comma, but only take first argument (default value)
-    // Handle cases like: input(false, { transform: booleanAttribute })
-    if (args) {
-      // Find first comma that's not inside braces/brackets
-      let depth = 0;
-      let firstArgEnd = args.length;
-
-      for (let i = 0; i < args.length; i++) {
-        const char = args[i];
-        if (char === '{' || char === '[' || char === '(') depth++;
-        if (char === '}' || char === ']' || char === ')') depth--;
-        if (char === ',' && depth === 0) {
-          firstArgEnd = i;
-          break;
-        }
-      }
-
-      defaultValue = args.substring(0, firstArgEnd).trim() || (required ? 'required' : "''");
-    } else {
-      defaultValue = required ? 'required' : "''";
+  if (callExpr) {
+    const args = callExpr.getArguments();
+    if (args.length > 0) {
+      defaultValue = args[0].getText().trim() || defaultValue;
     }
   }
 

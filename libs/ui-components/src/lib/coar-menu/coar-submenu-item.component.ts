@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   input,
+  ContentChild,
   ViewChild,
   TemplateRef,
   inject,
@@ -20,6 +21,7 @@ import {
   COAR_MENU_PARENT,
 } from '@cocoar/ui-overlay';
 import { COAR_MENU_CASCADE, CoarMenuCascade } from './coar-menu-cascade';
+import { CoarSubmenuTemplateDirective } from './coar-submenu-template.directive';
 
 /**
  * CoarSubmenuItem: Menu item that opens a submenu on hover.
@@ -31,13 +33,22 @@ import { COAR_MENU_CASCADE, CoarMenuCascade } from './coar-menu-cascade';
  *
  * @example
  * ```html
- * <coar-submenu-item label="Share" icon="🔗" [submenuTemplate]="shareMenu">
+ * <coar-submenu-item label="Share" icon="🔗">
+ *   <ng-template>
+ *     <coar-menu-item icon="✉️" (itemClick)="sendEmail()">Email</coar-menu-item>
+ *     <coar-menu-item icon="🔗" (itemClick)="copyLink()">Copy Link</coar-menu-item>
+ *   </ng-template>
  * </coar-submenu-item>
  *
- * <ng-template #shareMenu>
- *   <coar-menu-item icon="✉️" (itemClick)="sendEmail()">Email</coar-menu-item>
- *   <coar-menu-item icon="🔗" (itemClick)="copyLink()">Copy Link</coar-menu-item>
- * </ng-template>
+ * <!-- Optional: explicitly mark the template -->
+ * <coar-submenu-item label="Share" icon="🔗">
+ *   <ng-template coarSubmenu>
+ *     ...
+ *   </ng-template>
+ * </coar-submenu-item>
+ *
+ * <!-- Also supported (legacy / external template): -->
+ * <coar-submenu-item label="Share" icon="🔗" [submenuTemplate]="shareMenu" />
  * ```
  */
 @Component({
@@ -72,7 +83,9 @@ import { COAR_MENU_CASCADE, CoarMenuCascade } from './coar-menu-cascade';
     </div>
 
     <ng-template #overlaySubmenuTemplate>
-      <ng-container *ngTemplateOutlet="submenuTemplate(); injector: submenuTemplateInjector" />
+      <ng-container
+        *ngTemplateOutlet="submenuTemplateToRender(); injector: submenuTemplateInjector"
+      />
     </ng-template>
   `,
   styleUrl: './coar-submenu-item.component.css',
@@ -117,13 +130,36 @@ export class CoarSubmenuItemComponent {
   /** Disabled state prevents interaction */
   readonly disabled = input(false);
 
-  /** Template containing submenu content (menu items / nested submenu items) */
-  readonly submenuTemplate = input.required<TemplateRef<unknown>>();
+  /**
+   * Optional external submenu template.
+   *
+   * Prefer an inline `<ng-template>` child when possible.
+   */
+  readonly submenuTemplate = input<TemplateRef<unknown> | null>(null);
+
+  @ContentChild(CoarSubmenuTemplateDirective, { descendants: false })
+  private readonly markedInlineTemplate?: CoarSubmenuTemplateDirective;
+
+  @ContentChild(TemplateRef, { descendants: false })
+  private readonly inlineTemplate?: TemplateRef<unknown>;
 
   @ViewChild('overlaySubmenuTemplate') private overlaySubmenuTemplate!: TemplateRef<unknown>;
 
   private submenuRef: ReturnType<typeof this.overlayService.open> | null = null;
   isOpen = false;
+
+  protected submenuTemplateToRender(): TemplateRef<unknown> {
+    const template =
+      this.markedInlineTemplate?.templateRef ?? this.inlineTemplate ?? this.submenuTemplate();
+
+    if (!template) {
+      throw new Error(
+        'CoarSubmenuItemComponent: missing submenu content. Provide either an inline <ng-template> child or set [submenuTemplate].'
+      );
+    }
+
+    return template;
+  }
 
   onMouseEnter(event: MouseEvent): void {
     if (this.disabled()) {
@@ -199,6 +235,9 @@ export class CoarSubmenuItemComponent {
   }
 
   private openSubmenu(anchorElement: HTMLElement): void {
+    // Validate early so the error points at the submenu item usage.
+    this.submenuTemplateToRender();
+
     // All overlays use hoverTree preset for proper tree tracking
     const spec = Overlay.define<void>((b) => {
       b.content((c) => c.fromTemplate(this.overlaySubmenuTemplate));
