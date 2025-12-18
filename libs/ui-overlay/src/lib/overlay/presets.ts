@@ -46,6 +46,6 @@ export const coarHoverMenuPreset: OverlayPreset = (b) => {
   b.dismiss({
     outsideClick: true,
     escapeKey: true,
-    hoverTree: { enabled: true, delayMs: 1000 },
+    hoverTree: { enabled: true, delayMs: 300 },
   });
 };

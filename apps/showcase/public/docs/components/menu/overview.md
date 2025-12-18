@@ -102,12 +102,14 @@ import {
   template: `
     <coar-menu>
       <coar-menu-item icon="copy" label="Copy" (itemClick)="onCopy()" />
-      
-      <coar-submenu-item icon="users" label="Share">
+
+      <coar-submenu-item icon="users" label="Share" [submenuTemplate]="shareMenu" />
+
+      <ng-template #shareMenu>
         <coar-menu-item icon="chat" label="Email" (itemClick)="shareEmail()" />
         <coar-menu-item icon="copy" label="Copy Link" (itemClick)="shareCopyLink()" />
-      </coar-submenu-item>
-      
+      </ng-template>
+
       <coar-menu-divider />
       <coar-menu-item icon="trash" label="Delete" (itemClick)="onDelete()" />
     </coar-menu>
@@ -161,24 +163,24 @@ import {
 })
 export class MyComponent {
   private readonly overlayService = inject(CoarOverlayService);
-  
+
   @ViewChild('contextMenuTemplate') contextMenuTemplate!: TemplateRef<unknown>;
-  
+
   private contextMenuRef: ReturnType<typeof this.overlayService.open> | null = null;
 
   onContextMenu(event: MouseEvent): void {
     event.preventDefault();
-    
+
     // Close existing menu if open
     this.contextMenuRef?.close();
-    
+
     // Open menu at mouse position
     const spec = Overlay.define<void>((b) => {
       b.content((c) => c.fromTemplate(this.contextMenuTemplate));
       b.anchor({ kind: 'point', x: event.clientX, y: event.clientY });
       b.position({ placement: 'bottom-start', offset: 4, flip: true });
     }, coarMenuPreset);
-    
+
     this.contextMenuRef = this.overlayService.open(spec, undefined);
   }
 
@@ -220,11 +222,11 @@ Disable menu items to prevent interaction:
 ```html
 <coar-menu>
   <coar-menu-item icon="copy" label="Copy" (itemClick)="onCopy()" />
-  <coar-menu-item 
-    icon="clipboard" 
-    label="Paste" 
-    [disabled]="!hasClipboard" 
-    (itemClick)="onPaste()" 
+  <coar-menu-item
+    icon="clipboard"
+    label="Paste"
+    [disabled]="!hasClipboard"
+    (itemClick)="onPaste()"
   />
 </coar-menu>
 ```
@@ -299,24 +301,27 @@ The `coar-submenu-item` component provides flyout submenus:
 ```html
 <coar-menu>
   <coar-menu-item icon="copy" label="Copy" />
-  
-  <coar-submenu-item icon="users" label="Share">
-    <!-- Submenu opens on hover with 300ms delay -->
+
+  <coar-submenu-item icon="users" label="Share" [submenuTemplate]="shareMenu" />
+
+  <ng-template #shareMenu>
+    <!-- Nested submenus are supported -->
     <coar-menu-item icon="chat" label="Email" />
     <coar-menu-item icon="copy" label="Copy Link" />
-    
-    <!-- Nested submenus are supported -->
-    <coar-submenu-item icon="load" label="Export">
+
+    <coar-submenu-item icon="load" label="Export" [submenuTemplate]="exportMenu" />
+
+    <ng-template #exportMenu>
       <coar-menu-item label="PDF" />
       <coar-menu-item label="CSV" />
       <coar-menu-item label="JSON" />
-    </coar-submenu-item>
-  </coar-submenu-item>
+    </ng-template>
+  </ng-template>
 </coar-menu>
 ```
 
 ### Submenu Behavior
-- **Hover delay**: 300ms before closing (prevents accidental closes)
+- **Hover delay**: 1000ms before closing (prevents accidental closes)
 - **Mouse movement**: Moving mouse to submenu keeps both parent and child open
 - **Keyboard**: Use `→` to open, `←` to close
 - **Disabled**: Submenu items can be disabled like regular items
@@ -413,22 +418,26 @@ export class ActionMenuComponent {
 <coar-menu>
   <coar-menu-item icon="copy" label="Copy" />
   <coar-menu-item icon="clipboard" label="Paste" />
-  
+
   <coar-menu-divider />
-  
-  <coar-submenu-item icon="load" label="Export">
+
+  <coar-submenu-item icon="load" label="Export" [submenuTemplate]="exportMenu" />
+
+  <ng-template #exportMenu>
     <coar-menu-item label="PDF" />
     <coar-menu-item label="CSV" />
-    
-    <coar-submenu-item label="Advanced">
+
+    <coar-submenu-item label="Advanced" [submenuTemplate]="advancedMenu" />
+
+    <ng-template #advancedMenu>
       <coar-menu-item label="JSON" />
       <coar-menu-item label="XML" />
       <coar-menu-item label="YAML" />
-    </coar-submenu-item>
-  </coar-submenu-item>
-  
+    </ng-template>
+  </ng-template>
+
   <coar-menu-divider />
-  
+
   <coar-menu-item icon="settings" label="Settings" />
 </coar-menu>
 ```

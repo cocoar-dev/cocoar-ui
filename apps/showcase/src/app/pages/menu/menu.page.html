@@ -83,24 +83,30 @@
       <div class="menu-demo">
         <coar-menu>
           <coar-menu-item icon="file" (itemClick)="handleMenuItemClick('file')">File</coar-menu-item>
-          <coar-submenu-item label="Export" icon="download">
-            <coar-menu-item icon="file" (itemClick)="handleAction('exportPdf')">Export as PDF</coar-menu-item>
-            <coar-menu-item icon="file" (itemClick)="handleAction('exportWord')">Export as Word</coar-menu-item>
-            <coar-menu-item icon="file" (itemClick)="handleAction('exportExcel')">Export as Excel</coar-menu-item>
-          </coar-submenu-item>
-          <coar-submenu-item label="Share" icon="users">
-            <coar-menu-item icon="chat" (itemClick)="handleAction('shareEmail')">Share via Email</coar-menu-item>
-            <coar-menu-item icon="link" (itemClick)="handleAction('shareLink')">Copy Link</coar-menu-item>
-            <coar-menu-item icon="slack" (itemClick)="handleAction('shareSlack')">Share to Slack</coar-menu-item>
-          </coar-submenu-item>
-          <coar-submenu-item label="Settings" icon="settings">
-            <coar-menu-item icon="palette" (itemClick)="handleAction('theme')">Change Theme</coar-menu-item>
-            <coar-menu-item icon="globe" (itemClick)="handleAction('language')">Language</coar-menu-item>
-            <coar-menu-item icon="bell" (itemClick)="handleAction('notifications')">Notifications</coar-menu-item>
-          </coar-submenu-item>
+          <coar-submenu-item label="Export" icon="download" [submenuTemplate]="exportSiblingMenu" />
+          <coar-submenu-item label="Share" icon="users" [submenuTemplate]="shareSiblingMenu" />
+          <coar-submenu-item label="Settings" icon="settings" [submenuTemplate]="settingsSiblingMenu" />
           <coar-menu-divider></coar-menu-divider>
           <coar-menu-item icon="question" (itemClick)="handleMenuItemClick('help')">Help</coar-menu-item>
         </coar-menu>
+
+        <ng-template #exportSiblingMenu>
+          <coar-menu-item icon="file" (itemClick)="handleAction('exportPdf')">Export as PDF</coar-menu-item>
+          <coar-menu-item icon="file" (itemClick)="handleAction('exportWord')">Export as Word</coar-menu-item>
+          <coar-menu-item icon="file" (itemClick)="handleAction('exportExcel')">Export as Excel</coar-menu-item>
+        </ng-template>
+
+        <ng-template #shareSiblingMenu>
+          <coar-menu-item icon="chat" (itemClick)="handleAction('shareEmail')">Share via Email</coar-menu-item>
+          <coar-menu-item icon="link" (itemClick)="handleAction('shareLink')">Copy Link</coar-menu-item>
+          <coar-menu-item icon="slack" (itemClick)="handleAction('shareSlack')">Share to Slack</coar-menu-item>
+        </ng-template>
+
+        <ng-template #settingsSiblingMenu>
+          <coar-menu-item icon="palette" (itemClick)="handleAction('theme')">Change Theme</coar-menu-item>
+          <coar-menu-item icon="globe" (itemClick)="handleAction('language')">Language</coar-menu-item>
+          <coar-menu-item icon="bell" (itemClick)="handleAction('notifications')">Notifications</coar-menu-item>
+        </ng-template>
       </div>
 
       <coar-code-block [code]="codeExamples.siblings" language="html" />
@@ -137,46 +143,58 @@
     <coar-menu-item icon="copy" (itemClick)="handleAction('copy')">Copy</coar-menu-item>
     <coar-menu-item icon="clipboard" (itemClick)="handleAction('paste')">Paste</coar-menu-item>
     <coar-menu-divider></coar-menu-divider>
-    <coar-submenu-item label="Share" icon="users">
-      <coar-menu>
-        <coar-menu-item icon="chat" (itemClick)="handleAction('email')">Email</coar-menu-item>
-        <coar-submenu-item label="Copy Link" icon="copy">
-          <coar-menu>
-            <coar-menu-item icon="copy" (itemClick)="handleAction('copyMarkdown')">Copy as Markdown</coar-menu-item>
-            <coar-menu-item icon="copy" (itemClick)="handleAction('copyHtml')">Copy as HTML</coar-menu-item>
-            <coar-menu-item icon="copy" (itemClick)="handleAction('copyPlain')">Copy as Plain Text</coar-menu-item>
-          </coar-menu>
-        </coar-submenu-item>
-        <coar-submenu-item label="Social Media" icon="share">
-          <coar-menu>
-            <coar-menu-item icon="chat" (itemClick)="handleAction('twitter')">Share on Twitter</coar-menu-item>
-            <coar-menu-item icon="chat" (itemClick)="handleAction('linkedin')">Share on LinkedIn</coar-menu-item>
-            <coar-menu-item icon="chat" (itemClick)="handleAction('facebook')">Share on Facebook</coar-menu-item>
-          </coar-menu>
-        </coar-submenu-item>
-        <coar-menu-item icon="load" (itemClick)="handleAction('download')">Download</coar-menu-item>
-      </coar-menu>
-    </coar-submenu-item>
-    <coar-submenu-item label="Export" icon="download">
-      <coar-menu>
-        <coar-menu-item icon="file" (itemClick)="handleAction('exportPdf')">Export as PDF</coar-menu-item>
-        <coar-submenu-item label="Export Image" icon="image">
-          <coar-menu>
-            <coar-menu-item icon="file" (itemClick)="handleAction('exportPng')">Export as PNG</coar-menu-item>
-            <coar-menu-item icon="file" (itemClick)="handleAction('exportJpg')">Export as JPG</coar-menu-item>
-            <coar-menu-item icon="file" (itemClick)="handleAction('exportSvg')">Export as SVG</coar-menu-item>
-          </coar-menu>
-        </coar-submenu-item>
-        <coar-submenu-item label="Export Document" icon="file">
-          <coar-menu>
-            <coar-menu-item icon="file" (itemClick)="handleAction('exportWord')">Export as Word</coar-menu-item>
-            <coar-menu-item icon="file" (itemClick)="handleAction('exportText')">Export as Text</coar-menu-item>
-          </coar-menu>
-        </coar-submenu-item>
-        <coar-menu-item icon="file" (itemClick)="handleAction('exportCsv')">Export as CSV</coar-menu-item>
-      </coar-menu>
-    </coar-submenu-item>
+    <coar-submenu-item label="Share" icon="users" [submenuTemplate]="contextShareMenu" />
+    <coar-submenu-item label="Export" icon="download" [submenuTemplate]="contextExportMenu" />
     <coar-menu-divider></coar-menu-divider>
     <coar-menu-item icon="trash" (itemClick)="handleAction('delete')">Delete</coar-menu-item>
   </coar-menu>
+
+  <ng-template #contextShareMenu>
+    <coar-menu>
+      <coar-menu-item icon="chat" (itemClick)="handleAction('email')">Email</coar-menu-item>
+      <coar-submenu-item label="Copy Link" icon="copy" [submenuTemplate]="contextCopyLinkMenu" />
+      <coar-submenu-item label="Social Media" icon="share" [submenuTemplate]="contextSocialMenu" />
+      <coar-menu-item icon="load" (itemClick)="handleAction('download')">Download</coar-menu-item>
+    </coar-menu>
+  </ng-template>
+
+  <ng-template #contextCopyLinkMenu>
+    <coar-menu>
+      <coar-menu-item icon="copy" (itemClick)="handleAction('copyMarkdown')">Copy as Markdown</coar-menu-item>
+      <coar-menu-item icon="copy" (itemClick)="handleAction('copyHtml')">Copy as HTML</coar-menu-item>
+      <coar-menu-item icon="copy" (itemClick)="handleAction('copyPlain')">Copy as Plain Text</coar-menu-item>
+    </coar-menu>
+  </ng-template>
+
+  <ng-template #contextSocialMenu>
+    <coar-menu>
+      <coar-menu-item icon="chat" (itemClick)="handleAction('twitter')">Share on Twitter</coar-menu-item>
+      <coar-menu-item icon="chat" (itemClick)="handleAction('linkedin')">Share on LinkedIn</coar-menu-item>
+      <coar-menu-item icon="chat" (itemClick)="handleAction('facebook')">Share on Facebook</coar-menu-item>
+    </coar-menu>
+  </ng-template>
+
+  <ng-template #contextExportMenu>
+    <coar-menu>
+      <coar-menu-item icon="file" (itemClick)="handleAction('exportPdf')">Export as PDF</coar-menu-item>
+      <coar-submenu-item label="Export Image" icon="image" [submenuTemplate]="contextExportImageMenu" />
+      <coar-submenu-item label="Export Document" icon="file" [submenuTemplate]="contextExportDocumentMenu" />
+      <coar-menu-item icon="file" (itemClick)="handleAction('exportCsv')">Export as CSV</coar-menu-item>
+    </coar-menu>
+  </ng-template>
+
+  <ng-template #contextExportImageMenu>
+    <coar-menu>
+      <coar-menu-item icon="file" (itemClick)="handleAction('exportPng')">Export as PNG</coar-menu-item>
+      <coar-menu-item icon="file" (itemClick)="handleAction('exportJpg')">Export as JPG</coar-menu-item>
+      <coar-menu-item icon="file" (itemClick)="handleAction('exportSvg')">Export as SVG</coar-menu-item>
+    </coar-menu>
+  </ng-template>
+
+  <ng-template #contextExportDocumentMenu>
+    <coar-menu>
+      <coar-menu-item icon="file" (itemClick)="handleAction('exportWord')">Export as Word</coar-menu-item>
+      <coar-menu-item icon="file" (itemClick)="handleAction('exportText')">Export as Text</coar-menu-item>
+    </coar-menu>
+  </ng-template>
 </ng-template>

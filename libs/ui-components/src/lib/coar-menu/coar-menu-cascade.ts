@@ -5,14 +5,11 @@ import type { OverlayRef } from '@cocoar/ui-overlay';
  * CoarMenuCascade: Tracks parent-child and sibling relationships for menu hierarchies.
  *
  * Responsibilities:
- * - Track overlay refs for hover dismiss behavior
- * - Register cancel-close timers for hover tree dismissal
- * - Track children to enable sibling closure (for inline menus without parent overlays)
- * - Provide keepAlive mechanism to prevent premature closure
+ * - Track overlay refs for nested submenu parenting
+ * - Track children to enable sibling closure (for inline menus without a common parent overlay)
  */
 export class CoarMenuCascade {
   overlayRef: OverlayRef | null = null;
-  private cancelCloseTimer: (() => void) | null = null;
   private children = new Set<CoarMenuCascade>();
 
   constructor(readonly parent: CoarMenuCascade | null) {
@@ -20,15 +17,6 @@ export class CoarMenuCascade {
     if (parent) {
       parent.children.add(this);
     }
-  }
-
-  registerCancelCloseTimer(fn: () => void): void {
-    this.cancelCloseTimer = fn;
-  }
-
-  keepAliveUpTree(): void {
-    this.cancelCloseTimer?.();
-    this.parent?.keepAliveUpTree();
   }
 
   /**

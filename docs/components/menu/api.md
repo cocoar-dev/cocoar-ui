@@ -175,10 +175,12 @@ A special menu item that triggers a flyout submenu when hovered. Uses the Cocoar
 ### Usage
 
 ```html
-<coar-submenu-item icon="users" label="Share">
+<coar-submenu-item icon="users" label="Share" [submenuTemplate]="shareMenu" />
+
+<ng-template #shareMenu>
   <coar-menu-item icon="chat" label="Email" (itemClick)="shareEmail()" />
   <coar-menu-item icon="copy" label="Copy Link" (itemClick)="shareCopyLink()" />
-</coar-submenu-item>
+</ng-template>
 ```
 
 ### Inputs
@@ -188,6 +190,7 @@ A special menu item that triggers a flyout submenu when hovered. Uses the Cocoar
 | `label` | `string` | No | `''` | Submenu trigger text |
 | `icon` | `CoreIconName \| undefined` | No | `undefined` | Optional icon identifier |
 | `disabled` | `boolean` | No | `false` | Disabled state prevents interaction |
+| `submenuTemplate` | `TemplateRef<unknown>` | Yes | — | Template containing submenu content |
 
 ### Outputs
 
@@ -208,7 +211,7 @@ None.
 
 #### Hover Delay
 - **Open delay:** None (opens immediately on hover)
-- **Close delay:** 300ms (prevents accidental closes when moving mouse to submenu)
+- **Close delay:** 1000ms (prevents accidental closes when moving mouse to submenu)
 
 #### Keyboard Navigation
 - `→` — Open submenu
@@ -218,34 +221,40 @@ None.
 #### Mouse Interaction
 - Hover over item opens submenu
 - Moving mouse to submenu keeps it open
-- Moving mouse away closes after 300ms
-- Hovering over parent again cancels close timer
+- Moving mouse away closes after 1000ms
+- Hovering over parent again cancels the scheduled close
 
 ### Examples
 
 #### Basic Submenu
 
 ```html
-<coar-submenu-item icon="settings" label="Settings">
+<coar-submenu-item icon="settings" label="Settings" [submenuTemplate]="settingsMenu" />
+
+<ng-template #settingsMenu>
   <coar-menu-item label="Preferences" />
   <coar-menu-item label="Keyboard Shortcuts" />
   <coar-menu-item label="Extensions" />
-</coar-submenu-item>
+</ng-template>
 ```
 
 #### Nested Submenu
 
 ```html
-<coar-submenu-item icon="load" label="Export">
+<coar-submenu-item icon="load" label="Export" [submenuTemplate]="exportMenu" />
+
+<ng-template #exportMenu>
   <coar-menu-item label="PDF" />
   <coar-menu-item label="CSV" />
 
-  <coar-submenu-item label="Advanced">
+  <coar-submenu-item label="Advanced" [submenuTemplate]="advancedMenu" />
+
+  <ng-template #advancedMenu>
     <coar-menu-item label="JSON" />
     <coar-menu-item label="XML" />
     <coar-menu-item label="YAML" />
-  </coar-submenu-item>
-</coar-submenu-item>
+  </ng-template>
+</ng-template>
 ```
 
 #### Disabled Submenu
@@ -255,10 +264,14 @@ None.
   icon="users"
   label="Share"
   [disabled]="!canShare"
+  [submenuTemplate]="shareMenu"
 >
+</coar-submenu-item>
+
+<ng-template #shareMenu>
   <coar-menu-item label="Email" />
   <coar-menu-item label="Copy Link" />
-</coar-submenu-item>
+</ng-template>
 ```
 
 ### Styling

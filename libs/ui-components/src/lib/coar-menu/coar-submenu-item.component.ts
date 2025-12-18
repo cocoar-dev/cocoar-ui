@@ -1,15 +1,16 @@
 import {
   Component,
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   input,
   ViewChild,
   TemplateRef,
   inject,
   DestroyRef,
+  Injector,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoarIconComponent } from '../coar-icon/coar-icon.component';
-import { CoarMenuComponent } from './coar-menu.component';
 import { type CoreIconName } from '../coar-icon/core-icons';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -26,15 +27,17 @@ import { COAR_MENU_CASCADE, CoarMenuCascade } from './coar-menu-cascade';
  * Responsibilities:
  * - Render parent item with icon and label
  * - Manage submenu overlay lifecycle
- * - Handle hover delays (300ms before closing)
  * - Support nested submenus (can contain other submenu-items)
  *
  * @example
  * ```html
- * <coar-submenu-item label="Share" icon="🔗">
+ * <coar-submenu-item label="Share" icon="🔗" [submenuTemplate]="shareMenu">
+ * </coar-submenu-item>
+ *
+ * <ng-template #shareMenu>
  *   <coar-menu-item icon="✉️" (itemClick)="sendEmail()">Email</coar-menu-item>
  *   <coar-menu-item icon="🔗" (itemClick)="copyLink()">Copy Link</coar-menu-item>
- * </coar-submenu-item>
+ * </ng-template>
  * ```
  */
 @Component({
@@ -68,8 +71,8 @@ import { COAR_MENU_CASCADE, CoarMenuCascade } from './coar-menu-cascade';
       />
     </div>
 
-    <ng-template #submenuTemplate>
-      <ng-content />
+    <ng-template #overlaySubmenuTemplate>
+      <ng-container *ngTemplateOutlet="submenuTemplate(); injector: submenuTemplateInjector" />
     </ng-template>
   `,
   styleUrl: './coar-submenu-item.component.css',
@@ -85,18 +88,24 @@ import { COAR_MENU_CASCADE, CoarMenuCascade } from './coar-menu-cascade';
 export class CoarSubmenuItemComponent {
   private readonly overlayService = inject(CoarOverlayService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly cascade = inject(COAR_MENU_CASCADE);
   private readonly parentOverlay = inject(COAR_MENU_PARENT, { optional: true });
+  private readonly injector = inject(Injector);
+
+  // Ensures the submenu TemplateRef is instantiated with a parent injector that contains
+  // the correct cascade instance for this submenu item. Without this, TemplateRefs declared
+  // outside of this component can end up resolving menu context from the declaration site.
+  protected readonly submenuTemplateInjector = Injector.create({
+    providers: [{ provide: COAR_MENU_CASCADE, useValue: this.cascade }],
+    parent: this.injector,
+  });
 
   constructor() {
-    console.log('[CoarSubmenuItemComponent] Created with parentOverlay:', this.parentOverlay);
     // Cleanup cascade when component is destroyed
     this.destroyRef.onDestroy(() => {
       this.cascade.destroy();
     });
-
-    // Kept for compatibility with older patterns; now hover dismissal is handled by ui-overlay.
-    this.cascade.registerCancelCloseTimer(() => void 0);
   }
 
   /** Label text for the menu item */
@@ -108,7 +117,10 @@ export class CoarSubmenuItemComponent {
   /** Disabled state prevents interaction */
   readonly disabled = input(false);
 
-  @ViewChild('submenuTemplate') submenuTemplate!: TemplateRef<unknown>;
+  /** Template containing submenu content (menu items / nested submenu items) */
+  readonly submenuTemplate = input.required<TemplateRef<unknown>>();
+
+  @ViewChild('overlaySubmenuTemplate') private overlaySubmenuTemplate!: TemplateRef<unknown>;
 
   private submenuRef: ReturnType<typeof this.overlayService.open> | null = null;
   isOpen = false;
@@ -117,12 +129,6 @@ export class CoarSubmenuItemComponent {
     if (this.disabled()) {
       return;
     }
-
-    console.log('[CoarSubmenuItem] onMouseEnter:', this.label(), {
-      alreadyOpen: !!this.submenuRef,
-      target: event.target,
-      currentTarget: event.currentTarget,
-    });
 
     // Open submenu if not already open
     if (!this.submenuRef) {
@@ -159,46 +165,37 @@ export class CoarSubmenuItemComponent {
   }
 
   private openSubmenu(anchorElement: HTMLElement): void {
-    console.log('[CoarSubmenuItem] Opening submenu:', this.label(), {
-      hasParentOverlay: !!this.parentOverlay,
-      anchorElement,
-      anchorConnected: anchorElement.isConnected,
-    });
-
     // All overlays use hoverTree preset for proper tree tracking
     const spec = Overlay.define<void>((b) => {
-      b.content((c) => c.fromTemplate(this.submenuTemplate));
+      b.content((c) => c.fromTemplate(this.overlaySubmenuTemplate));
       b.anchor({ kind: 'element', element: anchorElement });
       b.position({ placement: 'right-start', offset: -4, flip: true });
     }, coarHoverMenuPreset);
 
-    if (this.parentOverlay) {
-      // Inside an overlay: close siblings (direct children of parent) then open as child
-      console.log('[CoarSubmenuItem] Closing parent children before opening:', this.label());
+    // Prefer the cascade parent's overlayRef when available.
+    // With Angular content projection, submenu content can be instantiated in the *root* overlay
+    // injector even when it's rendered inside a child overlay. The cascade chain preserves the
+    // correct containing overlay via overlayRef.
+    const containingOverlay = this.cascade.parent?.overlayRef ?? this.parentOverlay;
 
+    if (containingOverlay) {
+      // Inside an overlay: close siblings (direct children of parent) then open as child
       // First, create the child overlay
-      this.submenuRef = this.overlayService.openChild(this.parentOverlay, spec, undefined);
+      this.submenuRef = this.overlayService.openChild(containingOverlay, spec, undefined);
 
       // Then close siblings, excluding the newly opened one
-      this.parentOverlay.closeChildren(this.submenuRef);
-
-      console.log(
-        '[CoarSubmenuItem] Anchor still connected after closeChildren?',
-        anchorElement.isConnected
-      );
+      containingOverlay.closeChildren(this.submenuRef);
     } else {
       // Inline menu: use cascade-level sibling closure
-      console.log('[CoarSubmenuItem] Using cascade closeSiblings:', this.label());
       this.cascade.closeSiblings();
       this.submenuRef = this.overlayService.open(spec, undefined);
     }
-
-    console.log('[CoarSubmenuItem] Submenu opened:', this.label(), this.submenuRef);
 
     // Expose the overlay ref to descendants so they can parent their own flyouts correctly.
     this.cascade.overlayRef = this.submenuRef;
 
     this.isOpen = true;
+    this.cdr.markForCheck();
 
     const openedRef = this.submenuRef;
 
@@ -209,6 +206,7 @@ export class CoarSubmenuItemComponent {
 
       this.submenuRef = null;
       this.isOpen = false;
+      this.cdr.markForCheck();
     });
   }
 
@@ -218,5 +216,6 @@ export class CoarSubmenuItemComponent {
     this.submenuRef?.close();
     this.submenuRef = null;
     this.isOpen = false;
+    this.cdr.markForCheck();
   }
 }
