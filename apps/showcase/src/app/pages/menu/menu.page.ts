@@ -1,4 +1,11 @@
-import { Component, ViewChild, TemplateRef, inject } from '@angular/core';
+import {
+  Component,
+  ViewChild,
+  TemplateRef,
+  inject,
+  ChangeDetectorRef,
+  DestroyRef,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoarOverlayService, Overlay, coarMenuPreset } from '@cocoar/ui-overlay';
 import {
@@ -35,6 +42,8 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
 })
 export class MenuPage {
   private readonly overlayService = inject(CoarOverlayService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly destroyRef = inject(DestroyRef);
 
   @ViewChild('contextMenuTemplate') contextMenuTemplate!: TemplateRef<unknown>;
 
@@ -46,6 +55,94 @@ export class MenuPage {
 
   protected readonly docsPath = '/docs/components/menu/overview.md';
   protected readonly apiPath = '/docs/components/menu/api.md';
+
+  protected readonly aimDebug = {
+    enabled: false,
+    shouldDelay: false,
+    direction: 'right' as 'right' | 'left',
+    previous: null as { x: number; y: number } | null,
+    current: null as { x: number; y: number } | null,
+    submenuRect: null as { left: number; top: number; right: number; bottom: number } | null,
+    trianglePoints: '' as string,
+    eventCount: 0,
+    lastEventAt: 0,
+  };
+
+  constructor() {
+    if (typeof window === 'undefined') return;
+
+    const abort = new AbortController();
+    this.destroyRef.onDestroy(() => abort.abort());
+
+    let hideTimer: ReturnType<typeof setTimeout> | null = null;
+    this.destroyRef.onDestroy(() => {
+      if (hideTimer) {
+        clearTimeout(hideTimer);
+        hideTimer = null;
+      }
+    });
+
+    const onAim = (event: Event) => {
+      const e = event as CustomEvent<{
+        shouldDelay: boolean;
+        direction: 'right' | 'left';
+        previous: { x: number; y: number } | null;
+        current: { x: number; y: number } | null;
+        submenuRect: { left: number; top: number; right: number; bottom: number } | null;
+      }>;
+
+      const detail = e.detail;
+      if (!detail) return;
+
+      this.aimDebug.enabled = true;
+      this.aimDebug.eventCount++;
+      this.aimDebug.lastEventAt = Date.now();
+      this.aimDebug.shouldDelay = !!detail.shouldDelay;
+      this.aimDebug.direction = detail.direction ?? 'right';
+      this.aimDebug.previous = detail.previous;
+      this.aimDebug.current = detail.current;
+      this.aimDebug.submenuRect = detail.submenuRect;
+
+      this.aimDebug.trianglePoints = this.computeTrianglePoints(
+        detail.previous,
+        detail.submenuRect,
+        this.aimDebug.direction
+      );
+
+      // Render immediately so the triangle matches the current pointer move.
+      this.cdr.detectChanges();
+
+      if (hideTimer) {
+        clearTimeout(hideTimer);
+      }
+      hideTimer = setTimeout(() => {
+        this.aimDebug.enabled = false;
+        this.aimDebug.shouldDelay = false;
+        this.aimDebug.previous = null;
+        this.aimDebug.current = null;
+        this.aimDebug.submenuRect = null;
+        this.aimDebug.trianglePoints = '';
+        this.cdr.detectChanges();
+      }, 1500);
+    };
+
+    window.addEventListener('coar-menu-aim', onAim, { signal: abort.signal as AbortSignal });
+  }
+
+  private computeTrianglePoints(
+    previous: { x: number; y: number } | null,
+    submenuRect: { left: number; top: number; right: number; bottom: number } | null,
+    direction: 'right' | 'left'
+  ): string {
+    if (!previous || !submenuRect) return '';
+
+    // Keep in sync with the heuristic: wedge from previous point to submenu panel near edge.
+    const edgeX = direction === 'right' ? submenuRect.left : submenuRect.right;
+    const padY = 8;
+    const a = { x: edgeX, y: submenuRect.top - padY };
+    const b = { x: edgeX, y: submenuRect.bottom + padY };
+    return `${previous.x},${previous.y} ${a.x},${a.y} ${b.x},${b.y}`;
+  }
 
   handleMenuItemClick(_action: string) {
     // Menu item click handler

@@ -138,7 +138,7 @@
 
 <!-- Context Menu Template -->
 <ng-template #contextMenuTemplate>
-  <coar-menu>
+  <coar-menu [aimDebugEnabled]="false">
     <coar-menu-item icon="minus" (itemClick)="handleAction('cut')">Cut</coar-menu-item>
     <coar-menu-item icon="copy" (itemClick)="handleAction('copy')">Copy</coar-menu-item>
     <coar-menu-item icon="clipboard" (itemClick)="handleAction('paste')">Paste</coar-menu-item>
@@ -150,19 +150,29 @@
   </coar-menu>
 
   <ng-template #contextShareMenu>
-    <coar-menu>
+    <coar-menu [aimDebugEnabled]="true">
       <coar-menu-item icon="chat" (itemClick)="handleAction('email')">Email</coar-menu-item>
+      <coar-menu-item icon="chat" (itemClick)="handleAction('teams')">Microsoft Teams</coar-menu-item>
+      <coar-menu-item icon="chat" (itemClick)="handleAction('slack')">Slack</coar-menu-item>
+      <coar-menu-item icon="chat" (itemClick)="handleAction('discord')">Discord</coar-menu-item>
+      <coar-menu-item icon="chat" (itemClick)="handleAction('sms')">SMS</coar-menu-item>
       <coar-submenu-item label="Copy Link" icon="copy" [submenuTemplate]="contextCopyLinkMenu" />
       <coar-submenu-item label="Social Media" icon="share" [submenuTemplate]="contextSocialMenu" />
+      <coar-menu-item icon="link" (itemClick)="handleAction('qr')">Generate QR Code</coar-menu-item>
+      <coar-menu-item icon="link" (itemClick)="handleAction('embed')">Get Embed Code</coar-menu-item>
       <coar-menu-item icon="load" (itemClick)="handleAction('download')">Download</coar-menu-item>
     </coar-menu>
   </ng-template>
 
   <ng-template #contextCopyLinkMenu>
-    <coar-menu>
+    <coar-menu [aimDebugEnabled]="true">
       <coar-menu-item icon="copy" (itemClick)="handleAction('copyMarkdown')">Copy as Markdown</coar-menu-item>
       <coar-menu-item icon="copy" (itemClick)="handleAction('copyHtml')">Copy as HTML</coar-menu-item>
       <coar-menu-item icon="copy" (itemClick)="handleAction('copyPlain')">Copy as Plain Text</coar-menu-item>
+      <coar-menu-item icon="copy" (itemClick)="handleAction('copyShort')">Copy Short Link</coar-menu-item>
+      <coar-menu-item icon="copy" (itemClick)="handleAction('copyLong')">Copy Full Link</coar-menu-item>
+      <coar-menu-item icon="copy" (itemClick)="handleAction('copyWithUtm')">Copy Link (with UTM)</coar-menu-item>
+      <coar-menu-item icon="copy" (itemClick)="handleAction('copyWithToken')">Copy Link (with access token)</coar-menu-item>
     </coar-menu>
   </ng-template>
 
@@ -171,6 +181,10 @@
       <coar-menu-item icon="chat" (itemClick)="handleAction('twitter')">Share on Twitter</coar-menu-item>
       <coar-menu-item icon="chat" (itemClick)="handleAction('linkedin')">Share on LinkedIn</coar-menu-item>
       <coar-menu-item icon="chat" (itemClick)="handleAction('facebook')">Share on Facebook</coar-menu-item>
+      <coar-menu-item icon="chat" (itemClick)="handleAction('reddit')">Share on Reddit</coar-menu-item>
+      <coar-menu-item icon="chat" (itemClick)="handleAction('mastodon')">Share on Mastodon</coar-menu-item>
+      <coar-menu-item icon="chat" (itemClick)="handleAction('hackernews')">Share on Hacker News</coar-menu-item>
+      <coar-menu-item icon="chat" (itemClick)="handleAction('instagram')">Share on Instagram</coar-menu-item>
     </coar-menu>
   </ng-template>
 
@@ -198,3 +212,33 @@
     </coar-menu>
   </ng-template>
 </ng-template>
+
+@if (aimDebug.enabled) {
+<div class="coar-menu-aim-debug" aria-hidden="true">
+  <svg class="coar-menu-aim-debug__svg" xmlns="http://www.w3.org/2000/svg">
+    <text class="coar-menu-aim-debug__label" x="16" y="24">
+      Menu-aim debug: {{ aimDebug.shouldDelay ? 'DELAY' : 'no delay' }} | events: {{ aimDebug.eventCount }}
+    </text>
+
+    @if (aimDebug.submenuRect) {
+    <rect
+      class="coar-menu-aim-debug__submenu"
+      [attr.x]="aimDebug.submenuRect.left"
+      [attr.y]="aimDebug.submenuRect.top"
+      [attr.width]="aimDebug.submenuRect.right - aimDebug.submenuRect.left"
+      [attr.height]="aimDebug.submenuRect.bottom - aimDebug.submenuRect.top"
+    />
+    } @if (aimDebug.trianglePoints) {
+    <polygon
+      class="coar-menu-aim-debug__triangle"
+      [class.coar-menu-aim-debug__triangle--active]="aimDebug.shouldDelay"
+      [attr.points]="aimDebug.trianglePoints"
+    />
+    } @if (aimDebug.previous) {
+    <circle class="coar-menu-aim-debug__point" [attr.cx]="aimDebug.previous.x" [attr.cy]="aimDebug.previous.y" r="3" />
+    } @if (aimDebug.current) {
+    <circle class="coar-menu-aim-debug__point" [attr.cx]="aimDebug.current.x" [attr.cy]="aimDebug.current.y" r="3" />
+    }
+  </svg>
+</div>
+}

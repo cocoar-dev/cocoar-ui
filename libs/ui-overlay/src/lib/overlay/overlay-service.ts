@@ -372,6 +372,10 @@ class CoarOverlayRef implements OverlayRef {
   private readonly afterClosedSubject = new Subject<unknown>();
   readonly afterClosed$ = this.afterClosedSubject.asObservable();
 
+  get isClosed(): boolean {
+    return this.closed;
+  }
+
   private readonly host: HTMLElement;
   private readonly panel: HTMLElement;
   private backdropElement: HTMLElement | null = null;
@@ -455,6 +459,10 @@ class CoarOverlayRef implements OverlayRef {
 
   getHoverTreeDismissConfig(): { enabled?: boolean; delayMs?: number } | undefined {
     return this.spec.dismiss.hoverTree;
+  }
+
+  getPanelElement(): HTMLElement {
+    return this.panel;
   }
 
   getRoot(): CoarOverlayRef {

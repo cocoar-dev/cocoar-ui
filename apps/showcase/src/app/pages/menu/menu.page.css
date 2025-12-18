@@ -64,3 +64,41 @@ kbd {
   border-color: var(--coar-border-accent-primary, #156db7);
   background: rgba(21, 109, 183, 0.02);
 }
+
+.coar-menu-aim-debug {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2147483647;
+}
+
+.coar-menu-aim-debug__svg {
+  width: 100vw;
+  height: 100vh;
+}
+
+.coar-menu-aim-debug__label {
+  fill: var(--coar-text-primary, currentColor);
+  font-size: var(--coar-font-size-xs, 12px);
+}
+
+.coar-menu-aim-debug__submenu {
+  fill: color-mix(in srgb, var(--coar-color-accent, #156db7) 8%, transparent);
+  stroke: var(--coar-color-accent, #156db7);
+  stroke-width: 1;
+}
+
+.coar-menu-aim-debug__triangle {
+  fill: color-mix(in srgb, var(--coar-color-warning, #f59e0b) 12%, transparent);
+  stroke: var(--coar-color-warning, #f59e0b);
+  stroke-width: 1;
+}
+
+.coar-menu-aim-debug__triangle--active {
+  fill: color-mix(in srgb, var(--coar-color-danger, #ef4444) 12%, transparent);
+  stroke: var(--coar-color-danger, #ef4444);
+}
+
+.coar-menu-aim-debug__point {
+  fill: var(--coar-color-danger, #ef4444);
+}

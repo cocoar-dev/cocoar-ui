@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
 import { COAR_MENU_CASCADE, CoarMenuCascade } from './coar-menu-cascade';
 import { COAR_OVERLAY_REF } from '@cocoar/ui-overlay';
+import { CoarMenuAimConfigDirective } from './coar-menu-aim-config.directive';
 
 /**
  * CoarMenu: Shell component providing menu styling container.
@@ -27,6 +28,12 @@ import { COAR_OVERLAY_REF } from '@cocoar/ui-overlay';
   selector: 'coar-menu',
   standalone: true,
   imports: [],
+  hostDirectives: [
+    {
+      directive: CoarMenuAimConfigDirective,
+      inputs: ['aimEnabled', 'aimDebugEnabled', 'aimSwitchDelayMs', 'aimSampleMaxAgeMs'],
+    },
+  ],
   templateUrl: './coar-menu.component.html',
   styleUrl: './coar-menu.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

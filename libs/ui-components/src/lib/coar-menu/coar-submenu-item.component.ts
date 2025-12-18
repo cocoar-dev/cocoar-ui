@@ -130,9 +130,29 @@ export class CoarSubmenuItemComponent {
       return;
     }
 
+    // If the submenu is currently closing (e.g. sibling switch + close animation),
+    // allow reopening immediately on hover.
+    if (this.submenuRef?.isClosed) {
+      this.submenuRef = null;
+      this.isOpen = false;
+      this.cdr.markForCheck();
+    }
+
     // Open submenu if not already open
     if (!this.submenuRef) {
-      this.openSubmenu(event.currentTarget as HTMLElement);
+      const anchor = event.currentTarget as HTMLElement;
+
+      // Menu-aim: when a different sibling submenu is already open, delay switching
+      // if the pointer trajectory suggests the user is heading into the open submenu panel.
+      const parent = this.cascade.parent;
+      if (parent) {
+        parent.requestOpenFromChild(this.cascade, () => this.openSubmenu(anchor), {
+          x: event.clientX,
+          y: event.clientY,
+        });
+      } else {
+        this.openSubmenu(anchor);
+      }
     }
   }
 
@@ -142,6 +162,13 @@ export class CoarSubmenuItemComponent {
       event.stopPropagation();
       return;
     }
+
+    if (this.submenuRef?.isClosed) {
+      this.submenuRef = null;
+      this.isOpen = false;
+      this.cdr.markForCheck();
+    }
+
     // For accessibility: toggle on click/Enter/Space
     if (this.submenuRef) {
       this.closeSubmenu();
@@ -156,6 +183,13 @@ export class CoarSubmenuItemComponent {
       event.stopPropagation();
       return;
     }
+
+    if (this.submenuRef?.isClosed) {
+      this.submenuRef = null;
+      this.isOpen = false;
+      this.cdr.markForCheck();
+    }
+
     const target = event.currentTarget as HTMLElement;
     if (this.submenuRef) {
       this.closeSubmenu();
@@ -193,6 +227,7 @@ export class CoarSubmenuItemComponent {
 
     // Expose the overlay ref to descendants so they can parent their own flyouts correctly.
     this.cascade.overlayRef = this.submenuRef;
+    this.cascade.parent?.notifyChildOpened(this.cascade);
 
     this.isOpen = true;
     this.cdr.markForCheck();
@@ -207,6 +242,8 @@ export class CoarSubmenuItemComponent {
       this.submenuRef = null;
       this.isOpen = false;
       this.cdr.markForCheck();
+
+      this.cascade.parent?.notifyChildClosed(this.cascade);
     });
   }
 
