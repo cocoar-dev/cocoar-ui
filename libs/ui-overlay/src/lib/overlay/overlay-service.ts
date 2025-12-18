@@ -373,6 +373,7 @@ class CoarOverlayRef implements OverlayRef {
   readonly afterClosed$ = this.afterClosedSubject.asObservable();
 
   private readonly host: HTMLElement;
+  private readonly panel: HTMLElement;
   private backdropElement: HTMLElement | null = null;
   private destroyContent: (() => void) | null = null;
   private resizeObserver: ResizeObserver | null = null;
@@ -381,11 +382,13 @@ class CoarOverlayRef implements OverlayRef {
   private lastResult: unknown;
   private rafPending = false;
   private presented = false;
+  private closeFinalized = false;
   private readonly restoreFocusTarget: Element | null;
   private readonly children = new Set<CoarOverlayRef>();
   private hoverCloseTimer: ReturnType<typeof setTimeout> | null = null;
   private readonly contentInjector: Injector;
   private readonly contentEnvironmentInjector: EnvironmentInjector;
+  private readonly shouldAnimateMenu: boolean;
 
   constructor(
     private readonly appRef: ApplicationRef,
@@ -398,6 +401,12 @@ class CoarOverlayRef implements OverlayRef {
   ) {
     this.host = document.createElement('div');
     this.host.className = 'coar-overlay-host';
+
+    this.panel = document.createElement('div');
+    this.panel.className = 'coar-overlay-panel';
+    this.host.appendChild(this.panel);
+
+    this.shouldAnimateMenu = this.spec.a11y.role === 'menu';
 
     this.contentInjector = Injector.create({
       providers: [
@@ -421,9 +430,20 @@ class CoarOverlayRef implements OverlayRef {
       left: '0px',
       transform: 'translate3d(0px, 0px, 0px)',
       zIndex: `calc(var(--coar-z-overlay, 1000) + ${this.stackIndex * 2})`,
-      opacity: '0',
+      opacity: '1',
       pointerEvents: 'none',
     } satisfies Partial<CSSStyleDeclaration>);
+
+    if (this.shouldAnimateMenu) {
+      Object.assign(this.panel.style, {
+        opacity: '0',
+        transform: 'scale(0.98)',
+        transformOrigin: 'top left',
+        transition:
+          'opacity var(--coar-duration-slower) var(--coar-ease-out), transform var(--coar-duration-slower) var(--coar-ease-out)',
+        willChange: 'opacity, transform',
+      } satisfies Partial<CSSStyleDeclaration>);
+    }
 
     this.restoreFocusTarget =
       (typeof document !== 'undefined' ? document.activeElement : null) ?? null;
@@ -504,7 +524,7 @@ class CoarOverlayRef implements OverlayRef {
 
     this.applyA11y();
 
-    this.destroyContent = this.renderContent(this.spec.content, this.host, this.inputs);
+    this.destroyContent = this.renderContent(this.spec.content, this.panel, this.inputs);
 
     this.applySize();
 
@@ -687,8 +707,19 @@ class CoarOverlayRef implements OverlayRef {
   private present(): void {
     if (this.presented) return;
     this.presented = true;
-    this.host.style.opacity = '1';
+
+    if (this.shouldAnimateMenu) {
+      // Ensure the initial opacity=0 is committed before we flip to 1,
+      // otherwise some browsers skip the transition on first paint.
+      void this.panel.getBoundingClientRect();
+    }
+
     this.host.style.pointerEvents = 'auto';
+
+    if (this.shouldAnimateMenu) {
+      this.panel.style.opacity = '1';
+      this.panel.style.transform = 'scale(1)';
+    }
   }
 
   close(result?: unknown): void {
@@ -708,6 +739,56 @@ class CoarOverlayRef implements OverlayRef {
 
     this.resizeObserver?.disconnect();
     this.resizeObserver = null;
+
+    // Begin visual close (menu overlays only). We keep the host in the DOM
+    // briefly so opacity can transition to 0, then tear down.
+    if (this.shouldAnimateMenu && this.presented) {
+      this.host.style.pointerEvents = 'none';
+      this.panel.style.opacity = '0';
+      this.panel.style.transform = 'scale(0.98)';
+
+      const finalizeOnce = () => {
+        this.finalizeClose();
+      };
+
+      let fallbackTimer: ReturnType<typeof setTimeout> | null = null;
+
+      const onEnd = (e: TransitionEvent) => {
+        if (
+          e.target === this.panel &&
+          (e.propertyName === 'opacity' || e.propertyName === 'transform')
+        ) {
+          this.host.removeEventListener('transitionend', onEnd);
+          if (fallbackTimer) {
+            clearTimeout(fallbackTimer);
+            fallbackTimer = null;
+          }
+          finalizeOnce();
+        }
+      };
+
+      this.host.addEventListener('transitionend', onEnd);
+
+      const fallbackMs = this.getMaxTransitionTimeMs();
+      if (fallbackMs === 0) {
+        this.host.removeEventListener('transitionend', onEnd);
+        finalizeOnce();
+      } else {
+        fallbackTimer = setTimeout(() => {
+          this.host.removeEventListener('transitionend', onEnd);
+          finalizeOnce();
+        }, fallbackMs);
+      }
+
+      return;
+    }
+
+    this.finalizeClose();
+  }
+
+  private finalizeClose(): void {
+    if (this.closeFinalized) return;
+    this.closeFinalized = true;
 
     this.destroyContent?.();
     this.destroyContent = null;
@@ -735,6 +816,40 @@ class CoarOverlayRef implements OverlayRef {
 
     this.parent?.children.delete(this);
     this.onClosed();
+  }
+
+  private getMaxTransitionTimeMs(): number {
+    if (typeof getComputedStyle === 'undefined') return 0;
+
+    const style = getComputedStyle(this.panel);
+    const durations = style.transitionDuration.split(',').map((v) => v.trim());
+    const delays = style.transitionDelay.split(',').map((v) => v.trim());
+    const entries = Math.max(durations.length, delays.length);
+
+    let maxMs = 0;
+    for (let i = 0; i < entries; i++) {
+      const duration = durations[i] ?? durations[durations.length - 1] ?? '0ms';
+      const delay = delays[i] ?? delays[delays.length - 1] ?? '0ms';
+      const ms = this.parseCssTimeToMs(duration) + this.parseCssTimeToMs(delay);
+      maxMs = Math.max(maxMs, ms);
+    }
+
+    return maxMs;
+  }
+
+  private parseCssTimeToMs(value: string): number {
+    const v = value.trim();
+    if (!v) return 0;
+    if (v.endsWith('ms')) {
+      const n = Number(v.slice(0, -2));
+      return Number.isFinite(n) ? n : 0;
+    }
+    if (v.endsWith('s')) {
+      const n = Number(v.slice(0, -1));
+      return Number.isFinite(n) ? n * 1000 : 0;
+    }
+    const n = Number(v);
+    return Number.isFinite(n) ? n : 0;
   }
 
   private installFocusTrap(): void {

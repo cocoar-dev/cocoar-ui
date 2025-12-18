@@ -32,7 +32,14 @@ export const coarMenuPreset: OverlayPreset = (b) => {
   b.dismiss({ outsideClick: true, escapeKey: true });
   b.focus({ trap: false, restore: true });
   b.a11y({ role: 'menu' });
-  b.position({ placement: 'bottom', offset: 4, flip: true, shift: true });
+  // Provide fallback placements so the overlay can choose a side that fits.
+  // Start/end variants help when the anchor is near the viewport edges.
+  b.position({
+    placement: ['bottom-start', 'bottom-end', 'top-start', 'top-end'],
+    offset: 4,
+    flip: true,
+    shift: true,
+  });
 };
 
 /**

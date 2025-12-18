@@ -61,7 +61,6 @@ export class MenuPage {
     const spec = Overlay.define<void>((b) => {
       b.content((c) => c.fromTemplate(this.contextMenuTemplate));
       b.anchor({ kind: 'point', x: event.clientX, y: event.clientY });
-      b.position({ placement: 'bottom-start', offset: 4, flip: true });
     }, coarMenuPreset);
 
     this.contextMenuRef = this.overlayService.open(spec, undefined);
@@ -132,7 +131,6 @@ export class MenuPage {
   const spec = Overlay.define((b) => {
     b.content((c) => c.fromTemplate(this.contextMenuTemplate));
     b.anchor({ kind: 'point', x: event.clientX, y: event.clientY });
-    b.position({ placement: 'bottom-start', offset: 4 });
   }, coarMenuPreset);
 
   this.contextMenuRef = this.overlayService.open(spec, undefined);

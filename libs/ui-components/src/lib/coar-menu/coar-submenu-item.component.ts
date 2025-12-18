@@ -169,7 +169,7 @@ export class CoarSubmenuItemComponent {
     const spec = Overlay.define<void>((b) => {
       b.content((c) => c.fromTemplate(this.overlaySubmenuTemplate));
       b.anchor({ kind: 'element', element: anchorElement });
-      b.position({ placement: 'right-start', offset: -4, flip: true });
+      b.position({ placement: ['right-start', 'left-start'], offset: -4, flip: true, shift: true });
     }, coarHoverMenuPreset);
 
     // Prefer the cascade parent's overlayRef when available.
