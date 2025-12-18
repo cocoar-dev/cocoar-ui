@@ -29,7 +29,6 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarMenuItemComponent,
     CoarMenuDividerComponent,
     CoarSubmenuItemComponent,
-    ShowcaseMarkdownTabContentComponent,
   ],
   templateUrl: './menu.page.html',
   styleUrl: './menu.page.css',
@@ -224,6 +223,27 @@ export class MenuPage {
   <coar-menu-item [disabled]="true" (itemClick)="handleMenuItemClick('paste')">Paste (disabled)</coar-menu-item>
   <coar-menu-divider></coar-menu-divider>
   <coar-menu-item [disabled]="true" icon="trash" (itemClick)="handleMenuItemClick('delete')">Delete (disabled)</coar-menu-item>
+</coar-menu>`,
+
+    siblings: `<coar-menu>
+  <coar-menu-item icon="file" (itemClick)="handleMenuItemClick('file')">File</coar-menu-item>
+  <coar-submenu-item label="Export" icon="download">
+    <coar-menu-item icon="file" (itemClick)="handleAction('exportPdf')">Export as PDF</coar-menu-item>
+    <coar-menu-item icon="file" (itemClick)="handleAction('exportWord')">Export as Word</coar-menu-item>
+    <coar-menu-item icon="file" (itemClick)="handleAction('exportExcel')">Export as Excel</coar-menu-item>
+  </coar-submenu-item>
+  <coar-submenu-item label="Share" icon="users">
+    <coar-menu-item icon="chat" (itemClick)="handleAction('shareEmail')">Share via Email</coar-menu-item>
+    <coar-menu-item icon="link" (itemClick)="handleAction('shareLink')">Copy Link</coar-menu-item>
+    <coar-menu-item icon="slack" (itemClick)="handleAction('shareSlack')">Share to Slack</coar-menu-item>
+  </coar-submenu-item>
+  <coar-submenu-item label="Settings" icon="settings">
+    <coar-menu-item icon="palette" (itemClick)="handleAction('theme')">Change Theme</coar-menu-item>
+    <coar-menu-item icon="globe" (itemClick)="handleAction('language')">Language</coar-menu-item>
+    <coar-menu-item icon="bell" (itemClick)="handleAction('notifications')">Notifications</coar-menu-item>
+  </coar-submenu-item>
+  <coar-menu-divider></coar-menu-divider>
+  <coar-menu-item icon="question" (itemClick)="handleMenuItemClick('help')">Help</coar-menu-item>
 </coar-menu>`,
 
     contextMenu: `onContextMenu(event: MouseEvent): void {

@@ -94,6 +94,35 @@
 
       <coar-code-block [code]="codeExamples.parentAttached" language="ts" [showLineNumbers]="false" />
     </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+
+    <section class="example-section">
+      <h3>Nested Overlays with Sibling Closure</h3>
+      <p>
+        Test parent-child overlay hierarchy with sibling closure. Click buttons to open child overlays. Opening a sibling should close the previous
+        one.
+      </p>
+
+      <div class="example-demo example-demo--column">
+        <coar-button variant="primary" size="sm" (clicked)="openNestedTest()"> Open Parent Overlay </coar-button>
+        <div class="coar-caption" style="color: var(--coar-text-neutral-secondary); margin-top: 8px">
+          Inside parent: Click Child A/B/C buttons → only one child open at a time<br />
+          Inside child: Click Grandchild buttons → only one grandchild open at a time
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h3>Hover-Based Nested Overlays (Menu-like)</h3>
+      <p>Same test but with HOVER instead of click. Hover over items to open submenus. Only one sibling should be open at a time.</p>
+      <div style="display: flex; gap: var(--coar-spacing-sm); align-items: center">
+        <coar-button variant="primary" size="sm" (clicked)="openHoverTest()"> Open Hover Parent </coar-button>
+        <div class="coar-caption" style="color: var(--coar-text-neutral-secondary); margin-top: 8px">
+          HOVER over items to open submenus → behaves like real menu system
+        </div>
+      </div>
+    </section>
   </div>
 </ng-template>
 
@@ -161,5 +190,116 @@
     <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">
       This overlay is attached to the grey container, not the body. It clamps to container edges.
     </div>
+  </div>
+</ng-template>
+
+<ng-template #nestedTestParent>
+  <div class="overlay-panel" style="min-width: 250px">
+    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Parent Overlay</div>
+    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary); margin-bottom: 12px">
+      Click buttons to open child overlays. Only one child should be open at a time.
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <span #childABtn>
+        <coar-button variant="ghost" size="sm" (clicked)="openChildA(childABtn)">Open Child A</coar-button>
+      </span>
+      <span #childBBtn>
+        <coar-button variant="ghost" size="sm" (clicked)="openChildB(childBBtn)">Open Child B</coar-button>
+      </span>
+      <span #childCBtn>
+        <coar-button variant="ghost" size="sm" (clicked)="openChildC(childCBtn)">Open Child C</coar-button>
+      </span>
+    </div>
+    <coar-divider [spacingTop]="12" [spacingBottom]="12" />
+    <coar-button variant="ghost" size="sm" (clicked)="close()">Close All</coar-button>
+  </div>
+</ng-template>
+
+<ng-template #nestedTestChildA>
+  <div class="overlay-panel" style="min-width: 200px; background: var(--coar-color-success-subtle)">
+    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Child A</div>
+    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary); margin-bottom: 12px">
+      Open grandchildren. Only one should be open at a time.
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <span #grandchildA1Btn>
+        <coar-button variant="ghost" size="sm" (clicked)="openGrandchildA1(grandchildA1Btn)">Grandchild A1</coar-button>
+      </span>
+      <span #grandchildA2Btn>
+        <coar-button variant="ghost" size="sm" (clicked)="openGrandchildA2(grandchildA2Btn)">Grandchild A2</coar-button>
+      </span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #nestedTestChildB>
+  <div class="overlay-panel" style="min-width: 200px; background: var(--coar-color-info-subtle)">
+    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Child B</div>
+    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary); margin-bottom: 12px">
+      Open grandchildren. Only one should be open at a time.
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 8px">
+      <span #grandchildB1Btn>
+        <coar-button variant="ghost" size="sm" (clicked)="openGrandchildB1(grandchildB1Btn)">Grandchild B1</coar-button>
+      </span>
+      <span #grandchildB2Btn>
+        <coar-button variant="ghost" size="sm" (clicked)="openGrandchildB2(grandchildB2Btn)">Grandchild B2</coar-button>
+      </span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #nestedTestChildC>
+  <div class="overlay-panel" style="min-width: 200px; background: var(--coar-color-warning-subtle)">
+    <div class="coar-body">Child C</div>
+    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">No grandchildren here</div>
+  </div>
+</ng-template>
+
+<ng-template #nestedTestGrandchild let-name="name">
+  <div class="overlay-panel" style="min-width: 150px; background: var(--coar-color-neutral-subtle)">
+    <div class="coar-body">{{ name }}</div>
+    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">3rd level overlay</div>
+  </div>
+</ng-template>
+
+<!-- Hover-based test templates -->
+<ng-template #hoverTestParent>
+  <div class="overlay-panel" style="min-width: 200px">
+    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Hover Parent</div>
+    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary); margin-bottom: 8px">Hover over items to open submenus</div>
+    <div #hoverItemA class="hover-menu-item" (mouseenter)="openHoverChildA(hoverItemA)" (mouseleave)="scheduleClose()">Item A →</div>
+    <div #hoverItemB class="hover-menu-item" (mouseenter)="openHoverChildB(hoverItemB)" (mouseleave)="scheduleClose()">Item B →</div>
+    <div #hoverItemC class="hover-menu-item" (mouseenter)="openHoverChildC(hoverItemC)" (mouseleave)="scheduleClose()">Item C →</div>
+  </div>
+</ng-template>
+
+<ng-template #hoverTestChildA>
+  <div class="overlay-panel" style="min-width: 180px; border-left: 3px solid var(--coar-color-success)">
+    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Child A</div>
+    <div #hoverSubA1 class="hover-menu-item" (mouseenter)="openHoverGrandchildA1(hoverSubA1)" (mouseleave)="scheduleClose()">Subitem A1 →</div>
+    <div #hoverSubA2 class="hover-menu-item" (mouseenter)="openHoverGrandchildA2(hoverSubA2)" (mouseleave)="scheduleClose()">Subitem A2 →</div>
+  </div>
+</ng-template>
+
+<ng-template #hoverTestChildB>
+  <div class="overlay-panel" style="min-width: 180px; border-left: 3px solid var(--coar-color-info)">
+    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Child B</div>
+    <div #hoverSubB1 class="hover-menu-item" (mouseenter)="openHoverGrandchildB1(hoverSubB1)" (mouseleave)="scheduleClose()">Subitem B1 →</div>
+    <div #hoverSubB2 class="hover-menu-item" (mouseenter)="openHoverGrandchildB2(hoverSubB2)" (mouseleave)="scheduleClose()">Subitem B2 →</div>
+  </div>
+</ng-template>
+
+<ng-template #hoverTestChildC>
+  <div class="overlay-panel" style="min-width: 180px; border-left: 3px solid var(--coar-color-warning)">
+    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Child C</div>
+    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">No subitems</div>
+  </div>
+</ng-template>
+
+<ng-template #hoverTestGrandchild let-name="name">
+  <div class="overlay-panel" style="min-width: 150px; background: var(--coar-color-neutral-subtle)">
+    <div class="coar-body">{{ name }}</div>
+    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">3rd level</div>
   </div>
 </ng-template>

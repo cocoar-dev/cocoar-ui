@@ -24,6 +24,7 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
 import {
   CoarOverlayService,
   Overlay,
+  coarHoverMenuPreset,
   coarMenuPreset,
   coarModalPreset,
   type ContentBuilder,
@@ -70,6 +71,29 @@ export class OverlayPage {
   private readonly resolvedMenuTemplateRef = viewChild<TemplateRef<object>>('resolvedMenuTemplate');
   private readonly parentAttachedTemplateRef =
     viewChild<TemplateRef<object>>('parentAttachedTemplate');
+
+  private readonly nestedTestParentRef = viewChild<TemplateRef<object>>('nestedTestParent');
+  private readonly nestedTestChildARef = viewChild<TemplateRef<object>>('nestedTestChildA');
+  private readonly nestedTestChildBRef = viewChild<TemplateRef<object>>('nestedTestChildB');
+  private readonly nestedTestChildCRef = viewChild<TemplateRef<object>>('nestedTestChildC');
+  private readonly nestedTestGrandchildRef =
+    viewChild<TemplateRef<{ name: string }>>('nestedTestGrandchild');
+
+  private readonly hoverTestParentRef = viewChild<TemplateRef<object>>('hoverTestParent');
+  private readonly hoverTestChildARef = viewChild<TemplateRef<object>>('hoverTestChildA');
+  private readonly hoverTestChildBRef = viewChild<TemplateRef<object>>('hoverTestChildB');
+  private readonly hoverTestChildCRef = viewChild<TemplateRef<object>>('hoverTestChildC');
+  private readonly hoverTestGrandchildRef =
+    viewChild<TemplateRef<{ name: string }>>('hoverTestGrandchild');
+
+  private nestedTestParentOverlay: OverlayRef | null = null;
+  private nestedTestChildOverlay: OverlayRef | null = null;
+  private nestedTestGrandchildOverlay: OverlayRef | null = null;
+
+  private hoverTestParentOverlay: OverlayRef | null = null;
+  private hoverTestChildOverlay: OverlayRef | null = null;
+  private hoverTestGrandchildOverlay: OverlayRef | null = null;
+  private hoverCloseTimer: ReturnType<typeof setTimeout> | null = null;
 
   private readonly connectedOriginRef = viewChild<ElementRef<HTMLElement>>('connectedOrigin');
   private readonly resolvedMenuOriginRef = viewChild<ElementRef<HTMLElement>>('resolvedMenuOrigin');
@@ -207,6 +231,222 @@ export class OverlayPage {
     this.overlayRef?.close();
     this.overlayRef = null;
     this.isOpen.set(false);
+  }
+
+  // ===== Nested Test Methods =====
+
+  openNestedTest(): void {
+    const template = this.nestedTestParentRef();
+    if (!template) return;
+
+    const spec = Overlay.define<object>((b) => {
+      b.content((c) => c.fromTemplate(template));
+      b.anchor({ kind: 'virtual', placement: 'center' });
+      b.position({ placement: 'bottom' });
+    });
+
+    this.nestedTestParentOverlay = this.overlayService.open(spec, {});
+    console.log('[NestedTest] Opened parent overlay');
+  }
+
+  openChildA(button: HTMLElement): void {
+    this.openChildOverlay(button, this.nestedTestChildARef(), 'Child A');
+  }
+
+  openChildB(button: HTMLElement): void {
+    this.openChildOverlay(button, this.nestedTestChildBRef(), 'Child B');
+  }
+
+  openChildC(button: HTMLElement): void {
+    this.openChildOverlay(button, this.nestedTestChildCRef(), 'Child C');
+  }
+
+  private openChildOverlay(
+    button: HTMLElement,
+    template: TemplateRef<object> | undefined,
+    name: string
+  ): void {
+    if (!template || !this.nestedTestParentOverlay) return;
+
+    const spec = Overlay.define<object>((b) => {
+      b.content((c) => c.fromTemplate(template));
+      b.anchor({ kind: 'element', element: button });
+      b.position({ placement: 'right-start', offset: 8 });
+    });
+
+    console.log(`[NestedTest] Opening ${name}, closing siblings first`);
+
+    // Create the new child
+    const newChild = this.overlayService.openChild(this.nestedTestParentOverlay, spec, {});
+
+    // Close siblings (all other children except the new one)
+    this.nestedTestParentOverlay.closeChildren(newChild);
+
+    this.nestedTestChildOverlay = newChild;
+  }
+
+  openGrandchildA1(button: HTMLElement): void {
+    this.openGrandchildOverlay(button, 'Grandchild A1');
+  }
+
+  openGrandchildA2(button: HTMLElement): void {
+    this.openGrandchildOverlay(button, 'Grandchild A2');
+  }
+
+  openGrandchildB1(button: HTMLElement): void {
+    this.openGrandchildOverlay(button, 'Grandchild B1');
+  }
+
+  openGrandchildB2(button: HTMLElement): void {
+    this.openGrandchildOverlay(button, 'Grandchild B2');
+  }
+
+  private openGrandchildOverlay(button: HTMLElement, name: string): void {
+    const template = this.nestedTestGrandchildRef();
+    if (!template || !this.nestedTestChildOverlay) return;
+
+    const spec = Overlay.define<{ name: string }>((b) => {
+      b.content((c) => c.fromTemplate(template));
+      b.anchor({ kind: 'element', element: button });
+      b.position({ placement: 'right-start', offset: 8 });
+    });
+
+    console.log(`[NestedTest] Opening ${name}, closing siblings first`);
+
+    // Create the new grandchild
+    const newGrandchild = this.overlayService.openChild(this.nestedTestChildOverlay, spec, {
+      name,
+    });
+
+    // Close siblings (all other grandchildren except the new one)
+    this.nestedTestChildOverlay.closeChildren(newGrandchild);
+
+    this.nestedTestGrandchildOverlay = newGrandchild;
+  }
+
+  // =============================================
+  // Hover-based nested overlay test (menu-like)
+  // =============================================
+
+  openHoverTest(): void {
+    const template = this.hoverTestParentRef();
+    if (!template) return;
+
+    const spec = Overlay.define<object>((b: OverlayBuilder) => {
+      b.content((c: ContentBuilder) => c.fromTemplate(template));
+      b.anchor({ kind: 'virtual', placement: 'center' });
+      b.backdrop({ kind: 'modal', closeOnBackdropClick: true });
+      b.dismiss({ escapeKey: true });
+    }, coarHoverMenuPreset);
+
+    this.hoverTestParentOverlay = this.overlayService.open(spec, {});
+  }
+
+  scheduleClose(): void {
+    // Cancel any existing timer when hovering over new items
+    if (this.hoverCloseTimer) {
+      clearTimeout(this.hoverCloseTimer);
+      this.hoverCloseTimer = null;
+    }
+    // Delay to allow moving between menu and submenu
+    // this.hoverCloseTimer = setTimeout(() => {
+    //   // Close child and grandchild when leaving menu area
+    //   this.hoverTestGrandchildOverlay?.close();
+    //   this.hoverTestGrandchildOverlay = null;
+    //   this.hoverTestChildOverlay?.close();
+    //   this.hoverTestChildOverlay = null;
+    // }, 300);
+  }
+
+  private cancelScheduledClose(): void {
+    if (this.hoverCloseTimer) {
+      clearTimeout(this.hoverCloseTimer);
+      this.hoverCloseTimer = null;
+    }
+  }
+
+  openHoverChildA(anchor: HTMLElement): void {
+    this.cancelScheduledClose();
+    this.openHoverChildOverlay(this.hoverTestParentOverlay, anchor, this.hoverTestChildARef());
+  }
+
+  openHoverChildB(anchor: HTMLElement): void {
+    this.cancelScheduledClose();
+    this.openHoverChildOverlay(this.hoverTestParentOverlay, anchor, this.hoverTestChildBRef());
+  }
+
+  openHoverChildC(anchor: HTMLElement): void {
+    this.cancelScheduledClose();
+    this.openHoverChildOverlay(this.hoverTestParentOverlay, anchor, this.hoverTestChildCRef());
+  }
+
+  private openHoverChildOverlay(
+    parent: OverlayRef | null,
+    anchor: HTMLElement,
+    template: TemplateRef<object> | undefined
+  ): void {
+    if (!parent || !template) return;
+
+    const spec = Overlay.define<object>((b: OverlayBuilder) => {
+      b.content((c: ContentBuilder) => c.fromTemplate(template));
+      b.anchor({ kind: 'element', element: anchor });
+      b.position({ placement: 'right-start', offset: -4, flip: true });
+    }, coarHoverMenuPreset);
+
+    // Create new child first
+    this.hoverTestChildOverlay = this.overlayService.openChild(parent, spec, {});
+    // Then close siblings, excluding the new one
+    parent.closeChildren(this.hoverTestChildOverlay);
+  }
+
+  openHoverGrandchildA1(anchor: HTMLElement): void {
+    this.cancelScheduledClose();
+    this.openHoverGrandchildOverlay(this.hoverTestChildOverlay, anchor, 'Subitem A1');
+  }
+
+  openHoverGrandchildA2(anchor: HTMLElement): void {
+    this.cancelScheduledClose();
+    this.openHoverGrandchildOverlay(this.hoverTestChildOverlay, anchor, 'Subitem A2');
+  }
+
+  openHoverGrandchildB1(anchor: HTMLElement): void {
+    this.cancelScheduledClose();
+    this.openHoverGrandchildOverlay(this.hoverTestChildOverlay, anchor, 'Subitem B1');
+  }
+
+  openHoverGrandchildB2(anchor: HTMLElement): void {
+    this.cancelScheduledClose();
+    this.openHoverGrandchildOverlay(this.hoverTestChildOverlay, anchor, 'Subitem B2');
+  }
+
+  private openHoverGrandchildOverlay(
+    parent: OverlayRef | null,
+    anchor: HTMLElement,
+    name: string
+  ): void {
+    if (!parent) return;
+
+    const template = this.hoverTestGrandchildRef();
+    if (!template) return;
+
+    const spec = Overlay.define<{ name: string }>((b: OverlayBuilder) => {
+      b.content((c: ContentBuilder) => c.fromTemplate(template));
+      b.anchor({ kind: 'element', element: anchor });
+      b.position({ placement: 'right-start', offset: -4, flip: true });
+    }, coarHoverMenuPreset);
+
+    // Create new grandchild first
+    this.hoverTestGrandchildOverlay = this.overlayService.openChild(parent, spec, { name });
+    // Then close siblings, excluding the new one
+    parent.closeChildren(this.hoverTestGrandchildOverlay);
+  }
+
+  private closeHoverTest(): void {
+    this.cancelScheduledClose();
+    this.hoverTestParentOverlay?.close();
+    this.hoverTestParentOverlay = null;
+    this.hoverTestChildOverlay = null;
+    this.hoverTestGrandchildOverlay = null;
   }
 
   protected readonly codeExamples = {

@@ -594,6 +594,68 @@ export const LabelApi: ComponentApi = {
   "outputs": []
 };
 
+export const MenuItemApi: ComponentApi = {
+  "className": "CoarMenuItemComponent",
+  "selector": "coar-menu-item",
+  "inputs": [
+    {
+      "name": "label",
+      "type": "string",
+      "default": "''",
+      "description": "Item text content",
+      "required": false
+    },
+    {
+      "name": "icon",
+      "type": "CoreIconName | undefined",
+      "default": "undefined",
+      "description": "Optional icon identifier (rendered via CoarIconComponent)",
+      "required": false
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Disabled state prevents interaction",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "itemClick",
+      "type": "void",
+      "description": "Emitted when user clicks/selects the item"
+    },
+    {
+      "name": "itemHover",
+      "type": "Event",
+      "description": "Emitted when user hovers over item (for flyout trigger)"
+    }
+  ]
+};
+
+export const SubmenuItemApi: ComponentApi = {
+  "className": "CoarSubmenuItemComponent",
+  "selector": "coar-submenu-item",
+  "inputs": [
+    {
+      "name": "icon",
+      "type": "CoreIconName | undefined",
+      "default": "undefined",
+      "description": "Optional icon identifier",
+      "required": false
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Disabled state prevents interaction",
+      "required": false
+    }
+  ],
+  "outputs": []
+};
+
 export const NoteApi: ComponentApi = {
   "className": "CoarNoteComponent",
   "selector": "coar-note",

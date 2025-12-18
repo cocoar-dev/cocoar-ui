@@ -210,6 +210,24 @@ Sets the 'for' attribute for accessibility. |
 ### Outputs
 None.
 
+## coar-menu-item
+
+- Class: CoarMenuItemComponent
+- Selector: `coar-menu-item`
+
+### Inputs
+| Name | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| label | string | no | '' | Item text content |
+| icon | CoreIconName \| undefined | no | undefined | Optional icon identifier (rendered via CoarIconComponent) |
+| disabled | boolean | no | false | Disabled state prevents interaction |
+
+### Outputs
+| Name | Type | Description |
+| --- | --- | --- |
+| itemClick | void | Emitted when user clicks/selects the item |
+| itemHover | Event | Emitted when user hovers over item (for flyout trigger) |
+
 ## coar-multi-select
 
 - Class: CoarMultiSelectComponent
@@ -350,6 +368,20 @@ None.
 | Name | Type | Description |
 | --- | --- | --- |
 | valueChange | T \| null | Emits when the selected value changes |
+
+## coar-submenu-item
+
+- Class: CoarSubmenuItemComponent
+- Selector: `coar-submenu-item`
+
+### Inputs
+| Name | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| icon | CoreIconName \| undefined | no | undefined | Optional icon identifier |
+| disabled | boolean | no | false | Disabled state prevents interaction |
+
+### Outputs
+None.
 
 ## coar-tab
 

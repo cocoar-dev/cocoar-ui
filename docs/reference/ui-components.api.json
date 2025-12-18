@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2025-12-16T19:15:16.357Z",
+  "generatedAt": "2025-12-18T09:14:50.779Z",
   "package": "@cocoar/ui-components",
   "components": [
     {
@@ -564,6 +564,45 @@
       "outputs": []
     },
     {
+      "className": "CoarMenuItemComponent",
+      "selector": "coar-menu-item",
+      "inputs": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": "''",
+          "description": "Item text content",
+          "required": false
+        },
+        {
+          "name": "icon",
+          "type": "CoreIconName | undefined",
+          "default": "undefined",
+          "description": "Optional icon identifier (rendered via CoarIconComponent)",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "description": "Disabled state prevents interaction",
+          "required": false
+        }
+      ],
+      "outputs": [
+        {
+          "name": "itemClick",
+          "type": "void",
+          "description": "Emitted when user clicks/selects the item"
+        },
+        {
+          "name": "itemHover",
+          "type": "Event",
+          "description": "Emitted when user hovers over item (for flyout trigger)"
+        }
+      ]
+    },
+    {
       "className": "CoarMultiSelectComponent",
       "selector": "coar-multi-select",
       "inputs": [
@@ -973,6 +1012,27 @@
           "description": "Emits when the selected value changes"
         }
       ]
+    },
+    {
+      "className": "CoarSubmenuItemComponent",
+      "selector": "coar-submenu-item",
+      "inputs": [
+        {
+          "name": "icon",
+          "type": "CoreIconName | undefined",
+          "default": "undefined",
+          "description": "Optional icon identifier",
+          "required": false
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false",
+          "description": "Disabled state prevents interaction",
+          "required": false
+        }
+      ],
+      "outputs": []
     },
     {
       "className": "CoarTabComponent",

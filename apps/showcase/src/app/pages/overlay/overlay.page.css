@@ -55,6 +55,23 @@
   color: var(--coar-text-neutral-primary);
 }
 
+/* Hover menu items for nested overlay test */
+.hover-menu-item {
+  padding: var(--coar-spacing-xs) var(--coar-spacing-sm);
+  cursor: pointer;
+  border-radius: var(--coar-radius-s);
+  transition: background-color 150ms ease;
+  user-select: none;
+}
+
+.hover-menu-item:hover {
+  background: var(--coar-color-surface-container-high);
+}
+
+.hover-menu-item:active {
+  background: var(--coar-color-surface-container-highest);
+}
+
 /* Overlay content styling (rendered in a portal) */
 .overlay-panel {
   min-width: 220px;

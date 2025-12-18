@@ -26,7 +26,7 @@ import {
   getScrollParents,
   getViewportRect,
 } from './overlay-position';
-import { COAR_OVERLAY_REF } from './overlay-context';
+import { COAR_OVERLAY_REF, COAR_MENU_PARENT } from './overlay-context';
 
 export interface OverlayOpenOptions {
   /**
@@ -34,6 +34,12 @@ export interface OverlayOpenOptions {
    * (e.g. closing a parent closes its children).
    */
   parent?: OverlayRef;
+
+  /**
+   * If true, closes all sibling overlays (other children of the same parent) when this overlay opens.
+   * Useful for menus where only one submenu should be visible at a time.
+   */
+  closeSiblings?: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -104,8 +110,13 @@ export class CoarOverlayService {
     return this.attach(resolved, inputs, options);
   }
 
-  openChild<TInputs>(parent: OverlayRef, spec: OverlaySpec<TInputs>, inputs: TInputs): OverlayRef {
-    return this.open(spec, inputs, { parent });
+  openChild<TInputs>(
+    parent: OverlayRef,
+    spec: OverlaySpec<TInputs>,
+    inputs: TInputs,
+    options?: { closeSiblings?: boolean }
+  ): OverlayRef {
+    return this.open(spec, inputs, { parent, closeSiblings: options?.closeSiblings });
   }
 
   closeAll(): void {
@@ -154,6 +165,12 @@ export class CoarOverlayService {
     options?: OverlayOpenOptions
   ): OverlayRef {
     const parent = this.getInternalRefOrNull(options?.parent);
+
+    // Close sibling overlays if requested (close all existing children of parent)
+    if (options?.closeSiblings && parent) {
+      parent.closeChildren();
+    }
+
     const stackIndex = this.openOverlays.size;
 
     const effectiveSpec = this.inheritDismissFromParent(spec, parent);
@@ -383,12 +400,18 @@ class CoarOverlayRef implements OverlayRef {
     this.host.className = 'coar-overlay-host';
 
     this.contentInjector = Injector.create({
-      providers: [{ provide: COAR_OVERLAY_REF, useValue: this }],
+      providers: [
+        { provide: COAR_OVERLAY_REF, useValue: this },
+        { provide: COAR_MENU_PARENT, useValue: this },
+      ],
       parent: this.environmentInjector,
     });
 
     this.contentEnvironmentInjector = createEnvironmentInjector(
-      [{ provide: COAR_OVERLAY_REF, useValue: this }],
+      [
+        { provide: COAR_OVERLAY_REF, useValue: this },
+        { provide: COAR_MENU_PARENT, useValue: this },
+      ],
       this.environmentInjector
     );
 
@@ -418,9 +441,25 @@ class CoarOverlayRef implements OverlayRef {
     return this.parent?.getRoot() ?? this;
   }
 
-  closeChildren(): void {
+  closeChildren(exclude?: CoarOverlayRef): void {
     for (const child of Array.from(this.children)) {
-      child.close();
+      if (child !== exclude) {
+        child.close();
+      }
+    }
+  }
+
+  /**
+   * Close all sibling overlays (other children of the same parent).
+   * Used when opening a new child overlay with closeSiblings option.
+   */
+  closeSiblings(): void {
+    if (this.parent) {
+      for (const sibling of Array.from(this.parent.children)) {
+        if (sibling !== this) {
+          sibling.close();
+        }
+      }
     }
   }
 
@@ -487,25 +526,32 @@ class CoarOverlayRef implements OverlayRef {
       this.cancelHoverCloseUpTree();
     };
 
-    const onLeave = () => {
+    const onHostLeave = () => {
       this.scheduleHoverCloseUpTree(delayMs);
     };
 
+    // Important: an overlay's anchor element can be *inside* its parent overlay (submenu items).
+    // Leaving that anchor while still hovering the parent overlay should not schedule closing
+    // the parent/grandparent overlays; only this (leaf) overlay should be eligible to close.
+    const onAnchorLeave = () => {
+      this.scheduleHoverClose(delayMs);
+    };
+
     this.host.addEventListener('pointerenter', onEnter);
-    this.host.addEventListener('pointerleave', onLeave);
+    this.host.addEventListener('pointerleave', onHostLeave);
     this.cleanupFns.push(() => {
       this.host.removeEventListener('pointerenter', onEnter);
-      this.host.removeEventListener('pointerleave', onLeave);
+      this.host.removeEventListener('pointerleave', onHostLeave);
       this.cancelHoverClose();
     });
 
     if (this.spec.anchor.kind === 'element') {
       const el = this.spec.anchor.element;
       el.addEventListener('pointerenter', onEnter);
-      el.addEventListener('pointerleave', onLeave);
+      el.addEventListener('pointerleave', onAnchorLeave);
       this.cleanupFns.push(() => {
         el.removeEventListener('pointerenter', onEnter);
-        el.removeEventListener('pointerleave', onLeave);
+        el.removeEventListener('pointerleave', onAnchorLeave);
       });
     }
   }

@@ -1,6 +1,14 @@
-import { Component, ChangeDetectionStrategy, input, output, HostListener } from '@angular/core';
+import {
+  Component,
+  ChangeDetectionStrategy,
+  input,
+  output,
+  HostListener,
+  inject,
+} from '@angular/core';
 import { CoarIconComponent } from '../coar-icon/coar-icon.component';
 import { type CoreIconName } from '../coar-icon/core-icons';
+import { COAR_MENU_CASCADE } from './coar-menu-cascade';
 
 /**
  * CoarMenuItem: Individual menu item with optional icon and submenu support.
@@ -37,6 +45,8 @@ import { type CoreIconName } from '../coar-icon/core-icons';
   },
 })
 export class CoarMenuItemComponent {
+  private readonly cascade = inject(COAR_MENU_CASCADE, { optional: true });
+
   /** Item text content */
   readonly label = input<string>();
 
