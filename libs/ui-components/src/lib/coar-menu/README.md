@@ -32,6 +32,8 @@ Action item.
 
 Menu item that opens a flyout submenu.
 
+Also available via the alias selector `coar-sub-flyout` (recommended for new usage).
+
 **Inputs:**
 - `label: string` (required)
 - `icon?: CoreIconName`
@@ -41,6 +43,17 @@ Menu item that opens a flyout submenu.
 Submenu content can be authored either:
 - Inline via a direct child `<ng-template>` (recommended), or
 - As an external `<ng-template #ref>` passed into `[submenuTemplate]`.
+
+### `CoarSubAccordionComponent` (`coar-sub-accordion`)
+
+Menu item that expands/collapses a submenu inline.
+
+**Inputs:**
+- `label: string` (required)
+- `icon?: CoreIconName`
+- `disabled?: boolean` (default `false`)
+- `open?: boolean` (default `false`, two-way bindable with `[(open)]`)
+- `submenuTemplate?: TemplateRef<unknown> | null` (optional fallback)
 
 ### `CoarMenuDividerComponent` (`coar-menu-divider`)
 
@@ -63,23 +76,23 @@ Visual separator.
 
 ```html
 <coar-menu>
-  <coar-submenu-item label="Share" icon="users">
+  <coar-sub-flyout label="Share" icon="users">
     <ng-template>
       <coar-menu>
         <coar-menu-item (itemClick)="shareEmail()">Email</coar-menu-item>
         <coar-menu-item (itemClick)="shareCopyLink()">Copy link</coar-menu-item>
 
-        <coar-submenu-item label="Social" icon="share">
+        <coar-sub-flyout label="Social" icon="share">
           <ng-template>
             <coar-menu>
               <coar-menu-item>Twitter</coar-menu-item>
               <coar-menu-item>LinkedIn</coar-menu-item>
             </coar-menu>
           </ng-template>
-        </coar-submenu-item>
+        </coar-sub-flyout>
       </coar-menu>
     </ng-template>
-  </coar-submenu-item>
+  </coar-sub-flyout>
 </coar-menu>
 ```
 
@@ -87,7 +100,7 @@ Visual separator.
 
 ```html
 <coar-menu>
-  <coar-submenu-item label="Share" icon="users" [submenuTemplate]="shareMenu" />
+  <coar-sub-flyout label="Share" icon="users" [submenuTemplate]="shareMenu" />
 </coar-menu>
 
 <ng-template #shareMenu>
@@ -96,6 +109,19 @@ Visual separator.
     <coar-menu-item>Copy link</coar-menu-item>
   </coar-menu>
 </ng-template>
+```
+
+### Accordion Submenu (inline)
+
+```html
+<coar-menu>
+  <coar-sub-accordion label="Options" icon="settings" [(open)]="optionsOpen">
+    <ng-template>
+      <coar-menu-item icon="plus" (itemClick)="onAdd()">Add</coar-menu-item>
+      <coar-menu-item icon="trash" (itemClick)="onClear()">Clear</coar-menu-item>
+    </ng-template>
+  </coar-sub-accordion>
+</coar-menu>
 ```
 
 ### Context Menu (with `@cocoar/ui-overlay`)

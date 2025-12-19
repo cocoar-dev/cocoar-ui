@@ -648,9 +648,51 @@ export const MenuItemApi: ComponentApi = {
   ]
 };
 
+export const SubAccordionApi: ComponentApi = {
+  "className": "CoarSubAccordionComponent",
+  "selector": "coar-sub-accordion",
+  "inputs": [
+    {
+      "name": "label",
+      "type": "string",
+      "default": "required",
+      "description": "Label text for the menu item",
+      "required": true
+    },
+    {
+      "name": "icon",
+      "type": "CoreIconName | undefined",
+      "default": "undefined",
+      "description": "Optional icon identifier",
+      "required": false
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Disabled state prevents interaction",
+      "required": false
+    },
+    {
+      "name": "submenuTemplate",
+      "type": "TemplateRef<unknown> | null",
+      "default": "null",
+      "description": "Optional external submenu template. Prefer an inline `<ng-template>` child when possible.",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "openChange",
+      "type": "boolean",
+      "description": "Emits when expanded state changes (for [(open)])"
+    }
+  ]
+};
+
 export const SubmenuItemApi: ComponentApi = {
   "className": "CoarSubmenuItemComponent",
-  "selector": "coar-submenu-item",
+  "selector": "coar-submenu-item, coar-sub-flyout",
   "inputs": [
     {
       "name": "label",

@@ -13,6 +13,7 @@ This document provides detailed API information for all menu-related components.
 | [CoarMenuComponent](#coarmenucomponent) | Container for menu items |
 | [CoarMenuItemComponent](#coarmenuitemcomponent) | Individual menu action item |
 | [CoarSubmenuItemComponent](#coarsubmenuitemcomponent) | Menu item with nested flyout submenu |
+| [CoarSubAccordionComponent](#coarsubaccordioncomponent) | Menu item with nested inline accordion submenu |
 | [CoarMenuDividerComponent](#coarmenudividercomponent) | Visual separator between items |
 
 ---
@@ -152,7 +153,8 @@ Represents a single actionable menu item. Supports icons, disabled state, and cl
 All styles use design tokens:
 - `--coar-text-neutral-primary` — Default text color
 - `--coar-text-neutral-secondary` — Disabled text color
-- `--coar-surface-accent-subtle` — Hover/focus background
+- `--coar-menu-item-background-hover` — Hover background
+- `--coar-menu-item-background-focus` — Focus background
 - `--coar-spacing-xs`, `--coar-spacing-s` — Padding
 - Icons use `size="sm"` (16px)
 
@@ -168,7 +170,7 @@ All styles use design tokens:
 
 ## CoarSubmenuItemComponent
 
-**Selector:** `coar-submenu-item`
+**Selector:** `coar-submenu-item` (alias: `coar-sub-flyout`)
 
 **Purpose:** Menu item that opens a nested submenu on hover.
 
@@ -179,14 +181,14 @@ A special menu item that triggers a flyout submenu when hovered. Uses the Cocoar
 ### Usage
 
 ```html
-<coar-submenu-item icon="users" label="Share">
+<coar-sub-flyout icon="users" label="Share">
   <ng-template>
     <coar-menu>
       <coar-menu-item icon="chat" (itemClick)="shareEmail()">Email</coar-menu-item>
       <coar-menu-item icon="copy" (itemClick)="shareCopyLink()">Copy Link</coar-menu-item>
     </coar-menu>
   </ng-template>
-</coar-submenu-item>
+</coar-sub-flyout>
 
 <!-- Also supported (external template): -->
 <coar-submenu-item icon="users" label="Share" [submenuTemplate]="shareMenu" />
@@ -259,30 +261,36 @@ None.
 #### Nested Submenu
 
 ```html
-<coar-submenu-item icon="load" label="Export">
+<coar-sub-flyout icon="load" label="Export">
   <ng-template>
-    <coar-menu-item>PDF</coar-menu-item>
-    <coar-menu-item>CSV</coar-menu-item>
+    <coar-menu>
+      <coar-menu-item>PDF</coar-menu-item>
+      <coar-menu-item>CSV</coar-menu-item>
 
-    <coar-submenu-item label="Advanced">
-      <ng-template>
-        <coar-menu-item>JSON</coar-menu-item>
-        <coar-menu-item>XML</coar-menu-item>
-        <coar-menu-item>YAML</coar-menu-item>
-      </ng-template>
-    </coar-submenu-item>
+      <coar-sub-flyout label="Advanced">
+        <ng-template>
+          <coar-menu>
+            <coar-menu-item>JSON</coar-menu-item>
+            <coar-menu-item>XML</coar-menu-item>
+            <coar-menu-item>YAML</coar-menu-item>
+          </coar-menu>
+        </ng-template>
+      </coar-sub-flyout>
+    </coar-menu>
   </ng-template>
-</coar-submenu-item>
+</coar-sub-flyout>
 ```
 
 #### Disabled Submenu
 
 ```html
-<coar-submenu-item icon="users" label="Share" [disabled]="!canShare" [submenuTemplate]="shareMenu" />
+<coar-sub-flyout icon="users" label="Share" [disabled]="!canShare" [submenuTemplate]="shareMenu" />
 
 <ng-template #shareMenu>
-  <coar-menu-item>Email</coar-menu-item>
-  <coar-menu-item>Copy Link</coar-menu-item>
+  <coar-menu>
+    <coar-menu-item>Email</coar-menu-item>
+    <coar-menu-item>Copy Link</coar-menu-item>
+  </coar-menu>
 </ng-template>
 ```
 
@@ -291,7 +299,9 @@ None.
 All styles use design tokens:
 - `--coar-text-neutral-primary` — Default text color
 - `--coar-text-neutral-secondary` — Disabled text color
-- `--coar-surface-accent-subtle` — Hover/focus/open background
+- `--coar-menu-item-background-hover` — Hover background
+- `--coar-menu-item-background-focus` — Focus background
+- `--coar-menu-item-background-open` — Open/active background
 - `--coar-spacing-xs`, `--coar-spacing-s` — Padding
 - Leading icon: `size="sm"` (16px)
 - Chevron arrow: `size="xs"` (12px), `name="chevron-right"`
@@ -318,6 +328,45 @@ const spec = Overlay.define<void>((b) => {
 ```
 
 See [Cocoar Overlay System — Presets](../../libs/ui-overlay/overview.md#presets) for more details.
+
+---
+
+## CoarSubAccordionComponent
+
+**Selector:** `coar-sub-accordion`
+
+**Purpose:** Menu item that expands/collapses a nested submenu inline.
+
+### Description
+
+This variant renders its submenu content inline, which is useful for sidebar-style option groups where nested items should remain visible.
+
+### Usage
+
+```html
+<coar-sub-accordion icon="settings" label="Options" [(open)]="optionsOpen">
+  <ng-template>
+    <coar-menu-item icon="plus" (itemClick)="onAdd()">Add</coar-menu-item>
+    <coar-menu-item icon="trash" (itemClick)="onClear()">Clear</coar-menu-item>
+  </ng-template>
+</coar-sub-accordion>
+```
+
+### Inputs
+
+| Name | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| `label` | `string` | Yes | — | Submenu trigger text |
+| `icon` | `CoreIconName \| undefined` | No | `undefined` | Optional icon identifier |
+| `disabled` | `boolean` | No | `false` | Disabled state prevents interaction |
+| `open` | `boolean` | No | `false` | Expanded state (two-way bindable with `[(open)]`) |
+| `submenuTemplate` | `TemplateRef<unknown> \| null` | No | `null` | External template containing submenu content (used when no inline `<ng-template>` is provided) |
+
+### Outputs
+
+| Name | Type | Description |
+| --- | --- | --- |
+| `openChange` | `boolean` | Emitted when expanded state changes (for `[(open)]`) |
 
 ---
 

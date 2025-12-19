@@ -52,7 +52,7 @@ import { CoarSubmenuTemplateDirective } from './coar-submenu-template.directive'
  * ```
  */
 @Component({
-  selector: 'coar-submenu-item',
+  selector: 'coar-submenu-item, coar-sub-flyout',
   standalone: true,
   imports: [CommonModule, CoarIconComponent],
   template: `
@@ -70,9 +70,11 @@ import { CoarSubmenuTemplateDirective } from './coar-submenu-template.directive'
       (keydown.enter)="onKeyboardActivate($event)"
       (keydown.space)="onKeyboardActivate($event)"
     >
-      @if (icon()) {
-      <coar-icon [name]="icon()!" size="sm" class="coar-submenu-item__icon" aria-hidden="true" />
-      }
+      <span class="coar-submenu-item__icon" aria-hidden="true">
+        @if (icon()) {
+        <coar-icon [name]="icon()!" size="sm" aria-hidden="true" />
+        }
+      </span>
       <span class="coar-submenu-item__label">{{ label() }}</span>
       <coar-icon
         name="chevron-right"
@@ -272,6 +274,19 @@ export class CoarSubmenuItemComponent {
     this.cdr.markForCheck();
 
     const openedRef = this.submenuRef;
+
+    // Clear the active styling as soon as a close is initiated (e.g. hoverTree timer,
+    // outside click, or sibling submenu switch). Otherwise the item can look "stuck"
+    // while the overlay finishes its close transition.
+    const originalClose = openedRef.close.bind(openedRef);
+    openedRef.close = (result?: unknown) => {
+      if (this.submenuRef === openedRef && this.isOpen) {
+        this.isOpen = false;
+        this.cdr.markForCheck();
+      }
+
+      originalClose(result);
+    };
 
     openedRef.afterClosed$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       if (this.cascade.overlayRef === openedRef) {

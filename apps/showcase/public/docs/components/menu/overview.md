@@ -28,6 +28,11 @@ Individual menu action item with optional icon, label, and click handler.
 ### CoarSubmenuItemComponent
 Menu item that opens a nested submenu on hover, with 300ms hover delay.
 
+Also available via the alias selector `coar-sub-flyout`.
+
+### CoarSubAccordionComponent
+Menu item that expands/collapses a nested submenu inline.
+
 ### CoarMenuDividerComponent
 Visual separator for grouping related menu items.
 
@@ -88,6 +93,7 @@ import {
   CoarMenuComponent,
   CoarMenuItemComponent,
   CoarSubmenuItemComponent,
+  CoarSubAccordionComponent,
   CoarMenuDividerComponent
 } from '@cocoar/ui-components';
 
@@ -97,17 +103,27 @@ import {
     CoarMenuComponent,
     CoarMenuItemComponent,
     CoarSubmenuItemComponent,
+    CoarSubAccordionComponent,
     CoarMenuDividerComponent
   ],
   template: `
     <coar-menu>
       <coar-menu-item icon="copy" label="Copy" (itemClick)="onCopy()" />
 
-      <coar-submenu-item icon="users" label="Share" [submenuTemplate]="shareMenu" />
+      <coar-sub-flyout icon="users" label="Share" [submenuTemplate]="shareMenu" />
+
+      <coar-sub-accordion icon="settings" label="Options">
+        <ng-template>
+          <coar-menu-item icon="plus" label="Add" (itemClick)="onAdd()" />
+          <coar-menu-item icon="trash" label="Clear" (itemClick)="onClear()" />
+        </ng-template>
+      </coar-sub-accordion>
 
       <ng-template #shareMenu>
-        <coar-menu-item icon="chat" label="Email" (itemClick)="shareEmail()" />
-        <coar-menu-item icon="copy" label="Copy Link" (itemClick)="shareCopyLink()" />
+        <coar-menu>
+          <coar-menu-item icon="chat" label="Email" (itemClick)="shareEmail()" />
+          <coar-menu-item icon="copy" label="Copy Link" (itemClick)="shareCopyLink()" />
+        </coar-menu>
       </ng-template>
 
       <coar-menu-divider />
@@ -119,6 +135,8 @@ export class MyComponent {
   onCopy() { console.log('Copy'); }
   shareEmail() { console.log('Share via email'); }
   shareCopyLink() { console.log('Copy link'); }
+  onAdd() { console.log('Add'); }
+  onClear() { console.log('Clear'); }
   onDelete() { console.log('Delete'); }
 }
 ```
@@ -281,7 +299,9 @@ All menu styling uses design tokens from `@cocoar/ui-tokens`:
 ### Menu Items
 - `--coar-text-neutral-primary` — Default text color
 - `--coar-text-neutral-secondary` — Disabled text color
-- `--coar-surface-accent-subtle` — Hover/focus background
+- `--coar-menu-item-background-hover` — Hover background
+- `--coar-menu-item-background-focus` — Focus background
+- `--coar-menu-item-background-open` — Open/active background
 - `--coar-spacing-xs`, `--coar-spacing-s`, `--coar-spacing-m` — Padding values
 
 ### Divider

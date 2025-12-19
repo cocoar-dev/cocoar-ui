@@ -371,10 +371,28 @@ None.
 | --- | --- | --- |
 | valueChange | T \| null | Emits when the selected value changes |
 
-## coar-submenu-item
+## coar-sub-accordion
+
+- Class: CoarSubAccordionComponent
+- Selector: `coar-sub-accordion`
+
+### Inputs
+| Name | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| label | string | yes | required | Label text for the menu item |
+| icon | CoreIconName \| undefined | no | undefined | Optional icon identifier |
+| disabled | boolean | no | false | Disabled state prevents interaction |
+| submenuTemplate | TemplateRef<unknown> \| null | no | null | Optional external submenu template. Prefer an inline `<ng-template>` child when possible. |
+
+### Outputs
+| Name | Type | Description |
+| --- | --- | --- |
+| openChange | boolean | Emits when expanded state changes (for [(open)]) |
+
+## coar-submenu-item, coar-sub-flyout
 
 - Class: CoarSubmenuItemComponent
-- Selector: `coar-submenu-item`
+- Selector: `coar-submenu-item, coar-sub-flyout`
 
 ### Inputs
 | Name | Type | Required | Default | Description |

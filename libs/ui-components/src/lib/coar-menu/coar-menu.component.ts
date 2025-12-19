@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, input } from '@angular/core';
 import { COAR_MENU_CASCADE, CoarMenuCascade } from './coar-menu-cascade';
 import { COAR_OVERLAY_REF } from '@cocoar/ui-overlay';
 import { CoarMenuAimConfigDirective } from './coar-menu-aim-config.directive';
@@ -40,6 +40,8 @@ import { CoarMenuAimConfigDirective } from './coar-menu-aim-config.directive';
   host: {
     role: 'menu',
     class: 'coar-menu',
+    '[style.--coar-menu-icon-slot-display]': 'showIconColumn() ? null : "none"',
+    '[style.--coar-menu-item-icon-slot-size]': 'showIconColumn() ? null : "0px"',
   },
   providers: [
     {
@@ -62,4 +64,12 @@ import { CoarMenuAimConfigDirective } from './coar-menu-aim-config.directive';
     },
   ],
 })
-export class CoarMenuComponent {}
+export class CoarMenuComponent {
+  /**
+   * Controls whether the menu reserves and renders an icon column.
+   *
+   * Default is enabled to avoid layout shift for stateful icons (e.g. checkmarks).
+   * Set to false for text-only menus (icons will not render).
+   */
+  readonly showIconColumn = input(true);
+}

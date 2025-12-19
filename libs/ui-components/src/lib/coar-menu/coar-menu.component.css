@@ -18,10 +18,11 @@
   gap: 0;
 
   /* Styling - using existing design tokens */
-  background: var(--coar-menu-background, var(--coar-background-neutral-primary, #ffffff));
-  border: var(--coar-menu-border, 1px solid var(--coar-border-neutral, #d0d0d0));
+  background: var(--coar-menu-background, #f8f9fa);
+  border: var(--coar-menu-border, 1px solid var(--coar-border-neutral-tertiary, #d0d0d0));
   border-radius: var(--coar-menu-border-radius, var(--coar-radius-s, 4px));
+  overflow: hidden;
 
   /* Shadow for overlay menus */
-  box-shadow: var(--coar-menu-shadow, var(--coar-shadow-m, 0 4px 8px rgba(0, 0, 0, 0.1)));
+  box-shadow: var(--coar-menu-shadow, var(--coar-shadow-s, none));
 }

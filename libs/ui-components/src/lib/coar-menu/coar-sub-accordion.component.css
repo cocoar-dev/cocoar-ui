@@ -1,0 +1,196 @@
+/**
+ * CoarSubAccordion Styles
+ *
+ * Inline expanding/collapsing submenu item.
+ * Reuses the same menu item sizing tokens as coar-menu-item.
+ */
+
+:host {
+  display: block;
+}
+
+.coar-sub-accordion {
+  /* Layout */
+  display: flex;
+  align-items: center;
+  gap: var(--coar-menu-item-gap, 0.75rem);
+  width: 100%;
+  box-sizing: border-box;
+
+  /* Spacing */
+  padding: var(--coar-menu-item-padding, 0.5rem 0.75rem);
+
+  /* Typography */
+  font-size: var(
+    --coar-menu-item-font-size,
+    var(--coar-component-md-font-size, var(--coar-font-size-xs, 14px))
+  );
+  font-weight: var(--coar-menu-item-font-weight, var(--coar-font-weight-regular, 400));
+  line-height: var(--coar-menu-item-line-height, 1.5);
+
+  /* Styling */
+  color: var(--coar-menu-item-color, var(--coar-text-neutral-primary, #545454));
+  background: var(--coar-menu-item-background, transparent);
+  border-radius: 0;
+
+  /* Interaction */
+  cursor: pointer;
+  user-select: none;
+  transition: var(--coar-transition-fast, all 100ms ease);
+  outline: none;
+}
+
+.coar-sub-accordion:hover:not(.coar-sub-accordion--disabled) {
+  background: var(--coar-menu-item-background-hover, #f0f1f2);
+  color: var(--coar-menu-item-color-hover, var(--coar-text-neutral-primary, #545454));
+}
+
+.coar-sub-accordion--open {
+  background: var(
+    --coar-menu-item-background-open,
+    var(--coar-menu-item-background-active, #f0f1f2)
+  );
+}
+
+.coar-sub-accordion:focus-visible {
+  background: var(--coar-menu-item-background-focus, #f0f1f2);
+  outline: 2px solid var(--coar-menu-item-outline-focus, var(--coar-border-accent-primary, #156db7));
+  outline-offset: -2px;
+}
+
+.coar-sub-accordion--disabled {
+  color: var(--coar-menu-item-color-disabled, var(--coar-text-neutral-disabled, #999999));
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.coar-sub-accordion__icon {
+  flex-shrink: 0;
+  display: var(--coar-menu-icon-slot-display, inline-flex);
+  align-items: center;
+  justify-content: center;
+  width: var(--coar-menu-item-icon-slot-size, 16px);
+  height: var(--coar-menu-item-icon-slot-size, 16px);
+}
+
+.coar-sub-accordion__label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.coar-sub-accordion__arrow {
+  flex-shrink: 0;
+  margin-left: auto;
+  opacity: 0.6;
+  transition: var(--coar-transition-fast, all 100ms ease);
+}
+
+.coar-sub-accordion:hover:not(.coar-sub-accordion--disabled) .coar-sub-accordion__arrow {
+  opacity: 1;
+}
+
+.coar-sub-accordion__panel {
+  /*
+   * Inline panel: intentionally NOT a menu surface.
+   * The left guide line + indentation communicates nesting without adding a new container.
+   */
+  box-sizing: border-box;
+
+  /*
+   * Keep projected items full-width.
+   * Indentation is applied via inherited padding variables so hover/click areas
+   * include the guide line and the space left of it.
+   */
+  position: relative;
+
+  /* Configuration tokens */
+  --_coar-sub-accordion-icon-slot-size: var(--coar-menu-item-icon-slot-size, 16px);
+
+  /* Current nesting indent (inherited from parent panels) */
+  --_coar-sub-accordion-level-indent: var(--coar-sub-accordion-level-indent, 0px);
+
+  /* Per-level indent (defaults to icon + gap, so nested accordions are visibly indented) */
+  --_coar-sub-accordion-indent: var(
+    --coar-sub-accordion-indent,
+    calc(var(--_coar-sub-accordion-icon-slot-size) + var(--coar-menu-item-gap, 0.75rem))
+  );
+
+  /* Guide line sits in the middle of the submenu item's icon */
+  --_coar-sub-accordion-line-offset: calc(
+    var(--_coar-sub-accordion-item-padding-x) + var(--_coar-sub-accordion-level-indent) +
+      (var(--_coar-sub-accordion-icon-slot-size) / 2)
+  );
+
+  /* Next nesting level for descendants */
+  --_coar-sub-accordion-child-indent: calc(
+    var(--_coar-sub-accordion-level-indent) + var(--_coar-sub-accordion-indent)
+  );
+  --_coar-sub-accordion-item-padding-y: var(
+    --coar-sub-accordion-item-padding-y,
+    var(--coar-spacing-2, 0.5rem)
+  );
+  --_coar-sub-accordion-item-padding-x: var(
+    --coar-sub-accordion-item-padding-x,
+    var(--coar-spacing-3, 0.75rem)
+  );
+
+  /* Indent *content* while keeping the row hit-area full width */
+  --coar-menu-item-padding: var(--_coar-sub-accordion-item-padding-y)
+    var(--_coar-sub-accordion-item-padding-x) var(--_coar-sub-accordion-item-padding-y)
+    calc(var(--_coar-sub-accordion-item-padding-x) + var(--_coar-sub-accordion-child-indent));
+
+  /* Animation (grid trick: 0fr -> 1fr) */
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows var(--coar-duration-normal, 200ms) var(--coar-ease-out, ease);
+}
+
+.coar-sub-accordion__panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--_coar-sub-accordion-line-offset);
+  width: 1px;
+  background: var(--coar-sub-accordion-line-color, var(--coar-border-neutral-tertiary, #d0d0d0));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--coar-duration-fast, 100ms) var(--coar-ease-out, ease);
+  z-index: 1;
+}
+
+.coar-sub-accordion__panel--open {
+  grid-template-rows: 1fr;
+}
+
+.coar-sub-accordion__panel--open::before {
+  opacity: 1;
+}
+
+.coar-sub-accordion__panel-inner {
+  /* Propagate the next nesting level to all projected descendants */
+  --coar-sub-accordion-level-indent: var(--_coar-sub-accordion-child-indent);
+
+  overflow: hidden;
+  min-height: 0;
+
+  /* Vertical spacing so the panel doesn't feel glued to the header */
+  padding-top: 0;
+  padding-bottom: 0;
+
+  /* Subtle motion inside the expanding area */
+  opacity: 0;
+  transform: translateY(-2px);
+  transition: opacity var(--coar-duration-fast, 100ms) var(--coar-ease-out, ease),
+    transform var(--coar-duration-fast, 100ms) var(--coar-ease-out, ease);
+}
+
+.coar-sub-accordion__panel--open > .coar-sub-accordion__panel-inner {
+  padding-top: var(--coar-sub-accordion-panel-padding-y, var(--coar-spacing-1, 0.25rem));
+  padding-bottom: var(--coar-sub-accordion-panel-padding-y, var(--coar-spacing-1, 0.25rem));
+  opacity: 1;
+  transform: translateY(0);
+}

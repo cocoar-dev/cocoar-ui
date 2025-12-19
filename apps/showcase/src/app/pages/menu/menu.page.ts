@@ -18,6 +18,7 @@ import {
   CoarMenuItemComponent,
   CoarMenuDividerComponent,
   CoarSubmenuItemComponent,
+  CoarSubAccordionComponent,
 } from '@cocoar/ui-components';
 
 import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
@@ -36,6 +37,7 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarMenuItemComponent,
     CoarMenuDividerComponent,
     CoarSubmenuItemComponent,
+    CoarSubAccordionComponent,
   ],
   templateUrl: './menu.page.html',
   styleUrl: './menu.page.css',
@@ -196,7 +198,7 @@ export class MenuPage {
 
     siblings: `<coar-menu>
   <coar-menu-item icon="file" (itemClick)="handleMenuItemClick('file')">File</coar-menu-item>
-  <coar-submenu-item label="Export" icon="download">
+  <coar-sub-flyout label="Export" icon="download">
     <ng-template>
       <coar-menu>
         <coar-menu-item icon="file" (itemClick)="handleAction('exportPdf')">Export as PDF</coar-menu-item>
@@ -204,9 +206,9 @@ export class MenuPage {
         <coar-menu-item icon="file" (itemClick)="handleAction('exportExcel')">Export as Excel</coar-menu-item>
       </coar-menu>
     </ng-template>
-  </coar-submenu-item>
+  </coar-sub-flyout>
 
-  <coar-submenu-item label="Share" icon="users">
+  <coar-sub-flyout label="Share" icon="users">
     <ng-template>
       <coar-menu>
         <coar-menu-item icon="chat" (itemClick)="handleAction('shareEmail')">Share via Email</coar-menu-item>
@@ -214,9 +216,9 @@ export class MenuPage {
         <coar-menu-item icon="slack" (itemClick)="handleAction('shareSlack')">Share to Slack</coar-menu-item>
       </coar-menu>
     </ng-template>
-  </coar-submenu-item>
+  </coar-sub-flyout>
 
-  <coar-submenu-item label="Settings" icon="settings">
+  <coar-sub-flyout label="Settings" icon="settings">
     <ng-template>
       <coar-menu>
         <coar-menu-item icon="palette" (itemClick)="handleAction('theme')">Change Theme</coar-menu-item>
@@ -224,11 +226,66 @@ export class MenuPage {
         <coar-menu-item icon="bell" (itemClick)="handleAction('notifications')">Notifications</coar-menu-item>
       </coar-menu>
     </ng-template>
-  </coar-submenu-item>
+  </coar-sub-flyout>
   <coar-menu-divider></coar-menu-divider>
   <coar-menu-item icon="question" (itemClick)="handleMenuItemClick('help')">Help</coar-menu-item>
 </coar-menu>
 `,
+
+    accordion: `<coar-menu>
+  <coar-sub-accordion label="Filters" icon="settings">
+    <ng-template>
+      <coar-menu-item icon="plus" (itemClick)="handleAction('addFilter')">Add Filter</coar-menu-item>
+      <coar-menu-item icon="copy" (itemClick)="handleAction('duplicateFilter')">Duplicate Filter</coar-menu-item>
+      <coar-menu-item icon="trash" (itemClick)="handleAction('clearFilters')">Clear Filters</coar-menu-item>
+
+      <coar-sub-accordion label="Date Range" icon="date">
+        <ng-template>
+          <coar-menu-item icon="calendar" (itemClick)="handleAction('dateToday')">Today</coar-menu-item>
+          <coar-menu-item icon="calendar" (itemClick)="handleAction('dateLast7')">Last 7 days</coar-menu-item>
+          <coar-menu-item icon="calendar" (itemClick)="handleAction('dateLast30')">Last 30 days</coar-menu-item>
+        </ng-template>
+      </coar-sub-accordion>
+
+      <coar-sub-flyout label="Advanced" icon="settings">
+        <ng-template>
+          <coar-menu>
+            <coar-menu-item icon="link" (itemClick)="handleAction('manageSavedFilters')">Manage saved filters</coar-menu-item>
+            <coar-menu-item icon="copy" (itemClick)="handleAction('copyFilters')">Copy filters</coar-menu-item>
+            <coar-menu-item icon="trash" (itemClick)="handleAction('resetFilters')">Reset to defaults</coar-menu-item>
+
+            <coar-sub-accordion label="Quick Presets" icon="plus">
+              <ng-template>
+                <coar-menu-item icon="file" (itemClick)="handleAction('presetOpenItems')">Open items</coar-menu-item>
+                <coar-menu-item icon="file" (itemClick)="handleAction('presetOverdue')">Overdue</coar-menu-item>
+                <coar-menu-item icon="file" (itemClick)="handleAction('presetAssignedToMe')">Assigned to me</coar-menu-item>
+              </ng-template>
+            </coar-sub-accordion>
+          </coar-menu>
+        </ng-template>
+      </coar-sub-flyout>
+    </ng-template>
+  </coar-sub-accordion>
+
+  <coar-sub-accordion label="View" icon="file">
+    <ng-template>
+      <coar-menu-item icon="plus" (itemClick)="handleAction('saveView')">Save current view</coar-menu-item>
+      <coar-menu-item icon="copy" (itemClick)="handleAction('duplicateView')">Duplicate view</coar-menu-item>
+
+      <coar-sub-flyout label="Load View" icon="download">
+        <ng-template>
+          <coar-menu>
+            <coar-menu-item icon="file" (itemClick)="handleAction('loadViewDefault')">Default</coar-menu-item>
+            <coar-menu-item icon="file" (itemClick)="handleAction('loadViewCompact')">Compact</coar-menu-item>
+            <coar-menu-item icon="file" (itemClick)="handleAction('loadViewDetailed')">Detailed</coar-menu-item>
+          </coar-menu>
+        </ng-template>
+      </coar-sub-flyout>
+    </ng-template>
+  </coar-sub-accordion>
+
+  <coar-menu-item icon="refresh" (itemClick)="handleAction('refresh')">Refresh</coar-menu-item>
+</coar-menu>`,
 
     contextMenu: `onContextMenu(event: MouseEvent): void {
   event.preventDefault();
@@ -242,7 +299,7 @@ export class MenuPage {
   this.contextMenuRef = this.overlayService.open(spec, undefined);
 }
 
-// In the template, use <coar-submenu-item> with an inline <ng-template> (or [submenuTemplate]) to define flyouts.
+// In the template, use <coar-sub-flyout> (alias of <coar-submenu-item>) with an inline <ng-template> (or [submenuTemplate]) to define flyouts.
 // Hover dismissal and multi-level behavior are handled by the overlay system (hoverTree).`,
   };
 }

@@ -1,0 +1,31 @@
+/**
+ * Cocoar Design System - Menu Tokens
+ * Theming tokens for coar-menu and menu items.
+ *
+ * These are component-level tokens so menus can be themed without
+ * borrowing tokens from unrelated components.
+ */
+
+:root {
+  /* Menu container background - aligned with code-block background */
+  --coar-menu-background: #f8f9fa;
+
+  /* Item interactive states - aligned with code-block header background */
+  --coar-menu-item-background-hover: #f0f1f2;
+  --coar-menu-item-background-focus: #f0f1f2;
+  --coar-menu-item-background-open: #f0f1f2;
+  --coar-menu-item-background-active: #f0f1f2;
+}
+
+:root.dark-mode,
+.dark-mode,
+[data-theme='dark'] {
+  /* Menu container background - aligned with code-block background (dark) */
+  --coar-menu-background: #1e1e1e;
+
+  /* Item interactive states - aligned with code-block header background (dark) */
+  --coar-menu-item-background-hover: #2d2d2d;
+  --coar-menu-item-background-focus: #2d2d2d;
+  --coar-menu-item-background-open: #2d2d2d;
+  --coar-menu-item-background-active: #2d2d2d;
+}

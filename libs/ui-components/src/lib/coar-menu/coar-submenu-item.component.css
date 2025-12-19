@@ -21,14 +21,17 @@
   padding: var(--coar-menu-item-padding, 0.5rem 0.75rem);
 
   /* Typography */
-  font-size: var(--coar-menu-item-font-size, var(--coar-font-size-s, 16px));
+  font-size: var(
+    --coar-menu-item-font-size,
+    var(--coar-component-md-font-size, var(--coar-font-size-xs, 14px))
+  );
   font-weight: var(--coar-menu-item-font-weight, var(--coar-font-weight-regular, 400));
   line-height: var(--coar-menu-item-line-height, 1.5);
 
   /* Styling */
   color: var(--coar-menu-item-color, var(--coar-text-neutral-primary, #545454));
   background: var(--coar-menu-item-background, transparent);
-  border-radius: var(--coar-menu-item-border-radius, var(--coar-radius-s, 4px));
+  border-radius: 0;
 
   /* Interaction */
   cursor: pointer;
@@ -39,27 +42,21 @@
 
 /* Hover state */
 .coar-submenu-item:hover:not(.coar-submenu-item--disabled) {
-  background: var(
-    --coar-menu-item-background-hover,
-    var(--coar-surface-accent-subtle, rgba(0, 0, 0, 0.04))
-  );
+  background: var(--coar-menu-item-background-hover, #f0f1f2);
   color: var(--coar-menu-item-color-hover, var(--coar-text-neutral-primary, #545454));
 }
 
 /* Open state */
 .coar-submenu-item--open {
   background: var(
-    --coar-menu-item-background-hover,
-    var(--coar-surface-accent-subtle, rgba(0, 0, 0, 0.04))
+    --coar-menu-item-background-open,
+    var(--coar-menu-item-background-active, #f0f1f2)
   );
 }
 
 /* Focus state */
 .coar-submenu-item:focus-visible {
-  background: var(
-    --coar-menu-item-background-focus,
-    var(--coar-surface-accent-subtle, rgba(0, 0, 0, 0.04))
-  );
+  background: var(--coar-menu-item-background-focus, #f0f1f2);
   outline: 2px solid var(--coar-menu-item-outline-focus, var(--coar-border-accent-primary, #156db7));
   outline-offset: -2px;
 }
@@ -74,9 +71,11 @@
 /* Icon */
 .coar-submenu-item__icon {
   flex-shrink: 0;
-  display: inline-flex;
+  display: var(--coar-menu-icon-slot-display, inline-flex);
   align-items: center;
   justify-content: center;
+  width: var(--coar-menu-item-icon-slot-size, 16px);
+  height: var(--coar-menu-item-icon-slot-size, 16px);
 }
 
 /* Label */
