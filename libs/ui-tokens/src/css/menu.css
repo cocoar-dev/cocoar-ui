@@ -2,15 +2,15 @@
  * Cocoar Design System - Menu Tokens
  * Theming tokens for coar-menu and menu items.
  *
- * These are component-level tokens so menus can be themed without
- * borrowing tokens from unrelated components.
+ * Default styling optimized for context menus (overlays).
+ * For sidebar navigation, these can be overridden via CSS variables.
  */
 
 :root {
-  /* Menu container background - aligned with code-block background */
+  /* Menu container background - light, subtle for context menus */
   --coar-menu-background: #f8f9fa;
 
-  /* Item interactive states - aligned with code-block header background */
+  /* Item interactive states - subtle hover/active for context menus */
   --coar-menu-item-background-hover: #f0f1f2;
   --coar-menu-item-background-focus: #f0f1f2;
   --coar-menu-item-background-open: #f0f1f2;
@@ -20,12 +20,31 @@
 :root.dark-mode,
 .dark-mode,
 [data-theme='dark'] {
-  /* Menu container background - aligned with code-block background (dark) */
+  /* Menu container background - dark, subtle for context menus */
   --coar-menu-background: #1e1e1e;
 
-  /* Item interactive states - aligned with code-block header background (dark) */
+  /* Item interactive states - subtle hover/active for context menus */
   --coar-menu-item-background-hover: #2d2d2d;
   --coar-menu-item-background-focus: #2d2d2d;
   --coar-menu-item-background-open: #2d2d2d;
   --coar-menu-item-background-active: #2d2d2d;
+}
+
+/* Sidebar variant - darker, more grounded colors for permanent navigation */
+.coar-menu--sidebar {
+  --coar-menu-background: var(--coar-background-neutral-secondary, #ededed);
+  --coar-menu-item-background-hover: var(--coar-background-neutral-tertiary, #d9d9d9);
+  --coar-menu-item-background-focus: var(--coar-background-neutral-tertiary, #d9d9d9);
+  --coar-menu-item-background-open: var(--coar-background-neutral-tertiary, #d9d9d9);
+  --coar-menu-item-background-active: var(--coar-background-neutral-tertiary, #d9d9d9);
+}
+
+:root.dark-mode .coar-menu--sidebar,
+.dark-mode .coar-menu--sidebar,
+[data-theme='dark'] .coar-menu--sidebar {
+  --coar-menu-background: var(--coar-background-neutral-secondary, #27272a);
+  --coar-menu-item-background-hover: var(--coar-background-neutral-tertiary, #3f3f46);
+  --coar-menu-item-background-focus: var(--coar-background-neutral-tertiary, #3f3f46);
+  --coar-menu-item-background-open: var(--coar-background-neutral-tertiary, #3f3f46);
+  --coar-menu-item-background-active: var(--coar-background-neutral-tertiary, #3f3f46);
 }

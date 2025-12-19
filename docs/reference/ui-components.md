@@ -371,10 +371,10 @@ None.
 | --- | --- | --- |
 | valueChange | T \| null | Emits when the selected value changes |
 
-## coar-sub-accordion
+## coar-sub-expand
 
-- Class: CoarSubAccordionComponent
-- Selector: `coar-sub-accordion`
+- Class: CoarSubExpandComponent
+- Selector: `coar-sub-expand`
 
 ### Inputs
 | Name | Type | Required | Default | Description |

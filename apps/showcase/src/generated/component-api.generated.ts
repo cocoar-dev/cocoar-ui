@@ -648,9 +648,9 @@ export const MenuItemApi: ComponentApi = {
   ]
 };
 
-export const SubAccordionApi: ComponentApi = {
-  "className": "CoarSubAccordionComponent",
-  "selector": "coar-sub-accordion",
+export const SubExpandApi: ComponentApi = {
+  "className": "CoarSubExpandComponent",
+  "selector": "coar-sub-expand",
   "inputs": [
     {
       "name": "label",

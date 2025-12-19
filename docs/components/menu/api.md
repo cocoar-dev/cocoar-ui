@@ -12,8 +12,9 @@ This document provides detailed API information for all menu-related components.
 | --- | --- |
 | [CoarMenuComponent](#coarmenucomponent) | Container for menu items |
 | [CoarMenuItemComponent](#coarmenuitemcomponent) | Individual menu action item |
+| [CoarMenuHeadingComponent](#coarmenuheadingcomponent) | Non-interactive section heading |
 | [CoarSubmenuItemComponent](#coarsubmenuitemcomponent) | Menu item with nested flyout submenu |
-| [CoarSubAccordionComponent](#coarsubaccordioncomponent) | Menu item with nested inline accordion submenu |
+| [CoarSubExpandComponent](#coarsubexpandcomponent) | Menu item with inline expanding submenu |
 | [CoarMenuDividerComponent](#coarmenudividercomponent) | Visual separator between items |
 
 ---
@@ -62,11 +63,16 @@ None.
 ### Styling
 
 All styles use design tokens:
-- `--coar-background-neutral-primary` — Background color
-- `--coar-border-neutral` — Border color
-- `--coar-shadow-m` — Box shadow
+- `--coar-menu-background` — Background color (light #f8f9fa, dark #1e1e1e)
+- `--coar-border-neutral-tertiary` — Border color
+- `--coar-shadow-s` — Box shadow
 - `--coar-radius-s` — Border radius
-- `--coar-spacing-s` — Padding
+
+#### Sidebar Variant
+
+Add `coar-menu--sidebar` class for darker navigation colors:
+- Light: #ededed background, #d9d9d9 hover
+- Dark: #27272a background, #3f3f46 hover
 
 ### Accessibility
 
@@ -165,6 +171,87 @@ All styles use design tokens:
 - `aria-disabled="true"` when disabled
 - Focus-visible styles for keyboard users
 - Click handler disabled when `disabled` is true
+
+---
+
+## CoarMenuHeadingComponent
+
+**Selector:** `coar-menu-heading`
+
+**Purpose:** Non-interactive section heading for visually grouping menu items.
+
+### Description
+
+Provides visual separation between menu sections without interaction affordances. Useful for sidebar navigation or complex context menus with multiple logical groups. Rendered with uppercase, smaller font, and muted color to distinguish from clickable items.
+
+### Usage
+
+```html
+<coar-menu>
+  <coar-menu-heading>Quick Actions</coar-menu-heading>
+  <coar-menu-item icon="plus">New File</coar-menu-item>
+  <coar-menu-item icon="folder">Open Folder</coar-menu-item>
+
+  <coar-menu-heading>Recent</coar-menu-heading>
+  <coar-menu-item icon="file">document.txt</coar-menu-item>
+  <coar-menu-item icon="file">notes.md</coar-menu-item>
+</coar-menu>
+```
+
+### Inputs
+
+| Name | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| `label` | `string` | No | `''` | Heading text (can also use content projection) |
+
+### Outputs
+
+None.
+
+### Host Attributes
+
+- `class="coar-menu-heading"` — CSS class for styling
+- No `role` or `tabindex` (non-interactive)
+
+### Examples
+
+#### With Label Input
+
+```html
+<coar-menu-heading label="Settings" />
+```
+
+#### With Content Projection
+
+```html
+<coar-menu-heading>
+  <strong>Advanced Options</strong>
+</coar-menu-heading>
+```
+
+### Styling
+
+All styles use design tokens:
+- `--coar-menu-heading-font-size` — Font size (default 11px, 16px in sidebar variant)
+- `--coar-menu-heading-font-weight` — Font weight (default 600)
+- `--coar-menu-heading-text-transform` — Text transform (default uppercase)
+- `--coar-menu-heading-letter-spacing` — Letter spacing (default 0.05em, 0.08em in sidebar)
+- `--coar-menu-heading-color` — Text color (muted secondary)
+- `--coar-menu-heading-padding` — Padding (reduced compared to menu items)
+- `--coar-menu-heading-spacing-top` — Top margin (auto-applied except for first child)
+
+#### Sidebar Variant
+
+When used inside `.coar-menu--sidebar`, headings automatically use:
+- Font size: 16px (larger for readability)
+- Letter spacing: 0.08em (increased for prominence)
+- Top margin: 1.25rem (more visual separation)
+
+### Accessibility
+
+- No ARIA role (not interactive)
+- Not focusable (no tabindex)
+- Purely presentational heading for visual organization
 
 ---
 
@@ -331,9 +418,9 @@ See [Cocoar Overlay System — Presets](../../libs/ui-overlay/overview.md#preset
 
 ---
 
-## CoarSubAccordionComponent
+## CoarSubExpandComponent
 
-**Selector:** `coar-sub-accordion`
+**Selector:** `coar-sub-expand`
 
 **Purpose:** Menu item that expands/collapses a nested submenu inline.
 
@@ -344,12 +431,12 @@ This variant renders its submenu content inline, which is useful for sidebar-sty
 ### Usage
 
 ```html
-<coar-sub-accordion icon="settings" label="Options" [(open)]="optionsOpen">
+<coar-sub-expand icon="settings" label="Options" [(open)]="optionsOpen">
   <ng-template>
     <coar-menu-item icon="plus" (itemClick)="onAdd()">Add</coar-menu-item>
     <coar-menu-item icon="trash" (itemClick)="onClear()">Clear</coar-menu-item>
   </ng-template>
-</coar-sub-accordion>
+</coar-sub-expand>
 ```
 
 ### Inputs

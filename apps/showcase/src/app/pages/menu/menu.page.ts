@@ -17,8 +17,9 @@ import {
   CoarMenuComponent,
   CoarMenuItemComponent,
   CoarMenuDividerComponent,
+  CoarMenuHeadingComponent,
   CoarSubmenuItemComponent,
-  CoarSubAccordionComponent,
+  CoarSubExpandComponent,
 } from '@cocoar/ui-components';
 
 import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
@@ -36,8 +37,9 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarMenuComponent,
     CoarMenuItemComponent,
     CoarMenuDividerComponent,
+    CoarMenuHeadingComponent,
     CoarSubmenuItemComponent,
-    CoarSubAccordionComponent,
+    CoarSubExpandComponent,
   ],
   templateUrl: './menu.page.html',
   styleUrl: './menu.page.css',
@@ -188,6 +190,18 @@ export class MenuPage {
   <coar-menu-item icon="trash" (itemClick)="handleMenuItemClick('delete')">Delete</coar-menu-item>
 </coar-menu>`,
 
+    withHeadings: `<coar-menu>
+  <coar-menu-heading>Foundations</coar-menu-heading>
+  <coar-menu-item icon="type" (itemClick)="handleMenuItemClick('typography')">Typography</coar-menu-item>
+  <coar-menu-item icon="palette" (itemClick)="handleMenuItemClick('colors')">Colors</coar-menu-item>
+  <coar-menu-item icon="grid" (itemClick)="handleMenuItemClick('spacing')">Spacing</coar-menu-item>
+
+  <coar-menu-heading>Form Controls</coar-menu-heading>
+  <coar-menu-item icon="input" (itemClick)="handleMenuItemClick('textInput')">Text Input</coar-menu-item>
+  <coar-menu-item icon="dropdown" (itemClick)="handleMenuItemClick('select')">Select</coar-menu-item>
+  <coar-menu-item icon="checkbox" (itemClick)="handleMenuItemClick('checkbox')">Checkbox</coar-menu-item>
+</coar-menu>`,
+
     disabled: `<coar-menu>
   <coar-menu-item (itemClick)="handleMenuItemClick('cut')">Cut</coar-menu-item>
   <coar-menu-item (itemClick)="handleMenuItemClick('copy')">Copy</coar-menu-item>
@@ -233,19 +247,19 @@ export class MenuPage {
 `,
 
     accordion: `<coar-menu>
-  <coar-sub-accordion label="Filters" icon="settings">
+  <coar-sub-expand label="Filters" icon="settings">
     <ng-template>
       <coar-menu-item icon="plus" (itemClick)="handleAction('addFilter')">Add Filter</coar-menu-item>
       <coar-menu-item icon="copy" (itemClick)="handleAction('duplicateFilter')">Duplicate Filter</coar-menu-item>
       <coar-menu-item icon="trash" (itemClick)="handleAction('clearFilters')">Clear Filters</coar-menu-item>
 
-      <coar-sub-accordion label="Date Range" icon="date">
+      <coar-sub-expand label="Date Range" icon="date">
         <ng-template>
           <coar-menu-item icon="calendar" (itemClick)="handleAction('dateToday')">Today</coar-menu-item>
           <coar-menu-item icon="calendar" (itemClick)="handleAction('dateLast7')">Last 7 days</coar-menu-item>
           <coar-menu-item icon="calendar" (itemClick)="handleAction('dateLast30')">Last 30 days</coar-menu-item>
         </ng-template>
-      </coar-sub-accordion>
+      </coar-sub-expand>
 
       <coar-sub-flyout label="Advanced" icon="settings">
         <ng-template>
@@ -254,20 +268,20 @@ export class MenuPage {
             <coar-menu-item icon="copy" (itemClick)="handleAction('copyFilters')">Copy filters</coar-menu-item>
             <coar-menu-item icon="trash" (itemClick)="handleAction('resetFilters')">Reset to defaults</coar-menu-item>
 
-            <coar-sub-accordion label="Quick Presets" icon="plus">
+            <coar-sub-expand label="Quick Presets" icon="plus">
               <ng-template>
                 <coar-menu-item icon="file" (itemClick)="handleAction('presetOpenItems')">Open items</coar-menu-item>
                 <coar-menu-item icon="file" (itemClick)="handleAction('presetOverdue')">Overdue</coar-menu-item>
                 <coar-menu-item icon="file" (itemClick)="handleAction('presetAssignedToMe')">Assigned to me</coar-menu-item>
               </ng-template>
-            </coar-sub-accordion>
+            </coar-sub-expand>
           </coar-menu>
         </ng-template>
       </coar-sub-flyout>
     </ng-template>
-  </coar-sub-accordion>
+  </coar-sub-expand>
 
-  <coar-sub-accordion label="View" icon="file">
+  <coar-sub-expand label="View" icon="file">
     <ng-template>
       <coar-menu-item icon="plus" (itemClick)="handleAction('saveView')">Save current view</coar-menu-item>
       <coar-menu-item icon="copy" (itemClick)="handleAction('duplicateView')">Duplicate view</coar-menu-item>
@@ -282,9 +296,68 @@ export class MenuPage {
         </ng-template>
       </coar-sub-flyout>
     </ng-template>
-  </coar-sub-accordion>
+  </coar-sub-expand>
 
   <coar-menu-item icon="refresh" (itemClick)="handleAction('refresh')">Refresh</coar-menu-item>
+</coar-menu>`,
+
+    kitchenSink: `<coar-menu>
+  <coar-menu-heading>Quick Actions</coar-menu-heading>
+  <coar-menu-item icon="plus">New File</coar-menu-item>
+  <coar-menu-item icon="folder">Open Folder...</coar-menu-item>
+
+  <coar-menu-heading>Edit</coar-menu-heading>
+  <coar-menu-item icon="minus">Cut</coar-menu-item>
+  <coar-menu-item icon="copy">Copy</coar-menu-item>
+  <coar-menu-item [disabled]="true" icon="clipboard">Paste</coar-menu-item>
+
+  <coar-menu-divider></coar-menu-divider>
+
+  <coar-sub-expand label="View Options" icon="settings">
+    <ng-template>
+      <coar-menu-item icon="checkbox">Show Line Numbers</coar-menu-item>
+
+      <coar-sub-flyout label="Theme" icon="palette">
+        <ng-template>
+          <coar-menu>
+            <coar-menu-heading>Light Themes</coar-menu-heading>
+            <coar-menu-item icon="sun">Light Default</coar-menu-item>
+
+            <coar-menu-heading>Dark Themes</coar-menu-heading>
+            <coar-menu-item icon="moon">Dark Default</coar-menu-item>
+          </coar-menu>
+        </ng-template>
+      </coar-sub-flyout>
+
+      <coar-sub-expand label="Layout" icon="grid">
+        <ng-template>
+          <coar-menu-item icon="file">Single Column</coar-menu-item>
+          <coar-menu-item icon="file">Split View</coar-menu-item>
+        </ng-template>
+      </coar-sub-expand>
+    </ng-template>
+  </coar-sub-expand>
+
+  <coar-sub-flyout label="Share" icon="users">
+    <ng-template>
+      <coar-menu>
+        <coar-menu-item icon="chat">Email</coar-menu-item>
+
+        <coar-menu-divider></coar-menu-divider>
+
+        <coar-sub-expand label="Copy Link" icon="copy">
+          <ng-template>
+            <coar-menu-item icon="link">Plain URL</coar-menu-item>
+            <coar-menu-item icon="link">Markdown</coar-menu-item>
+          </ng-template>
+        </coar-sub-expand>
+      </coar-menu>
+    </ng-template>
+  </coar-sub-flyout>
+
+  <coar-menu-divider></coar-menu-divider>
+
+  <coar-menu-item icon="trash">Delete</coar-menu-item>
 </coar-menu>`,
 
     contextMenu: `onContextMenu(event: MouseEvent): void {

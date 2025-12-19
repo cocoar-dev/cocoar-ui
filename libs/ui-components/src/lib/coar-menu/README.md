@@ -44,7 +44,7 @@ Submenu content can be authored either:
 - Inline via a direct child `<ng-template>` (recommended), or
 - As an external `<ng-template #ref>` passed into `[submenuTemplate]`.
 
-### `CoarSubAccordionComponent` (`coar-sub-accordion`)
+### `CoarSubExpandComponent` (`coar-sub-expand`)
 
 Menu item that expands/collapses a submenu inline.
 
@@ -115,12 +115,12 @@ Visual separator.
 
 ```html
 <coar-menu>
-  <coar-sub-accordion label="Options" icon="settings" [(open)]="optionsOpen">
+  <coar-sub-expand label="Options" icon="settings" [(open)]="optionsOpen">
     <ng-template>
       <coar-menu-item icon="plus" (itemClick)="onAdd()">Add</coar-menu-item>
       <coar-menu-item icon="trash" (itemClick)="onClear()">Clear</coar-menu-item>
     </ng-template>
-  </coar-sub-accordion>
+  </coar-sub-expand>
 </coar-menu>
 ```
 

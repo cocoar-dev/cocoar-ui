@@ -1028,8 +1028,8 @@
       ]
     },
     {
-      "className": "CoarSubAccordionComponent",
-      "selector": "coar-sub-accordion",
+      "className": "CoarSubExpandComponent",
+      "selector": "coar-sub-expand",
       "inputs": [
         {
           "name": "label",

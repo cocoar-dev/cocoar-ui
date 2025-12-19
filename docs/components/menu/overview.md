@@ -25,16 +25,41 @@ Container for menu items. Provides the semantic menu structure and styling.
 ### CoarMenuItemComponent
 Individual menu action item with optional icon, label, and click handler.
 
+### CoarMenuHeadingComponent
+Non-interactive section heading for grouping menu items. Useful for sidebar navigation.
+
 ### CoarSubmenuItemComponent
 Menu item that opens a nested submenu (flyout) on hover/click.
 
 Also available via the alias selector `coar-sub-flyout`.
 
-### CoarSubAccordionComponent
-Menu item that expands/collapses a nested submenu inline.
+### CoarSubExpandComponent
+Menu item that expands/collapses a nested submenu inline (click to toggle).
+
+Formerly known as `CoarSubAccordionComponent`. Use `coar-sub-expand` for clarity.
 
 ### CoarMenuDividerComponent
 Visual separator for grouping related menu items.
+
+---
+
+## Styling Variants
+
+### Context Menu (Default)
+Lightweight, subtle colors optimized for overlay menus and dropdowns.
+
+### Sidebar Navigation
+Add the `coar-menu--sidebar` class for darker, more grounded colors suitable for permanent navigation:
+
+```html
+<coar-menu class="coar-menu--sidebar">
+  <coar-menu-heading>Foundations</coar-menu-heading>
+  <coar-menu-item icon="palette">Colors</coar-menu-item>
+  <coar-menu-item icon="text">Typography</coar-menu-item>
+</coar-menu>
+```
+
+The sidebar variant uses semantic neutral tokens and increases heading font size to 16px for better readability.
 
 ---
 
@@ -93,7 +118,7 @@ import {
   CoarMenuComponent,
   CoarMenuItemComponent,
   CoarSubmenuItemComponent,
-  CoarSubAccordionComponent,
+  CoarSubExpandComponent,
   CoarMenuDividerComponent
 } from '@cocoar/ui-components';
 
@@ -103,7 +128,7 @@ import {
     CoarMenuComponent,
     CoarMenuItemComponent,
     CoarSubmenuItemComponent,
-    CoarSubAccordionComponent,
+    CoarSubExpandComponent,
     CoarMenuDividerComponent
   ],
   template: `
@@ -119,12 +144,12 @@ import {
         </ng-template>
       </coar-sub-flyout>
 
-      <coar-sub-accordion icon="settings" label="Options">
+      <coar-sub-expand icon="settings" label="Options">
         <ng-template>
           <coar-menu-item icon="plus" (itemClick)="onAdd()">Add</coar-menu-item>
           <coar-menu-item icon="trash" (itemClick)="onClear()">Clear</coar-menu-item>
         </ng-template>
-      </coar-sub-accordion>
+      </coar-sub-expand>
 
       <coar-menu-divider />
       <coar-menu-item icon="trash" (itemClick)="onDelete()">Delete</coar-menu-item>

@@ -1,0 +1,50 @@
+/**
+ * CoarMenuHeading Styles
+ *
+ * Non-interactive section heading for menu groups.
+ * Provides visual separation without interaction affordances.
+ */
+
+:host {
+  display: block;
+}
+
+/* Add spacing above headings except when first in menu */
+:host(:not(:first-child)) {
+  margin-top: var(--coar-menu-heading-spacing-top, 0.2rem);
+}
+
+.coar-menu-heading {
+  /* Layout */
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+
+  /* Spacing - less padding than clickable items */
+  padding: var(--coar-menu-heading-padding, 0.75rem 0.75rem 0.25rem 0.75rem);
+
+  /* Typography - smaller, uppercase for distinction */
+  font-size: var(--coar-menu-heading-font-size, var(--coar-component-xs-font-size, 11px));
+  font-weight: var(--coar-menu-heading-font-weight, var(--coar-font-weight-semi-bold, 600));
+  line-height: var(--coar-menu-heading-line-height, 1.4);
+  text-transform: var(--coar-menu-heading-text-transform, uppercase);
+  letter-spacing: var(--coar-menu-heading-letter-spacing, 0.05em);
+
+  /* Color - muted to distinguish from interactive items */
+  color: var(--coar-menu-heading-color, var(--coar-text-neutral-secondary, #6b7280));
+
+  /* Non-interactive */
+  cursor: default;
+  user-select: none;
+}
+/* Sidebar variant - larger, more prominent headings for permanent navigation */
+:host-context(.coar-menu--sidebar) .coar-menu-heading {
+  font-size: 16px;
+  letter-spacing: 0.08em;
+  padding: 0.5rem 0.75rem 0.375rem;
+}
+
+:host-context(.coar-menu--sidebar):not(:first-child) {
+  margin-top: 1.25rem;
+}
