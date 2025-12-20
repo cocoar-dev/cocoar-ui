@@ -8,8 +8,7 @@ import {
   output,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CoarIconComponent } from '../coar-icon/coar-icon.component';
-import { type CoreIconName } from '../coar-icon/core-icons';
+import { CoarIconComponent, type CoreIconName } from '@cocoar/ui-components';
 import { CoarSubmenuTemplateDirective } from './coar-submenu-template.directive';
 
 /**

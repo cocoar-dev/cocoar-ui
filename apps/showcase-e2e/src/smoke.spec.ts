@@ -25,7 +25,7 @@ const componentPages = [
   { path: '/forms', name: 'Forms' },
 ];
 
-test.describe('Component Pages Load', () => {
+test.describe('Component Pages Load @smoke', () => {
   for (const page of componentPages) {
     test(`${page.name} renders without errors`, async ({ page: browserPage }) => {
       const consoleErrors: string[] = [];

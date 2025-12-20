@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
  * Checkbox component interaction tests
  */
 
-test.describe('Checkbox Component', () => {
+test.describe('Checkbox Component @checkboxes', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/checkboxes');
     await page.waitForLoadState('domcontentloaded');

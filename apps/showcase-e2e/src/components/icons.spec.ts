@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
  * Icons component and icon service tests
  */
 
-test.describe('Icons Component', () => {
+test.describe('Icons Component @icons', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/icons');
     await page.waitForLoadState('domcontentloaded');
@@ -81,10 +81,13 @@ test.describe('Icons Component', () => {
     expect(iconErrors).toHaveLength(0);
   });
 
-  test('icon colors can be customized', async ({ page }) => {
+  test('icon colors can be customized @fixme', async ({ page }) => {
     const coloredIconLocator = page.locator('coar-icon[color], coar-icon[style*="color"]');
     const count = await coloredIconLocator.count();
-    test.skip(count === 0, 'No colored icons on this page');
+    test.fixme(
+      count === 0,
+      'Icons page has no explicit colored-icon examples; add one in showcase to enforce color customization.'
+    );
 
     const coloredIcon = coloredIconLocator.first();
     await expect(coloredIcon).toBeVisible();
@@ -95,14 +98,17 @@ test.describe('Icons Component', () => {
   });
 
   // Clipboard permissions only work in Chromium
-  test('clicking icon name copies to clipboard', async ({ page, context, browserName }) => {
-    test.skip(browserName !== 'chromium', 'Clipboard API only supported in Chromium');
+  test('clicking icon name copies to clipboard @fixme', async ({ page, context, browserName }) => {
+    test.fixme(
+      browserName !== 'chromium',
+      'Clipboard assertions are Chromium-only in our setup; either add cross-browser clipboard strategy or keep as Chromium-only.'
+    );
 
     await context.grantPermissions(['clipboard-read', 'clipboard-write']);
 
     const iconNameLocator = page.locator('.icon-name, button:has(coar-icon)');
     const count = await iconNameLocator.count();
-    test.skip(count === 0, 'No icon name buttons on this page');
+    test.fixme(count === 0, 'Icons page has no "copy name" buttons; add one in showcase so copy UX is enforced.');
 
     const iconName = iconNameLocator.first();
     await expect(iconName).toBeVisible();
@@ -110,10 +116,10 @@ test.describe('Icons Component', () => {
     // Click completes synchronously - clipboard operation is done
   });
 
-  test('icon grid/list displays all available icons', async ({ page }) => {
+  test('icon grid/list displays all available icons @fixme', async ({ page }) => {
     const iconGridLocator = page.locator('.icon-grid, .icons-container');
     const count = await iconGridLocator.count();
-    test.skip(count === 0, 'No icon grid/container on this page');
+    test.fixme(count === 0, 'Icons page has no icon grid/list container; add one in showcase so full catalog rendering is enforced.');
 
     const iconGrid = iconGridLocator.first();
     await expect(iconGrid).toBeVisible();

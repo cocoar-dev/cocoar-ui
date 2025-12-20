@@ -1,9 +1,7 @@
-import nx from '@nx/eslint-plugin';
+import baseConfig from './eslint.base.config.mjs';
 
 export default [
-  ...nx.configs['flat/base'],
-  ...nx.configs['flat/typescript'],
-  ...nx.configs['flat/javascript'],
+  ...baseConfig,
   {
     ignores: ['**/dist', '**/vitest.config.*.timestamp*'],
   },
@@ -61,7 +59,6 @@ export default [
         },
       ],
       '@typescript-eslint/no-non-null-assertion': 'warn',
-
       // General code quality
       'no-console': ['warn', { allow: ['warn', 'error'] }],
       'no-debugger': 'warn',

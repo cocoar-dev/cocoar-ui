@@ -14,13 +14,15 @@ import {
   CoarNoteComponent,
   CoarTabGroupComponent,
   CoarTabComponent,
+} from '@cocoar/ui-components';
+import {
   CoarMenuComponent,
   CoarMenuItemComponent,
   CoarMenuDividerComponent,
   CoarMenuHeadingComponent,
   CoarSubmenuItemComponent,
   CoarSubExpandComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui-menu';
 
 import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 

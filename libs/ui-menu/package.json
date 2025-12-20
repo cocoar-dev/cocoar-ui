@@ -1,0 +1,11 @@
+{
+  "name": "@cocoar/ui-menu",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^20.3.0",
+    "@angular/core": "^20.3.0",
+    "@cocoar/ui-components": "*",
+    "@cocoar/ui-overlay": "*"
+  },
+  "sideEffects": false
+}

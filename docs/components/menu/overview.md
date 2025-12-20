@@ -66,7 +66,7 @@ The sidebar variant uses semantic neutral tokens and increases heading font size
 ## Installation
 
 ```bash
-npm install @cocoar/ui-components @cocoar/ui-tokens
+npm install @cocoar/ui-menu @cocoar/ui-tokens
 ```
 
 Import CSS tokens (global stylesheet):
@@ -86,7 +86,7 @@ import {
   CoarMenuComponent,
   CoarMenuItemComponent,
   CoarMenuDividerComponent
-} from '@cocoar/ui-components';
+} from '@cocoar/ui-menu';
 
 @Component({
   standalone: true,
@@ -120,7 +120,7 @@ import {
   CoarSubmenuItemComponent,
   CoarSubExpandComponent,
   CoarMenuDividerComponent
-} from '@cocoar/ui-components';
+} from '@cocoar/ui-menu';
 
 @Component({
   standalone: true,
@@ -235,6 +235,7 @@ export class MyComponent {
 
 > **Note:** The `coarMenuPreset` provides standard menu behavior:
 > - Close on outside click
+> - Close on item click (default; call `$event.keepMenuOpen()` to prevent)
 > - Close on Escape key
 > - Close on scroll
 > - Positioned relative to anchor point

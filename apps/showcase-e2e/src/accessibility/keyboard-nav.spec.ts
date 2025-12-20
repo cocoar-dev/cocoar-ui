@@ -5,7 +5,7 @@ import { test, expect } from '@playwright/test';
  * can be operated without a mouse.
  */
 
-test.describe('Keyboard Navigation', () => {
+test.describe('Keyboard Navigation @a11y', () => {
   test.describe('Buttons', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('/buttons');

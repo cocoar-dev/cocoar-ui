@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
  * Table component interaction tests
  */
 
-test.describe('Table Component', () => {
+test.describe('Table Component @table', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/table');
     await page.waitForLoadState('domcontentloaded');
@@ -32,10 +32,13 @@ test.describe('Table Component', () => {
     expect(textContent?.trim()).toBeTruthy();
   });
 
-  test('sortable columns can be clicked', async ({ page }) => {
+  test('sortable columns can be clicked @fixme', async ({ page }) => {
     const sortableHeaders = page.locator('[aria-sort], .coar-table-sortable');
     const count = await sortableHeaders.count();
-    test.skip(count === 0, 'Sortable columns not present on this page');
+    test.fixme(
+      count === 0,
+      'Table page has no sortable-columns example; add one in showcase to enforce sorting behavior.'
+    );
 
     const sortableHeader = sortableHeaders.first();
     await expect(sortableHeader).toBeVisible();
@@ -52,21 +55,24 @@ test.describe('Table Component', () => {
     expect(['grid', 'table', null]).toContain(role);
   });
 
-  test('table rows are keyboard navigable', async ({ page }) => {
+  test('table rows are keyboard navigable @fixme', async ({ page }) => {
     const table = page.locator('coar-table, table.coar-table').first();
 
     await expect(table).toBeVisible();
     // Keyboard navigation requires a focusable element; skip if none exist.
     const focusableInTable = table.locator('button, a[href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
     const count = await focusableInTable.count();
-    test.skip(count === 0, 'No focusable elements in table to navigate');
+    test.fixme(
+      count === 0,
+      'Table page has no focusable cells/rows example; add keyboard-focusable elements to enforce navigation.'
+    );
 
     await focusableInTable.first().focus();
     await page.keyboard.press('ArrowDown');
     await expect(table).toBeVisible();
   });
 
-  test('table pagination works', async ({ page }) => {
+  test('table pagination works @fixme', async ({ page }) => {
     const nextButton = page
       .locator('.coar-table-pagination-next, button[aria-label*="next"], button:has-text("Next")')
       .first();
@@ -74,7 +80,7 @@ test.describe('Table Component', () => {
     const count = await page
       .locator('.coar-table-pagination-next, button[aria-label*="next"], button:has-text("Next")')
       .count();
-    test.skip(count === 0, 'Pagination not present on this page');
+    test.fixme(count === 0, 'Table page has no pagination example; add one in showcase to enforce pagination behavior.');
 
     await expect(nextButton).toBeVisible();
     await nextButton.click();
@@ -84,13 +90,16 @@ test.describe('Table Component', () => {
     await expect(rows.first()).toBeVisible();
   });
 
-  test('table selection works', async ({ page }) => {
+  test('table selection works @fixme', async ({ page }) => {
     // Selection is not guaranteed in the current showcase demo; require an explicit control.
     const selectionControl = page.locator('coar-table input[type="checkbox"], coar-table input[type="radio"], table.coar-table input[type="checkbox"], table.coar-table input[type="radio"]').first();
     const count = await page
       .locator('coar-table input[type="checkbox"], coar-table input[type="radio"], table.coar-table input[type="checkbox"], table.coar-table input[type="radio"]')
       .count();
-    test.skip(count === 0, 'Row selection controls not present on this page');
+    test.fixme(
+      count === 0,
+      'Table page has no row-selection example; add selection controls in showcase to enforce selection behavior.'
+    );
 
     await expect(selectionControl).toBeVisible();
     await selectionControl.click();

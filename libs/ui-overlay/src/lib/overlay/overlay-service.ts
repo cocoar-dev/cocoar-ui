@@ -731,6 +731,11 @@ class CoarOverlayRef implements OverlayRef {
   }
 
   close(result?: unknown): void {
+    console.log('[OverlayRef] close() called', {
+      closed: this.closed,
+      result,
+    });
+
     if (this.closed) return;
     this.closed = true;
     this.lastResult = result;

@@ -114,7 +114,7 @@ Represents a single actionable menu item. Supports icons, disabled state, and cl
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `itemClick` | `void` | Emitted when user clicks/selects the item (not fired when disabled) |
+| `itemClick` | `CoarMenuItemClickEvent` | Emitted when user clicks/selects the item (not fired when disabled). Call `$event.keepMenuOpen()` to prevent auto-close when used inside an overlay. |
 | `itemHover` | `Event` | Emitted when user hovers over item (used internally for flyout trigger) |
 
 ### Host Attributes
@@ -131,6 +131,21 @@ Represents a single actionable menu item. Supports icons, disabled state, and cl
 
 ```html
 <coar-menu-item label="Save" (itemClick)="onSave()" />
+```
+
+#### Keep menu open on click
+
+```html
+<coar-menu-item label="Toggle" (itemClick)="toggleSetting($event)" />
+```
+
+```ts
+import type { CoarMenuItemClickEvent } from '@cocoar/ui-menu';
+
+toggleSetting(event: CoarMenuItemClickEvent): void {
+  event.keepMenuOpen();
+  // ...update local state...
+}
 ```
 
 #### Item with Icon
@@ -191,7 +206,7 @@ Provides visual separation between menu sections without interaction affordances
   <coar-menu-heading>Quick Actions</coar-menu-heading>
   <coar-menu-item icon="plus">New File</coar-menu-item>
   <coar-menu-item icon="folder">Open Folder</coar-menu-item>
-  
+
   <coar-menu-heading>Recent</coar-menu-heading>
   <coar-menu-item icon="file">document.txt</coar-menu-item>
   <coar-menu-item icon="file">notes.md</coar-menu-item>

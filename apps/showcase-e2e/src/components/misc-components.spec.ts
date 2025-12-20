@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
  * Cards, Badges, Tags, and Dividers component tests
  */
 
-test.describe('Cards Component', () => {
+test.describe('Cards Component @cards', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/cards');
     await page.waitForLoadState('domcontentloaded');
@@ -31,11 +31,14 @@ test.describe('Cards Component', () => {
     expect(text?.trim().length).toBeGreaterThan(0);
   });
 
-  test('clickable cards respond to click', async ({ page }) => {
+  test('clickable cards respond to click @fixme', async ({ page }) => {
     // The showcase page demonstrates visual variants. It does not currently include a dedicated
     // "clickable" card API, so this test is conditional.
     const possibleClickable = page.locator('coar-card[tabindex], a coar-card, button coar-card').first();
-    test.skip((await possibleClickable.count()) === 0, 'No clickable card examples on this page');
+    test.fixme(
+      (await possibleClickable.count()) === 0,
+      'Cards page has no clickable-card example; add one in showcase so click behavior is enforced.'
+    );
 
     await expect(possibleClickable).toBeVisible();
     await possibleClickable.click();
@@ -43,7 +46,7 @@ test.describe('Cards Component', () => {
   });
 });
 
-test.describe('Badges Component', () => {
+test.describe('Badges Component @badges', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/badges');
     await page.waitForLoadState('domcontentloaded');
@@ -76,7 +79,7 @@ test.describe('Badges Component', () => {
   });
 });
 
-test.describe('Tags Component', () => {
+test.describe('Tags Component @tags', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/tags');
     await page.waitForLoadState('domcontentloaded');
@@ -94,20 +97,20 @@ test.describe('Tags Component', () => {
     expect(count).toBeGreaterThanOrEqual(0);
   });
 
-  test('removable tags have close button', async ({ page }) => {
+  test('removable tags have close button @fixme', async ({ page }) => {
     const closableTag = page.locator('coar-tag[closable]').first();
     const count = await page.locator('coar-tag[closable]').count();
-    test.skip(count === 0, 'No closable tags on page');
+    test.fixme(count === 0, 'Tags page has no closable-tag example; add one in showcase so removal is enforced.');
 
     await expect(closableTag).toBeVisible();
     const closeButton = closableTag.locator('button.coar-tag__close');
     await expect(closeButton).toBeVisible();
   });
 
-  test('clicking remove button removes tag', async ({ page }) => {
+  test('clicking remove button removes tag @fixme', async ({ page }) => {
     const closableTag = page.locator('coar-tag[closable]').first();
     const count = await page.locator('coar-tag[closable]').count();
-    test.skip(count === 0, 'No closable tags on page');
+    test.fixme(count === 0, 'Tags page has no closable-tag example; add one in showcase so removal is enforced.');
 
     await expect(closableTag).toBeVisible();
     const closeButton = closableTag.locator('button.coar-tag__close').first();
@@ -118,7 +121,7 @@ test.describe('Tags Component', () => {
   });
 });
 
-test.describe('Dividers Component', () => {
+test.describe('Dividers Component @dividers', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/dividers');
     await page.waitForLoadState('domcontentloaded');
@@ -143,12 +146,15 @@ test.describe('Dividers Component', () => {
     await expect(horizontalDivider).toBeVisible();
   });
 
-  test('vertical dividers have correct orientation', async ({ page }) => {
+  test('vertical dividers have correct orientation @fixme', async ({ page }) => {
     const verticalDivider = page.locator('coar-divider[vertical], .coar-divider-vertical').first();
 
     // Vertical dividers may not be present on the page
     const count = await page.locator('coar-divider[vertical], .coar-divider-vertical').count();
-    test.skip(count === 0, 'No vertical dividers on page');
+    test.fixme(
+      count === 0,
+      'Dividers page has no vertical-divider example; add one in showcase so orientation is enforced.'
+    );
 
     await expect(verticalDivider).toBeVisible();
   });
@@ -161,7 +167,7 @@ test.describe('Dividers Component', () => {
   });
 });
 
-test.describe('Notes Component', () => {
+test.describe('Notes Component @notes', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/notes');
     await page.waitForLoadState('domcontentloaded');
@@ -196,12 +202,15 @@ test.describe('Notes Component', () => {
     expect(text?.trim().length).toBeGreaterThan(0);
   });
 
-  test('dismissible notes have close button', async ({ page }) => {
+  test('dismissible notes have close button @fixme', async ({ page }) => {
     const dismissibleNote = page.locator('coar-note[dismissible], .coar-note-dismissible').first();
 
     // Dismissible notes may not be present on the page
     const count = await page.locator('coar-note[dismissible], .coar-note-dismissible').count();
-    test.skip(count === 0, 'No dismissible notes on page');
+    test.fixme(
+      count === 0,
+      'Notes page has no dismissible-note example; add one in showcase so dismiss UX is enforced.'
+    );
 
     await expect(dismissibleNote).toBeVisible();
     const closeButton = dismissibleNote.locator('button, .coar-note-close');

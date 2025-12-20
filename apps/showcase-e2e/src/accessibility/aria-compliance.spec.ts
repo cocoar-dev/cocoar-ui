@@ -5,7 +5,7 @@ import { test, expect } from '@playwright/test';
  * accessibility attributes for screen readers.
  */
 
-test.describe('ARIA Compliance', () => {
+test.describe('ARIA Compliance @a11y', () => {
   test.describe('Buttons', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('/buttons');

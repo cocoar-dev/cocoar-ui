@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
  * Tabs component interaction tests
  */
 
-test.describe('Tabs Component', () => {
+test.describe('Tabs Component @tabs', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/tabs');
     await page.waitForLoadState('domcontentloaded');
@@ -28,10 +28,13 @@ test.describe('Tabs Component', () => {
     await expect(firstTab).toHaveAttribute('aria-selected', 'true');
   });
 
-  test('clicking tab switches content', async ({ page }) => {
+  test('clicking tab switches content @fixme', async ({ page }) => {
     const tabs = page.locator('[role="tab"]');
     const tabCount = await tabs.count();
-    test.skip(tabCount < 2, 'Need at least 2 tabs to test switching');
+    test.fixme(
+      tabCount < 2,
+      'Tabs page needs at least 2 visible, enabled tabs; add/adjust showcase example to make this scenario testable.'
+    );
 
     const secondTab = tabs.nth(1);
     await secondTab.click();
@@ -44,10 +47,13 @@ test.describe('Tabs Component', () => {
     await expect(firstTab).toHaveAttribute('aria-selected', 'false');
   });
 
-  test('tab panel content changes when tab is selected', async ({ page }) => {
+  test('tab panel content changes when tab is selected @fixme', async ({ page }) => {
     const tabs = page.locator('[role="tab"]');
     const tabCount = await tabs.count();
-    test.skip(tabCount < 2, 'Need at least 2 tabs to test panel switching');
+    test.fixme(
+      tabCount < 2,
+      'Tabs page needs at least 2 visible, enabled tabs; add/adjust showcase example to make this scenario testable.'
+    );
 
     // Click second tab
     await tabs.nth(1).click();
@@ -57,10 +63,13 @@ test.describe('Tabs Component', () => {
     await expect(visiblePanel).toBeVisible();
   });
 
-  test('keyboard navigation with arrow keys', async ({ page }) => {
+  test('keyboard navigation with arrow keys @fixme', async ({ page }) => {
     const tabs = page.locator('[role="tab"]');
     const tabCount = await tabs.count();
-    test.skip(tabCount < 2, 'Need at least 2 tabs to test keyboard navigation');
+    test.fixme(
+      tabCount < 2,
+      'Tabs page needs at least 2 visible, enabled tabs; add/adjust showcase example to make keyboard navigation testable.'
+    );
 
     const firstTab = tabs.first();
     await firstTab.focus();
@@ -73,10 +82,13 @@ test.describe('Tabs Component', () => {
     await expect(focusedTab).toBeVisible();
   });
 
-  test('disabled tabs cannot be selected', async ({ page }) => {
+  test('disabled tabs cannot be selected @fixme', async ({ page }) => {
     const disabledTabLocator = page.locator('[role="tab"][aria-disabled="true"]');
     const count = await disabledTabLocator.count();
-    test.skip(count === 0, 'No disabled tabs on this page');
+    test.fixme(
+      count === 0,
+      'Tabs page has no disabled-tab example; add a disabled tab in showcase so this behavior is enforced.'
+    );
 
     const disabledTab = disabledTabLocator.first();
     await expect(disabledTab).toBeVisible();

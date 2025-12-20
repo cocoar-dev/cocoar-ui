@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
  * Button component interaction tests
  */
 
-test.describe('Button Component', () => {
+test.describe('Button Component @buttons', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/buttons');
     await page.waitForLoadState('domcontentloaded');

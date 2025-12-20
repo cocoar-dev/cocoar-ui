@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
  * Code block component interaction tests
  */
 
-test.describe('Code Block Component', () => {
+test.describe('Code Block Component @code-block', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/code-block');
     await page.waitForLoadState('domcontentloaded');

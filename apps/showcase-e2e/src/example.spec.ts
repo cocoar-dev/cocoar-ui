@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test('has title', async ({ page }) => {
+test('has title @smoke', async ({ page }) => {
   await page.goto('/home');
 
   // Expect h1 to contain a substring.

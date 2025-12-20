@@ -7,14 +7,17 @@
  */
 
 :root {
-  /* Menu container background - light, subtle for context menus */
-  --coar-menu-background: #f8f9fa;
+  /* Menu container background - clean white for context menus */
+  --coar-menu-background: var(--coar-background-neutral-primary, #ffffff);
 
-  /* Item interactive states - subtle hover/active for context menus */
-  --coar-menu-item-background-hover: #f0f1f2;
-  --coar-menu-item-background-focus: #f0f1f2;
-  --coar-menu-item-background-open: #f0f1f2;
-  --coar-menu-item-background-active: #f0f1f2;
+  /* Item interactive states - subtle hover, accent for active */
+  --coar-menu-item-background-hover: var(--coar-background-neutral-secondary, #f5f5f5);
+  --coar-menu-item-background-focus: var(--coar-background-neutral-secondary, #f5f5f5);
+  --coar-menu-item-background-open: var(--coar-background-accent-tertiary, #e6f0ff);
+  --coar-menu-item-background-active: var(--coar-background-accent-tertiary, #e6f0ff);
+
+  /* Text color for active items */
+  --coar-menu-item-text-active: var(--coar-text-accent-primary, #0066cc);
 }
 
 :root.dark-mode,

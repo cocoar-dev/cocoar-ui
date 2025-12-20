@@ -5,6 +5,56 @@ import { workspaceRoot } from '@nx/devkit';
 // For CI, you may want to set BASE_URL to the deployed application.
 const baseURL = process.env['BASE_URL'] || 'http://localhost:4200';
 
+function isCi() {
+  const ciEnv = process.env['CI'];
+  return ciEnv === 'true' || ciEnv === '1';
+}
+
+function parseBrowserList(rawValue: string | undefined): Array<'chromium' | 'firefox' | 'webkit'> {
+  if (!rawValue) return [];
+
+  const normalized = rawValue.trim().toLowerCase();
+  if (!normalized) return [];
+  if (normalized === 'all') return ['chromium', 'firefox', 'webkit'];
+
+  const parts = normalized
+    .split(',')
+    .map((p) => p.trim())
+    .filter(Boolean);
+
+  const result: Array<'chromium' | 'firefox' | 'webkit'> = [];
+  for (const part of parts) {
+    if (part === 'chromium' || part === 'firefox' || part === 'webkit') {
+      result.push(part);
+    }
+  }
+
+  return Array.from(new Set(result));
+}
+
+function selectedProjects() {
+  const configured = parseBrowserList(process.env['COAR_E2E_BROWSERS']);
+  const requested =
+    configured.length > 0 ? configured : isCi() ? ['chromium', 'firefox', 'webkit'] : ['chromium'];
+
+  const available = {
+    chromium: {
+      name: 'chromium',
+      use: { ...devices['Desktop Chrome'] },
+    },
+    firefox: {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+    webkit: {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
+  };
+
+  return requested.map((key) => available[key]);
+}
+
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
@@ -16,10 +66,7 @@ const baseURL = process.env['BASE_URL'] || 'http://localhost:4200';
  */
 export default defineConfig({
   ...nxE2EPreset(__filename, { testDir: './src' }),
-  reporter: [
-    ['list'],
-    ['html', { open: 'never' }],
-  ],
+  reporter: [['list'], ['html', { open: 'never' }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL,
@@ -36,40 +83,5 @@ export default defineConfig({
         reuseExistingServer: true,
         cwd: workspaceRoot,
       },
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
-
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-
-    // Uncomment for mobile browsers support
-    /* {
-      name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'] },
-    },
-    {
-      name: 'Mobile Safari',
-      use: { ...devices['iPhone 12'] },
-    }, */
-
-    // Uncomment for branded browsers
-    /* {
-      name: 'Microsoft Edge',
-      use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    },
-    {
-      name: 'Google Chrome',
-      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    } */
-  ],
+  projects: selectedProjects(),
 });

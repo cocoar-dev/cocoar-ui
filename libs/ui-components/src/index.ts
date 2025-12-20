@@ -18,7 +18,6 @@ export * from './lib/coar-label/coar-label.component';
 export * from './lib/coar-table/coar-table.component';
 export * from './lib/coar-scrollbar';
 export * from './lib/coar-date-picker';
-export * from './lib/coar-menu';
 
 // Forms
 export * from './lib/forms/coar-control-value-accessor';

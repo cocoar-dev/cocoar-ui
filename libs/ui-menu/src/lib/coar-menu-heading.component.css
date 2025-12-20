@@ -25,6 +25,7 @@
   padding: var(--coar-menu-heading-padding, 0.75rem 0.75rem 0.25rem 0.75rem);
 
   /* Typography - smaller, uppercase for distinction */
+  font-family: var(--coar-menu-heading-font-family, var(--coar-font-family-body, Poppins));
   font-size: var(--coar-menu-heading-font-size, var(--coar-component-xs-font-size, 11px));
   font-weight: var(--coar-menu-heading-font-weight, var(--coar-font-weight-semi-bold, 600));
   line-height: var(--coar-menu-heading-line-height, 1.4);

@@ -15,6 +15,8 @@
 3. **[NAMING.md](NAMING.md)** — Naming conventions ⭐ **REQUIRED**
 4. **[CONTRIBUTING.md](CONTRIBUTING.md)** — How to contribute
 5. **[AGENTS.md](AGENTS.md)** — AI assistant guidelines
+6. **[docs/testing.md](docs/testing.md)** — Testing (Vitest + Playwright) ⭐
+7. **[docs/testing-writing.md](docs/testing-writing.md)** — Writing tests (dev guide) ⭐
 
 **Working with AI assistants?** AI tools must read all documentation files above.
 
@@ -137,6 +139,12 @@ pnpm build
 
 # Run e2e tests
 pnpm e2e
+
+# Run e2e tests in a different browser (local default is Chromium)
+pnpm e2e -- --browsers=firefox
+
+# Run e2e tests in all browsers (mainly for CI or debugging)
+pnpm e2e -- --browsers=all
 ```
 
 ---

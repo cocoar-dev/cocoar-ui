@@ -78,6 +78,10 @@ pnpm start
 
 # Run Playwright e2e tests
 pnpm e2e
+
+# Local default is Chromium. Override when needed:
+pnpm e2e -- --browsers=firefox
+pnpm e2e -- --browsers=all
 ```
 
 ---
@@ -94,6 +98,10 @@ pnpm e2e
 ---
 
 ## Testing & Behavior
+
+For the full testing workflow and the shared helpers we use in this repo, see **[docs/testing.md](docs/testing.md)**.
+
+For guidance on how to write tests (unit + e2e) and how to use Playwright tags consistently, see **[docs/testing-writing.md](docs/testing-writing.md)**.
 
 - Write tests that represent real-world behavior and critical paths
 - Add regression tests for fixed bugs
@@ -124,6 +132,33 @@ describe('CoarButtonComponent', () => {
 - Unit tests: `*.spec.ts` files alongside components
 - E2E tests: Playwright tests in `apps/showcase-e2e/`
 - Visual checks: validate component states in the showcase app
+
+### Unit Test Helpers (Angular + Vitest)
+
+Angular unit tests in this repo share a common Vitest setup via `@cocoar/testing-angular`.
+
+Also available (optional, as needed per component):
+
+- Locale formatting stub: `createCoarLocaleServiceStub()`
+- Overlay test helpers: `createCoarOverlayTestContainer()` / `cleanupCoarOverlays()`
+- DOM event helpers: `dispatchKeyboardEvent()` / `dispatchPointerEvent()`
+
+Minimal example:
+
+```ts
+import { describe, it, expect } from 'vitest';
+import { renderCoarComponent, queryRequired } from '@cocoar/testing-angular';
+
+import { CoarButtonComponent } from './coar-button.component';
+
+describe('CoarButtonComponent', () => {
+  it('renders', async () => {
+    const fixture = await renderCoarComponent(CoarButtonComponent);
+    const button = queryRequired<HTMLButtonElement>(fixture.nativeElement, 'button');
+    expect(button).toBeDefined();
+  });
+});
+```
 
 ---
 

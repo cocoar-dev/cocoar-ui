@@ -29,6 +29,7 @@
         [iconStart]="copyFeedback() === 'copied' ? 'check' : 'copy'"
         (clicked)="copyCode()"
         [ariaLabel]="copyFeedback() === 'copied' ? 'Copied!' : copyFeedback() === 'error' ? 'Failed' : 'Copy code'"
+        [attr.aria-label]="copyFeedback() === 'copied' ? 'Copied!' : copyFeedback() === 'error' ? 'Failed' : 'Copy code'"
       >
         {{ copyFeedback() === 'copied' ? 'Copied!' : copyFeedback() === 'error' ? 'Failed' : 'Copy' }}
       </coar-button>

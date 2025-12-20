@@ -7,6 +7,6 @@
 :host {
   display: block;
   height: 1px;
-  margin: var(--coar-menu-divider-margin, 0.25rem 0);
+  margin: var(--coar-menu-divider-margin, 0.25rem 0.75rem);
   background: var(--coar-menu-divider-color, var(--coar-border-neutral-tertiary, #e0e0e0));
 }

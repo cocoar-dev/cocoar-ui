@@ -11,8 +11,7 @@ import {
   Injector,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CoarIconComponent } from '../coar-icon/coar-icon.component';
-import { type CoreIconName } from '../coar-icon/core-icons';
+import { CoarIconComponent, type CoreIconName } from '@cocoar/ui-components';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   CoarOverlayService,

@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
  * Form components interaction tests
  */
 
-test.describe('Text Input Component', () => {
+test.describe('Text Input Component @text-input', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/text-input');
     await page.waitForLoadState('domcontentloaded');
@@ -49,11 +49,14 @@ test.describe('Text Input Component', () => {
     await expect(readonlyInput).toHaveAttribute('readonly');
   });
 
-  test('error state shows error message', async ({ page }) => {
+  test('error state shows error message @fixme', async ({ page }) => {
     const errorInputCount = await page
       .locator('.coar-text-input--error, .coar-text-input-error')
       .count();
-    test.skip(errorInputCount === 0, 'No error state inputs on this page');
+    test.fixme(
+      errorInputCount === 0,
+      'Forms page has no error-state example; add one in showcase so error rendering is enforced.'
+    );
 
     const errorInput = page.locator('.coar-text-input--error, .coar-text-input-error').first();
     await expect(errorInput).toBeVisible();
@@ -64,7 +67,7 @@ test.describe('Text Input Component', () => {
   });
 });
 
-test.describe('Password Input Component', () => {
+test.describe('Password Input Component @password-input', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/password-input');
     await page.waitForLoadState('domcontentloaded');
@@ -98,7 +101,7 @@ test.describe('Password Input Component', () => {
   });
 });
 
-test.describe('Number Input Component', () => {
+test.describe('Number Input Component @number-input', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/number-input');
     await page.waitForLoadState('domcontentloaded');
@@ -113,12 +116,15 @@ test.describe('Number Input Component', () => {
     expect(value).toContain('42');
   });
 
-  test('stepper buttons increment value', async ({ page }) => {
+  test('stepper buttons increment value @fixme', async ({ page }) => {
     const incrementButtonLocator = page.locator(
       'coar-number-input .coar-number-input-stepper-increment, coar-number-input button:has-text("+")'
     );
     const count = await incrementButtonLocator.count();
-    test.skip(count === 0, 'Number input stepper buttons not present on this page');
+    test.fixme(
+      count === 0,
+      'Number Input page has no visible stepper buttons; add/enable a stepper example in showcase to enforce increment behavior.'
+    );
 
     const incrementButton = incrementButtonLocator.first();
     await expect(incrementButton).toBeVisible();
@@ -131,12 +137,15 @@ test.describe('Number Input Component', () => {
     expect(parseInt(newValue)).toBeGreaterThanOrEqual(10);
   });
 
-  test('stepper buttons decrement value', async ({ page }) => {
+  test('stepper buttons decrement value @fixme', async ({ page }) => {
     const decrementButtonLocator = page.locator(
       'coar-number-input .coar-number-input-stepper-decrement, coar-number-input button:has-text("-")'
     );
     const count = await decrementButtonLocator.count();
-    test.skip(count === 0, 'Number input stepper buttons not present on this page');
+    test.fixme(
+      count === 0,
+      'Number Input page has no visible stepper buttons; add/enable a stepper example in showcase to enforce decrement behavior.'
+    );
 
     const decrementButton = decrementButtonLocator.first();
     await expect(decrementButton).toBeVisible();
@@ -149,10 +158,13 @@ test.describe('Number Input Component', () => {
     expect(parseInt(newValue)).toBeLessThanOrEqual(10);
   });
 
-  test('respects min/max constraints', async ({ page }) => {
+  test('respects min/max constraints @fixme', async ({ page }) => {
     const inputLocator = page.locator('coar-number-input input[min], coar-number-input input[max]');
     const count = await inputLocator.count();
-    test.skip(count === 0, 'No number inputs with min/max constraints on this page');
+    test.fixme(
+      count === 0,
+      'Number Input page has no min/max example; add one in showcase so constraints are enforced.'
+    );
 
     const input = inputLocator.first();
     await expect(input).toBeVisible();
@@ -164,7 +176,7 @@ test.describe('Number Input Component', () => {
   });
 });
 
-test.describe('Checkbox Component', () => {
+test.describe('Checkbox Component @checkboxes', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/checkboxes');
     await page.waitForLoadState('domcontentloaded');
@@ -195,10 +207,13 @@ test.describe('Checkbox Component', () => {
     await expect(checkbox).toBeChecked({ checked: !isChecked });
   });
 
-  test('disabled checkbox cannot be changed', async ({ page }) => {
+  test('disabled checkbox cannot be changed @fixme', async ({ page }) => {
     const disabledCheckboxLocator = page.locator('coar-checkbox input[type="checkbox"][disabled]');
     const count = await disabledCheckboxLocator.count();
-    test.skip(count === 0, 'No disabled checkboxes on this page');
+    test.fixme(
+      count === 0,
+      'Checkboxes page has no disabled-checkbox example; add one in showcase so disabled behavior is enforced.'
+    );
 
     const disabledCheckbox = disabledCheckboxLocator.first();
     await expect(disabledCheckbox).toBeVisible();

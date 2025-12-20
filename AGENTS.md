@@ -15,6 +15,11 @@
 3. **[NAMING.md](NAMING.md)** — All naming conventions
 4. **[CONTRIBUTING.md](CONTRIBUTING.md)** — Quality standards and workflows
 
+When working on tests (adding, updating, or debugging), also load:
+
+5. **[docs/testing.md](docs/testing.md)** — How to run tests in this repo (Vitest + Playwright)
+6. **[docs/testing-writing.md](docs/testing-writing.md)** — How to write tests (helpers, tags, `test.fixme` conventions)
+
 **⚠️ IMPORTANT:** AI assistants MUST load NAMING.md, ARCHITECTURE.md, and CONTRIBUTING.md into context before generating or modifying any files.
 
 **These documents work together as a complete behavioral contract.**
@@ -208,5 +213,5 @@ If uncertain about a decision, AI assistants should:
 
 > This file defines the authoritative AI guidance for the Cocoar Design System repository.
 > GitHub Copilot, Claude, ChatGPT, and other assistants should treat this as the primary behavioral contract.
-> 
+>
 > **Remember:** This document works with ARCHITECTURE.md, NAMING.md, and CONTRIBUTING.md as a complete system.
