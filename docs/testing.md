@@ -8,7 +8,7 @@ Key goals:
 
 - Keep tests **fast** and **easy to run** per project
 - Keep test setup **consistent** across libraries
-- Run e2e tests against the **showcase app** (no Storybook)
+- Run e2e tests against the **showcase app** (no third-party preview tooling)
 - Ensure automation **always exits cleanly**, especially on Windows
 
 ---
@@ -264,13 +264,13 @@ pnpm nx e2e showcase-e2e --headed
 
 ## Component Test Host (Prototype)
 
-For isolated, component-level rendering (Storybook “preview iframe”-style) without Storybook, see:
+For isolated, component-level rendering (preview-iframe style) without third-party preview tooling, see:
 
 - [component-test-host.md](component-test-host.md)
 
 This is a dedicated Angular app at `apps/component-test-host` with a registry-driven route:
 
-- `/__ct/:id` (default port `4300`)
+- `/__scenario/:id` (default port `4300`)
 
 ### Peer dependency warnings
 

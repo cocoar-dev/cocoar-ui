@@ -21,16 +21,16 @@ function normalizeStringArray(value) {
 }
 
 /**
- * Loads configuration for CT-host scripts.
+ * Loads configuration for the component preview registry scripts.
  *
  * This is intentionally lightweight: it supports both Nx workspaces and plain Angular CLI repos.
  */
 export async function loadCtHostConfig(projectRoot) {
   const defaults = {
     tsconfigPath: 'tsconfig.base.json',
-    outputFile: 'apps/component-test-host/src/app/ct/ct-registry.generated.ts',
-    ctStoriesRoot: 'apps/component-test-host/src/app/ct/stories',
-    searchRoots: ['apps/component-test-host/src/app/ct/stories', 'libs'],
+    outputFile: 'apps/component-test-host/src/app/scenario/scenario-registry.generated.ts',
+    scenarioRoot: 'apps/component-test-host/src/app/scenario/scenarios',
+    searchRoots: ['apps/component-test-host/src/app/scenario/scenarios', 'libs'],
     ignoredDirNames: [
       'node_modules',
       'dist',
@@ -42,14 +42,15 @@ export async function loadCtHostConfig(projectRoot) {
     ],
   };
 
-  const configPath = path.join(projectRoot, 'ct-host.config.json');
+  const configPath = path.join(projectRoot, 'scenar-backstage.config.json');
+
   if (!(await pathExists(configPath))) {
     return {
       ...defaults,
       projectRoot,
       configPath: null,
       outputFileAbs: path.join(projectRoot, defaults.outputFile),
-      ctStoriesRootAbs: path.join(projectRoot, defaults.ctStoriesRoot),
+      scenarioRootAbs: path.join(projectRoot, defaults.scenarioRoot),
       searchRootsAbs: defaults.searchRoots.map((p) => path.join(projectRoot, p)),
       tsconfigPathAbs: path.join(projectRoot, defaults.tsconfigPath),
       allowedImporterRelPaths: new Set([toPosixPath(defaults.outputFile)]),
@@ -67,10 +68,10 @@ export async function loadCtHostConfig(projectRoot) {
       ? parsed.outputFile
       : defaults.outputFile;
 
-  const ctStoriesRoot =
-    typeof parsed.ctStoriesRoot === 'string' && parsed.ctStoriesRoot.trim().length > 0
-      ? parsed.ctStoriesRoot
-      : defaults.ctStoriesRoot;
+  const scenarioRoot =
+    typeof parsed.scenarioRoot === 'string' && parsed.scenarioRoot.trim().length > 0
+      ? parsed.scenarioRoot
+      : defaults.scenarioRoot;
 
   const searchRoots = normalizeStringArray(parsed.searchRoots) ?? defaults.searchRoots;
   const ignoredDirNames = normalizeStringArray(parsed.ignoredDirNames) ?? defaults.ignoredDirNames;
@@ -78,13 +79,13 @@ export async function loadCtHostConfig(projectRoot) {
   return {
     tsconfigPath,
     outputFile,
-    ctStoriesRoot,
+    scenarioRoot,
     searchRoots,
     ignoredDirNames,
     projectRoot,
     configPath,
     outputFileAbs: path.join(projectRoot, outputFile),
-    ctStoriesRootAbs: path.join(projectRoot, ctStoriesRoot),
+    scenarioRootAbs: path.join(projectRoot, scenarioRoot),
     searchRootsAbs: searchRoots.map((p) => path.join(projectRoot, p)),
     tsconfigPathAbs: path.join(projectRoot, tsconfigPath),
     allowedImporterRelPaths: new Set([toPosixPath(outputFile)]),

@@ -2,7 +2,7 @@
 
 This doc is a practical guide to extract the Component Test Host (CT host) into a dedicated repository and reuse it in other projects.
 
-The goal: in a consuming project, you should mostly just write stories (wrapper components + `CtStory` declarations). The host app + registry generation + guardrails should already be there.
+The goal: in a consuming project, you should mostly just write scenarios (wrapper components + `ScenarioDefinition` declarations). The host app + registry generation + guardrails should already be there.
 
 ---
 
@@ -11,12 +11,12 @@ The goal: in a consuming project, you should mostly just write stories (wrapper 
 From this repo, the “portable core” is:
 
 - Scripts:
-  - `scripts/component-test-host/generate-ct-registry.mjs`
-  - `scripts/component-test-host/check-ct-story-imports.mjs`
-  - `scripts/component-test-host/ct-host-config.mjs`
-  - `scripts/component-test-host/ct-host.config.schema.json`
+  - `scripts/scenar-backstage/generate-scenar-registry.mjs`
+  - `scripts/scenar-backstage/check-scenar-scenario-imports.mjs`
+  - `scripts/component-test-host/ct-host-config.mjs` (shared loader; prefers `scenar-backstage.config.json`)
+  - `scripts/scenar-backstage/scenar-backstage.config.schema.json`
 - Config:
-  - `ct-host.config.json`
+  - `scenar-backstage.config.json`
 - The host Angular app:
   - `apps/component-test-host/**`
 
@@ -43,18 +43,18 @@ You can start with “scripts + app in the same repo”, and split into packages
 
 ## Making It Work In Another Repo
 
-### 1) Add `ct-host.config.json`
+### 1) Add `scenar-backstage.config.json`
 
-In the new repo root, create a `ct-host.config.json` matching that repo layout.
+In the new repo root, create a `scenar-backstage.config.json` matching that repo layout.
 
 For a *plain Angular CLI* repo (no `apps/` folder), a typical config might be:
 
 ```json
 {
   "tsconfigPath": "tsconfig.json",
-  "outputFile": "src/app/ct/ct-registry.generated.ts",
-  "ctStoriesRoot": "src/app/ct/stories",
-  "searchRoots": ["src/app/ct/stories"],
+  "outputFile": "src/app/scenario/scenario-registry.generated.ts",
+  "scenarioRoot": "src/app/scenario/scenarios",
+  "searchRoots": ["src/app/scenario/scenarios"],
   "ignoredDirNames": ["node_modules", "dist", ".git"]
 }
 ```
@@ -65,8 +65,8 @@ For an *Nx repo* with a dedicated app, keep the existing defaults and adjust onl
 
 Minimum commands you need:
 
-- `node scripts/component-test-host/check-ct-story-imports.mjs`
-- `node scripts/component-test-host/generate-ct-registry.mjs`
+- `node scripts/scenar-backstage/check-scenar-scenario-imports.mjs`
+- `node scripts/scenar-backstage/generate-scenar-registry.mjs`
 
 In Nx, these are wired via `nx:run-commands` targets.
 
@@ -74,31 +74,31 @@ In plain Angular CLI, wire them in `package.json` scripts and run them before `n
 
 ---
 
-## Story Authoring Contract (What Consumers Write)
+## Scenario Authoring Contract (What Consumers Write)
 
-A “story” is an Angular wrapper component (template + providers + layout) plus a metadata object.
+A scenario is an Angular wrapper component (template + providers + layout) plus a metadata object.
 
 - Wrapper component lives next to its template and styles.
-- Metadata is a `CtStory<YourStoryComponent>` object with `{ id: '...' }`.
+- Metadata is a `ScenarioDefinition<YourScenarioComponent>` object with `{ id: '...' }`.
 
-Inputs are inferred automatically from `input<T>()` properties on the story wrapper component.
+Inputs are inferred automatically from `input<T>()` properties on the scenario wrapper component.
 
-Overrides (`providers`, custom `inputs`) are supported only when the story metadata is:
+Overrides (`providers`, custom `inputs`) are supported only when the scenario metadata is:
 
 - exported, and
-- in a `*.ct-story.ts` file
+- in a `*.scenario.ts` file
 
-This keeps runtime bundles clean and prevents eager-loading story modules.
+This keeps runtime bundles clean and prevents eager-loading scenario modules.
 
 ---
 
-## Guardrail: No Runtime Imports of `*.ct-story.ts`
+## Guardrail: No Runtime Imports of `*.scenario.ts`
 
 The rule is:
 
-- Only the generated registry may import `*.ct-story.ts`.
+- Only the generated registry may import `*.scenario.ts`.
 
-The script `scripts/component-test-host/check-ct-story-imports.mjs` enforces this.
+The script `scripts/scenar-backstage/check-scenar-scenario-imports.mjs` enforces this.
 
 ---
 
@@ -109,7 +109,7 @@ Suggested order:
 1. Copy scripts + config first.
 2. Copy the CT host app.
 3. Run generation and ensure the app builds.
-4. Copy one story and verify it mounts at `/__ct/:id`.
+4. Copy one scenario and verify it mounts at `/__scenario/:id`.
 5. Bring over Playwright helpers/tests.
 
 If you want, we can also add a tiny wrapper CLI (e.g. `ct-host gen` / `ct-host check`) once the extracted repo is stable.

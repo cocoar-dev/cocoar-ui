@@ -1,0 +1,16 @@
+{
+  "$schema": "./scripts/scenar-backstage/scenar-backstage.config.schema.json",
+  "tsconfigPath": "tsconfig.base.json",
+  "outputFile": "apps/component-test-host/src/app/scenario/scenario-registry.generated.ts",
+  "scenarioRoot": "apps/component-test-host/src/app/scenario/scenarios",
+  "searchRoots": ["apps/component-test-host/src/app/scenario/scenarios", "libs"],
+  "ignoredDirNames": [
+    "node_modules",
+    "dist",
+    "tmp",
+    ".nx",
+    ".git",
+    "playwright-report",
+    "test-results"
+  ]
+}

@@ -2,12 +2,12 @@ import type { Page } from '@playwright/test';
 
 export type CtQueryValue = string | number | boolean | undefined | null;
 
-export function ctBaseUrl(): string {
-  return process.env['CT_BASE_URL'] || 'http://localhost:4300';
+export function scenarioBaseUrl(): string {
+  return process.env['SCENARIO_BASE_URL'] || 'http://localhost:4300';
 }
 
-export function ctUrl(id: string, query?: Record<string, CtQueryValue>): string {
-  const url = new URL(`/__ct/${encodeURIComponent(id)}`, ctBaseUrl());
+export function scenarioUrl(id: string, query?: Record<string, CtQueryValue>): string {
+  const url = new URL(`/__scenario/${encodeURIComponent(id)}`, scenarioBaseUrl());
 
   if (query) {
     for (const [key, value] of Object.entries(query)) {
@@ -19,10 +19,10 @@ export function ctUrl(id: string, query?: Record<string, CtQueryValue>): string 
   return url.toString();
 }
 
-export async function gotoCt(
+export async function gotoScenario(
   page: Page,
   id: string,
   query?: Record<string, CtQueryValue>
 ): Promise<void> {
-  await page.goto(ctUrl(id, query), { waitUntil: 'domcontentloaded' });
+  await page.goto(scenarioUrl(id, query), { waitUntil: 'domcontentloaded' });
 }

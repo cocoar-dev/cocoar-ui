@@ -47,20 +47,20 @@ async function walkTsFiles(dirPath, results) {
   }
 }
 
-function findCtStoryImports(text) {
+function findScenarioMetaImports(text) {
   // We only want to catch runtime imports, not comments.
-  // Keep the heuristic simple: scan for import statements that reference ".ct-story".
+  // Keep the heuristic simple: scan for import statements that reference ".scenario".
   const lines = text.split(/\r?\n/);
   const hits = [];
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    if (!line.includes('ct-story')) continue;
+    if (!line.includes('.scenario')) continue;
 
-    // Static imports: import ... from '...ct-story...'
-    // Also catch `import('...ct-story...')`.
-    const isStatic = /\bfrom\s+['"][^'"]*\.ct-story(?:\.ts)?['"]/u.test(line);
-    const isDynamic = /\bimport\(\s*['"][^'"]*\.ct-story(?:\.ts)?['"]\s*\)/u.test(line);
+    // Static imports: import ... from '...scenario...'
+    // Also catch `import('...scenario...')`.
+    const isStatic = /\bfrom\s+['"][^'"]*\.scenario(?:\.ts)?['"]/u.test(line);
+    const isDynamic = /\bimport\(\s*['"][^'"]*\.scenario(?:\.ts)?['"]\s*\)/u.test(line);
 
     if (isStatic || isDynamic) {
       hits.push({ line: i + 1, text: line.trim() });
@@ -82,7 +82,7 @@ async function main() {
     if (ALLOWED_IMPORTERS.has(rel)) continue;
 
     const text = await fs.readFile(filePath, 'utf8');
-    const hits = findCtStoryImports(text);
+    const hits = findScenarioMetaImports(text);
     if (hits.length === 0) continue;
 
     for (const hit of hits) {
@@ -92,21 +92,23 @@ async function main() {
 
   if (violations.length > 0) {
     process.stderr.write(
-      'Found forbidden runtime imports of *.ct-story files.\n' +
-        'Rule: Only the generated registry may import story metadata modules.\n\n'
+      'Found forbidden runtime imports of *.scenario files.\n' +
+        'Rule: Only the generated registry may import scenario metadata modules.\n\n'
     );
 
     for (const v of violations) {
       process.stderr.write(`${v.file}:${v.line}  ${v.text}\n`);
     }
 
-    process.stderr.write('\nFix: remove the import, or move the logic into the generator.\n');
+    process.stderr.write(
+      '\nFix: remove the import, or move the logic into the generator (Scenar Backstage).\n'
+    );
 
     process.exitCode = 1;
     return;
   }
 
-  process.stdout.write('OK: no forbidden *.ct-story imports found.\n');
+  process.stdout.write('OK: no forbidden *.scenario imports found (Scenar Backstage).\n');
 }
 
 await main();

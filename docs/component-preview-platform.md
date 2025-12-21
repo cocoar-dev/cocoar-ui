@@ -2,13 +2,13 @@
 
 ## Summary
 
-We are building a small, dedicated Angular application that can **render exactly one component scenario in isolation** (similar to a Storybook “preview iframe”) and make it available for:
+We are building a small, dedicated Angular application that can **render exactly one component scenario in isolation** (preview-iframe style) and make it available for:
 
 - **automated UI tests** (Playwright)
 - **manual exploration** (developers/designers)
 - **future showcase integration** (documentation + live preview in a dedicated tab)
 
-This repo intentionally avoids Storybook, so this platform is our **controlled, Angular-first alternative**.
+This repo intentionally avoids third-party preview tooling, so this platform is our **controlled, Angular-first alternative**.
 
 ---
 
@@ -22,7 +22,7 @@ We need reliable component-level tests and reproducible demos. Using a full show
 - selectors polluted by “showcase chrome”
 - higher maintenance cost as demo pages evolve
 
-Storybook typically solves this by rendering each story in its own deterministic iframe.
+Many preview tools solve this by rendering each scenario in its own deterministic iframe.
 
 ### Solution
 
@@ -56,7 +56,7 @@ Instead of rendering a design-system component directly, we author **wrapper com
 - stitch multiple components together
 - include overlays or templates
 
-This mirrors how Storybook encourages “stories” as templates, but stays 100% Angular.
+This mirrors the common “template wrapper” approach used by preview tooling, but stays 100% Angular.
 
 ---
 
@@ -90,7 +90,7 @@ This keeps the testing surface stable even when docs UX changes.
 
 ## Non-Goals (For Now)
 
-To keep the platform maintainable, we are intentionally *not* implementing Storybook’s full feature set.
+To keep the platform maintainable, we are intentionally *not* implementing the full feature set of dedicated preview tools.
 
 Examples of non-goals (for early versions):
 
@@ -128,7 +128,7 @@ These can be evaluated later if there is a clear ROI.
 
 ### Why rename now
 
-`CtHost`, `CtStory`, etc. were good bootstrap names, but if this grows into a real internal product, we should use names that communicate:
+Legacy CT naming (`CtHost`, older definition types, etc.) worked for bootstrapping, but if this grows into a real internal product, we should use names that communicate:
 
 - **preview** (interactive rendering)
 - **scenarios** (reproducible component states)
@@ -162,7 +162,7 @@ Replace “CT” with language that maps to the concepts:
 
 - **Host/App**
   - `PreviewHost` / `PreviewApp` / `PreviewShell`
-- **Story** (Storybook term) → consider **Scenario** or **Fixture**
+- **Unit** → use **Scenario** or **Fixture**
   - `Scenario` reads well for stakeholders
   - `Fixture` reads well for testing-focused teams
 - **Registry**
@@ -181,13 +181,13 @@ If the future includes a showcase “Preview” tab and a testing surface, the c
 So:
 
 - `PreviewHost`
-- `ScenarioDefinition<T>` (instead of `CtStory<T>`)
+- `ScenarioDefinition<T>` (instead of legacy CT definition types)
 - `PREVIEW_REGISTRY` / `SCENARIO_REGISTRY`
 
-This keeps “story” out of the vocabulary while still matching what Storybook provides.
+This keeps terminology consistent while still matching what preview tooling provides.
 
 ---
 
 ## Stakeholder Explanation (Short Pitch)
 
-“We’re building a lightweight preview platform for our UI components. Each component state is rendered in isolation via a stable URL, which gives us a deterministic surface for Playwright tests and an interactive preview that can later be embedded into the showcase app. It’s like Storybook’s preview iframe concept, but implemented in a controlled Angular-first way and tailored to our design system.”
+“We’re building a lightweight preview platform for our UI components. Each component state is rendered in isolation via a stable URL, which gives us a deterministic surface for Playwright tests and an interactive preview that can later be embedded into the showcase app. It’s the preview-iframe concept, but implemented in a controlled Angular-first way and tailored to our design system.”

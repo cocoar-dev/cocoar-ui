@@ -1,11 +1,11 @@
 # Component Test Host (Prototype)
 
-This repository intentionally does **not** use Storybook.
-To still enable *isolated, component-level* testing with Playwright (Storybook “preview iframe”-style), we have a dedicated Angular app:
+This repository intentionally does **not** use third-party component preview tooling.
+To still enable *isolated, component-level* testing with Playwright (preview-iframe style), we have a dedicated Angular app:
 
 - App: `apps/component-test-host`
 - Default port: `4300`
-- Primary route contract: `/__ct/:id`
+- Primary route contract: `/__scenario/:id`
 
 The goal is a minimal, deterministic host that can mount a single component at a time, with URL-driven inputs, and without any “showcase chrome”.
 
@@ -23,8 +23,8 @@ The showcase app is great for human exploration, but it is not a great *testing 
 - **A moving target**: showcase pages are designed for docs/demos and can change often.
 - **Harder selectors**: “chrome” and demo wrappers add DOM complexity.
 
-Storybook typically solves this with a dedicated preview iframe that renders exactly one story.
-Since this repo intentionally avoids Storybook, we build the minimal equivalent ourselves.
+Many preview tools solve this with a dedicated iframe that renders exactly one unit.
+Since this repo avoids that class of tooling, we build the minimal equivalent ourselves.
 
 ---
 
@@ -40,7 +40,7 @@ An Angular app that behaves like a “preview iframe”:
 
 This enables Playwright tests to be small and direct:
 
-- Navigate to `/__ct/<component-id>?arg=value`
+- Navigate to `/__scenario/<scenario-id>?arg=value`
 - Assert behavior and accessibility
 - Avoid reliance on showcase layouts
 
@@ -67,11 +67,11 @@ Why we didn’t choose it:
 - It couples the test harness to showcase implementation details.
 - It risks mixing “demo UX” and “test harness” responsibilities in one app.
 
-### 3) Use Storybook
+### 3) Use External Preview Tooling
 
-Why we didn’t choose it:
+Why we didn’t choose external preview tooling:
 
-- This repository explicitly avoids Storybook (version drift, maintenance cost, extra tooling).
+- This repository explicitly avoids that dependency surface (version drift, maintenance cost, extra tooling).
 - We want an Angular-first solution fully controlled inside this monorepo.
 
 ### Conclusion
@@ -87,7 +87,7 @@ Provide a stable, scriptable surface for Playwright tests that want:
 - **Isolation**: render one component (or a tiny wrapper) on a blank page.
 - **Determinism**: noop animations by default; no unrelated demo layout.
 - **URL-driven configuration**: mount component `:id` and pass a small allowlisted set of inputs via query params.
-- **Storybook-like ergonomics** without Storybook: a registry maps IDs → component import + providers + input parsing.
+- A simple, registry-driven experience: a registry maps IDs → component import + providers + input parsing.
 
 This is intended to become the foundation for “component testing with Playwright” in this monorepo.
 
@@ -95,7 +95,7 @@ This is intended to become the foundation for “component testing with Playwrig
 
 ## How It Works (High Level)
 
-1. Playwright navigates to `/__ct/:id` in the host app.
+1. Playwright navigates to `/__scenario/:id` in the host app.
 2. The page looks up `:id` in a TypeScript registry.
 3. The registry entry:
   - lazy-imports the component
@@ -124,61 +124,61 @@ Tip: Add query params based on the registry entry allowlist.
 
 ---
 
-## Adding Stories Without Editing The Registry
+## Adding Scenarios Without Editing The Registry
 
-Story authoring details (query params, parsing, overrides, custom parsers):
+Scenario authoring details (query params, parsing, overrides, custom parsers):
 
-- See [docs/component-test-host-story-authoring.md](docs/component-test-host-story-authoring.md)
+- See [docs/component-test-host-scenario-authoring.md](docs/component-test-host-scenario-authoring.md)
 
-Stories are discovered automatically at build/serve time.
+Scenarios are discovered automatically at build/serve time.
 
-Stories can be discovered from either:
+Scenarios can be discovered from either:
 
-- `*.ct-story.ts` files (recommended for sharing stories outside the CT host app)
-- `*.component.ts` files inside `apps/component-test-host/src/app/ct/stories/**` (handy for dedicated story wrapper components)
+- `*.scenario.ts` files (recommended for sharing scenarios outside the host app)
+- `*.component.ts` files inside `apps/component-test-host/src/app/scenario/scenarios/**` (handy for dedicated scenario wrapper components)
 
-You can define one or multiple `CtStory<...>` constants per file, and the constant name does not matter.
+You can define one or multiple `ScenarioDefinition<...>` constants per file, and the constant name does not matter.
 
 Example folder:
 
 ```
-some-story/
-  my-story.component.ts
-  my-story.component.html
-  my-story.component.css
-  my-story.ct-story.ts
+some-scenario/
+  my-scenario.component.ts
+  my-scenario.component.html
+  my-scenario.component.css
+  my-scenario.scenario.ts
 ```
 
-Each story declaration must provide:
+Each scenario declaration must provide:
 
-- `ctStory.id` (registry key)
+- `scenario.id` (registry key)
 
 The registry generator infers the rest:
 
 - `loadComponent()` is generated automatically (lazy `import()`)
-- `inputs` allowlist is inferred from `input<T>()` properties on the story component
+- `inputs` allowlist is inferred from `input<T>()` properties on the scenario component
 - optional overrides:
-  - `ctStory.inputs` (to override or disable inferred inputs)
-  - `ctStory.providers` (per-story providers)
+  - `scenario.inputs` (to override or disable inferred inputs)
+  - `scenario.providers` (per-scenario providers)
 
-The host app generates `apps/component-test-host/src/app/ct/ct-registry.generated.ts` by scanning for `**/*.ct-story.ts` and story `*.component.ts` files under the CT host stories folder.
+The host app generates `apps/component-test-host/src/app/scenario/scenario-registry.generated.ts` by scanning for `**/*.scenario.ts` and scenario `*.component.ts` files under the host scenario folder.
 
-The scanner paths are configurable via `ct-host.config.json` at the repository root (useful when extracting this into another repo or a plain Angular CLI project).
+The scanner paths are configurable via `scenar-backstage.config.json` at the repository root (useful when extracting this into another repo or a plain Angular CLI project).
 
-Note: if a story declaration is not exported, the generator can still discover it, but runtime overrides like `providers` or custom `inputs` parser functions are ignored (unless the story is exported from a `*.ct-story.ts` file).
+Note: if a scenario declaration is not exported, the generator can still discover it, but runtime overrides like `providers` or custom `inputs` parser functions are ignored (unless the scenario is exported from a `*.scenario.ts` file).
 
 ---
 
 ## Rules (Enforced)
 
-- Do: define stories in `*.ct-story.ts` next to the story component (or inside CT-host story wrapper components).
-- Do: keep story metadata isolated to the generator workflow.
-- Don't: import `*.ct-story.ts` modules from app/library runtime code.
+- Do: define scenarios in `*.scenario.ts` next to the scenario component (or inside scenario wrapper components).
+- Do: keep scenario metadata isolated to the generator workflow.
+- Don't: import `*.scenario.ts` modules from app/library runtime code.
 
-This is enforced by a repo check (`component-test-host:check-ct-story-imports`). The only allowed runtime importer is the generated registry file.
+This is enforced by a repo check (`component-test-host:check-scenar-scenario-imports`). The only allowed runtime importer is the generated registry file.
 
 
-Component Test Host stories are exercised via the existing Playwright project in `apps/showcase-e2e`.
+Component Test Host scenarios are exercised via the existing Playwright project in `apps/showcase-e2e`.
 
 - Run only CT-host specs: `pnpm exec nx run showcase-e2e:ct-e2e`
 - UI mode (only CT-host specs): `pnpm exec nx run showcase-e2e:ct-e2e-ui`
@@ -188,17 +188,17 @@ These commands start both servers (showcase + component-test-host) and then run 
 
 Registry location:
 
-- `apps/component-test-host/src/app/ct/ct-registry.ts`
+- `apps/component-test-host/src/app/scenario/scenario-registry.ts`
 
 Each entry describes a **registered page unit**.
 
-In practice, this should usually be a **story component** (a tiny wrapper) rather than a direct design-system component.
-This mirrors Storybook's “story template” idea: a story component can use content projection, `ng-template`, layout scaffolding, and multi-component setups.
+In practice, this should usually be a **scenario component** (a tiny wrapper) rather than a direct design-system component.
+A scenario component can use content projection, `ng-template`, layout scaffolding, and multi-component setups.
 
 Each registry entry describes:
 
 - `id`: URL id (e.g. `coar-button`)
-- `loadComponent()`: lazy import returning the Angular component type (usually a story/wrapper)
+- `loadComponent()`: lazy import returning the Angular component type (usually a scenario wrapper)
 - `providers?`: optional providers/environment providers for that entry
 - `inputs?`: allowlisted query-param parsers
 
@@ -206,7 +206,7 @@ Current registry entries:
 
 - `coar-button`
 
-Allowlisted query params for `coar-button` (story component):
+Allowlisted query params for `coar-button` (scenario component):
 
 - `label` → string parser (projected content)
 - `disabled` → boolean parser
@@ -216,18 +216,18 @@ Allowlisted query params for `coar-button` (story component):
 
 Example:
 
-- `http://localhost:4300/__ct/coar-button?disabled=true&label=Hello`
+- `http://localhost:4300/__scenario/coar-button?disabled=true&label=Hello`
 
-### 3) Dynamic mounting at `/__ct/:id`
+### 3) Dynamic mounting at `/__scenario/:id`
 
 Host page:
 
-- `apps/component-test-host/src/app/ct/ct-host.page.ts`
+- `apps/component-test-host/src/app/scenario/scenario-host.page.ts`
 
 Behavior:
 
 - Reads `:id` from the route
-- Looks up the entry in `CT_REGISTRY`
+- Looks up the entry in `SCENARIO_REGISTRY`
 - Parses allowlisted inputs from query params
 - Mounts the component via `ViewContainerRef.createComponent()`
 - Creates a per-entry `EnvironmentInjector` via `createEnvironmentInjector()` when entry providers are present
@@ -243,17 +243,17 @@ The host app imports design-system CSS so components render with the expected to
 - App target config: `apps/component-test-host/project.json`
 - Routes: `apps/component-test-host/src/app/app.routes.ts`
 - Global providers (router, noop animations): `apps/component-test-host/src/app/app.config.ts`
-- Component registry: `apps/component-test-host/src/app/ct/ct-registry.ts`
-- Mounting page: `apps/component-test-host/src/app/ct/ct-host.page.ts`
-- Host page UI/testids: `apps/component-test-host/src/app/ct/ct-host.page.html`
-- Host page styling: `apps/component-test-host/src/app/ct/ct-host.page.css`
+- Component registry: `apps/component-test-host/src/app/scenario/scenario-registry.ts`
+- Mounting page: `apps/component-test-host/src/app/scenario/scenario-host.page.ts`
+- Host page UI/testids: `apps/component-test-host/src/app/scenario/scenario-host.page.html`
+- Host page styling: `apps/component-test-host/src/app/scenario/scenario-host.page.css`
 - App styles import: `apps/component-test-host/src/styles.css`
 
 ---
 
 ## Route Contract
 
-- Path: `/__ct/:id`
+- Path: `/__scenario/:id`
 - Query params: only those allowlisted by the registry entry are applied as inputs.
 
 Status/diagnostics are rendered by the host page (with `data-testid` hooks) to make Playwright assertions straightforward.
@@ -266,8 +266,8 @@ This is a **prototype v1**. The following capabilities are not implemented yet:
 
 - **Content projection / templates**
   - Many components (e.g. buttons) receive label/content via projection rather than an `@Input()`.
-  - We support this by registering **story components** (wrappers) that define the template and map URL args to component inputs and projected content.
-  - Remaining gap: a shared convention for more complex story templates (multiple templates / `ng-template` switching) as the registry grows.
+  - We support this by registering **scenario components** (wrappers) that define the template and map URL args to component inputs and projected content.
+  - Remaining gap: a shared convention for more complex scenario templates (multiple templates / `ng-template` switching) as the registry grows.
 
 - **Output/event capture for Playwright**
   - There is no standardized way yet to subscribe to outputs and expose “last event payload” to the DOM for assertions.
@@ -289,7 +289,7 @@ To make this practical for real Playwright component tests:
 
 ## How To Extend The Registry (Guidelines)
 
-When adding a new entry to `CT_REGISTRY`:
+When adding a new entry to `SCENARIO_REGISTRY`:
 
 - Keep the `id` stable (it becomes part of test URLs).
 - Prefer **explicit allowlists** for inputs.
@@ -303,6 +303,6 @@ The registry is intentionally explicit so test URLs remain predictable and safe.
 
 ## Non-goals (For This Prototype)
 
-- No Storybook integration.
+- No integration with third-party preview tooling.
 - No attempt to reproduce the entire showcase routing or navigation.
 - No “gallery” UI; this is meant to be controlled by URL / Playwright.

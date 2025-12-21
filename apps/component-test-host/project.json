@@ -6,23 +6,23 @@
   "sourceRoot": "apps/component-test-host/src",
   "tags": [],
   "targets": {
-    "check-ct-story-imports": {
+    "check-scenar-scenario-imports": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "node scripts/component-test-host/check-ct-story-imports.mjs",
+        "command": "node scripts/scenar-backstage/check-scenar-scenario-imports.mjs",
         "cwd": "."
       }
     },
-    "generate-ct-registry": {
+    "generate-scenar-registry": {
       "executor": "nx:run-commands",
-      "dependsOn": ["check-ct-story-imports"],
+      "dependsOn": ["check-scenar-scenario-imports"],
       "options": {
-        "command": "node scripts/component-test-host/generate-ct-registry.mjs",
+        "command": "node scripts/scenar-backstage/generate-scenar-registry.mjs",
         "cwd": "."
       }
     },
     "build": {
-      "dependsOn": ["generate-ct-registry"],
+      "dependsOn": ["generate-scenar-registry"],
       "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
       "options": {
@@ -63,7 +63,7 @@
       "defaultConfiguration": "production"
     },
     "serve": {
-      "dependsOn": ["generate-ct-registry"],
+      "dependsOn": ["generate-scenar-registry"],
       "continuous": true,
       "executor": "@angular/build:dev-server",
       "options": {
@@ -89,7 +89,7 @@
       "executor": "@nx/eslint:lint"
     },
     "serve-static": {
-      "dependsOn": ["generate-ct-registry"],
+      "dependsOn": ["generate-scenar-registry"],
       "continuous": true,
       "executor": "@nx/web:file-server",
       "options": {

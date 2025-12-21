@@ -7,14 +7,14 @@ import {
 } from '@cocoar/ui-components';
 
 @Component({
-  selector: 'app-ct-coar-button-story',
+  selector: 'app-ct-coar-button-scenario',
   standalone: true,
   imports: [CoarButtonComponent],
-  templateUrl: './coar-button-story.component.html',
-  styleUrl: './coar-button-story.component.css',
+  templateUrl: './coar-button.component.html',
+  styleUrl: './coar-button.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CoarButtonStoryComponent {
+export class CoarButtonScenarioComponent {
   label = input<string>('Button');
 
   disabled = input<boolean>(false);

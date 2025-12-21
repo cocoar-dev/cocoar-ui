@@ -1,4 +1,4 @@
-.ct-story {
+.ct-scenario {
   display: grid;
   place-items: start;
   gap: var(--coar-spacing-4, 1rem);

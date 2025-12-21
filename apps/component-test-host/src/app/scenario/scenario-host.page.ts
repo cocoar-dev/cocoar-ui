@@ -1,5 +1,4 @@
 import {
-  AfterViewChecked,
   AfterViewInit,
   ChangeDetectionStrategy,
   Component,
@@ -14,19 +13,19 @@ import {
   effect,
   signal,
 } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
 import { combineLatest, map } from 'rxjs';
-import { CT_REGISTRY, CtEntry } from './ct-registry';
-import { CT_SKIP } from './ct-parsers';
+import { SCENARIO_REGISTRY, ScenarioEntry } from './scenario-registry';
+import { SCENARIO_SKIP } from './scenario-parsers';
 
 @Component({
-  selector: 'app-ct-host-page',
-  templateUrl: './ct-host.page.html',
-  styleUrl: './ct-host.page.css',
+  selector: 'app-scenario-host-page',
+  templateUrl: './scenario-host.page.html',
+  styleUrl: './scenario-host.page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CtHostPage {
+export class ScenarioHostPage implements AfterViewInit {
   @ViewChild('outlet', { read: ViewContainerRef, static: true })
   private readonly outlet!: ViewContainerRef;
 
@@ -38,7 +37,7 @@ export class CtHostPage {
 
   protected readonly lastError = signal<string | null>(null);
 
-  private activeEntry = signal<CtEntry | null>(null);
+  private activeEntry = signal<ScenarioEntry | null>(null);
   private activeComponent = signal<Type<unknown> | null>(null);
   private activeInputs = signal<Record<string, unknown>>({});
 
@@ -64,7 +63,7 @@ export class CtHostPage {
       )
       .subscribe(({ id, query }) => {
         this.activeId.set(id);
-        const entry = CT_REGISTRY[id];
+        const entry = SCENARIO_REGISTRY[id];
         if (!entry) {
           this.activeEntry.set(null);
           this.activeComponent.set(null);
@@ -98,16 +97,6 @@ export class CtHostPage {
     this.destroyRef.onDestroy(() => observer.disconnect());
   }
 
-  ngAfterViewChecked(): void {
-    // Vite HMR can temporarily clear/detach dynamically created views.
-    // If that happens while we're in a ready state, remount the active story.
-    if (this.status() !== 'ready') return;
-    if (this.outlet.length > 0) return;
-    if (this.remountScheduled) return;
-
-    this.scheduleRemountIfEmpty();
-  }
-
   private scheduleRemountIfEmpty(): void {
     if (this.remountScheduled) return;
     if (this.status() !== 'ready') return;
@@ -131,7 +120,7 @@ export class CtHostPage {
   }
 
   private parseInputs(
-    entry: CtEntry,
+    entry: ScenarioEntry,
     query: import('@angular/router').ParamMap
   ): Record<string, unknown> {
     const parsed: Record<string, unknown> = {};
@@ -140,13 +129,13 @@ export class CtHostPage {
       const raw = query.get(key);
       if (raw === null) continue;
       const value = parser(raw);
-      if (value === CT_SKIP) continue;
+      if (value === SCENARIO_SKIP) continue;
       parsed[key] = value;
     }
     return parsed;
   }
 
-  private async loadComponent(entry: CtEntry) {
+  private async loadComponent(entry: ScenarioEntry) {
     this.status.set('loading');
     this.lastError.set(null);
     try {
@@ -161,7 +150,11 @@ export class CtHostPage {
     }
   }
 
-  private mount(entry: CtEntry, componentType: Type<unknown>, inputs: Record<string, unknown>) {
+  private mount(
+    entry: ScenarioEntry,
+    componentType: Type<unknown>,
+    inputs: Record<string, unknown>
+  ) {
     try {
       this.outlet.clear();
 

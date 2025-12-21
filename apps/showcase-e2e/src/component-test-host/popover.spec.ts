@@ -1,9 +1,9 @@
 import { expect, test } from '@playwright/test';
-import { gotoCt } from '../support/ct-host';
+import { gotoScenario } from '../support/ct-host';
 
 test.describe('Component Test Host: Popover @ct-host @popover', () => {
   test('opens popover overlay on click', async ({ page }, testInfo) => {
-    await gotoCt(page, 'coar-popover', {
+    await gotoScenario(page, 'coar-popover', {
       triggerLabel: 'Open',
       content: 'Hello from popover',
       openOnClick: true,
