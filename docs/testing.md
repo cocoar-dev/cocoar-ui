@@ -260,6 +260,18 @@ pnpm start
 pnpm nx e2e showcase-e2e --headed
 ```
 
+---
+
+## Component Test Host (Prototype)
+
+For isolated, component-level rendering (Storybook “preview iframe”-style) without Storybook, see:
+
+- [component-test-host.md](component-test-host.md)
+
+This is a dedicated Angular app at `apps/component-test-host` with a registry-driven route:
+
+- `/__ct/:id` (default port `4300`)
+
 ### Peer dependency warnings
 
 You may see peer warnings related to tooling versions (e.g. Vitest major version). These warnings are currently tolerated in this repo; they are not automatically fixed as part of testing infrastructure work.

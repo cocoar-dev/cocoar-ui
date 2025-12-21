@@ -1,0 +1,17 @@
+<div class="ct-story" data-testid="ct-story">
+  <coar-popover
+    [disabled]="disabled()"
+    [openOnHover]="openOnHover()"
+    [openOnClick]="openOnClick()"
+    [interactive]="interactive()"
+    data-testid="coar-popover"
+  >
+    <coar-button coarPopoverTrigger data-testid="coar-popover-trigger">
+      {{ triggerLabel() }}
+    </coar-button>
+
+    <div coarPopoverContent data-testid="coar-popover-content">
+      {{ content() }}
+    </div>
+  </coar-popover>
+</div>

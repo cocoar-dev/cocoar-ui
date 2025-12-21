@@ -28,6 +28,22 @@
         "cwd": ".",
         "forwardAllArgs": true
       }
+    },
+    "ct-e2e": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node scripts/e2e/run-e2e.mjs --grep @ct-host",
+        "cwd": ".",
+        "forwardAllArgs": true
+      }
+    },
+    "ct-e2e-ui": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node scripts/e2e/run-e2e.mjs --ui --grep @ct-host",
+        "cwd": ".",
+        "forwardAllArgs": true
+      }
     }
   }
 }

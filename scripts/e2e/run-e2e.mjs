@@ -2,6 +2,7 @@ import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const BASE_URL = process.env.BASE_URL || 'http://localhost:4200';
+const CT_BASE_URL = process.env.CT_BASE_URL || 'http://localhost:4300';
 const PROJECT_ROOT = fileURLToPath(new URL('../../', import.meta.url));
 
 function parseArgs(argv) {
@@ -104,9 +105,23 @@ async function main() {
   const { ui, browsers, passthrough } = parseArgs(process.argv);
 
   const alreadyRunning = await isHttpOk(BASE_URL);
+  const ctAlreadyRunning = await isHttpOk(CT_BASE_URL);
+
   const server = alreadyRunning
     ? null
     : spawn('pnpm', ['exec', 'nx', 'serve', 'showcase'], {
+        cwd: PROJECT_ROOT,
+        env: {
+          ...process.env,
+        },
+        stdio: 'inherit',
+        shell: process.platform === 'win32',
+        windowsHide: true,
+      });
+
+  const ctServer = ctAlreadyRunning
+    ? null
+    : spawn('pnpm', ['exec', 'nx', 'serve', 'component-test-host'], {
         cwd: PROJECT_ROOT,
         env: {
           ...process.env,
@@ -130,6 +145,10 @@ async function main() {
       await killWithTimeout(server.pid);
     }
 
+    if (ctServer) {
+      await killWithTimeout(ctServer.pid);
+    }
+
     process.exit(code);
   };
 
@@ -143,6 +162,10 @@ async function main() {
   try {
     if (!alreadyRunning) {
       await waitForHttpOk(BASE_URL);
+    }
+
+    if (!ctAlreadyRunning) {
+      await waitForHttpOk(CT_BASE_URL);
     }
 
     const playwrightArgs = [
@@ -160,6 +183,7 @@ async function main() {
       env: {
         ...process.env,
         BASE_URL,
+        CT_BASE_URL,
         COAR_E2E_MANAGED_SERVER: '1',
         COAR_E2E_BROWSERS:
           browsers ?? process.env.COAR_E2E_BROWSERS ?? (isCi() ? 'all' : 'chromium'),

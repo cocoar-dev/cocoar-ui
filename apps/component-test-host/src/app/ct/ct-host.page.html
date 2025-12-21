@@ -1,0 +1,16 @@
+<main class="ct-root" data-testid="ct-root">
+  <div class="ct-meta ct-visually-hidden" data-testid="ct-meta">
+    <div class="ct-id" data-testid="ct-id">{{ activeId() }}</div>
+    <div class="ct-status" data-testid="ct-status">{{ status() }}</div>
+  </div>
+
+  @if (status() === 'not-found') {
+  <div class="ct-error" data-testid="ct-error">Unknown component id: {{ activeId() }}</div>
+  } @if (status() === 'error') {
+  <div class="ct-error" data-testid="ct-error">Failed to load: {{ lastError() }}</div>
+  }
+
+  <section #preview class="ct-preview" data-testid="ct-preview">
+    <ng-container #outlet />
+  </section>
+</main>
