@@ -262,15 +262,16 @@ pnpm nx e2e showcase-e2e --headed
 
 ---
 
-## Component Test Host (Prototype)
+## Scenario Host (via Scenar)
 
-For isolated, component-level rendering (preview-iframe style) without third-party preview tooling, see:
+Some e2e suites use a scenario host that serves a single scenario at a time at:
 
-- [component-test-host.md](component-test-host.md)
+- `/__scenario/:id`
 
-This is a dedicated Angular app at `apps/component-test-host` with a registry-driven route:
+The e2e wrapper expects this host to be reachable at `SCENARIO_BASE_URL` (default `http://localhost:4300`).
 
-- `/__scenario/:id` (default port `4300`)
+If the host is not already running, the wrapper starts it using `SCENARIO_SERVER_COMMAND`.
+If unset, it defaults to `pnpm exec scenar serve`.
 
 ### Peer dependency warnings
 

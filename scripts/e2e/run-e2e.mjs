@@ -66,6 +66,26 @@ async function isHttpOk(url) {
   }
 }
 
+function parseCommand(command) {
+  if (!command) return null;
+
+  const trimmed = String(command).trim();
+  if (!trimmed) return null;
+
+  // Minimal parser: supports quoted segments and whitespace.
+  const parts = trimmed.match(/"(?:\\.|[^\\"])*"|\S+/g) ?? [];
+  const argv = parts
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .map((part) => {
+      if (part.startsWith('"') && part.endsWith('"')) return part.slice(1, -1);
+      return part;
+    });
+
+  if (argv.length === 0) return null;
+  return { file: argv[0], args: argv.slice(1) };
+}
+
 function killProcessTree(pid) {
   if (!pid) return;
 
@@ -123,15 +143,24 @@ async function main() {
 
   const scenarioServer = scenarioAlreadyRunning
     ? null
-    : spawn('pnpm', ['exec', 'nx', 'serve', 'component-test-host'], {
-        cwd: PROJECT_ROOT,
-        env: {
-          ...process.env,
-        },
-        stdio: 'inherit',
-        shell: process.platform === 'win32',
-        windowsHide: true,
-      });
+    : (() => {
+        const configured = parseCommand(process.env.SCENARIO_SERVER_COMMAND);
+
+        // Default assumes the external Scenar package exposes a CLI named `scenar`.
+        // Consumers can override via SCENARIO_SERVER_COMMAND.
+        const defaultCommand = { file: 'pnpm', args: ['exec', 'scenar', 'serve'] };
+        const command = configured ?? defaultCommand;
+
+        return spawn(command.file, command.args, {
+          cwd: PROJECT_ROOT,
+          env: {
+            ...process.env,
+          },
+          stdio: 'inherit',
+          shell: process.platform === 'win32',
+          windowsHide: true,
+        });
+      })();
 
   let tests = null;
   let shuttingDown = false;
