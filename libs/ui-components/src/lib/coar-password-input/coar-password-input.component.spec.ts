@@ -5,66 +5,6 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CoarPasswordInputComponent, CoarPasswordInputSize } from './coar-password-input.component';
 
-// Test host component
-@Component({
-  standalone: true,
-  imports: [CoarPasswordInputComponent],
-  template: `
-    <coar-password-input
-      [label]="label"
-      [placeholder]="placeholder"
-      [(value)]="value"
-      [size]="size"
-      [disabled]="disabled"
-      [readonly]="readonly"
-      [required]="required"
-      [error]="error"
-      [hint]="hint"
-      [clearable]="clearable"
-      [id]="inputId"
-      [name]="name"
-      [maxlength]="maxlength"
-      (valueChange)="onValueChange($event)"
-      (focused)="onFocused($event)"
-      (blurred)="onBlurred($event)"
-      (clear)="onClear()"
-    />
-  `,
-})
-class TestHostComponent {
-  label = '';
-  placeholder = '';
-  value = '';
-  size: CoarPasswordInputSize = 'md';
-  disabled = false;
-  readonly = false;
-  required = false;
-  error = '';
-  hint = '';
-  clearable = true;
-  inputId = '';
-  name = '';
-  maxlength: number | undefined = undefined;
-
-  valueChangeEvents: string[] = [];
-  focusEvents: FocusEvent[] = [];
-  blurEvents: FocusEvent[] = [];
-  clearCount = 0;
-
-  onValueChange(value: string): void {
-    this.valueChangeEvents.push(value);
-  }
-  onFocused(event: FocusEvent): void {
-    this.focusEvents.push(event);
-  }
-  onBlurred(event: FocusEvent): void {
-    this.blurEvents.push(event);
-  }
-  onClear(): void {
-    this.clearCount++;
-  }
-}
-
 @Component({
   standalone: true,
   imports: [ReactiveFormsModule, CoarPasswordInputComponent],
@@ -75,54 +15,46 @@ class TestReactiveFormsHostComponent {
 }
 
 describe('CoarPasswordInputComponent', () => {
-  let fixture: ComponentFixture<TestHostComponent>;
-  let hostComponent: TestHostComponent;
-  let hostElement: HTMLElement;
-
-  function detectChanges(): void {
-    fixture.detectChanges(false);
-    fixture.detectChanges();
-  }
+  let fixture: ComponentFixture<CoarPasswordInputComponent>;
+  let component: CoarPasswordInputComponent;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHostComponent, TestReactiveFormsHostComponent],
+      imports: [CoarPasswordInputComponent, TestReactiveFormsHostComponent],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TestHostComponent);
-    hostComponent = fixture.componentInstance;
-    detectChanges();
-    hostElement = fixture.nativeElement;
+    fixture = TestBed.createComponent(CoarPasswordInputComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   function getInputElement(): HTMLInputElement | null {
-    return hostElement.querySelector('input');
+    return fixture.nativeElement.querySelector('input');
   }
 
   function getLabelElement(): HTMLElement | null {
-    return hostElement.querySelector('.coar-password-input-label');
+    return fixture.nativeElement.querySelector('.coar-password-input-label');
   }
 
   function getClearButton(): HTMLButtonElement | null {
-    return hostElement.querySelector('.coar-password-input-clear');
+    return fixture.nativeElement.querySelector('.coar-password-input-clear');
   }
 
   function getToggleButton(): HTMLButtonElement | null {
-    return hostElement.querySelector('.coar-password-input-toggle');
+    return fixture.nativeElement.querySelector('.coar-password-input-toggle');
   }
 
   function getMessageElement(): HTMLElement | null {
-    return hostElement.querySelector('.coar-password-input-message');
+    return fixture.nativeElement.querySelector('.coar-password-input-message');
   }
 
   function getContainerElement(): HTMLElement | null {
-    return hostElement.querySelector('.coar-password-input-container');
+    return fixture.nativeElement.querySelector('.coar-password-input-container');
   }
 
   describe('rendering', () => {
     it('should create', () => {
-      const component = hostElement.querySelector('coar-password-input');
       expect(component).toBeTruthy();
     });
 
@@ -181,44 +113,40 @@ describe('CoarPasswordInputComponent', () => {
     });
 
     it('should render label when provided', () => {
-      hostComponent.label = 'Password';
-      detectChanges();
+      fixture.componentRef.setInput('label', 'Password');
+      fixture.detectChanges();
       expect(getLabelElement()?.textContent).toContain('Password');
     });
 
     it('should show required indicator when required', () => {
-      hostComponent.label = 'Password';
-      hostComponent.required = true;
-      detectChanges();
+      fixture.componentRef.setInput('label', 'Password');
+      fixture.componentRef.setInput('required', true);
+      fixture.detectChanges();
       expect(getLabelElement()?.textContent).toContain('*');
     });
   });
 
   describe('sizes', () => {
     it('should apply md size class by default', () => {
-      const component = hostElement.querySelector('coar-password-input');
-      expect(component?.classList.contains('coar-password-input--md')).toBe(true);
+      expect(fixture.nativeElement.classList.contains('coar-password-input--md')).toBe(true);
     });
 
     it('should apply xs size class', () => {
-      hostComponent.size = 'xs';
-      detectChanges();
-      const component = hostElement.querySelector('coar-password-input');
-      expect(component?.classList.contains('coar-password-input--xs')).toBe(true);
+      fixture.componentRef.setInput('size', 'xs');
+      fixture.detectChanges();
+      expect(fixture.nativeElement.classList.contains('coar-password-input--xs')).toBe(true);
     });
 
     it('should apply sm size class', () => {
-      hostComponent.size = 'sm';
-      detectChanges();
-      const component = hostElement.querySelector('coar-password-input');
-      expect(component?.classList.contains('coar-password-input--sm')).toBe(true);
+      fixture.componentRef.setInput('size', 'sm');
+      fixture.detectChanges();
+      expect(fixture.nativeElement.classList.contains('coar-password-input--sm')).toBe(true);
     });
 
     it('should apply lg size class', () => {
-      hostComponent.size = 'lg';
-      detectChanges();
-      const component = hostElement.querySelector('coar-password-input');
-      expect(component?.classList.contains('coar-password-input--lg')).toBe(true);
+      fixture.componentRef.setInput('size', 'lg');
+      fixture.detectChanges();
+      expect(fixture.nativeElement.classList.contains('coar-password-input--lg')).toBe(true);
     });
   });
 
@@ -233,17 +161,17 @@ describe('CoarPasswordInputComponent', () => {
 
     it('should show password when toggle is clicked', () => {
       getToggleButton()?.click();
-      detectChanges();
+      fixture.detectChanges();
       expect(getInputElement()?.type).toBe('text');
     });
 
     it('should hide password when toggle is clicked again', () => {
       getToggleButton()?.click();
-      detectChanges();
+      fixture.detectChanges();
       expect(getInputElement()?.type).toBe('text');
 
       getToggleButton()?.click();
-      detectChanges();
+      fixture.detectChanges();
       expect(getInputElement()?.type).toBe('password');
     });
 
@@ -252,88 +180,90 @@ describe('CoarPasswordInputComponent', () => {
       expect(toggle?.getAttribute('aria-label')).toBe('Show password');
 
       toggle?.click();
-      detectChanges();
+      fixture.detectChanges();
       expect(toggle?.getAttribute('aria-label')).toBe('Hide password');
     });
 
     it('should not toggle when disabled', () => {
-      hostComponent.disabled = true;
-      detectChanges();
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
 
       getToggleButton()?.click();
-      detectChanges();
+      fixture.detectChanges();
       expect(getInputElement()?.type).toBe('password');
     });
 
     it('should not toggle when readonly', () => {
-      hostComponent.readonly = true;
-      detectChanges();
+      fixture.componentRef.setInput('readonly', true);
+      fixture.detectChanges();
 
       getToggleButton()?.click();
-      detectChanges();
+      fixture.detectChanges();
       expect(getInputElement()?.type).toBe('password');
     });
   });
 
   describe('value binding', () => {
     it('should display initial value as dots', () => {
-      hostComponent.value = 'secret123';
-      detectChanges();
+      fixture.componentRef.setInput('value', 'secret123');
+      fixture.detectChanges();
       expect(getInputElement()?.value).toBe('secret123');
       expect(getInputElement()?.type).toBe('password');
     });
 
     it('should emit valueChange on input', () => {
+      const spy = vi.fn();
+      component.valueChange.subscribe(spy);
       const input = getInputElement()!;
       input.value = 'newpassword';
       input.dispatchEvent(new Event('input'));
-      detectChanges();
-      expect(hostComponent.valueChangeEvents).toContain('newpassword');
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalledWith('newpassword');
     });
 
     it('should update value via two-way binding', () => {
       const input = getInputElement()!;
       input.value = 'updated';
       input.dispatchEvent(new Event('input'));
-      detectChanges();
-      expect(hostComponent.value).toBe('updated');
+      fixture.detectChanges();
+      expect(component.value()).toBe('updated');
     });
   });
 
   describe('disabled state', () => {
     it('should disable input when disabled is true', () => {
-      hostComponent.disabled = true;
-      detectChanges();
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
       expect(getInputElement()?.disabled).toBe(true);
     });
   });
 
   describe('readonly state', () => {
     it('should set readonly on input', () => {
-      hostComponent.readonly = true;
-      detectChanges();
+      fixture.componentRef.setInput('readonly', true);
+      fixture.detectChanges();
       expect(getInputElement()?.readOnly).toBe(true);
     });
   });
 
   describe('error and hint messages', () => {
     it('should display hint message', () => {
-      hostComponent.hint = 'Minimum 8 characters';
-      detectChanges();
+      fixture.componentRef.setInput('hint', 'Minimum 8 characters');
+      fixture.detectChanges();
       expect(getMessageElement()?.textContent).toContain('Minimum 8 characters');
     });
 
     it('should display error message over hint', () => {
-      hostComponent.hint = 'Minimum 8 characters';
-      hostComponent.error = 'Password is too weak';
-      detectChanges();
+      fixture.componentRef.setInput('hint', 'Minimum 8 characters');
+      fixture.componentRef.setInput('error', 'Password is too weak');
+      fixture.detectChanges();
       expect(getMessageElement()?.textContent).toContain('Password is too weak');
       expect(getMessageElement()?.textContent).not.toContain('Minimum 8 characters');
     });
 
     it('should add error styling when error is present', () => {
-      hostComponent.error = 'Error!';
-      detectChanges();
+      fixture.componentRef.setInput('error', 'Error!');
+      fixture.detectChanges();
       const container = getContainerElement();
       expect(container?.classList.contains('coar-password-input-error')).toBe(true);
     });
@@ -345,74 +275,80 @@ describe('CoarPasswordInputComponent', () => {
     });
 
     it('should show clear button when value is present', () => {
-      hostComponent.value = 'password123';
-      detectChanges();
+      fixture.componentRef.setInput('value', 'password123');
+      fixture.detectChanges();
       expect(getClearButton()).toBeTruthy();
     });
 
     it('should clear value when clear button is clicked', () => {
-      hostComponent.value = 'password123';
-      detectChanges();
+      const clearSpy = vi.fn();
+      component.clear.subscribe(clearSpy);
+      fixture.componentRef.setInput('value', 'password123');
+      fixture.detectChanges();
 
       getClearButton()?.click();
-      detectChanges();
+      fixture.detectChanges();
 
-      expect(hostComponent.value).toBe('');
-      expect(hostComponent.clearCount).toBe(1);
+      expect(component.value()).toBe('');
+      expect(clearSpy).toHaveBeenCalledTimes(1);
     });
 
     it('should not show clear button when clearable is false', () => {
-      hostComponent.value = 'password123';
-      hostComponent.clearable = false;
-      detectChanges();
+      fixture.componentRef.setInput('value', 'password123');
+      fixture.componentRef.setInput('clearable', false);
+      fixture.detectChanges();
       expect(getClearButton()).toBeNull();
     });
 
     it('should not show clear button when disabled', () => {
-      hostComponent.value = 'password123';
-      hostComponent.disabled = true;
-      detectChanges();
+      fixture.componentRef.setInput('value', 'password123');
+      fixture.componentRef.setInput('disabled', true);
+      fixture.detectChanges();
       expect(getClearButton()).toBeNull();
     });
 
     it('should not show clear button when readonly', () => {
-      hostComponent.value = 'password123';
-      hostComponent.readonly = true;
-      detectChanges();
+      fixture.componentRef.setInput('value', 'password123');
+      fixture.componentRef.setInput('readonly', true);
+      fixture.detectChanges();
       expect(getClearButton()).toBeNull();
     });
   });
 
   describe('focus events', () => {
     it('should emit focused event on focus', () => {
+      const spy = vi.fn();
+      component.focused.subscribe(spy);
       getInputElement()?.dispatchEvent(new FocusEvent('focus'));
-      detectChanges();
-      expect(hostComponent.focusEvents.length).toBe(1);
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalledTimes(1);
     });
 
     it('should emit blurred event on blur', () => {
+      const spy = vi.fn();
+      component.blurred.subscribe(spy);
       getInputElement()?.dispatchEvent(new FocusEvent('blur'));
-      detectChanges();
-      expect(hostComponent.blurEvents.length).toBe(1);
+      fixture.detectChanges();
+      expect(spy).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('html attributes', () => {
     it('should set id attribute', () => {
-      hostComponent.inputId = 'my-password';
-      detectChanges();
+      fixture.componentRef.setInput('id', 'my-password');
+      fixture.detectChanges();
       expect(getInputElement()?.id).toBe('my-password');
     });
 
     it('should set name attribute', () => {
-      hostComponent.name = 'password';
-      detectChanges();
+      fixture.componentRef.setInput('name', 'password');
+      fixture.detectChanges();
       expect(getInputElement()?.name).toBe('password');
     });
 
     it('should set maxlength attribute', () => {
-      hostComponent.maxlength = 50;
-      detectChanges();
+      fixture.componentRef.setInput('maxlength', 50);
+      fixture.detectChanges();
       expect(getInputElement()?.maxLength).toBe(50);
     });
 
@@ -423,8 +359,8 @@ describe('CoarPasswordInputComponent', () => {
 
   describe('accessibility', () => {
     it('should associate message with input via aria-describedby', () => {
-      hostComponent.hint = 'A helpful hint';
-      detectChanges();
+      fixture.componentRef.setInput('hint', 'A helpful hint');
+      fixture.detectChanges();
 
       const input = getInputElement();
       const message = getMessageElement();
@@ -432,14 +368,14 @@ describe('CoarPasswordInputComponent', () => {
     });
 
     it('should set aria-invalid when error is present', () => {
-      hostComponent.error = 'Error message';
-      detectChanges();
+      fixture.componentRef.setInput('error', 'Error message');
+      fixture.detectChanges();
       expect(getInputElement()?.getAttribute('aria-invalid')).toBe('true');
     });
 
     it('should set aria-required when required', () => {
-      hostComponent.required = true;
-      detectChanges();
+      fixture.componentRef.setInput('required', true);
+      fixture.detectChanges();
       // The native required attribute is set, aria-required is not needed
       expect(getInputElement()?.required).toBe(true);
     });
