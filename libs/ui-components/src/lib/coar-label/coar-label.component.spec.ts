@@ -1,36 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
 import { CoarLabelComponent, CoarLabelSize } from './coar-label.component';
 
-// Test host component for testing content projection and inputs
-@Component({
-  standalone: true,
-  imports: [CoarLabelComponent],
-  template: `
-    <coar-label [size]="size" [required]="required" [for]="forId">{{ labelText }}</coar-label>
-  `,
-})
-class TestHostComponent {
-  size: CoarLabelSize = 'md';
-  required = false;
-  forId: string | undefined = undefined;
-  labelText = 'Test Label';
-}
-
 describe('CoarLabelComponent', () => {
-  let fixture: ComponentFixture<TestHostComponent>;
-  let hostComponent: TestHostComponent;
+  let fixture: ComponentFixture<CoarLabelComponent>;
+  let component: CoarLabelComponent;
   let labelElement: HTMLElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TestHostComponent],
+      imports: [CoarLabelComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(TestHostComponent);
-    hostComponent = fixture.componentInstance;
+    fixture = TestBed.createComponent(CoarLabelComponent);
+    component = fixture.componentInstance;
     fixture.detectChanges();
-    labelElement = fixture.nativeElement.querySelector('coar-label');
+    labelElement = fixture.nativeElement;
   });
 
   describe('rendering', () => {
@@ -39,6 +23,8 @@ describe('CoarLabelComponent', () => {
     });
 
     it('should render projected content', () => {
+      fixture.componentRef.setInput('text', 'Test Label');
+      fixture.detectChanges();
       expect(labelElement.textContent).toContain('Test Label');
     });
 
@@ -49,13 +35,13 @@ describe('CoarLabelComponent', () => {
 
   describe('sizes', () => {
     it('should apply xs size class', () => {
-      hostComponent.size = 'xs';
+      fixture.componentRef.setInput('size', 'xs');
       fixture.detectChanges();
       expect(labelElement.classList.contains('coar-label--xs')).toBe(true);
     });
 
     it('should apply sm size class', () => {
-      hostComponent.size = 'sm';
+      fixture.componentRef.setInput('size', 'sm');
       fixture.detectChanges();
       expect(labelElement.classList.contains('coar-label--sm')).toBe(true);
     });
@@ -65,13 +51,13 @@ describe('CoarLabelComponent', () => {
     });
 
     it('should apply lg size class', () => {
-      hostComponent.size = 'lg';
+      fixture.componentRef.setInput('size', 'lg');
       fixture.detectChanges();
       expect(labelElement.classList.contains('coar-label--lg')).toBe(true);
     });
 
     it('should only have one size class at a time', () => {
-      hostComponent.size = 'lg';
+      fixture.componentRef.setInput('size', 'lg');
       fixture.detectChanges();
 
       const sizeClasses = ['coar-label--xs', 'coar-label--sm', 'coar-label--md', 'coar-label--lg'];
@@ -88,7 +74,7 @@ describe('CoarLabelComponent', () => {
     });
 
     it('should show required indicator when required is true', () => {
-      hostComponent.required = true;
+      fixture.componentRef.setInput('required', true);
       fixture.detectChanges();
 
       const requiredSpan = labelElement.querySelector('.coar-label-required');
@@ -97,7 +83,7 @@ describe('CoarLabelComponent', () => {
     });
 
     it('should hide required indicator from screen readers', () => {
-      hostComponent.required = true;
+      fixture.componentRef.setInput('required', true);
       fixture.detectChanges();
 
       const requiredSpan = labelElement.querySelector('.coar-label-required');
@@ -111,27 +97,27 @@ describe('CoarLabelComponent', () => {
     });
 
     it('should set for attribute when provided', () => {
-      hostComponent.forId = 'my-input';
+      fixture.componentRef.setInput('for', 'my-input');
       fixture.detectChanges();
       expect(labelElement.getAttribute('for')).toBe('my-input');
     });
 
     it('should update for attribute dynamically', () => {
-      hostComponent.forId = 'first-input';
+      fixture.componentRef.setInput('for', 'first-input');
       fixture.detectChanges();
       expect(labelElement.getAttribute('for')).toBe('first-input');
 
-      hostComponent.forId = 'second-input';
+      fixture.componentRef.setInput('for', 'second-input');
       fixture.detectChanges();
       expect(labelElement.getAttribute('for')).toBe('second-input');
     });
 
     it('should remove for attribute when set to undefined', () => {
-      hostComponent.forId = 'my-input';
+      fixture.componentRef.setInput('for', 'my-input');
       fixture.detectChanges();
       expect(labelElement.getAttribute('for')).toBe('my-input');
 
-      hostComponent.forId = undefined;
+      fixture.componentRef.setInput('for', undefined);
       fixture.detectChanges();
       expect(labelElement.getAttribute('for')).toBeNull();
     });
@@ -139,43 +125,33 @@ describe('CoarLabelComponent', () => {
 
   describe('content projection', () => {
     it('should update when content changes', () => {
-      hostComponent.labelText = 'Updated Label';
+      fixture.componentRef.setInput('text', 'Test Label');
+      fixture.detectChanges();
+      expect(labelElement.textContent).toContain('Test Label');
+
+      fixture.componentRef.setInput('text', 'Updated Label');
       fixture.detectChanges();
       expect(labelElement.textContent).toContain('Updated Label');
     });
 
     it('should handle empty content', () => {
-      hostComponent.labelText = '';
+      fixture.componentRef.setInput('text', '');
       fixture.detectChanges();
       expect(labelElement.textContent?.trim()).toBe('');
     });
   });
-});
 
-// Additional tests for standalone component usage
-describe('CoarLabelComponent standalone', () => {
-  let fixture: ComponentFixture<CoarLabelComponent>;
-  let component: CoarLabelComponent;
+  describe('default values', () => {
+    it('should have default size of md', () => {
+      expect(component.size()).toBe('md');
+    });
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [CoarLabelComponent],
-    }).compileComponents();
+    it('should have default required of false', () => {
+      expect(component.required()).toBe(false);
+    });
 
-    fixture = TestBed.createComponent(CoarLabelComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  it('should have default size of md', () => {
-    expect(component.size()).toBe('md');
-  });
-
-  it('should have default required of false', () => {
-    expect(component.required()).toBe(false);
-  });
-
-  it('should have default for of undefined', () => {
-    expect(component.for()).toBeUndefined();
+    it('should have default for of undefined', () => {
+      expect(component.for()).toBeUndefined();
+    });
   });
 });

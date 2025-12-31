@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CoarTableComponent, CoarTableVariant } from './coar-table.component';
 
 // Test host component
@@ -7,7 +7,7 @@ import { CoarTableComponent, CoarTableVariant } from './coar-table.component';
   standalone: true,
   imports: [CoarTableComponent],
   template: `
-    <coar-table [variant]="variant" [compact]="compact" [hover]="hover">
+    <coar-table>
       <thead>
         <tr>
           <th>Name</th>
@@ -28,14 +28,14 @@ import { CoarTableComponent, CoarTableVariant } from './coar-table.component';
   `,
 })
 class TestHostComponent {
-  variant: CoarTableVariant = 'default';
-  compact = false;
-  hover = true;
+  @ViewChild(CoarTableComponent, { static: true })
+  tableComponent!: CoarTableComponent;
 }
 
 describe('CoarTableComponent', () => {
   let fixture: ComponentFixture<TestHostComponent>;
   let hostComponent: TestHostComponent;
+  let tableFixture: ComponentFixture<CoarTableComponent>;
   let hostElement: HTMLElement;
 
   beforeEach(async () => {
@@ -47,6 +47,9 @@ describe('CoarTableComponent', () => {
     hostComponent = fixture.componentInstance;
     fixture.detectChanges();
     hostElement = fixture.nativeElement;
+    
+    // Create a fixture reference to the table component for input setting
+    tableFixture = hostComponent.tableComponent as any;
   });
 
   function getTableElement(): HTMLTableElement | null {
@@ -101,18 +104,26 @@ describe('CoarTableComponent', () => {
       expect(component?.classList.contains('coar-table--bordered')).toBe(false);
     });
 
-    it('should apply plain variant class', () => {
-      hostComponent.variant = 'plain';
-      fixture.detectChanges();
-      const component = getComponentElement();
-      expect(component?.classList.contains('coar-table--plain')).toBe(true);
+    it('should apply plain variant class', async () => {
+      // Create new fixture with plain variant
+      const plainFixture = TestBed.createComponent(CoarTableComponent);
+      plainFixture.componentRef.setInput('variant', 'plain');
+      plainFixture.detectChanges();
+      
+      const component = plainFixture.nativeElement;
+      expect(component.classList.contains('coar-table--plain')).toBe(true);
+      plainFixture.destroy();
     });
 
-    it('should apply bordered variant class', () => {
-      hostComponent.variant = 'bordered';
-      fixture.detectChanges();
-      const component = getComponentElement();
-      expect(component?.classList.contains('coar-table--bordered')).toBe(true);
+    it('should apply bordered variant class', async () => {
+      // Create new fixture with bordered variant
+      const borderedFixture = TestBed.createComponent(CoarTableComponent);
+      borderedFixture.componentRef.setInput('variant', 'bordered');
+      borderedFixture.detectChanges();
+      
+      const component = borderedFixture.nativeElement;
+      expect(component.classList.contains('coar-table--bordered')).toBe(true);
+      borderedFixture.destroy();
     });
   });
 
@@ -122,11 +133,15 @@ describe('CoarTableComponent', () => {
       expect(component?.classList.contains('coar-table--compact')).toBe(false);
     });
 
-    it('should apply compact class when compact is true', () => {
-      hostComponent.compact = true;
-      fixture.detectChanges();
-      const component = getComponentElement();
-      expect(component?.classList.contains('coar-table--compact')).toBe(true);
+    it('should apply compact class when compact is true', async () => {
+      // Create new fixture with compact true
+      const compactFixture = TestBed.createComponent(CoarTableComponent);
+      compactFixture.componentRef.setInput('compact', true);
+      compactFixture.detectChanges();
+      
+      const component = compactFixture.nativeElement;
+      expect(component.classList.contains('coar-table--compact')).toBe(true);
+      compactFixture.destroy();
     });
   });
 
@@ -136,25 +151,32 @@ describe('CoarTableComponent', () => {
       expect(component?.classList.contains('coar-table--hover')).toBe(true);
     });
 
-    it('should not apply hover class when hover is false', () => {
-      hostComponent.hover = false;
-      fixture.detectChanges();
-      const component = getComponentElement();
-      expect(component?.classList.contains('coar-table--hover')).toBe(false);
+    it('should not apply hover class when hover is false', async () => {
+      // Create new fixture with hover false
+      const noHoverFixture = TestBed.createComponent(CoarTableComponent);
+      noHoverFixture.componentRef.setInput('hover', false);
+      noHoverFixture.detectChanges();
+      
+      const component = noHoverFixture.nativeElement;
+      expect(component.classList.contains('coar-table--hover')).toBe(false);
+      noHoverFixture.destroy();
     });
   });
 
   describe('combinations', () => {
-    it('should apply multiple classes together', () => {
-      hostComponent.variant = 'bordered';
-      hostComponent.compact = true;
-      hostComponent.hover = true;
-      fixture.detectChanges();
+    it('should apply multiple classes together', async () => {
+      // Create new fixture with all options
+      const multiFixture = TestBed.createComponent(CoarTableComponent);
+      multiFixture.componentRef.setInput('variant', 'bordered');
+      multiFixture.componentRef.setInput('compact', true);
+      multiFixture.componentRef.setInput('hover', true);
+      multiFixture.detectChanges();
 
-      const component = getComponentElement();
-      expect(component?.classList.contains('coar-table--bordered')).toBe(true);
-      expect(component?.classList.contains('coar-table--compact')).toBe(true);
-      expect(component?.classList.contains('coar-table--hover')).toBe(true);
+      const component = multiFixture.nativeElement;
+      expect(component.classList.contains('coar-table--bordered')).toBe(true);
+      expect(component.classList.contains('coar-table--compact')).toBe(true);
+      expect(component.classList.contains('coar-table--hover')).toBe(true);
+      multiFixture.destroy();
     });
   });
 });

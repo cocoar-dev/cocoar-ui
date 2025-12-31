@@ -122,35 +122,59 @@ describe('CoarTabGroupComponent', () => {
       expect(hostComponent.activeTabChanges).toContain('tab2');
     });
 
-    it('should respect activeTab input', () => {
-      hostComponent.activeTab = 'tab2';
-      fixture.detectChanges();
-
-      expect(getTabButton(1)?.getAttribute('aria-selected')).toBe('true');
+    it('should respect activeTab input', async () => {
+      // Create new host with different activeTab set
+      const newFixture = TestBed.createComponent(TestHostComponent);
+      const newHost = newFixture.componentInstance;
+      newHost.activeTab = 'tab2';
+      newFixture.detectChanges();
+      
+      const newElement = newFixture.nativeElement;
+      const getButton = (index: number) => newElement.querySelectorAll('[role="tab"]')[index];
+      
+      expect(getButton(1)?.getAttribute('aria-selected')).toBe('true');
       // Content may be lazy-loaded, check the active panel
-      const panel = hostElement.querySelector('[role="tabpanel"].active');
+      const panel = newElement.querySelector('[role="tabpanel"].active');
       expect(panel?.textContent).toContain('Content for Tab 2');
+      
+      newFixture.destroy();
     });
   });
 
   describe('disabled tabs', () => {
-    it('should mark disabled tab', () => {
-      hostComponent.disabledTab = true;
-      fixture.detectChanges();
-
-      expect(getTabButton(2)?.disabled).toBe(true);
+    it('should mark disabled tab', async () => {
+      // Create new host with disabled tab
+      const newFixture = TestBed.createComponent(TestHostComponent);
+      const newHost = newFixture.componentInstance;
+      newHost.disabledTab = true;
+      newFixture.detectChanges();
+      
+      const newElement = newFixture.nativeElement;
+      const getButton = (index: number) => newElement.querySelectorAll('[role="tab"]')[index];
+      
+      expect(getButton(2)?.disabled).toBe(true);
+      
+      newFixture.destroy();
     });
 
-    it('should not select disabled tab when clicked', () => {
-      hostComponent.disabledTab = true;
-      fixture.detectChanges();
-
-      getTabButton(2)?.click();
-      fixture.detectChanges();
+    it('should not select disabled tab when clicked', async () => {
+      // Create new host with disabled tab
+      const newFixture = TestBed.createComponent(TestHostComponent);
+      const newHost = newFixture.componentInstance;
+      newHost.disabledTab = true;
+      newFixture.detectChanges();
+      
+      const newElement = newFixture.nativeElement;
+      const getButton = (index: number) => newElement.querySelectorAll('[role="tab"]')[index] as HTMLButtonElement;
+      
+      getButton(2)?.click();
+      newFixture.detectChanges();
 
       // First tab should still be selected
-      expect(getTabButton(0)?.getAttribute('aria-selected')).toBe('true');
-      expect(hostComponent.activeTabChanges).not.toContain('tab3');
+      expect(getButton(0)?.getAttribute('aria-selected')).toBe('true');
+      expect(newHost.activeTabChanges).not.toContain('tab3');
+      
+      newFixture.destroy();
     });
   });
 
@@ -198,19 +222,27 @@ describe('CoarTabGroupComponent', () => {
       expect(hostComponent.activeTabChanges).toContain('tab1');
     });
 
-    it('should wrap around from first to last with ArrowLeft', () => {
-      hostComponent.disabledTab = true;
-      fixture.detectChanges();
-
-      const firstTab = getTabButton(0)!;
+    it('should wrap around from first to last with ArrowLeft', async () => {
+      // Create new host with disabled tab
+      const newFixture = TestBed.createComponent(TestHostComponent);
+      const newHost = newFixture.componentInstance;
+      newHost.disabledTab = true;
+      newFixture.detectChanges();
+      
+      const newElement = newFixture.nativeElement;
+      const getButton = (index: number) => newElement.querySelectorAll('[role="tab"]')[index] as HTMLButtonElement;
+      
+      const firstTab = getButton(0)!;
       firstTab.focus();
 
       const event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
       firstTab.dispatchEvent(event);
-      fixture.detectChanges();
+      newFixture.detectChanges();
 
       // Should wrap to tab2 (last non-disabled)
-      expect(hostComponent.activeTabChanges).toContain('tab2');
+      expect(newHost.activeTabChanges).toContain('tab2');
+      
+      newFixture.destroy();
     });
 
     it('should navigate to first tab with Home', () => {
@@ -238,19 +270,27 @@ describe('CoarTabGroupComponent', () => {
       expect(hostComponent.activeTabChanges).toContain('tab3');
     });
 
-    it('should skip disabled tabs during navigation', () => {
-      hostComponent.disabledTab = true;
-      fixture.detectChanges();
-
-      const firstTab = getTabButton(0)!;
+    it('should skip disabled tabs during navigation', async () => {
+      // Create new host with disabled tab
+      const newFixture = TestBed.createComponent(TestHostComponent);
+      const newHost = newFixture.componentInstance;
+      newHost.disabledTab = true;
+      newFixture.detectChanges();
+      
+      const newElement = newFixture.nativeElement;
+      const getButton = (index: number) => newElement.querySelectorAll('[role="tab"]')[index] as HTMLButtonElement;
+      
+      const firstTab = getButton(0)!;
       firstTab.focus();
 
       const event = new KeyboardEvent('keydown', { key: 'End' });
       firstTab.dispatchEvent(event);
-      fixture.detectChanges();
+      newFixture.detectChanges();
 
       // Should go to tab2, not tab3 (disabled)
-      expect(hostComponent.activeTabChanges).toContain('tab2');
+      expect(newHost.activeTabChanges).toContain('tab2');
+      
+      newFixture.destroy();
     });
   });
 
