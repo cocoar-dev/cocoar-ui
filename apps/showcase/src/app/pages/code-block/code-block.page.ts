@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   CoarCodeBlockComponent,
   CoarDividerComponent,
@@ -12,12 +12,11 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   selector: 'app-code-block',
   standalone: true,
   imports: [
-    CommonModule,
     CoarCodeBlockComponent,
     CoarDividerComponent,
     CoarTabGroupComponent,
-    CoarTabComponent,
-  ],
+    CoarTabComponent
+],
   templateUrl: './code-block.page.html',
   styleUrl: './code-block.page.css',
 })

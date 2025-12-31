@@ -61,8 +61,7 @@
     {
       "plugin": "@nx/vitest",
       "options": {
-        "testTargetName": "vitest:test",
-        "ciTargetName": "test-ci"
+        "testTargetName": "test"
       }
     }
   ],
@@ -71,11 +70,11 @@
       "e2eTestRunner": "playwright",
       "linter": "eslint",
       "style": "css",
-      "unitTestRunner": "vitest"
+      "unitTestRunner": "vitest-analog"
     },
     "@nx/angular:library": {
       "linter": "eslint",
-      "unitTestRunner": "vitest"
+      "unitTestRunner": "vitest-analog"
     },
     "@nx/angular:component": {
       "style": "css"

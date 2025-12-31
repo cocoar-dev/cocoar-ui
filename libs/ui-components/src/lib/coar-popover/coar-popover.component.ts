@@ -12,7 +12,7 @@ import {
   booleanAttribute,
   TemplateRef,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { fromEvent, filter } from 'rxjs';
 
@@ -28,7 +28,7 @@ import { CoarPopoverGroupService } from './coar-popover-group.service';
 @Component({
   selector: 'coar-popover',
   standalone: true,
-  imports: [CommonModule, CoarScrollbarDirective],
+  imports: [CoarScrollbarDirective],
   templateUrl: './coar-popover.component.html',
   styleUrl: './coar-popover.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

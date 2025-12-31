@@ -3,9 +3,12 @@ import {
   Component,
   ContentChild,
   TemplateRef,
+  booleanAttribute,
+  computed,
+  effect,
   input,
-  model,
   output,
+  signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CoarIconComponent, type CoreIconName } from '@cocoar/ui-components';
@@ -39,10 +42,10 @@ import { CoarSubmenuTemplateDirective } from './coar-submenu-template.directive'
     <div
       class="coar-sub-expand"
       [class.coar-sub-expand--disabled]="disabled()"
-      [class.coar-sub-expand--open]="open()"
+      [class.coar-sub-expand--open]="isOpen()"
       [attr.role]="'menuitem'"
       [attr.aria-haspopup]="'menu'"
-      [attr.aria-expanded]="open()"
+      [attr.aria-expanded]="isOpen()"
       [attr.aria-disabled]="disabled()"
       [attr.tabindex]="disabled() ? -1 : 0"
       (click)="toggle($event)"
@@ -56,7 +59,7 @@ import { CoarSubmenuTemplateDirective } from './coar-submenu-template.directive'
       </span>
       <span class="coar-sub-expand__label">{{ label() }}</span>
       <coar-icon
-        [name]="open() ? 'minus' : 'plus'"
+        [name]="isOpen() ? 'minus' : 'plus'"
         size="xs"
         class="coar-sub-expand__arrow"
         aria-hidden="true"
@@ -65,8 +68,8 @@ import { CoarSubmenuTemplateDirective } from './coar-submenu-template.directive'
 
     <div
       class="coar-sub-expand__panel"
-      [class.coar-sub-expand__panel--open]="open()"
-      [attr.aria-hidden]="open() ? null : 'true'"
+      [class.coar-sub-expand__panel--open]="isOpen()"
+      [attr.aria-hidden]="isOpen() ? null : 'true'"
       role="group"
     >
       <div class="coar-sub-expand__panel-inner">
@@ -88,10 +91,14 @@ export class CoarSubExpandComponent {
   readonly disabled = input(false);
 
   /** Expanded state (two-way bindable with [(open)]) */
-  readonly open = model(false);
+  readonly open = input<boolean | undefined, unknown>(undefined, { transform: booleanAttribute });
 
   /** Emits when expanded state changes (for [(open)]) */
   readonly openChange = output<boolean>();
+
+  private readonly openInternal = signal(false);
+
+  protected readonly isOpen = computed(() => this.open() ?? this.openInternal());
 
   /** Optional external submenu template. Prefer an inline `<ng-template>` child when possible. */
   readonly submenuTemplate = input<TemplateRef<unknown> | null>(null);
@@ -115,6 +122,15 @@ export class CoarSubExpandComponent {
     return template;
   }
 
+  constructor() {
+    effect(() => {
+      const value = this.open();
+      if (value === undefined) return;
+
+      this.openInternal.set(value);
+    });
+  }
+
   toggle(event: Event): void {
     if (this.disabled()) {
       event.preventDefault();
@@ -122,8 +138,8 @@ export class CoarSubExpandComponent {
       return;
     }
 
-    const next = !this.open();
-    this.open.set(next);
+    const next = !this.isOpen();
+    this.openInternal.set(next);
     this.openChange.emit(next);
   }
 }

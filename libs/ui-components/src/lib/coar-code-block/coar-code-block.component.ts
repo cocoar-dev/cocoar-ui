@@ -9,7 +9,7 @@ import {
   inject,
   booleanAttribute,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { CoarButtonComponent } from '../coar-button/coar-button.component';
 import Prism from 'prismjs';
 
@@ -24,7 +24,7 @@ import 'prismjs/components/prism-markup';
 @Component({
   selector: 'coar-code-block',
   standalone: true,
-  imports: [CommonModule, CoarButtonComponent],
+  imports: [CoarButtonComponent],
   templateUrl: './coar-code-block.component.html',
   styleUrl: './coar-code-block.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

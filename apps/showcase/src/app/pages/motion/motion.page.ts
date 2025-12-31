@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { CoarCodeBlockComponent, CoarDividerComponent } from '@cocoar/ui-components';
 
 @Component({
   selector: 'app-motion',
   standalone: true,
-  imports: [CommonModule, CoarCodeBlockComponent, CoarDividerComponent],
+  imports: [CoarCodeBlockComponent, CoarDividerComponent],
   templateUrl: './motion.page.html',
   styleUrl: './motion.page.css',
 })

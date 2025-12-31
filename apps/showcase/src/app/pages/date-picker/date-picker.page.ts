@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { Temporal } from '@js-temporal/polyfill';
 import {
@@ -19,15 +19,14 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   selector: 'app-date-picker',
   standalone: true,
   imports: [
-    CommonModule,
     FormsModule,
     CoarDatePickerComponent,
     CoarCodeBlockComponent,
     CoarDividerComponent,
     CoarNoteComponent,
     CoarTabGroupComponent,
-    CoarTabComponent,
-  ],
+    CoarTabComponent
+],
   templateUrl: './date-picker.page.html',
   styleUrl: './date-picker.page.css',
 })

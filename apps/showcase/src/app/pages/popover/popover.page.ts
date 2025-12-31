@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, signal } from '@angular/core';
 import {
   CoarButtonComponent,
@@ -16,15 +16,14 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   selector: 'app-popover',
   standalone: true,
   imports: [
-    CommonModule,
     CoarPopoverComponent,
     CoarButtonComponent,
     CoarCodeBlockComponent,
     CoarDividerComponent,
     CoarNoteComponent,
     CoarTabGroupComponent,
-    CoarTabComponent,
-  ],
+    CoarTabComponent
+],
   templateUrl: './popover.page.html',
   styleUrl: './popover.page.css',
 })

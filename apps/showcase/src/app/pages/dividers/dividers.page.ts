@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   CoarDividerComponent,
   CoarCodeBlockComponent,
@@ -13,13 +13,12 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   selector: 'app-dividers',
   standalone: true,
   imports: [
-    CommonModule,
     CoarDividerComponent,
     CoarCodeBlockComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
-    ShowcaseSectionComponent,
-  ],
+    ShowcaseSectionComponent
+],
   templateUrl: './dividers.page.html',
   styleUrl: './dividers.page.css',
 })

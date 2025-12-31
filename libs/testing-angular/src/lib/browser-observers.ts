@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-empty-function -- These no-op methods are intentional test stubs for browser observer APIs. */
+
 export interface CoarObserverStub {
   disconnect: () => void;
   observe: (...args: unknown[]) => void;

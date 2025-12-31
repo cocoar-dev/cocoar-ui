@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   CoarTextInputComponent,
   CoarCodeBlockComponent,
@@ -14,13 +14,12 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   selector: 'app-text-input',
   standalone: true,
   imports: [
-    CommonModule,
     CoarTextInputComponent,
     CoarCodeBlockComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
-    CoarDividerComponent,
-  ],
+    CoarDividerComponent
+],
   templateUrl: './text-input.page.html',
   styleUrl: './text-input.page.css',
 })

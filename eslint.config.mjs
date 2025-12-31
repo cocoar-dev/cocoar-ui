@@ -70,6 +70,7 @@ export default [
     files: ['**/*.spec.ts', '**/*.test.ts', '**/test-setup.ts'],
     rules: {
       // Relax rules for test files
+      '@nx/enforce-module-boundaries': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-empty-function': 'off',
       '@typescript-eslint/no-unused-vars': 'off',

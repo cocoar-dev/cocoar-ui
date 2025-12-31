@@ -15,7 +15,7 @@ import {
   afterNextRender,
   TemplateRef,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { Temporal } from '@js-temporal/polyfill';
 import { Maskito } from '@maskito/core';
@@ -91,7 +91,7 @@ function getLocalizedWeekdays(locale: string, firstDayOfWeek: 1 | 7): string[] {
 @Component({
   selector: 'coar-date-picker',
   standalone: true,
-  imports: [CommonModule, FormsModule, CoarIconComponent, CoarPopoverComponent],
+  imports: [FormsModule, CoarIconComponent, CoarPopoverComponent],
   templateUrl: './coar-date-picker.component.html',
   styleUrl: './coar-date-picker.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

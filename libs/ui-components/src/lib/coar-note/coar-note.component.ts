@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 export type NoteColor = 'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent';
 export type NotePadding = 'sm' | 'md' | 'lg';
@@ -25,7 +25,7 @@ export type NotePadding = 'sm' | 'md' | 'lg';
 @Component({
   selector: 'coar-note',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './coar-note.component.html',
   styleUrls: ['./coar-note.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

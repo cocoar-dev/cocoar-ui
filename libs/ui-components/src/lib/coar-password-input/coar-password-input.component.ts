@@ -10,7 +10,7 @@ import {
   viewChild,
   booleanAttribute,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { CoarIconComponent } from '../coar-icon/coar-icon.component';
 import {
@@ -23,7 +23,7 @@ export type CoarPasswordInputSize = 'xs' | 'sm' | 'md' | 'lg';
 @Component({
   selector: 'coar-password-input',
   standalone: true,
-  imports: [CommonModule, FormsModule, CoarIconComponent],
+  imports: [FormsModule, CoarIconComponent],
   templateUrl: './coar-password-input.component.html',
   styleUrl: './coar-password-input.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

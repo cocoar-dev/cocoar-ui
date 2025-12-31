@@ -6,7 +6,7 @@ import {
   ChangeDetectorRef,
   DestroyRef,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { CoarOverlayService, Overlay, coarMenuPreset } from '@cocoar/ui-overlay';
 import {
   CoarCodeBlockComponent,
@@ -30,7 +30,6 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   selector: 'app-menu',
   standalone: true,
   imports: [
-    CommonModule,
     CoarCodeBlockComponent,
     CoarDividerComponent,
     CoarNoteComponent,
@@ -41,8 +40,8 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarMenuDividerComponent,
     CoarMenuHeadingComponent,
     CoarSubmenuItemComponent,
-    CoarSubExpandComponent,
-  ],
+    CoarSubExpandComponent
+],
   templateUrl: './menu.page.html',
   styleUrl: './menu.page.css',
 })

@@ -1,5 +1,5 @@
 import { booleanAttribute, ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 export type CardColor = 'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent';
 export type CardPadding = 'none' | 'sm' | 'md' | 'lg';
@@ -7,7 +7,7 @@ export type CardPadding = 'none' | 'sm' | 'md' | 'lg';
 @Component({
   selector: 'coar-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './coar-card.component.html',
   styleUrls: ['./coar-card.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,

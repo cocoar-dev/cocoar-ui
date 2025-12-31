@@ -11,7 +11,7 @@ import {
   inject,
   TemplateRef,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { CoarIconComponent } from '../coar-icon/coar-icon.component';
 import { CoarScrollbarDirective } from '../coar-scrollbar/coar-scrollbar.directive';
@@ -48,7 +48,7 @@ export type { CoarSelectSize };
 @Component({
   selector: 'coar-tag-select',
   standalone: true,
-  imports: [CommonModule, FormsModule, CoarIconComponent, CoarScrollbarDirective],
+  imports: [FormsModule, CoarIconComponent, CoarScrollbarDirective],
   templateUrl: './coar-tag-select.component.html',
   styleUrl: './coar-tag-select.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

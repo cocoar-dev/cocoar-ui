@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   CoarBadgeComponent,
   CoarCardComponent,
@@ -18,15 +18,14 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   selector: 'app-badges',
   standalone: true,
   imports: [
-    CommonModule,
     CoarBadgeComponent,
     CoarCardComponent,
     CoarCodeBlockComponent,
     CoarDividerComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
-    CoarButtonComponent,
-  ],
+    CoarButtonComponent
+],
   templateUrl: './badges.page.html',
   styleUrl: './badges.page.css',
 })

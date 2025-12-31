@@ -85,6 +85,11 @@ describe('CoarTextInputComponent', () => {
   let hostComponent: TestHostComponent;
   let hostElement: HTMLElement;
 
+  function detectChanges(): void {
+    fixture.detectChanges(false);
+    fixture.detectChanges();
+  }
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TestHostComponent, TestReactiveFormsHostComponent],
@@ -93,7 +98,7 @@ describe('CoarTextInputComponent', () => {
 
     fixture = TestBed.createComponent(TestHostComponent);
     hostComponent = fixture.componentInstance;
-    fixture.detectChanges();
+    detectChanges();
     hostElement = fixture.nativeElement;
   });
 
@@ -134,7 +139,7 @@ describe('CoarTextInputComponent', () => {
 
     it('should render textarea for multiple rows', () => {
       hostComponent.rows = 3;
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()).toBeNull();
       expect(getTextareaElement()).toBeTruthy();
     });
@@ -191,7 +196,7 @@ describe('CoarTextInputComponent', () => {
 
     it('should render label when provided', () => {
       hostComponent.label = 'Email';
-      fixture.detectChanges();
+      detectChanges();
       const label = getLabelElement();
       expect(label).toBeTruthy();
       expect(label?.textContent).toContain('Email');
@@ -200,7 +205,7 @@ describe('CoarTextInputComponent', () => {
     it('should show required indicator when required', () => {
       hostComponent.label = 'Email';
       hostComponent.required = true;
-      fixture.detectChanges();
+      detectChanges();
       const label = getLabelElement();
       expect(label?.textContent).toContain('*');
     });
@@ -214,21 +219,21 @@ describe('CoarTextInputComponent', () => {
 
     it('should apply xs size class', () => {
       hostComponent.size = 'xs';
-      fixture.detectChanges();
+      detectChanges();
       const component = hostElement.querySelector('coar-text-input');
       expect(component?.classList.contains('coar-text-input--xs')).toBe(true);
     });
 
     it('should apply sm size class', () => {
       hostComponent.size = 'sm';
-      fixture.detectChanges();
+      detectChanges();
       const component = hostElement.querySelector('coar-text-input');
       expect(component?.classList.contains('coar-text-input--sm')).toBe(true);
     });
 
     it('should apply lg size class', () => {
       hostComponent.size = 'lg';
-      fixture.detectChanges();
+      detectChanges();
       const component = hostElement.querySelector('coar-text-input');
       expect(component?.classList.contains('coar-text-input--lg')).toBe(true);
     });
@@ -237,14 +242,14 @@ describe('CoarTextInputComponent', () => {
   describe('placeholder', () => {
     it('should set placeholder on input', () => {
       hostComponent.placeholder = 'Enter email...';
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.placeholder).toBe('Enter email...');
     });
 
     it('should set placeholder on textarea', () => {
       hostComponent.rows = 3;
       hostComponent.placeholder = 'Enter message...';
-      fixture.detectChanges();
+      detectChanges();
       expect(getTextareaElement()?.placeholder).toBe('Enter message...');
     });
   });
@@ -252,7 +257,7 @@ describe('CoarTextInputComponent', () => {
   describe('value binding', () => {
     it('should display initial value', () => {
       hostComponent.value = 'initial';
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.value).toBe('initial');
     });
 
@@ -260,7 +265,7 @@ describe('CoarTextInputComponent', () => {
       const input = getInputElement()!;
       input.value = 'new value';
       input.dispatchEvent(new Event('input'));
-      fixture.detectChanges();
+      detectChanges();
       expect(hostComponent.valueChangeEvents).toContain('new value');
     });
 
@@ -268,7 +273,7 @@ describe('CoarTextInputComponent', () => {
       const input = getInputElement()!;
       input.value = 'updated';
       input.dispatchEvent(new Event('input'));
-      fixture.detectChanges();
+      detectChanges();
       expect(hostComponent.value).toBe('updated');
     });
   });
@@ -276,14 +281,14 @@ describe('CoarTextInputComponent', () => {
   describe('disabled state', () => {
     it('should disable input when disabled is true', () => {
       hostComponent.disabled = true;
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.disabled).toBe(true);
     });
 
     it('should disable textarea when disabled is true', () => {
       hostComponent.rows = 3;
       hostComponent.disabled = true;
-      fixture.detectChanges();
+      detectChanges();
       expect(getTextareaElement()?.disabled).toBe(true);
     });
   });
@@ -291,14 +296,14 @@ describe('CoarTextInputComponent', () => {
   describe('readonly state', () => {
     it('should set readonly on input', () => {
       hostComponent.readonly = true;
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.readOnly).toBe(true);
     });
 
     it('should set readonly on textarea', () => {
       hostComponent.rows = 3;
       hostComponent.readonly = true;
-      fixture.detectChanges();
+      detectChanges();
       expect(getTextareaElement()?.readOnly).toBe(true);
     });
   });
@@ -306,7 +311,7 @@ describe('CoarTextInputComponent', () => {
   describe('error and hint messages', () => {
     it('should display hint message', () => {
       hostComponent.hint = 'Enter your email address';
-      fixture.detectChanges();
+      detectChanges();
       const message = getMessageElement();
       expect(message?.textContent).toContain('Enter your email address');
     });
@@ -314,7 +319,7 @@ describe('CoarTextInputComponent', () => {
     it('should display error message over hint', () => {
       hostComponent.hint = 'This is a hint';
       hostComponent.error = 'This field is required';
-      fixture.detectChanges();
+      detectChanges();
       const message = getMessageElement();
       expect(message?.textContent).toContain('This field is required');
       expect(message?.textContent).not.toContain('This is a hint');
@@ -322,7 +327,7 @@ describe('CoarTextInputComponent', () => {
 
     it('should add error styling when error is present', () => {
       hostComponent.error = 'Error!';
-      fixture.detectChanges();
+      detectChanges();
       const container = getContainerElement();
       expect(container?.classList.contains('coar-text-input-error')).toBe(true);
     });
@@ -335,16 +340,16 @@ describe('CoarTextInputComponent', () => {
 
     it('should show clear button when value is present', () => {
       hostComponent.value = 'some text';
-      fixture.detectChanges();
+      detectChanges();
       expect(getClearButton()).toBeTruthy();
     });
 
     it('should clear value when clear button is clicked', () => {
       hostComponent.value = 'some text';
-      fixture.detectChanges();
+      detectChanges();
 
       getClearButton()?.click();
-      fixture.detectChanges();
+      detectChanges();
 
       expect(hostComponent.value).toBe('');
       expect(hostComponent.clearCount).toBe(1);
@@ -353,21 +358,21 @@ describe('CoarTextInputComponent', () => {
     it('should not show clear button when clearable is false', () => {
       hostComponent.value = 'some text';
       hostComponent.clearable = false;
-      fixture.detectChanges();
+      detectChanges();
       expect(getClearButton()).toBeNull();
     });
 
     it('should not show clear button when disabled', () => {
       hostComponent.value = 'some text';
       hostComponent.disabled = true;
-      fixture.detectChanges();
+      detectChanges();
       expect(getClearButton()).toBeNull();
     });
 
     it('should not show clear button when readonly', () => {
       hostComponent.value = 'some text';
       hostComponent.readonly = true;
-      fixture.detectChanges();
+      detectChanges();
       expect(getClearButton()).toBeNull();
     });
   });
@@ -375,13 +380,13 @@ describe('CoarTextInputComponent', () => {
   describe('focus events', () => {
     it('should emit focused event on focus', () => {
       getInputElement()?.dispatchEvent(new FocusEvent('focus'));
-      fixture.detectChanges();
+      detectChanges();
       expect(hostComponent.focusEvents.length).toBe(1);
     });
 
     it('should emit blurred event on blur', () => {
       getInputElement()?.dispatchEvent(new FocusEvent('blur'));
-      fixture.detectChanges();
+      detectChanges();
       expect(hostComponent.blurEvents.length).toBe(1);
     });
   });
@@ -389,14 +394,14 @@ describe('CoarTextInputComponent', () => {
   describe('prefix and suffix', () => {
     it('should render prefix when provided', () => {
       hostComponent.prefix = '$';
-      fixture.detectChanges();
+      detectChanges();
       const prefix = hostElement.querySelector('.coar-text-input-prefix');
       expect(prefix?.textContent).toContain('$');
     });
 
     it('should render suffix when provided', () => {
       hostComponent.suffix = '.00';
-      fixture.detectChanges();
+      detectChanges();
       const suffix = hostElement.querySelector('.coar-text-input-suffix');
       expect(suffix?.textContent).toContain('.00');
     });
@@ -405,19 +410,19 @@ describe('CoarTextInputComponent', () => {
   describe('html attributes', () => {
     it('should set id attribute', () => {
       hostComponent.inputId = 'my-email-input';
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.id).toBe('my-email-input');
     });
 
     it('should set name attribute', () => {
       hostComponent.name = 'email';
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.name).toBe('email');
     });
 
     it('should set maxlength attribute', () => {
       hostComponent.maxlength = 100;
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.maxLength).toBe(100);
     });
   });
@@ -425,14 +430,14 @@ describe('CoarTextInputComponent', () => {
   describe('multiline mode', () => {
     it('should add multiline class for textarea', () => {
       hostComponent.rows = 5;
-      fixture.detectChanges();
+      detectChanges();
       const component = hostElement.querySelector('coar-text-input');
       expect(component?.classList.contains('coar-text-input--multiline')).toBe(true);
     });
 
     it('should set rows attribute on textarea', () => {
       hostComponent.rows = 5;
-      fixture.detectChanges();
+      detectChanges();
       expect(getTextareaElement()?.rows).toBe(5);
     });
   });
@@ -440,7 +445,7 @@ describe('CoarTextInputComponent', () => {
   describe('accessibility', () => {
     it('should associate message with input via aria-describedby', () => {
       hostComponent.hint = 'A helpful hint';
-      fixture.detectChanges();
+      detectChanges();
 
       const input = getInputElement();
       const message = getMessageElement();
@@ -449,13 +454,13 @@ describe('CoarTextInputComponent', () => {
 
     it('should set aria-invalid when error is present', () => {
       hostComponent.error = 'Error message';
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.getAttribute('aria-invalid')).toBe('true');
     });
 
     it('should set aria-required when required', () => {
       hostComponent.required = true;
-      fixture.detectChanges();
+      detectChanges();
       // The native required attribute is set, aria-required is not needed
       expect(getInputElement()?.required).toBe(true);
     });

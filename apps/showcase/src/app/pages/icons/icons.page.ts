@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   CoarIconComponent,
   CoarCodeBlockComponent,
@@ -15,14 +15,13 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   selector: 'app-icons',
   standalone: true,
   imports: [
-    CommonModule,
     CoarIconComponent,
     CoarCodeBlockComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
     CoarTextInputComponent,
-    CoarDividerComponent,
-  ],
+    CoarDividerComponent
+],
   templateUrl: './icons.page.html',
   styleUrl: './icons.page.css',
 })

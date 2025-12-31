@@ -1,4 +1,4 @@
-import { Directive, TemplateRef } from '@angular/core';
+import { Directive, TemplateRef, inject } from '@angular/core';
 
 /**
  * Marks an inline submenu template for a `coar-submenu-item`.
@@ -11,5 +11,5 @@ import { Directive, TemplateRef } from '@angular/core';
   standalone: true,
 })
 export class CoarSubmenuTemplateDirective {
-  constructor(readonly templateRef: TemplateRef<unknown>) {}
+  readonly templateRef = inject<TemplateRef<unknown>>(TemplateRef);
 }

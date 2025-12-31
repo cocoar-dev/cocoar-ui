@@ -5,7 +5,7 @@ import {
   input,
   booleanAttribute,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 export type BadgeVariant = 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info';
 export type BadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'auto';
@@ -13,7 +13,7 @@ export type BadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'auto';
 @Component({
   selector: 'coar-badge',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './coar-badge.component.html',
   styleUrl: './coar-badge.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { CoarCardComponent, CoarDividerComponent, CoarTagComponent } from '@cocoar/ui-components';
 
 interface ColorSwatch {
@@ -16,7 +16,7 @@ interface SemanticColor {
 @Component({
   selector: 'app-colors',
   standalone: true,
-  imports: [CommonModule, CoarCardComponent, CoarDividerComponent, CoarTagComponent],
+  imports: [CoarCardComponent, CoarDividerComponent, CoarTagComponent],
   templateUrl: './colors.page.html',
   styleUrl: './colors.page.css',
 })

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   CoarNoteComponent,
   CoarCardComponent,
@@ -14,14 +14,13 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   selector: 'app-notes',
   standalone: true,
   imports: [
-    CommonModule,
     CoarNoteComponent,
     CoarCardComponent,
     CoarCodeBlockComponent,
     CoarDividerComponent,
     CoarTabGroupComponent,
-    CoarTabComponent,
-  ],
+    CoarTabComponent
+],
   templateUrl: './notes.page.html',
   styleUrl: './notes.page.css',
 })

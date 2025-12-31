@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   CoarLabelComponent,
   CoarCardComponent,
@@ -15,14 +15,13 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   selector: 'app-labels',
   standalone: true,
   imports: [
-    CommonModule,
     CoarLabelComponent,
     CoarCardComponent,
     CoarCodeBlockComponent,
     CoarDividerComponent,
     CoarTabGroupComponent,
-    CoarTabComponent,
-  ],
+    CoarTabComponent
+],
   templateUrl: './labels.page.html',
   styleUrl: './labels.page.css',
 })

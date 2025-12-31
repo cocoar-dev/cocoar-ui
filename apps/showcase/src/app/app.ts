@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CommonModule } from '@angular/common';
+
 import { CoarButtonComponent, CoarScrollbarDirective } from '@cocoar/ui-components';
 
 @Component({
-  imports: [RouterModule, CommonModule, CoarButtonComponent, CoarScrollbarDirective],
+  imports: [RouterModule, CoarButtonComponent, CoarScrollbarDirective],
   selector: 'app-root',
   templateUrl: './app.html',
   styleUrl: './app.css',

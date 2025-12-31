@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   CoarPasswordInputComponent,
   CoarCodeBlockComponent,
@@ -14,13 +14,12 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   selector: 'app-password',
   standalone: true,
   imports: [
-    CommonModule,
     CoarPasswordInputComponent,
     CoarCodeBlockComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
-    CoarDividerComponent,
-  ],
+    CoarDividerComponent
+],
   templateUrl: './password.page.html',
   styleUrl: './password.page.css',
 })

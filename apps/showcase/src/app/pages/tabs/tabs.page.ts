@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   CoarTabGroupComponent,
   CoarTabComponent,
@@ -15,14 +15,13 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   selector: 'app-tabs-page',
   standalone: true,
   imports: [
-    CommonModule,
     CoarTabGroupComponent,
     CoarTabComponent,
     CoarCodeBlockComponent,
     CoarButtonComponent,
     CoarDividerComponent,
-    LazyDemoComponent,
-  ],
+    LazyDemoComponent
+],
   templateUrl: './tabs.page.html',
   styleUrl: './tabs.page.css',
 })

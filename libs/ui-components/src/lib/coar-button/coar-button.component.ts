@@ -6,7 +6,7 @@ import {
   output,
   booleanAttribute,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { CoarIconComponent, CoarIconSize } from '../coar-icon/coar-icon.component';
 import { CoreIconName } from '../coar-icon/core-icons';
 
@@ -16,7 +16,7 @@ export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 @Component({
   selector: 'coar-button',
   standalone: true,
-  imports: [CommonModule, CoarIconComponent],
+  imports: [CoarIconComponent],
   templateUrl: './coar-button.component.html',
   styleUrl: './coar-button.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

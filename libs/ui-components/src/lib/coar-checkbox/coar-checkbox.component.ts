@@ -11,7 +11,7 @@ import {
   viewChild,
   booleanAttribute,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   CoarControlValueAccessor,
   coarProvideValueAccessor,
@@ -23,7 +23,7 @@ export type CoarCheckboxState = 'checked' | 'unchecked' | 'indeterminate';
 @Component({
   selector: 'coar-checkbox',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './coar-checkbox.component.html',
   styleUrl: './coar-checkbox.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   CoarCodeBlockComponent,
   CoarDividerComponent,
@@ -13,12 +13,11 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   selector: 'app-localization',
   standalone: true,
   imports: [
-    CommonModule,
     CoarTabGroupComponent,
     CoarTabComponent,
     CoarDividerComponent,
-    CoarCodeBlockComponent,
-  ],
+    CoarCodeBlockComponent
+],
   templateUrl: './localization.page.html',
   styleUrl: './localization.page.css',
 })

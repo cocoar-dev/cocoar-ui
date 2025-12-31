@@ -10,7 +10,7 @@ import {
   viewChild,
   booleanAttribute,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { CoarIconComponent } from '../coar-icon/coar-icon.component';
 import {
@@ -23,7 +23,7 @@ export type CoarTextInputSize = 'xs' | 'sm' | 'md' | 'lg';
 @Component({
   selector: 'coar-text-input',
   standalone: true,
-  imports: [CommonModule, FormsModule, CoarIconComponent],
+  imports: [FormsModule, CoarIconComponent],
   templateUrl: './coar-text-input.component.html',
   styleUrl: './coar-text-input.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

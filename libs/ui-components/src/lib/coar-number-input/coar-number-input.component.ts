@@ -15,7 +15,7 @@ import {
   inject,
   booleanAttribute,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { CoarIconComponent, CoarIconSize } from '../coar-icon/coar-icon.component';
 import {
@@ -59,7 +59,7 @@ function transformStepperButtons(value: boolean | string): CoarNumberInputSteppe
 @Component({
   selector: 'coar-number-input',
   standalone: true,
-  imports: [CommonModule, FormsModule, CoarIconComponent],
+  imports: [FormsModule, CoarIconComponent],
   templateUrl: './coar-number-input.component.html',
   styleUrl: './coar-number-input.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

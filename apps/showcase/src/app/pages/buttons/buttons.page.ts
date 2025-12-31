@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   CoarButtonComponent,
   CoarCardComponent,
@@ -16,15 +16,14 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   selector: 'app-buttons',
   standalone: true,
   imports: [
-    CommonModule,
     CoarButtonComponent,
     CoarCardComponent,
     CoarCodeBlockComponent,
     CoarDividerComponent,
     CoarNoteComponent,
     CoarTabGroupComponent,
-    CoarTabComponent,
-  ],
+    CoarTabComponent
+],
   templateUrl: './buttons.page.html',
   styleUrl: './buttons.page.css',
 })

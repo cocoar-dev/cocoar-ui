@@ -79,6 +79,11 @@ describe('CoarPasswordInputComponent', () => {
   let hostComponent: TestHostComponent;
   let hostElement: HTMLElement;
 
+  function detectChanges(): void {
+    fixture.detectChanges(false);
+    fixture.detectChanges();
+  }
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TestHostComponent, TestReactiveFormsHostComponent],
@@ -87,7 +92,7 @@ describe('CoarPasswordInputComponent', () => {
 
     fixture = TestBed.createComponent(TestHostComponent);
     hostComponent = fixture.componentInstance;
-    fixture.detectChanges();
+    detectChanges();
     hostElement = fixture.nativeElement;
   });
 
@@ -177,14 +182,14 @@ describe('CoarPasswordInputComponent', () => {
 
     it('should render label when provided', () => {
       hostComponent.label = 'Password';
-      fixture.detectChanges();
+      detectChanges();
       expect(getLabelElement()?.textContent).toContain('Password');
     });
 
     it('should show required indicator when required', () => {
       hostComponent.label = 'Password';
       hostComponent.required = true;
-      fixture.detectChanges();
+      detectChanges();
       expect(getLabelElement()?.textContent).toContain('*');
     });
   });
@@ -197,21 +202,21 @@ describe('CoarPasswordInputComponent', () => {
 
     it('should apply xs size class', () => {
       hostComponent.size = 'xs';
-      fixture.detectChanges();
+      detectChanges();
       const component = hostElement.querySelector('coar-password-input');
       expect(component?.classList.contains('coar-password-input--xs')).toBe(true);
     });
 
     it('should apply sm size class', () => {
       hostComponent.size = 'sm';
-      fixture.detectChanges();
+      detectChanges();
       const component = hostElement.querySelector('coar-password-input');
       expect(component?.classList.contains('coar-password-input--sm')).toBe(true);
     });
 
     it('should apply lg size class', () => {
       hostComponent.size = 'lg';
-      fixture.detectChanges();
+      detectChanges();
       const component = hostElement.querySelector('coar-password-input');
       expect(component?.classList.contains('coar-password-input--lg')).toBe(true);
     });
@@ -228,17 +233,17 @@ describe('CoarPasswordInputComponent', () => {
 
     it('should show password when toggle is clicked', () => {
       getToggleButton()?.click();
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.type).toBe('text');
     });
 
     it('should hide password when toggle is clicked again', () => {
       getToggleButton()?.click();
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.type).toBe('text');
 
       getToggleButton()?.click();
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.type).toBe('password');
     });
 
@@ -247,25 +252,25 @@ describe('CoarPasswordInputComponent', () => {
       expect(toggle?.getAttribute('aria-label')).toBe('Show password');
 
       toggle?.click();
-      fixture.detectChanges();
+      detectChanges();
       expect(toggle?.getAttribute('aria-label')).toBe('Hide password');
     });
 
     it('should not toggle when disabled', () => {
       hostComponent.disabled = true;
-      fixture.detectChanges();
+      detectChanges();
 
       getToggleButton()?.click();
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.type).toBe('password');
     });
 
     it('should not toggle when readonly', () => {
       hostComponent.readonly = true;
-      fixture.detectChanges();
+      detectChanges();
 
       getToggleButton()?.click();
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.type).toBe('password');
     });
   });
@@ -273,7 +278,7 @@ describe('CoarPasswordInputComponent', () => {
   describe('value binding', () => {
     it('should display initial value as dots', () => {
       hostComponent.value = 'secret123';
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.value).toBe('secret123');
       expect(getInputElement()?.type).toBe('password');
     });
@@ -282,7 +287,7 @@ describe('CoarPasswordInputComponent', () => {
       const input = getInputElement()!;
       input.value = 'newpassword';
       input.dispatchEvent(new Event('input'));
-      fixture.detectChanges();
+      detectChanges();
       expect(hostComponent.valueChangeEvents).toContain('newpassword');
     });
 
@@ -290,7 +295,7 @@ describe('CoarPasswordInputComponent', () => {
       const input = getInputElement()!;
       input.value = 'updated';
       input.dispatchEvent(new Event('input'));
-      fixture.detectChanges();
+      detectChanges();
       expect(hostComponent.value).toBe('updated');
     });
   });
@@ -298,7 +303,7 @@ describe('CoarPasswordInputComponent', () => {
   describe('disabled state', () => {
     it('should disable input when disabled is true', () => {
       hostComponent.disabled = true;
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.disabled).toBe(true);
     });
   });
@@ -306,7 +311,7 @@ describe('CoarPasswordInputComponent', () => {
   describe('readonly state', () => {
     it('should set readonly on input', () => {
       hostComponent.readonly = true;
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.readOnly).toBe(true);
     });
   });
@@ -314,21 +319,21 @@ describe('CoarPasswordInputComponent', () => {
   describe('error and hint messages', () => {
     it('should display hint message', () => {
       hostComponent.hint = 'Minimum 8 characters';
-      fixture.detectChanges();
+      detectChanges();
       expect(getMessageElement()?.textContent).toContain('Minimum 8 characters');
     });
 
     it('should display error message over hint', () => {
       hostComponent.hint = 'Minimum 8 characters';
       hostComponent.error = 'Password is too weak';
-      fixture.detectChanges();
+      detectChanges();
       expect(getMessageElement()?.textContent).toContain('Password is too weak');
       expect(getMessageElement()?.textContent).not.toContain('Minimum 8 characters');
     });
 
     it('should add error styling when error is present', () => {
       hostComponent.error = 'Error!';
-      fixture.detectChanges();
+      detectChanges();
       const container = getContainerElement();
       expect(container?.classList.contains('coar-password-input-error')).toBe(true);
     });
@@ -341,16 +346,16 @@ describe('CoarPasswordInputComponent', () => {
 
     it('should show clear button when value is present', () => {
       hostComponent.value = 'password123';
-      fixture.detectChanges();
+      detectChanges();
       expect(getClearButton()).toBeTruthy();
     });
 
     it('should clear value when clear button is clicked', () => {
       hostComponent.value = 'password123';
-      fixture.detectChanges();
+      detectChanges();
 
       getClearButton()?.click();
-      fixture.detectChanges();
+      detectChanges();
 
       expect(hostComponent.value).toBe('');
       expect(hostComponent.clearCount).toBe(1);
@@ -359,21 +364,21 @@ describe('CoarPasswordInputComponent', () => {
     it('should not show clear button when clearable is false', () => {
       hostComponent.value = 'password123';
       hostComponent.clearable = false;
-      fixture.detectChanges();
+      detectChanges();
       expect(getClearButton()).toBeNull();
     });
 
     it('should not show clear button when disabled', () => {
       hostComponent.value = 'password123';
       hostComponent.disabled = true;
-      fixture.detectChanges();
+      detectChanges();
       expect(getClearButton()).toBeNull();
     });
 
     it('should not show clear button when readonly', () => {
       hostComponent.value = 'password123';
       hostComponent.readonly = true;
-      fixture.detectChanges();
+      detectChanges();
       expect(getClearButton()).toBeNull();
     });
   });
@@ -381,13 +386,13 @@ describe('CoarPasswordInputComponent', () => {
   describe('focus events', () => {
     it('should emit focused event on focus', () => {
       getInputElement()?.dispatchEvent(new FocusEvent('focus'));
-      fixture.detectChanges();
+      detectChanges();
       expect(hostComponent.focusEvents.length).toBe(1);
     });
 
     it('should emit blurred event on blur', () => {
       getInputElement()?.dispatchEvent(new FocusEvent('blur'));
-      fixture.detectChanges();
+      detectChanges();
       expect(hostComponent.blurEvents.length).toBe(1);
     });
   });
@@ -395,19 +400,19 @@ describe('CoarPasswordInputComponent', () => {
   describe('html attributes', () => {
     it('should set id attribute', () => {
       hostComponent.inputId = 'my-password';
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.id).toBe('my-password');
     });
 
     it('should set name attribute', () => {
       hostComponent.name = 'password';
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.name).toBe('password');
     });
 
     it('should set maxlength attribute', () => {
       hostComponent.maxlength = 50;
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.maxLength).toBe(50);
     });
 
@@ -419,7 +424,7 @@ describe('CoarPasswordInputComponent', () => {
   describe('accessibility', () => {
     it('should associate message with input via aria-describedby', () => {
       hostComponent.hint = 'A helpful hint';
-      fixture.detectChanges();
+      detectChanges();
 
       const input = getInputElement();
       const message = getMessageElement();
@@ -428,13 +433,13 @@ describe('CoarPasswordInputComponent', () => {
 
     it('should set aria-invalid when error is present', () => {
       hostComponent.error = 'Error message';
-      fixture.detectChanges();
+      detectChanges();
       expect(getInputElement()?.getAttribute('aria-invalid')).toBe('true');
     });
 
     it('should set aria-required when required', () => {
       hostComponent.required = true;
-      fixture.detectChanges();
+      detectChanges();
       // The native required attribute is set, aria-required is not needed
       expect(getInputElement()?.required).toBe(true);
     });

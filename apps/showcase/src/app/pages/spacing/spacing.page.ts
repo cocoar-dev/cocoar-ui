@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { CoarDividerComponent } from '@cocoar/ui-components';
 
 interface SizeToken {
@@ -11,7 +11,7 @@ interface SizeToken {
 @Component({
   selector: 'app-spacing',
   standalone: true,
-  imports: [CommonModule, CoarDividerComponent],
+  imports: [CoarDividerComponent],
   templateUrl: './spacing.page.html',
   styleUrl: './spacing.page.css',
 })

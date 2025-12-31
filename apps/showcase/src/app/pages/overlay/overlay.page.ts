@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -37,14 +37,13 @@ import {
   selector: 'app-overlay',
   standalone: true,
   imports: [
-    CommonModule,
     CoarTabGroupComponent,
     CoarTabComponent,
     CoarButtonComponent,
     CoarTextInputComponent,
     CoarCodeBlockComponent,
-    CoarDividerComponent,
-  ],
+    CoarDividerComponent
+],
   templateUrl: './overlay.page.html',
   styleUrl: './overlay.page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

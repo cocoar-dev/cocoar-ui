@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -37,7 +37,7 @@ export type CoarIconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'auto';
 @Component({
   selector: 'coar-icon',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   template: `
     @if(name()) { @if (sanitizedSvg(); as svg) {
     <div

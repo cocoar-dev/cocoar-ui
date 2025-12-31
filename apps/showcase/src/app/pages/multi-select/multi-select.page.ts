@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, signal } from '@angular/core';
 import {
   CoarCodeBlockComponent,
@@ -15,13 +15,12 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   selector: 'app-multi-select',
   standalone: true,
   imports: [
-    CommonModule,
     CoarMultiSelectComponent,
     CoarCodeBlockComponent,
     CoarDividerComponent,
     CoarTabGroupComponent,
-    CoarTabComponent,
-  ],
+    CoarTabComponent
+],
   templateUrl: './multi-select.page.html',
   styleUrl: './multi-select.page.css',
 })

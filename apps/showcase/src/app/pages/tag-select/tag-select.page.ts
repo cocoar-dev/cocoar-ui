@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, signal } from '@angular/core';
 import {
   CoarCodeBlockComponent,
@@ -16,14 +16,13 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   selector: 'app-tag-select',
   standalone: true,
   imports: [
-    CommonModule,
     CoarTagSelectComponent,
     CoarCodeBlockComponent,
     CoarDividerComponent,
     CoarNoteComponent,
     CoarTabGroupComponent,
-    CoarTabComponent,
-  ],
+    CoarTabComponent
+],
   templateUrl: './tag-select.page.html',
   styleUrl: './tag-select.page.css',
 })

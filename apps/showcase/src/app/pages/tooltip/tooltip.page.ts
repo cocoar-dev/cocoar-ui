@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, signal } from '@angular/core';
 import {
   CoarButtonComponent,
@@ -17,7 +17,6 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   selector: 'app-tooltip',
   standalone: true,
   imports: [
-    CommonModule,
     CoarTooltipDirective,
     CoarPopoverComponent,
     CoarButtonComponent,
@@ -25,8 +24,8 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarDividerComponent,
     CoarNoteComponent,
     CoarTabGroupComponent,
-    CoarTabComponent,
-  ],
+    CoarTabComponent
+],
   templateUrl: './tooltip.page.html',
   styleUrl: './tooltip.page.css',
 })

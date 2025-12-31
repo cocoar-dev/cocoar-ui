@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import {
   CoarNumberInputComponent,
   CoarCodeBlockComponent,
@@ -14,13 +14,12 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   selector: 'app-number-input',
   standalone: true,
   imports: [
-    CommonModule,
     CoarNumberInputComponent,
     CoarCodeBlockComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
-    CoarDividerComponent,
-  ],
+    CoarDividerComponent
+],
   templateUrl: './number-input.page.html',
   styleUrl: './number-input.page.css',
 })

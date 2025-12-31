@@ -20,10 +20,10 @@
     "cocoar"
   ],
   "peerDependencies": {
-    "@angular/common": "^20.3.0",
-    "@angular/core": "^20.3.0",
-    "@cocoar/markdown-core": "^0.0.1",
-    "@cocoar/ui-components": "^0.0.1"
+    "@angular/common": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "@cocoar/markdown-core": "^0.0.2",
+    "@cocoar/ui-components": "^0.0.2"
   },
   "sideEffects": false
 }
