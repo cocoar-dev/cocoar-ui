@@ -64,6 +64,7 @@ When in doubt, **stay compatible with Angular 20**.
   - Use simple TS builds (e.g. `@nx/js:tsc` or equivalent) – never ng-packagr.
 
 If any blog, doc, or example uses a different builder/executor:
+
 - Translate it into our model (see ARCHITECTURE.md).
 - Do NOT blindly copy arbitrary builders into this repo.
 
@@ -71,27 +72,27 @@ If any blog, doc, or example uses a different builder/executor:
 
 ## 🧭 Core Principles
 
-* **Explain Why, Not What** — Comments describe *intent and reasoning*, not code behavior
-* **Consistency Over Novelty** — Prefer predictable patterns that align with repository style
-* **Simplicity and Intent** — Code should be self-explanatory and purposeful
-* **Design Token Discipline** — All styling via CSS variables from Figma (see ARCHITECTURE.md)
-* **Framework Purity** — No Tailwind, no global CSS, no styling assumptions in libraries
-* **Incremental Improvement** — Every change leaves the codebase cleaner and more consistent
+- **Explain Why, Not What** — Comments describe _intent and reasoning_, not code behavior
+- **Consistency Over Novelty** — Prefer predictable patterns that align with repository style
+- **Simplicity and Intent** — Code should be self-explanatory and purposeful
+- **Design Token Discipline** — All styling via CSS variables from Figma (see ARCHITECTURE.md)
+- **Framework Purity** — No Tailwind, no global CSS, no styling assumptions in libraries
+- **Incremental Improvement** — Every change leaves the codebase cleaner and more consistent
 
 ---
 
 ## 💬 Comment Policy: Why, Not What
 
-Code comments should explain *why* decisions were made, not *what* the code does. Self-documenting code (clear naming, structure) is always preferable to comments.
+Code comments should explain _why_ decisions were made, not _what_ the code does. Self-documenting code (clear naming, structure) is always preferable to comments.
 
 ### ✅ Keep These Comments
 
-* **Rationale for non-obvious choices** — Why a specific algorithm, library, or approach was chosen
-* **Performance trade-offs** — Justification for optimizations or deliberate inefficiencies
-* **Browser compatibility workarounds** — Why unusual patterns exist for specific browsers
-* **Accessibility decisions** — ARIA patterns, keyboard navigation, screen reader considerations
-* **Design token usage** — Why specific tokens were chosen or why fallbacks exist
-* **Future considerations** — TODOs with clear context (what, why, when)
+- **Rationale for non-obvious choices** — Why a specific algorithm, library, or approach was chosen
+- **Performance trade-offs** — Justification for optimizations or deliberate inefficiencies
+- **Browser compatibility workarounds** — Why unusual patterns exist for specific browsers
+- **Accessibility decisions** — ARIA patterns, keyboard navigation, screen reader considerations
+- **Design token usage** — Why specific tokens were chosen or why fallbacks exist
+- **Future considerations** — TODOs with clear context (what, why, when)
 
 **Examples:**
 
@@ -111,12 +112,12 @@ background: var(--coar-button-hover, var(--coar-color-primary));
 
 ### ❌ Remove These Comments
 
-* **Restating the code** — If the code is clear, don't repeat it in prose
-* **Obvious descriptions** — Explaining what a well-named method does
-* **Commented-out code** — Use version control, don't leave dead code
-* **Debug/temporary comments** — "test", "TODO: fix this", etc. without context
-* **Obsolete explanations** — Comments that no longer match the code
-* **Auto-generated noise** — Boilerplate like "Constructor for X"
+- **Restating the code** — If the code is clear, don't repeat it in prose
+- **Obvious descriptions** — Explaining what a well-named method does
+- **Commented-out code** — Use version control, don't leave dead code
+- **Debug/temporary comments** — "test", "TODO: fix this", etc. without context
+- **Obsolete explanations** — Comments that no longer match the code
+- **Auto-generated noise** — Boilerplate like "Constructor for X"
 
 **Examples to remove:**
 
@@ -141,7 +142,7 @@ When you're tempted to add a comment explaining complex code:
 1. **Extract method** — Pull complexity into a well-named function
 2. **Rename variables** — Make intent clear through naming
 3. **Simplify logic** — Reduce cognitive load
-4. Only add a comment if the *why* still isn't obvious
+4. Only add a comment if the _why_ still isn't obvious
 
 ---
 
@@ -150,6 +151,7 @@ When you're tempted to add a comment explaining complex code:
 When working in this repository, AI assistants must:
 
 ### Architecture (see ARCHITECTURE.md)
+
 - [ ] Use CSS variables only (no Tailwind, no hardcoded colors)
 - [ ] Follow framework-pure patterns (no global CSS)
 - [ ] Use `@cocoar/logging` (no `console.log`)
@@ -157,12 +159,14 @@ When working in this repository, AI assistants must:
 - [ ] Keep libraries isolated (minimal cross-dependencies)
 
 ### Naming (see NAMING.md)
+
 - [ ] Follow `coar-` prefix for all selectors
 - [ ] Use `CoarXxxComponent` class naming
 - [ ] Use `--coar-*` for CSS variables
 - [ ] Use `@cocoar/ui-*` for package names
 
 ### Code Quality (see CONTRIBUTING.md)
+
 - [ ] Write clean, typed TypeScript (strict mode)
 - [ ] Follow Angular style guides
 - [ ] Add tests for new functionality
@@ -171,11 +175,13 @@ When working in this repository, AI assistants must:
 - [ ] Remove unused imports/variables
 
 ### Performance (see ARCHITECTURE.md)
+
 - [ ] Use `OnPush` change detection where appropriate
 - [ ] Use `trackBy` for `*ngFor` on dynamic lists
 - [ ] Document performance trade-offs
 
 ### Security (see ARCHITECTURE.md)
+
 - [ ] Use Angular's sanitization for dynamic content
 - [ ] Validate inputs early with clear errors
 - [ ] Never log secrets or PII
@@ -197,15 +203,15 @@ If uncertain about a decision, AI assistants should:
 
 ## 📝 Summary
 
-* **Comment why, not what** — Focus on intent and reasoning
-* **Follow NAMING.md** — All naming conventions (selectors, classes, CSS variables)
-* **Follow ARCHITECTURE.md** — Framework purity, design tokens, component patterns
-* **Follow CONTRIBUTING.md** — Quality standards, testing, definition of done
-* **Use CSS variables only** — All styling from Figma tokens
-* **Use `@cocoar/logging`** — No `console.log` in libraries
-* **Test accessibility** — Keyboard navigation, ARIA, screen readers
-* **Keep docs in sync** — Update README, showcase, and migration guides
-* **Follow Definition of Done** — See CONTRIBUTING.md for the complete checklist
+- **Comment why, not what** — Focus on intent and reasoning
+- **Follow NAMING.md** — All naming conventions (selectors, classes, CSS variables)
+- **Follow ARCHITECTURE.md** — Framework purity, design tokens, component patterns
+- **Follow CONTRIBUTING.md** — Quality standards, testing, definition of done
+- **Use CSS variables only** — All styling from Figma tokens
+- **Use `@cocoar/logging`** — No `console.log` in libraries
+- **Test accessibility** — Keyboard navigation, ARIA, screen readers
+- **Keep docs in sync** — Update README, showcase, and migration guides
+- **Follow Definition of Done** — See CONTRIBUTING.md for the complete checklist
 
 ---
 
@@ -215,3 +221,17 @@ If uncertain about a decision, AI assistants should:
 > GitHub Copilot, Claude, ChatGPT, and other assistants should treat this as the primary behavioral contract.
 >
 > **Remember:** This document works with ARCHITECTURE.md, NAMING.md, and CONTRIBUTING.md as a complete system.
+
+<!-- nx configuration start-->
+<!-- Leave the start & end comments to automatically receive updates. -->
+
+# General Guidelines for working with Nx
+
+- When running tasks (for example build, lint, test, e2e, etc.), always prefer running the task through `nx` (i.e. `nx run`, `nx run-many`, `nx affected`) instead of using the underlying tooling directly
+- You have access to the Nx MCP server and its tools, use them to help the user
+- When answering questions about the repository, use the `nx_workspace` tool first to gain an understanding of the workspace architecture where applicable.
+- When working in individual projects, use the `nx_project_details` mcp tool to analyze and understand the specific project structure and dependencies
+- For questions around nx configuration, best practices or if you're unsure, use the `nx_docs` tool to get relevant, up-to-date docs. Always use this instead of assuming things about nx configuration
+- If the user needs help with an Nx configuration or project graph error, use the `nx_workspace` tool to get any errors
+
+<!-- nx configuration end-->
