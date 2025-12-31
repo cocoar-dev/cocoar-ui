@@ -47,7 +47,7 @@ describe('CoarTableComponent', () => {
     hostComponent = fixture.componentInstance;
     fixture.detectChanges();
     hostElement = fixture.nativeElement;
-    
+
     // Create a fixture reference to the table component for input setting
     tableFixture = hostComponent.tableComponent as any;
   });
@@ -109,7 +109,7 @@ describe('CoarTableComponent', () => {
       const plainFixture = TestBed.createComponent(CoarTableComponent);
       plainFixture.componentRef.setInput('variant', 'plain');
       plainFixture.detectChanges();
-      
+
       const component = plainFixture.nativeElement;
       expect(component.classList.contains('coar-table--plain')).toBe(true);
       plainFixture.destroy();
@@ -120,7 +120,7 @@ describe('CoarTableComponent', () => {
       const borderedFixture = TestBed.createComponent(CoarTableComponent);
       borderedFixture.componentRef.setInput('variant', 'bordered');
       borderedFixture.detectChanges();
-      
+
       const component = borderedFixture.nativeElement;
       expect(component.classList.contains('coar-table--bordered')).toBe(true);
       borderedFixture.destroy();
@@ -138,7 +138,7 @@ describe('CoarTableComponent', () => {
       const compactFixture = TestBed.createComponent(CoarTableComponent);
       compactFixture.componentRef.setInput('compact', true);
       compactFixture.detectChanges();
-      
+
       const component = compactFixture.nativeElement;
       expect(component.classList.contains('coar-table--compact')).toBe(true);
       compactFixture.destroy();
@@ -156,7 +156,7 @@ describe('CoarTableComponent', () => {
       const noHoverFixture = TestBed.createComponent(CoarTableComponent);
       noHoverFixture.componentRef.setInput('hover', false);
       noHoverFixture.detectChanges();
-      
+
       const component = noHoverFixture.nativeElement;
       expect(component.classList.contains('coar-table--hover')).toBe(false);
       noHoverFixture.destroy();

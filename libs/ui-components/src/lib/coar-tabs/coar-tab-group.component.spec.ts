@@ -128,15 +128,15 @@ describe('CoarTabGroupComponent', () => {
       const newHost = newFixture.componentInstance;
       newHost.activeTab = 'tab2';
       newFixture.detectChanges();
-      
+
       const newElement = newFixture.nativeElement;
       const getButton = (index: number) => newElement.querySelectorAll('[role="tab"]')[index];
-      
+
       expect(getButton(1)?.getAttribute('aria-selected')).toBe('true');
       // Content may be lazy-loaded, check the active panel
       const panel = newElement.querySelector('[role="tabpanel"].active');
       expect(panel?.textContent).toContain('Content for Tab 2');
-      
+
       newFixture.destroy();
     });
   });
@@ -148,12 +148,12 @@ describe('CoarTabGroupComponent', () => {
       const newHost = newFixture.componentInstance;
       newHost.disabledTab = true;
       newFixture.detectChanges();
-      
+
       const newElement = newFixture.nativeElement;
       const getButton = (index: number) => newElement.querySelectorAll('[role="tab"]')[index];
-      
+
       expect(getButton(2)?.disabled).toBe(true);
-      
+
       newFixture.destroy();
     });
 
@@ -163,17 +163,18 @@ describe('CoarTabGroupComponent', () => {
       const newHost = newFixture.componentInstance;
       newHost.disabledTab = true;
       newFixture.detectChanges();
-      
+
       const newElement = newFixture.nativeElement;
-      const getButton = (index: number) => newElement.querySelectorAll('[role="tab"]')[index] as HTMLButtonElement;
-      
+      const getButton = (index: number) =>
+        newElement.querySelectorAll('[role="tab"]')[index] as HTMLButtonElement;
+
       getButton(2)?.click();
       newFixture.detectChanges();
 
       // First tab should still be selected
       expect(getButton(0)?.getAttribute('aria-selected')).toBe('true');
       expect(newHost.activeTabChanges).not.toContain('tab3');
-      
+
       newFixture.destroy();
     });
   });
@@ -228,10 +229,11 @@ describe('CoarTabGroupComponent', () => {
       const newHost = newFixture.componentInstance;
       newHost.disabledTab = true;
       newFixture.detectChanges();
-      
+
       const newElement = newFixture.nativeElement;
-      const getButton = (index: number) => newElement.querySelectorAll('[role="tab"]')[index] as HTMLButtonElement;
-      
+      const getButton = (index: number) =>
+        newElement.querySelectorAll('[role="tab"]')[index] as HTMLButtonElement;
+
       const firstTab = getButton(0)!;
       firstTab.focus();
 
@@ -241,7 +243,7 @@ describe('CoarTabGroupComponent', () => {
 
       // Should wrap to tab2 (last non-disabled)
       expect(newHost.activeTabChanges).toContain('tab2');
-      
+
       newFixture.destroy();
     });
 
@@ -276,10 +278,11 @@ describe('CoarTabGroupComponent', () => {
       const newHost = newFixture.componentInstance;
       newHost.disabledTab = true;
       newFixture.detectChanges();
-      
+
       const newElement = newFixture.nativeElement;
-      const getButton = (index: number) => newElement.querySelectorAll('[role="tab"]')[index] as HTMLButtonElement;
-      
+      const getButton = (index: number) =>
+        newElement.querySelectorAll('[role="tab"]')[index] as HTMLButtonElement;
+
       const firstTab = getButton(0)!;
       firstTab.focus();
 
@@ -289,7 +292,7 @@ describe('CoarTabGroupComponent', () => {
 
       // Should go to tab2, not tab3 (disabled)
       expect(newHost.activeTabChanges).toContain('tab2');
-      
+
       newFixture.destroy();
     });
   });

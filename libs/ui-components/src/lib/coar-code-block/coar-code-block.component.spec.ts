@@ -106,10 +106,18 @@ describe('CoarCodeBlockComponent', () => {
       expect(getTitleElement()).toBeNull();
     });
 
-    it('should show title when provided', () => {
-      hostComponent.title = 'Example Code';
-      fixture.detectChanges();
-      expect(getTitleElement()?.textContent).toContain('Example Code');
+    it('should show title when provided', async () => {
+      // Create new fixture with title
+      const newFixture = TestBed.createComponent(TestHostComponent);
+      const newHost = newFixture.componentInstance;
+      newHost.title = 'Example Code';
+      newFixture.detectChanges();
+
+      const newElement = newFixture.nativeElement;
+      const titleElement = newElement.querySelector('.coar-code-title');
+      expect(titleElement?.textContent).toContain('Example Code');
+
+      newFixture.destroy();
     });
   });
 
@@ -151,12 +159,20 @@ describe('CoarCodeBlockComponent', () => {
       expect(getCodeElement()?.innerHTML).toBeTruthy();
     });
 
-    it('should handle unknown language gracefully', () => {
-      hostComponent.code = 'some unknown code';
-      hostComponent.language = 'unknownlang';
-      fixture.detectChanges();
+    it('should handle unknown language gracefully', async () => {
+      // Create new fixture with unknown language
+      const newFixture = TestBed.createComponent(TestHostComponent);
+      const newHost = newFixture.componentInstance;
+      newHost.code = 'some unknown code';
+      newHost.language = 'unknownlang';
+      newFixture.detectChanges();
+
+      const newElement = newFixture.nativeElement;
+      const codeElement = newElement.querySelector('.coar-code');
       // Should still render, just without highlighting
-      expect(getCodeElement()?.textContent).toContain('some unknown code');
+      expect(codeElement?.textContent).toContain('some unknown code');
+
+      newFixture.destroy();
     });
   });
 
@@ -165,10 +181,18 @@ describe('CoarCodeBlockComponent', () => {
       expect(getToggleButton()).toBeTruthy();
     });
 
-    it('should hide toggle button when not collapsible', () => {
-      hostComponent.collapsible = false;
-      fixture.detectChanges();
-      expect(getToggleButton()).toBeNull();
+    it('should hide toggle button when not collapsible', async () => {
+      // Create new fixture with collapsible false
+      const newFixture = TestBed.createComponent(TestHostComponent);
+      const newHost = newFixture.componentInstance;
+      newHost.collapsible = false;
+      newFixture.detectChanges();
+
+      const newElement = newFixture.nativeElement;
+      const toggleButton = newElement.querySelector('.coar-code-toggle');
+      expect(toggleButton).toBeNull();
+
+      newFixture.destroy();
     });
 
     it('should show code content when not collapsed', () => {
@@ -215,10 +239,18 @@ describe('CoarCodeBlockComponent', () => {
       expect(getCopyButton()).toBeTruthy();
     });
 
-    it('should hide copy button when showCopy is false', () => {
-      hostComponent.showCopy = false;
-      fixture.detectChanges();
-      expect(getCopyButton()).toBeNull();
+    it('should hide copy button when showCopy is false', async () => {
+      // Create new fixture with showCopy false
+      const newFixture = TestBed.createComponent(TestHostComponent);
+      const newHost = newFixture.componentInstance;
+      newHost.showCopy = false;
+      newFixture.detectChanges();
+
+      const newElement = newFixture.nativeElement;
+      const copyButton = newElement.querySelector('coar-button');
+      expect(copyButton).toBeNull();
+
+      newFixture.destroy();
     });
 
     it('should have accessible label', () => {
@@ -227,15 +259,21 @@ describe('CoarCodeBlockComponent', () => {
   });
 
   describe('line numbers', () => {
-    it('should render line numbers when enabled', () => {
-      hostComponent.code = 'line 1\nline 2\nline 3';
-      hostComponent.showLineNumbers = true;
-      fixture.detectChanges();
+    it('should render line numbers when enabled', async () => {
+      // Create new fixture with line numbers enabled
+      const newFixture = TestBed.createComponent(TestHostComponent);
+      const newHost = newFixture.componentInstance;
+      newHost.code = 'line 1\nline 2\nline 3';
+      newHost.showLineNumbers = true;
+      newFixture.detectChanges();
 
-      const lineNumbers = hostElement.querySelectorAll('.coar-code-line-number');
+      const newElement = newFixture.nativeElement;
+      const lineNumbers = newElement.querySelectorAll('.coar-code-line-number');
       expect(lineNumbers.length).toBe(3);
       expect(lineNumbers[0]?.textContent).toContain('1');
       expect(lineNumbers[2]?.textContent).toContain('3');
+
+      newFixture.destroy();
     });
   });
 
@@ -245,11 +283,18 @@ describe('CoarCodeBlockComponent', () => {
       expect(content?.style.maxHeight).toBeFalsy();
     });
 
-    it('should set max-height when maxHeight is provided', () => {
-      hostComponent.maxHeight = 200;
-      fixture.detectChanges();
-      const content = getCodeContent();
+    it('should set max-height when maxHeight is provided', async () => {
+      // Create new fixture with maxHeight
+      const newFixture = TestBed.createComponent(TestHostComponent);
+      const newHost = newFixture.componentInstance;
+      newHost.maxHeight = 200;
+      newFixture.detectChanges();
+
+      const newElement = newFixture.nativeElement;
+      const content = newElement.querySelector('.coar-code-content');
       expect(content?.style.maxHeight).toBe('200px');
+
+      newFixture.destroy();
     });
   });
 
@@ -309,18 +354,23 @@ describe('CoarCodeBlockComponent', () => {
         configurable: true,
       });
 
-      hostComponent.code = 'console.log("test");';
-      fixture.detectChanges();
+      // Create new fixture with specific code
+      const newFixture = TestBed.createComponent(TestHostComponent);
+      const newHost = newFixture.componentInstance;
+      newHost.code = 'console.log("test");';
+      newFixture.detectChanges();
 
       // Directly call copyCode on the component
-      const codeBlockComponent = fixture.debugElement.query(
+      const codeBlockComponent = newFixture.debugElement.query(
         (el) => el.componentInstance?.copyCode
       )?.componentInstance;
 
       await codeBlockComponent.copyCode();
-      fixture.detectChanges();
+      newFixture.detectChanges();
 
       expect(writeTextMock).toHaveBeenCalledWith('console.log("test");');
+
+      newFixture.destroy();
     });
 
     it('should show copied feedback after successful copy', async () => {
@@ -376,25 +426,29 @@ describe('CoarCodeBlockComponent', () => {
         configurable: true,
       });
 
-      hostComponent.code = 'test code';
-      fixture.detectChanges();
+      // Create new fixture with specific code
+      const newFixture = TestBed.createComponent(TestHostComponent);
+      const newHost = newFixture.componentInstance;
+      newHost.code = 'test code';
+      newFixture.detectChanges();
 
-      const codeBlockComponent = fixture.debugElement.query(
+      const codeBlockComponent = newFixture.debugElement.query(
         (el) => el.componentInstance?.copyCode
       )?.componentInstance;
 
       await codeBlockComponent.copyCode();
-      fixture.detectChanges();
+      newFixture.detectChanges();
 
       expect(codeBlockComponent.copyFeedback()).toBe('copied');
 
       // Advance past the 2000ms feedback timeout
       vi.advanceTimersByTime(2100);
-      fixture.detectChanges();
+      newFixture.detectChanges();
 
       expect(codeBlockComponent.copyFeedback()).toBe('idle');
 
       vi.useRealTimers();
+      newFixture.destroy();
     });
   });
 });
