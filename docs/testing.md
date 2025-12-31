@@ -271,7 +271,7 @@ Some e2e suites use a scenario host that serves a single scenario at a time at:
 The e2e wrapper expects this host to be reachable at `SCENARIO_BASE_URL` (default `http://localhost:4300`).
 
 If the host is not already running, the wrapper starts it using `SCENARIO_SERVER_COMMAND`.
-If unset, it defaults to `pnpm exec scenar serve`.
+If unset, it defaults to `pnpm exec scenar -- serve`.
 
 ### Peer dependency warnings
 

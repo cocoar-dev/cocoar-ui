@@ -26,8 +26,11 @@ export type CoarLabelSize = 'xs' | 'sm' | 'md' | 'lg';
   selector: 'coar-label',
   standalone: true,
   template: `
+    @if (text()) {
+    {{ text() }}
+    } @else {
     <ng-content></ng-content>
-    @if (required()) {
+    } @if (required()) {
     <span class="coar-label-required" aria-hidden="true">*</span>
     }
   `,
@@ -56,6 +59,8 @@ export class CoarLabelComponent {
    * Sets the 'for' attribute for accessibility.
    */
   readonly for = input<string | undefined>(undefined);
+
+  readonly text = input<string>('');
 
   @HostBinding('class.coar-label--xs')
   get isXs(): boolean {

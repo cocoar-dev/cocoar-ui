@@ -147,8 +147,10 @@ async function main() {
         const configured = parseCommand(process.env.SCENARIO_SERVER_COMMAND);
 
         // Default assumes the external Scenar package exposes a CLI named `scenar`.
+        // Use `--` so the command form matches other consumer commands like:
+        // `pnpm exec scenar -- init` / `pnpm exec scenar -- generate`.
         // Consumers can override via SCENARIO_SERVER_COMMAND.
-        const defaultCommand = { file: 'pnpm', args: ['exec', 'scenar', 'serve'] };
+        const defaultCommand = { file: 'pnpm', args: ['exec', 'scenar', '--', 'serve'] };
         const command = configured ?? defaultCommand;
 
         return spawn(command.file, command.args, {
