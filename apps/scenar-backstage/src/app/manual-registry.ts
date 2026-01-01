@@ -1,5 +1,5 @@
 import type { ScenarioDefinition } from '@cocoar/scenar-abstractions';
-import { helloBasic } from '../scenarios/hello-demo.scenario';
+// import { helloBasic } from '../scenarios/hello-demo.scenario';
 
 /**
  * Manual scenario registry.
@@ -22,6 +22,6 @@ import { helloBasic } from '../scenarios/hello-demo.scenario';
  *   inputs: { variant: 'primary' },
  * });
  */
-export const SCENARIO_REGISTRY: Record<string, ScenarioDefinition> = {
-  [helloBasic.id]: helloBasic,
-};
+// export const SCENARIO_REGISTRY: Record<string, ScenarioDefinition> = {
+//   [helloBasic.id]: helloBasic,
+// };

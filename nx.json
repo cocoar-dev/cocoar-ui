@@ -13,7 +13,8 @@
       "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
       "!{projectRoot}/tsconfig.spec.json"
     ],
-    "sharedGlobals": []
+    "sharedGlobals": [],
+    "scenarGeneratorScript": ["{workspaceRoot}/scripts/scenar/generate-registry.mjs"]
   },
   "targetDefaults": {
     "@angular/build:application": {

@@ -82,6 +82,10 @@ export class App implements OnDestroy {
       this.scenarioInputs.set(inputs);
 
       // Load the component
+      // component is guaranteed to exist after registry generation
+      if (!scenario.component) {
+        throw new Error(`Scenario '${id}' is missing component loader. Did you run the registry generator?`);
+      }
       const componentType = await scenario.component();
       this.scenarioComponent.set(componentType);
     } catch (err) {

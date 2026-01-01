@@ -1,4 +1,4 @@
-import { defineScenario } from '@cocoar/scenar';
+import { defineScenario } from '@cocoar/scenar-abstractions';
 import { CoarIconComponent } from './coar-icon.component';
 import { provideHttpClient } from '@angular/common/http';
 import { CoarIconService } from './coar-icon.service';

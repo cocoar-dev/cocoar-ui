@@ -5,6 +5,7 @@
   "scripts": {
     "build": "nx run-many -t build",
     "build:icons": "node scripts/icons/build-frontend-icons.mjs",
+    "build:scenar-registry": "node scripts/scenar/generate-registry.mjs",
     "docs:reference": "node scripts/docs/extract-component-api.mjs",
     "test": "nx run-many -t test",
     "test:ci": "nx run-many -t test --ci",

@@ -1,5 +1,5 @@
 import type { ScenarioDefinition } from '@cocoar/scenar-abstractions';
-import { SCENARIO_REGISTRY } from './manual-registry';
+import { SCENARIO_REGISTRY } from './registry.generated';
 
 export type BackstageScenarioRegistryIndex = {
   ids: readonly string[];

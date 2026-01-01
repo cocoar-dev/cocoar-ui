@@ -14,7 +14,7 @@ import type { ScenarioDefinition } from './scenario-definition';
  * ```
  */
 export function defineScenario<TComponent = any>(
-  definition: ScenarioDefinition<TComponent>,
+  definition: Omit<ScenarioDefinition<TComponent>, 'component'> & { component?: ScenarioDefinition<TComponent>['component'] },
 ): ScenarioDefinition<TComponent> {
-  return definition;
+  return definition as ScenarioDefinition<TComponent>;
 }

@@ -6,6 +6,36 @@
   "sourceRoot": "apps/scenar-backstage/src",
   "tags": ["scope:scenar", "type:app"],
   "targets": {
+    "generate-registry": {
+      "executor": "nx:run-commands",
+      "inputs": [
+        "{projectRoot}/src/**/*.scenario.ts",
+        "{workspaceRoot}/libs/**/src/**/*.scenario.ts",
+        "scenarGeneratorScript"
+      ],
+      "outputs": ["{projectRoot}/src/app/registry.generated.ts"],
+      "options": {
+        "command": "node scripts/scenar/generate-registry.mjs",
+        "cwd": "."
+      }
+    },
+    "generate-registry:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node scripts/scenar/generate-registry.mjs --watch",
+        "cwd": "."
+      }
+    },
+    "serve:watch": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx serve scenar-backstage",
+          "nx generate-registry:watch scenar-backstage"
+        ],
+        "parallel": true
+      }
+    },
     "vite:test": {
       "executor": "@nx/vitest:test",
       "options": {
@@ -15,7 +45,7 @@
     "build": {
       "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
-      "dependsOn": ["scenar-abstractions:build"],
+      "dependsOn": ["generate-registry", "scenar-abstractions:build"],
       "options": {
         "outputPath": "dist/apps/scenar-backstage",
         "browser": "apps/scenar-backstage/src/main.ts",
@@ -55,6 +85,7 @@
     "serve": {
       "continuous": true,
       "executor": "@angular/build:dev-server",
+      "dependsOn": ["generate-registry"],
       "options": {
         "port": 4300
       },
