@@ -12,9 +12,9 @@ export interface ScenarioDefinition<TComponent = any> {
   id: string;
 
   /**
-   * Human-readable title for display
+   * Human-readable title for display (optional - could be used for future navigation UI)
    */
-  title: string;
+  title?: string;
 
   /**
    * Lazy loader for the component class to render

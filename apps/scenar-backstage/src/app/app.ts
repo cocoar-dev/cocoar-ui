@@ -14,6 +14,7 @@ import type { ScenarioDefinition } from '@cocoar/scenar-abstractions';
 
 import { loadScenarioRegistry } from './registry';
 import { ScenarErrorState } from './scenar-error-state';
+import { deserializeWithCodecs } from './scenario-codecs';
 
 @Component({
   standalone: true,
@@ -106,10 +107,25 @@ export class App implements OnDestroy {
 
     const parsed: Record<string, unknown> = { ...defaults };
 
-    // Override defaults with URL params
+    // Try to load metadata for type information (synchronously from cache if available)
+    let metadata: any = null;
+    try {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', '/registry.metadata.json', false); // synchronous
+      xhr.send();
+      if (xhr.status === 200) {
+        metadata = JSON.parse(xhr.responseText);
+      }
+    } catch {
+      // Metadata not available - will use heuristic deserialization
+    }
+
+    const scenarioMeta = metadata?.scenarios?.find((s: any) => s.id === scenario.id);
+
+    // Override defaults with URL params, using codec-based deserialization
     params.forEach((value, key) => {
-      // Simple string parsing - can be enhanced later
-      parsed[key] = value;
+      const inputMeta = scenarioMeta?.inputs?.[key];
+      parsed[key] = deserializeWithCodecs(value, inputMeta?.tsType);
     });
 
     return parsed;
