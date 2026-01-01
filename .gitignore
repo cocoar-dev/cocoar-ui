@@ -2,6 +2,7 @@
 
 # Auto-generated files
 apps/scenar-backstage/src/app/registry.generated.ts
+apps/scenar-backstage/public/registry.metadata.json
 
 # Compiled output
 /dist

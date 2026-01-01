@@ -13,7 +13,10 @@
         "{workspaceRoot}/libs/**/src/**/*.scenario.ts",
         "scenarGeneratorScript"
       ],
-      "outputs": ["{projectRoot}/src/app/registry.generated.ts"],
+      "outputs": [
+        "{projectRoot}/src/app/registry.generated.ts",
+        "{projectRoot}/public/registry.metadata.json"
+      ],
       "options": {
         "command": "node scripts/scenar/generate-registry.mjs",
         "cwd": "."

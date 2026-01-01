@@ -110,7 +110,17 @@ async function generateRegistry() {
 
   await fs.writeFile(registryPath, registryContent, 'utf-8');
 
+  // Generate metadata JSON file in public folder (served via HTTP)
+  const metadataPath = path.join(
+    workspaceRoot,
+    'apps/scenar-backstage/public/registry.metadata.json'
+  );
+  const metadata = generateMetadata(scenarios);
+  await fs.writeFile(metadataPath, JSON.stringify(metadata, null, 2), 'utf-8');
+
   console.log(`✨ Generated registry: ${path.relative(workspaceRoot, registryPath)}`);
+  console.log(`📋 Generated metadata: ${path.relative(workspaceRoot, metadataPath)}`);
+  console.log(`   → Available at: http://localhost:4300/registry.metadata.json`);
   console.log('');
   console.log('Scenarios registered:');
   scenarios.forEach((s) => {
@@ -155,6 +165,25 @@ async function extractScenarioExports(filePath, relativeFile) {
           if (funcName === 'defineScenario') {
             const exportName = declaration.name.getText(sourceFile);
 
+            // Extract the scenario ID from the first argument (object literal)
+            let scenarioId = null;
+            if (callExpr.arguments.length > 0) {
+              const arg = callExpr.arguments[0];
+              if (ts.isObjectLiteralExpression(arg)) {
+                for (const prop of arg.properties) {
+                  if (
+                    ts.isPropertyAssignment(prop) &&
+                    prop.name.getText(sourceFile) === 'id'
+                  ) {
+                    const idValue = prop.initializer.getText(sourceFile);
+                    // Remove quotes from string literal
+                    scenarioId = idValue.replace(/^['"]|['"]$/g, '');
+                    break;
+                  }
+                }
+              }
+            }
+
             // Convert file path to import path
             const importPath = convertToImportPath(relativeFile);
 
@@ -162,6 +191,7 @@ async function extractScenarioExports(filePath, relativeFile) {
               exportName,
               importPath,
               relativeFile,
+              id: scenarioId,
             });
           }
         }
@@ -236,7 +266,7 @@ async function enhanceScenario(scenario, scenarioFilePath) {
 }
 
 /**
- * Extracts input() signal defaults from a component file.
+ * Extracts input() and model() signal defaults from a component file.
  */
 async function extractComponentInputs(componentFilePath) {
   const inputs = {};
@@ -253,44 +283,62 @@ async function extractComponentInputs(componentFilePath) {
     // Find the component class
     ts.forEachChild(sourceFile, (node) => {
       if (ts.isClassDeclaration(node)) {
-        // Look through class members for input() calls
+        // Look through class members for input() and model() calls
         node.members?.forEach((member) => {
           if (ts.isPropertyDeclaration(member) && member.initializer) {
-            // Check if it's an input() call
+            // Check if it's an input() or model() call
             if (ts.isCallExpression(member.initializer)) {
-              const funcName = member.initializer.expression.getText(sourceFile);
+              const expr = member.initializer.expression;
+              let funcName;
+              let isRequired = false;
 
-              if (funcName === 'input') {
+              // Check for input.required() or model.required()
+              if (ts.isPropertyAccessExpression(expr)) {
+                funcName = expr.expression.getText(sourceFile);
+                const methodName = expr.name.getText(sourceFile);
+                isRequired = methodName === 'required';
+              } else {
+                funcName = expr.getText(sourceFile);
+              }
+
+              // Only process input() or model() calls
+              if (funcName === 'input' || funcName === 'model') {
                 const inputName = member.name.getText(sourceFile);
+                const inputType = funcName; // 'input' or 'model'
 
-                // Extract default value (first argument to input())
+                let defaultValue = undefined;
+                let hasDefault = false;
+
+                // Extract default value (first argument)
                 if (member.initializer.arguments.length > 0) {
-                  const defaultValue = member.initializer.arguments[0];
-                  const defaultValueText = defaultValue.getText(sourceFile);
+                  hasDefault = true;
+                  const arg = member.initializer.arguments[0];
+                  const valueText = arg.getText(sourceFile);
 
-                  // Try to parse the default value
-                  try {
-                    // Handle common cases: strings, numbers, booleans, null, undefined
-                    if (defaultValue.kind === ts.SyntaxKind.StringLiteral) {
-                      inputs[inputName] = defaultValueText.slice(1, -1); // Remove quotes
-                    } else if (defaultValue.kind === ts.SyntaxKind.NumericLiteral) {
-                      inputs[inputName] = parseFloat(defaultValueText);
-                    } else if (defaultValue.kind === ts.SyntaxKind.TrueKeyword) {
-                      inputs[inputName] = true;
-                    } else if (defaultValue.kind === ts.SyntaxKind.FalseKeyword) {
-                      inputs[inputName] = false;
-                    } else if (defaultValue.kind === ts.SyntaxKind.NullKeyword) {
-                      inputs[inputName] = null;
-                    } else if (defaultValue.kind === ts.SyntaxKind.UndefinedKeyword) {
-                      inputs[inputName] = undefined;
-                    } else {
-                      // For complex values, use the text as-is (arrays, objects, etc.)
-                      inputs[inputName] = `__RAW__${defaultValueText}`;
-                    }
-                  } catch (err) {
-                    // If parsing fails, skip this input
+                  // Parse common value types
+                  if (arg.kind === ts.SyntaxKind.StringLiteral) {
+                    defaultValue = valueText.slice(1, -1); // Remove quotes
+                  } else if (arg.kind === ts.SyntaxKind.NumericLiteral) {
+                    defaultValue = parseFloat(valueText);
+                  } else if (arg.kind === ts.SyntaxKind.TrueKeyword) {
+                    defaultValue = true;
+                  } else if (arg.kind === ts.SyntaxKind.FalseKeyword) {
+                    defaultValue = false;
+                  } else if (arg.kind === ts.SyntaxKind.NullKeyword) {
+                    defaultValue = null;
+                  } else if (arg.kind === ts.SyntaxKind.UndefinedKeyword) {
+                    defaultValue = undefined;
+                  } else {
+                    // Complex values (arrays, objects, etc.)
+                    defaultValue = `__RAW__${valueText}`;
                   }
                 }
+
+                inputs[inputName] = {
+                  type: inputType,
+                  required: isRequired,
+                  defaultValue: hasDefault ? defaultValue : undefined,
+                };
               }
             }
           }
@@ -343,6 +391,34 @@ function convertToImportPath(relativeFile) {
 }
 
 /**
+ * Generates metadata JSON for all scenarios.
+ */
+function generateMetadata(scenarios) {
+  return {
+    generatedAt: new Date().toISOString(),
+    count: scenarios.length,
+    scenarios: scenarios
+      .filter((s) => s.componentFileName) // Only include scenarios with components
+      .map((s) => {
+        return {
+          id: s.id || 'unknown',
+          exportName: s.exportName,
+          file: s.relativeFile,
+          url: s.id ? `/__scenario/${s.id}` : null,
+          component: {
+            fileName: s.componentFileName,
+            className:
+              pascalCase(s.componentFileName.replace('.component', '')) +
+              'Component',
+            inSameFile: s.componentInSameFile || false,
+          },
+          inputs: s.componentInputs || {},
+        };
+      }),
+  };
+}
+
+/**
  * Converts a kebab-case string to PascalCase.
  */
 function pascalCase(str) {
@@ -356,7 +432,9 @@ function pascalCase(str) {
  * Formats inputs object for code generation.
  */
 function formatInputsObject(inputs) {
-  const entries = Object.entries(inputs).map(([key, value]) => {
+  const entries = Object.entries(inputs).map(([key, inputDef]) => {
+    const value = inputDef.defaultValue;
+
     if (typeof value === 'string' && value.startsWith('__RAW__')) {
       // Raw value - use as-is without quotes
       return `${key}: ${value.replace('__RAW__', '')}`;
@@ -485,6 +563,10 @@ async function watchScenarios() {
   // Initial generation
   await generateRegistry();
 
+  // Debounce map: filename -> timeout
+  const debounceTimers = new Map();
+  const DEBOUNCE_MS = 100;
+
   // Use Node's built-in fs.watch (available in Node 20+)
   const { watch } = await import('fs');
 
@@ -492,12 +574,23 @@ async function watchScenarios() {
     try {
       const watcher = watch(watchPath, { recursive: true }, async (eventType, filename) => {
         if (filename && filename.endsWith('.scenario.ts')) {
-          console.log(`\n🔄 Detected change in ${filename}, regenerating...`);
-          try {
-            await generateRegistry();
-          } catch (err) {
-            console.error('❌ Regeneration failed:', err.message);
+          // Clear existing timer for this file
+          if (debounceTimers.has(filename)) {
+            clearTimeout(debounceTimers.get(filename));
           }
+
+          // Set new timer
+          const timer = setTimeout(async () => {
+            console.log(`\n🔄 Detected change in ${filename}, regenerating...`);
+            try {
+              await generateRegistry();
+            } catch (err) {
+              console.error('❌ Regeneration failed:', err.message);
+            }
+            debounceTimers.delete(filename);
+          }, DEBOUNCE_MS);
+
+          debounceTimers.set(filename, timer);
         }
       });
 

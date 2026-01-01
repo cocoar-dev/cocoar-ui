@@ -11,5 +11,5 @@ export const testScenario = defineScenario<TestComponent>({
   template: `<div>Test: {{ message() }}</div>`,
 })
 export class TestComponent {
-  message = input<string>('Hello from test?!');
+  message = input<string>('Hello from test');
 }
