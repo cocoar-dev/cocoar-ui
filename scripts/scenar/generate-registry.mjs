@@ -306,6 +306,12 @@ async function extractComponentInputs(componentFilePath) {
                 const inputName = member.name.getText(sourceFile);
                 const inputType = funcName; // 'input' or 'model'
 
+                // Extract TypeScript type from type parameter: input<TYPE>()
+                let tsType = 'any';
+                if (member.initializer.typeArguments && member.initializer.typeArguments.length > 0) {
+                  tsType = member.initializer.typeArguments[0].getText(sourceFile);
+                }
+
                 let defaultValue = undefined;
                 let hasDefault = false;
 
@@ -320,25 +326,34 @@ async function extractComponentInputs(componentFilePath) {
                     defaultValue = valueText.slice(1, -1); // Remove quotes
                   } else if (arg.kind === ts.SyntaxKind.NumericLiteral) {
                     defaultValue = parseFloat(valueText);
-                  } else if (arg.kind === ts.SyntaxKind.TrueKeyword) {
-                    defaultValue = true;
-                  } else if (arg.kind === ts.SyntaxKind.FalseKeyword) {
-                    defaultValue = false;
+                  } else if (arg.kind === ts.SyntaxKind.TrueKeyword || arg.kind === ts.SyntaxKind.FalseKeyword) {
+                    defaultValue = arg.kind === ts.SyntaxKind.TrueKeyword;
                   } else if (arg.kind === ts.SyntaxKind.NullKeyword) {
                     defaultValue = null;
                   } else if (arg.kind === ts.SyntaxKind.UndefinedKeyword) {
                     defaultValue = undefined;
+                  } else if (arg.kind === ts.SyntaxKind.ArrayLiteralExpression) {
+                    defaultValue = `__RAW__${valueText}`;
+                  } else if (arg.kind === ts.SyntaxKind.ObjectLiteralExpression) {
+                    defaultValue = `__RAW__${valueText}`;
                   } else {
-                    // Complex values (arrays, objects, etc.)
+                    // Complex values
                     defaultValue = `__RAW__${valueText}`;
                   }
                 }
 
-                inputs[inputName] = {
+                const inputInfo = {
                   type: inputType,
                   required: isRequired,
-                  defaultValue: hasDefault ? defaultValue : undefined,
+                  tsType,
                 };
+
+                // Only include defaultValue if it exists
+                if (hasDefault) {
+                  inputInfo.defaultValue = defaultValue;
+                }
+
+                inputs[inputName] = inputInfo;
               }
             }
           }
