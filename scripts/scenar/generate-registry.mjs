@@ -165,20 +165,48 @@ async function extractScenarioExports(filePath, relativeFile) {
           if (funcName === 'defineScenario') {
             const exportName = declaration.name.getText(sourceFile);
 
-            // Extract the scenario ID from the first argument (object literal)
+            // Extract the scenario ID and inputs from the first argument (object literal)
             let scenarioId = null;
+            let scenarioInputs = null;
             if (callExpr.arguments.length > 0) {
               const arg = callExpr.arguments[0];
               if (ts.isObjectLiteralExpression(arg)) {
                 for (const prop of arg.properties) {
-                  if (
-                    ts.isPropertyAssignment(prop) &&
-                    prop.name.getText(sourceFile) === 'id'
-                  ) {
-                    const idValue = prop.initializer.getText(sourceFile);
-                    // Remove quotes from string literal
-                    scenarioId = idValue.replace(/^['"]|['"]$/g, '');
-                    break;
+                  if (ts.isPropertyAssignment(prop)) {
+                    const propName = prop.name.getText(sourceFile);
+
+                    if (propName === 'id') {
+                      const idValue = prop.initializer.getText(sourceFile);
+                      // Remove quotes from string literal
+                      scenarioId = idValue.replace(/^['"]|['"]$/g, '');
+                    } else if (propName === 'inputs') {
+                      // Extract inputs object
+                      if (ts.isObjectLiteralExpression(prop.initializer)) {
+                        scenarioInputs = {};
+                        for (const inputProp of prop.initializer.properties) {
+                          if (ts.isPropertyAssignment(inputProp)) {
+                            const key = inputProp.name.getText(sourceFile);
+                            const value = inputProp.initializer;
+
+                            // Parse simple values
+                            if (ts.isStringLiteral(value)) {
+                              scenarioInputs[key] = value.text;
+                            } else if (ts.isNumericLiteral(value)) {
+                              scenarioInputs[key] = Number(value.text);
+                            } else if (value.kind === ts.SyntaxKind.TrueKeyword) {
+                              scenarioInputs[key] = true;
+                            } else if (value.kind === ts.SyntaxKind.FalseKeyword) {
+                              scenarioInputs[key] = false;
+                            } else if (value.kind === ts.SyntaxKind.NullKeyword) {
+                              scenarioInputs[key] = null;
+                            } else if (value.kind === ts.SyntaxKind.UndefinedKeyword) {
+                              scenarioInputs[key] = undefined;
+                            }
+                            // For complex values (arrays, objects, expressions), skip for now
+                          }
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -192,6 +220,7 @@ async function extractScenarioExports(filePath, relativeFile) {
               importPath,
               relativeFile,
               id: scenarioId,
+              scenarioInputs,
             });
           }
         }
@@ -415,19 +444,35 @@ function generateMetadata(scenarios) {
     scenarios: scenarios
       .filter((s) => s.componentFileName) // Only include scenarios with components
       .map((s) => {
+        // Merge scenario inputs into component inputs metadata
+        const mergedInputs = { ...(s.componentInputs || {}) };
+
+        // Override defaultValue with scenario inputs where they exist
+        if (s.scenarioInputs) {
+          for (const [key, value] of Object.entries(s.scenarioInputs)) {
+            if (mergedInputs[key]) {
+              // Input exists in component - override defaultValue
+              mergedInputs[key] = {
+                ...mergedInputs[key],
+                defaultValue: value
+              };
+            } else {
+              // Input only exists in scenario (wrapper component case)
+              mergedInputs[key] = {
+                type: 'scenario',
+                required: false,
+                defaultValue: value,
+                tsType: typeof value
+              };
+            }
+          }
+        }
+
         return {
           id: s.id || 'unknown',
-          exportName: s.exportName,
           file: s.relativeFile,
           url: s.id ? `/__scenario/${s.id}` : null,
-          component: {
-            fileName: s.componentFileName,
-            className:
-              pascalCase(s.componentFileName.replace('.component', '')) +
-              'Component',
-            inSameFile: s.componentInSameFile || false,
-          },
-          inputs: s.componentInputs || {},
+          inputs: mergedInputs,
         };
       }),
   };
@@ -544,7 +589,8 @@ export const SCENARIO_REGISTRY: Record<string, ScenarioDefinition> = {};
 
       if (s.componentInputs && Object.keys(s.componentInputs).length > 0) {
         const inputsStr = formatInputsObject(s.componentInputs);
-        parts.push(`    inputs: ${inputsStr}`);
+        // Merge component defaults with scenario inputs (scenario inputs win)
+        parts.push(`    inputs: { ${inputsStr.slice(2, -2)}, ...(${s.sourceAlias}.inputs ?? {}) }`);
       }
 
       return `  [${s.sourceAlias}.id]: {\n${parts.join(',\n')}\n  }`;

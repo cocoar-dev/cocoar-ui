@@ -7,4 +7,7 @@ export const scenario = defineScenario<CoarIconComponent>({
   id: 'demo/icon',
   title: 'Icon',
   providers: [provideHttpClient(), CoarIconService],
+  inputs: {
+    name: 'add',
+  },
 });
