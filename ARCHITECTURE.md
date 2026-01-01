@@ -27,13 +27,13 @@ This repository currently targets the following stack:
 
 - **Angular:** 20.x
 - **Nx:** 22.x
-- **Node.js:** 20.x (or compatible LTS)
+- **Node.js:** 20.x or newer (22.x recommended)
 
 **Rationale:**
 
-- Angular 20 is fully supported by Nx.
-- Angular 21 introduces experimental features (e.g. Signal Forms) and will be adopted only with a documented migration plan.
-- We want a *boring, stable* foundation for the Coar Design System, with a clear migration path later.
+- Angular 21 is fully supported by Nx.
+- Angular 21 features (Signal Forms, enhanced signal APIs) are now available and stable.
+- We maintain a *boring, stable* foundation for the Coar Design System with clear migration paths for future versions.
 
 ---
 
@@ -53,7 +53,7 @@ We standardise on the following:
 
 1. **Angular applications** (showcase app, future styleguide app)
    - Use Angular's official executors where practical, wired through Nx targets:
-     - e.g. `@angular-devkit/build-angular:application` (or the current recommended app builder for Angular 20).
+     - e.g. `@angular-devkit/build-angular:application` (the recommended app builder for Angular 21).
    - Nx may wrap these, but we do not introduce multiple competing "ways" to build apps without updating this document.
 
 2. **Angular publishable libraries**
@@ -83,15 +83,6 @@ We apply the following rules:
 - For non-Angular tooling: wrap CLI commands using `@nx/workspace:run-commands` or a dedicated Nx plugin, but always keep the number of patterns minimal.
 
 Any deviation from this policy MUST be justified and documented in this file.
-
-### Angular 21 Roadmap (Future)
-
-We plan to adopt Angular 21 when:
-
-- Nx officially recommends an Nx + Angular 21 pairing in their version matrix.
-- Migration impact on `@cocoar/ui-*` libraries is understood and documented.
-
-At that point we will add a dedicated migration section here before implementation.
 
 ---
 

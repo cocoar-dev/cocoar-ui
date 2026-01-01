@@ -11,7 +11,7 @@ Goal: make it safe for assistants and developers to build forms without guessing
    - `coar-password-input`
    - `coar-number-input`
    - `coar-checkbox`
-- ❌ **No Signal Forms integration yet** (Angular 21 feature).
+- ❌ **No Signal Forms integration yet** (available in Angular 21, integration planned).
 
 ## What this means for consumers
 

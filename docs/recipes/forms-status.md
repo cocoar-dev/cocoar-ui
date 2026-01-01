@@ -15,7 +15,7 @@ Goal: make it safe for assistants and developers to build forms without guessing
    - `coar-single-select`
    - `coar-multi-select`
    - `coar-tag-select`
-- ❌ **No Signal Forms integration yet** (Angular 21 feature).
+- ❌ **No Signal Forms integration yet** (available in Angular 21, integration planned).
 
 ## What this means for consumers
 

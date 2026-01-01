@@ -38,17 +38,17 @@ The goal: build Angular-based UI component libraries with design tokens (CSS var
 
 You MUST assume the following technology stack for this repository:
 
-- Angular **20.x**
-- Nx **22.x** as the workspace/orchestration tool
-- Node.js **20.x** (or newer LTS compatible with Angular 20 and Nx 22)
+- Angular **21.x** (currently 21.0.6)
+- Nx **22.x** (currently 22.3.3) as the workspace/orchestration tool
+- Node.js **20.x or newer** (22.x recommended, compatible with Angular 21 and Nx 22)
 
 Do NOT introduce:
 
-- Angular 21–only features (e.g. Signal Forms APIs, ARIA v21 packages) without an explicit migration plan in ARCHITECTURE.md.
-- Unplanned major upgrades that conflict with our current Angular 20 + Nx 22 setup.
-- Breaking changes in executors/builders that conflict with our current Nx + Angular 20 setup.
+- Angular 22+ features or experimental APIs without an explicit migration plan in ARCHITECTURE.md.
+- Unplanned major upgrades that conflict with our current Angular 21 + Nx 22 setup.
+- Breaking changes in executors/builders that conflict with our current Nx + Angular 21 setup.
 
-When in doubt, **stay compatible with Angular 20**.
+When in doubt, **stay compatible with Angular 21**.
 
 ---
 

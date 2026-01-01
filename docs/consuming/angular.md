@@ -55,9 +55,9 @@ Coar now supports Angular forms via `ControlValueAccessor` for:
 - `coar-multi-select`
 - `coar-tag-select`
 
-Signal Forms are still not supported (Angular 21+).
+Signal Forms (Angular 21+) are now available but not yet integrated into Cocoar components.
 
-Track the current status and recommended temporary approach in:
+Track the current status and recommended approach in:
 - `docs/recipes/forms-status.md`
 
 If you need a form control that is not CVA-enabled yet, use native inputs temporarily.

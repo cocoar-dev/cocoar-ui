@@ -28,7 +28,7 @@ These documents define the foundation of the Coar Design System.
 
 ## Technology & Tooling Expectations
 
-- This repository currently targets **Angular 20.x** and **Nx 22.x**.
+- This repository currently targets **Angular 21.x** and **Nx 22.x**.
 - Do NOT upgrade Angular or Nx major versions on your own. Version upgrades are handled as dedicated, planned tasks and documented in ARCHITECTURE.md.
 - All builds, tests, and app commands should be run via **Nx** targets (via `pnpm` scripts) rather than calling `ng` directly.
 - Angular publishable libraries (e.g. `@cocoar/ui-*`) are packaged using `@nx/angular:package`. Do not introduce alternative packaging executors without discussion and an update to ARCHITECTURE.md.

@@ -1,6 +1,6 @@
 # Development Environment Setup
 
-> **Status:** ✅ Complete  
+> **Status:** ✅ Complete
 > **Last Updated:** November 23, 2025
 
 This document describes the development environment configuration for the Cocoar Design System repository.
@@ -18,7 +18,7 @@ This document describes the development environment configuration for the Cocoar
   - 100-character line width
   - LF line endings
   - Angular HTML parser for templates (150-char width)
-  
+
 **Usage:**
 ```bash
 # Check formatting
@@ -37,7 +37,7 @@ pnpm exec prettier --write .
   - No `console.log` (use `@cocoar/logging`)
   - Prefer `const` over `let`
   - Relaxed rules for test files (`*.spec.ts`, `*.test.ts`)
-  
+
 **Usage:**
 ```bash
 # Lint all projects
@@ -189,5 +189,5 @@ Before committing code:
 
 ---
 
-**Version:** 1.0.0  
-**Environment:** Angular 20.3, Nx 22.1, Node 20+
+**Version:** 1.0.0
+**Environment:** Angular 21.0.6, Nx 22.3.3, Node 20+ (22.x recommended)
