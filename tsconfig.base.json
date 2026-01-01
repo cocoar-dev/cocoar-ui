@@ -23,7 +23,10 @@
       "@cocoar/ui-overlay": ["libs/ui-overlay/src/index.ts"],
       "@cocoar/markdown-core": ["libs/markdown-core/src/index.ts"],
       "@cocoar/markdown-viewer": ["libs/markdown-viewer/src/index.ts"],
-      "@cocoar/ui-menu": ["libs/ui-menu/src/index.ts"]
+      "@cocoar/ui-menu": ["libs/ui-menu/src/index.ts"],
+      "@cocoar/scenar-abstractions": [
+        "libs/scenar/scenar-abstractions/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -87,3 +87,5 @@ lerna-debug.log*
 # pnpm-lock.yaml
 
 .angular
+
+__screenshots__/
