@@ -91,6 +91,14 @@ async function isHttpOk(url) {
   }
 }
 
+async function runCommandAndWait(command, args, options) {
+  const child = spawn(command, args, options);
+  return await new Promise((resolve) => {
+    child.on('exit', (code) => resolve(code ?? 1));
+    child.on('error', () => resolve(1));
+  });
+}
+
 function parseCommand(command) {
   if (!command) return null;
 
@@ -153,6 +161,27 @@ async function main() {
 
   const alreadyRunning = await isHttpOk(BASE_URL);
   const scenarioAlreadyRunning = await isHttpOk(SCENARIO_BASE_URL);
+
+  // scenar-backstage depends on a generated registry. When a dev server is already running,
+  // Nx won't re-run `generate-registry`, so new scenarios would appear as "Scenario not found".
+  // Regenerate explicitly so tests don't depend on whether a server is already up.
+  if (TARGET_PROJECT === 'scenar-backstage-e2e' && alreadyRunning) {
+    const exitCode = await runCommandAndWait(
+      'pnpm',
+      ['exec', 'nx', 'generate-registry', 'scenar-backstage'],
+      {
+        cwd: PROJECT_ROOT,
+        env: { ...process.env },
+        stdio: 'inherit',
+        shell: process.platform === 'win32',
+        windowsHide: true,
+      }
+    );
+
+    if (exitCode !== 0) {
+      throw new Error('Failed to regenerate scenar-backstage scenario registry.');
+    }
+  }
 
   const baseServerArgs =
     TARGET_PROJECT === 'scenar-backstage-e2e'

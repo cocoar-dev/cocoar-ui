@@ -1,1 +1,30 @@
-/* You can add global styles to this file, and also import other style files */
+/*
+	scenar-backstage is intentionally a minimal host for isolated component scenarios.
+	It still needs the design tokens so component styles (CSS variables) resolve to
+	real values, making Playwright “isolated component tests” representative.
+*/
+
+@import '../../../libs/ui-tokens/src/css/all.css';
+@import 'overlayscrollbars/overlayscrollbars.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  font-family: var(--coar-body-base-family), sans-serif;
+  font-size: var(--coar-body-base-size);
+  font-weight: var(--coar-body-base-weight);
+  line-height: 1.6;
+  color: var(--coar-text-neutral-primary);
+  background: var(--coar-background-neutral-primary);
+}

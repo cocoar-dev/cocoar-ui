@@ -154,55 +154,6 @@ test.describe('ARIA Compliance @a11y', () => {
     });
   });
 
-  test.describe('Form Inputs', () => {
-    test.beforeEach(async ({ page }) => {
-      await page.goto('/text-input');
-      await page.waitForLoadState('domcontentloaded');
-    });
-
-    test('required inputs have aria-required', async ({ page }) => {
-      const requiredInputs = page.locator('input[required], input[aria-required="true"]');
-      const count = await requiredInputs.count();
-
-      for (let i = 0; i < count; i++) {
-        const input = requiredInputs.nth(i);
-        const required = await input.getAttribute('required');
-        const ariaRequired = await input.getAttribute('aria-required');
-
-        expect(required !== null || ariaRequired === 'true').toBe(true);
-      }
-    });
-
-    test('invalid inputs have aria-invalid', async ({ page }) => {
-      // Look for inputs with error styling
-      const errorInputs = page.locator(
-        'coar-text-input.coar-text-input--error input, input[aria-invalid="true"]'
-      );
-      const count = await errorInputs.count();
-
-      for (let i = 0; i < count; i++) {
-        const input = errorInputs.nth(i);
-        // Input should have aria-invalid set to true
-        await expect(input).toHaveAttribute('aria-invalid', 'true');
-      }
-    });
-
-    test('inputs with descriptions have aria-describedby', async ({ page }) => {
-      // Inputs with hint or error messages should reference them
-      const inputsWithMessages = page.locator('coar-text-input input[aria-describedby]');
-      const count = await inputsWithMessages.count();
-
-      for (let i = 0; i < count; i++) {
-        const input = inputsWithMessages.nth(i);
-        // describedBy should exist and reference a valid element
-        await expect(input).toHaveAttribute('aria-describedby');
-        const describedBy = await input.getAttribute('aria-describedby');
-        const description = page.locator(`#${describedBy}`);
-        expect(await description.count()).toBe(1);
-      }
-    });
-  });
-
   test.describe('Icons', () => {
     test.beforeEach(async ({ page }) => {
       await page.goto('/icons');

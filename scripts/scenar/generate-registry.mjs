@@ -31,8 +31,8 @@ async function globFiles(patterns, cwd) {
     const files = await walkDirectory(path.join(cwd, baseDir));
 
     // Filter by pattern (simple *.scenario.ts matching)
-    const matches = files.filter(file => file.endsWith('.scenario.ts'));
-    results.push(...matches.map(f => path.relative(cwd, f)));
+    const matches = files.filter((file) => file.endsWith('.scenario.ts'));
+    results.push(...matches.map((f) => path.relative(cwd, f)));
   }
 
   return results;
@@ -52,7 +52,7 @@ async function walkDirectory(dir) {
         if (entry.name === 'node_modules' || entry.name === 'dist') {
           continue;
         }
-        results.push(...await walkDirectory(fullPath));
+        results.push(...(await walkDirectory(fullPath)));
       } else if (entry.isFile()) {
         results.push(fullPath);
       }
@@ -67,15 +67,12 @@ async function walkDirectory(dir) {
 /**
  * Scans workspace for scenario files and generates registry.
  */
-async function generateRegistry() {
+export async function generateRegistry() {
   console.log('🔍 Scanning workspace for scenarios...');
 
   // Find all *.scenario.ts files in the workspace
   const scenarioFiles = await globFiles(
-    [
-      'libs/',
-      'apps/scenar-backstage/src/scenarios/',
-    ],
+    ['libs/', 'apps/scenar-backstage/src/scenarios/'],
     workspaceRoot
   );
 
@@ -100,6 +97,8 @@ async function generateRegistry() {
   }
 
   console.log(`📦 Extracted ${scenarios.length} scenario(s)`);
+
+  assertScenarioIdsValid(scenarios);
 
   // Generate the registry file
   const registryPath = path.join(
@@ -128,6 +127,39 @@ async function generateRegistry() {
   });
 }
 
+function assertScenarioIdsValid(scenarios) {
+  const missingId = scenarios.filter((s) => !s.id || String(s.id).trim().length === 0);
+  if (missingId.length > 0) {
+    const details = missingId.map((s) => `- ${s.exportName} (${s.relativeFile})`).join('\n');
+    throw new Error(
+      `One or more scenarios are missing a valid 'id' in defineScenario(...).\n\n${details}`
+    );
+  }
+
+  const byId = new Map();
+  for (const scenario of scenarios) {
+    const id = String(scenario.id);
+    const list = byId.get(id) ?? [];
+    list.push(scenario);
+    byId.set(id, list);
+  }
+
+  const duplicates = Array.from(byId.entries()).filter(([, list]) => list.length > 1);
+  if (duplicates.length === 0) return;
+
+  const lines = [];
+  lines.push('Duplicate scenario ids detected. Scenario ids must be unique across the workspace.');
+  for (const [id, list] of duplicates) {
+    lines.push('');
+    lines.push(`- id: ${id}`);
+    for (const s of list) {
+      lines.push(`  - ${s.exportName} (${s.relativeFile})`);
+    }
+  }
+
+  throw new Error(lines.join('\n'));
+}
+
 /**
  * Extracts exported scenario definitions from a TypeScript file.
  */
@@ -135,22 +167,14 @@ async function extractScenarioExports(filePath, relativeFile) {
   const sourceCode = await fs.readFile(filePath, 'utf-8');
 
   // Create a source file
-  const sourceFile = ts.createSourceFile(
-    filePath,
-    sourceCode,
-    ts.ScriptTarget.Latest,
-    true
-  );
+  const sourceFile = ts.createSourceFile(filePath, sourceCode, ts.ScriptTarget.Latest, true);
 
   const scenarios = [];
 
   // Visit all top-level statements
   ts.forEachChild(sourceFile, (node) => {
     // Look for: export const X = defineScenario(...)
-    if (
-      ts.isVariableStatement(node) &&
-      hasExportModifier(node)
-    ) {
+    if (ts.isVariableStatement(node) && hasExportModifier(node)) {
       // Process all variable declarations in the statement
       for (const declaration of node.declarationList.declarations) {
         if (
@@ -281,7 +305,9 @@ async function enhanceScenario(scenario, scenarioFilePath) {
   // Check if component file exists
   if (!componentFilePath) {
     // Component file doesn't exist - this is an error!
-    console.warn(`⚠️  No component file found for scenario '${scenario.exportName}' in ${scenarioFilePath}`);
+    console.warn(
+      `⚠️  No component file found for scenario '${scenario.exportName}' in ${scenarioFilePath}`
+    );
     return;
   }
 
@@ -337,7 +363,10 @@ async function extractComponentInputs(componentFilePath) {
 
                 // Extract TypeScript type from type parameter: input<TYPE>()
                 let tsType = 'any';
-                if (member.initializer.typeArguments && member.initializer.typeArguments.length > 0) {
+                if (
+                  member.initializer.typeArguments &&
+                  member.initializer.typeArguments.length > 0
+                ) {
                   tsType = member.initializer.typeArguments[0].getText(sourceFile);
                 }
 
@@ -355,7 +384,10 @@ async function extractComponentInputs(componentFilePath) {
                     defaultValue = valueText.slice(1, -1); // Remove quotes
                   } else if (arg.kind === ts.SyntaxKind.NumericLiteral) {
                     defaultValue = parseFloat(valueText);
-                  } else if (arg.kind === ts.SyntaxKind.TrueKeyword || arg.kind === ts.SyntaxKind.FalseKeyword) {
+                  } else if (
+                    arg.kind === ts.SyntaxKind.TrueKeyword ||
+                    arg.kind === ts.SyntaxKind.FalseKeyword
+                  ) {
                     defaultValue = arg.kind === ts.SyntaxKind.TrueKeyword;
                   } else if (arg.kind === ts.SyntaxKind.NullKeyword) {
                     defaultValue = null;
@@ -400,10 +432,7 @@ async function extractComponentInputs(componentFilePath) {
  * Checks if a node has an export modifier.
  */
 function hasExportModifier(node) {
-  return (
-    node.modifiers &&
-    node.modifiers.some((mod) => mod.kind === ts.SyntaxKind.ExportKeyword)
-  );
+  return node.modifiers && node.modifiers.some((mod) => mod.kind === ts.SyntaxKind.ExportKeyword);
 }
 
 /**
@@ -454,7 +483,7 @@ function generateMetadata(scenarios) {
               // Input exists in component - override defaultValue
               mergedInputs[key] = {
                 ...mergedInputs[key],
-                defaultValue: value
+                defaultValue: value,
               };
             } else {
               // Input only exists in scenario (wrapper component case)
@@ -462,7 +491,7 @@ function generateMetadata(scenarios) {
                 type: 'scenario',
                 required: false,
                 defaultValue: value,
-                tsType: typeof value
+                tsType: typeof value,
               };
             }
           }
@@ -484,7 +513,7 @@ function generateMetadata(scenarios) {
 function pascalCase(str) {
   return str
     .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join('');
 }
 
@@ -533,9 +562,7 @@ export const SCENARIO_REGISTRY: Record<string, ScenarioDefinition> = {};
     importMap.set(s.exportName, count + 1);
 
     // Generate unique alias if there's a collision
-    const baseAlias = count > 0
-      ? `${s.exportName}_${count}`
-      : s.exportName;
+    const baseAlias = count > 0 ? `${s.exportName}_${count}` : s.exportName;
 
     // Add _base suffix since all scenarios get enhanced
     const sourceAlias = s.componentFileName ? `${baseAlias}_base` : baseAlias;
@@ -547,9 +574,8 @@ export const SCENARIO_REGISTRY: Record<string, ScenarioDefinition> = {};
   // Generate imports with aliases for collisions
   const imports = scenariosWithAliases
     .map((s) => {
-      const importName = (s.sourceAlias !== s.exportName)
-        ? `${s.exportName} as ${s.sourceAlias}`
-        : s.exportName;
+      const importName =
+        s.sourceAlias !== s.exportName ? `${s.exportName} as ${s.sourceAlias}` : s.exportName;
       return `import { ${importName} } from '${s.importPath}';`;
     })
     .join('\n');
@@ -574,18 +600,24 @@ export const SCENARIO_REGISTRY: Record<string, ScenarioDefinition> = {};
       } else {
         // Component is in a separate file
         const componentAbsPath = path.join(scenarioDir, `${s.componentFileName}.ts`);
-        componentRelPath = path.relative(registryDir, componentAbsPath)
+        componentRelPath = path
+          .relative(registryDir, componentAbsPath)
           .replace(/\\/g, '/')
           .replace(/\.ts$/, '');
-        componentRelPath = componentRelPath.startsWith('.') ? componentRelPath : `./${componentRelPath}`;
+        componentRelPath = componentRelPath.startsWith('.')
+          ? componentRelPath
+          : `./${componentRelPath}`;
       }
 
       // Infer component class name from file name
-      const componentClassName = pascalCase(s.componentFileName.replace('.component', '')) + 'Component';
+      const componentClassName =
+        pascalCase(s.componentFileName.replace('.component', '')) + 'Component';
 
       const parts = [];
       parts.push(`    ...${s.sourceAlias}`);
-      parts.push(`    component: async () => (await import('${componentRelPath}')).${componentClassName}`);
+      parts.push(
+        `    component: async () => (await import('${componentRelPath}')).${componentClassName}`
+      );
 
       if (s.componentInputs && Object.keys(s.componentInputs).length > 0) {
         const inputsStr = formatInputsObject(s.componentInputs);
@@ -595,7 +627,7 @@ export const SCENARIO_REGISTRY: Record<string, ScenarioDefinition> = {};
 
       return `  [${s.sourceAlias}.id]: {\n${parts.join(',\n')}\n  }`;
     })
-    .filter(entry => entry !== null)
+    .filter((entry) => entry !== null)
     .join(',\n');
 
   return `// Auto-generated by scripts/scenar/generate-registry.mjs
@@ -613,7 +645,7 @@ ${entries}
 /**
  * Watch for changes to scenario files and regenerate
  */
-async function watchScenarios() {
+export async function watchScenarios() {
   console.log('👀 Watching for scenario file changes...\n');
 
   const watchPaths = [
@@ -664,15 +696,28 @@ async function watchScenarios() {
   }
 }
 
-// Run the generator
-if (watchMode) {
-  watchScenarios().catch((err) => {
-    console.error('❌ Watch mode failed:', err);
-    process.exit(1);
-  });
-} else {
-  generateRegistry().catch((err) => {
-    console.error('❌ Failed to generate registry:', err);
-    process.exit(1);
-  });
+function isInvokedAsCli() {
+  const entry = process.argv[1];
+  if (!entry) return false;
+  try {
+    return path.resolve(entry) === fileURLToPath(import.meta.url);
+  } catch {
+    return false;
+  }
+}
+
+// Run the generator when invoked as a CLI. When imported as a module, consumers can
+// call `generateRegistry()` directly and await completion.
+if (isInvokedAsCli()) {
+  if (watchMode) {
+    watchScenarios().catch((err) => {
+      console.error('❌ Watch mode failed:', err);
+      process.exit(1);
+    });
+  } else {
+    generateRegistry().catch((err) => {
+      console.error('❌ Failed to generate registry:', err);
+      process.exit(1);
+    });
+  }
 }

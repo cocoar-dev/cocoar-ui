@@ -1,31 +1,33 @@
 @if (errorState.error(); as err) {
-	<main>
-		<h1>Scenario crashed</h1>
-		@if (scenarioId) {
-			<p>Scenario id: {{ scenarioId }}</p>
-		}
-		<p>{{ err.message }}</p>
-		@if (err.stack) {
-			<pre>{{ err.stack }}</pre>
-		}
-	</main>
+  <main class="scenar-stage">
+    <h1>Scenario crashed</h1>
+    @if (scenarioId) {
+      <p>Scenario id: {{ scenarioId }}</p>
+    }
+    <p>{{ err.message }}</p>
+    @if (err.stack) {
+      <pre>{{ err.stack }}</pre>
+    }
+  </main>
 } @else {
-	@if (scenarioId && scenario() && scenarioComponent(); as componentType) {
-		<ng-container
-			[ngComponentOutlet]="componentType"
-			[ngComponentOutletEnvironmentInjector]="scenarioInjector()"
-			[ngComponentOutletInputs]="scenarioInputs()"
-		></ng-container>
-	} @else if (scenarioId && scenario() && scenarioLoading()) {
-		<ng-container></ng-container>
-	} @else {
-		<main>
-			<h1>Scenario not found</h1>
-			@if (scenarioId) {
-				<p>Unknown scenario id: {{ scenarioId }}</p>
-			} @else {
-				<p>Not a scenario URL.</p>
-			}
-		</main>
-	}
+  @if (scenarioId && scenario() && scenarioComponent(); as componentType) {
+    <main class="scenar-stage">
+      <ng-container
+        [ngComponentOutlet]="componentType"
+        [ngComponentOutletEnvironmentInjector]="scenarioInjector()"
+        [ngComponentOutletInputs]="scenarioInputs()"
+      ></ng-container>
+    </main>
+  } @else if (scenarioId && scenario() && scenarioLoading()) {
+    <main class="scenar-stage"></main>
+  } @else {
+    <main class="scenar-stage">
+      <h1>Scenario not found</h1>
+      @if (scenarioId) {
+        <p>Unknown scenario id: {{ scenarioId }}</p>
+      } @else {
+        <p>Not a scenario URL.</p>
+      }
+    </main>
+  }
 }

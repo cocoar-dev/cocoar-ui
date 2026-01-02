@@ -1,0 +1,23 @@
+import { expect, test } from '@playwright/test';
+import { openScenario } from '@cocoar/scenar-testing-playwright';
+
+test.describe('Popover (isolated) @popover', () => {
+  test('opens popover overlay on click', async ({ page }, testInfo) => {
+    await openScenario(page, 'demo/popover', {
+      triggerLabel: 'Open',
+      content: 'Hello from popover',
+      openOnClick: true,
+      interactive: true,
+    });
+
+    const trigger = page.getByTestId('coar-popover-trigger');
+    await trigger.click();
+
+    const content = page.getByTestId('coar-popover-content');
+    await expect(content).toBeVisible();
+    await expect(content).toContainText('Hello from popover');
+
+    const screenshot = await page.screenshot({ fullPage: false });
+    await testInfo.attach('popover-open', { body: screenshot, contentType: 'image/png' });
+  });
+});

@@ -69,6 +69,7 @@ function selectedProjects() {
 export default defineConfig({
   ...nxE2EPreset(__filename, { testDir: './src' }),
   reporter: [['list'], ['html', { open: 'never' }]],
+  globalSetup: './src/global-setup.ts',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     baseURL,
@@ -80,7 +81,7 @@ export default defineConfig({
   webServer: process.env['COAR_E2E_MANAGED_SERVER']
     ? undefined
     : {
-        command: 'pnpm exec nx serve scenar-backstage',
+        command: 'node node_modules/nx/bin/nx.js serve scenar-backstage',
         url: 'http://localhost:4300',
         reuseExistingServer: true,
         cwd: workspaceRoot,

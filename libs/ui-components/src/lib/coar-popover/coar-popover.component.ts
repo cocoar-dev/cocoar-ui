@@ -97,6 +97,18 @@ export class CoarPopoverComponent {
 
   private readonly panelTemplateRef = viewChild<TemplateRef<unknown>>('panelTemplate');
 
+  private getAnchorElement(): HTMLElement | null {
+    const triggerContainer = this.triggerRef()?.nativeElement ?? null;
+    if (!triggerContainer) return null;
+
+    // Prefer anchoring to the projected trigger element so positioning stays tied
+    // to the interactive target rather than a full-width wrapper.
+    return (
+      triggerContainer.querySelector('[coarPopoverTrigger], [coarpopovertrigger]') ??
+      triggerContainer
+    );
+  }
+
   private readonly closeOnDocumentClick = fromEvent<MouseEvent>(document, 'click')
     .pipe(
       takeUntilDestroyed(this.destroyRef),
@@ -107,7 +119,7 @@ export class CoarPopoverComponent {
         const target = event.target as Node | null;
         if (!target) return false;
 
-        const trigger = this.triggerRef()?.nativeElement ?? null;
+        const trigger = this.getAnchorElement();
         if (trigger && trigger.contains(target)) return false;
 
         const panel = document.getElementById(this.panelId);
@@ -121,7 +133,7 @@ export class CoarPopoverComponent {
   private openInternal(source: 'hover' | 'click'): void {
     if (this.disabled()) return;
 
-    const trigger = this.triggerRef()?.nativeElement;
+    const trigger = this.getAnchorElement();
     if (!trigger) return;
 
     if (this.overlayRef) {
@@ -146,7 +158,12 @@ export class CoarPopoverComponent {
     const spec = Overlay.define<Record<string, never>>((b) => {
       b.content((c) => c.fromTemplate(template));
       b.anchor({ kind: 'element', element: trigger });
-      b.position({ placement: ['bottom', 'top', 'right', 'left'], offset: 6, flip: false, shift: this.clampToViewport() });
+      b.position({
+        placement: ['bottom', 'top', 'right', 'left'],
+        offset: 6,
+        flip: false,
+        shift: this.clampToViewport(),
+      });
       b.scroll({ strategy: 'reposition' });
       b.dismiss({ outsideClick: false, escapeKey: true });
       b.size({ mode: 'content' });
@@ -258,7 +275,10 @@ export class CoarPopoverComponent {
     // Close only when focus fully leaves the popover (trigger + panel).
     const trigger = this.triggerRef()?.nativeElement ?? null;
     const panel = document.getElementById(this.panelId);
-    if ((trigger && nextTarget && trigger.contains(nextTarget)) || (panel && nextTarget && panel.contains(nextTarget))) {
+    if (
+      (trigger && nextTarget && trigger.contains(nextTarget)) ||
+      (panel && nextTarget && panel.contains(nextTarget))
+    ) {
       return;
     }
 
