@@ -5,6 +5,7 @@ import {
   EnvironmentInjector,
   OnDestroy,
   Type,
+  createEnvironmentInjector,
   inject,
   signal,
 } from '@angular/core';
@@ -12,12 +13,13 @@ import {
 import type { ScenarioDefinition } from '@cocoar/scenar-abstractions';
 
 import { loadScenarioRegistry } from './registry';
+import { ScenarScenarioOutletComponent } from './scenario-outlet.component';
 import { ScenarErrorState } from './scenar-error-state';
 import { deserializeWithCodecs } from './scenario-codecs';
 
 @Component({
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ScenarScenarioOutletComponent],
   selector: 'scenar-root',
   templateUrl: './app.html',
   styleUrl: './app.css',
@@ -61,6 +63,20 @@ export class App implements OnDestroy {
     this.createdScenarioInjector?.destroy();
   }
 
+  private resetScenarioInjector(): void {
+    this.createdScenarioInjector?.destroy();
+    this.createdScenarioInjector = null;
+    this.scenarioInjector.set(this.parentInjector);
+  }
+
+  private createScenarioInjector(scenario: ScenarioDefinition): void {
+    this.createdScenarioInjector?.destroy();
+
+    const providers = scenario.providers ?? [];
+    this.createdScenarioInjector = createEnvironmentInjector(providers, this.parentInjector);
+    this.scenarioInjector.set(this.createdScenarioInjector);
+  }
+
   private async loadScenarioById(
     registry: {
       loadScenarioById(id: string): Promise<ScenarioDefinition>;
@@ -72,6 +88,10 @@ export class App implements OnDestroy {
       this.errorState.clear();
 
       this.scenario.set(scenario);
+
+      // Each scenario gets its own child environment injector so scenario-scoped providers
+      // and providedIn:'any' services are isolated from other scenarios.
+      this.createScenarioInjector(scenario);
 
       // Parse inputs from URL query parameters
       const inputs = this.parseInputsFromUrl(scenario);
@@ -91,6 +111,7 @@ export class App implements OnDestroy {
       this.scenario.set(undefined);
       this.scenarioComponent.set(null);
       this.scenarioInputs.set({});
+      this.resetScenarioInjector();
     } finally {
       this.scenarioLoading.set(false);
     }

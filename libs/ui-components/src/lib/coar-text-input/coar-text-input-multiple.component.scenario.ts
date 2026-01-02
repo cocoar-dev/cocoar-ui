@@ -4,7 +4,7 @@ import { defineScenario } from '@cocoar/scenar-abstractions';
 import { CoarTextInputComponent } from './coar-text-input.component';
 
 export const scenario = defineScenario<CoarTextInputMultipleComponent>({
-  id: 'demo/text-input/multiple',
+  id: 'input/text/multiple',
   title: 'Text Input (Multiple)',
 });
 

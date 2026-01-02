@@ -2,38 +2,26 @@ import { expect, test } from '@playwright/test';
 
 import { openScenario } from '@cocoar/scenar-testing-playwright';
 
-function sectionByLabel(page: import('@playwright/test').Page, label: string) {
-  return page.locator('strong', { hasText: label }).locator('..');
-}
+test('loads icon scenario', async ({ page }) => {
+  await openScenario(page, 'icon');
 
-test('loads codec demo scenario', async ({ page }) => {
-  await openScenario(page, 'demo/codec/union-date');
-
-  await expect(page.getByText('Codec Demo - Union Type Handling')).toBeVisible();
-
-  const unionSection = sectionByLabel(page, 'Union (string | Date | object):');
-  await expect(unionSection.locator('pre')).toHaveText('2025-01-15T12:00:00.000Z');
+  await expect(page.locator('coar-icon .coar-icon')).toBeVisible();
 });
 
-test('loads codec demo scenario with query params', async ({ page }) => {
-  await openScenario(page, 'demo/codec/union-date', {
-    unionValue: new Date('2026-01-01T00:00:00.000Z'),
-    numberOrString: 123,
-    dateOrString: 'hello',
+test('loads icon scenario with query params', async ({ page }) => {
+  await openScenario(page, 'icon', {
+    rotate: 90,
+    spin: true,
+    label: 'Smoke',
   });
 
-  await expect(page.getByText('Codec Demo - Union Type Handling')).toBeVisible();
+  const icon = page.locator('coar-icon');
+  const iconSvgHost = icon.locator('.coar-icon');
 
-  await expect(sectionByLabel(page, 'Union (string | Date | object):').locator('pre')).toHaveText(
-    '2026-01-01T00:00:00.000Z'
-  );
-  await expect(
-    sectionByLabel(page, 'Union (string | Date | object):').locator('small')
-  ).toContainText('Date');
+  await expect(iconSvgHost).toBeVisible();
+  await expect(iconSvgHost).toHaveClass(/coar-icon--spin/);
+  await expect(icon.locator('.coar-icon__label')).toHaveText('Smoke');
 
-  await expect(sectionByLabel(page, 'Number or String:').locator('pre')).toHaveText('123');
-  await expect(sectionByLabel(page, 'Number or String:').locator('small')).toContainText('number');
-
-  await expect(sectionByLabel(page, 'Date or String:').locator('pre')).toHaveText('hello');
-  await expect(sectionByLabel(page, 'Date or String:').locator('small')).toContainText('string');
+  const transform = await iconSvgHost.evaluate((el) => (el as HTMLElement).style.transform);
+  expect(transform).toBe('rotate(90deg)');
 });

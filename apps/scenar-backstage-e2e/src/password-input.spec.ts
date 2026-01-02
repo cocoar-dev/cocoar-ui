@@ -11,7 +11,7 @@ test.describe('Password Input (isolated) @password-input', () => {
   } as const;
 
   test('allows typing and clearing', async ({ page }) => {
-    await openScenario(page, 'demo/password-input', baseInputs);
+    await openScenario(page, 'input/password', baseInputs);
 
     const input = page.getByRole('textbox', { name: 'Password' });
     await expect(input).toBeVisible();
@@ -28,7 +28,7 @@ test.describe('Password Input (isolated) @password-input', () => {
   });
 
   test('toggle visibility switches input type', async ({ page }) => {
-    await openScenario(page, 'demo/password-input', {
+    await openScenario(page, 'input/password', {
       ...baseInputs,
       value: 'secret',
     });
@@ -45,7 +45,7 @@ test.describe('Password Input (isolated) @password-input', () => {
   });
 
   test('readonly: does not accept typing, hides clear icon, blocks toggle', async ({ page }) => {
-    await openScenario(page, 'demo/password-input', {
+    await openScenario(page, 'input/password', {
       ...baseInputs,
       value: 'secret',
       readonly: true,
@@ -71,7 +71,7 @@ test.describe('Password Input (isolated) @password-input', () => {
   });
 
   test('disabled: prevents input, hides clear icon, blocks toggle', async ({ page }) => {
-    await openScenario(page, 'demo/password-input', {
+    await openScenario(page, 'input/password', {
       ...baseInputs,
       value: 'secret',
       disabled: true,
@@ -92,7 +92,7 @@ test.describe('Password Input (isolated) @password-input', () => {
   });
 
   test('maxlength: truncates typing and paste', async ({ page }) => {
-    await openScenario(page, 'demo/password-input', {
+    await openScenario(page, 'input/password', {
       ...baseInputs,
       maxlength: 3,
     });

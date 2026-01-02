@@ -4,7 +4,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { CoarIconService } from './coar-icon.service';
 
 export const scenario = defineScenario<CoarIconComponent>({
-  id: 'demo/icon',
+  id: 'icon',
   title: 'Icon',
   providers: [provideHttpClient(), CoarIconService],
   inputs: {

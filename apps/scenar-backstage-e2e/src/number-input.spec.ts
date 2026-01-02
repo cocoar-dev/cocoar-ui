@@ -10,7 +10,7 @@ test.describe('Number Input (isolated) @number-input', () => {
   } as const;
 
   test('allows typing numbers and clearing', async ({ page }) => {
-    await openScenario(page, 'demo/number-input', baseInputs);
+    await openScenario(page, 'input/number', baseInputs);
 
     const component = page.locator('coar-number-input');
     const input = page.getByLabel('Amount');
@@ -31,7 +31,7 @@ test.describe('Number Input (isolated) @number-input', () => {
   });
 
   test('prefix/suffix render and do not block typing', async ({ page }) => {
-    await openScenario(page, 'demo/number-input', {
+    await openScenario(page, 'input/number', {
       ...baseInputs,
       prefix: '€',
       suffix: 'kg',
@@ -49,7 +49,7 @@ test.describe('Number Input (isolated) @number-input', () => {
   test('readonly: no stepper buttons, clear icon hidden, does not accept typing', async ({
     page,
   }) => {
-    await openScenario(page, 'demo/number-input', {
+    await openScenario(page, 'input/number', {
       ...baseInputs,
       value: 12,
       readonly: true,
@@ -75,7 +75,7 @@ test.describe('Number Input (isolated) @number-input', () => {
   });
 
   test('disabled: stepper buttons not rendered and clear icon hidden', async ({ page }) => {
-    await openScenario(page, 'demo/number-input', {
+    await openScenario(page, 'input/number', {
       ...baseInputs,
       value: 12,
       disabled: true,
@@ -93,7 +93,7 @@ test.describe('Number Input (isolated) @number-input', () => {
   });
 
   test('stepper buttons increment/decrement value', async ({ page }) => {
-    await openScenario(page, 'demo/number-input', {
+    await openScenario(page, 'input/number', {
       ...baseInputs,
       value: 0,
       step: 1,
@@ -114,7 +114,7 @@ test.describe('Number Input (isolated) @number-input', () => {
   });
 
   test('keyboard: ArrowUp increments committed value', async ({ page }) => {
-    await openScenario(page, 'demo/number-input', {
+    await openScenario(page, 'input/number', {
       ...baseInputs,
       value: 5,
       step: 1,
@@ -128,7 +128,7 @@ test.describe('Number Input (isolated) @number-input', () => {
   });
 
   test('keyboard: ArrowDown decrements committed value', async ({ page }) => {
-    await openScenario(page, 'demo/number-input', {
+    await openScenario(page, 'input/number', {
       ...baseInputs,
       value: 5,
       step: 1,
@@ -142,7 +142,7 @@ test.describe('Number Input (isolated) @number-input', () => {
   });
 
   test('min/max: disables steppers at bounds and sets aria attributes', async ({ page }) => {
-    await openScenario(page, 'demo/number-input', {
+    await openScenario(page, 'input/number', {
       ...baseInputs,
       min: 0,
       max: 10,
@@ -164,7 +164,7 @@ test.describe('Number Input (isolated) @number-input', () => {
     await expect(input).toHaveValue('1');
 
     // Jump to max and verify increment gets disabled.
-    await openScenario(page, 'demo/number-input', {
+    await openScenario(page, 'input/number', {
       ...baseInputs,
       min: 0,
       max: 10,

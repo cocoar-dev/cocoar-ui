@@ -3,7 +3,7 @@ import { openScenario } from '@cocoar/scenar-testing-playwright';
 
 test.describe('Popover (isolated) @popover', () => {
   test('opens popover overlay on click', async ({ page }, testInfo) => {
-    await openScenario(page, 'demo/popover', {
+    await openScenario(page, 'popover', {
       triggerLabel: 'Open',
       content: 'Hello from popover',
       openOnClick: true,

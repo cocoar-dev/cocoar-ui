@@ -12,11 +12,11 @@
 } @else {
   @if (scenarioId && scenario() && scenarioComponent(); as componentType) {
     <main class="scenar-stage">
-      <ng-container
-        [ngComponentOutlet]="componentType"
-        [ngComponentOutletEnvironmentInjector]="scenarioInjector()"
-        [ngComponentOutletInputs]="scenarioInputs()"
-      ></ng-container>
+      <scenar-scenario-outlet
+        [component]="componentType"
+        [environmentInjector]="scenarioInjector()"
+        [inputs]="scenarioInputs()"
+      ></scenar-scenario-outlet>
     </main>
   } @else if (scenarioId && scenario() && scenarioLoading()) {
     <main class="scenar-stage"></main>

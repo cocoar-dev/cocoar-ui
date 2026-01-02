@@ -22,28 +22,28 @@ The scenario codec system provides type-safe serialization and deserialization o
 
 ### Serialization (Tests → URL)
 
-When calling `openScenario(page, 'demo/icon', { size: 42 })`:
+When calling `openScenario(page, 'icon', { size: 42 })`:
 
 1. Runtime type detection (`typeof`, `instanceof`, `Array.isArray()`)
 2. Find matching codec using `canSerialize(value)`
 3. Call `serialize(value)` to convert to string
-4. Build URL: `/__scenario/demo/icon?size=42`
+4. Build URL: `/__scenario/icon?size=42`
 
 **Example:**
 
 ```typescript
-await openScenario(page, 'demo/codec/union-date', {
-  unionValue: new Date('2025-01-15T12:00:00.000Z'), // Serializes to "2025-01-15T12:00:00.000Z"
-  numberOrString: 42,                                // Serializes to "42"
-  dateOrString: new Date('2025-12-31T23:59:59.999Z') // Serializes to "2025-12-31T23:59:59.999Z"
+await openScenario(page, 'icon', {
+  rotate: 90,   // Serializes to "90"
+  spin: true,   // Serializes to "true"
+  label: 'Demo' // Serializes to "Demo"
 });
 
-// URL: /__scenario/demo/codec/union-date?unionValue=2025-01-15T12:00:00.000Z&numberOrString=42&dateOrString=2025-12-31T23:59:59.999Z
+// URL: /__scenario/icon?rotate=90&spin=true&label=Demo
 ```
 
 ### Deserialization (URL → Component)
 
-When backstage app loads `/__scenario/demo/icon?size=42`:
+When backstage app loads `/__scenario/icon?size=42`:
 
 1. Fetch metadata from `/registry.metadata.json` to get TypeScript type
 2. For each query parameter, find matching codec using `canDeserialize(tsType, str)`
@@ -153,19 +153,7 @@ deserializeWithCodecs('#FF5733', 'Color', codecs);
 
 ## Testing the Codec System
 
-The `apps/scenar-backstage/src/scenarios/codec-demo.component.scenario.ts` file demonstrates union type handling:
-
-**Test URLs:**
-
-- `/__scenario/demo/codec/union-date?unionValue=2025-01-15T12:00:00.000Z` → Date
-- `/__scenario/demo/codec/union-date?unionValue={"key":"value"}` → Object
-- `/__scenario/demo/codec/union-date?unionValue=hello` → String
-- `/__scenario/demo/codec/union-date?numberOrString=42` → Number
-- `/__scenario/demo/codec/union-date?numberOrString=hello` → String
-- `/__scenario/demo/codec/union-date?dateOrString=2025-01-15T12:00:00.000Z` → Date
-- `/__scenario/demo/codec/union-date?dateOrString=hello` → String
-
-The component displays the deserialized type to verify correct handling.
+The codec system is exercised indirectly by scenario E2E tests that pass typed values via `openScenario(...)` and assert the rendered output.
 
 ## Edge Cases
 
@@ -221,7 +209,6 @@ Potential improvements:
 ## References
 
 - [ScenarioCodec Interface](../../libs/scenar/scenar-testing-playwright/src/lib/scenario-codecs.ts)
-- [Codec Demo Component](../apps/scenar-backstage/src/scenarios/codec-demo.component.scenario.ts)
 - [Metadata JSON](../apps/scenar-backstage/public/registry.metadata.json)
 
 ---

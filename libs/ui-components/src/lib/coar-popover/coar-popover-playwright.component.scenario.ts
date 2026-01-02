@@ -4,7 +4,7 @@ import { defineScenario } from '@cocoar/scenar-abstractions';
 import { CoarPopoverComponent } from './coar-popover.component';
 
 export const scenario = defineScenario<CoarPopoverPlaywrightComponent>({
-  id: 'demo/popover',
+  id: 'popover',
   title: 'Popover',
   inputs: {
     triggerLabel: 'Open',

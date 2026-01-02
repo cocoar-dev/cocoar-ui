@@ -11,7 +11,7 @@ test.describe('Text Input (isolated) @text-input', () => {
   } as const;
 
   test('allows typing and clearing', async ({ page }, testInfo) => {
-    await openScenario(page, 'demo/text-input', baseInputs);
+    await openScenario(page, 'input/text', baseInputs);
 
     const input = page.getByLabel('Name');
     await expect(input).toBeVisible();
@@ -31,7 +31,7 @@ test.describe('Text Input (isolated) @text-input', () => {
   });
 
   test('disabled: applies disabled style, prevents input, hides clear icon', async ({ page }) => {
-    await openScenario(page, 'demo/text-input', {
+    await openScenario(page, 'input/text', {
       ...baseInputs,
       value: 'Alice',
       disabled: true,
@@ -58,7 +58,7 @@ test.describe('Text Input (isolated) @text-input', () => {
   });
 
   test('label click focuses input', async ({ page }) => {
-    await openScenario(page, 'demo/text-input', baseInputs);
+    await openScenario(page, 'input/text', baseInputs);
 
     const input = page.getByLabel('Name');
     await expect(input).not.toBeFocused();
@@ -68,7 +68,7 @@ test.describe('Text Input (isolated) @text-input', () => {
   });
 
   test('error message wins over hint + aria attributes are set', async ({ page }) => {
-    await openScenario(page, 'demo/text-input', {
+    await openScenario(page, 'input/text', {
       ...baseInputs,
       id: 'text-input-aria',
       error: 'Oops',
@@ -87,7 +87,7 @@ test.describe('Text Input (isolated) @text-input', () => {
   });
 
   test('multiline renders textarea and sets multiline host class', async ({ page }) => {
-    await openScenario(page, 'demo/text-input', {
+    await openScenario(page, 'input/text', {
       ...baseInputs,
       id: 'text-input-multiline',
       label: 'Description',
@@ -105,7 +105,7 @@ test.describe('Text Input (isolated) @text-input', () => {
   });
 
   test('readonly: is focusable, does not accept typing, hides clear icon', async ({ page }) => {
-    await openScenario(page, 'demo/text-input', {
+    await openScenario(page, 'input/text', {
       ...baseInputs,
       value: 'Alice',
       readonly: true,
@@ -131,7 +131,7 @@ test.describe('Text Input (isolated) @text-input', () => {
   });
 
   test('maxlength: limits user typing', async ({ page }) => {
-    await openScenario(page, 'demo/text-input', {
+    await openScenario(page, 'input/text', {
       ...baseInputs,
       maxlength: 3,
     });
@@ -145,7 +145,7 @@ test.describe('Text Input (isolated) @text-input', () => {
   });
 
   test('maxlength: truncates pasted text', async ({ page }) => {
-    await openScenario(page, 'demo/text-input', {
+    await openScenario(page, 'input/text', {
       ...baseInputs,
       maxlength: 3,
     });
@@ -163,7 +163,7 @@ test.describe('Text Input (isolated) @text-input', () => {
   });
 
   test('prefix/suffix: renders and does not block typing', async ({ page }) => {
-    await openScenario(page, 'demo/text-input', {
+    await openScenario(page, 'input/text', {
       ...baseInputs,
       prefix: '€',
       suffix: 'kg',
@@ -179,7 +179,7 @@ test.describe('Text Input (isolated) @text-input', () => {
   });
 
   test('required: sets required attribute and shows asterisk', async ({ page }) => {
-    await openScenario(page, 'demo/text-input', {
+    await openScenario(page, 'input/text', {
       ...baseInputs,
       required: true,
     });
@@ -191,7 +191,7 @@ test.describe('Text Input (isolated) @text-input', () => {
   });
 
   test('keyboard: Tab moves focus between inputs', async ({ page }) => {
-    await openScenario(page, 'demo/text-input/multiple');
+    await openScenario(page, 'input/text/multiple');
 
     const first = page.getByRole('textbox', { name: 'First' });
     const second = page.getByRole('textbox', { name: 'Second' });

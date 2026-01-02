@@ -122,8 +122,28 @@ export async function generateRegistry() {
   console.log(`   → Available at: http://localhost:4300/registry.metadata.json`);
   console.log('');
   console.log('Scenarios registered:');
-  scenarios.forEach((s) => {
-    console.log(`  • ${s.exportName} (from ${s.relativeFile})`);
+
+  const useColor = Boolean(process.stdout.isTTY) && !('NO_COLOR' in process.env);
+  const ansi = {
+    reset: '\x1b[0m',
+    green: '\x1b[32m',
+    dim: '\x1b[2m',
+  };
+  function color(text, start) {
+    if (!useColor) return String(text);
+    return `${start}${text}${ansi.reset}`;
+  }
+
+  const sorted = scenarios
+    .slice()
+    .sort((a, b) => String(a.id ?? '').localeCompare(String(b.id ?? '')));
+  sorted.forEach((s) => {
+    const id = String(s.id ?? '(missing id)');
+    const title =
+      typeof s.title === 'string' && s.title.trim().length > 0 ? s.title.trim() : '(no title)';
+    console.log(`  • ${color(id, ansi.green)} --- ${title}`);
+    console.log(`    ${color(s.relativeFile, ansi.dim)}`);
+    console.log('');
   });
 }
 
@@ -189,8 +209,18 @@ async function extractScenarioExports(filePath, relativeFile) {
           if (funcName === 'defineScenario') {
             const exportName = declaration.name.getText(sourceFile);
 
+            // If present, the generic type argument is expected to be the component class name.
+            // Example: defineScenario<CoarIconComponent>({ ... })
+            let scenarioComponentType = null;
+            if (callExpr.typeArguments && callExpr.typeArguments.length > 0) {
+              scenarioComponentType = callExpr.typeArguments[0].getText(sourceFile);
+              // Strip any generic params and surrounding whitespace.
+              scenarioComponentType = scenarioComponentType.split('<')[0].trim();
+            }
+
             // Extract the scenario ID and inputs from the first argument (object literal)
             let scenarioId = null;
+            let scenarioTitle = null;
             let scenarioInputs = null;
             if (callExpr.arguments.length > 0) {
               const arg = callExpr.arguments[0];
@@ -203,6 +233,14 @@ async function extractScenarioExports(filePath, relativeFile) {
                       const idValue = prop.initializer.getText(sourceFile);
                       // Remove quotes from string literal
                       scenarioId = idValue.replace(/^['"]|['"]$/g, '');
+                    } else if (propName === 'title') {
+                      const value = prop.initializer;
+                      if (ts.isStringLiteral(value) || ts.isNoSubstitutionTemplateLiteral(value)) {
+                        scenarioTitle = value.text;
+                      } else {
+                        // Fall back to raw expression text for non-literals.
+                        scenarioTitle = value.getText(sourceFile);
+                      }
                     } else if (propName === 'inputs') {
                       // Extract inputs object
                       if (ts.isObjectLiteralExpression(prop.initializer)) {
@@ -244,7 +282,9 @@ async function extractScenarioExports(filePath, relativeFile) {
               importPath,
               relativeFile,
               id: scenarioId,
+              title: scenarioTitle,
               scenarioInputs,
+              scenarioComponentType,
             });
           }
         }
@@ -610,8 +650,13 @@ export const SCENARIO_REGISTRY: Record<string, ScenarioDefinition> = {};
       }
 
       // Infer component class name from file name
-      const componentClassName =
+      const inferredComponentClassName =
         pascalCase(s.componentFileName.replace('.component', '')) + 'Component';
+
+      const componentClassName =
+        typeof s.scenarioComponentType === 'string' && s.scenarioComponentType.endsWith('Component')
+          ? s.scenarioComponentType
+          : inferredComponentClassName;
 
       const parts = [];
       parts.push(`    ...${s.sourceAlias}`);

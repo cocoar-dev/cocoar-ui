@@ -125,8 +125,7 @@ libs/ui-components/src/lib/
 ```
 apps/scenar-backstage/src/
 ├── scenarios/
-│   ├── hello-demo.component.ts
-│   ├── hello-demo.component.scenario.ts
+│   ├── scenario-providers-probe.component.scenario.ts
 │   ├── complex-form.scenario.ts
 │   └── edge-cases.scenario.ts
 ```
@@ -148,7 +147,7 @@ import { CoarIconComponent } from './coar-icon.component';
 
 ```typescript
 export const scenario = defineScenario<CoarIconComponent>({
-  id: 'demo/icon',
+  id: 'icon',
   title: 'Icon Component',
   description: 'Icon with default settings',
   inputs: {
@@ -188,7 +187,7 @@ export const scenario = defineScenario<ComponentType>({
 **`id`** (required)
 - Unique identifier across all scenarios
 - Use slash-separated format: `category/component/variant`
-- Examples: `'ui/button/primary'`, `'forms/input/error-state'`, `'demo/icon'`
+- Examples: `'ui/button/primary'`, `'forms/input/error-state'`, `'icon'`
 - Used in URL: `http://localhost:4300/__scenario/{id}`
 
 **`title`** (required)
@@ -230,7 +229,7 @@ The generator extracts default values from your component, so you only need to s
 // Component has: size = input<string>('md')
 // Scenario only overrides what's needed:
 export const largeIcon = defineScenario<CoarIconComponent>({
-  id: 'demo/icon/large',
+  id: 'icon/large',
   title: 'Large Icon',
   description: 'Icon with large size',
   inputs: {
@@ -339,23 +338,13 @@ export const scenario = defineScenario<CoarBadgeComponent>({
 ✅ You want everything in one file
 
 ```typescript
-// apps/scenar-backstage/src/scenarios/hello-demo.component.scenario.ts
-import { Component } from '@angular/core';
+// apps/scenar-backstage/src/scenarios/scenario-providers-probe.component.scenario.ts
 import { defineScenario } from '@cocoar/scenar-abstractions';
 
-@Component({
-  selector: 'hello-demo',
-  standalone: true,
-  template: `<h1>Hello {{name}}!</h1>`
-})
-export class HelloDemoComponent {
-  name = input<string>('World');
-}
-
-export const helloBasic = defineScenario<HelloDemoComponent>({
-  id: 'demo/hello/basic',
-  title: 'Hello Demo',
-  description: 'Simple hello world demo'
+export const withProviders = defineScenario<ScenarioProvidersProbeComponent>({
+  id: 'providers/probe',
+  title: 'Providers Probe',
+  description: 'Proves scenario.providers is applied at runtime'
 });
 ```
 
@@ -420,8 +409,8 @@ export const SCENARIO_REGISTRY: Record<string, ScenarioDefinition> = {
   "count": 5,
   "scenarios": [
     {
-      "id": "demo/icon",
-      "url": "/__scenario/demo/icon",
+      "id": "icon",
+      "url": "/__scenario/icon",
       "title": "Icon Component",
       "description": "Icon with default settings",
       "component": {
@@ -503,7 +492,7 @@ for (const scenario of buttonScenarios) {
 **Component Isolation:**
 ```typescript
 test('icon rotation', async ({ page }) => {
-  await page.goto('http://localhost:4300/__scenario/demo/icon/rotated');
+  await page.goto('http://localhost:4300/__scenario/icon/rotated');
 
   const icon = page.locator('coar-icon');
   await expect(icon).toHaveCSS('transform', 'matrix(0, 1, -1, 0, 0, 0)'); // 90deg
@@ -568,7 +557,7 @@ test('button visual regression', async ({ page }) => {
 - Examples:
   - `'ui/button/primary'`
   - `'forms/input/error'`
-  - `'demo/icon/large'`
+  - `'icon/large'`
   - `'accessibility/keyboard-nav'`
 
 **File Names:**
@@ -577,7 +566,6 @@ test('button visual regression', async ({ page }) => {
   - `icon.scenario.ts`
   - `table.scenario.ts`
 - Co-located files: `{component-name}.component.scenario.ts`
-  - `hello-demo.component.scenario.ts`
   - `coar-table.component.scenario.ts`
 
 **Export Names:**
