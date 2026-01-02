@@ -103,6 +103,10 @@ providers: [
 
 - `apps/showcase-e2e/src/**/*.spec.ts`
 
+Scenario-host e2e tests live in:
+
+- `apps/scenar-backstage-e2e/src/**/*.spec.ts`
+
 ### Structure
 
 Prefer this structure for new e2e specs:
@@ -114,6 +118,8 @@ Example:
 
 ```ts
 import { test, expect } from '@playwright/test';
+
+import { openScenario } from '@cocoar/scenar-testing-playwright';
 
 test.describe('Menu Component @menu', () => {
   test.beforeEach(async ({ page }) => {
@@ -127,6 +133,8 @@ test.describe('Menu Component @menu', () => {
   });
 });
 ```
+
+For scenario-based suites (component test host / scenar-backstage), prefer `openScenario(page, id, inputs)` instead of building query strings manually.
 
 ### Tagging (required)
 

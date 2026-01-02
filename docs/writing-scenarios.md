@@ -738,6 +738,8 @@ node -e "console.log(Object.keys(require('./apps/scenar-backstage/public/registr
 2. Write Playwright tests using the scenario URL
 3. Run tests with `nx e2e showcase-e2e`
 
+If you're testing the scenario host directly, run `nx run scenar-backstage-e2e:e2e`.
+
 **Remember:**
 - Don't provide `component` property (auto-generated)
 - Use unique, descriptive scenario IDs

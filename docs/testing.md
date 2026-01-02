@@ -186,7 +186,10 @@ providers: [...provideCoarNoopAnimations()]
 
 ### Host app
 
-E2E tests run against the **showcase app** (`apps/showcase`).
+This repo has two Playwright e2e projects:
+
+- `apps/showcase-e2e` runs against the **showcase app** (`apps/showcase`).
+- `apps/scenar-backstage-e2e` runs against the **scenario host app** (`apps/scenar-backstage`).
 
 ### Why e2e is wrapped
 
@@ -213,7 +216,22 @@ Override locally:
 Under the hood:
 
 - The wrapper sets `COAR_E2E_BROWSERS`.
-- `apps/showcase-e2e/playwright.config.ts` uses it to choose Playwright projects.
+- The selected e2e project’s `playwright.config.ts` uses it to choose Playwright projects.
+
+### Running scenar-backstage e2e
+
+The root `pnpm e2e` script runs `showcase-e2e`. To run the scenario-host suite:
+
+```bash
+pnpm nx run scenar-backstage-e2e:e2e
+pnpm nx run scenar-backstage-e2e:e2e -- --project=chromium
+```
+
+### Shared Playwright helpers
+
+Scenario-navigation and typed query-parameter serialization is shared via:
+
+- `@cocoar/scenar-testing-playwright` (source: `libs/scenar/scenar-testing-playwright/`)
 
 ### Passing Playwright CLI flags
 
@@ -229,7 +247,7 @@ Examples:
 ## Where Tests Live
 
 - Unit tests: `*.spec.ts` next to components/services in `libs/**/src/`
-- E2E tests: `apps/showcase-e2e/src/**`
+- E2E tests: `apps/showcase-e2e/src/**`, `apps/scenar-backstage-e2e/src/**`
 
 ---
 

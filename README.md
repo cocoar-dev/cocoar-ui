@@ -166,7 +166,9 @@ See [docs/consuming/local-artifacts.md](docs/consuming/local-artifacts.md) for v
 libs/                     # Publishable libraries
 apps/                     # Angular apps
   showcase/               Component showcase app
+  scenar-backstage/       Scenario host app (Scenar Backstage)
   showcase-e2e/           Playwright e2e tests
+  scenar-backstage-e2e/   Playwright e2e tests (scenario host)
 docs/                     Additional documentation
 ```
 
