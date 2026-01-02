@@ -5,7 +5,6 @@ import {
   EnvironmentInjector,
   OnDestroy,
   Type,
-  createEnvironmentInjector,
   inject,
   signal,
 } from '@angular/core';
@@ -30,12 +29,8 @@ export class App implements OnDestroy {
   private createdScenarioInjector: EnvironmentInjector | null = null;
 
   protected readonly scenarioId: string | null;
-  protected readonly scenario = signal<ScenarioDefinition | undefined>(
-    undefined,
-  );
-  protected readonly scenarioInjector = signal<EnvironmentInjector>(
-    this.parentInjector,
-  );
+  protected readonly scenario = signal<ScenarioDefinition | undefined>(undefined);
+  protected readonly scenarioInjector = signal<EnvironmentInjector>(this.parentInjector);
   protected readonly scenarioComponent = signal<Type<unknown> | null>(null);
   protected readonly scenarioInputs = signal<Record<string, unknown>>({});
   protected readonly scenarioLoading = signal(false);
@@ -70,7 +65,7 @@ export class App implements OnDestroy {
     registry: {
       loadScenarioById(id: string): Promise<ScenarioDefinition>;
     },
-    id: string,
+    id: string
   ): Promise<void> {
     try {
       const scenario = await registry.loadScenarioById(id);
@@ -85,7 +80,9 @@ export class App implements OnDestroy {
       // Load the component
       // component is guaranteed to exist after registry generation
       if (!scenario.component) {
-        throw new Error(`Scenario '${id}' is missing component loader. Did you run the registry generator?`);
+        throw new Error(
+          `Scenario '${id}' is missing component loader. Did you run the registry generator?`
+        );
       }
       const componentType = await scenario.component();
       this.scenarioComponent.set(componentType);
@@ -99,9 +96,7 @@ export class App implements OnDestroy {
     }
   }
 
-  private parseInputsFromUrl(
-    scenario: ScenarioDefinition,
-  ): Record<string, unknown> {
+  private parseInputsFromUrl(scenario: ScenarioDefinition): Record<string, unknown> {
     const defaults = scenario.inputs ?? {};
     const params = new URLSearchParams(window.location.search ?? '');
 
@@ -134,7 +129,7 @@ export class App implements OnDestroy {
   private async loadScenarioComponent(
     scenario: ScenarioDefinition & {
       component: () => Promise<Type<unknown>>;
-    },
+    }
   ): Promise<void> {
     try {
       const componentType = await scenario.component();

@@ -42,8 +42,3 @@ export interface ScenarioDefinition<TComponent = any> {
    */
   providers?: any[];
 }
-
-/**
- * Helper type to extract input types from a component
- */
-export type ScenarioInputs<T> = Record<string, any>;

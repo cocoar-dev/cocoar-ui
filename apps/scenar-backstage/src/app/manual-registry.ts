@@ -1,4 +1,4 @@
-import type { ScenarioDefinition } from '@cocoar/scenar-abstractions';
+// import type { ScenarioDefinition } from '@cocoar/scenar-abstractions';
 // import { helloBasic } from '../scenarios/hello-demo.scenario';
 
 /**
