@@ -1,0 +1,33 @@
+@if (errorState.error(); as err) {
+  <main class="scenar-stage">
+    <h1>Scenario crashed</h1>
+    @if (scenarioId()) {
+      <p>Scenario id: {{ scenarioId() }}</p>
+    }
+    <p>{{ err.message }}</p>
+    @if (err.stack) {
+      <pre>{{ err.stack }}</pre>
+    }
+  </main>
+} @else {
+  @if (scenarioId() && scenario() && scenarioComponent(); as componentType) {
+    <main class="scenar-stage">
+      <scenar-scenario-outlet
+        [component]="componentType"
+        [environmentInjector]="scenarioInjector()"
+        [inputs]="scenarioInputs()"
+      ></scenar-scenario-outlet>
+    </main>
+  } @else if (scenarioId() && scenario() && scenarioLoading()) {
+    <main class="scenar-stage"></main>
+  } @else {
+    <main class="scenar-stage">
+      <h1>Scenario not found</h1>
+      @if (scenarioId()) {
+        <p>Unknown scenario id: {{ scenarioId() }}</p>
+      } @else {
+        <p>Not a scenario URL.</p>
+      }
+    </main>
+  }
+}
