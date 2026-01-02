@@ -1,10 +1,35 @@
 import { spawn } from 'node:child_process';
+import { existsSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
-const BASE_URL = process.env.BASE_URL || 'http://localhost:4200';
+const TARGET_PROJECT = process.env.NX_TASK_TARGET_PROJECT;
+
+function resolvePlaywrightConfigPath() {
+  const explicit = process.env.PLAYWRIGHT_CONFIG;
+  if (explicit && existsSync(explicit)) return explicit;
+
+  if (TARGET_PROJECT) {
+    const candidate = `apps/${TARGET_PROJECT}/playwright.config.ts`;
+    if (existsSync(candidate)) return candidate;
+  }
+
+  return 'apps/showcase-e2e/playwright.config.ts';
+}
+
+const PLAYWRIGHT_CONFIG_PATH = resolvePlaywrightConfigPath();
+
+const DEFAULT_BASE_URL =
+  TARGET_PROJECT === 'scenar-backstage-e2e' ? 'http://localhost:4300' : 'http://localhost:4200';
+
+const BASE_URL = process.env.BASE_URL || DEFAULT_BASE_URL;
+
 // Prefer the Scenario host naming, but keep CT_BASE_URL as a backward-compatible alias.
+// For scenar-backstage-e2e, the scenario host *is* the app under test.
+const DEFAULT_SCENARIO_BASE_URL = 'http://localhost:4300';
 const SCENARIO_BASE_URL =
-  process.env.SCENARIO_BASE_URL || process.env.CT_BASE_URL || 'http://localhost:4300';
+  TARGET_PROJECT === 'scenar-backstage-e2e'
+    ? BASE_URL
+    : process.env.SCENARIO_BASE_URL || process.env.CT_BASE_URL || DEFAULT_SCENARIO_BASE_URL;
 const PROJECT_ROOT = fileURLToPath(new URL('../../', import.meta.url));
 
 function parseArgs(argv) {
@@ -129,9 +154,14 @@ async function main() {
   const alreadyRunning = await isHttpOk(BASE_URL);
   const scenarioAlreadyRunning = await isHttpOk(SCENARIO_BASE_URL);
 
+  const baseServerArgs =
+    TARGET_PROJECT === 'scenar-backstage-e2e'
+      ? ['exec', 'nx', 'serve', 'scenar-backstage']
+      : ['exec', 'nx', 'serve', 'showcase'];
+
   const server = alreadyRunning
     ? null
-    : spawn('pnpm', ['exec', 'nx', 'serve', 'showcase'], {
+    : spawn('pnpm', baseServerArgs, {
         cwd: PROJECT_ROOT,
         env: {
           ...process.env,
@@ -141,28 +171,31 @@ async function main() {
         windowsHide: true,
       });
 
-  const scenarioServer = scenarioAlreadyRunning
-    ? null
-    : (() => {
-        const configured = parseCommand(process.env.SCENARIO_SERVER_COMMAND);
+  const shouldStartScenarioServer = TARGET_PROJECT !== 'scenar-backstage-e2e';
 
-        // Default assumes the external Scenar package exposes a CLI named `scenar`.
-        // Use `--` so the command form matches other consumer commands like:
-        // `pnpm exec scenar -- init` / `pnpm exec scenar -- generate`.
-        // Consumers can override via SCENARIO_SERVER_COMMAND.
-        const defaultCommand = { file: 'pnpm', args: ['exec', 'scenar', '--', 'serve'] };
-        const command = configured ?? defaultCommand;
+  const scenarioServer =
+    !shouldStartScenarioServer || scenarioAlreadyRunning
+      ? null
+      : (() => {
+          const configured = parseCommand(process.env.SCENARIO_SERVER_COMMAND);
 
-        return spawn(command.file, command.args, {
-          cwd: PROJECT_ROOT,
-          env: {
-            ...process.env,
-          },
-          stdio: 'inherit',
-          shell: process.platform === 'win32',
-          windowsHide: true,
-        });
-      })();
+          // Default assumes the external Scenar package exposes a CLI named `scenar`.
+          // Use `--` so the command form matches other consumer commands like:
+          // `pnpm exec scenar -- init` / `pnpm exec scenar -- generate`.
+          // Consumers can override via SCENARIO_SERVER_COMMAND.
+          const defaultCommand = { file: 'pnpm', args: ['exec', 'scenar', '--', 'serve'] };
+          const command = configured ?? defaultCommand;
+
+          return spawn(command.file, command.args, {
+            cwd: PROJECT_ROOT,
+            env: {
+              ...process.env,
+            },
+            stdio: 'inherit',
+            shell: process.platform === 'win32',
+            windowsHide: true,
+          });
+        })();
 
   let tests = null;
   let shuttingDown = false;
@@ -197,17 +230,11 @@ async function main() {
       await waitForHttpOk(BASE_URL);
     }
 
-    if (!scenarioAlreadyRunning) {
+    if (shouldStartScenarioServer && !scenarioAlreadyRunning) {
       await waitForHttpOk(SCENARIO_BASE_URL);
     }
 
-    const playwrightArgs = [
-      'exec',
-      'playwright',
-      'test',
-      '-c',
-      'apps/showcase-e2e/playwright.config.ts',
-    ];
+    const playwrightArgs = ['exec', 'playwright', 'test', '-c', PLAYWRIGHT_CONFIG_PATH];
     if (ui) playwrightArgs.push('--ui');
     playwrightArgs.push(...passthrough);
 

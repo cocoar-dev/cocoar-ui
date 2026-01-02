@@ -24,9 +24,8 @@
       "@cocoar/markdown-core": ["libs/markdown-core/src/index.ts"],
       "@cocoar/markdown-viewer": ["libs/markdown-viewer/src/index.ts"],
       "@cocoar/ui-menu": ["libs/ui-menu/src/index.ts"],
-      "@cocoar/scenar-abstractions": [
-        "libs/scenar/scenar-abstractions/src/index.ts"
-      ]
+      "@cocoar/scenar-abstractions": ["libs/scenar/scenar-abstractions/src/index.ts"],
+      "@cocoar/scenar-testing-playwright": ["libs/scenar/scenar-testing-playwright/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

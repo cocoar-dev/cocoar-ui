@@ -1,0 +1,12 @@
+{
+  "name": "@cocoar/scenar-testing-playwright",
+  "version": "0.0.1",
+  "description": "Playwright helpers for Scenar Backstage e2e tests",
+  "license": "Apache-2.0",
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}

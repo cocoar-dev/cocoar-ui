@@ -1,0 +1,49 @@
+{
+  "name": "scenar-backstage-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/scenar-backstage-e2e/src",
+  "implicitDependencies": ["scenar-backstage"],
+  "// targets": "to see all targets run: nx show project scenar-backstage-e2e --web",
+  "targets": {
+    "lint-tags": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node scripts/testing/check-e2e-tags.mjs",
+        "cwd": "."
+      }
+    },
+    "e2e": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node scripts/e2e/run-e2e.mjs",
+        "cwd": ".",
+        "forwardAllArgs": true
+      }
+    },
+    "e2e-ui": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node scripts/e2e/run-e2e.mjs --ui",
+        "cwd": ".",
+        "forwardAllArgs": true
+      }
+    },
+    "ct-e2e": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node scripts/e2e/run-e2e.mjs --grep @ct-host",
+        "cwd": ".",
+        "forwardAllArgs": true
+      }
+    },
+    "ct-e2e-ui": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node scripts/e2e/run-e2e.mjs --ui --grep @ct-host",
+        "cwd": ".",
+        "forwardAllArgs": true
+      }
+    }
+  }
+}

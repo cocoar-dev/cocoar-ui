@@ -31,7 +31,7 @@ export const dateCodec: ScenarioCodec<Date> = {
   },
   deserialize(str: string): Date {
     return new Date(str);
-  }
+  },
 };
 
 export const numberCodec: ScenarioCodec<number> = {
@@ -45,7 +45,7 @@ export const numberCodec: ScenarioCodec<number> = {
   canDeserialize(tsType: string, str: string): boolean {
     const clean = tsType.replace(/\s*\|\s*(undefined|null)/g, '').trim();
     // Type must be number AND string must be numeric
-    return clean === 'number' && /^-?\d+\.?\d*$/.test(str);
+    return (clean === 'number' || clean.includes('number')) && /^-?\d+\.?\d*$/.test(str);
   },
   deserialize(str: string): number {
     const num = Number(str);
@@ -53,7 +53,7 @@ export const numberCodec: ScenarioCodec<number> = {
       throw new Error(`Cannot deserialize "${str}" to number`);
     }
     return num;
-  }
+  },
 };
 
 export const booleanCodec: ScenarioCodec<boolean> = {
@@ -67,38 +67,50 @@ export const booleanCodec: ScenarioCodec<boolean> = {
   canDeserialize(tsType: string, str: string): boolean {
     const clean = tsType.replace(/\s*\|\s*(undefined|null)/g, '').trim();
     // Type must be boolean AND string must be "true" or "false"
-    return clean === 'boolean' && (str === 'true' || str === 'false');
+    return (
+      (clean === 'boolean' || clean.includes('boolean')) && (str === 'true' || str === 'false')
+    );
   },
   deserialize(str: string): boolean {
     if (str === 'true') return true;
     if (str === 'false') return false;
     throw new Error(`Cannot deserialize "${str}" to boolean`);
-  }
+  },
 };
 
-export const arrayCodec: ScenarioCodec<any[]> = {
+export const arrayCodec: ScenarioCodec<unknown[]> = {
   name: 'array',
   canSerialize(value: unknown): boolean {
     return Array.isArray(value);
   },
-  serialize(value: any[]): string {
+  serialize(value: unknown[]): string {
     return JSON.stringify(value);
   },
   canDeserialize(tsType: string, str: string): boolean {
     const clean = tsType.replace(/\s*\|\s*(undefined|null)/g, '').trim();
     // Type must be array-like AND string must start with [
-    return (clean.includes('[]') || clean.includes('Array<') || clean.includes('ReadonlyArray<'))
-           && str.startsWith('[');
+    return (
+      (clean.includes('[]') ||
+        clean.includes('Array<') ||
+        clean.includes('ReadonlyArray<') ||
+        clean.includes('array')) &&
+      str.startsWith('[')
+    );
   },
-  deserialize(str: string): any[] {
+  deserialize(str: string): unknown[] {
     return JSON.parse(str);
-  }
+  },
 };
 
 export const objectCodec: ScenarioCodec<object> = {
   name: 'object',
   canSerialize(value: unknown): boolean {
-    return typeof value === 'object' && value !== null && !Array.isArray(value) && !(value instanceof Date);
+    return (
+      typeof value === 'object' &&
+      value !== null &&
+      !Array.isArray(value) &&
+      !(value instanceof Date)
+    );
   },
   serialize(value: object): string {
     return JSON.stringify(value);
@@ -106,12 +118,18 @@ export const objectCodec: ScenarioCodec<object> = {
   canDeserialize(tsType: string, str: string): boolean {
     const clean = tsType.replace(/\s*\|\s*(undefined|null)/g, '').trim();
     // Type must be object-like AND string must start with {
-    return (clean.startsWith('{') || clean.includes('Record<') || clean.includes('interface'))
-           && str.startsWith('{');
+    return (
+      (clean === 'object' ||
+        clean.includes('object') ||
+        clean.startsWith('{') ||
+        clean.includes('Record<') ||
+        clean.includes('interface')) &&
+      str.startsWith('{')
+    );
   },
   deserialize(str: string): object {
     return JSON.parse(str);
-  }
+  },
 };
 
 export const stringCodec: ScenarioCodec<string> = {
@@ -128,7 +146,7 @@ export const stringCodec: ScenarioCodec<string> = {
   },
   deserialize(str: string): string {
     return str;
-  }
+  },
 };
 
 export const defaultCodecs: ScenarioCodec[] = [
@@ -140,7 +158,11 @@ export const defaultCodecs: ScenarioCodec[] = [
   stringCodec,
 ];
 
-export function deserializeWithCodecs(str: string, tsType?: string, codecs = defaultCodecs): unknown {
+export function deserializeWithCodecs(
+  str: string,
+  tsType?: string,
+  codecs = defaultCodecs
+): unknown {
   if (!tsType) {
     try {
       return JSON.parse(str);
@@ -171,7 +193,7 @@ export function deserializeWithCodecs(str: string, tsType?: string, codecs = def
   }
 
   // Single type - use first matching codec
-  const codec = codecs.find(c => c.canDeserialize(tsType, str));
+  const codec = codecs.find((c) => c.canDeserialize(tsType, str));
   if (!codec) {
     return str;
   }

@@ -3,7 +3,7 @@ import { nxE2EPreset } from '@nx/playwright/preset';
 import { workspaceRoot } from '@nx/devkit';
 
 // For CI, you may want to set BASE_URL to the deployed application.
-const baseURL = process.env['BASE_URL'] || 'http://localhost:4200';
+const baseURL = process.env['BASE_URL'] || 'http://localhost:4300';
 
 function isCi() {
   const ciEnv = process.env['CI'];
@@ -80,8 +80,8 @@ export default defineConfig({
   webServer: process.env['COAR_E2E_MANAGED_SERVER']
     ? undefined
     : {
-        command: 'pnpm exec nx serve showcase',
-        url: 'http://localhost:4200',
+        command: 'pnpm exec nx serve scenar-backstage',
+        url: 'http://localhost:4300',
         reuseExistingServer: true,
         cwd: workspaceRoot,
       },
