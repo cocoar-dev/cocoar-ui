@@ -81,8 +81,9 @@ export function setupCoarAngularVitest(options: CoarAngularVitestSetupOptions = 
     };
   }
 
-  if (!flags[beforeEachKey] && isResetEnabled(options)) {
-    flags[beforeEachKey] = true;
+  // Always register beforeEach hook for TestBed reset, even if called multiple times
+  // This ensures TestBed is reset before each test in every file
+  if (isResetEnabled(options)) {
     beforeEach(() => {
       TestBed.resetTestingModule();
     });
