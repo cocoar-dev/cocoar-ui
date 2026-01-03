@@ -144,19 +144,20 @@ jobs:
           path: artifacts
           retention-days: 30
 
-      # ============================================================
-      # TODO: Uncomment to publish prereleases to npmjs.com
-      # Requires NPM_TOKEN secret with publish access
-      # ============================================================
-      # - name: Setup npm registry
-      #   run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
-      #
-      # - name: Publish to npmjs.com (beta tag)
-      #   run: |
-      #     for pkg_dir in dist/libs/*; do
-      #       if [ -d "$pkg_dir" ] && [ -f "$pkg_dir/package.json" ]; then
-      #         PKG_NAME=$(jq -r '.name' "$pkg_dir/package.json")
-      #         echo "Publishing $PKG_NAME@$PACKAGE_VERSION with tag 'beta'"
-      #         (cd "$pkg_dir" && npm publish --tag beta --access public) || echo "Package may already exist"
-      #       fi
-      #     done
+      - name: Setup npm registry
+        shell: bash
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
+
+      - name: Publish to npmjs.com (beta tag)
+        shell: bash
+        run: |
+          shopt -s nullglob
+          files=(artifacts/*.tgz)
+          if [ ${#files[@]} -eq 0 ]; then
+            echo "No tarballs found in artifacts/."
+            exit 1
+          fi
+          for f in "${files[@]}"; do
+            echo "Publishing $f with tag 'beta'"
+            npm publish "$f" --tag beta --access public
+          done
