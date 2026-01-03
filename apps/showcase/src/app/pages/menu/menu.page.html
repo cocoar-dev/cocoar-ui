@@ -106,7 +106,7 @@
 
       <div class="menu-demo">
         <coar-menu>
-          <coar-menu-item icon="file" (itemClick)="handleMenuItemClick('file')">File</coar-menu-item>
+          <coar-menu-item (itemClick)="handleMenuItemClick('file')">File</coar-menu-item>
           <coar-sub-flyout label="Export" icon="download">
             <ng-template>
               <coar-menu>
@@ -391,31 +391,34 @@
 </ng-template>
 
 @if (aimDebug.enabled) {
-<div class="coar-menu-aim-debug" aria-hidden="true">
-  <svg class="coar-menu-aim-debug__svg" xmlns="http://www.w3.org/2000/svg">
-    <text class="coar-menu-aim-debug__label" x="16" y="24">
-      Menu-aim debug: {{ aimDebug.shouldDelay ? 'DELAY' : 'no delay' }} | events: {{ aimDebug.eventCount }}
-    </text>
+  <div class="coar-menu-aim-debug" aria-hidden="true">
+    <svg class="coar-menu-aim-debug__svg" xmlns="http://www.w3.org/2000/svg">
+      <text class="coar-menu-aim-debug__label" x="16" y="24">
+        Menu-aim debug: {{ aimDebug.shouldDelay ? 'DELAY' : 'no delay' }} | events: {{ aimDebug.eventCount }}
+      </text>
 
-    @if (aimDebug.submenuRect) {
-    <rect
-      class="coar-menu-aim-debug__submenu"
-      [attr.x]="aimDebug.submenuRect.left"
-      [attr.y]="aimDebug.submenuRect.top"
-      [attr.width]="aimDebug.submenuRect.right - aimDebug.submenuRect.left"
-      [attr.height]="aimDebug.submenuRect.bottom - aimDebug.submenuRect.top"
-    />
-    } @if (aimDebug.trianglePoints) {
-    <polygon
-      class="coar-menu-aim-debug__triangle"
-      [class.coar-menu-aim-debug__triangle--active]="aimDebug.shouldDelay"
-      [attr.points]="aimDebug.trianglePoints"
-    />
-    } @if (aimDebug.previous) {
-    <circle class="coar-menu-aim-debug__point" [attr.cx]="aimDebug.previous.x" [attr.cy]="aimDebug.previous.y" r="3" />
-    } @if (aimDebug.current) {
-    <circle class="coar-menu-aim-debug__point" [attr.cx]="aimDebug.current.x" [attr.cy]="aimDebug.current.y" r="3" />
-    }
-  </svg>
-</div>
+      @if (aimDebug.submenuRect) {
+        <rect
+          class="coar-menu-aim-debug__submenu"
+          [attr.x]="aimDebug.submenuRect.left"
+          [attr.y]="aimDebug.submenuRect.top"
+          [attr.width]="aimDebug.submenuRect.right - aimDebug.submenuRect.left"
+          [attr.height]="aimDebug.submenuRect.bottom - aimDebug.submenuRect.top"
+        />
+      }
+      @if (aimDebug.trianglePoints) {
+        <polygon
+          class="coar-menu-aim-debug__triangle"
+          [class.coar-menu-aim-debug__triangle--active]="aimDebug.shouldDelay"
+          [attr.points]="aimDebug.trianglePoints"
+        />
+      }
+      @if (aimDebug.previous) {
+        <circle class="coar-menu-aim-debug__point" [attr.cx]="aimDebug.previous.x" [attr.cy]="aimDebug.previous.y" r="3" />
+      }
+      @if (aimDebug.current) {
+        <circle class="coar-menu-aim-debug__point" [attr.cx]="aimDebug.current.x" [attr.cy]="aimDebug.current.y" r="3" />
+      }
+    </svg>
+  </div>
 }

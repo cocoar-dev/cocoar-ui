@@ -53,9 +53,7 @@ import { CoarSubmenuTemplateDirective } from './coar-submenu-template.directive'
       (keydown.space)="toggle($event)"
     >
       <span class="coar-sub-expand__icon" aria-hidden="true">
-        @if (icon()) {
-        <coar-icon [name]="icon()!" size="sm" aria-hidden="true" />
-        }
+        <coar-icon [name]="icon() || 'square-rounded-dashed'" size="sm" aria-hidden="true" />
       </span>
       <span class="coar-sub-expand__label">{{ label() }}</span>
       <coar-icon

@@ -1,12 +1,10 @@
 <span class="coar-menu-item__icon" aria-hidden="true">
-  @if (icon()) {
-  <coar-icon [name]="icon()!" size="sm" aria-hidden="true" />
-  }
+  <coar-icon [name]="icon() || 'square-rounded-dashed'" size="sm" aria-hidden="true" />
 </span>
 <span class="coar-menu-item__label">
   @if (label()) {
-  {{ label() }}
+    {{ label() }}
   } @else {
-  <ng-content />
+    <ng-content />
   }
 </span>

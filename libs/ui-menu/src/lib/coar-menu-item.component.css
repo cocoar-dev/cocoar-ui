@@ -108,6 +108,12 @@
   flex-shrink: 0;
   width: var(--coar-menu-item-icon-slot-size, 16px);
   height: var(--coar-menu-item-icon-slot-size, 16px);
+  opacity: 1;
+}
+
+/* Placeholder icon styling - subtle for items without explicit icon */
+.coar-menu-item__icon:has(coar-icon[icon-name='square-rounded-dashed']) {
+  opacity: 0.3;
 }
 
 /* Label */
