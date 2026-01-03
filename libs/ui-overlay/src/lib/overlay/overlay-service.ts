@@ -441,11 +441,8 @@ class CoarOverlayRef implements OverlayRef {
     if (this.shouldAnimateMenu) {
       Object.assign(this.panel.style, {
         opacity: '0',
-        transform: 'scale(0.98)',
-        transformOrigin: 'top left',
-        transition:
-          'opacity var(--coar-duration-slower) var(--coar-ease-out), transform var(--coar-duration-slower) var(--coar-ease-out)',
-        willChange: 'opacity, transform',
+        transition: 'opacity var(--coar-duration-slower) var(--coar-ease-out)',
+        willChange: 'opacity',
       } satisfies Partial<CSSStyleDeclaration>);
     }
 
@@ -726,7 +723,6 @@ class CoarOverlayRef implements OverlayRef {
 
     if (this.shouldAnimateMenu) {
       this.panel.style.opacity = '1';
-      this.panel.style.transform = 'scale(1)';
     }
   }
 
@@ -758,7 +754,6 @@ class CoarOverlayRef implements OverlayRef {
     if (this.shouldAnimateMenu && this.presented) {
       this.host.style.pointerEvents = 'none';
       this.panel.style.opacity = '0';
-      this.panel.style.transform = 'scale(0.98)';
 
       const finalizeOnce = () => {
         this.finalizeClose();
@@ -767,10 +762,7 @@ class CoarOverlayRef implements OverlayRef {
       let fallbackTimer: ReturnType<typeof setTimeout> | null = null;
 
       const onEnd = (e: TransitionEvent) => {
-        if (
-          e.target === this.panel &&
-          (e.propertyName === 'opacity' || e.propertyName === 'transform')
-        ) {
+        if (e.target === this.panel && e.propertyName === 'opacity') {
           this.host.removeEventListener('transitionend', onEnd);
           if (fallbackTimer) {
             clearTimeout(fallbackTimer);

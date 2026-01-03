@@ -33,12 +33,25 @@
   color: var(--coar-menu-item-color, var(--coar-text-neutral-primary, #545454));
   background: var(--coar-menu-item-background, transparent);
   border-radius: 0;
+  position: relative;
 
   /* Interaction */
   cursor: pointer;
   user-select: none;
   transition: var(--coar-transition-fast, all 100ms ease);
   outline: none;
+}
+
+/* Default border via ::before */
+.coar-sub-expand::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--coar-menu-item-border-left-color, var(--coar-border-neutral-tertiary, #d0d0d0));
+  pointer-events: none;
 }
 
 .coar-sub-expand:hover:not(.coar-sub-expand--disabled) {
@@ -50,6 +63,14 @@
   background: var(
     --coar-menu-item-background-open,
     var(--coar-menu-item-background-active, #f0f1f2)
+  );
+}
+
+.coar-sub-expand--open::before {
+  width: 2px;
+  background: var(
+    --coar-menu-item-border-left-color-active,
+    var(--coar-border-accent-primary, #156db7)
   );
 }
 
@@ -98,6 +119,7 @@
    * The left guide line + indentation communicates nesting without adding a new container.
    */
   box-sizing: border-box;
+  margin-left: var(--coar-sub-expand-indent-offset, 16px);
 
   /*
    * Keep projected items full-width.
@@ -106,41 +128,7 @@
    */
   position: relative;
 
-  /* Configuration tokens */
-  --_coar-sub-expand-icon-slot-size: var(--coar-menu-item-icon-slot-size, 16px);
-
-  /* Current nesting indent (inherited from parent panels) */
-  --_coar-sub-expand-level-indent: var(--coar-sub-expand-level-indent, 0px);
-
-  /* Per-level indent (defaults to icon + gap, so nested submenus are visibly indented) */
-  --_coar-sub-expand-indent: var(
-    --coar-sub-expand-indent,
-    calc(var(--_coar-sub-expand-icon-slot-size) + var(--coar-menu-item-gap, 0.75rem))
-  );
-
-  /* Guide line sits in the middle of the submenu item's icon */
-  --_coar-sub-expand-line-offset: calc(
-    var(--_coar-sub-expand-item-padding-x) + var(--_coar-sub-expand-level-indent) +
-      (var(--_coar-sub-expand-icon-slot-size) / 2)
-  );
-
-  /* Next nesting level for descendants */
-  --_coar-sub-expand-child-indent: calc(
-    var(--_coar-sub-expand-level-indent) + var(--_coar-sub-expand-indent)
-  );
-  --_coar-sub-expand-item-padding-y: var(
-    --coar-sub-expand-item-padding-y,
-    var(--coar-spacing-2, 0.5rem)
-  );
-  --_coar-sub-expand-item-padding-x: var(
-    --coar-sub-expand-item-padding-x,
-    var(--coar-spacing-3, 0.75rem)
-  );
-
-  /* Indent *content* while keeping the row hit-area full width */
-  --coar-menu-item-padding: var(--_coar-sub-expand-item-padding-y)
-    var(--_coar-sub-expand-item-padding-x) var(--_coar-sub-expand-item-padding-y)
-    calc(var(--_coar-sub-expand-item-padding-x) + var(--_coar-sub-expand-child-indent));
+  /* Simplified indentation - just use margin-left for nesting */
 
   /* Animation (grid trick: 0fr -> 1fr) */
   display: grid;
@@ -149,32 +137,29 @@
   transition: grid-template-rows var(--coar-duration-normal, 200ms) var(--coar-ease-out, ease);
 }
 
-.coar-sub-expand__panel::before {
+/* .coar-sub-expand__panel::before {
   content: '';
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: var(--_coar-sub-expand-line-offset);
-  width: 1px;
+  top: var(--coar-sub-expand-line-gap, 0.5rem);
+  bottom: var(--coar-sub-expand-line-gap, 0.5rem);
+  left: 0;
+  width: 2px;
   background: var(--coar-sub-expand-line-color, var(--coar-border-neutral-tertiary, #d0d0d0));
   pointer-events: none;
   opacity: 0;
   transition: opacity var(--coar-duration-fast, 100ms) var(--coar-ease-out, ease);
   z-index: 1;
-}
+} */
 
 .coar-sub-expand__panel--open {
   grid-template-rows: 1fr;
 }
-
+/*
 .coar-sub-expand__panel--open::before {
   opacity: 1;
-}
+} */
 
 .coar-sub-expand__panel-inner {
-  /* Propagate the next nesting level to all projected descendants */
-  --coar-sub-expand-level-indent: var(--_coar-sub-expand-child-indent);
-
   overflow: hidden;
   min-height: 0;
 
@@ -185,7 +170,8 @@
   /* Subtle motion inside the expanding area */
   opacity: 0;
   transform: translateY(-2px);
-  transition: opacity var(--coar-duration-fast, 100ms) var(--coar-ease-out, ease),
+  transition:
+    opacity var(--coar-duration-fast, 100ms) var(--coar-ease-out, ease),
     transform var(--coar-duration-fast, 100ms) var(--coar-ease-out, ease);
 }
 

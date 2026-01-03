@@ -29,12 +29,25 @@
   color: var(--coar-menu-item-color, var(--coar-text-neutral-primary, #545454));
   background: var(--coar-menu-item-background, transparent);
   border-radius: 0;
+  position: relative;
 
   /* Interaction */
   cursor: pointer;
   user-select: none;
   transition: var(--coar-transition-fast, all 100ms ease);
   outline: none;
+}
+
+/* Default border via ::before */
+:host::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--coar-menu-item-border-left-color, var(--coar-border-neutral-tertiary, #d0d0d0));
+  pointer-events: none;
 }
 
 /* Hover state */
@@ -47,6 +60,14 @@
   background: var(
     --coar-menu-item-background-active,
     var(--coar-menu-item-background-open, #f0f1f2)
+  );
+}
+
+:host(:active:not(.coar-menu-item--disabled))::before {
+  width: 2px;
+  background: var(
+    --coar-menu-item-border-left-color-active,
+    var(--coar-border-accent-primary, #156db7)
   );
 }
 

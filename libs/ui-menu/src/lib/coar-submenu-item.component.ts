@@ -71,7 +71,7 @@ import { CoarSubmenuTemplateDirective } from './coar-submenu-template.directive'
     >
       <span class="coar-submenu-item__icon" aria-hidden="true">
         @if (icon()) {
-        <coar-icon [name]="icon()!" size="sm" aria-hidden="true" />
+          <coar-icon [name]="icon()!" size="sm" aria-hidden="true" />
         }
       </span>
       <span class="coar-submenu-item__label">{{ label() }}</span>
@@ -119,6 +119,11 @@ export class CoarSubmenuItemComponent {
     // Cleanup cascade when component is destroyed
     this.destroyRef.onDestroy(() => {
       this.cascade.destroy();
+      // Ensure state is cleared on destroy
+      if (this.isOpen) {
+        this.isOpen = false;
+        this.submenuRef = null;
+      }
     });
   }
 
@@ -167,12 +172,18 @@ export class CoarSubmenuItemComponent {
       return;
     }
 
-    // If the submenu is currently closing (e.g. sibling switch + close animation),
-    // allow reopening immediately on hover.
-    if (this.submenuRef?.isClosed) {
-      this.submenuRef = null;
-      this.isOpen = false;
-      this.cdr.markForCheck();
+    // Defensive: sync state with actual overlay status
+    if (this.submenuRef) {
+      if (this.submenuRef.isClosed) {
+        // Overlay is closed, clear everything
+        this.submenuRef = null;
+        this.isOpen = false;
+        this.cdr.markForCheck();
+      } else if (!this.isOpen) {
+        // Overlay is open but state is wrong - fix it
+        this.isOpen = true;
+        this.cdr.markForCheck();
+      }
     }
 
     // Open submenu if not already open
@@ -288,13 +299,17 @@ export class CoarSubmenuItemComponent {
     };
 
     openedRef.afterClosed$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
+      // Only clear state if this is still the current overlay
+      // (prevents race condition when rapidly opening new overlays)
+      if (this.submenuRef === openedRef) {
+        this.submenuRef = null;
+        this.isOpen = false;
+        this.cdr.markForCheck();
+      }
+
       if (this.cascade.overlayRef === openedRef) {
         this.cascade.overlayRef = null;
       }
-
-      this.submenuRef = null;
-      this.isOpen = false;
-      this.cdr.markForCheck();
 
       this.cascade.parent?.notifyChildClosed(this.cascade);
     });
