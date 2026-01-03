@@ -40,6 +40,7 @@ import { CoarMenuAimConfigDirective } from './coar-menu-aim-config.directive';
   host: {
     role: 'menu',
     class: 'coar-menu',
+    '[class.coar-menu--in-overlay]': 'isInOverlay()',
     '[style.--coar-menu-icon-slot-display]': 'showIconColumn() ? null : "none"',
     '[style.--coar-menu-item-icon-slot-size]': 'showIconColumn() ? null : "0px"',
   },
@@ -65,6 +66,8 @@ import { CoarMenuAimConfigDirective } from './coar-menu-aim-config.directive';
   ],
 })
 export class CoarMenuComponent {
+  private readonly overlayRef = inject(COAR_OVERLAY_REF, { optional: true });
+
   /**
    * Controls whether the menu reserves and renders an icon column.
    *
@@ -72,4 +75,12 @@ export class CoarMenuComponent {
    * Set to false for text-only menus (icons will not render).
    */
   readonly showIconColumn = input(true);
+
+  /**
+   * Check if this menu is rendered inside an overlay (flyout).
+   * Used to enable border visibility for menu items.
+   */
+  protected isInOverlay(): boolean {
+    return this.overlayRef !== null;
+  }
 }
