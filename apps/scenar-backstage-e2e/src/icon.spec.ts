@@ -89,4 +89,17 @@ test.describe('Icon (isolated) @icons', () => {
     const iconErrors = errors.filter((e) => e.includes('icon') && !e.includes('404'));
     expect(iconErrors.length).toBe(0);
   });
+
+  test('icon renders SVG for accessibility @a11y', async ({ page }) => {
+    await openScenario(page, 'icon', {
+      name: 'add',
+    });
+
+    const icon = page.locator('coar-icon');
+    await expect(icon).toBeVisible();
+
+    // Verify the icon renders SVG content
+    const svg = icon.locator('svg');
+    await expect(svg).toBeVisible();
+  });
 });

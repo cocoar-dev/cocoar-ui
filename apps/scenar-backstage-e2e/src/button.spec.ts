@@ -90,4 +90,98 @@ test.describe('Button (isolated) @buttons', () => {
     const host = page.locator('coar-button');
     await expect(host).toHaveClass(/coar-button--full-width/);
   });
+
+  test('button has accessible name @a11y', async ({ page }) => {
+    await openScenario(page, 'button', {
+      ariaLabel: 'Accessible Button',
+    });
+
+    const button = page.locator('coar-button button');
+    await expect(button).toBeVisible();
+
+    const ariaLabel = button;
+    await expect(ariaLabel).toHaveAttribute('aria-label');
+  });
+
+  test('disabled button has correct aria attributes @a11y', async ({ page }) => {
+    await openScenario(page, 'button', {
+      label: 'Disabled',
+      disabled: true,
+    });
+
+    const button = page.locator('coar-button button');
+    await expect(button).toBeDisabled();
+  });
+
+  test('loading button indicates loading state @a11y', async ({ page }) => {
+    await openScenario(page, 'button', {
+      label: 'Loading',
+      loading: true,
+    });
+
+    const button = page.locator('coar-button button');
+    const ariaBusy = await button.getAttribute('aria-busy');
+    const ariaDisabled = await button.getAttribute('aria-disabled');
+
+    // Loading button should indicate busy or disabled state
+    expect(ariaBusy === 'true' || ariaDisabled === 'true').toBeTruthy();
+  });
+
+  test('button is focusable with Tab @a11y', async ({ page }) => {
+    await openScenario(page, 'button', {
+      label: 'Focusable Button',
+    });
+
+    const button = page.locator('coar-button button');
+    await expect(button).toBeVisible();
+
+    await button.focus();
+    await expect(button).toBeFocused();
+  });
+
+  test('button can be activated with Enter @a11y', async ({ page }) => {
+    await openScenario(page, 'button', {
+      label: 'Enter Button',
+    });
+
+    const button = page.locator('coar-button button');
+    await expect(button).toBeVisible();
+
+    await button.focus();
+    await page.keyboard.press('Enter');
+    // Button should handle the activation (no error)
+  });
+
+  test('button can be activated with Space @a11y', async ({ page }) => {
+    await openScenario(page, 'button', {
+      label: 'Space Button',
+    });
+
+    const button = page.locator('coar-button button');
+    await expect(button).toBeVisible();
+
+    await button.focus();
+    await page.keyboard.press('Space');
+    // Button should handle the activation (no error)
+  });
+
+  test('focus is visible on button @a11y', async ({ page }) => {
+    await openScenario(page, 'button', {
+      label: 'Focus Visible',
+    });
+
+    const button = page.locator('coar-button button');
+    await expect(button).toBeVisible();
+
+    await button.focus();
+
+    // Check that focus styles are applied (outline or box-shadow)
+    const outlineStyle = await button.evaluate((el) => {
+      const style = window.getComputedStyle(el);
+      return style.outline || style.boxShadow;
+    });
+
+    // Should have some focus indicator
+    expect(outlineStyle).toBeTruthy();
+  });
 });

@@ -312,7 +312,7 @@ async function findComponentByImport(scenarioFilePath, componentTypeName) {
     );
 
     const scenarioDir = path.dirname(scenarioFilePath);
-    
+
     // Check if component is defined in the same file (no import needed)
     let componentDefinedInFile = false;
     ts.forEachChild(sourceFile, (node) => {
@@ -341,12 +341,12 @@ async function findComponentByImport(scenarioFilePath, componentTypeName) {
         if (namedBindings && ts.isNamedImports(namedBindings)) {
           for (const element of namedBindings.elements) {
             const importedName = element.name.text;
-            
+
             // Found the import for our component type
             if (importedName === componentTypeName) {
               // Resolve the import path to an actual file
               const resolvedPath = await resolveImportPath(scenarioDir, importPath);
-              
+
               if (resolvedPath) {
                 return {
                   filePath: resolvedPath,
@@ -401,8 +401,11 @@ async function resolveImportPath(baseDir, importPath) {
  */
 async function enhanceScenario(scenario, scenarioFilePath) {
   // Follow the import to find the component file
-  const componentInfo = await findComponentByImport(scenarioFilePath, scenario.scenarioComponentType);
-  
+  const componentInfo = await findComponentByImport(
+    scenarioFilePath,
+    scenario.scenarioComponentType
+  );
+
   if (!componentInfo) {
     console.error(
       `❌ Could not resolve component '${scenario.scenarioComponentType}' for scenario '${scenario.exportName}' in ${scenarioFilePath}`

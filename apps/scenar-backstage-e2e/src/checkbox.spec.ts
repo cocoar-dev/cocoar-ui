@@ -101,4 +101,58 @@ test.describe('Checkbox (isolated) @checkboxes', () => {
     const component = page.locator('coar-checkbox');
     await expect(component).toHaveClass(/coar-checkbox--readonly/);
   });
+
+  test('checkbox has role and is a native input @a11y', async ({ page }) => {
+    await openScenario(page, 'checkbox', {
+      label: 'Accessible Checkbox',
+    });
+
+    const checkbox = page.locator('coar-checkbox');
+    const input = checkbox.locator('input[type="checkbox"]');
+    const customCheckbox = checkbox.locator('[role="checkbox"]');
+
+    // Should have either native input or custom role
+    const hasNative = (await input.count()) > 0;
+    const hasCustom = (await customCheckbox.count()) > 0;
+
+    expect(hasNative || hasCustom).toBe(true);
+  });
+
+  test('checkbox has associated label @a11y', async ({ page }) => {
+    await openScenario(page, 'checkbox', {
+      label: 'Labeled Checkbox',
+    });
+
+    const input = page.locator('coar-checkbox input[type="checkbox"]');
+    const id = await input.getAttribute('id');
+    const ariaLabel = await input.getAttribute('aria-label');
+    const ariaLabelledby = await input.getAttribute('aria-labelledby');
+
+    // Should have id (for label association), aria-label, or aria-labelledby
+    expect(id || ariaLabel || ariaLabelledby).toBeTruthy();
+  });
+
+  test('indeterminate checkbox has aria-checked="mixed" @a11y', async ({ page }) => {
+    await openScenario(page, 'checkbox', {
+      label: 'Indeterminate',
+      checked: 'indeterminate',
+    });
+
+    const input = page.locator('coar-checkbox input[type="checkbox"]');
+    const ariaChecked = input;
+
+    await expect(ariaChecked).toHaveAttribute('aria-checked', 'mixed');
+  });
+
+  test('checkbox is focusable with Tab @a11y', async ({ page }) => {
+    await openScenario(page, 'checkbox', {
+      label: 'Focusable Checkbox',
+    });
+
+    const checkbox = page.locator('coar-checkbox input[type="checkbox"]');
+    await expect(checkbox).toBeVisible();
+
+    await checkbox.focus();
+    await expect(checkbox).toBeFocused();
+  });
 });
