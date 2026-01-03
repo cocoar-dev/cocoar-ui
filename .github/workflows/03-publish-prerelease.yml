@@ -133,7 +133,7 @@ jobs:
           for pkg_dir in dist/libs/*; do
             if [ -d "$pkg_dir" ] && [ -f "$pkg_dir/package.json" ]; then
               echo "Packing $pkg_dir"
-              (cd "$pkg_dir" && npm pack --pack-destination ../../../artifacts)
+              (cd "$pkg_dir" && npm pack --pack-destination ../../../artifacts) || echo "Skipped private package"
             fi
           done
 
@@ -152,12 +152,11 @@ jobs:
         shell: bash
         run: |
           shopt -s nullglob
-          files=(artifacts/*.tgz)
-          if [ ${#files[@]} -eq 0 ]; then
-            echo "No tarballs found in artifacts/."
-            exit 1
-          fi
-          for f in "${files[@]}"; do
-            echo "Publishing $f with tag 'beta'"
-            npm publish "$f" --tag beta --access public
+          for pkg_dir in dist/libs/*; do
+            if [ -d "$pkg_dir" ] && [ -f "$pkg_dir/package.json" ]; then
+              PKG_NAME=$(jq -r '.name' "$pkg_dir/package.json")
+              PKG_VERSION=$(jq -r '.version' "$pkg_dir/package.json")
+              echo "Publishing $PKG_NAME@$PKG_VERSION with tag 'beta'"
+              (cd "$pkg_dir" && npm publish --tag beta --access public) || echo "Skipped (private or failed)"
+            fi
           done

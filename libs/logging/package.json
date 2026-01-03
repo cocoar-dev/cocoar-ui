@@ -1,6 +1,7 @@
 {
   "name": "@cocoar/logging",
   "version": "0.0.1",
+  "private": true,
   "description": "Serilog-style structured logging for TypeScript - designed for monorepos and modern applications",
   "author": "Cocoar",
   "license": "Apache-2.0",

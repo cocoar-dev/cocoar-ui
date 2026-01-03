@@ -4,8 +4,8 @@
   "peerDependencies": {
     "@angular/common": "^21.0.0",
     "@angular/core": "^21.0.0",
-    "@cocoar/ui-components": "*",
-    "@cocoar/ui-overlay": "*"
+    "@cocoar/ui-components": "^0.0.1",
+    "@cocoar/ui-overlay": "^0.0.1"
   },
   "sideEffects": false
 }
