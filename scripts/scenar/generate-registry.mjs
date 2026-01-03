@@ -296,68 +296,130 @@ async function extractScenarioExports(filePath, relativeFile) {
 }
 
 /**
- * Enhances a scenario with auto-generated component loader and inputs.
+ * Finds the component file by following the import statement for the component type.
+ * Returns { filePath, componentName, isInSameFile } or null if not found.
  */
-async function enhanceScenario(scenario, scenarioFilePath) {
-  // Infer component file path from scenario file
-  // Try multiple naming patterns:
-  // 1. hello-demo.scenario.ts -> hello-demo.component.ts
-  // 2. icon.scenario.ts -> coar-icon.component.ts (with coar- prefix)
-  // 3. hello-demo.component.scenario.ts -> component is in the same file
-  const scenarioDir = path.dirname(scenarioFilePath);
-  const scenarioBasename = path.basename(scenarioFilePath, '.scenario.ts');
+async function findComponentByImport(scenarioFilePath, componentTypeName) {
+  if (!componentTypeName) return null;
 
-  let possibleComponentPaths = [];
-  let componentInSameFile = false;
+  try {
+    const sourceCode = await fs.readFile(scenarioFilePath, 'utf-8');
+    const sourceFile = ts.createSourceFile(
+      scenarioFilePath,
+      sourceCode,
+      ts.ScriptTarget.Latest,
+      true
+    );
 
-  // Check if scenario is defined in the component file itself (e.g., *.component.scenario.ts)
-  if (scenarioBasename.endsWith('.component')) {
-    // Component is in the same file
-    componentInSameFile = true;
-    possibleComponentPaths = [scenarioFilePath];
-  } else {
-    // Component is in a separate file
-    possibleComponentPaths = [
-      path.join(scenarioDir, `${scenarioBasename}.component.ts`),
-      path.join(scenarioDir, `coar-${scenarioBasename}.component.ts`),
-    ];
+    const scenarioDir = path.dirname(scenarioFilePath);
+    
+    // Check if component is defined in the same file (no import needed)
+    let componentDefinedInFile = false;
+    ts.forEachChild(sourceFile, (node) => {
+      if (ts.isClassDeclaration(node) && node.name?.text === componentTypeName) {
+        componentDefinedInFile = true;
+      }
+    });
+
+    if (componentDefinedInFile) {
+      return {
+        filePath: scenarioFilePath,
+        componentName: componentTypeName,
+        isInSameFile: true,
+      };
+    }
+
+    // Find the import statement for the component type
+    for (const statement of sourceFile.statements) {
+      if (ts.isImportDeclaration(statement)) {
+        const moduleSpecifier = statement.moduleSpecifier;
+        if (!ts.isStringLiteral(moduleSpecifier)) continue;
+
+        const importPath = moduleSpecifier.text;
+        const namedBindings = statement.importClause?.namedBindings;
+
+        if (namedBindings && ts.isNamedImports(namedBindings)) {
+          for (const element of namedBindings.elements) {
+            const importedName = element.name.text;
+            
+            // Found the import for our component type
+            if (importedName === componentTypeName) {
+              // Resolve the import path to an actual file
+              const resolvedPath = await resolveImportPath(scenarioDir, importPath);
+              
+              if (resolvedPath) {
+                return {
+                  filePath: resolvedPath,
+                  componentName: componentTypeName,
+                  isInSameFile: false,
+                };
+              }
+            }
+          }
+        }
+      }
+    }
+  } catch (error) {
+    // Failed to parse or read file - fallback to convention
+    return null;
   }
 
-  let componentFilePath = null;
-  let componentFileName = null;
+  return null;
+}
 
-  for (const candidatePath of possibleComponentPaths) {
-    try {
-      await fs.access(candidatePath);
-      componentFilePath = candidatePath;
-      if (componentInSameFile) {
-        // Extract component filename from the scenario filename
-        componentFileName = scenarioBasename; // e.g., "hello-demo.component"
-      } else {
-        componentFileName = path.basename(candidatePath, '.ts');
+/**
+ * Resolves an import path like './my-component' to an actual file path.
+ * Tries common extensions: .ts, .tsx, /index.ts
+ */
+async function resolveImportPath(baseDir, importPath) {
+  // Handle relative imports
+  if (importPath.startsWith('.')) {
+    const candidates = [
+      path.join(baseDir, `${importPath}.ts`),
+      path.join(baseDir, `${importPath}.tsx`),
+      path.join(baseDir, importPath, 'index.ts'),
+      path.join(baseDir, importPath, 'index.tsx'),
+    ];
+
+    for (const candidate of candidates) {
+      try {
+        await fs.access(candidate);
+        return candidate;
+      } catch {
+        // Try next candidate
       }
-      break;
-    } catch {
-      // Try next candidate
     }
   }
 
-  // Check if component file exists
-  if (!componentFilePath) {
-    // Component file doesn't exist - this is an error!
-    console.warn(
-      `⚠️  No component file found for scenario '${scenario.exportName}' in ${scenarioFilePath}`
+  // For absolute imports (@cocoar/...) we could resolve via tsconfig paths,
+  // but for now we'll skip those as they're less common in co-located scenarios
+  return null;
+}
+
+/**
+ * Enhances a scenario with auto-generated component loader and inputs.
+ */
+async function enhanceScenario(scenario, scenarioFilePath) {
+  // Follow the import to find the component file
+  const componentInfo = await findComponentByImport(scenarioFilePath, scenario.scenarioComponentType);
+  
+  if (!componentInfo) {
+    console.error(
+      `❌ Could not resolve component '${scenario.scenarioComponentType}' for scenario '${scenario.exportName}' in ${scenarioFilePath}`
     );
+    console.error(`   If the import is correct, this is a bug in the registry generator.`);
     return;
   }
 
+  console.log(`  ✓ Found component '${scenario.scenarioComponentType}' via import resolution`);
+
   // Store component info for registry generation
-  scenario.componentFilePath = componentFilePath;
-  scenario.componentFileName = componentFileName;
-  scenario.componentInSameFile = componentInSameFile;
+  scenario.componentFilePath = componentInfo.filePath;
+  scenario.componentFileName = path.basename(componentInfo.filePath, '.ts');
+  scenario.componentInSameFile = componentInfo.isInSameFile;
 
   // Parse component file to extract input defaults
-  scenario.componentInputs = await extractComponentInputs(componentFilePath);
+  scenario.componentInputs = await extractComponentInputs(componentInfo.filePath);
 }
 
 /**
