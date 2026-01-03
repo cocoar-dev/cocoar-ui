@@ -12,14 +12,7 @@
     "lint": "nx run-many -t lint",
     "e2e": "nx run showcase-e2e:e2e",
     "e2e:ui": "nx run showcase-e2e:e2e-ui",
-    "start": "nx serve showcase",
-    "pack:local": "pnpm run pack:ui-components && pnpm run pack:ui-tokens && pnpm run pack:ui-overlay && pnpm run pack:ui-menu && pnpm run pack:markdown-core && pnpm run pack:markdown-viewer",
-    "pack:ui-components": "cd dist/libs/ui-components && pnpm pack --pack-destination ../../../../timetodo/src/frontend/local-packages",
-    "pack:ui-tokens": "cd dist/libs/ui-tokens && pnpm pack --pack-destination ../../../../timetodo/src/frontend/local-packages",
-    "pack:ui-overlay": "cd dist/libs/ui-overlay && pnpm pack --pack-destination ../../../../timetodo/src/frontend/local-packages",
-    "pack:ui-menu": "cd dist/libs/ui-menu && pnpm pack --pack-destination ../../../../timetodo/src/frontend/local-packages",
-    "pack:markdown-core": "cd dist/libs/markdown-core && pnpm pack --pack-destination ../../../../timetodo/src/frontend/local-packages",
-    "pack:markdown-viewer": "cd dist/libs/markdown-viewer && pnpm pack --pack-destination ../../../../timetodo/src/frontend/local-packages"
+    "start": "nx serve showcase"
   },
   "private": true,
   "dependencies": {

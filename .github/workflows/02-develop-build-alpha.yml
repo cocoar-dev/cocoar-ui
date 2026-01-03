@@ -38,6 +38,9 @@ jobs:
       - name: Lint
         run: pnpm lint
 
+      - name: Generate scenario registry
+        run: pnpm nx generate-registry scenar-backstage
+
       - name: Test
         run: pnpm test
 
