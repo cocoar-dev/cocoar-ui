@@ -48,4 +48,44 @@ test.describe('Menu Component - Close Behavior @menu', () => {
     // Menu should close
     await expect(menu).not.toBeVisible({ timeout: 1000 });
   });
+
+  test('clicking item in nested submenu closes all menus in hierarchy', async ({ page }) => {
+    // Open the context menu
+    const contextArea = page.locator('.context-demo-area');
+    await contextArea.click({ button: 'right' });
+
+    // Wait for root menu to appear
+    const rootMenu = page.locator('.coar-overlay-panel coar-menu').first();
+    await expect(rootMenu).toBeVisible();
+
+    // Hover over "Share" to open first-level submenu
+    const shareItem = rootMenu.locator('coar-sub-flyout').filter({ hasText: 'Share' });
+    await shareItem.hover();
+
+    // Wait for Share submenu to appear
+    const shareSubmenu = page.locator('.coar-overlay-panel coar-menu').nth(1);
+    await expect(shareSubmenu).toBeVisible();
+
+    // Hover over "Copy Link" to open second-level submenu
+    const copyLinkItem = shareSubmenu.locator('coar-sub-flyout').filter({ hasText: 'Copy Link' });
+    await copyLinkItem.hover();
+
+    // Wait for Copy Link submenu to appear
+    const copyLinkSubmenu = page.locator('.coar-overlay-panel coar-menu').nth(2);
+    await expect(copyLinkSubmenu).toBeVisible();
+
+    // Click a menu item in the deeply nested submenu
+    const markdownItem = copyLinkSubmenu
+      .locator('coar-menu-item')
+      .filter({ hasText: 'Copy as Markdown' });
+    await markdownItem.click();
+
+    // Move mouse away to ensure hover state doesn't interfere
+    await page.mouse.move(10, 10);
+
+    // All menus should close (root, Share submenu, and Copy Link submenu)
+    await expect(rootMenu).not.toBeVisible({ timeout: 1500 });
+    await expect(shareSubmenu).not.toBeVisible({ timeout: 1500 });
+    await expect(copyLinkSubmenu).not.toBeVisible({ timeout: 1500 });
+  });
 });

@@ -469,6 +469,9 @@ class CoarOverlayRef implements OverlayRef {
   closeChildren(exclude?: CoarOverlayRef): void {
     for (const child of Array.from(this.children)) {
       if (child !== exclude) {
+        // Recursively close descendants first (depth-first)
+        child.closeChildren();
+        // Then close this child
         child.close();
       }
     }
