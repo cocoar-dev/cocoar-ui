@@ -7,12 +7,6 @@ import { provideCoarIconBuiltInSourceAs } from './lib/coar-icon/coar-icon-built-
 setupCoarAngularVitest();
 
 beforeEach(() => {
-  const flags = globalThis as typeof globalThis & {
-    __coarUiComponentsDisableDefaultIconRegistry?: boolean;
-  };
-
-  if (flags.__coarUiComponentsDisableDefaultIconRegistry) return;
-
   TestBed.configureTestingModule({
     providers: [provideCoarIconBuiltInSourceAs('core')],
   });

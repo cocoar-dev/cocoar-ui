@@ -4,17 +4,12 @@ import { provideHttpClient } from '@angular/common/http';
 import { firstValueFrom, of } from 'rxjs';
 import { CoarIconService } from './coar-icon.service';
 import {
+  COAR_ICON_SOURCE_ENTRY,
   provideCoarDefaultIconSource,
   provideCoarHttpIconSource,
   provideCoarIconMapSource,
   provideCoarIconSource,
 } from './coar-icon-registry';
-
-(
-  globalThis as typeof globalThis & {
-    __coarUiComponentsDisableDefaultIconRegistry?: boolean;
-  }
-).__coarUiComponentsDisableDefaultIconRegistry = true;
 
 describe('CoarIconService', () => {
   it('should be created', () => {
@@ -31,6 +26,10 @@ describe('CoarIconService', () => {
       TestBed.configureTestingModule({
         providers: [provideHttpClient(), provideHttpClientTesting(), CoarIconService],
       });
+
+      // ui-components test setup provides a default icon source.
+      // Override it for this test to validate strict misconfiguration behavior.
+      TestBed.overrideProvider(COAR_ICON_SOURCE_ENTRY, { useValue: [] });
 
       const service = TestBed.inject(CoarIconService);
       expect(() => service.getIcon('anything')).toThrow(/No Coar icon source is configured/i);
