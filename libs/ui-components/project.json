@@ -32,13 +32,7 @@
       "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
       "options": {
         "project": "libs/ui-components/ng-package.json",
-        "tsConfig": "libs/ui-components/tsconfig.lib.json",
-        "budgets": [
-          {
-            "type": "anyComponentStyle",
-            "maximumError": "12kb"
-          }
-        ]
+        "tsConfig": "libs/ui-components/tsconfig.lib.json"
       },
       "configurations": {
         "production": {

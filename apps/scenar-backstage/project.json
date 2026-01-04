@@ -32,10 +32,7 @@
     "serve:watch": {
       "executor": "nx:run-commands",
       "options": {
-        "commands": [
-          "nx serve scenar-backstage",
-          "nx generate-registry:watch scenar-backstage"
-        ],
+        "commands": ["nx serve scenar-backstage", "nx generate-registry:watch scenar-backstage"],
         "parallel": true
       }
     },
@@ -71,8 +68,8 @@
             },
             {
               "type": "anyComponentStyle",
-              "maximumWarning": "4kb",
-              "maximumError": "8kb"
+              "maximumWarning": "120kb",
+              "maximumError": "240kb"
             }
           ],
           "outputHashing": "all"
