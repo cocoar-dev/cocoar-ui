@@ -1,15 +1,21 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 
 import {
   CoarIconComponent,
+  CoarIconService,
   CoarCodeBlockComponent,
   CoarTabGroupComponent,
   CoarTabComponent,
   CoarTextInputComponent,
   CoarDividerComponent,
-  CORE_ICONS,
 } from '@cocoar/ui-components';
 import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
+
+type IconsPageSourceGroup = Readonly<{
+  key: string;
+  icons: readonly string[];
+}>;
 
 @Component({
   selector: 'app-icons',
@@ -20,12 +26,14 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarTabGroupComponent,
     CoarTabComponent,
     CoarTextInputComponent,
-    CoarDividerComponent
-],
+    CoarDividerComponent,
+  ],
   templateUrl: './icons.page.html',
   styleUrl: './icons.page.css',
 })
 export class IconsPage {
+  private readonly iconService = inject(CoarIconService);
+
   activeTab = 'examples';
 
   protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
@@ -33,17 +41,29 @@ export class IconsPage {
   protected readonly docsPath = '/docs/components/icon/overview.md';
   protected readonly apiPath = '/docs/components/icon/api.md';
 
-  /** All available icon names */
-  allIcons = Object.keys(CORE_ICONS).sort();
+  /** All available icon names grouped by icon source */
+  private readonly iconGroups = signal<readonly IconsPageSourceGroup[]>([]);
 
   /** Search filter for icons */
   searchQuery = signal('');
 
-  /** Filtered icons based on search */
-  get filteredIcons(): string[] {
+  /** Total icon count across all sources */
+  get totalIconsCount(): number {
+    return this.iconGroups().reduce((count, group) => count + group.icons.length, 0);
+  }
+
+  /** Filtered icons grouped by source */
+  get filteredIconGroups(): readonly IconsPageSourceGroup[] {
+    const groups = this.iconGroups();
     const query = this.searchQuery().toLowerCase();
-    if (!query) return this.allIcons;
-    return this.allIcons.filter((icon) => icon.toLowerCase().includes(query));
+    if (!query) return groups;
+
+    return groups
+      .map((group) => ({
+        key: group.key,
+        icons: group.icons.filter((icon) => icon.toLowerCase().includes(query)),
+      }))
+      .filter((group) => group.icons.length > 0);
   }
 
   /** Available sizes */
@@ -116,5 +136,21 @@ export class IconsPage {
   /** Copy icon name to clipboard */
   copyIconName(name: string): void {
     navigator.clipboard.writeText(name);
+  }
+
+  constructor() {
+    void this.loadIconGroups();
+  }
+
+  private async loadIconGroups(): Promise<void> {
+    const sources = this.iconService.getRegisteredSources().filter((s) => s.canProvideIconKeys);
+    const groups: IconsPageSourceGroup[] = [];
+
+    for (const source of sources) {
+      const keys = await firstValueFrom(this.iconService.getAvailableIconKeys(source.key));
+      groups.push({ key: source.key, icons: keys });
+    }
+
+    this.iconGroups.set(groups);
   }
 }

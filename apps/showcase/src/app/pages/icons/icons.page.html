@@ -18,22 +18,27 @@
     <!-- Icon Gallery -->
     <section class="example-section">
       <h2 class="coar-heading">Icon Gallery</h2>
-      <p class="section-intro coar-body-small">Browse all {{ allIcons.length }} available icons. Click an icon to copy its name.</p>
+      <p class="section-intro coar-body-small">Browse all {{ totalIconsCount }} available icons. Click an icon to copy its name.</p>
 
       <div class="search-wrapper">
         <coar-text-input placeholder="Search icons..." [value]="searchQuery()" (valueChange)="searchQuery.set($event)" [clearable]="true" />
       </div>
 
-      <div class="icons-grid">
-        @for (icon of filteredIcons; track icon) {
-        <button class="icon-item" (click)="copyIconName(icon)" [title]="'Click to copy: ' + icon">
-          <coar-icon [name]="icon" size="lg" />
-          <span class="icon-name coar-caption">{{ icon }}</span>
-        </button>
-        } @empty {
+      @for (group of filteredIconGroups; track group.key) {
+        <div class="icon-source-group">
+          <h3 class="coar-body-small icon-source-title">Source: {{ group.key }}</h3>
+          <div class="icons-grid">
+            @for (icon of group.icons; track icon) {
+              <button class="icon-item" (click)="copyIconName(icon)" [title]="'Click to copy: ' + icon">
+                <coar-icon [name]="icon" [source]="group.key" size="lg" />
+                <span class="icon-name coar-caption">{{ icon }}</span>
+              </button>
+            }
+          </div>
+        </div>
+      } @empty {
         <p class="no-results coar-body-small">No icons match "{{ searchQuery() }}"</p>
-        }
-      </div>
+      }
       <coar-code-block [code]="codeExamples.basic" language="html" [collapsed]="true" />
     </section>
     <coar-divider [spacingTop]="16" [spacingBottom]="48" />
@@ -45,10 +50,10 @@
       <div class="example-demo">
         <div class="sizes-row">
           @for (size of sizes; track size) {
-          <div class="size-item">
-            <coar-icon name="settings" [size]="size" />
-            <span class="size-label coar-caption">{{ size }} ({{ sizeLabels[size] }})</span>
-          </div>
+            <div class="size-item">
+              <coar-icon name="settings" [size]="size" />
+              <span class="size-label coar-caption">{{ size }} ({{ sizeLabels[size] }})</span>
+            </div>
           }
           <div class="size-item">
             <coar-icon name="settings" size="48px" />

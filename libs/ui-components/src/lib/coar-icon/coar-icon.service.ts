@@ -1,107 +1,135 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError, shareReplay } from 'rxjs/operators';
-import { CORE_ICONS } from './core-icons';
+import { Observable } from 'rxjs';
+import {
+  COAR_DEFAULT_ICON_SOURCE_KEY,
+  COAR_ICON_SOURCE_ENTRY,
+  type CoarIconSource,
+  type CoarIconSourceEntry,
+} from './coar-icon-registry';
 
-/**
- * Service for loading and caching icons from both built-in registry and customer uploads.
- *
- * Built-in icons are stored in memory and returned immediately.
- * Customer icons are fetched from the API and cached after first request.
- */
+export type CoarIconRegisteredSource = Readonly<{
+  key: string;
+  isDefault: boolean;
+  canProvideIconKeys: boolean;
+}>;
+
 @Injectable({
   providedIn: 'root',
 })
 export class CoarIconService {
-  private readonly http = inject(HttpClient);
-  private customerIconCache = new Map<string, Observable<string | null>>();
+  private readonly sourceEntries = (inject(COAR_ICON_SOURCE_ENTRY, { optional: true }) ?? []) as
+    | CoarIconSourceEntry[]
+    | null;
+  private readonly defaultSourceOverrides = (inject(COAR_DEFAULT_ICON_SOURCE_KEY, {
+    optional: true,
+  }) ?? []) as string[] | null;
+
+  private readonly sourceByKey = new Map(
+    (this.sourceEntries ?? []).map((entry) => [entry.key, entry.source] as const)
+  );
 
   /**
-   * Get an icon by name. Handles both built-in and customer icons.
+   * Get an icon by name from a specific icon source.
    *
-   * @param name - Icon identifier (e.g., "settings" or "customer:invoicePaid")
-   * @returns Observable of SVG string, or null if not found
+   * - If `sourceKey` is omitted, the default source is used.
+   * - If no source is configured, this throws to make misconfiguration obvious.
    */
-  getIcon(name: string): Observable<string | null> {
-    const parsed = this.parseIconName(name);
-
-    if (parsed.source === 'builtin') {
-      return this.getBuiltInIcon(parsed.key);
-    } else if (parsed.source === 'customer') {
-      return this.getCustomerIcon(parsed.key);
-    }
-
-    return of(null);
+  getIcon(name: string, sourceKey?: string): Observable<string | null> {
+    const source = this.getSourceOrThrow(sourceKey);
+    return source.getIcon(name);
   }
 
   /**
-   * Parse icon name into source type and key.
+   * List all registered icon sources.
    *
-   * Examples:
-   * - "settings" -> { source: "builtin", key: "settings" }
-   * - "customer:invoicePaid" -> { source: "customer", key: "invoicePaid" }
+   * This is useful for UIs that allow users to browse icons grouped by source.
    */
-  private parseIconName(name: string): { source: 'builtin' | 'customer'; key: string } {
-    if (name.startsWith('customer:')) {
-      return {
-        source: 'customer',
-        key: name.substring(9),
-      };
-    }
+  getRegisteredSources(): ReadonlyArray<CoarIconRegisteredSource> {
+    if (this.sourceByKey.size === 0) return [];
 
-    return {
-      source: 'builtin',
-      key: name,
-    };
+    const defaultKey = this.getDefaultSourceKeyOrThrow();
+    const entries =
+      this.sourceEntries ??
+      Array.from(this.sourceByKey.entries()).map(([key, source]) => ({ key, source }));
+
+    return entries.map((entry) => ({
+      key: entry.key,
+      isDefault: entry.key === defaultKey,
+      canProvideIconKeys: typeof entry.source.getAvailableIconKeys === 'function',
+    }));
   }
 
   /**
-   * Get a built-in icon from the in-memory registry.
+   * Get the available icon keys from a specific source.
+   *
+   * Throws if the source does not support listing keys.
    */
-  private getBuiltInIcon(key: string): Observable<string | null> {
-    const svg = CORE_ICONS[key as keyof typeof CORE_ICONS] || null;
-    return of(svg || null);
-  }
-
-  /**
-   * Get a customer icon from the API, with caching.
-   * Uses shareReplay(1) to ensure only one network request per icon.
-   */
-  private getCustomerIcon(key: string): Observable<string | null> {
-    const cached = this.customerIconCache.get(key);
-    if (cached) {
-      return cached;
-    }
-
-    const request$ = this.http
-      .get(`/api/icons/${key}.svg`, {
-        responseType: 'text',
-      })
-      .pipe(
-        catchError(() => of(null)),
-        shareReplay(1)
+  getAvailableIconKeys(sourceKey?: string): Observable<readonly string[]> {
+    const entry = this.getSourceEntryOrThrow(sourceKey);
+    if (!entry.source.getAvailableIconKeys) {
+      throw new Error(
+        `Coar icon source "${entry.key}" does not support listing available icon keys.`
       );
-
-    this.customerIconCache.set(key, request$);
-    return request$;
-  }
-
-  /**
-   * Clear the customer icon cache.
-   * Useful when icons are updated on the server.
-   */
-  clearCache(): void {
-    this.customerIconCache.clear();
-  }
-
-  /**
-   * Clear a specific icon from the cache.
-   */
-  clearIconCache(name: string): void {
-    const parsed = this.parseIconName(name);
-    if (parsed.source === 'customer') {
-      this.customerIconCache.delete(parsed.key);
     }
+    return entry.source.getAvailableIconKeys();
+  }
+
+  clearCache(): void {
+    for (const source of this.sourceByKey.values()) {
+      source.clearCache?.();
+    }
+  }
+
+  clearIconCache(name: string): void {
+    for (const source of this.sourceByKey.values()) {
+      source.clearIconCache?.(name);
+    }
+  }
+
+  private getSourceOrThrow(sourceKey?: string): CoarIconSource {
+    if (this.sourceByKey.size === 0) {
+      throw new Error(
+        'No Coar icon source is configured. Provide at least one source via provideCoarIconSource(), provideCoarIconBuiltInSourceAs(), or provideCoarHttpIconSource().'
+      );
+    }
+
+    const effectiveKey = sourceKey ?? this.getDefaultSourceKeyOrThrow();
+    const source = this.sourceByKey.get(effectiveKey);
+    if (!source) {
+      throw new Error(`Unknown Coar icon source key: "${effectiveKey}".`);
+    }
+
+    return source;
+  }
+
+  private getSourceEntryOrThrow(sourceKey?: string): CoarIconSourceEntry {
+    if (this.sourceByKey.size === 0) {
+      throw new Error(
+        'No Coar icon source is configured. Provide at least one source via provideCoarIconSource(), provideCoarIconBuiltInSourceAs(), or provideCoarHttpIconSource().'
+      );
+    }
+
+    const effectiveKey = sourceKey ?? this.getDefaultSourceKeyOrThrow();
+    const source = this.sourceByKey.get(effectiveKey);
+    if (!source) {
+      throw new Error(`Unknown Coar icon source key: "${effectiveKey}".`);
+    }
+
+    return { key: effectiveKey, source };
+  }
+
+  private getDefaultSourceKeyOrThrow(): string {
+    const overrideKey = this.defaultSourceOverrides?.at(-1);
+    if (overrideKey) {
+      if (!this.sourceByKey.has(overrideKey)) {
+        throw new Error(
+          `Default Coar icon source key "${overrideKey}" was provided but no source with that key is registered.`
+        );
+      }
+      return overrideKey;
+    }
+
+    // First registered source becomes default.
+    return this.sourceEntries?.[0]?.key ?? Array.from(this.sourceByKey.keys())[0];
   }
 }

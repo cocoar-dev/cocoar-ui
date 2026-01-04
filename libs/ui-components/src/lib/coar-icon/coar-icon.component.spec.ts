@@ -3,7 +3,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { CoarIconComponent } from './coar-icon.component';
 import { CoarIconService } from './coar-icon.service';
-import { of, throwError } from 'rxjs';
+import { Subject, of } from 'rxjs';
 import { vi } from 'vitest';
 
 describe('CoarIconComponent', () => {
@@ -34,7 +34,7 @@ describe('CoarIconComponent', () => {
       fixture.componentRef.setInput('name', 'settings');
       fixture.detectChanges();
 
-      expect(iconService.getIcon).toHaveBeenCalledWith('settings');
+      expect(iconService.getIcon).toHaveBeenCalledWith('settings', undefined);
     });
 
     it('should show loading state while fetching icon', fakeAsync(() => {
@@ -68,61 +68,47 @@ describe('CoarIconComponent', () => {
       expect(component).toBeTruthy();
     });
 
-    it('should load fallback icon when main icon not found', () => {
-      const fallbackSvg = '<svg><rect /></svg>';
+    it('should cancel in-flight icon load when name changes', fakeAsync(() => {
+      const first$ = new Subject<string | null>();
+      const second$ = new Subject<string | null>();
+
       vi.spyOn(iconService, 'getIcon').mockImplementation((name: string) => {
-        if (name === 'fallback-icon') {
-          return of(fallbackSvg);
-        }
+        if (name === 'first') return first$.asObservable();
+        if (name === 'second') return second$.asObservable();
         return of(null);
       });
 
-      fixture.componentRef.setInput('name', 'nonexistent');
-      component.fallback = 'fallback-icon';
+      fixture.componentRef.setInput('name', 'first');
       fixture.detectChanges();
 
-      expect(iconService.getIcon).toHaveBeenCalledWith('nonexistent');
-      expect(iconService.getIcon).toHaveBeenCalledWith('fallback-icon');
-    });
-
-    it('should handle fallback icon not found', () => {
-      vi.spyOn(iconService, 'getIcon').mockReturnValue(of(null));
-
-      fixture.componentRef.setInput('name', 'nonexistent');
-      component.fallback = 'also-nonexistent';
+      fixture.componentRef.setInput('name', 'second');
       fixture.detectChanges();
 
-      expect(component).toBeTruthy();
-    });
+      // Allow the reactive effect to process the input change.
+      tick();
 
-    it('should handle icon loading error and try fallback', () => {
-      const fallbackSvg = '<svg><rect /></svg>';
-      vi.spyOn(iconService, 'getIcon').mockImplementation((name: string) => {
-        if (name === 'error-icon') {
-          return throwError(() => new Error('Load failed'));
-        }
-        return of(fallbackSvg);
-      });
-
-      fixture.componentRef.setInput('name', 'error-icon');
-      component.fallback = 'fallback-icon';
+      // Emit the first icon after switching the name.
+      // This should not render because the subscription should have been cancelled.
+      first$.next('<svg id="first"></svg>');
+      first$.complete();
+      tick();
       fixture.detectChanges();
 
-      expect(iconService.getIcon).toHaveBeenCalledWith('error-icon');
-      expect(iconService.getIcon).toHaveBeenCalledWith('fallback-icon');
-    });
+      expect(fixture.nativeElement.querySelector('.coar-icon')?.innerHTML).not.toContain(
+        'id="first"'
+      );
+      expect(fixture.nativeElement.querySelector('.coar-icon--loading')).toBeTruthy();
 
-    it('should handle fallback loading error', () => {
-      vi.spyOn(iconService, 'getIcon').mockImplementation(() => {
-        return throwError(() => new Error('Load failed'));
-      });
-
-      fixture.componentRef.setInput('name', 'error-icon');
-      component.fallback = 'fallback-also-errors';
+      // Now emit the second icon; it should win.
+      second$.next('<svg id="second"></svg>');
+      second$.complete();
+      tick();
       fixture.detectChanges();
 
-      expect(component).toBeTruthy();
-    });
+      const iconElement = fixture.nativeElement.querySelector('.coar-icon');
+      expect(iconElement?.innerHTML).toContain('id="second"');
+      expect(iconElement?.innerHTML).not.toContain('id="first"');
+    }));
   });
 
   describe('sizes', () => {

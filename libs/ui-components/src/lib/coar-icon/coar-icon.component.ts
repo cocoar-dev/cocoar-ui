@@ -1,29 +1,27 @@
-
 import {
   ChangeDetectionStrategy,
   Component,
   inject,
   input,
-  Input,
   signal,
   effect,
   booleanAttribute,
 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Observable, of } from 'rxjs';
+import { catchError, finalize } from 'rxjs/operators';
 import { CoarIconService } from './coar-icon.service';
-import { CoreIconName } from './core-icons';
 
 export type CoarIconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'auto';
 
 /**
  * COAR Icon Component
  *
- * Hybrid icon system supporting built-in icons and customer-uploaded SVGs.
+ * Icon component supporting DI-provided icon registries.
  *
  * Usage:
  * ```html
  * <coar-icon name="settings" size="md"></coar-icon>
- * <coar-icon name="customer:invoicePaid" size="lg"></coar-icon>
  * ```
  *
  * Size tokens:
@@ -39,31 +37,34 @@ export type CoarIconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'auto';
   standalone: true,
   imports: [],
   template: `
-    @if(name()) { @if (sanitizedSvg(); as svg) {
-    <div
-      class="coar-icon"
-      [class]="isPresetSize(size()) ? 'coar-icon--' + size() : ''"
-      [class.coar-icon--spin]="spin()"
-      [style.transform]="'rotate(' + rotate() + 'deg)'"
-      [style.color]="color()"
-      [style.width]="!isPresetSize(size()) ? size() : null"
-      [style.height]="!isPresetSize(size()) ? size() : null"
-      [style.transition]="getRotateTransitionValue()"
-      [innerHTML]="svg"
-    ></div>
-    } @else if (isLoading()) {
-    <div
-      class="coar-icon coar-icon--loading"
-      [class]="isPresetSize(size()) ? 'coar-icon--' + size() : ''"
-      [style.width]="!isPresetSize(size()) ? size() : null"
-      [style.height]="!isPresetSize(size()) ? size() : null"
-    ></div>
-    } } @if (label()) {
-    <span class="coar-icon__label">{{ label() }}</span>
+    @if (name()) {
+      @if (sanitizedSvg(); as svg) {
+        <div
+          class="coar-icon"
+          [class]="isPresetSize(size()) ? 'coar-icon--' + size() : ''"
+          [class.coar-icon--spin]="spin()"
+          [style.transform]="'rotate(' + rotate() + 'deg)'"
+          [style.color]="color()"
+          [style.width]="!isPresetSize(size()) ? size() : null"
+          [style.height]="!isPresetSize(size()) ? size() : null"
+          [style.transition]="getRotateTransitionValue()"
+          [innerHTML]="svg"
+        ></div>
+      } @else if (isLoading()) {
+        <div
+          class="coar-icon coar-icon--loading"
+          [class]="isPresetSize(size()) ? 'coar-icon--' + size() : ''"
+          [style.width]="!isPresetSize(size()) ? size() : null"
+          [style.height]="!isPresetSize(size()) ? size() : null"
+        ></div>
+      }
+    }
+    @if (label()) {
+      <span class="coar-icon__label">{{ label() }}</span>
     } @else {
-    <span class="coar-icon__label">
-      <ng-content></ng-content>
-    </span>
+      <span class="coar-icon__label">
+        <ng-content></ng-content>
+      </span>
     }
   `,
   styleUrl: './coar-icon.component.css',
@@ -76,11 +77,21 @@ export class CoarIconComponent {
   private readonly iconService = inject(CoarIconService);
   private readonly sanitizer = inject(DomSanitizer);
 
+  private iconLoadVersion = 0;
+
   /**
    * Icon identifier.
-   * Examples: "settings", "user", "customer:invoicePaid"
+   * Examples: "settings", "user"
    */
-  name = input<CoreIconName>();
+  name = input<string>();
+
+  /**
+   * Optional icon source key.
+   *
+   * - If omitted, the default source is used.
+   * - If multiple sources are registered, this can be used to target a specific one.
+   */
+  source = input<string | undefined>();
 
   /**
    * Icon size. Defaults to 'md' (20px).
@@ -117,12 +128,6 @@ export class CoarIconComponent {
    * Optional text label to display next to the icon.
    */
   label = input<string | number>();
-
-  /**
-   * Optional fallback icon to show if the requested icon fails to load.
-   * If not specified and the icon fails, nothing will be rendered.
-   */
-  @Input() fallback?: string;
 
   /**
    * Signal holding the sanitized SVG HTML ready for rendering.
@@ -162,60 +167,52 @@ export class CoarIconComponent {
   constructor() {
     effect(() => {
       const iconName = this.name();
+      const sourceKey = this.source();
       if (!iconName) {
+        this.iconLoadVersion++;
         this.sanitizedSvg.set(null);
+        this.isLoading.set(false);
         return;
       }
 
-      this.loadIcon(iconName);
-    });
-  }
+      const loadVersion = ++this.iconLoadVersion;
 
-  /**
-   * Load an icon from the service and sanitize it.
-   */
-  private loadIcon(name: string): void {
-    this.isLoading.set(true);
-
-    this.iconService.getIcon(name).subscribe({
-      next: (svg) => {
-        if (svg) {
-          this.sanitizedSvg.set(this.sanitizer.bypassSecurityTrustHtml(svg));
-          this.isLoading.set(false);
-        } else {
-          console.debug(`Loading customer icon: ${name}`);
-          this.loadFallback();
-        }
-      },
-      error: () => {
-        console.debug(`Loading customer icon: ${name}`);
-        this.loadFallback();
-      },
-    });
-  }
-
-  /**
-   * Load fallback icon if available.
-   */
-  private loadFallback(): void {
-    if (this.fallback) {
-      this.iconService.getIcon(this.fallback).subscribe({
-        next: (svg) => {
-          if (svg) {
-            this.sanitizedSvg.set(this.sanitizer.bypassSecurityTrustHtml(svg));
-          } else {
-            this.sanitizedSvg.set(null);
-          }
-          this.isLoading.set(false);
-        },
-        error: () => {
-          this.sanitizedSvg.set(null);
-          this.isLoading.set(false);
-        },
-      });
-    } else {
+      // Clear any previously rendered SVG so the template can show the loading placeholder.
       this.sanitizedSvg.set(null);
-      this.isLoading.set(false);
-    }
+      this.isLoading.set(true);
+
+      const subscription = this.resolveIcon$(iconName, sourceKey)
+        .pipe(
+          finalize(() => {
+            if (loadVersion === this.iconLoadVersion) {
+              this.isLoading.set(false);
+            }
+          })
+        )
+        .subscribe((svg) => {
+          if (loadVersion !== this.iconLoadVersion) {
+            return;
+          }
+
+          if (!svg) {
+            this.sanitizedSvg.set(null);
+            return;
+          }
+
+          this.sanitizedSvg.set(this.sanitizer.bypassSecurityTrustHtml(svg));
+        });
+
+      // Important: cancel in-flight icon loads if `name` changes or the component is destroyed.
+      return () => subscription.unsubscribe();
+    });
+  }
+
+  /**
+   * Resolve an icon name to an SVG string.
+   *
+   * This is kept as a single observable chain so callers can cancel it.
+   */
+  private resolveIcon$(name: string, sourceKey: string | undefined): Observable<string | null> {
+    return this.iconService.getIcon(name, sourceKey).pipe(catchError(() => of(null)));
   }
 }

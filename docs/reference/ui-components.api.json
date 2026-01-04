@@ -499,9 +499,16 @@
       "inputs": [
         {
           "name": "name",
-          "type": "CoreIconName",
+          "type": "string",
           "default": "''",
-          "description": "Icon identifier.\nExamples: \"settings\", \"user\", \"customer:invoicePaid\"",
+          "description": "Icon identifier.\nExamples: \"settings\", \"user\", \"invoicePaid\"",
+          "required": false
+        },
+        {
+          "name": "source",
+          "type": "string | undefined",
+          "default": "undefined",
+          "description": "Optional icon source key. If omitted, the default source is used.",
           "required": false
         },
         {

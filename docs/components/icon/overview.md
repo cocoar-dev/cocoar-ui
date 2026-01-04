@@ -1,6 +1,8 @@
 # Icons
 
-The `coar-icon` component renders an SVG icon from the built-in registry (`CORE_ICONS`) or from a customer namespace.
+The `coar-icon` component renders an SVG icon from a DI-provided icon source.
+
+If no icon source is configured, `CoarIconService.getIcon(...)` throws to make misconfiguration obvious.
 
 Icons inherit the current text color by default and can be sized using preset tokens or custom CSS size values.
 
@@ -8,6 +10,33 @@ Icons inherit the current text color by default and can be sized using preset to
 
 ```ts
 import { CoarIconComponent } from '@cocoar/ui-components';
+```
+
+## Configure sources
+
+Provide at least one icon source in your app:
+
+```ts
+import {
+	provideCoarIconBuiltInSourceAs,
+	// OR: provideCoarIconSource
+	// OR: provideCoarIconMapSource
+	// OR: provideCoarHttpIconSource
+} from '@cocoar/ui-components';
+
+providers: [
+	provideCoarIconBuiltInSourceAs('core'),
+];
+```
+
+When multiple sources are registered, the first source becomes the default. You can override it:
+
+```ts
+import { provideCoarDefaultIconSource } from '@cocoar/ui-components';
+
+providers: [
+	provideCoarDefaultIconSource('core'),
+];
 ```
 
 ## Basic usage
@@ -59,15 +88,33 @@ Preset sizes are:
 <coar-icon name="load" [spin]="true" />
 ```
 
-## Customer icons
+## Multiple sources
 
-Use the `customer:` prefix to request an icon from the customer source:
+If you register more than one source, you can target one explicitly:
 
 ```html
-<coar-icon name="customer:invoicePaid" />
+<coar-icon name="settings" source="core" />
 ```
 
-The underlying icon service requests these from `/api/icons/<key>.svg` and caches responses.
+## Browsing available icons
+
+Some sources can provide a list of available icon keys (for example built-in icons, or an HTTP source with an index endpoint). Others cannot.
+
+Use `CoarIconService` to build an icon picker UI:
+
+```ts
+import { CoarIconService } from '@cocoar/ui-components';
+
+const sources = iconService.getRegisteredSources();
+// -> [{ key, isDefault, canProvideIconKeys }, ...]
+
+for (const source of sources) {
+	if (!source.canProvideIconKeys) continue;
+	iconService.getAvailableIconKeys(source.key).subscribe((keys) => {
+		// Render keys grouped by source.key
+	});
+}
+```
 
 ## Accessibility
 

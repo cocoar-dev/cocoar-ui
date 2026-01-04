@@ -13,6 +13,15 @@
   margin-bottom: 1rem;
 }
 
+.icon-source-group {
+  margin-bottom: 1.5rem;
+}
+
+.icon-source-title {
+  margin: 0 0 0.5rem;
+  color: var(--coar-text-neutral-secondary);
+}
+
 /* Icons Grid */
 .icons-grid {
   display: grid;

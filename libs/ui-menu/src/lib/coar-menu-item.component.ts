@@ -6,7 +6,7 @@ import {
   HostListener,
   inject,
 } from '@angular/core';
-import { CoarIconComponent, type CoreIconName } from '@cocoar/ui-components';
+import { CoarIconComponent } from '@cocoar/ui-components';
 import { COAR_MENU_PARENT } from '@cocoar/ui-overlay';
 
 /**
@@ -69,7 +69,7 @@ export class CoarMenuItemComponent {
   readonly label = input<string>();
 
   /** Optional icon identifier (rendered via CoarIconComponent) */
-  readonly icon = input<CoreIconName | undefined>(undefined);
+  readonly icon = input<string | undefined>(undefined);
 
   /** Disabled state prevents interaction */
   readonly disabled = input(false);

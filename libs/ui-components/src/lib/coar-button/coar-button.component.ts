@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 
 import { CoarIconComponent, CoarIconSize } from '../coar-icon/coar-icon.component';
-import { CoreIconName } from '../coar-icon/core-icons';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'danger' | 'ghost';
 export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
@@ -42,10 +41,10 @@ export class CoarButtonComponent {
   type = input<'button' | 'submit' | 'reset'>('button');
 
   /** Icon to display before the label */
-  iconStart = input<CoreIconName | undefined>(undefined);
+  iconStart = input<string | undefined>(undefined);
 
   /** Icon to display after the label */
-  iconEnd = input<CoreIconName | undefined>(undefined);
+  iconEnd = input<string | undefined>(undefined);
 
   /** Whether the button should take full width */
   fullWidth = input<boolean, unknown>(false, { transform: booleanAttribute });

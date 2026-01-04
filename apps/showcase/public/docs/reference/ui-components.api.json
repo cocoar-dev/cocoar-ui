@@ -487,7 +487,7 @@
           "name": "name",
           "type": "CoreIconName",
           "default": "''",
-          "description": "Icon identifier.\nExamples: \"settings\", \"user\", \"customer:invoicePaid\"",
+          "description": "Icon identifier.\nExamples: \"settings\", \"user\", \"invoicePaid\"",
           "required": false
         },
         {

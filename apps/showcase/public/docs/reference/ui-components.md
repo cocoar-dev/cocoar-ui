@@ -177,7 +177,7 @@ None.
 | Name | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
 | name | CoreIconName | no | '' | Icon identifier.
-Examples: "settings", "user", "customer:invoicePaid" |
+Examples: "settings", "user", "invoicePaid" |
 | size | CoarIconSize \| string | no | 'md' | Icon size. Defaults to 'md' (20px).
 Can be a preset token (xs, sm, md, lg, xl, auto) or a custom CSS value (e.g., '42px', '3rem'). |
 | rotate | number | no | 0 | Rotation angle in degrees (0, 90, 180, 270, or any number). |

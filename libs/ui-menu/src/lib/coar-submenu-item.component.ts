@@ -11,7 +11,7 @@ import {
   Injector,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CoarIconComponent, type CoreIconName } from '@cocoar/ui-components';
+import { CoarIconComponent } from '@cocoar/ui-components';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   CoarOverlayService,
@@ -129,7 +129,7 @@ export class CoarSubmenuItemComponent {
   readonly label = input.required<string>();
 
   /** Optional icon identifier */
-  readonly icon = input<CoreIconName | undefined>(undefined);
+  readonly icon = input<string | undefined>(undefined);
 
   /** Disabled state prevents interaction */
   readonly disabled = input(false);

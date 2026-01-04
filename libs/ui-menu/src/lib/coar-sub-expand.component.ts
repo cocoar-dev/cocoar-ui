@@ -11,7 +11,7 @@ import {
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CoarIconComponent, type CoreIconName } from '@cocoar/ui-components';
+import { CoarIconComponent } from '@cocoar/ui-components';
 import { CoarSubmenuTemplateDirective } from './coar-submenu-template.directive';
 
 /**
@@ -83,7 +83,7 @@ export class CoarSubExpandComponent {
   readonly label = input.required<string>();
 
   /** Optional icon identifier */
-  readonly icon = input<CoreIconName | undefined>(undefined);
+  readonly icon = input<string | undefined>(undefined);
 
   /** Disabled state prevents interaction */
   readonly disabled = input(false);
