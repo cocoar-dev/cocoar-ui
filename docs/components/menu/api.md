@@ -283,6 +283,7 @@ A special menu item that triggers a flyout submenu when hovered. Uses the Cocoar
 ### Usage
 
 ```html
+<!-- Basic inline submenu: -->
 <coar-sub-flyout icon="users" label="Share">
   <ng-template>
     <coar-menu>
@@ -292,13 +293,36 @@ A special menu item that triggers a flyout submenu when hovered. Uses the Cocoar
   </ng-template>
 </coar-sub-flyout>
 
-<!-- Also supported (external template): -->
+<!-- External template (no data passing): -->
 <coar-submenu-item icon="users" label="Share" [submenuTemplate]="shareMenu" />
 
 <ng-template #shareMenu>
   <coar-menu>
     <coar-menu-item icon="chat">Email</coar-menu-item>
     <coar-menu-item icon="copy">Copy Link</coar-menu-item>
+  </coar-menu>
+</ng-template>
+
+<!-- Passing data to submenu template: -->
+<coar-submenu-item
+  icon="tag"
+  label="Set Priority"
+  [submenuTemplate]="priorityMenu"
+  [submenuData]="{ itemId: currentItem.id, mode: 'edit' }">
+</coar-submenu-item>
+
+<ng-template #priorityMenu let-itemId="itemId" let-mode="mode">
+  <coar-menu>
+    <coar-menu-item (itemClick)="setPriority(itemId, 'low', mode)">Low</coar-menu-item>
+    <coar-menu-item (itemClick)="setPriority(itemId, 'high', mode)">High</coar-menu-item>
+  </coar-menu>
+</ng-template>
+
+<!-- Data is also available via $implicit: -->
+<ng-template #priorityMenu let-data>
+  <!-- data contains { itemId, mode } -->
+  <coar-menu>
+    <coar-menu-item (itemClick)="setPriority(data.itemId, 'low')">Low</coar-menu-item>
   </coar-menu>
 </ng-template>
 ```
@@ -311,6 +335,7 @@ A special menu item that triggers a flyout submenu when hovered. Uses the Cocoar
 | `icon` | `CoreIconName \| undefined` | No | `undefined` | Optional icon identifier |
 | `disabled` | `boolean` | No | `false` | Disabled state prevents interaction |
 | `submenuTemplate` | `TemplateRef<unknown> \| null` | No | `null` | External template containing submenu content (used when no inline `<ng-template>` is provided) |
+| `submenuData` | `unknown` | No | `undefined` | Data passed to the submenu template context. Useful for passing context from parent menus to nested submenus. The data becomes available in the template via `let-` variables and as `$implicit`. |
 
 ### Outputs
 

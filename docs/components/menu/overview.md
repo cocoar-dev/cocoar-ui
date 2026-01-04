@@ -365,6 +365,47 @@ The `coar-submenu-item` component provides flyout submenus:
 </coar-menu>
 ```
 
+### Passing Data to Submenus
+
+Use the `[submenuData]` input to pass context data from parent menus to nested submenus:
+
+```typescript
+@Component({
+  template: `
+    <coar-menu>
+      <coar-submenu-item
+        label="Set Priority"
+        icon="tag"
+        [submenuTemplate]="priorityMenu"
+        [submenuData]="{ itemId: selectedItem.id, itemName: selectedItem.name }">
+      </coar-submenu-item>
+    </coar-menu>
+
+    <ng-template #priorityMenu let-itemId="itemId" let-itemName="itemName">
+      <coar-menu>
+        <coar-menu-item (itemClick)="setPriority(itemId, 'low')">
+          Low Priority for {{ itemName }}
+        </coar-menu-item>
+        <coar-menu-item (itemClick)="setPriority(itemId, 'high')">
+          High Priority for {{ itemName }}
+        </coar-menu-item>
+      </coar-menu>
+    </ng-template>
+  `
+})
+export class MyMenuComponent {
+  selectedItem = { id: 123, name: 'Task #1' };
+
+  setPriority(itemId: number, priority: string): void {
+    console.log(`Setting ${priority} priority for item ${itemId}`);
+  }
+}
+```
+
+The data is available in the template via:
+- **Named properties**: `let-itemId="itemId"` — Access specific properties
+- **Implicit context**: `let-data` — Access the entire data object as `$implicit`
+
 ### Submenu Behavior
 - **HoverTree close delay**: defaults to 300ms via `coarHoverMenuPreset` (configurable in the overlay spec)
 - **Mouse movement**: Moving mouse to submenu keeps both parent and child open

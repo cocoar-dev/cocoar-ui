@@ -328,7 +328,18 @@ export class CoarOverlayService {
       case 'template': {
         const template = content.template as TemplateRef<unknown> | undefined;
         if (!template) throw new Error('Template overlay requires a template');
-        const viewRef = template.createEmbeddedView(inputs as unknown as object);
+
+        // For templates: automatically add $implicit so templates can use let-variable without property name
+        // This allows both: let-context (uses $implicit) and let-prop="prop" (uses specific property)
+        let templateContext = inputs as unknown as object;
+        if (inputs != null && typeof inputs === 'object' && !('$implicit' in (inputs as object))) {
+          templateContext = {
+            ...(inputs as object),
+            $implicit: inputs,
+          };
+        }
+
+        const viewRef = template.createEmbeddedView(templateContext);
         this.appRef.attachView(viewRef);
         viewRef.detectChanges();
 
@@ -730,11 +741,6 @@ class CoarOverlayRef implements OverlayRef {
   }
 
   close(result?: unknown): void {
-    console.log('[OverlayRef] close() called', {
-      closed: this.closed,
-      result,
-    });
-
     if (this.closed) return;
     this.closed = true;
     this.lastResult = result;

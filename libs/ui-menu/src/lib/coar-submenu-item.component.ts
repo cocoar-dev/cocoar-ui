@@ -141,6 +141,28 @@ export class CoarSubmenuItemComponent {
    */
   readonly submenuTemplate = input<TemplateRef<unknown> | null>(null);
 
+  /**
+   * Optional data to pass to the submenu template.
+   *
+   * If provided, this data will be passed as the context to the submenu template,
+   * instead of inheriting the parent overlay's context.
+   *
+   * Use this to create clean boundaries between parent and submenu:
+   * - Simple case: `[submenuData]="context"` (pass full context)
+   * - Complex case: `[submenuData]="transformData(context)"` (pass only what submenu needs)
+   *
+   * @example
+   * ```html
+   * <!-- Pass specific data contract to submenu -->
+   * <coar-submenu-item
+   *   label="Status"
+   *   [submenuTemplate]="statusMenu"
+   *   [submenuData]="{ selectedIds: context.selected.map(s => s.Id) }">
+   * </coar-submenu-item>
+   * ```
+   */
+  readonly submenuData = input<unknown>(undefined);
+
   @ContentChild(CoarSubmenuTemplateDirective, { descendants: false })
   private readonly markedInlineTemplate?: CoarSubmenuTemplateDirective;
 
@@ -248,8 +270,11 @@ export class CoarSubmenuItemComponent {
     // Validate early so the error points at the submenu item usage.
     this.submenuTemplateToRender();
 
+    // Determine what data to pass to the submenu template
+    const submenuContextData = this.submenuData();
+
     // All overlays use hoverTree preset for proper tree tracking
-    const spec = Overlay.define<void>((b) => {
+    const spec = Overlay.define<unknown>((b) => {
       b.content((c) => c.fromTemplate(this.overlaySubmenuTemplate));
       b.anchor({ kind: 'element', element: anchorElement });
       b.position({ placement: ['right-start', 'left-start'], offset: -4, flip: true, shift: true });
@@ -264,14 +289,15 @@ export class CoarSubmenuItemComponent {
     if (containingOverlay) {
       // Inside an overlay: close siblings (direct children of parent) then open as child
       // First, create the child overlay
-      this.submenuRef = this.overlayService.openChild(containingOverlay, spec, undefined);
+      // Pass submenuData if provided, otherwise undefined (inherits parent context via $implicit)
+      this.submenuRef = this.overlayService.openChild(containingOverlay, spec, submenuContextData);
 
       // Then close siblings, excluding the newly opened one
       containingOverlay.closeChildren(this.submenuRef);
     } else {
       // Inline menu: use cascade-level sibling closure
       this.cascade.closeSiblings();
-      this.submenuRef = this.overlayService.open(spec, undefined);
+      this.submenuRef = this.overlayService.open(spec, submenuContextData);
     }
 
     // Expose the overlay ref to descendants so they can parent their own flyouts correctly.
