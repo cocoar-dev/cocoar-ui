@@ -1,12 +1,12 @@
 <div class="coar-select-wrapper">
   <!-- Label -->
   @if (label()) {
-  <label [for]="inputId()" class="coar-select-label">
-    {{ label() }}
-    @if (required()) {
-    <span class="coar-select-required">*</span>
-    }
-  </label>
+    <label [for]="inputId()" class="coar-select-label">
+      {{ label() }}
+      @if (required()) {
+        <span class="coar-select-required">*</span>
+      }
+    </label>
   }
 
   <!-- Select Trigger -->
@@ -45,29 +45,18 @@
     <span class="coar-select-actions">
       <!-- Selection Count Badge -->
       @if (selectedOptions().length > 0) {
-      <span class="coar-multi-count">{{ selectedOptions().length }}</span>
+        <span class="coar-multi-count">{{ selectedOptions().length }}</span>
       }
 
       <!-- Clear Button -->
       @if (showClearButton()) {
-      <button
-        type="button"
-        class="coar-select-clear"
-        tabindex="-1"
-        aria-label="Clear all selections"
-        (click)="clearSelection($event)"
-      >
-        <coar-icon name="x" size="auto" />
-      </button>
+        <button type="button" class="coar-select-clear" tabindex="-1" aria-label="Clear all selections" (click)="clearSelection($event)">
+          <coar-icon name="x" source="coar-builtin" size="auto" />
+        </button>
       }
 
       <!-- Dropdown Arrow -->
-      <coar-icon
-        name="caret-right"
-        size="auto"
-        class="coar-select-arrow"
-        [class.coar-select-arrow--open]="isOpen()"
-      />
+      <coar-icon name="caret-right" source="coar-builtin" size="auto" class="coar-select-arrow" [class.coar-select-arrow--open]="isOpen()" />
     </span>
   </div>
 
@@ -80,44 +69,44 @@
     >
       <!-- Search Input -->
       @if (searchable()) {
-      <div class="coar-select-search">
-        <input
-          #searchInput
-          type="text"
-          class="coar-select-search-input"
-          [id]="searchInputId()"
-          [placeholder]="searchPlaceholder()"
-          [value]="searchQuery()"
-          (input)="onSearchInput($event)"
-          (keydown)="onKeyDown($event)"
-        />
-      </div>
+        <div class="coar-select-search">
+          <input
+            #searchInput
+            type="text"
+            class="coar-select-search-input"
+            [id]="searchInputId()"
+            [placeholder]="searchPlaceholder()"
+            [value]="searchQuery()"
+            (input)="onSearchInput($event)"
+            (keydown)="onKeyDown($event)"
+          />
+        </div>
       }
 
       <!-- Select All Option -->
       @if (showSelectAll() && !searchQuery()) {
-      <div
-        class="coar-multi-option coar-multi-option--select-all"
-        role="option"
-        tabindex="0"
-        [attr.aria-selected]="allSelected()"
-        (click)="toggleAll($event)"
-        (keydown.enter)="toggleAll($event)"
-      >
-        <span
-          class="coar-multi-checkbox"
-          [class.coar-multi-checkbox--checked]="allSelected()"
-          [class.coar-multi-checkbox--indeterminate]="someSelected()"
+        <div
+          class="coar-multi-option coar-multi-option--select-all"
+          role="option"
+          tabindex="0"
+          [attr.aria-selected]="allSelected()"
+          (click)="toggleAll($event)"
+          (keydown.enter)="toggleAll($event)"
         >
-          @if (allSelected()) {
-          <coar-icon name="check" size="auto" />
-          } @else if (someSelected()) {
-          <coar-icon name="minus" size="auto" />
-          }
-        </span>
-        <span class="coar-multi-option-label">Select All</span>
-      </div>
-      <div class="coar-multi-divider"></div>
+          <span
+            class="coar-multi-checkbox"
+            [class.coar-multi-checkbox--checked]="allSelected()"
+            [class.coar-multi-checkbox--indeterminate]="someSelected()"
+          >
+            @if (allSelected()) {
+              <coar-icon name="check" source="coar-builtin" size="auto" />
+            } @else if (someSelected()) {
+              <coar-icon name="minus" source="coar-builtin" size="auto" />
+            }
+          </span>
+          <span class="coar-multi-option-label">Select All</span>
+        </div>
+        <div class="coar-multi-divider"></div>
       }
 
       <!-- Options List -->
@@ -135,41 +124,38 @@
         [defer]="false"
       >
         @for (option of displayOptions(); track option.value; let i = $index) {
-        <div
-          class="coar-multi-option"
-          [class.coar-multi-option--selected]="isSelected(option)"
-          [class.coar-multi-option--highlighted]="isHighlighted(i)"
-          [class.coar-multi-option--disabled]="option.disabled"
-          [id]="inputId() + '-option-' + i"
-          [attr.aria-selected]="isSelected(option)"
-          [attr.aria-disabled]="option.disabled ? 'true' : null"
-          [tabindex]="option.disabled ? -1 : 0"
-          role="option"
-          (click)="toggleOption($any(option), $event)"
-          (keydown.enter)="toggleOption($any(option), $event)"
-          (mouseenter)="setHighlightFromDisplay(i)"
-        >
-          <span
-            class="coar-multi-checkbox"
-            [class.coar-multi-checkbox--checked]="isSelected(option)"
+          <div
+            class="coar-multi-option"
+            [class.coar-multi-option--selected]="isSelected(option)"
+            [class.coar-multi-option--highlighted]="isHighlighted(i)"
+            [class.coar-multi-option--disabled]="option.disabled"
+            [id]="inputId() + '-option-' + i"
+            [attr.aria-selected]="isSelected(option)"
+            [attr.aria-disabled]="option.disabled ? 'true' : null"
+            [tabindex]="option.disabled ? -1 : 0"
+            role="option"
+            (click)="toggleOption($any(option), $event)"
+            (keydown.enter)="toggleOption($any(option), $event)"
+            (mouseenter)="setHighlightFromDisplay(i)"
           >
-            @if (isSelected(option)) {
-            <coar-icon name="check" size="auto" />
+            <span class="coar-multi-checkbox" [class.coar-multi-checkbox--checked]="isSelected(option)">
+              @if (isSelected(option)) {
+                <coar-icon name="check" source="coar-builtin" size="auto" />
+              }
+            </span>
+            @if (option.icon) {
+              <coar-icon [name]="option.icon" size="sm" class="coar-multi-option-icon" />
             }
-          </span>
-          @if (option.icon) {
-          <coar-icon [name]="option.icon" size="sm" class="coar-multi-option-icon" />
-          }
-          <span class="coar-multi-option-label">{{ option.label }}</span>
-        </div>
+            <span class="coar-multi-option-label">{{ option.label }}</span>
+          </div>
         } @empty {
-        <div class="coar-select-empty">
-          @if (searchQuery()) {
-            No results found
-          } @else {
-            No options available
-          }
-        </div>
+          <div class="coar-select-empty">
+            @if (searchQuery()) {
+              No results found
+            } @else {
+              No options available
+            }
+          </div>
         }
       </div>
     </div>
@@ -177,12 +163,8 @@
 
   <!-- Hint/Error Message -->
   @if (displayMessage()) {
-  <div
-    [id]="messageId()"
-    class="coar-select-message"
-    [class.coar-select-message--error]="hasError()"
-  >
-    {{ displayMessage() }}
-  </div>
+    <div [id]="messageId()" class="coar-select-message" [class.coar-select-message--error]="hasError()">
+      {{ displayMessage() }}
+    </div>
   }
 </div>

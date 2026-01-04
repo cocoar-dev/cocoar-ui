@@ -1,12 +1,12 @@
 <div class="coar-select-wrapper">
   <!-- Label -->
   @if (label()) {
-  <label [for]="inputId()" class="coar-select-label">
-    {{ label() }}
-    @if (required()) {
-    <span class="coar-select-required">*</span>
-    }
-  </label>
+    <label [for]="inputId()" class="coar-select-label">
+      {{ label() }}
+      @if (required()) {
+        <span class="coar-select-required">*</span>
+      }
+    </label>
   }
 
   <!-- Tag Input Container -->
@@ -25,45 +25,45 @@
   >
     <!-- Selected Tags -->
     @for (option of selectedOptions(); track option.value) {
-    <span class="coar-tag" [class.coar-tag--disabled]="isDisabled()">
-      @if (option.icon) {
-      <coar-icon [name]="option.icon" size="auto" class="coar-tag-icon" />
-      }
-      <span class="coar-tag-label">{{ option.label }}</span>
-      @if (!isDisabled() && !readonly()) {
-      <button
-        type="button"
-        class="coar-tag-remove"
-        tabindex="-1"
-        aria-label="Remove {{ option.label }}"
-        (click)="removeTag($any(option.value), $event)"
-      >
-        <coar-icon name="x" size="auto" />
-      </button>
-      }
-    </span>
+      <span class="coar-tag" [class.coar-tag--disabled]="isDisabled()">
+        @if (option.icon) {
+          <coar-icon [name]="option.icon" size="auto" class="coar-tag-icon" />
+        }
+        <span class="coar-tag-label">{{ option.label }}</span>
+        @if (!isDisabled() && !readonly()) {
+          <button
+            type="button"
+            class="coar-tag-remove"
+            tabindex="-1"
+            aria-label="Remove {{ option.label }}"
+            (click)="removeTag($any(option.value), $event)"
+          >
+            <coar-icon name="x" source="coar-builtin" size="auto" />
+          </button>
+        }
+      </span>
     }
 
     <!-- Inline Input -->
     @if (!maxReached()) {
-    <input
-      #inlineInput
-      type="text"
-      class="coar-tag-input"
-      [id]="inputId()"
-      [placeholder]="selectedOptions().length ? '' : placeholder()"
-      [value]="searchQuery()"
-      [disabled]="isDisabled()"
-      [readonly]="readonly()"
-      [attr.aria-expanded]="isOpen()"
-      [attr.aria-controls]="listboxId()"
-      role="combobox"
-      aria-autocomplete="list"
-      (input)="onInputChange($event)"
-      (keydown)="onKeyDown($event)"
-      (focus)="onInputFocus()"
-      (blur)="onInputBlur()"
-    />
+      <input
+        #inlineInput
+        type="text"
+        class="coar-tag-input"
+        [id]="inputId()"
+        [placeholder]="selectedOptions().length ? '' : placeholder()"
+        [value]="searchQuery()"
+        [disabled]="isDisabled()"
+        [readonly]="readonly()"
+        [attr.aria-expanded]="isOpen()"
+        [attr.aria-controls]="listboxId()"
+        role="combobox"
+        aria-autocomplete="list"
+        (input)="onInputChange($event)"
+        (keydown)="onKeyDown($event)"
+        (focus)="onInputFocus()"
+        (blur)="onInputBlur()"
+      />
     }
   </div>
 
@@ -89,51 +89,51 @@
         [defer]="false"
       >
         @for (option of displayAvailableOptions(); track option.value; let i = $index) {
-        <div
-          class="coar-tag-option"
-          [class.coar-tag-option--highlighted]="isAvailableHighlighted(i)"
-          [class.coar-tag-option--disabled]="option.disabled"
-          [id]="inputId() + '-option-' + i"
-          [attr.aria-selected]="false"
-          [attr.aria-disabled]="option.disabled ? 'true' : null"
-          [tabindex]="option.disabled ? -1 : 0"
-          role="option"
-          (click)="addTag($any(option))"
-          (keydown.enter)="addTag($any(option))"
-          (mouseenter)="setAvailableHighlightFromDisplay(i)"
-        >
-          @if (option.icon) {
-          <coar-icon [name]="option.icon" size="sm" class="coar-tag-option-icon" />
-          }
-          <span class="coar-tag-option-label">{{ option.label }}</span>
-        </div>
+          <div
+            class="coar-tag-option"
+            [class.coar-tag-option--highlighted]="isAvailableHighlighted(i)"
+            [class.coar-tag-option--disabled]="option.disabled"
+            [id]="inputId() + '-option-' + i"
+            [attr.aria-selected]="false"
+            [attr.aria-disabled]="option.disabled ? 'true' : null"
+            [tabindex]="option.disabled ? -1 : 0"
+            role="option"
+            (click)="addTag($any(option))"
+            (keydown.enter)="addTag($any(option))"
+            (mouseenter)="setAvailableHighlightFromDisplay(i)"
+          >
+            @if (option.icon) {
+              <coar-icon [name]="option.icon" size="sm" class="coar-tag-option-icon" />
+            }
+            <span class="coar-tag-option-label">{{ option.label }}</span>
+          </div>
         }
 
         <!-- Create New Option -->
         @if (showCreateOption()) {
-        <div
-          class="coar-tag-option coar-tag-option--create"
-          [class.coar-tag-option--highlighted]="highlightedIndex() === availableOptions().length"
-          role="option"
-          tabindex="0"
-          [attr.aria-selected]="false"
-          (click)="createTag()"
-          (keydown.enter)="createTag()"
-          (mouseenter)="highlightedIndex.set(availableOptions().length)"
-        >
-          <coar-icon name="plus" size="sm" class="coar-tag-option-icon" />
-          <span class="coar-tag-option-label">{{ createPrefix() }}{{ searchQuery() }}</span>
-        </div>
+          <div
+            class="coar-tag-option coar-tag-option--create"
+            [class.coar-tag-option--highlighted]="highlightedIndex() === availableOptions().length"
+            role="option"
+            tabindex="0"
+            [attr.aria-selected]="false"
+            (click)="createTag()"
+            (keydown.enter)="createTag()"
+            (mouseenter)="highlightedIndex.set(availableOptions().length)"
+          >
+            <coar-icon name="plus" source="coar-builtin" size="sm" class="coar-tag-option-icon" />
+            <span class="coar-tag-option-label">{{ createPrefix() }}{{ searchQuery() }}</span>
+          </div>
         }
 
         @if (!displayAvailableOptions().length && !showCreateOption()) {
-        <div class="coar-select-empty">
-          @if (searchQuery()) {
-            No matching options
-          } @else {
-            No more options available
-          }
-        </div>
+          <div class="coar-select-empty">
+            @if (searchQuery()) {
+              No matching options
+            } @else {
+              No more options available
+            }
+          </div>
         }
       </div>
     </div>
@@ -141,12 +141,8 @@
 
   <!-- Hint/Error Message -->
   @if (displayMessage()) {
-  <div
-    [id]="messageId()"
-    class="coar-select-message"
-    [class.coar-select-message--error]="hasError()"
-  >
-    {{ displayMessage() }}
-  </div>
+    <div [id]="messageId()" class="coar-select-message" [class.coar-select-message--error]="hasError()">
+      {{ displayMessage() }}
+    </div>
   }
 </div>

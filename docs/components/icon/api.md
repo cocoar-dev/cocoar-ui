@@ -43,17 +43,18 @@ import {
 	provideCoarIconSource,
 	provideCoarIconMapSource,
 	provideCoarHttpIconSource,
-	provideCoarIconBuiltInSourceAs,
+	provideCoarIconBuiltInOverrides,
 	provideCoarDefaultIconSource,
 } from '@cocoar/ui-components';
 ```
 
 ## Implementation notes
 
-- `CoarIconService.getIcon(...)` throws if no icon source is configured.
-- Provide one or more sources via DI. The first source provided becomes the default.
-- Override the default with `provideCoarDefaultIconSource(key)` (last one wins).
-- Built-in icons are available only if you opt-in via `provideCoarIconBuiltInSourceAs(key)`.
+- Built-in icons are always available under the fixed source key `coar-builtin`.
+- The default source is `coar-builtin` unless overridden with `provideCoarDefaultIconSource(key)` (last one wins).
+- Consumers can override the built-in icons by providing their own source using the same key (`coar-builtin`).
+- Consumers can override the built-in icons by providing their own source using the same key (`coar-builtin`).
+- For partial overrides (merge), use `provideCoarIconBuiltInOverrides({ ... })`.
 
 ## Icon source introspection
 

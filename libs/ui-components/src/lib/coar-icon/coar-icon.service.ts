@@ -1,11 +1,13 @@
 import { inject, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   COAR_DEFAULT_ICON_SOURCE_KEY,
   COAR_ICON_SOURCE_ENTRY,
   type CoarIconSource,
   type CoarIconSourceEntry,
 } from './coar-icon-registry';
+import { CORE_ICONS } from './core-icons';
+import { COAR_BUILTIN_ICON_SOURCE_KEY } from './coar-icon-built-in-registry';
 
 export type CoarIconRegisteredSource = Readonly<{
   key: string;
@@ -17,15 +19,22 @@ export type CoarIconRegisteredSource = Readonly<{
   providedIn: 'root',
 })
 export class CoarIconService {
-  private readonly sourceEntries = (inject(COAR_ICON_SOURCE_ENTRY, { optional: true }) ?? []) as
-    | CoarIconSourceEntry[]
-    | null;
+  private readonly builtInSource: CoarIconSource = {
+    getIcon: (name) => of(CORE_ICONS[name as keyof typeof CORE_ICONS] ?? null),
+    getAvailableIconKeys: () => of(Object.keys(CORE_ICONS).sort()),
+  };
+
+  private readonly sourceEntries = [
+    { key: COAR_BUILTIN_ICON_SOURCE_KEY, source: this.builtInSource },
+    ...(((inject(COAR_ICON_SOURCE_ENTRY, { optional: true }) ?? []) as CoarIconSourceEntry[]) ??
+      []),
+  ] as const;
   private readonly defaultSourceOverrides = (inject(COAR_DEFAULT_ICON_SOURCE_KEY, {
     optional: true,
   }) ?? []) as string[] | null;
 
   private readonly sourceByKey = new Map(
-    (this.sourceEntries ?? []).map((entry) => [entry.key, entry.source] as const)
+    this.sourceEntries.map((entry) => [entry.key, entry.source] as const)
   );
 
   /**
@@ -45,17 +54,11 @@ export class CoarIconService {
    * This is useful for UIs that allow users to browse icons grouped by source.
    */
   getRegisteredSources(): ReadonlyArray<CoarIconRegisteredSource> {
-    if (this.sourceByKey.size === 0) return [];
-
     const defaultKey = this.getDefaultSourceKeyOrThrow();
-    const entries =
-      this.sourceEntries ??
-      Array.from(this.sourceByKey.entries()).map(([key, source]) => ({ key, source }));
-
-    return entries.map((entry) => ({
-      key: entry.key,
-      isDefault: entry.key === defaultKey,
-      canProvideIconKeys: typeof entry.source.getAvailableIconKeys === 'function',
+    return Array.from(this.sourceByKey.entries()).map(([key, source]) => ({
+      key,
+      isDefault: key === defaultKey,
+      canProvideIconKeys: typeof source.getAvailableIconKeys === 'function',
     }));
   }
 
@@ -87,12 +90,6 @@ export class CoarIconService {
   }
 
   private getSourceOrThrow(sourceKey?: string): CoarIconSource {
-    if (this.sourceByKey.size === 0) {
-      throw new Error(
-        'No Coar icon source is configured. Provide at least one source via provideCoarIconSource(), provideCoarIconMapSource(), provideCoarIconBuiltInSourceAs(), or provideCoarHttpIconSource().'
-      );
-    }
-
     const effectiveKey = sourceKey ?? this.getDefaultSourceKeyOrThrow();
     const source = this.sourceByKey.get(effectiveKey);
     if (!source) {
@@ -103,12 +100,6 @@ export class CoarIconService {
   }
 
   private getSourceEntryOrThrow(sourceKey?: string): CoarIconSourceEntry {
-    if (this.sourceByKey.size === 0) {
-      throw new Error(
-        'No Coar icon source is configured. Provide at least one source via provideCoarIconSource(), provideCoarIconMapSource(), provideCoarIconBuiltInSourceAs(), or provideCoarHttpIconSource().'
-      );
-    }
-
     const effectiveKey = sourceKey ?? this.getDefaultSourceKeyOrThrow();
     const source = this.sourceByKey.get(effectiveKey);
     if (!source) {
@@ -131,7 +122,6 @@ export class CoarIconService {
       return overrideKey;
     }
 
-    // First registered source becomes default.
-    return this.sourceEntries?.[0]?.key ?? Array.from(this.sourceByKey.keys())[0];
+    return COAR_BUILTIN_ICON_SOURCE_KEY;
   }
 }

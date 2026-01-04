@@ -1,17 +1,17 @@
 <div class="coar-number-input-wrapper">
   <!-- Label -->
   @if (label()) {
-  <label
-    [for]="inputId()"
-    class="coar-number-input-label"
-    [class.coar-number-input-label--draggable]="!isDisabled() && !readonly()"
-    (mousedown)="onDragStart($event)"
-  >
-    {{ label() }}
-    @if (required()) {
-    <span class="coar-number-input-required">*</span>
-    }
-  </label>
+    <label
+      [for]="inputId()"
+      class="coar-number-input-label"
+      [class.coar-number-input-label--draggable]="!isDisabled() && !readonly()"
+      (mousedown)="onDragStart($event)"
+    >
+      {{ label() }}
+      @if (required()) {
+        <span class="coar-number-input-required">*</span>
+      }
+    </label>
   }
 
   <!-- Input Container -->
@@ -26,6 +26,7 @@
     <!-- Clear indicator (left side for number input) - always present to prevent CLS -->
     <coar-icon
       name="x"
+      source="coar-builtin"
       size="auto"
       class="coar-number-input-clear"
       [class.coar-number-input-clear--hidden]="!showClearButton()"
@@ -36,7 +37,7 @@
     <!-- Prefix -->
     <span class="coar-number-input-prefix">
       @if (prefix()) {
-      {{ prefix() }}
+        {{ prefix() }}
       }
       <ng-content select="[prefix]"></ng-content>
     </span>
@@ -68,45 +69,46 @@
     <!-- Suffix -->
     <span class="coar-number-input-suffix">
       @if (suffix()) {
-      {{ suffix() }}
+        {{ suffix() }}
       }
       <ng-content select="[suffix]"></ng-content>
     </span>
 
     <!-- Increment/Decrement Buttons -->
     @if ((showIncrementButton() || showDecrementButton()) && !isDisabled() && !readonly()) {
-    <div class="coar-number-input-buttons">
-      @if (showDecrementButton()) {
-      <button
-        type="button"
-        class="coar-number-input-button coar-number-input-button--decrement"
-        [disabled]="!canDecrement()"
-        aria-label="Decrease value"
-        (click)="decrement()"
-        tabindex="-1"
-      >
-        <coar-icon name="minus" [size]="iconSize()"></coar-icon>
-      </button>
-      } @if (showIncrementButton()) {
-      <button
-        type="button"
-        class="coar-number-input-button coar-number-input-button--increment"
-        [disabled]="!canIncrement()"
-        aria-label="Increase value"
-        (click)="increment()"
-        tabindex="-1"
-      >
-        <coar-icon name="plus" [size]="iconSize()"></coar-icon>
-      </button>
-      }
-    </div>
+      <div class="coar-number-input-buttons">
+        @if (showDecrementButton()) {
+          <button
+            type="button"
+            class="coar-number-input-button coar-number-input-button--decrement"
+            [disabled]="!canDecrement()"
+            aria-label="Decrease value"
+            (click)="decrement()"
+            tabindex="-1"
+          >
+            <coar-icon name="minus" source="coar-builtin" [size]="iconSize()"></coar-icon>
+          </button>
+        }
+        @if (showIncrementButton()) {
+          <button
+            type="button"
+            class="coar-number-input-button coar-number-input-button--increment"
+            [disabled]="!canIncrement()"
+            aria-label="Increase value"
+            (click)="increment()"
+            tabindex="-1"
+          >
+            <coar-icon name="plus" source="coar-builtin" [size]="iconSize()"></coar-icon>
+          </button>
+        }
+      </div>
     }
   </div>
 
   <!-- Hint/Error Message -->
   @if (displayMessage()) {
-  <div [id]="messageId()" class="coar-number-input-message" [class.coar-number-input-message-error]="hasError()">
-    {{ displayMessage() }}
-  </div>
+    <div [id]="messageId()" class="coar-number-input-message" [class.coar-number-input-message-error]="hasError()">
+      {{ displayMessage() }}
+    </div>
   }
 </div>

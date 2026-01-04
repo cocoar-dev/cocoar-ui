@@ -2,7 +2,7 @@
 
 The `coar-icon` component renders an SVG icon from a DI-provided icon source.
 
-If no icon source is configured, `CoarIconService.getIcon(...)` throws to make misconfiguration obvious.
+Built-in icons are always available via the fixed source key `coar-builtin`.
 
 Icons inherit the current text color by default and can be sized using preset tokens or custom CSS size values.
 
@@ -14,30 +14,18 @@ import { CoarIconComponent } from '@cocoar/ui-components';
 
 ## Configure sources
 
-Provide at least one icon source in your app:
+You can add additional sources in your app (HTTP, map-based, etc.) and choose the default:
 
 ```ts
-import {
-	provideCoarIconBuiltInSourceAs,
-	// OR: provideCoarIconSource
-	// OR: provideCoarIconMapSource
-	// OR: provideCoarHttpIconSource
-} from '@cocoar/ui-components';
+import { provideCoarDefaultIconSource, provideCoarIconMapSource } from '@cocoar/ui-components';
 
 providers: [
-	provideCoarIconBuiltInSourceAs('core'),
+	provideCoarIconMapSource({ key: 'app-icons', icons: { /* ... */ } }),
+	provideCoarDefaultIconSource('app-icons'),
 ];
 ```
 
-When multiple sources are registered, the first source becomes the default. You can override it:
-
-```ts
-import { provideCoarDefaultIconSource } from '@cocoar/ui-components';
-
-providers: [
-	provideCoarDefaultIconSource('core'),
-];
-```
+To override the built-in icons, register your own source using the same key (`coar-builtin`).
 
 ## Basic usage
 
@@ -93,7 +81,7 @@ Preset sizes are:
 If you register more than one source, you can target one explicitly:
 
 ```html
-<coar-icon name="settings" source="core" />
+<coar-icon name="settings" source="coar-builtin" />
 ```
 
 ## Browsing available icons

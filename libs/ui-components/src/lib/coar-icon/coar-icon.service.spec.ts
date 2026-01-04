@@ -3,13 +3,17 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { provideHttpClient } from '@angular/common/http';
 import { firstValueFrom, of } from 'rxjs';
 import { CoarIconService } from './coar-icon.service';
+import { CORE_ICONS } from './core-icons';
 import {
-  COAR_ICON_SOURCE_ENTRY,
   provideCoarDefaultIconSource,
   provideCoarHttpIconSource,
   provideCoarIconMapSource,
   provideCoarIconSource,
 } from './coar-icon-registry';
+import {
+  COAR_BUILTIN_ICON_SOURCE_KEY,
+  provideCoarIconBuiltInOverrides,
+} from './coar-icon-built-in-registry';
 
 describe('CoarIconService', () => {
   it('should be created', () => {
@@ -22,34 +26,50 @@ describe('CoarIconService', () => {
   });
 
   describe('getIcon - source configuration', () => {
-    it('should throw if no source is configured', () => {
+    it('should use built-in source as default', async () => {
+      TestBed.resetTestingModule();
       TestBed.configureTestingModule({
         providers: [provideHttpClient(), provideHttpClientTesting(), CoarIconService],
       });
 
-      // ui-components test setup provides a default icon source.
-      // Override it for this test to validate strict misconfiguration behavior.
-      TestBed.overrideProvider(COAR_ICON_SOURCE_ENTRY, { useValue: [] });
-
-      const service = TestBed.inject(CoarIconService);
-      expect(() => service.getIcon('anything')).toThrow(/No Coar icon source is configured/i);
+      const localService = TestBed.inject(CoarIconService);
+      const svg = await firstValueFrom(localService.getIcon('x'));
+      expect(svg).toBe(CORE_ICONS.x);
     });
 
-    it('should use first provided source as default', async () => {
+    it('should allow overriding the built-in source via the fixed key', async () => {
       TestBed.resetTestingModule();
       TestBed.configureTestingModule({
         providers: [
           provideHttpClient(),
           provideHttpClientTesting(),
-          provideCoarIconMapSource({ key: 'first', icons: { a: '<svg>a</svg>' } }),
-          provideCoarIconMapSource({ key: 'second', icons: { a: '<svg>second</svg>' } }),
+          provideCoarIconMapSource({
+            key: COAR_BUILTIN_ICON_SOURCE_KEY,
+            icons: { x: '<svg>override</svg>' },
+          }),
           CoarIconService,
         ],
       });
 
       const localService = TestBed.inject(CoarIconService);
-      const svg = await firstValueFrom(localService.getIcon('a'));
-      expect(svg).toBe('<svg>a</svg>');
+      const svg = await firstValueFrom(localService.getIcon('x'));
+      expect(svg).toBe('<svg>override</svg>');
+    });
+
+    it('should allow overriding a subset of built-in icons (merge behavior)', async () => {
+      TestBed.resetTestingModule();
+      TestBed.configureTestingModule({
+        providers: [
+          provideHttpClient(),
+          provideHttpClientTesting(),
+          provideCoarIconBuiltInOverrides({ x: '<svg>override-x</svg>' }),
+          CoarIconService,
+        ],
+      });
+
+      const localService = TestBed.inject(CoarIconService);
+      expect(await firstValueFrom(localService.getIcon('x'))).toBe('<svg>override-x</svg>');
+      expect(await firstValueFrom(localService.getIcon('check'))).toBe(CORE_ICONS.check);
     });
 
     it('should allow selecting a specific source by key', async () => {
@@ -113,6 +133,7 @@ describe('CoarIconService', () => {
           provideHttpClient(),
           provideHttpClientTesting(),
           provideCoarIconMapSource({ key: 'first', icons: { a: '<svg>a</svg>' } }),
+          provideCoarDefaultIconSource('first'),
           provideCoarIconSource({
             key: 'custom-no-keys',
             source: {
@@ -125,6 +146,7 @@ describe('CoarIconService', () => {
 
       const service = TestBed.inject(CoarIconService);
       expect(service.getRegisteredSources()).toEqual([
+        { key: COAR_BUILTIN_ICON_SOURCE_KEY, isDefault: false, canProvideIconKeys: true },
         { key: 'first', isDefault: true, canProvideIconKeys: true },
         { key: 'custom-no-keys', isDefault: false, canProvideIconKeys: false },
       ]);

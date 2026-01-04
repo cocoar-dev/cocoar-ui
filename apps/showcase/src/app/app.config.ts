@@ -7,7 +7,6 @@ import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
 import { appRoutes } from './app.routes';
 import { COAR_OVERLAY_SPEC_RESOLVERS, type OverlaySpec } from '@cocoar/ui-overlay';
-import { provideCoarIconBuiltInSourceAs } from '@cocoar/ui-components';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,7 +14,6 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
     provideHttpClient(),
-    provideCoarIconBuiltInSourceAs('coar'),
     {
       provide: COAR_OVERLAY_SPEC_RESOLVERS,
       multi: true,
