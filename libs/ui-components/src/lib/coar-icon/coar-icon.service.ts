@@ -89,7 +89,7 @@ export class CoarIconService {
   private getSourceOrThrow(sourceKey?: string): CoarIconSource {
     if (this.sourceByKey.size === 0) {
       throw new Error(
-        'No Coar icon source is configured. Provide at least one source via provideCoarIconSource(), provideCoarIconBuiltInSourceAs(), or provideCoarHttpIconSource().'
+        'No Coar icon source is configured. Provide at least one source via provideCoarIconSource(), provideCoarIconMapSource(), provideCoarIconBuiltInSourceAs(), or provideCoarHttpIconSource().'
       );
     }
 
@@ -105,7 +105,7 @@ export class CoarIconService {
   private getSourceEntryOrThrow(sourceKey?: string): CoarIconSourceEntry {
     if (this.sourceByKey.size === 0) {
       throw new Error(
-        'No Coar icon source is configured. Provide at least one source via provideCoarIconSource(), provideCoarIconBuiltInSourceAs(), or provideCoarHttpIconSource().'
+        'No Coar icon source is configured. Provide at least one source via provideCoarIconSource(), provideCoarIconMapSource(), provideCoarIconBuiltInSourceAs(), or provideCoarHttpIconSource().'
       );
     }
 
