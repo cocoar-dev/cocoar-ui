@@ -119,7 +119,9 @@ export class CoarIconService {
   }
 
   private getDefaultSourceKeyOrThrow(): string {
-    const overrideKey = this.defaultSourceOverrides?.at(-1);
+    const overrideKey = this.defaultSourceOverrides
+      ? this.defaultSourceOverrides[this.defaultSourceOverrides.length - 1]
+      : undefined;
     if (overrideKey) {
       if (!this.sourceByKey.has(overrideKey)) {
         throw new Error(
