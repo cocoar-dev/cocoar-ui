@@ -44,7 +44,9 @@
   border: 1px solid var(--coar-border-input);
   border-radius: var(--coar-radius-xs);
   background: var(--coar-surface-input);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
   overflow: hidden;
 }
 
@@ -229,9 +231,11 @@
   border: none;
   background: transparent;
   color: var(--coar-icon-neutral-disabled);
-  font-size: 14px;
+  font-size: var(--coar-body-small-base-size);
   cursor: pointer;
-  transition: color 0.15s ease, opacity 0.15s ease;
+  transition:
+    color 0.15s ease,
+    opacity 0.15s ease;
   flex-shrink: 0;
   opacity: 0.4; /* Dimmed by default when not focused */
 }
@@ -249,15 +253,15 @@
 }
 
 :host(.coar-number-input--xs) .coar-number-input-clear {
-  font-size: 11px;
+  font-size: var(--coar-component-xs-font-size);
 }
 
 :host(.coar-number-input--sm) .coar-number-input-clear {
-  font-size: 12px;
+  font-size: var(--coar-component-sm-font-size);
 }
 
 :host(.coar-number-input--lg) .coar-number-input-clear {
-  font-size: 16px;
+  font-size: var(--coar-component-lg-font-size);
 }
 
 .coar-number-input-clear--hidden {
@@ -297,7 +301,9 @@
   background: transparent;
   color: var(--coar-icon-neutral-secondary);
   cursor: pointer;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
 :host(.coar-number-input--xs) .coar-number-input-button {

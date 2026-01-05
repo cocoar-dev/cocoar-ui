@@ -35,7 +35,9 @@
   border: 1px solid var(--coar-border-input);
   border-radius: var(--coar-radius-xs);
   background: var(--coar-surface-input);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
   overflow: hidden;
 }
 
@@ -147,7 +149,7 @@
   flex: 1;
   min-width: 0;
   height: 100%;
-  padding: 0 4px;
+  padding: 0 calc(var(--coar-spacing-s) + var(--coar-spacing-xs));
   border: none;
   outline: none;
   background: transparent;
@@ -161,7 +163,19 @@
 .coar-text-input-textarea {
   padding: var(--coar-spacing-s);
   resize: vertical;
-  min-height: 60px;
+  min-height: calc(var(--coar-component-md-height) + var(--coar-component-md-height));
+}
+
+:host(.coar-text-input--xs) .coar-text-input-textarea {
+  min-height: calc(var(--coar-component-xs-height) + var(--coar-component-xs-height));
+}
+
+:host(.coar-text-input--sm) .coar-text-input-textarea {
+  min-height: calc(var(--coar-component-sm-height) + var(--coar-component-sm-height));
+}
+
+:host(.coar-text-input--lg) .coar-text-input-textarea {
+  min-height: calc(var(--coar-component-lg-height) + var(--coar-component-lg-height));
 }
 
 .coar-text-input-field::placeholder {
@@ -179,7 +193,7 @@
 
 /* Prefix */
 .coar-text-input-prefix {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   padding-left: var(--coar-spacing-s);
   color: var(--coar-icon-neutral-secondary);
@@ -188,9 +202,14 @@
   flex-shrink: 0;
 }
 
+.coar-text-input-prefix:empty {
+  padding-left: 0;
+  flex-basis: 0;
+}
+
 /* Suffix */
 .coar-text-input-suffix {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   padding-right: var(--coar-spacing-s);
   color: var(--coar-icon-neutral-secondary);
@@ -200,8 +219,8 @@
 }
 
 .coar-text-input-suffix:empty {
-  display: none;
   padding-right: 0;
+  flex-basis: 0;
 }
 
 /* Suffix Actions (always visible, like action buttons) */
@@ -229,9 +248,11 @@
   border: none;
   background: transparent;
   color: var(--coar-icon-neutral-disabled);
-  font-size: 14px;
+  font-size: var(--coar-body-small-base-size);
   cursor: pointer;
-  transition: color 0.15s ease, opacity 0.15s ease;
+  transition:
+    color 0.15s ease,
+    opacity 0.15s ease;
   flex-shrink: 0;
   opacity: 0.4; /* Dimmed by default when not focused */
 }
@@ -249,15 +270,15 @@
 }
 
 :host(.coar-text-input--xs) .coar-text-input-clear {
-  font-size: 11px;
+  font-size: var(--coar-component-xs-font-size);
 }
 
 :host(.coar-text-input--sm) .coar-text-input-clear {
-  font-size: 12px;
+  font-size: var(--coar-component-sm-font-size);
 }
 
 :host(.coar-text-input--lg) .coar-text-input-clear {
-  font-size: 16px;
+  font-size: var(--coar-component-lg-font-size);
 }
 
 /* Clear button positioned at top-right for multiline */
@@ -271,10 +292,6 @@
 /* Additional hover for the clear button itself for even more prominence */
 .coar-text-input-clear:hover {
   color: var(--coar-icon-neutral-primary);
-}
-
-.coar-text-input-clear:focus {
-  outline: none;
 }
 
 .coar-text-input-clear:focus-visible {

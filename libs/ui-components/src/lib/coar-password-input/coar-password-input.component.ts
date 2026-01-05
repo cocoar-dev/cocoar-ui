@@ -112,9 +112,8 @@ export class CoarPasswordInputComponent extends CoarControlValueAccessor<string>
 
   protected hasError = computed(() => this.error().length > 0);
   protected displayMessage = computed(() => this.error() || this.hint());
-  protected inputId = computed(
-    () => this.id() || `coar-password-input-${Math.random().toString(36).substr(2, 9)}`
-  );
+  private readonly autoId = `coar-password-input-${cryptoRandomId()}`;
+  protected inputId = computed(() => this.id() || this.autoId);
   protected messageId = computed(() => `${this.inputId()}-message`);
 
   public writeValue(value: string | null): void {
@@ -156,4 +155,12 @@ export class CoarPasswordInputComponent extends CoarControlValueAccessor<string>
       this.showPassword.update((v) => !v);
     }
   }
+}
+
+function cryptoRandomId(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+
+  return `${Date.now().toString(16)}-${Math.random().toString(16).slice(2)}`;
 }

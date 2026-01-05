@@ -10,7 +10,6 @@ import {
   viewChild,
   booleanAttribute,
 } from '@angular/core';
-
 import { FormsModule } from '@angular/forms';
 import { CoarIconComponent } from '../coar-icon/coar-icon.component';
 import {
@@ -115,9 +114,8 @@ export class CoarTextInputComponent extends CoarControlValueAccessor<string> {
 
   protected hasError = computed(() => this.error().length > 0);
   protected displayMessage = computed(() => this.error() || this.hint());
-  protected inputId = computed(
-    () => this.id() || `coar-text-input-${Math.random().toString(36).substr(2, 9)}`
-  );
+  private readonly autoId = `coar-text-input-${cryptoRandomId()}`;
+  protected inputId = computed(() => this.id() || this.autoId);
   protected messageId = computed(() => `${this.inputId()}-message`);
 
   public writeValue(value: string | null): void {
@@ -154,4 +152,12 @@ export class CoarTextInputComponent extends CoarControlValueAccessor<string> {
   protected onLabelClick(): void {
     this.inputRef()?.nativeElement.focus();
   }
+}
+
+function cryptoRandomId(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+
+  return `${Date.now().toString(16)}-${Math.random().toString(16).slice(2)}`;
 }

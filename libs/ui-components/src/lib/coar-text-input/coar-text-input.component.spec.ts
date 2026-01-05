@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -8,6 +8,7 @@ import { CoarTextInputComponent, CoarTextInputSize } from './coar-text-input.com
 @Component({
   standalone: true,
   imports: [ReactiveFormsModule, CoarTextInputComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: ` <coar-text-input [formControl]="control" /> `,
 })
 class TestReactiveFormsHostComponent {

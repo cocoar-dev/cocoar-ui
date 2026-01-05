@@ -187,9 +187,8 @@ export class CoarNumberInputComponent extends CoarControlValueAccessor<number | 
 
   protected hasError = computed(() => this.error().length > 0);
   protected displayMessage = computed(() => this.error() || this.hint());
-  protected inputId = computed(
-    () => this.id() || `coar-number-input-${Math.random().toString(36).substr(2, 9)}`
-  );
+  private readonly autoId = `coar-number-input-${cryptoRandomId()}`;
+  protected inputId = computed(() => this.id() || this.autoId);
   protected messageId = computed(() => `${this.inputId()}-message`);
 
   protected iconSize = computed<CoarIconSize>(() => {
@@ -438,4 +437,12 @@ export class CoarNumberInputComponent extends CoarControlValueAccessor<number | 
       document.body.style.cursor = '';
     }
   }
+}
+
+function cryptoRandomId(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+
+  return `${Date.now().toString(16)}-${Math.random().toString(16).slice(2)}`;
 }
