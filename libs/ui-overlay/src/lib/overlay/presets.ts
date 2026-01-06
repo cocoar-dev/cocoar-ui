@@ -1,6 +1,6 @@
 import { type OverlayBuilder } from './overlay-builder';
 
-export type OverlayPreset = (b: OverlayBuilder) => void;
+export type OverlayPreset = (b: OverlayBuilder<unknown>) => void;
 
 export const coarTooltipPreset: OverlayPreset = (b) => {
   b.backdrop('none');

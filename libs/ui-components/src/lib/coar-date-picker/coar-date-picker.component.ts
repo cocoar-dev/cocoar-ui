@@ -23,14 +23,12 @@ import { maskitoDateOptionsGenerator } from '@maskito/kit';
 import { CoarIconComponent } from '../coar-icon/coar-icon.component';
 import { CoarPopoverComponent } from '../coar-popover/coar-popover.component';
 import { CoarPopoverGroupService } from '../coar-popover/coar-popover-group.service';
-import { coarProvideValueAccessor, CoarControlValueAccessor } from '../forms/coar-control-value-accessor';
-import { COAR_LOCALE_SERVICE, type DateFormatConfig } from '../services/locale.service';
 import {
-  CoarOverlayService,
-  Overlay,
-  type OverlayRef,
-  type Placement,
-} from '@cocoar/ui-overlay';
+  coarProvideValueAccessor,
+  CoarControlValueAccessor,
+} from '../forms/coar-control-value-accessor';
+import { COAR_LOCALE_SERVICE, type DateFormatConfig } from '../services/locale.service';
+import { createOverlayBuilder, type OverlayRef, type Placement } from '@cocoar/ui-overlay';
 
 export type CoarDatePickerSize = 'xs' | 'sm' | 'md' | 'lg';
 
@@ -112,7 +110,7 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
   private readonly elementRef = inject(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
   private readonly localeService = inject(COAR_LOCALE_SERVICE, { optional: true });
-  private readonly overlayService = inject(CoarOverlayService);
+  private readonly overlayBuilder = createOverlayBuilder();
 
   private overlayRef: OverlayRef | null = null;
 
@@ -407,7 +405,8 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
       const firstDayOfWeek = days[i * 7];
       if (firstDayOfWeek) {
         // weekOfYear may be undefined in some Temporal implementations
-        const weekNum = firstDayOfWeek.date.weekOfYear ?? this.calculateISOWeek(firstDayOfWeek.date);
+        const weekNum =
+          firstDayOfWeek.date.weekOfYear ?? this.calculateISOWeek(firstDayOfWeek.date);
         weeks.push(weekNum);
       }
     }
@@ -470,16 +469,14 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
     const placement = this.resolvePlacement(trigger, this.estimatePanelHeight());
     this.calendarPosition.set(placement === 'top' ? 'top' : 'bottom');
 
-    const spec = Overlay.define<Record<string, never>>((b) => {
-      b.content((c) => c.fromTemplate(template));
-      b.anchor({ kind: 'element', element: trigger });
-      b.position({ placement, offset: 4, flip: false, shift: false });
-      b.scroll({ strategy: 'reposition' });
-      b.dismiss({ outsideClick: true, escapeKey: true });
-      b.size({ mode: 'content' });
-    });
-
-    const ref = this.overlayService.open(spec, {});
+    const ref = this.overlayBuilder
+      .anchor({ kind: 'element', element: trigger })
+      .position({ placement, offset: 4, flip: false, shift: false })
+      .scroll({ strategy: 'reposition' })
+      .dismiss({ outsideClick: true, escapeKey: true })
+      .size({ mode: 'content' })
+      .fromTemplate(template)
+      .open({});
     this.overlayRef = ref;
 
     this.isOpen.set(true);
@@ -745,12 +742,13 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
     const separator = this.separator();
 
     // Convert our format to Maskito's mode format
-    const modeMap: Record<DateFormatConfig['pattern'], 'dd/mm/yyyy' | 'mm/dd/yyyy' | 'yyyy/mm/dd'> = {
-      'dd.mm.yyyy': 'dd/mm/yyyy',
-      'dd/mm/yyyy': 'dd/mm/yyyy',
-      'mm/dd/yyyy': 'mm/dd/yyyy',
-      'yyyy-mm-dd': 'yyyy/mm/dd',
-    };
+    const modeMap: Record<DateFormatConfig['pattern'], 'dd/mm/yyyy' | 'mm/dd/yyyy' | 'yyyy/mm/dd'> =
+      {
+        'dd.mm.yyyy': 'dd/mm/yyyy',
+        'dd/mm/yyyy': 'dd/mm/yyyy',
+        'mm/dd/yyyy': 'mm/dd/yyyy',
+        'yyyy-mm-dd': 'yyyy/mm/dd',
+      };
 
     const minDate = this.min();
     const maxDate = this.max();
@@ -821,7 +819,7 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
     if (parts.length !== 3) return null;
 
     // Check all parts are complete numbers
-    if (parts.some(p => p.length === 0 || !/^\d+$/.test(p))) return null;
+    if (parts.some((p) => p.length === 0 || !/^\d+$/.test(p))) return null;
 
     const format = this.dateFormat();
     let year: number, month: number, day: number;

@@ -5,7 +5,6 @@ import {
   model,
   output,
   computed,
-  inject,
   viewChild,
   ElementRef,
   TemplateRef,
@@ -17,12 +16,7 @@ import { CoarScrollbarDirective } from '../coar-scrollbar/coar-scrollbar.directi
 import { coarProvideValueAccessor } from '../forms/coar-control-value-accessor';
 import { CoarSelectBase, CoarSelectSize } from './coar-select-base';
 import { CoarSelectOption } from './coar-select-option.interface';
-import {
-  CoarOverlayService,
-  Overlay,
-  type OverlayRef,
-  type Placement,
-} from '@cocoar/ui-overlay';
+import { createOverlayBuilder, type OverlayRef, type Placement } from '@cocoar/ui-overlay';
 
 export type { CoarSelectSize };
 
@@ -62,7 +56,7 @@ export type { CoarSelectSize };
   },
 })
 export class CoarMultiSelectComponent<T = unknown> extends CoarSelectBase<T[]> {
-  private readonly overlayService = inject(CoarOverlayService);
+  private readonly overlayBuilder = createOverlayBuilder();
 
   private readonly triggerRef = viewChild<ElementRef<HTMLElement>>('trigger');
   private readonly dropdownTemplateRef = viewChild<TemplateRef<unknown>>('dropdownTemplate');
@@ -98,9 +92,7 @@ export class CoarMultiSelectComponent<T = unknown> extends CoarSelectBase<T[]> {
     const currentValues = this.value();
     if (!currentValues.length) return [];
     const compare = this.compareWith() ?? ((a: unknown, b: unknown) => a === b);
-    return this.options().filter((opt) =>
-      currentValues.some((val) => compare(val, opt.value))
-    );
+    return this.options().filter((opt) => currentValues.some((val) => compare(val, opt.value)));
   });
 
   /** Whether to show the clear button */
@@ -253,20 +245,18 @@ export class CoarMultiSelectComponent<T = unknown> extends CoarSelectBase<T[]> {
     const placement = this.resolvePlacement(trigger, this.estimatePanelHeight());
     this.dropdownPosition.set(placement === 'top' ? 'top' : 'bottom');
 
-    const spec = Overlay.define<Record<string, never>>((b) => {
-      b.content((c) => c.fromTemplate(template));
-      b.anchor({ kind: 'element', element: trigger });
-      b.position({ placement, offset: 4, flip: false, shift: false });
-      b.scroll({ strategy: 'reposition' });
-      b.dismiss({ outsideClick: true, escapeKey: true });
-      b.size({ mode: 'content', minWidth: 'anchor' });
-    });
-
     this.isOpen.set(true);
     this.searchQuery.set('');
     this.highlightedIndex.set(-1);
 
-    const ref = this.overlayService.open(spec, {});
+    const ref = this.overlayBuilder
+      .anchor({ kind: 'element', element: trigger })
+      .position({ placement, offset: 4, flip: false, shift: false })
+      .scroll({ strategy: 'reposition' })
+      .dismiss({ outsideClick: true, escapeKey: true })
+      .size({ mode: 'content', minWidth: 'anchor' })
+      .fromTemplate(template)
+      .open({});
     this.overlayRef = ref;
 
     ref.afterClosed$.subscribe(() => {
@@ -324,10 +314,7 @@ export class CoarMultiSelectComponent<T = unknown> extends CoarSelectBase<T[]> {
 
     const searchHeight = this.searchable() ? 56 : 0;
 
-    const selectAllHeight =
-      this.showSelectAll() && !this.searchQuery()
-        ? 37
-        : 0;
+    const selectAllHeight = this.showSelectAll() && !this.searchQuery() ? 37 : 0;
 
     const chromeHeight = 2;
     return chromeHeight + searchHeight + selectAllHeight + listHeight;

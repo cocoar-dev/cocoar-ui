@@ -6,9 +6,9 @@ This library provides an Angular-first overlay foundation (specs, builders, serv
 
 ## Quick start
 
-- Define an immutable spec via `Overlay.define(...)` / `Overlay.fork(...)`
-- Open it via `CoarOverlayService.open(spec, inputs)`
-- Use presets like `coarMenuPreset`, `coarModalPreset`, `coarTooltipPreset` for common behaviors
+- Create a builder via `createOverlayBuilder()`
+- Configure shared settings (anchor/position/dismiss/size/etc.)
+- Choose content last via `.fromTemplate(...)` / `.fromComponent(...)` / `.fromText()` and open via `.open(...)`
 
 ## App-level policy (DI)
 

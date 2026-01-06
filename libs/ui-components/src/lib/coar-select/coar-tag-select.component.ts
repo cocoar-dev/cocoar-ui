@@ -8,7 +8,6 @@ import {
   viewChild,
   ElementRef,
   booleanAttribute,
-  inject,
   TemplateRef,
 } from '@angular/core';
 
@@ -18,12 +17,7 @@ import { CoarScrollbarDirective } from '../coar-scrollbar/coar-scrollbar.directi
 import { coarProvideValueAccessor } from '../forms/coar-control-value-accessor';
 import { CoarSelectBase, CoarSelectSize } from './coar-select-base';
 import { CoarSelectOption } from './coar-select-option.interface';
-import {
-  CoarOverlayService,
-  Overlay,
-  type OverlayRef,
-  type Placement,
-} from '@cocoar/ui-overlay';
+import { createOverlayBuilder, type OverlayRef, type Placement } from '@cocoar/ui-overlay';
 
 export type { CoarSelectSize };
 
@@ -66,7 +60,7 @@ export type { CoarSelectSize };
   },
 })
 export class CoarTagSelectComponent<T = string> extends CoarSelectBase<T[]> {
-  private readonly overlayService = inject(CoarOverlayService);
+  private readonly overlayBuilder = createOverlayBuilder();
 
   private readonly triggerRef = viewChild<ElementRef<HTMLElement>>('trigger');
   private readonly dropdownTemplateRef = viewChild<TemplateRef<unknown>>('dropdownTemplate');
@@ -148,9 +142,10 @@ export class CoarTagSelectComponent<T = string> extends CoarSelectBase<T[]> {
    * When reversed, converts display index to data index.
    */
   protected isAvailableHighlighted(displayIndex: number): boolean {
-    const dataIndex = this.dropdownPosition() === 'top'
-      ? this.availableOptions().length - 1 - displayIndex
-      : displayIndex;
+    const dataIndex =
+      this.dropdownPosition() === 'top'
+        ? this.availableOptions().length - 1 - displayIndex
+        : displayIndex;
     return this.highlightedIndex() === dataIndex;
   }
 
@@ -159,9 +154,10 @@ export class CoarTagSelectComponent<T = string> extends CoarSelectBase<T[]> {
    * When reversed, converts display index to data index.
    */
   protected setAvailableHighlightFromDisplay(displayIndex: number): void {
-    const dataIndex = this.dropdownPosition() === 'top'
-      ? this.availableOptions().length - 1 - displayIndex
-      : displayIndex;
+    const dataIndex =
+      this.dropdownPosition() === 'top'
+        ? this.availableOptions().length - 1 - displayIndex
+        : displayIndex;
     this.highlightedIndex.set(dataIndex);
   }
 
@@ -391,19 +387,17 @@ export class CoarTagSelectComponent<T = string> extends CoarSelectBase<T[]> {
     const placement = this.resolvePlacement(trigger, this.estimatePanelHeight());
     this.dropdownPosition.set(placement === 'top' ? 'top' : 'bottom');
 
-    const spec = Overlay.define<Record<string, never>>((b) => {
-      b.content((c) => c.fromTemplate(template));
-      b.anchor({ kind: 'element', element: trigger });
-      b.position({ placement, offset: 4, flip: false, shift: false });
-      b.scroll({ strategy: 'reposition' });
-      b.dismiss({ outsideClick: true, escapeKey: true });
-      b.size({ mode: 'content', minWidth: 'anchor' });
-    });
-
     this.isOpen.set(true);
     this.highlightedIndex.set(-1);
 
-    const ref = this.overlayService.open(spec, {});
+    const ref = this.overlayBuilder
+      .anchor({ kind: 'element', element: trigger })
+      .position({ placement, offset: 4, flip: false, shift: false })
+      .scroll({ strategy: 'reposition' })
+      .dismiss({ outsideClick: true, escapeKey: true })
+      .size({ mode: 'content', minWidth: 'anchor' })
+      .fromTemplate(template)
+      .open({});
     this.overlayRef = ref;
 
     ref.afterClosed$.subscribe(() => {

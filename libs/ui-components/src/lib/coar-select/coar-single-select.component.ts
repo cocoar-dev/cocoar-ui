@@ -18,12 +18,7 @@ import { CoarScrollbarDirective } from '../coar-scrollbar/coar-scrollbar.directi
 import { coarProvideValueAccessor } from '../forms/coar-control-value-accessor';
 import { CoarSelectBase, CoarSelectSize } from './coar-select-base';
 import { CoarSelectOption } from './coar-select-option.interface';
-import {
-  CoarOverlayService,
-  Overlay,
-  type OverlayRef,
-  type Placement,
-} from '@cocoar/ui-overlay';
+import { createOverlayBuilder, type OverlayRef, type Placement } from '@cocoar/ui-overlay';
 
 export type { CoarSelectSize };
 
@@ -63,7 +58,7 @@ export type { CoarSelectSize };
   },
 })
 export class CoarSingleSelectComponent<T = unknown> extends CoarSelectBase<T | null> {
-  private readonly overlayService = inject(CoarOverlayService);
+  private readonly overlayBuilder = createOverlayBuilder();
   private readonly destroyRefLocal = inject(DestroyRef);
 
   private readonly triggerRef = viewChild<ElementRef<HTMLElement>>('trigger');
@@ -166,20 +161,18 @@ export class CoarSingleSelectComponent<T = unknown> extends CoarSelectBase<T | n
     const placement = this.resolvePlacement(trigger, this.estimatePanelHeight());
     this.dropdownPosition.set(placement === 'top' ? 'top' : 'bottom');
 
-    const spec = Overlay.define<Record<string, never>>((b) => {
-      b.content((c) => c.fromTemplate(template));
-      b.anchor({ kind: 'element', element: trigger });
-      b.position({ placement, offset: 4, flip: false, shift: false });
-      b.scroll({ strategy: 'reposition' });
-      b.dismiss({ outsideClick: true, escapeKey: true });
-      b.size({ mode: 'content', minWidth: 'anchor' });
-    });
-
     this.isOpen.set(true);
     this.searchQuery.set('');
     this.highlightedIndex.set(-1);
 
-    const ref = this.overlayService.open(spec, {});
+    const ref = this.overlayBuilder
+      .anchor({ kind: 'element', element: trigger })
+      .position({ placement, offset: 4, flip: false, shift: false })
+      .scroll({ strategy: 'reposition' })
+      .dismiss({ outsideClick: true, escapeKey: true })
+      .size({ mode: 'content', minWidth: 'anchor' })
+      .fromTemplate(template)
+      .open({});
     this.overlayRef = ref;
 
     ref.afterClosed$.subscribe(() => {

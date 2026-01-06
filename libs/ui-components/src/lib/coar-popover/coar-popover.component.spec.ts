@@ -4,7 +4,6 @@ import { vi } from 'vitest';
 
 import { CoarPopoverComponent } from './coar-popover.component';
 import { CoarPopoverGroupService } from './coar-popover-group.service';
-import { CoarOverlayService } from '@cocoar/ui-overlay';
 
 @Component({
   standalone: true,
@@ -54,14 +53,10 @@ describe('CoarPopoverComponent', () => {
   afterEach(() => {
     vi.useRealTimers();
 
-    try {
-      TestBed.inject(CoarOverlayService).closeAll();
-    } catch {
-      // noop
-    }
-
     for (const el of Array.from(
-      document.body.querySelectorAll('.coar-overlay-host, .coar-overlay-backdrop, .coar-popover-panel')
+      document.body.querySelectorAll(
+        '.coar-overlay-host, .coar-overlay-backdrop, .coar-popover-panel'
+      )
     )) {
       el.remove();
     }
@@ -145,7 +140,9 @@ describe('CoarPopoverComponent', () => {
     const nonInteractiveFixture = TestBed.createComponent(TestHostNonInteractiveComponent);
     nonInteractiveFixture.detectChanges();
 
-    const trigger = nonInteractiveFixture.nativeElement.querySelector('[coarPopoverTrigger]') as HTMLElement;
+    const trigger = nonInteractiveFixture.nativeElement.querySelector(
+      '[coarPopoverTrigger]'
+    ) as HTMLElement;
     trigger.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     nonInteractiveFixture.detectChanges();
 
@@ -182,7 +179,9 @@ describe('CoarPopoverComponent (group)', () => {
     const groupFixture = TestBed.createComponent(TestHostGroupComponent);
     groupFixture.detectChanges();
 
-    const roots = Array.from(groupFixture.nativeElement.querySelectorAll('.coar-popover')) as HTMLElement[];
+    const roots = Array.from(
+      groupFixture.nativeElement.querySelectorAll('.coar-popover')
+    ) as HTMLElement[];
     roots[0].dispatchEvent(new Event('mouseenter'));
     groupFixture.detectChanges();
     expect(document.body.querySelectorAll('.coar-popover-panel').length).toBe(1);

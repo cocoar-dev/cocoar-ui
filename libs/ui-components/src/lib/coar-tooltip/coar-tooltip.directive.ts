@@ -11,10 +11,13 @@ import {
   numberAttribute,
 } from '@angular/core';
 
-import { CoarOverlayService, Overlay, type OverlayRef, type Placement } from '@cocoar/ui-overlay';
+import { createOverlayBuilder, type OverlayRef, type Placement } from '@cocoar/ui-overlay';
 
 import { CoarTooltipService } from './coar-tooltip.service';
-import { CoarTooltipOverlayComponent, type CoarTooltipOverlayContent } from './coar-tooltip-overlay.component';
+import {
+  CoarTooltipOverlayComponent,
+  type CoarTooltipOverlayContent,
+} from './coar-tooltip-overlay.component';
 
 /** Tooltip placement preference - all 12 standard placements plus 'auto' for best-fit */
 type TooltipPlacement =
@@ -47,8 +50,6 @@ export class CoarTooltipDirective {
   private readonly elementRef = inject(ElementRef<HTMLElement>);
   private readonly destroyRef = inject(DestroyRef);
   private readonly injector = inject(Injector);
-
-  private readonly overlayService = inject(CoarOverlayService);
   private readonly tooltipService = inject(CoarTooltipService);
 
   /** Tooltip content (string, TemplateRef, or Component type). */
@@ -70,14 +71,19 @@ export class CoarTooltipDirective {
   readonly coarTooltipCloseDelay = input<number, unknown>(0, { transform: numberAttribute });
 
   /** Whether the tooltip should be clamped into the viewport. Default: true */
-  readonly coarTooltipClampToViewport = input<boolean, unknown>(true, { transform: booleanAttribute });
+  readonly coarTooltipClampToViewport = input<boolean, unknown>(true, {
+    transform: booleanAttribute,
+  });
 
   /** When placement is explicit (not auto), fall back to best-fit when it doesn't fit. Default: false */
-  readonly coarTooltipFallbackToBestFit = input<boolean, unknown>(false, { transform: booleanAttribute });
+  readonly coarTooltipFallbackToBestFit = input<boolean, unknown>(false, {
+    transform: booleanAttribute,
+  });
 
   private readonly tooltipId = `coar-tooltip-${cryptoRandomId()}`;
 
   private overlayRef: OverlayRef | null = null;
+  private readonly overlayBuilder = createOverlayBuilder();
 
   private openTimerId: number | null = null;
   private closeTimerId: number | null = null;
@@ -107,7 +113,7 @@ export class CoarTooltipDirective {
       const hasOpenOverlay = this.overlayRef != null;
 
       // When the tooltip is open and config changes, re-open to apply changes.
-      // CoarOverlayService does not support updating spec/content in-place.
+      // Overlays do not support updating spec/content in-place.
       if (!this.coarTooltipDisabled() && hasOpenOverlay && currentOpenReason && this.hasContent()) {
         this.close(true);
         Promise.resolve().then(() => this.openInternal(currentOpenReason));
@@ -158,27 +164,21 @@ export class CoarTooltipDirective {
     if (!content) return;
 
     const position = this.resolveOverlayPosition();
-    const spec = Overlay.define<{
-      tooltipId: string;
-      content: CoarTooltipOverlayContent;
-      context: object | null;
-      contentInjector: Injector;
-    }>((b) => {
-      b.content((c) => c.fromComponent(CoarTooltipOverlayComponent));
-      b.anchor({ kind: 'element', element: trigger });
-      b.position(position);
-      b.scroll({ strategy: 'reposition' });
-      b.dismiss({ outsideClick: false, escapeKey: true });
-      b.size({ mode: 'content' });
-      b.a11y({ role: 'tooltip' });
-    });
 
-    const ref = this.overlayService.open(spec, {
-      tooltipId: this.tooltipId,
-      content,
-      context: this.coarTooltipContext(),
-      contentInjector: this.injector,
-    });
+    const ref = this.overlayBuilder
+      .anchor({ kind: 'element', element: trigger })
+      .position(position)
+      .scroll({ strategy: 'reposition' })
+      .dismiss({ outsideClick: false, escapeKey: true })
+      .size({ mode: 'content' })
+      .a11y({ role: 'tooltip' })
+      .fromComponent(CoarTooltipOverlayComponent)
+      .open({
+        tooltipId: this.tooltipId,
+        content,
+        context: this.coarTooltipContext(),
+        contentInjector: this.injector,
+      });
 
     this.overlayRef = ref;
 
@@ -326,7 +326,9 @@ export class CoarTooltipDirective {
 
   open(): void {
     const trigger = this.elementRef.nativeElement;
-    const active = (typeof document !== 'undefined' ? document.activeElement : null) as Element | null;
+    const active = (
+      typeof document !== 'undefined' ? document.activeElement : null
+    ) as Element | null;
     const reason: 'hover' | 'focus' = active && trigger.contains(active) ? 'focus' : 'hover';
     this.clearTimers();
     this.openInternal(reason);

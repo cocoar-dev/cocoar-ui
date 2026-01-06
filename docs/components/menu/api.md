@@ -29,7 +29,7 @@ This document provides detailed API information for all menu-related components.
 
 The menu component is a simple container that applies consistent styling via CSS variables. It provides the semantic `role="menu"` and wraps menu items, submenus, and dividers.
 
-Use standalone for inline menus, or as content in `CoarOverlayService` for context menus and dropdowns.
+Use standalone for inline menus, or as content in the Cocoar overlay system (via `createOverlayBuilder`) for context menus and dropdowns.
 
 ### Usage
 
@@ -278,7 +278,7 @@ When used inside `.coar-menu--sidebar`, headings automatically use:
 
 ### Description
 
-A special menu item that triggers a flyout submenu when hovered. Uses the Cocoar Overlay System with `coarHoverMenuPreset` to position the submenu. Supports nested submenus (can contain other `coar-submenu-item` components).
+A special menu item that triggers a flyout submenu when hovered. Uses the Cocoar overlay system with `coarHoverMenuPreset` to position the submenu. Supports nested submenus (can contain other `coar-submenu-item` components).
 
 ### Usage
 
@@ -443,18 +443,18 @@ All styles use design tokens:
 
 ### Integration with Overlay System
 
-The submenu uses `CoarOverlayService` with `coarHoverMenuPreset`:
+The submenu uses `createOverlayBuilder()` with `coarHoverMenuPreset`:
 
 ```typescript
 // Internal implementation (reference only)
-const spec = Overlay.define<void>((b) => {
-  b.content((c) => c.fromTemplate(submenuTemplate));
-  b.anchor({ kind: 'element', element: triggerElement });
-  b.position({ placement: ['right-start', 'left-start'], offset: -4, flip: true, shift: true });
-}, coarHoverMenuPreset);
+const opener = createOverlayBuilder()
+  .withPreset(coarHoverMenuPreset)
+  .anchor({ kind: 'element', element: triggerElement })
+  .position({ placement: ['right-start', 'left-start'], offset: -4, flip: true, shift: true })
+  .fromTemplate(submenuTemplate);
 ```
 
-See [Cocoar Overlay System — Presets](../../libs/ui-overlay/overview.md#presets) for more details.
+See [Overlay API](../../libs/ui-overlay/api.md) for more details.
 
 ---
 
@@ -608,10 +608,10 @@ import {
 
 // Overlay System (for context menus)
 import {
-  CoarOverlayService,
-  Overlay,
+  createOverlayBuilder,
   coarMenuPreset,
-  coarHoverMenuPreset
+  coarHoverMenuPreset,
+  type OverlayRef
 } from '@cocoar/ui-overlay';
 
 // Types
@@ -622,7 +622,7 @@ import type { CoreIconName } from '@cocoar/ui-components';
 
 ## Related APIs
 
-- [Cocoar Overlay System API](../../libs/ui-overlay/overview.md#api-reference)
+- [Cocoar Overlay System API](../../libs/ui-overlay/api.md)
 - [CoarIconComponent API](../icon/api.md)
 - [Design Tokens Reference](../../foundations/design-tokens.md)
 

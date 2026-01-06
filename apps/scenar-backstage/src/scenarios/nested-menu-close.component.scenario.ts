@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { defineScenario } from '@cocoar/scenar-abstractions';
 import {
@@ -7,7 +7,7 @@ import {
   CoarSubmenuItemComponent,
   CoarMenuDividerComponent,
 } from '@cocoar/ui-menu';
-import { CoarOverlayService, Overlay, coarMenuPreset } from '@cocoar/ui-overlay';
+import { coarMenuPreset, createOverlayBuilder, type OverlayRef } from '@cocoar/ui-overlay';
 import type { CoarMenuItemClickEvent } from '@cocoar/ui-menu';
 
 /**
@@ -203,12 +203,12 @@ import type { CoarMenuItemClickEvent } from '@cocoar/ui-menu';
   ],
 })
 export class NestedMenuCloseComponent {
-  private readonly overlayService = inject(CoarOverlayService);
+  private readonly overlay = createOverlayBuilder();
 
   @ViewChild('contextMenuTemplate', { read: TemplateRef })
-  contextMenuTemplate!: TemplateRef<unknown>;
+  contextMenuTemplate!: TemplateRef<{ itemName: string }>;
 
-  private contextMenu: ReturnType<typeof this.overlayService.open> | null = null;
+  private contextMenu: OverlayRef | null = null;
 
   protected actions: string[] = [];
 
@@ -216,25 +216,20 @@ export class NestedMenuCloseComponent {
     event.preventDefault();
     event.stopPropagation();
 
-    console.log('[Demo] Context menu triggered');
-
     // Close existing menu if open
     this.contextMenu?.close();
 
-    // Open new context menu at mouse position using correct API
-    // Pass data to template (like your consumer app does)
-    const spec = Overlay.define<{ itemName: string }>((b) => {
-      b.content((c) => c.fromTemplate(this.contextMenuTemplate));
-      b.anchor({ kind: 'point', x: event.clientX, y: event.clientY });
-    }, coarMenuPreset);
+    const opener = this.overlay
+      .withPreset(coarMenuPreset)
+      .anchor({ kind: 'point', x: event.clientX, y: event.clientY })
+      .fromTemplate(this.contextMenuTemplate);
 
-    this.contextMenu = this.overlayService.open(spec, { itemName: 'Test Item #42' });
+    this.contextMenu = opener.open({ itemName: 'Test Item #42' });
 
     this.addAction('Context menu opened for: Test Item #42');
   }
 
   handleAction(action: string, itemName?: string, _event?: CoarMenuItemClickEvent): void {
-    console.log('[Demo] Action:', action, 'Item:', itemName);
     this.addAction(`Action: ${action} (${itemName || 'no item'})`);
   }
 

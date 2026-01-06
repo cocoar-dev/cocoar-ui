@@ -7,7 +7,7 @@ import {
   DestroyRef,
 } from '@angular/core';
 
-import { CoarOverlayService, Overlay, coarMenuPreset } from '@cocoar/ui-overlay';
+import { coarMenuPreset, createOverlayBuilder, type OverlayRef } from '@cocoar/ui-overlay';
 import {
   CoarCodeBlockComponent,
   CoarDividerComponent,
@@ -40,23 +40,23 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarMenuDividerComponent,
     CoarMenuHeadingComponent,
     CoarSubmenuItemComponent,
-    CoarSubExpandComponent
-],
+    CoarSubExpandComponent,
+  ],
   templateUrl: './menu.page.html',
   styleUrl: './menu.page.css',
 })
 export class MenuPage {
-  private readonly overlayService = inject(CoarOverlayService);
+  private readonly overlay = createOverlayBuilder();
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly destroyRef = inject(DestroyRef);
 
-  @ViewChild('contextMenuTemplate') contextMenuTemplate!: TemplateRef<unknown>;
+  @ViewChild('contextMenuTemplate') contextMenuTemplate!: TemplateRef<void>;
 
   protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
 
   activeTab = 'examples';
 
-  private contextMenuRef: ReturnType<typeof this.overlayService.open> | null = null;
+  private contextMenuRef: OverlayRef | null = null;
 
   protected readonly docsPath = '/docs/components/menu/overview.md';
   protected readonly apiPath = '/docs/components/menu/api.md';
@@ -159,13 +159,12 @@ export class MenuPage {
     // Close existing context menu if open
     this.contextMenuRef?.close();
 
-    // Open context menu at mouse position
-    const spec = Overlay.define<void>((b) => {
-      b.content((c) => c.fromTemplate(this.contextMenuTemplate));
-      b.anchor({ kind: 'point', x: event.clientX, y: event.clientY });
-    }, coarMenuPreset);
+    const opener = this.overlay
+      .withPreset(coarMenuPreset)
+      .anchor({ kind: 'point', x: event.clientX, y: event.clientY })
+      .fromTemplate(this.contextMenuTemplate);
 
-    this.contextMenuRef = this.overlayService.open(spec, undefined);
+    this.contextMenuRef = opener.open(undefined);
   }
 
   handleAction(_action: string): void {
@@ -364,13 +363,11 @@ export class MenuPage {
     contextMenu: `onContextMenu(event: MouseEvent): void {
   event.preventDefault();
 
-  // Open context menu at click position
-  const spec = Overlay.define((b) => {
-    b.content((c) => c.fromTemplate(this.contextMenuTemplate));
-    b.anchor({ kind: 'point', x: event.clientX, y: event.clientY });
-  }, coarMenuPreset);
+  const overlay = createOverlayBuilder()
+    .withPreset(coarMenuPreset)
+    .anchor({ kind: 'point', x: event.clientX, y: event.clientY });
 
-  this.contextMenuRef = this.overlayService.open(spec, undefined);
+  this.contextMenuRef = overlay.fromTemplate(this.contextMenuTemplate).open(undefined);
 }
 
 // In the template, use <coar-sub-flyout> (alias of <coar-submenu-item>) with an inline <ng-template> (or [submenuTemplate]) to define flyouts.

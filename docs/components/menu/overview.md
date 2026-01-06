@@ -172,7 +172,7 @@ For context menus triggered by right-click or button actions, use the **Cocoar O
 
 ```typescript
 import { Component, ViewChild, TemplateRef, inject } from '@angular/core';
-import { CoarOverlayService, Overlay, coarMenuPreset } from '@cocoar/ui-overlay';
+import { createOverlayBuilder, coarMenuPreset, type OverlayRef } from '@cocoar/ui-overlay';
 import {
   CoarMenuComponent,
   CoarMenuItemComponent,
@@ -205,11 +205,11 @@ import {
   `
 })
 export class MyComponent {
-  private readonly overlayService = inject(CoarOverlayService);
+  private readonly overlay = createOverlayBuilder(coarMenuPreset);
 
   @ViewChild('contextMenuTemplate') contextMenuTemplate!: TemplateRef<unknown>;
 
-  private contextMenuRef: ReturnType<typeof this.overlayService.open> | null = null;
+  private contextMenuRef: OverlayRef | null = null;
 
   onContextMenu(event: MouseEvent): void {
     event.preventDefault();
@@ -218,13 +218,11 @@ export class MyComponent {
     this.contextMenuRef?.close();
 
     // Open menu at mouse position
-    const spec = Overlay.define<void>((b) => {
-      b.content((c) => c.fromTemplate(this.contextMenuTemplate));
-      b.anchor({ kind: 'point', x: event.clientX, y: event.clientY });
-      b.position({ placement: 'bottom-start', offset: 4, flip: true });
-    }, coarMenuPreset);
-
-    this.contextMenuRef = this.overlayService.open(spec, undefined);
+    this.contextMenuRef = this.overlay
+      .anchor({ kind: 'point', x: event.clientX, y: event.clientY })
+      .position({ placement: 'bottom-start', offset: 4, flip: true, shift: true })
+      .fromTemplate(this.contextMenuTemplate)
+      .open(undefined);
   }
 
   onCopy() { this.contextMenuRef?.close(); }
@@ -291,7 +289,7 @@ Menus are keyboard accessible:
 | --- | --- |
 | `Tab` / `Shift+Tab` | Move focus between items (disabled items are not focusable) |
 | `Enter` / `Space` | Activate a focused item (`coar-submenu-item` toggles its submenu) |
-| `Escape` | Close the menu when hosted in an overlay preset that enables it (e.g. `coarMenuPreset`) |
+| `Escape` | Close the menu when hosted in an overlay configuration that enables it (e.g. `coarMenuPreset`) |
 
 ---
 
@@ -407,7 +405,7 @@ The data is available in the template via:
 - **Implicit context**: `let-data` — Access the entire data object as `$implicit`
 
 ### Submenu Behavior
-- **HoverTree close delay**: defaults to 300ms via `coarHoverMenuPreset` (configurable in the overlay spec)
+- **HoverTree close delay**: defaults to 300ms via `coarHoverMenuPreset`
 - **Mouse movement**: Moving mouse to submenu keeps both parent and child open
 - **Keyboard**: Use `→` to open, `←` to close
 - **Disabled**: Submenu items can be disabled like regular items
@@ -417,44 +415,23 @@ The data is available in the template via:
 
 ## Integration with Overlay System
 
-Menus work seamlessly with the [Cocoar Overlay System](../../libs/ui-overlay/overview.md):
+Menus work seamlessly with the [Cocoar Overlay System](../../libs/ui-overlay/api.md) via the builder-only API.
 
-### Presets
+### Preset constants
 
-Use `coarMenuPreset` or `coarHoverMenuPreset`:
+Use `coarMenuPreset` or `coarHoverMenuPreset` as reusable defaults:
 
 ```typescript
-import { coarMenuPreset, coarHoverMenuPreset } from '@cocoar/ui-overlay';
+import { createOverlayBuilder, coarMenuPreset } from '@cocoar/ui-overlay';
 
-// Standard menu (click-triggered)
-const spec = Overlay.define((b) => {
-  b.content((c) => c.fromTemplate(menuTemplate));
-  b.anchor({ kind: 'point', x: mouseX, y: mouseY });
-}, coarMenuPreset);
+const overlay = createOverlayBuilder(coarMenuPreset);
 
-// Hover menu (for submenus)
-const spec = Overlay.define((b) => {
-  b.content((c) => c.fromTemplate(submenuTemplate));
-  b.anchor({ kind: 'element', element: triggerElement, attachment: 'end-start' });
-}, coarHoverMenuPreset);
+const ref = overlay
+  .anchor({ kind: 'point', x: mouseX, y: mouseY })
+  .position({ placement: 'bottom-start', offset: 4, flip: true, shift: true })
+  .fromTemplate(menuTemplate)
+  .open(undefined);
 ```
-
-### Preset Configuration
-
-**`coarMenuPreset`:**
-- Close on outside click: ✅
-- Close on Escape: ✅
-- Close on scroll: ✅
-- Close on blur: ✅
-
-**`coarHoverMenuPreset`:**
-- Close on outside click: ✅
-- Close on Escape: ✅
-- Close on scroll: ✅
-- Close on blur: ✅
-- HoverTree dismissal: ✅ (default delay 300ms)
-
-See [Overlay System — Presets](../../libs/ui-overlay/overview.md#presets) for more details.
 
 ---
 
@@ -480,17 +457,15 @@ See [Overlay System — Presets](../../libs/ui-overlay/overview.md#presets) for 
   `
 })
 export class ActionMenuComponent {
-  private readonly overlayService = inject(CoarOverlayService);
+  private readonly overlay = createOverlayBuilder(coarMenuPreset);
   @ViewChild('menuTemplate') menuTemplate!: TemplateRef<unknown>;
 
   openMenu(event: MouseEvent): void {
-    const spec = Overlay.define<void>((b) => {
-      b.content((c) => c.fromTemplate(this.menuTemplate));
-      b.anchor({ kind: 'element', element: event.target as HTMLElement, attachment: 'bottom-start' });
-      b.position({ placement: 'bottom-start', offset: 4, flip: true });
-    }, coarMenuPreset);
-
-    this.overlayService.open(spec, undefined);
+    this.overlay
+      .anchor({ kind: 'element', element: event.target as HTMLElement })
+      .position({ placement: 'bottom-start', offset: 4, flip: true, shift: true })
+      .fromTemplate(this.menuTemplate)
+      .open(undefined);
   }
 
   onNew() {}
@@ -556,14 +531,14 @@ export class ActionMenuComponent {
 
 For detailed API documentation, see:
 - [Menu API Reference](./api.md)
-- [Cocoar Overlay System API](../../libs/ui-overlay/overview.md#api-reference)
+- [Cocoar Overlay System API](../../libs/ui-overlay/api.md)
 
 ---
 
 ## Related Components
 
 - [CoarIconComponent](../icon/overview.md) — Icon system used in menu items
-- [CoarOverlayService](../../libs/ui-overlay/overview.md) — Positioning and lifecycle for context menus
+- [Cocoar Overlay System](../../libs/ui-overlay/overview.md) — Overlay builder used for context menus
 - [CoarTooltipComponent](../tooltip/overview.md) — Alternative for informational overlays
 
 ---

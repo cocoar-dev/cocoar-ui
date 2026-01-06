@@ -14,7 +14,7 @@ import {
 import { ContentBuilder } from './content-builder';
 import { deepFreeze } from './deep-freeze';
 
-export class OverlayBuilder {
+export class OverlayBuilder<TInputs = void> {
   private readonly draft: OverlaySpec<unknown>;
 
   constructor(seed?: OverlaySpec<unknown>) {
@@ -76,13 +76,15 @@ export class OverlayBuilder {
     return this;
   }
 
-  content(fn: (c: ContentBuilder) => ContentSpec<unknown>): this {
+  content<TNewInputs>(
+    fn: (c: ContentBuilder) => ContentSpec<TNewInputs>
+  ): OverlayBuilder<TNewInputs> {
     const contentBuilder = new ContentBuilder();
     this.draft.content = fn(contentBuilder);
-    return this;
+    return this as unknown as OverlayBuilder<TNewInputs>;
   }
 
-  freeze<TInputs = void>(): OverlaySpec<TInputs> {
+  freeze(): OverlaySpec<TInputs> {
     return deepFreeze({ ...this.draft }) as OverlaySpec<TInputs>;
   }
 }

@@ -14,10 +14,10 @@ import { CommonModule } from '@angular/common';
 import { CoarIconComponent } from '@cocoar/ui-components';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
-  CoarOverlayService,
-  coarHoverMenuPreset,
-  Overlay,
   COAR_MENU_PARENT,
+  coarHoverMenuPreset,
+  createOverlayBuilder,
+  type OverlayRef,
 } from '@cocoar/ui-overlay';
 import { COAR_MENU_CASCADE, CoarMenuCascade } from './coar-menu-cascade';
 import { CoarSubmenuTemplateDirective } from './coar-submenu-template.directive';
@@ -98,12 +98,12 @@ import { CoarSubmenuTemplateDirective } from './coar-submenu-template.directive'
   ],
 })
 export class CoarSubmenuItemComponent {
-  private readonly overlayService = inject(CoarOverlayService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly cascade = inject(COAR_MENU_CASCADE);
   private readonly parentOverlay = inject(COAR_MENU_PARENT, { optional: true });
   private readonly injector = inject(Injector);
+  private readonly overlayBuilder = createOverlayBuilder();
 
   // Ensures the submenu TemplateRef is instantiated with a parent injector that contains
   // the correct cascade instance for this submenu item. Without this, TemplateRefs declared
@@ -171,7 +171,7 @@ export class CoarSubmenuItemComponent {
 
   @ViewChild('overlaySubmenuTemplate') private overlaySubmenuTemplate!: TemplateRef<unknown>;
 
-  private submenuRef: ReturnType<typeof this.overlayService.open> | null = null;
+  private submenuRef: OverlayRef | null = null;
   isOpen = false;
 
   protected submenuTemplateToRender(): TemplateRef<unknown> {
@@ -273,12 +273,11 @@ export class CoarSubmenuItemComponent {
     // Determine what data to pass to the submenu template
     const submenuContextData = this.submenuData();
 
-    // All overlays use hoverTree preset for proper tree tracking
-    const spec = Overlay.define<unknown>((b) => {
-      b.content((c) => c.fromTemplate(this.overlaySubmenuTemplate));
-      b.anchor({ kind: 'element', element: anchorElement });
-      b.position({ placement: ['right-start', 'left-start'], offset: -4, flip: true, shift: true });
-    }, coarHoverMenuPreset);
+    const opener = this.overlayBuilder
+      .withPreset(coarHoverMenuPreset)
+      .anchor({ kind: 'element', element: anchorElement })
+      .position({ placement: ['right-start', 'left-start'], offset: -4, flip: true, shift: true })
+      .fromTemplate(this.overlaySubmenuTemplate);
 
     // Prefer the cascade parent's overlayRef when available.
     // With Angular content projection, submenu content can be instantiated in the *root* overlay
@@ -290,14 +289,14 @@ export class CoarSubmenuItemComponent {
       // Inside an overlay: close siblings (direct children of parent) then open as child
       // First, create the child overlay
       // Pass submenuData if provided, otherwise undefined (inherits parent context via $implicit)
-      this.submenuRef = this.overlayService.openChild(containingOverlay, spec, submenuContextData);
+      this.submenuRef = opener.openAsChild(containingOverlay, submenuContextData);
 
       // Then close siblings, excluding the newly opened one
       containingOverlay.closeChildren(this.submenuRef);
     } else {
       // Inline menu: use cascade-level sibling closure
       this.cascade.closeSiblings();
-      this.submenuRef = this.overlayService.open(spec, submenuContextData);
+      this.submenuRef = opener.open(submenuContextData);
     }
 
     // Expose the overlay ref to descendants so they can parent their own flyouts correctly.

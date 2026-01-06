@@ -133,7 +133,7 @@ Visual separator.
 
 ```typescript
 import { Component, TemplateRef, ViewChild, inject } from '@angular/core';
-import { CoarOverlayService, Overlay, coarMenuPreset } from '@cocoar/ui-overlay';
+import { createOverlayBuilder, coarMenuPreset, type OverlayRef } from '@cocoar/ui-overlay';
 
 @Component({
   template: `
@@ -150,24 +150,22 @@ import { CoarOverlayService, Overlay, coarMenuPreset } from '@cocoar/ui-overlay'
   `,
 })
 export class MyComponent {
-  private readonly overlayService = inject(CoarOverlayService);
+  private readonly overlay = createOverlayBuilder(coarMenuPreset);
 
   @ViewChild('contextMenuTemplate') contextMenuTemplate!: TemplateRef<unknown>;
 
-  private contextMenuRef: ReturnType<typeof this.overlayService.open> | null = null;
+  private contextMenuRef: OverlayRef | null = null;
 
   onContextMenu(event: MouseEvent): void {
     event.preventDefault();
 
     this.contextMenuRef?.close();
 
-    const spec = Overlay.define<void>((b) => {
-      b.content((c) => c.fromTemplate(this.contextMenuTemplate));
-      b.anchor({ kind: 'point', x: event.clientX, y: event.clientY });
-      b.position({ placement: 'bottom-start', offset: 4, flip: true, shift: true });
-    }, coarMenuPreset);
-
-    this.contextMenuRef = this.overlayService.open(spec, undefined);
+    this.contextMenuRef = this.overlay
+      .anchor({ kind: 'point', x: event.clientX, y: event.clientY })
+      .position({ placement: 'bottom-start', offset: 4, flip: true, shift: true })
+      .fromTemplate(this.contextMenuTemplate)
+      .open(undefined);
   }
 
   onCopy(): void {

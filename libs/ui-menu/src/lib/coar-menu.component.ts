@@ -12,7 +12,7 @@ import { CoarMenuAimConfigDirective } from './coar-menu-aim-config.directive';
  * - Provide root cascade for sibling submenu tracking
  * - No logic - just a styled wrapper
  *
- * Use standalone for inline menus, or as content in CoarOverlayService for context menus/flyouts.
+ * Use standalone for inline menus, or as overlay content (via `createOverlayBuilder`) for context menus/flyouts.
  *
  * @example
  * ```html

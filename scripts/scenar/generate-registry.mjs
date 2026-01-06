@@ -704,7 +704,8 @@ export const SCENARIO_REGISTRY: Record<string, ScenarioDefinition> = {};
         componentRelPath = s.importPath;
       } else {
         // Component is in a separate file
-        const componentAbsPath = path.join(scenarioDir, `${s.componentFileName}.ts`);
+        const componentAbsPath =
+          s.componentFilePath ?? path.join(scenarioDir, `${s.componentFileName}.ts`);
         componentRelPath = path
           .relative(registryDir, componentAbsPath)
           .replace(/\\/g, '/')

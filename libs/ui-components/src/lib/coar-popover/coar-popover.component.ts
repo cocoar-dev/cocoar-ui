@@ -16,7 +16,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { fromEvent, filter } from 'rxjs';
 
-import { CoarOverlayService, Overlay } from '@cocoar/ui-overlay';
+import { createOverlayBuilder, type OverlayRef } from '@cocoar/ui-overlay';
 import { CoarScrollbarDirective } from '../coar-scrollbar/coar-scrollbar.directive';
 import { CoarPopoverGroupService } from './coar-popover-group.service';
 
@@ -37,13 +37,13 @@ export class CoarPopoverComponent {
   private readonly elementRef = inject(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
   private readonly popoverGroup = inject(CoarPopoverGroupService, { optional: true });
-  private readonly overlayService = inject(CoarOverlayService);
+  private readonly overlayBuilder = createOverlayBuilder();
 
   private static nextId = 0;
   private readonly popoverId = `coar-popover-${CoarPopoverComponent.nextId++}`;
   protected readonly panelId = `${this.popoverId}-panel`;
 
-  private overlayRef: import('@cocoar/ui-overlay').OverlayRef | null = null;
+  private overlayRef: OverlayRef | null = null;
   protected readonly isOpen = signal(false);
 
   constructor() {
@@ -155,22 +155,20 @@ export class CoarPopoverComponent {
       this.pinnedByClick.set(false);
     }
 
-    const spec = Overlay.define<Record<string, never>>((b) => {
-      b.content((c) => c.fromTemplate(template));
-      b.anchor({ kind: 'element', element: trigger });
-      b.position({
+    const ref = this.overlayBuilder
+      .anchor({ kind: 'element', element: trigger })
+      .position({
         placement: ['bottom', 'top', 'right', 'left'],
         offset: 6,
         flip: false,
         shift: this.clampToViewport(),
-      });
-      b.scroll({ strategy: 'reposition' });
-      b.dismiss({ outsideClick: false, escapeKey: true });
-      b.size({ mode: 'content' });
-      b.a11y({ role: 'tooltip' });
-    });
-
-    const ref = this.overlayService.open(spec, {});
+      })
+      .scroll({ strategy: 'reposition' })
+      .dismiss({ outsideClick: false, escapeKey: true })
+      .size({ mode: 'content' })
+      .a11y({ role: 'tooltip' })
+      .fromTemplate(template)
+      .open({});
     this.overlayRef = ref;
     this.isOpen.set(true);
 

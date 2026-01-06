@@ -3,8 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { CoarOverlayService } from './overlay-service';
-import { Overlay } from './overlay';
 import { COAR_OVERLAY_SPEC_RESOLVERS } from './overlay-spec';
+import { createOverlayBuilder } from './create-overlay-builder';
+import { coarMenuPreset } from './overlay-settings';
 
 @Component({
   standalone: true,
@@ -60,21 +61,21 @@ describe('CoarOverlayService', () => {
     }
   });
 
-  it('throws when opening without content', () => {
-    const service = TestBed.inject(CoarOverlayService);
+  it('throws when opening a text overlay without text', () => {
+    const opener = TestBed.runInInjectionContext(() => createOverlayBuilder().fromText());
 
-    expect(() => service.open({}, undefined as never)).toThrowError('OverlaySpec missing content');
+    expect(() => opener.open({} as { text: string })).toThrowError(
+      'Text overlay requires inputs: { text: string }'
+    );
   });
 
   it('opens and closes a text overlay', async () => {
     const service = TestBed.inject(CoarOverlayService);
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromText());
-    });
+    const opener = TestBed.runInInjectionContext(() => createOverlayBuilder().fromText());
 
     const closeSpy = vi.fn();
-    const ref = service.open(spec, { text: 'Hello' });
+    const ref = opener.open({ text: 'Hello' });
     ref.afterClosed$.subscribe(closeSpy);
 
     const host = document.body.querySelector('.coar-overlay-host');
@@ -86,6 +87,72 @@ describe('CoarOverlayService', () => {
     expect(closeSpy).toHaveBeenCalledWith('done');
   });
 
+  it('supports content-last builder style for template overlays', () => {
+    const service = TestBed.inject(CoarOverlayService);
+    const fixture = TestBed.createComponent(TestHostComponent);
+    fixture.detectChanges();
+
+    const builder = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder().anchor({ kind: 'point', x: 10, y: 10 })
+    );
+
+    const ref = TestBed.runInInjectionContext(() =>
+      builder.fromTemplate(fixture.componentInstance.templateRef).open({ text: 'Hello' })
+    );
+
+    expect(document.body.querySelector('.coar-overlay-host .from-template')?.textContent).toBe(
+      'Hello'
+    );
+    ref.close();
+    service.closeAll();
+  });
+
+  it('supports providing initial settings to createOverlayBuilder', () => {
+    const opener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder(coarMenuPreset).fromText()
+    );
+    const ref = opener.open({ text: 'Hello' });
+
+    const host = document.body.querySelector<HTMLElement>('.coar-overlay-host');
+    expect(host?.getAttribute('role')).toBe('menu');
+    ref.close();
+
+    const overridden = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder(coarMenuPreset).a11y({ role: 'dialog' }).fromText()
+    );
+    const ref2 = overridden.open({ text: 'Hello' });
+
+    const host2 = document.body.querySelector<HTMLElement>('.coar-overlay-host');
+    expect(host2?.getAttribute('role')).toBe('dialog');
+    ref2.close();
+  });
+
+  it('allows shared settings to be reused regardless of content kind', () => {
+    const fixture = TestBed.createComponent(TestHostComponent);
+    fixture.detectChanges();
+
+    const builder = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder()
+        .anchor({ kind: 'point', x: 10, y: 10 })
+        .dismiss({ outsideClick: false, escapeKey: true })
+    );
+
+    const ref = TestBed.runInInjectionContext(() =>
+      builder.fromTemplate(fixture.componentInstance.templateRef).open({ text: 'Hello' })
+    );
+
+    expect(document.body.querySelectorAll('.coar-overlay-host')).toHaveLength(1);
+
+    const outside = document.createElement('div');
+    document.body.appendChild(outside);
+    outside.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true }));
+    outside.remove();
+
+    // outsideClick is disabled, so the overlay should still be open.
+    expect(document.body.querySelectorAll('.coar-overlay-host')).toHaveLength(1);
+    ref.close();
+  });
+
   it('opens and closes a template overlay', () => {
     const fixture = TestBed.configureTestingModule({
       imports: [TestHostComponent],
@@ -93,13 +160,11 @@ describe('CoarOverlayService', () => {
 
     fixture.detectChanges();
 
-    const service = TestBed.inject(CoarOverlayService);
+    const opener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder().fromTemplate(fixture.componentInstance.templateRef)
+    );
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromTemplate(fixture.componentInstance.templateRef));
-    });
-
-    const ref = service.open(spec, { text: 'From template' });
+    const ref = opener.open({ text: 'From template' });
 
     const host = document.body.querySelector('.coar-overlay-host');
     expect(host?.textContent).toContain('From template');
@@ -109,13 +174,11 @@ describe('CoarOverlayService', () => {
   });
 
   it('opens and closes a component overlay', () => {
-    const service = TestBed.inject(CoarOverlayService);
+    const opener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder().fromComponent(TestOverlayComponent)
+    );
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromComponent(TestOverlayComponent));
-    });
-
-    const ref = service.open(spec, {
+    const ref = opener.open({
       text: 'From component',
     } as unknown as Partial<TestOverlayComponent>);
 
@@ -127,8 +190,6 @@ describe('CoarOverlayService', () => {
   });
 
   it("applies size.minWidth='anchor' for element-anchored overlays", () => {
-    const service = TestBed.inject(CoarOverlayService);
-
     const origin = document.createElement('button');
     document.body.appendChild(origin);
     (origin as unknown as { getBoundingClientRect: () => DOMRect }).getBoundingClientRect = () =>
@@ -142,15 +203,16 @@ describe('CoarOverlayService', () => {
         x: 10,
         y: 10,
         toJSON: () => ({}),
-      } as unknown as DOMRect);
+      }) as unknown as DOMRect;
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromText());
-      b.anchor({ kind: 'element', element: origin });
-      b.size({ mode: 'content-clamped', minWidth: 'anchor', maxHeight: 200 });
-    });
+    const opener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder()
+        .anchor({ kind: 'element', element: origin })
+        .size({ mode: 'content-clamped', minWidth: 'anchor', maxHeight: 200 })
+        .fromText()
+    );
 
-    const ref = service.open(spec, { text: 'Hello' });
+    const ref = opener.open({ text: 'Hello' });
 
     const host = document.body.querySelector('.coar-overlay-host') as HTMLElement;
     expect(host.style.minWidth).toBe('200px');
@@ -176,13 +238,11 @@ describe('CoarOverlayService', () => {
       ],
     }).inject(CoarOverlayService);
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromText());
-      b.anchor({ kind: 'point', x: 10, y: 10 });
-      // no explicit scroll spec here
-    });
+    const opener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder().anchor({ kind: 'point', x: 10, y: 10 }).fromText()
+    );
 
-    service.open(spec, { text: 'Menu' });
+    opener.open({ text: 'Menu' });
     expect(document.body.querySelectorAll('.coar-overlay-host')).toHaveLength(1);
 
     window.dispatchEvent(new Event('scroll'));
@@ -206,13 +266,14 @@ describe('CoarOverlayService', () => {
       ],
     }).inject(CoarOverlayService);
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromText());
-      b.anchor({ kind: 'point', x: 10, y: 10 });
-      b.scroll({ strategy: 'noop' });
-    });
+    const opener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder()
+        .anchor({ kind: 'point', x: 10, y: 10 })
+        .scroll({ strategy: 'noop' })
+        .fromText()
+    );
 
-    service.open(spec, { text: 'Noop' });
+    opener.open({ text: 'Noop' });
     expect(document.body.querySelectorAll('.coar-overlay-host')).toHaveLength(1);
 
     window.dispatchEvent(new Event('scroll'));
@@ -220,14 +281,13 @@ describe('CoarOverlayService', () => {
   });
 
   it('applies a11y.role and aria labels onto the host', () => {
-    const service = TestBed.inject(CoarOverlayService);
+    const opener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder()
+        .a11y({ role: 'menu', label: 'Actions', labelledBy: 'titleId', describedBy: 'descId' })
+        .fromText()
+    );
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromText());
-      b.a11y({ role: 'menu', label: 'Actions', labelledBy: 'titleId', describedBy: 'descId' });
-    });
-
-    service.open(spec, { text: 'Menu' });
+    opener.open({ text: 'Menu' });
 
     const host = document.body.querySelector('.coar-overlay-host') as HTMLElement;
     expect(host.getAttribute('role')).toBe('menu');
@@ -237,15 +297,14 @@ describe('CoarOverlayService', () => {
   });
 
   it('sets aria-modal=true for modal dialogs', () => {
-    const service = TestBed.inject(CoarOverlayService);
+    const opener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder()
+        .backdrop({ kind: 'modal' })
+        .a11y({ role: 'dialog', label: 'Dialog' })
+        .fromText()
+    );
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromText());
-      b.backdrop('modal');
-      b.a11y({ role: 'dialog', label: 'Dialog' });
-    });
-
-    service.open(spec, { text: 'Dialog' });
+    opener.open({ text: 'Dialog' });
 
     const host = document.body.querySelector('.coar-overlay-host') as HTMLElement;
     expect(host.getAttribute('role')).toBe('dialog');
@@ -253,14 +312,10 @@ describe('CoarOverlayService', () => {
   });
 
   it('closes the topmost overlay on outside pointerdown', () => {
-    const service = TestBed.inject(CoarOverlayService);
+    const opener = TestBed.runInInjectionContext(() => createOverlayBuilder().fromText());
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromText());
-    });
-
-    const ref1 = service.open(spec, { text: 'One' });
-    const ref2 = service.open(spec, { text: 'Two' });
+    const ref1 = opener.open({ text: 'One' });
+    const ref2 = opener.open({ text: 'Two' });
 
     expect(document.body.querySelectorAll('.coar-overlay-host')).toHaveLength(2);
 
@@ -279,14 +334,10 @@ describe('CoarOverlayService', () => {
   });
 
   it('does not close overlays when clicking inside any overlay', () => {
-    const service = TestBed.inject(CoarOverlayService);
+    const opener = TestBed.runInInjectionContext(() => createOverlayBuilder().fromText());
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromText());
-    });
-
-    service.open(spec, { text: 'One' });
-    service.open(spec, { text: 'Two' });
+    opener.open({ text: 'One' });
+    opener.open({ text: 'Two' });
 
     const hosts = Array.from(document.body.querySelectorAll('.coar-overlay-host'));
     expect(hosts).toHaveLength(2);
@@ -296,15 +347,12 @@ describe('CoarOverlayService', () => {
   });
 
   it('closes child overlays when interacting with the parent overlay', () => {
-    const service = TestBed.inject(CoarOverlayService);
+    const opener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder().anchor({ kind: 'point', x: 10, y: 10 }).fromText()
+    );
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromText());
-      b.anchor({ kind: 'point', x: 10, y: 10 });
-    });
-
-    const parent = service.open(spec, { text: 'Parent' });
-    service.openChild(parent, spec, { text: 'Child' });
+    const parent = opener.open({ text: 'Parent' });
+    opener.openAsChild(parent, { text: 'Child' });
 
     const hosts = Array.from(document.body.querySelectorAll('.coar-overlay-host')) as HTMLElement[];
     expect(hosts).toHaveLength(2);
@@ -315,15 +363,12 @@ describe('CoarOverlayService', () => {
   });
 
   it('closes the full overlay tree on outside click', () => {
-    const service = TestBed.inject(CoarOverlayService);
+    const opener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder().anchor({ kind: 'point', x: 10, y: 10 }).fromText()
+    );
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromText());
-      b.anchor({ kind: 'point', x: 10, y: 10 });
-    });
-
-    const parent = service.open(spec, { text: 'Parent' });
-    service.openChild(parent, spec, { text: 'Child' });
+    const parent = opener.open({ text: 'Parent' });
+    opener.openAsChild(parent, { text: 'Child' });
 
     expect(document.body.querySelectorAll('.coar-overlay-host')).toHaveLength(2);
 
@@ -336,15 +381,12 @@ describe('CoarOverlayService', () => {
   });
 
   it('closes child overlays when the parent is closed', () => {
-    const service = TestBed.inject(CoarOverlayService);
+    const opener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder().anchor({ kind: 'point', x: 10, y: 10 }).fromText()
+    );
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromText());
-      b.anchor({ kind: 'point', x: 10, y: 10 });
-    });
-
-    const parent = service.open(spec, { text: 'Parent' });
-    service.openChild(parent, spec, { text: 'Child' });
+    const parent = opener.open({ text: 'Parent' });
+    opener.openAsChild(parent, { text: 'Child' });
     expect(document.body.querySelectorAll('.coar-overlay-host')).toHaveLength(2);
 
     parent.close();
@@ -352,14 +394,10 @@ describe('CoarOverlayService', () => {
   });
 
   it('closes the topmost overlay on Escape', () => {
-    const service = TestBed.inject(CoarOverlayService);
+    const opener = TestBed.runInInjectionContext(() => createOverlayBuilder().fromText());
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromText());
-    });
-
-    service.open(spec, { text: 'One' });
-    service.open(spec, { text: 'Two' });
+    opener.open({ text: 'One' });
+    opener.open({ text: 'Two' });
 
     expect(document.body.querySelectorAll('.coar-overlay-host')).toHaveLength(2);
 
@@ -372,26 +410,27 @@ describe('CoarOverlayService', () => {
 
   it('inherits dismiss.hoverTree from the parent when opening a child overlay', () => {
     vi.useFakeTimers();
-    const service = TestBed.inject(CoarOverlayService);
 
     const anchor = document.createElement('button');
     document.body.appendChild(anchor);
 
-    const parentSpec = Overlay.define((b) => {
-      b.content((c) => c.fromText());
-      b.anchor({ kind: 'element', element: anchor });
-      b.dismiss({ outsideClick: true, escapeKey: true, hoverTree: { enabled: true, delayMs: 10 } });
-    });
+    const parentOpener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder()
+        .anchor({ kind: 'element', element: anchor })
+        .dismiss({ outsideClick: true, escapeKey: true, hoverTree: { enabled: true, delayMs: 10 } })
+        .fromText()
+    );
 
     // Child does NOT set hoverTree.
-    const childSpec = Overlay.define((b) => {
-      b.content((c) => c.fromText());
-      b.anchor({ kind: 'point', x: 10, y: 10 });
-      b.dismiss({ outsideClick: true, escapeKey: true });
-    });
+    const childOpener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder()
+        .anchor({ kind: 'point', x: 10, y: 10 })
+        .dismiss({ outsideClick: true, escapeKey: true })
+        .fromText()
+    );
 
-    const parent = service.open(parentSpec, { text: 'Parent' });
-    service.openChild(parent, childSpec, { text: 'Child' });
+    const parent = parentOpener.open({ text: 'Parent' });
+    childOpener.openAsChild(parent, { text: 'Child' });
 
     const hosts = Array.from(document.body.querySelectorAll('.coar-overlay-host')) as HTMLElement[];
     expect(hosts).toHaveLength(2);
@@ -407,15 +446,14 @@ describe('CoarOverlayService', () => {
   });
 
   it("closes the overlay on window scroll when scroll.strategy is 'close' (point anchor)", () => {
-    const service = TestBed.inject(CoarOverlayService);
+    const opener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder()
+        .anchor({ kind: 'point', x: 10, y: 10 })
+        .scroll({ strategy: 'close' })
+        .fromText()
+    );
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromText());
-      b.anchor({ kind: 'point', x: 10, y: 10 });
-      b.scroll({ strategy: 'close' });
-    });
-
-    service.open(spec, { text: 'Menu' });
+    opener.open({ text: 'Menu' });
     expect(document.body.querySelectorAll('.coar-overlay-host')).toHaveLength(1);
 
     window.dispatchEvent(new Event('scroll'));
@@ -423,20 +461,19 @@ describe('CoarOverlayService', () => {
   });
 
   it("closes the overlay when a scroll container scrolls (point anchor + scroll.strategy 'close')", () => {
-    const service = TestBed.inject(CoarOverlayService);
-
     const scrollParent = document.createElement('div');
     scrollParent.style.overflowY = 'auto';
     scrollParent.style.height = '100px';
     document.body.appendChild(scrollParent);
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromText());
-      b.anchor({ kind: 'point', x: 10, y: 10 });
-      b.scroll({ strategy: 'close' });
-    });
+    const opener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder()
+        .anchor({ kind: 'point', x: 10, y: 10 })
+        .scroll({ strategy: 'close' })
+        .fromText()
+    );
 
-    service.open(spec, { text: 'Menu' });
+    opener.open({ text: 'Menu' });
     expect(document.body.querySelectorAll('.coar-overlay-host')).toHaveLength(1);
 
     scrollParent.dispatchEvent(new Event('scroll'));
@@ -446,8 +483,6 @@ describe('CoarOverlayService', () => {
   });
 
   it("closes the overlay on scroll parent scroll when scroll.strategy is 'close' (element anchor)", () => {
-    const service = TestBed.inject(CoarOverlayService);
-
     const scrollParent = document.createElement('div');
     scrollParent.style.overflowY = 'auto';
     scrollParent.style.height = '100px';
@@ -458,13 +493,14 @@ describe('CoarOverlayService', () => {
     scrollParent.appendChild(origin);
     document.body.appendChild(scrollParent);
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromText());
-      b.anchor({ kind: 'element', element: origin });
-      b.scroll({ strategy: 'close' });
-    });
+    const opener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder()
+        .anchor({ kind: 'element', element: origin })
+        .scroll({ strategy: 'close' })
+        .fromText()
+    );
 
-    service.open(spec, { text: 'Anchored' });
+    opener.open({ text: 'Anchored' });
     expect(document.body.querySelectorAll('.coar-overlay-host')).toHaveLength(1);
 
     scrollParent.dispatchEvent(new Event('scroll'));
@@ -474,15 +510,14 @@ describe('CoarOverlayService', () => {
   });
 
   it("applies SizeSpec in 'content-clamped' mode (maxWidth/maxHeight + overflow)", () => {
-    const service = TestBed.inject(CoarOverlayService);
+    const opener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder()
+        .anchor({ kind: 'point', x: 10, y: 10 })
+        .size({ mode: 'content-clamped', maxWidth: 123, maxHeight: 456 })
+        .fromText()
+    );
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromText());
-      b.anchor({ kind: 'point', x: 10, y: 10 });
-      b.size({ mode: 'content-clamped', maxWidth: 123, maxHeight: 456 });
-    });
-
-    service.open(spec, { text: 'Clamped' });
+    opener.open({ text: 'Clamped' });
 
     const host = document.body.querySelector('.coar-overlay-host') as HTMLElement;
     expect(host.style.maxWidth).toBe('123px');
@@ -491,15 +526,14 @@ describe('CoarOverlayService', () => {
   });
 
   it("applies SizeSpec in 'fixed' mode (width/height + overflow)", () => {
-    const service = TestBed.inject(CoarOverlayService);
+    const opener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder()
+        .anchor({ kind: 'point', x: 10, y: 10 })
+        .size({ mode: 'fixed', maxWidth: 111, maxHeight: 222 })
+        .fromText()
+    );
 
-    const spec = Overlay.define((b) => {
-      b.content((c) => c.fromText());
-      b.anchor({ kind: 'point', x: 10, y: 10 });
-      b.size({ mode: 'fixed', maxWidth: 111, maxHeight: 222 });
-    });
-
-    service.open(spec, { text: 'Fixed' });
+    opener.open({ text: 'Fixed' });
 
     const host = document.body.querySelector('.coar-overlay-host') as HTMLElement;
     expect(host.style.width).toBe('111px');
@@ -521,14 +555,13 @@ describe('CoarOverlayService', () => {
 
       fixture.detectChanges();
 
-      const service = TestBed.inject(CoarOverlayService);
+      const opener = TestBed.runInInjectionContext(() =>
+        createOverlayBuilder()
+          .focus({ trap: true, restore: false })
+          .fromTemplate(fixture.componentInstance.templateRef)
+      );
 
-      const spec = Overlay.define((b) => {
-        b.content((c) => c.fromTemplate(fixture.componentInstance.templateRef));
-        b.focus({ trap: true, restore: false });
-      });
-
-      service.open(spec, {});
+      opener.open({});
 
       const host = document.body.querySelector('.coar-overlay-host') as HTMLElement;
       const first = host.querySelector('#first') as HTMLElement;
@@ -569,14 +602,13 @@ describe('CoarOverlayService', () => {
       outside.textContent = 'Outside';
       document.body.appendChild(outside);
 
-      const service = TestBed.inject(CoarOverlayService);
+      const opener = TestBed.runInInjectionContext(() =>
+        createOverlayBuilder()
+          .focus({ trap: true, restore: false })
+          .fromTemplate(fixture.componentInstance.templateRef)
+      );
 
-      const spec = Overlay.define((b) => {
-        b.content((c) => c.fromTemplate(fixture.componentInstance.templateRef));
-        b.focus({ trap: true, restore: false });
-      });
-
-      service.open(spec, {});
+      opener.open({});
 
       const host = document.body.querySelector('.coar-overlay-host') as HTMLElement;
       const first = host.querySelector('#first') as HTMLElement;
