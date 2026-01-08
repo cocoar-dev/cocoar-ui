@@ -1,0 +1,19 @@
+# API Reference Files
+
+#
+
+# This directory will contain machine-readable API documentation
+
+# in JSON format, generated from TypeScript definitions.
+
+#
+
+# Future files:
+
+# - ui-components.json
+
+# - ui-menu.json
+
+# - ui-overlay.json
+
+# - ui-tokens.json

@@ -35,8 +35,8 @@ export class DatePickerPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/components/date-picker/overview.md';
-  protected readonly apiPath = '/docs/components/date-picker/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/CoarDatePickerComponent/overview.md';
+  protected readonly apiPath = '/docs/libs/ui-components/CoarDatePickerComponent/api.md';
 
   // Demo values
   basicDate = signal<Temporal.PlainDate | null>(null);

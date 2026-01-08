@@ -39,8 +39,8 @@ export class SingleSelectPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/components/single-select/overview.md';
-  protected readonly apiPath = '/docs/components/single-select/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/CoarSingleSelectComponent/overview.md';
+  protected readonly apiPath = '/docs/libs/ui-components/CoarSingleSelectComponent/api.md';
 
   singleValue = signal<string | null>(null);
   singleWithValue = signal<string | null>('at');

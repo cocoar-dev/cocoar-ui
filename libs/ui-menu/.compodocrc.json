@@ -1,0 +1,16 @@
+{
+  "name": "@cocoar/ui-menu",
+  "tsconfig": "./tsconfig.lib.json",
+  "output": "../../tmp/compodoc/ui-menu",
+  "exportFormat": "json",
+  "disablePrivate": true,
+  "disableProtected": false,
+  "disableInternal": true,
+  "disableLifeCycleHooks": true,
+  "disableRoutesGraph": true,
+  "disableCoverage": false,
+  "disableGraph": false,
+  "silent": true,
+  "hideGenerator": true,
+  "theme": "material"
+}

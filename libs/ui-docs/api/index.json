@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-01-08T18:29:24.914Z",
+  "generator": "Compodoc",
+  "packages": [
+    {
+      "name": "@cocoar/ui-components",
+      "apiFile": "./ui-components.json",
+      "componentCount": 26
+    },
+    {
+      "name": "@cocoar/ui-menu",
+      "apiFile": "./ui-menu.json",
+      "componentCount": 6
+    },
+    {
+      "name": "@cocoar/ui-overlay",
+      "apiFile": "./ui-overlay.json",
+      "componentCount": 0
+    },
+    {
+      "name": "@cocoar/markdown-viewer",
+      "apiFile": "./markdown-viewer.json",
+      "componentCount": 1
+    },
+    {
+      "name": "@cocoar/logging",
+      "apiFile": "./logging.json",
+      "componentCount": 0
+    },
+    {
+      "name": "@cocoar/logging-abstractions",
+      "apiFile": "./logging-abstractions.json",
+      "componentCount": 0
+    }
+  ]
+}

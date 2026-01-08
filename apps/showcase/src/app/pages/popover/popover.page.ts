@@ -32,8 +32,8 @@ export class PopoverPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/components/popover/overview.md';
-  protected readonly apiPath = '/docs/components/popover/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/CoarPopoverComponent/overview.md';
+  protected readonly apiPath = '/docs/libs/ui-components/CoarPopoverComponent/api.md';
 
   protected readonly clicksThroughOverlay = signal(0);
 

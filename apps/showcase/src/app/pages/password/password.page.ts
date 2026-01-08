@@ -28,8 +28,8 @@ export class PasswordPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/components/password-input/overview.md';
-  protected readonly apiPath = '/docs/components/password-input/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/CoarPasswordInputComponent/overview.md';
+  protected readonly apiPath = '/docs/libs/ui-components/CoarPasswordInputComponent/api.md';
 
   // Demo values
   basicValue = signal('');

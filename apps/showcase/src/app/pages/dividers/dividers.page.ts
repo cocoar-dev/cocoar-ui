@@ -27,8 +27,8 @@ export class DividersPage {
 
   protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
 
-  protected readonly docsPath = '/docs/components/divider/overview.md';
-  protected readonly apiPath = '/docs/components/divider/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/CoarDividerComponent/overview.md';
+  protected readonly apiPath = '/docs/libs/ui-components/CoarDividerComponent/api.md';
 
   /** Code examples */
   codeExamples = {

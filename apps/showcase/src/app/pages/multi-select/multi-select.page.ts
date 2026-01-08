@@ -29,8 +29,8 @@ export class MultiSelectPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/components/multi-select/overview.md';
-  protected readonly apiPath = '/docs/components/multi-select/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/CoarMultiSelectComponent/overview.md';
+  protected readonly apiPath = '/docs/libs/ui-components/CoarMultiSelectComponent/api.md';
 
   selectedSkills = signal<string[]>([]);
   selectedWithValue = signal<string[]>(['skill-1', 'skill-3']);

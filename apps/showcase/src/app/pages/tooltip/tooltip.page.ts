@@ -34,8 +34,8 @@ export class TooltipPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/components/tooltip/overview.md';
-  protected readonly apiPath = '/docs/components/tooltip/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/CoarTooltipDirective/overview.md';
+  protected readonly apiPath = '/docs/libs/ui-components/CoarTooltipDirective/api.md';
 
   protected readonly clicksThroughOverlay = signal(0);
 

@@ -38,8 +38,8 @@ export class IconsPage {
 
   protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
 
-  protected readonly docsPath = '/docs/components/icon/overview.md';
-  protected readonly apiPath = '/docs/components/icon/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/CoarIconComponent/overview.md';
+  protected readonly apiPath = '/docs/libs/ui-components/CoarIconComponent/api.md';
 
   /** All available icon names grouped by icon source */
   private readonly iconGroups = signal<readonly IconsPageSourceGroup[]>([]);

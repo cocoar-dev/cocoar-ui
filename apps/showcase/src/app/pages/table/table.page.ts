@@ -26,8 +26,8 @@ export class TablePage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/components/table/overview.md';
-  protected readonly apiPath = '/docs/components/table/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/CoarTableComponent/overview.md';
+  protected readonly apiPath = '/docs/libs/ui-components/CoarTableComponent/api.md';
 
   // Sample data for demos
   sampleData = [

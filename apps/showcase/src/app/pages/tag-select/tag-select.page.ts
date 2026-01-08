@@ -31,8 +31,8 @@ export class TagSelectPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/components/tag-select/overview.md';
-  protected readonly apiPath = '/docs/components/tag-select/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/CoarTagSelectComponent/overview.md';
+  protected readonly apiPath = '/docs/libs/ui-components/CoarTagSelectComponent/api.md';
 
   tags = signal<string[]>([]);
   tagsWithValue = signal<string[]>(['Angular', 'TypeScript']);
