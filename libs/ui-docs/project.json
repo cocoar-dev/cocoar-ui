@@ -15,7 +15,7 @@
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
-      "dependsOn": ["^build", "docs:all"],
+      "dependsOn": ["^build", "@cocoar-ui/source:docs:all"],
       "options": {
         "outputPath": "dist/libs/ui-docs",
         "main": "libs/ui-docs/src/index.ts",
