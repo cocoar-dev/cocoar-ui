@@ -1,7 +1,13 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc"
+    "outDir": "../../dist/out-tsc",
+    "paths": {
+      "@cocoar/ui-components": ["../../dist/libs/ui-components"],
+      "@cocoar/ui-menu": ["../../dist/libs/ui-menu"],
+      "@cocoar/ui-overlay": ["../../dist/libs/ui-overlay"],
+      "@cocoar/ui-tokens": ["../../dist/libs/ui-tokens"]
+    }
   },
   "files": [],
   "include": [],
