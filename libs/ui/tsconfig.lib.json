@@ -5,7 +5,13 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": []
+    "types": [],
+    "paths": {
+      "@cocoar/ui-components": ["../../dist/libs/ui-components/index.d.ts"],
+      "@cocoar/ui-menu": ["../../dist/libs/ui-menu/index.d.ts"],
+      "@cocoar/ui-overlay": ["../../dist/libs/ui-overlay/index.d.ts"],
+      "@cocoar/ui-tokens": ["../../dist/libs/ui-tokens/index.d.ts"]
+    }
   },
   "exclude": ["**/*.spec.ts", "**/*.test.ts", "**/*.scenario.ts"],
   "include": ["src/**/*.ts"]

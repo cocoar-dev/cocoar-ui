@@ -13,6 +13,17 @@
     "url": "https://github.com/cocoar-dev/cocoar-ui/issues"
   },
   "homepage": "https://github.com/cocoar-dev/cocoar-ui",
+  "main": "./src/index.js",
+  "module": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "esm2022": "./src/index.js",
+      "es2022": "./src/index.js",
+      "default": "./src/index.js"
+    }
+  },
   "keywords": [
     "angular",
     "design-system",
