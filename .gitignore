@@ -4,6 +4,11 @@
 apps/scenar-backstage/src/app/registry.generated.ts
 apps/scenar-backstage/public/registry.metadata.json
 
+# Auto-generated documentation
+# Keep libs/ui-docs/api/ tracked (source JSON for npm package)
+# Ignore docs/libs/ (generated markdown, not committed)
+/docs/libs/
+
 # Compiled output
 /dist
 /tmp
