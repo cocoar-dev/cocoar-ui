@@ -10,7 +10,7 @@ export default [
       ],
     },
     languageOptions: {
-      parser: require('jsonc-eslint-parser'),
+      parser: await import('jsonc-eslint-parser'),
     },
   },
 ];
