@@ -21,7 +21,8 @@
         "main": "libs/ui-docs/src/index.ts",
         "tsConfig": "libs/ui-docs/tsconfig.lib.json",
         "assets": [
-          "libs/ui-docs/*.md",
+          "libs/ui-docs/README.md",
+          "libs/ui-docs/package.json",
           {
             "glob": "**/*",
             "input": "docs/libs",

@@ -26,9 +26,9 @@
   "type": "commonjs",
   "cocoar": {
     "type": "documentation",
-    "aiAssistant": {
-      "entryPoint": "./AGENTS.md",
-      "humanDocs": "./docs/",
+    "aiDiscovery": {
+      "index": "./api/index.json",
+      "componentDocs": "./docs/libs/",
       "apiReference": "./api/"
     }
   }

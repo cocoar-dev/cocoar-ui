@@ -13,10 +13,7 @@
         "{workspaceRoot}/libs/**/*.service.md",
         "{workspaceRoot}/libs/**/*.pipe.md"
       ],
-      "outputs": [
-        "{workspaceRoot}/docs/libs",
-        "{workspaceRoot}/libs/ui-docs/api"
-      ],
+      "outputs": ["{workspaceRoot}/docs/libs", "{workspaceRoot}/libs/ui-docs/api"],
       "options": {
         "command": "pnpm docs:all"
       }
