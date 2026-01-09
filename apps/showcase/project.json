@@ -9,6 +9,7 @@
     "build": {
       "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
+      "dependsOn": ["^build", "@cocoar-ui/source:docs:all"],
       "options": {
         "outputPath": "dist/apps/showcase",
         "browser": "apps/showcase/src/main.ts",
@@ -54,6 +55,7 @@
     "serve": {
       "continuous": true,
       "executor": "@angular/build:dev-server",
+      "dependsOn": ["@cocoar-ui/source:docs:all"],
       "configurations": {
         "production": {
           "buildTarget": "showcase:build:production"

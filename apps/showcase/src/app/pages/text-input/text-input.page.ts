@@ -28,8 +28,8 @@ export class TextInputPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/components/text-input/overview.md';
-  protected readonly apiPath = '/docs/components/text-input/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/CoarTextInputComponent/overview.md';
+  protected readonly apiPath = '/docs/libs/ui-components/CoarTextInputComponent/api.md';
 
   // Demo values
   basicValue = signal('');

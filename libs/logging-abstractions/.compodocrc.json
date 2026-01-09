@@ -1,0 +1,16 @@
+{
+  "name": "@cocoar/logging-abstractions",
+  "tsconfig": "./tsconfig.lib.json",
+  "output": "../../tmp/compodoc/logging-abstractions",
+  "exportFormat": "json",
+  "disablePrivate": true,
+  "disableProtected": false,
+  "disableInternal": true,
+  "disableLifeCycleHooks": true,
+  "disableRoutesGraph": true,
+  "disableCoverage": false,
+  "disableGraph": false,
+  "silent": true,
+  "hideGenerator": true,
+  "theme": "material"
+}

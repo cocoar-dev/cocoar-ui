@@ -22,8 +22,8 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarDividerComponent,
     CoarNoteComponent,
     CoarTabGroupComponent,
-    CoarTabComponent
-],
+    CoarTabComponent,
+  ],
   templateUrl: './buttons.page.html',
   styleUrl: './buttons.page.css',
 })
@@ -32,8 +32,8 @@ export class ButtonsPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/components/buttons/overview.md';
-  protected readonly apiPath = '/docs/components/buttons/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/CoarButtonComponent/overview.md';
+  protected readonly apiPath = '/docs/libs/ui-components/CoarButtonComponent/api.md';
 
   // Loading demos - multiple scenarios
   isLoading = signal(false);

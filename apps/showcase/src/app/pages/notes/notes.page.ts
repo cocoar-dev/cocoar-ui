@@ -29,8 +29,8 @@ export class NotesPage {
 
   protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
 
-  protected readonly docsPath = '/docs/components/note/overview.md';
-  protected readonly apiPath = '/docs/components/note/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/CoarNoteComponent/overview.md';
+  protected readonly apiPath = '/docs/libs/ui-components/CoarNoteComponent/api.md';
 
   /** Code examples */
   codeExamples = {

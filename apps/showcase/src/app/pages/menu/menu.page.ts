@@ -58,8 +58,8 @@ export class MenuPage {
 
   private contextMenuRef: OverlayRef | null = null;
 
-  protected readonly docsPath = '/docs/components/menu/overview.md';
-  protected readonly apiPath = '/docs/components/menu/api.md';
+  protected readonly docsPath = '/docs/libs/ui-menu/CoarMenuComponent/overview.md';
+  protected readonly apiPath = '/docs/libs/ui-menu/CoarMenuComponent/api.md';
 
   protected readonly aimDebug = {
     enabled: false,

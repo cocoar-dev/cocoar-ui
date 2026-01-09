@@ -28,8 +28,8 @@ export class NumberInputPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/components/number-input/overview.md';
-  protected readonly apiPath = '/docs/components/number-input/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/CoarNumberInputComponent/overview.md';
+  protected readonly apiPath = '/docs/libs/ui-components/CoarNumberInputComponent/api.md';
 
   protected readonly germanNumberFormat = { decimal: ',', thousand: '.' } as const;
   protected readonly usNumberFormat = { decimal: '.', thousand: ',' } as const;

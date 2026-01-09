@@ -24,8 +24,8 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarDividerComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
-    CoarButtonComponent
-],
+    CoarButtonComponent,
+  ],
   templateUrl: './badges.page.html',
   styleUrl: './badges.page.css',
 })
@@ -34,8 +34,8 @@ export class BadgesPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/components/badge/overview.md';
-  protected readonly apiPath = '/docs/components/badge/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/CoarBadgeComponent/overview.md';
+  protected readonly apiPath = '/docs/libs/ui-components/CoarBadgeComponent/api.md';
 
   /** Badge variants */
   variants: BadgeVariant[] = ['primary', 'secondary', 'success', 'warning', 'error', 'info'];

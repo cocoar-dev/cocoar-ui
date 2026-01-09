@@ -11,12 +11,7 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
 @Component({
   selector: 'app-code-block',
   standalone: true,
-  imports: [
-    CoarCodeBlockComponent,
-    CoarDividerComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent
-],
+  imports: [CoarCodeBlockComponent, CoarDividerComponent, CoarTabGroupComponent, CoarTabComponent],
   templateUrl: './code-block.page.html',
   styleUrl: './code-block.page.css',
 })
@@ -25,8 +20,8 @@ export class CodeBlockPage {
 
   protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
 
-  protected readonly docsPath = '/docs/components/code-block/overview.md';
-  protected readonly apiPath = '/docs/components/code-block/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/CoarCodeBlockComponent/overview.md';
+  protected readonly apiPath = '/docs/libs/ui-components/CoarCodeBlockComponent/api.md';
 
   // Example code snippets
   basicExample = `<coar-button variant="primary">

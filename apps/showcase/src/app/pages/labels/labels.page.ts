@@ -30,8 +30,8 @@ export class LabelsPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/components/labels/overview.md';
-  protected readonly apiPath = '/docs/components/labels/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/CoarLabelComponent/overview.md';
+  protected readonly apiPath = '/docs/libs/ui-components/CoarLabelComponent/api.md';
 
   // Code examples
   codeExamples = {

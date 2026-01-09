@@ -32,8 +32,8 @@ export class MarkdownViewerPage {
 
   protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
 
-  protected readonly docsPath = '/docs/components/markdown-viewer/overview.md';
-  protected readonly apiPath = '/docs/components/markdown-viewer/api.md';
+  protected readonly docsPath = '/docs/libs/markdown-viewer/CoarMarkdownComponent/overview.md';
+  protected readonly apiPath = '/docs/libs/markdown-viewer/CoarMarkdownComponent/api.md';
 
   protected readonly markdownPath = '/docs/markdown-test.md';
 

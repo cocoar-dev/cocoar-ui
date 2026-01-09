@@ -1,0 +1,48 @@
+{
+  "name": "ui-docs",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/ui-docs/src",
+  "projectType": "library",
+  "release": {
+    "version": {
+      "manifestRootsToUpdate": ["dist/{projectRoot}"],
+      "currentVersionResolver": "git-tag",
+      "fallbackCurrentVersionResolver": "disk"
+    }
+  },
+  "tags": ["type:documentation"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "dependsOn": ["^build", "@cocoar-ui/source:docs:all"],
+      "options": {
+        "outputPath": "dist/libs/ui-docs",
+        "main": "libs/ui-docs/src/index.ts",
+        "tsConfig": "libs/ui-docs/tsconfig.lib.json",
+        "assets": [
+          "libs/ui-docs/README.md",
+          "libs/ui-docs/package.json",
+          {
+            "glob": "**/*",
+            "input": "docs/libs",
+            "output": "docs/libs"
+          },
+          {
+            "glob": "**/*",
+            "input": "libs/ui-docs/api",
+            "output": "api"
+          }
+        ]
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/{projectRoot}"
+      }
+    }
+  }
+}

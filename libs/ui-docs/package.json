@@ -1,0 +1,38 @@
+{
+  "name": "@cocoar/ui-docs",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Complete documentation for the Cocoar Design System - optimized for humans and AI assistants",
+  "author": "Cocoar",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cocoar-dev/cocoar-ui.git",
+    "directory": "libs/ui-docs"
+  },
+  "bugs": {
+    "url": "https://github.com/cocoar-dev/cocoar-ui/issues"
+  },
+  "homepage": "https://github.com/cocoar-dev/cocoar-ui",
+  "keywords": [
+    "documentation",
+    "design-system",
+    "angular",
+    "ui-components",
+    "ai-assistant",
+    "copilot",
+    "cocoar"
+  ],
+  "type": "commonjs",
+  "cocoar": {
+    "type": "documentation",
+    "aiDiscovery": {
+      "index": "./api/index.json",
+      "componentDocs": "./docs/libs/",
+      "apiReference": "./api/"
+    }
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  }
+}
