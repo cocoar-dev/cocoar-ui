@@ -122,6 +122,20 @@ jobs:
             fi
           done
 
+      - name: Update meta-package dependencies
+        run: |
+          META_PKG="dist/libs/ui/package.json"
+          if [ -f "$META_PKG" ]; then
+            echo "Updating @cocoar/ui dependencies to $RELEASE_VERSION"
+            jq --arg v "$RELEASE_VERSION" '
+              .dependencies |= with_entries(
+                if .key | startswith("@cocoar/") then .value = $v else . end
+              )
+            ' "$META_PKG" > tmp.json && mv tmp.json "$META_PKG"
+            echo "Updated dependencies:"
+            jq -r '.dependencies | to_entries[] | select(.key | startswith("@cocoar/")) | "  \(.key): \(.value)"' "$META_PKG"
+          fi
+
       - name: Pack npm packages
         run: |
           mkdir -p artifacts

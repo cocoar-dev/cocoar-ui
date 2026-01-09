@@ -34,10 +34,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@cocoar/ui-components": "workspace:*",
-    "@cocoar/ui-menu": "workspace:*",
-    "@cocoar/ui-overlay": "workspace:*",
-    "@cocoar/ui-tokens": "workspace:*"
+    "@cocoar/ui-components": "0.0.1",
+    "@cocoar/ui-menu": "0.0.1",
+    "@cocoar/ui-overlay": "0.0.1",
+    "@cocoar/ui-tokens": "0.0.1"
   },
   "peerDependencies": {
     "@angular/core": "^20.3.0"
