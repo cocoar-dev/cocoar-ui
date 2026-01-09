@@ -1,7 +1,6 @@
 {
   "name": "@cocoar/ui-docs",
   "version": "0.0.1",
-  "private": true,
   "description": "Complete documentation for the Cocoar Design System - optimized for humans and AI assistants",
   "author": "Cocoar",
   "license": "Apache-2.0",
