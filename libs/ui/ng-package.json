@@ -3,5 +3,11 @@
   "dest": "../../dist/libs/ui",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "allowedNonPeerDependencies": [
+    "@cocoar/ui-components",
+    "@cocoar/ui-menu",
+    "@cocoar/ui-overlay",
+    "@cocoar/ui-tokens"
+  ]
 }
