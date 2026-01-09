@@ -40,13 +40,57 @@ node_modules/@cocoar/ui-docs/docs/libs/ui-components/CoarButtonComponent/
 
 ---
 
-## 🤖 For AI Assistants
+## 🤖 AI Assistant Integration
 
-This package provides structured documentation for AI assistants (GitHub Copilot, Claude, Cursor, etc.).
+This package provides structured documentation for AI assistants and includes tools to configure your development environment.
 
-### Quick Start for AI
+### Quick Setup (Recommended)
 
-**Add to your project's `AGENTS.md` or similar:**
+After installing `@cocoar/ui-docs`, run:
+
+```bash
+npx @cocoar/ui-docs init
+```
+
+This will:
+- Create Agent Skill for GitHub Copilot (`.github/skills/cocoar-component-usage/`)
+- Add/update AGENTS.md with Cocoar documentation paths
+
+**Available commands:**
+- `npx @cocoar/ui-docs init` - Complete setup (skill + AGENTS.md)
+- `npx @cocoar/ui-docs create-skill` - Create Agent Skill only
+- `npx @cocoar/ui-docs setup-agents` - Update AGENTS.md only
+- `npx @cocoar/ui-docs help` - Show all commands
+
+### Agent Skills (GitHub Copilot)
+
+Agent Skills enable GitHub Copilot to automatically load Cocoar documentation when relevant. Run `npx @cocoar/ui-docs create-skill` to create:
+
+```
+.github/skills/cocoar-component-usage/SKILL.md
+```
+
+Copilot will automatically detect and use this skill when you ask about Cocoar components. Learn more at [agentskills.io](https://agentskills.io).
+
+### AGENTS.md (All AI Assistants)
+
+For broader AI assistant support (Copilot, Claude, Cursor, etc.), run `npx @cocoar/ui-docs setup-agents` to add this section to your AGENTS.md:
+
+```markdown
+## Cocoar Design System Documentation
+
+When working with Cocoar components, consult the installed documentation:
+
+- **Component catalog**: `node_modules/@cocoar/ui-docs/api/index.json`
+- **API reference**: `node_modules/@cocoar/ui-docs/docs/libs/{package}/{ClassName}/api.md`
+- **Usage examples**: `node_modules/@cocoar/ui-docs/docs/libs/{package}/{ClassName}/overview.md`
+
+Always prefer the installed documentation over assumptions.
+```
+
+### Manual Configuration
+
+If you prefer not to use the CLI, add the discovery paths to your AGENTS.md or custom instructions manually:
 
 ```markdown
 ## Cocoar Design System Documentation
@@ -62,7 +106,9 @@ When working with Cocoar components:
 Documentation is version-matched with installed `@cocoar/*` packages.
 ```
 
-### API Discovery
+---
+
+## 🔍 API Discovery for Tools
 
 ```typescript
 // Load package index

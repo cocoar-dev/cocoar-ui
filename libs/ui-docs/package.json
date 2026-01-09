@@ -24,6 +24,9 @@
     "cocoar"
   ],
   "type": "commonjs",
+  "bin": {
+    "cocoar-ui-docs": "./bin/cli.mjs"
+  },
   "cocoar": {
     "type": "documentation",
     "aiDiscovery": {

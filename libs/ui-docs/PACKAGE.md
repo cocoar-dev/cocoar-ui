@@ -118,14 +118,53 @@ pnpm docs:all          # Run all of the above
 
 ## 🤖 AI Assistant Integration
 
-Consumers can add this to their `AGENTS.md`:
+This package includes a CLI to help consumers configure their development environment.
 
+### CLI Tools
+
+**Location:** `libs/ui-docs/bin/`
+
+```
+bin/
+├── cli.mjs              # Main CLI entry point
+├── create-skill.mjs     # Creates Agent Skill for GitHub Copilot
+├── setup-agents.mjs     # Adds/updates AGENTS.md section
+└── templates/
+    ├── SKILL.md         # Agent Skill template
+    └── AGENTS.md        # AGENTS.md section template
+```
+
+**Published as:** `npx @cocoar/ui-docs <command>`
+
+### Commands
+
+```bash
+npx @cocoar/ui-docs init           # Complete setup (skill + AGENTS.md)
+npx @cocoar/ui-docs create-skill   # Create Agent Skill only
+npx @cocoar/ui-docs setup-agents   # Update AGENTS.md only
+npx @cocoar/ui-docs help           # Show help
+```
+
+### How It Works
+
+1. **create-skill:** Copies `bin/templates/SKILL.md` → `.github/skills/cocoar-component-usage/SKILL.md`
+2. **setup-agents:** Injects or updates marked section in `AGENTS.md` using `<!-- @cocoar/ui-docs:start/end -->` markers
+3. **init:** Runs both commands in sequence
+
+### Agent Skill for Contributors
+
+This repository includes a committed Agent Skill at [.github/skills/cocoar-component-usage/SKILL.md](../../.github/skills/cocoar-component-usage/SKILL.md) so contributors automatically get Copilot integration.
+
+### Templates
+
+**SKILL.md template:** Version-agnostic instructions that point to documentation discovery paths.
+
+**AGENTS.md template:** Markdown section with markers for safe updates:
 ```markdown
+<!-- @cocoar/ui-docs:start -->
 ## Cocoar Design System Documentation
-
-1. **Discovery:** `node_modules/@cocoar/ui-docs/api/index.json`
-2. **Component Docs:** `node_modules/@cocoar/ui-docs/docs/libs/{package}/{Component}/`
-3. **Metadata:** `node_modules/@cocoar/ui-docs/api/{package}.json`
+...
+<!-- @cocoar/ui-docs:end -->
 ```
 
 ---

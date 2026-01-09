@@ -13,9 +13,18 @@
   "tags": ["type:documentation"],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
+      "executor": "nx:run-commands",
       "outputs": ["{options.outputPath}"],
-      "dependsOn": ["^build", "@cocoar-ui/source:docs:all"],
+      "dependsOn": ["^build", "@cocoar-ui/source:docs:all", "ui-docs:build-lib"],
+      "options": {
+        "outputPath": "dist/libs/ui-docs",
+        "commands": ["nx run ui-docs:build-lib", "node scripts/docs/copy-docs-to-dist.mjs"],
+        "parallel": false
+      }
+    },
+    "build-lib": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{workspaceRoot}/dist/libs/ui-docs"],
       "options": {
         "outputPath": "dist/libs/ui-docs",
         "main": "libs/ui-docs/src/index.ts",
@@ -24,14 +33,9 @@
           "libs/ui-docs/README.md",
           "libs/ui-docs/package.json",
           {
+            "input": "libs/ui-docs/bin",
             "glob": "**/*",
-            "input": "docs/libs",
-            "output": "docs/libs"
-          },
-          {
-            "glob": "**/*",
-            "input": "libs/ui-docs/api",
-            "output": "api"
+            "output": "bin"
           }
         ]
       }
