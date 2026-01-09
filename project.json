@@ -4,6 +4,19 @@
   "targets": {
     "docs:all": {
       "executor": "nx:run-commands",
+      "cache": true,
+      "inputs": [
+        "{projectRoot}/scripts/docs/**/*",
+        "{workspaceRoot}/libs/*/src/**/*.ts",
+        "{workspaceRoot}/libs/**/*.component.md",
+        "{workspaceRoot}/libs/**/*.directive.md",
+        "{workspaceRoot}/libs/**/*.service.md",
+        "{workspaceRoot}/libs/**/*.pipe.md"
+      ],
+      "outputs": [
+        "{workspaceRoot}/docs/libs",
+        "{workspaceRoot}/libs/ui-docs/api"
+      ],
       "options": {
         "command": "pnpm docs:all"
       }
