@@ -19,6 +19,10 @@ This skill helps you discover and use Cocoar Design System components by providi
 
 The `@cocoar/ui-docs` package provides structured documentation:
 
+- **Setup guide**: `node_modules/@cocoar/ui-docs/docs/consuming/angular.md`
+  - How to install packages
+  - CSS and token setup
+  - Dark mode configuration
 - **Component catalog**: `node_modules/@cocoar/ui-docs/api/index.json`
   - Lists all available components with their package locations
 - **API reference**: `node_modules/@cocoar/ui-docs/docs/libs/{package}/{ClassName}/api.md`
@@ -28,13 +32,15 @@ The `@cocoar/ui-docs` package provides structured documentation:
 
 ## Workflow
 
-1. **Discover**: Check `api/index.json` to find available components
-2. **Learn**: Read component-specific `api.md` for API details
-3. **Implement**: Use examples from `overview.md` as templates
-4. **Adapt**: Customize examples to match user's specific requirements
+1. **Setup**: Read `docs/consuming/angular.md` for installation and CSS setup
+2. **Discover**: Check `api/index.json` to find available components
+3. **Learn**: Read component-specific `api.md` for API details
+4. **Implement**: Use examples from `overview.md` as templates
+5. **Adapt**: Customize examples to match user's specific requirements
 
 ## Example packages
 
+- `@cocoar/ui` - Complete package (recommended for most projects)
 - `@cocoar/ui-components` - Core UI components (buttons, inputs, cards, etc.)
 - `@cocoar/ui-menu` - Menu and navigation components
 - `@cocoar/ui-overlay` - Overlay, popover, tooltip components

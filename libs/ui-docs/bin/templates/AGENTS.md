@@ -3,6 +3,10 @@
 
 When working with Cocoar components, consult the installed documentation:
 
+- **Setup guide**: `node_modules/@cocoar/ui-docs/docs/consuming/angular.md`
+  - Package installation instructions
+  - CSS/token setup
+  - Dark mode configuration
 - **Component catalog**: `node_modules/@cocoar/ui-docs/api/index.json`
   - Lists all available components with their package locations
 - **API reference**: `node_modules/@cocoar/ui-docs/docs/libs/{package}/{ClassName}/api.md`
@@ -12,6 +16,7 @@ When working with Cocoar components, consult the installed documentation:
 
 ### Example packages
 
+- `@cocoar/ui` - Complete package (all components, menu, overlay)
 - `@cocoar/ui-components` - Core UI components (buttons, inputs, cards, etc.)
 - `@cocoar/ui-menu` - Menu and navigation components
 - `@cocoar/ui-overlay` - Overlay, popover, tooltip components

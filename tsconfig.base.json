@@ -19,6 +19,7 @@
       "@cocoar/logging": ["libs/logging/src/index.ts"],
       "@cocoar/testing-angular": ["libs/testing-angular/src/index.ts"],
       "@cocoar/ui-tokens": ["libs/ui-tokens/src/index.ts"],
+      "@cocoar/ui": ["libs/ui/src/index.ts"],
       "@cocoar/ui-components": ["libs/ui-components/src/index.ts"],
       "@cocoar/ui-overlay": ["libs/ui-overlay/src/index.ts"],
       "@cocoar/markdown-core": ["libs/markdown-core/src/index.ts"],

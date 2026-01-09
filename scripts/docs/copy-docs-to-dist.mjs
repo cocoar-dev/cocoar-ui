@@ -25,4 +25,14 @@ if (existsSync(apiSource)) {
   console.warn(`⚠ ${apiSource} does not exist, skipping`);
 }
 
+// Copy docs/consuming → dist/libs/ui-docs/docs/consuming (setup guides)
+const consumingSource = 'docs/consuming';
+const consumingDest = join(distPath, 'docs', 'consuming');
+if (existsSync(consumingSource)) {
+  cpSync(consumingSource, consumingDest, { recursive: true });
+  console.log(`✓ Copied ${consumingSource} → ${consumingDest}`);
+} else {
+  console.warn(`⚠ ${consumingSource} does not exist, skipping`);
+}
+
 console.log('✅ Documentation copied to dist');

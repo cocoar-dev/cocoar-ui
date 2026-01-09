@@ -2,19 +2,70 @@
 
 This repo ships Angular libraries under the `@cocoar/*` scope.
 
+## Available Packages
+
+- **@cocoar/ui** - Complete UI package (recommended for most projects) - includes tokens
+- **@cocoar/ui-components** - Core components (buttons, inputs, cards, etc.)
+- **@cocoar/ui-menu** - Menu and navigation components
+- **@cocoar/ui-overlay** - Overlay service (tooltips, popovers, dialogs)
+- **@cocoar/ui-tokens** - Design tokens (CSS variables) - required
+- **@cocoar/markdown-viewer** - Markdown rendering component
+- **@cocoar/logging** - Logging utilities
+- **@cocoar/ui-docs** - Documentation (dev dependency)
+
 ## Install
 
+### Option 1: Complete Package (Recommended)
+
 ```bash
-npm i @cocoar/ui-components @cocoar/ui-tokens @cocoar/logging @cocoar/logging-abstractions
+npm install @cocoar/ui
 ```
 
-## Enable design tokens (required)
+This installs all UI components, menus, overlay service, and design tokens.
 
-Import tokens once in your global stylesheet (e.g. `styles.css`):
+### Option 2: Individual Packages
+
+For more control or smaller bundles:
+
+```bash
+npm install @cocoar/ui-components @cocoar/ui-menu @cocoar/ui-tokens
+```
+
+Note: `@cocoar/ui-tokens` is always required for styling to work.
+
+### Optional: Documentation
+
+```bash
+npm install -D @cocoar/ui-docs
+npx @cocoar/ui-docs init  # Sets up AI assistant integration
+```
+
+## Setup CSS
+
+### 1. Import Design Tokens (Required)
+
+Add this to your global stylesheet (e.g. `src/styles.css`):
 
 ```css
 @import '@cocoar/ui-tokens/css/all.css';
 ```
+
+This imports all CSS variables for colors, typography, spacing, shadows, etc.
+
+### 2. Install Fonts (Required)
+
+Cocoar uses **Poppins** (body text) and **Inter** (titles) from Google Fonts.
+
+Add to your `index.html` in the `<head>` section:
+
+```html
+<!-- Google Fonts: Inter (Titles) + Poppins (Body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+```
+
+**Alternative (self-hosted):** Download the fonts and add `@font-face` rules to your CSS if you prefer not to use Google Fonts CDN.
 
 ## Dark mode
 
