@@ -34,8 +34,5 @@
       "componentDocs": "./docs/libs/",
       "apiReference": "./api/"
     }
-  },
-  "dependencies": {
-    "tslib": "^2.3.0"
   }
 }
