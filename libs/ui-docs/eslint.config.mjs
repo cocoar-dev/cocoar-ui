@@ -1,4 +1,5 @@
 import baseConfig from '../../eslint.base.config.mjs';
+import jsoncParser from 'jsonc-eslint-parser';
 
 export default [
   ...baseConfig,
@@ -17,7 +18,7 @@ export default [
       ],
     },
     languageOptions: {
-      parser: require('jsonc-eslint-parser'),
+      parser: jsoncParser,
     },
   },
 ];
