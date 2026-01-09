@@ -16181,11 +16181,11 @@
                 "name": "scenario",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/lib/coar-button/button.scenario.ts",
+                "file": "src/lib/coar-card/card.scenario.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "unknown",
-                "defaultValue": "defineScenario<CoarButtonComponent>({\n  id: 'button',\n  title: 'Button',\n  description: 'Button with default settings',\n})"
+                "defaultValue": "defineScenario<CoarCardComponent>({\n  id: 'card',\n  title: 'Card',\n  description: 'Card container with default settings',\n})"
             },
             {
                 "name": "scenario",
@@ -16211,11 +16211,11 @@
                 "name": "scenario",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "src/lib/coar-card/card.scenario.ts",
+                "file": "src/lib/coar-button/button.scenario.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "unknown",
-                "defaultValue": "defineScenario<CoarCardComponent>({\n  id: 'card',\n  title: 'Card',\n  description: 'Card container with default settings',\n})"
+                "defaultValue": "defineScenario<CoarButtonComponent>({\n  id: 'button',\n  title: 'Button',\n  description: 'Button with default settings',\n})"
             },
             {
                 "name": "scenario",
@@ -17130,16 +17130,16 @@
                     "defaultValue": "defineScenario<CoarBadgeComponent>({\n  id: 'badge',\n  title: 'Badge',\n  description: 'Badge with default settings',\n  inputs: {\n    content: '5',\n  },\n})"
                 }
             ],
-            "src/lib/coar-button/button.scenario.ts": [
+            "src/lib/coar-card/card.scenario.ts": [
                 {
                     "name": "scenario",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/lib/coar-button/button.scenario.ts",
+                    "file": "src/lib/coar-card/card.scenario.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "unknown",
-                    "defaultValue": "defineScenario<CoarButtonComponent>({\n  id: 'button',\n  title: 'Button',\n  description: 'Button with default settings',\n})"
+                    "defaultValue": "defineScenario<CoarCardComponent>({\n  id: 'card',\n  title: 'Card',\n  description: 'Card container with default settings',\n})"
                 }
             ],
             "src/lib/coar-checkbox/checkbox.scenario.ts": [
@@ -17166,16 +17166,16 @@
                     "defaultValue": "defineScenario<CoarCodeBlockComponent>({\n  id: 'code-block',\n  title: 'Code Block',\n  description: 'Code block with syntax highlighting',\n  inputs: {\n    code: 'console.log(\"Hello, world!\");',\n  },\n})"
                 }
             ],
-            "src/lib/coar-card/card.scenario.ts": [
+            "src/lib/coar-button/button.scenario.ts": [
                 {
                     "name": "scenario",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "src/lib/coar-card/card.scenario.ts",
+                    "file": "src/lib/coar-button/button.scenario.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "unknown",
-                    "defaultValue": "defineScenario<CoarCardComponent>({\n  id: 'card',\n  title: 'Card',\n  description: 'Card container with default settings',\n})"
+                    "defaultValue": "defineScenario<CoarButtonComponent>({\n  id: 'button',\n  title: 'Button',\n  description: 'Button with default settings',\n})"
                 }
             ],
             "src/lib/coar-icon/icon.scenario.ts": [
