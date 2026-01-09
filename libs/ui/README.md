@@ -8,7 +8,23 @@ Complete Cocoar Design System package - all UI components, overlays, and menus i
 npm install @cocoar/ui
 # or
 pnpm add @cocoar/ui
+# or
+yarn add @cocoar/ui
 ```
+
+### Important: pnpm Configuration
+
+If you're using **pnpm**, you **must** add this to your `.npmrc` file in your project root:
+
+```
+public-hoist-pattern[]=@cocoar/*
+```
+
+This ensures that all Cocoar packages and their dependencies are properly hoisted and accessible.
+
+**Why is this required?** pnpm uses strict isolated node_modules by default. The `@cocoar/ui` meta-package re-exports from sub-packages, which won't work without hoisting.
+
+**npm and yarn users:** No configuration needed - works out of the box!
 
 ## What's Included
 
