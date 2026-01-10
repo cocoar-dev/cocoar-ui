@@ -14,6 +14,24 @@ import { CoarScrollbarDirective } from '../coar-scrollbar/coar-scrollbar.directi
  * - Apply design tokens for width, spacing, colors
  * - Handle scrolling behavior (only content area scrolls)
  * - Support left/right positioning
+ *
+ * @example
+ * ```html
+ * <coar-sidebar>
+ *   <div coar-sidebar-header>
+ *     <h2>Navigation</h2>
+ *   </div>
+ *
+ *   <coar-menu borderless>
+ *     <coar-menu-item routerLink="/home" routerLinkActive="active">Home</coar-menu-item>
+ *     <coar-menu-item routerLink="/about" routerLinkActive="active">About</coar-menu-item>
+ *   </coar-menu>
+ *
+ *   <div coar-sidebar-footer>
+ *     <button>Settings</button>
+ *   </div>
+ * </coar-sidebar>
+ * ```
  */
 @Component({
   selector: 'coar-sidebar',

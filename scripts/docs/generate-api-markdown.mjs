@@ -27,46 +27,47 @@ console.log('📝 Generating API markdown from Compodoc JSON...\n');
 let totalGenerated = 0;
 
 // Read all JSON files from api directory
-const jsonFiles = readdirSync(API_DIR)
-  .filter(f => f.endsWith('.json') && f !== 'index.json');
+const jsonFiles = readdirSync(API_DIR).filter((f) => f.endsWith('.json') && f !== 'index.json');
 
 for (const jsonFile of jsonFiles) {
   const packageName = jsonFile.replace('.json', '');
   const jsonPath = join(API_DIR, jsonFile);
-  
+
   console.log(`📦 Processing ${packageName}...`);
-  
+
   const data = JSON.parse(readFileSync(jsonPath, 'utf-8'));
-  
+
   // Process components
   const components = data.components || [];
   for (const component of components) {
     generateApiFile(packageName, component.name, 'Component', component);
     totalGenerated++;
   }
-  
+
   // Process directives
   const directives = data.directives || [];
   for (const directive of directives) {
     generateApiFile(packageName, directive.name, 'Directive', directive);
     totalGenerated++;
   }
-  
+
   // Process services (injectables)
   const services = data.injectables || [];
   for (const service of services) {
     generateApiFile(packageName, service.name, 'Service', service);
     totalGenerated++;
   }
-  
+
   // Process pipes
   const pipes = data.pipes || [];
   for (const pipe of pipes) {
     generateApiFile(packageName, pipe.name, 'Pipe', pipe);
     totalGenerated++;
   }
-  
-  console.log(`  ✓ ${components.length} components, ${directives.length} directives, ${services.length} services, ${pipes.length} pipes\n`);
+
+  console.log(
+    `  ✓ ${components.length} components, ${directives.length} directives, ${services.length} services, ${pipes.length} pipes\n`
+  );
 }
 
 console.log(`✅ Generated ${totalGenerated} API files across ${jsonFiles.length} packages`);
@@ -78,15 +79,15 @@ function generateApiFile(packageName, className, type, data) {
   const packageDir = join(DOCS_DIR, packageName);
   const itemDir = join(packageDir, className);
   const apiFilePath = join(itemDir, 'api.md');
-  
+
   // Create directory if it doesn't exist
   if (!existsSync(itemDir)) {
     mkdirSync(itemDir, { recursive: true });
   }
-  
+
   // Generate markdown
   const markdown = generateItemApiMarkdown(packageName, className, type, data);
-  
+
   // Write file
   writeFileSync(apiFilePath, markdown);
   console.log(`  ✓ ${packageName}/${className}/api.md`);
@@ -97,7 +98,7 @@ function generateApiFile(packageName, className, type, data) {
  */
 function generateItemApiMarkdown(packageName, className, type, data) {
   const lines = [];
-  
+
   // Title
   lines.push(`# ${className}`);
   lines.push('');
@@ -110,11 +111,28 @@ function generateItemApiMarkdown(packageName, className, type, data) {
   lines.push('');
 
   // Description
-  if (data.description) {
-    lines.push('## Description');
-    lines.push('');
-    lines.push(cleanHtml(data.description));
-    lines.push('');
+  // Use rawdescription if available (preserves markdown), fall back to HTML description
+  const description = data.rawdescription || data.description;
+  if (description) {
+    const cleanedDesc = cleanDescription(description, data.rawdescription !== undefined);
+
+    // Check if description contains code fences (from @example)
+    // Split into main description and examples
+    const parts = splitDescriptionAndExamples(cleanedDesc);
+
+    if (parts.description) {
+      lines.push('## Description');
+      lines.push('');
+      lines.push(parts.description);
+      lines.push('');
+    }
+
+    if (parts.examples) {
+      lines.push('## Examples');
+      lines.push('');
+      lines.push(parts.examples);
+      lines.push('');
+    }
   }
 
   // Type-specific sections
@@ -153,17 +171,17 @@ function generateComponentSections(component) {
     lines.push('');
     lines.push('| Name | Type | Default | Required | Description |');
     lines.push('| --- | --- | --- | --- | --- |');
-    
+
     for (const input of component.inputsClass) {
       const name = `\`${input.name}\``;
       const type = `\`${escapeMarkdown(input.type)}\``;
       const defaultValue = input.defaultValue ? `\`${escapeMarkdown(input.defaultValue)}\`` : '-';
       const required = input.required === true ? '✅' : '-';
       const description = cleanHtml(input.description || '').replace(/\n/g, ' ');
-      
+
       lines.push(`| ${name} | ${type} | ${defaultValue} | ${required} | ${description} |`);
     }
-    
+
     lines.push('');
   }
 
@@ -173,36 +191,38 @@ function generateComponentSections(component) {
     lines.push('');
     lines.push('| Name | Type | Description |');
     lines.push('| --- | --- | --- |');
-    
+
     for (const output of component.outputsClass) {
       const name = `\`${output.name}\``;
       const type = `\`${escapeMarkdown(output.type)}\``;
       const description = cleanHtml(output.description || '').replace(/\n/g, ' ');
-      
+
       lines.push(`| ${name} | ${type} | ${description} |`);
     }
-    
+
     lines.push('');
   }
 
   // Methods (public only)
   const publicMethods = (component.methods || []).filter(
-    m => !m.modifierKind?.includes('private') && !m.modifierKind?.includes('protected')
+    (m) => !m.modifierKind?.includes('private') && !m.modifierKind?.includes('protected')
   );
-  
+
   if (publicMethods.length > 0) {
     lines.push('## Methods');
     lines.push('');
-    
+
     for (const method of publicMethods) {
       lines.push(`### \`${method.name}()\``);
       lines.push('');
-      
-      if (method.description) {
-        lines.push(method.description.trim());
+
+      // Use rawdescription if available (preserves markdown)
+      const methodDesc = method.rawdescription || method.description;
+      if (methodDesc) {
+        lines.push(cleanDescription(methodDesc, method.rawdescription !== undefined));
         lines.push('');
       }
-      
+
       // Parameters
       if (method.args && method.args.length > 0) {
         lines.push('**Parameters:**');
@@ -214,7 +234,7 @@ function generateComponentSections(component) {
         }
         lines.push('');
       }
-      
+
       // Return type
       if (method.returnType) {
         lines.push(`**Returns:** \`${escapeMarkdown(method.returnType)}\``);
@@ -229,11 +249,11 @@ function generateComponentSections(component) {
     lines.push('');
     lines.push('| Binding | Value |');
     lines.push('| --- | --- |');
-    
+
     for (const [key, value] of Object.entries(component.hostBindings)) {
       lines.push(`| \`${key}\` | \`${escapeMarkdown(String(value))}\` |`);
     }
-    
+
     lines.push('');
   }
 
@@ -262,17 +282,17 @@ function generateDirectiveSections(directive) {
     lines.push('');
     lines.push('| Name | Type | Default | Required | Description |');
     lines.push('| --- | --- | --- | --- | --- |');
-    
+
     for (const input of directive.inputsClass) {
       const name = `\`${input.name}\``;
       const type = `\`${escapeMarkdown(input.type)}\``;
       const defaultValue = input.defaultValue ? `\`${escapeMarkdown(input.defaultValue)}\`` : '-';
       const required = input.required === true ? '✅' : '-';
       const description = cleanHtml(input.description || '').replace(/\n/g, ' ');
-      
+
       lines.push(`| ${name} | ${type} | ${defaultValue} | ${required} | ${description} |`);
     }
-    
+
     lines.push('');
   }
 
@@ -282,15 +302,15 @@ function generateDirectiveSections(directive) {
     lines.push('');
     lines.push('| Name | Type | Description |');
     lines.push('| --- | --- | --- |');
-    
+
     for (const output of directive.outputsClass) {
       const name = `\`${output.name}\``;
       const type = `\`${escapeMarkdown(output.type)}\``;
       const description = cleanHtml(output.description || '').replace(/\n/g, ' ');
-      
+
       lines.push(`| ${name} | ${type} | ${description} |`);
     }
-    
+
     lines.push('');
   }
 
@@ -305,7 +325,7 @@ function generateServiceSections(service) {
 
   // Properties
   const publicProperties = (service.properties || []).filter(
-    p => !p.modifierKind?.includes('private')
+    (p) => !p.modifierKind?.includes('private')
   );
 
   if (publicProperties.length > 0) {
@@ -313,36 +333,34 @@ function generateServiceSections(service) {
     lines.push('');
     lines.push('| Name | Type | Description |');
     lines.push('| --- | --- | --- |');
-    
+
     for (const prop of publicProperties) {
       const name = `\`${prop.name}\``;
       const type = prop.type ? `\`${escapeMarkdown(prop.type)}\`` : '-';
       const description = cleanHtml(prop.description || '').replace(/\n/g, ' ');
-      
+
       lines.push(`| ${name} | ${type} | ${description} |`);
     }
-    
+
     lines.push('');
   }
 
   // Methods
-  const publicMethods = (service.methods || []).filter(
-    m => !m.modifierKind?.includes('private')
-  );
-  
+  const publicMethods = (service.methods || []).filter((m) => !m.modifierKind?.includes('private'));
+
   if (publicMethods.length > 0) {
     lines.push('## Methods');
     lines.push('');
-    
+
     for (const method of publicMethods) {
       lines.push(`### \`${method.name}()\``);
       lines.push('');
-      
+
       if (method.description) {
         lines.push(method.description.trim());
         lines.push('');
       }
-      
+
       // Parameters
       if (method.args && method.args.length > 0) {
         lines.push('**Parameters:**');
@@ -354,7 +372,7 @@ function generateServiceSections(service) {
         }
         lines.push('');
       }
-      
+
       // Return type
       if (method.returnType) {
         lines.push(`**Returns:** \`${escapeMarkdown(method.returnType)}\``);
@@ -390,9 +408,48 @@ function generatePipeSections(pipe) {
  */
 function escapeMarkdown(text) {
   if (!text) return '';
-  return String(text)
-    .replace(/\|/g, '\\|')
-    .replace(/\n/g, ' ');
+  return String(text).replace(/\|/g, '\\|').replace(/\n/g, ' ');
+}
+
+/**
+ * Split description into main description and examples section
+ * Detects code fences (from @example) and separates them
+ */
+function splitDescriptionAndExamples(text) {
+  if (!text) return { description: '', examples: '' };
+
+  // Find the first code fence (```)
+  const codeFenceIndex = text.indexOf('```');
+
+  if (codeFenceIndex === -1) {
+    // No code fence found, it's all description
+    return { description: text.trim(), examples: '' };
+  }
+
+  // Split at the code fence
+  const description = text.substring(0, codeFenceIndex).trim();
+  const examples = text.substring(codeFenceIndex).trim();
+
+  return { description, examples };
+}
+
+/**
+ * Clean description text - handles both raw markdown and HTML from Compodoc
+ * @param {string} text - The description text
+ * @param {boolean} isRaw - True if this is rawdescription (markdown), false if HTML
+ */
+function cleanDescription(text, isRaw = false) {
+  if (!text) return '';
+
+  // If it's raw markdown, preserve it but clean up Compodoc artifacts
+  if (isRaw) {
+    return String(text)
+      .replace(/___COMPODOC_EMPTY_LINE___/g, '')
+      .trim();
+  }
+
+  // Otherwise, it's HTML - clean it like before
+  return cleanHtml(text);
 }
 
 /**
@@ -400,37 +457,39 @@ function escapeMarkdown(text) {
  */
 function cleanHtml(html) {
   if (!html) return '';
-  
-  return String(html)
-    // Remove paragraph tags (just wrappers)
-    .replace(/<\/?p>/g, '')
-    // Convert <code> to backticks
-    .replace(/<code[^>]*>(.*?)<\/code>/gs, '`$1`')
-    // Convert <b> and <strong> to bold
-    .replace(/<\/?(?:b|strong)>/g, '**')
-    // Convert <em> and <i> to italic
-    .replace(/<\/?(?:em|i)>/g, '_')
-    // Remove list tags (ul/ol/li) - just keep content with line breaks
-    .replace(/<ul>/g, '\n')
-    .replace(/<\/ul>/g, '\n')
-    .replace(/<ol>/g, '\n')
-    .replace(/<\/ol>/g, '\n')
-    .replace(/<li>/g, '- ')
-    .replace(/<\/li>/g, '\n')
-    // Remove div, pre, and other block tags
-    .replace(/<\/?(?:div|pre|span)(?:\s+[^>]*)?>/g, '')
-    // Remove class attributes and other noise from Compodoc
-    .replace(/<b>\s*Example\s*:\s*<\/b>/g, '\n\nExample:')
-    .replace(/class="[^"]*"/g, '')
-    .replace(/___COMPODOC_EMPTY_LINE___/g, '')
-    // Decode HTML entities
-    .replace(/&quot;/g, '"')
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&amp;/g, '&')
-    .replace(/&#39;/g, "'")
-    // Clean up multiple newlines
-    .replace(/\n\s*\n\s*\n/g, '\n\n')
-    // Trim whitespace
-    .trim();
+
+  return (
+    String(html)
+      // Remove paragraph tags (just wrappers)
+      .replace(/<\/?p>/g, '')
+      // Convert <code> to backticks
+      .replace(/<code[^>]*>(.*?)<\/code>/gs, '`$1`')
+      // Convert <b> and <strong> to bold
+      .replace(/<\/?(?:b|strong)>/g, '**')
+      // Convert <em> and <i> to italic
+      .replace(/<\/?(?:em|i)>/g, '_')
+      // Remove list tags (ul/ol/li) - just keep content with line breaks
+      .replace(/<ul>/g, '\n')
+      .replace(/<\/ul>/g, '\n')
+      .replace(/<ol>/g, '\n')
+      .replace(/<\/ol>/g, '\n')
+      .replace(/<li>/g, '- ')
+      .replace(/<\/li>/g, '\n')
+      // Remove div, pre, and other block tags
+      .replace(/<\/?(?:div|pre|span)(?:\s+[^>]*)?>/g, '')
+      // Remove class attributes and other noise from Compodoc
+      .replace(/<b>\s*Example\s*:\s*<\/b>/g, '\n\nExample:')
+      .replace(/class="[^"]*"/g, '')
+      .replace(/___COMPODOC_EMPTY_LINE___/g, '')
+      // Decode HTML entities
+      .replace(/&quot;/g, '"')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&amp;/g, '&')
+      .replace(/&#39;/g, "'")
+      // Clean up multiple newlines
+      .replace(/\n\s*\n\s*\n/g, '\n\n')
+      // Trim whitespace
+      .trim()
+  );
 }
