@@ -1,0 +1,67 @@
+/**
+ * Cocoar Design System - Sidebar Component Tokens
+ *
+ * Design tokens for sidebar navigation component layout and styling.
+ * All tokens use --coar-sidebar-* namespace.
+ */
+
+:root {
+  /* ========================================
+     Width and Dimensions
+     ======================================== */
+
+  /* Default sidebar width */
+  --coar-sidebar-width: 16rem;
+  --coar-sidebar-min-width: 12rem;
+  --coar-sidebar-max-width: 20rem;
+
+  /* Collapsed (icon-only) width */
+  --coar-sidebar-collapsed-width: 4rem;
+
+  /* ========================================
+     Visual Styling
+     ======================================== */
+
+  /* Background and borders */
+  --coar-sidebar-background: var(--coar-background-neutral-primary);
+  --coar-sidebar-border: 1px solid var(--coar-border-neutral-tertiary);
+
+  /* Optional elevation shadow */
+  --coar-sidebar-shadow: none;
+
+  /* ========================================
+     Section Spacing
+     ======================================== */
+
+  /* Header section */
+  --coar-sidebar-header-padding: var(--coar-spacing-m);
+  --coar-sidebar-header-border: 1px solid var(--coar-border-neutral-tertiary);
+
+  /* Content section (scrollable area) */
+  --coar-sidebar-content-padding: var(--coar-spacing-s);
+
+  /* Footer section */
+  --coar-sidebar-footer-padding: var(--coar-spacing-m);
+  --coar-sidebar-footer-border: 1px solid var(--coar-border-neutral-tertiary);
+
+  /* ========================================
+     Scrollbar Styling
+     ======================================== */
+
+  --coar-scrollbar-thumb: rgba(0, 0, 0, 0.2);
+  --coar-scrollbar-thumb-hover: rgba(0, 0, 0, 0.3);
+}
+
+/* ========================================
+   Dark Mode Overrides
+   ======================================== */
+
+.dark-mode {
+  --coar-sidebar-background: var(--coar-background-neutral-primary);
+  --coar-sidebar-border: 1px solid var(--coar-border-neutral-tertiary);
+  --coar-sidebar-header-border: 1px solid var(--coar-border-neutral-tertiary);
+  --coar-sidebar-footer-border: 1px solid var(--coar-border-neutral-tertiary);
+
+  --coar-scrollbar-thumb: rgba(255, 255, 255, 0.2);
+  --coar-scrollbar-thumb-hover: rgba(255, 255, 255, 0.3);
+}

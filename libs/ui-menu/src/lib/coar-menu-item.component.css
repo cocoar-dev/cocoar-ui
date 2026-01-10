@@ -34,24 +34,8 @@
   /* Interaction */
   cursor: pointer;
   user-select: none;
-  transition: var(--coar-transition-fast, all 100ms ease);
+  transition: background var(--coar-duration-fast, 100ms) var(--coar-ease-out, ease);
   outline: none;
-}
-
-/* Default border via ::before - transparent by default, visible in submenus */
-:host::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--coar-menu-item-border-left-color, #d0d0d0);
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    width var(--coar-duration-fast) var(--coar-ease-out),
-    background var(--coar-duration-fast) var(--coar-ease-out);
 }
 
 /* Hover state */
@@ -61,28 +45,17 @@
 }
 
 :host(:active:not(.coar-menu-item--disabled)) {
-  background: var(
-    --coar-menu-item-background-active,
-    var(--coar-menu-item-background-open, #f0f1f2)
-  );
+  background: var(--coar-menu-item-background-hover, #f0f1f2);
 }
 
-:host(:active:not(.coar-menu-item--disabled))::before {
-  width: 2px;
-  background: var(
-    --coar-menu-item-border-left-color-active,
-    var(--coar-border-accent-primary, #156db7)
-  );
-  opacity: 1;
+/* Active route state (e.g., from routerLinkActive) */
+:host(.active) {
+  background: var(--coar-menu-item-background-hover, #f0f1f2);
+  /* font-weight: 500; */
 }
 
-/* Show border when inside a sub-expand panel */
-:host-context(.coar-sub-expand__panel-inner)::before {
-  opacity: 1;
-}
-
-/* Show border when inside an overlay menu */
-:host-context(.coar-menu--in-overlay)::before {
+/* Show padding when inside a sub-expand panel */
+:host-context(.coar-sub-expand__panel-inner) {
   opacity: 1;
 }
 

@@ -42,53 +42,16 @@
   outline: none;
 }
 
-/* Default border via ::before - transparent by default, visible in submenus */
-.coar-submenu-item::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--coar-menu-item-border-left-color, #d0d0d0);
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    width var(--coar-duration-fast) var(--coar-ease-out),
-    background var(--coar-duration-fast) var(--coar-ease-out);
-}
-
 /* Hover state */
 .coar-submenu-item:hover:not(.coar-submenu-item--disabled) {
   background: var(--coar-menu-item-background-hover, #f0f1f2);
-  color: var(--coar-menu-item-color-hover, var(--coar-text-neutral-primary, #545454));
+  font-weight: 500;
 }
 
 /* Open state */
 .coar-submenu-item--open {
-  background: var(
-    --coar-menu-item-background-open,
-    var(--coar-menu-item-background-active, #f0f1f2)
-  );
-}
-
-.coar-submenu-item--open::before {
-  width: 2px;
-  background: var(
-    --coar-menu-item-border-left-color-active,
-    var(--coar-border-accent-primary, #156db7)
-  );
-  opacity: 1;
-}
-
-/* Show border when inside a sub-expand panel */
-:host-context(.coar-sub-expand__panel-inner) .coar-submenu-item::before {
-  opacity: 1;
-}
-
-/* Show border when inside an overlay menu */
-:host-context(.coar-menu--in-overlay) .coar-submenu-item::before {
-  opacity: 1;
+  background: var(--coar-menu-item-background-hover, #f0f1f2);
+  font-weight: 500;
 }
 
 /* Focus state */

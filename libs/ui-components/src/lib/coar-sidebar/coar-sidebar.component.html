@@ -1,0 +1,11 @@
+<div class="coar-sidebar__header">
+  <ng-content select="[coar-sidebar-header]" />
+</div>
+
+<div class="coar-sidebar__content" coarScrollbar [overflowX]="'hidden'">
+  <ng-content />
+</div>
+
+<div class="coar-sidebar__footer">
+  <ng-content select="[coar-sidebar-footer]" />
+</div>

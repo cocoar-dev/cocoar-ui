@@ -14,6 +14,7 @@ export * from './lib/coar-tag';
 export * from './lib/coar-divider';
 export * from './lib/coar-popover';
 export * from './lib/coar-tooltip';
+export * from './lib/coar-sidebar';
 export * from './lib/coar-label/coar-label.component';
 export * from './lib/coar-table/coar-table.component';
 export * from './lib/coar-scrollbar';

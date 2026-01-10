@@ -1,5 +1,58 @@
 <div class="app-layout">
-  <!-- Sidebar -->
+  <!-- New CoarSidebar Component -->
+  <coar-sidebar>
+    <a routerLink="/home" coar-sidebar-header class="sidebar-header">
+      <img [src]="isDarkMode ? 'logo-dark.svg' : 'logo-light.svg'" alt="Cocoar Design System" class="sidebar-logo" />
+    </a>
+
+    <coar-menu borderless>
+      <coar-menu-item icon="check" routerLink="/design-principles" routerLinkActive="active"> Design Principles </coar-menu-item>
+
+      <coar-menu-heading>Foundations</coar-menu-heading>
+      <coar-menu-item icon="text" routerLink="/typography" routerLinkActive="active">Typography</coar-menu-item>
+      <coar-menu-item icon="copy" routerLink="/colors" routerLinkActive="active">Colors</coar-menu-item>
+      <coar-menu-item routerLink="/spacing" routerLinkActive="active">Spacing</coar-menu-item>
+      <coar-menu-item routerLink="/motion" routerLinkActive="active">Motion</coar-menu-item>
+      <coar-menu-item routerLink="/localization" routerLinkActive="active">Localization</coar-menu-item>
+
+      <coar-menu-heading>Form Controls</coar-menu-heading>
+      <coar-menu-item routerLink="/text-input" routerLinkActive="active">Text Input</coar-menu-item>
+      <coar-menu-item routerLink="/number-input" routerLinkActive="active">Number Input</coar-menu-item>
+      <coar-menu-item routerLink="/password-input" routerLinkActive="active">Password Input</coar-menu-item>
+      <coar-menu-item routerLink="/single-select" routerLinkActive="active">Single Select</coar-menu-item>
+      <coar-menu-item routerLink="/multi-select" routerLinkActive="active">Multi Select</coar-menu-item>
+      <coar-menu-item routerLink="/tag-select" routerLinkActive="active">Tag Select</coar-menu-item>
+      <coar-menu-item routerLink="/date-picker" routerLinkActive="active">Date Picker</coar-menu-item>
+      <coar-menu-item routerLink="/checkboxes" routerLinkActive="active">Checkboxes</coar-menu-item>
+      <coar-menu-item routerLink="/labels" routerLinkActive="active">Labels</coar-menu-item>
+      <coar-menu-item icon="button" routerLink="/buttons" routerLinkActive="active">Buttons</coar-menu-item>
+      <coar-menu-item routerLink="/forms" routerLinkActive="active">Form Patterns</coar-menu-item>
+
+      <coar-menu-heading>Layout & Display</coar-menu-heading>
+      <coar-menu-item icon="card" routerLink="/cards" routerLinkActive="active">Cards</coar-menu-item>
+      <coar-menu-item icon="sidebar" routerLink="/sidebar" routerLinkActive="active">Sidebar</coar-menu-item>
+      <coar-menu-item routerLink="/tabs" routerLinkActive="active">Tabs</coar-menu-item>
+      <coar-menu-item icon="menu" routerLink="/menu" routerLinkActive="active">Menu</coar-menu-item>
+      <coar-menu-item routerLink="/tooltip" routerLinkActive="active">Tooltip & Popover</coar-menu-item>
+      <coar-menu-item routerLink="/overlay" routerLinkActive="active">Overlay</coar-menu-item>
+      <coar-menu-item routerLink="/table" routerLinkActive="active">Table</coar-menu-item>
+      <coar-menu-item routerLink="/badges" routerLinkActive="active">Badges</coar-menu-item>
+      <coar-menu-item routerLink="/tags" routerLinkActive="active">Tags</coar-menu-item>
+      <coar-menu-item routerLink="/dividers" routerLinkActive="active">Dividers</coar-menu-item>
+      <coar-menu-item icon="icon" routerLink="/icons" routerLinkActive="active">Icons</coar-menu-item>
+      <coar-menu-item routerLink="/code-block" routerLinkActive="active">Code Block</coar-menu-item>
+      <coar-menu-item routerLink="/markdown-viewer" routerLinkActive="active">Markdown Viewer</coar-menu-item>
+      <coar-menu-item routerLink="/notes" routerLinkActive="active">Notes</coar-menu-item>
+    </coar-menu>
+
+    <div coar-sidebar-footer class="sidebar-footer">
+      <coar-button variant="ghost" size="sm" [fullWidth]="true" (clicked)="toggleTheme()">
+        {{ isDarkMode ? '☀️ Light' : '🌙 Dark' }}
+      </coar-button>
+    </div>
+  </coar-sidebar>
+
+  <!-- Old sidebar (commented out)
   <aside class="sidebar">
     <a routerLink="/home" class="sidebar-header">
       <img [src]="isDarkMode ? 'logo-dark.svg' : 'logo-light.svg'" alt="Cocoar Design System" class="sidebar-logo" />
@@ -16,7 +69,6 @@
         <a routerLink="/motion" routerLinkActive="active" class="nav-item coar-body"> Motion </a>
         <a routerLink="/localization" routerLinkActive="active" class="nav-item coar-body"> Localization </a>
       </div>
-      <!-- Form Controls -->
       <div class="nav-section">
         <span class="nav-section-title coar-caption">Form Controls</span>
         <a routerLink="/text-input" routerLinkActive="active" class="nav-item coar-body"> Text Input </a>
@@ -31,10 +83,10 @@
         <a routerLink="/buttons" routerLinkActive="active" class="nav-item coar-body"> Buttons </a>
         <a routerLink="/forms" routerLinkActive="active" class="nav-item coar-body"> Form Patterns </a>
       </div>
-      <!-- Layout & Display -->
       <div class="nav-section">
         <span class="nav-section-title coar-caption">Layout & Display</span>
         <a routerLink="/cards" routerLinkActive="active" class="nav-item coar-body"> Cards </a>
+        <a routerLink="/sidebar" routerLinkActive="active" class="nav-item coar-body"> Sidebar </a>
         <a routerLink="/tabs" routerLinkActive="active" class="nav-item coar-body"> Tabs </a>
         <a routerLink="/menu" routerLinkActive="active" class="nav-item coar-body"> Menu </a>
         <a routerLink="/tooltip" routerLinkActive="active" class="nav-item coar-body"> Tooltip &amp; Popover </a>
@@ -55,6 +107,7 @@
       </coar-button>
     </div>
   </aside>
+  -->
 
   <!-- Main Content -->
   <div class="main-wrapper" coarScrollbar>

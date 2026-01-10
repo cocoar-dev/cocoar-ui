@@ -1,0 +1,132 @@
+/**
+ * CoarSidebar Styles
+ *
+ * All styling via CSS variables from design tokens.
+ * Framework-pure: no assumptions about parent layout.
+ */
+
+:host {
+  /* Layout - full height flex container */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  /* Dimensions from tokens */
+  width: var(--coar-sidebar-width, 16rem);
+  min-width: var(--coar-sidebar-min-width, 12rem);
+  max-width: var(--coar-sidebar-max-width, 20rem);
+
+  /* Visual styling from tokens */
+  background: var(--coar-sidebar-background, var(--coar-background-neutral-primary, #ffffff));
+  border-right: var(--coar-sidebar-border, 1px solid var(--coar-border-neutral-tertiary, #d0d0d0));
+}
+
+/**
+ * Right-positioned sidebar
+ */
+:host(.coar-sidebar--position-right) {
+  border-right: none;
+  border-left: var(--coar-sidebar-border, 1px solid var(--coar-border-neutral-tertiary, #d0d0d0));
+}
+
+/**
+ * Collapsed state - narrow width for icons only
+ */
+:host(.coar-sidebar--collapsed) {
+  width: var(--coar-sidebar-collapsed-width, 4rem);
+  min-width: var(--coar-sidebar-collapsed-width, 4rem);
+}
+
+/* Center content in collapsed state */
+:host(.coar-sidebar--collapsed) .coar-sidebar__header,
+:host(.coar-sidebar--collapsed) .coar-sidebar__content,
+:host(.coar-sidebar--collapsed) .coar-sidebar__footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* ========================================
+   Header - Fixed at top
+   ======================================== */
+
+.coar-sidebar__header {
+  /* Fixed height, no scroll */
+  flex-shrink: 0;
+
+  /* Optional bottom border */
+  /* border-bottom: var(
+    --coar-sidebar-header-border,
+    1px solid var(--coar-border-neutral-tertiary, #d0d0d0)
+  ); */
+}
+
+/* Hide header if empty (no content projected) */
+.coar-sidebar__header:empty {
+  display: none;
+}
+
+/* ========================================
+   Content - Scrollable area
+   ======================================== */
+
+.coar-sidebar__content {
+  /* Takes remaining space, scrolls vertically */
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Spacing from tokens */
+  padding: var(--coar-sidebar-content-padding, var(--coar-spacing-s, 8px));
+}
+
+/* ========================================
+   Menu Styling for Sidebar Context
+   ======================================== */
+
+/* Style menu when used inside sidebar */
+.coar-sidebar__content ::ng-deep coar-menu {
+  padding: 0;
+}
+
+/* Section titles for grouped navigation */
+.coar-sidebar__content ::ng-deep coar-menu-heading {
+  margin-top: var(--coar-spacing-l, 16px);
+  font-size: var(--coar-font-size-xs, 12px);
+}
+
+/* Menu item styles optimized for sidebar navigation */
+.coar-sidebar__content ::ng-deep coar-menu-item {
+  border-radius: var(--coar-radius-xxs);
+  margin: var(--coar-spacing-3xs, 2px) 0;
+}
+
+.coar-sidebar__content ::ng-deep coar-menu-item:hover {
+  background: var(--coar-background-neutral-tertiary);
+}
+
+.coar-sidebar__content ::ng-deep coar-menu-item.active {
+  background: var(--coar-background-neutral-tertiary);
+  /* font-weight: 700; */
+}
+
+/* ========================================
+   Footer - Fixed at bottom
+   ======================================== */
+
+.coar-sidebar__footer {
+  /* Fixed height, no scroll */
+  flex-shrink: 0;
+
+  /* Optional top border */
+  /* border-top: var(
+    --coar-sidebar-footer-border,
+    1px solid var(--coar-border-neutral-tertiary, #d0d0d0)
+  ); */
+}
+
+/* Hide footer if empty (no content projected) */
+.coar-sidebar__footer:empty {
+  display: none;
+}

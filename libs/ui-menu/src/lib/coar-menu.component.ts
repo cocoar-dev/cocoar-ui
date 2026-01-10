@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, inject, input } from '@angular/core';
+import { booleanAttribute, Component, ChangeDetectionStrategy, inject, input } from '@angular/core';
 import { COAR_MENU_CASCADE, CoarMenuCascade } from './coar-menu-cascade';
 import { COAR_OVERLAY_REF } from '@cocoar/ui-overlay';
 import { CoarMenuAimConfigDirective } from './coar-menu-aim-config.directive';
@@ -41,6 +41,7 @@ import { CoarMenuAimConfigDirective } from './coar-menu-aim-config.directive';
     role: 'menu',
     class: 'coar-menu',
     '[class.coar-menu--in-overlay]': 'isInOverlay()',
+    '[class.coar-menu--borderless]': 'borderless()',
     '[style.--coar-menu-icon-slot-display]': 'showIconColumn() ? null : "none"',
     '[style.--coar-menu-item-icon-slot-size]': 'showIconColumn() ? null : "0px"',
   },
@@ -75,6 +76,14 @@ export class CoarMenuComponent {
    * Set to false for text-only menus (icons will not render).
    */
   readonly showIconColumn = input(true);
+
+  /**
+   * Removes border, background, border-radius, and shadow for seamless embedding in containers.
+   *
+   * Use when embedding menu in sidebars, panels, or custom containers that provide their own styling.
+   * Use as boolean attribute: `<coar-menu borderless>` or `[borderless]="true"`
+   */
+  readonly borderless = input(false, { transform: booleanAttribute });
 
   /**
    * Check if this menu is rendered inside an overlay (flyout).

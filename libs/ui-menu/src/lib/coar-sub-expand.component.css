@@ -42,51 +42,9 @@
   outline: none;
 }
 
-/* Default border via ::before - transparent by default, visible in submenus */
-.coar-sub-expand::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--coar-menu-item-border-left-color, #d0d0d0);
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    width var(--coar-duration-fast) var(--coar-ease-out),
-    background var(--coar-duration-fast) var(--coar-ease-out);
-}
-
 .coar-sub-expand:hover:not(.coar-sub-expand--disabled) {
   background: var(--coar-menu-item-background-hover, #f0f1f2);
   color: var(--coar-menu-item-color-hover, var(--coar-text-neutral-primary, #545454));
-}
-
-.coar-sub-expand--open {
-  background: var(
-    --coar-menu-item-background-open,
-    var(--coar-menu-item-background-active, #f0f1f2)
-  );
-}
-
-.coar-sub-expand--open::before {
-  width: 2px;
-  background: var(
-    --coar-menu-item-border-left-color-active,
-    var(--coar-border-accent-primary, #156db7)
-  );
-  opacity: 1;
-}
-
-/* Show border when inside a sub-expand panel */
-:host-context(.coar-sub-expand__panel-inner) .coar-sub-expand::before {
-  opacity: 1;
-}
-
-/* Show border when inside an overlay menu */
-:host-context(.coar-menu--in-overlay) .coar-sub-expand::before {
-  opacity: 1;
 }
 
 .coar-sub-expand:focus-visible {
@@ -158,27 +116,27 @@
   transition: grid-template-rows var(--coar-duration-normal, 200ms) var(--coar-ease-out, ease);
 }
 
-/* .coar-sub-expand__panel::before {
+.coar-sub-expand__panel::before {
   content: '';
   position: absolute;
-  top: var(--coar-sub-expand-line-gap, 0.5rem);
-  bottom: var(--coar-sub-expand-line-gap, 0.5rem);
+  top: 0;
+  bottom: 0;
   left: 0;
-  width: 2px;
+  width: 1px;
   background: var(--coar-sub-expand-line-color, var(--coar-border-neutral-tertiary, #d0d0d0));
   pointer-events: none;
   opacity: 0;
   transition: opacity var(--coar-duration-fast, 100ms) var(--coar-ease-out, ease);
   z-index: 1;
-} */
+}
 
 .coar-sub-expand__panel--open {
   grid-template-rows: 1fr;
 }
-/*
+
 .coar-sub-expand__panel--open::before {
   opacity: 1;
-} */
+}
 
 .coar-sub-expand__panel-inner {
   overflow: hidden;

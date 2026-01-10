@@ -27,9 +27,9 @@ import { Component, ChangeDetectionStrategy, input } from '@angular/core';
   template: `
     <div class="coar-menu-heading">
       @if (label()) {
-      {{ label() }}
+        {{ label() }}
       } @else {
-      <ng-content />
+        <ng-content />
       }
     </div>
   `,

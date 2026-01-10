@@ -1,0 +1,13 @@
+/* Sidebar Demo Container */
+.sidebar-demo-container {
+  /* Fixed height container to show sidebar layout */
+  height: 400px;
+  border: 1px solid var(--coar-border-neutral-tertiary);
+  border-radius: var(--coar-radius-s);
+  overflow: hidden;
+  background: var(--coar-background-neutral-secondary);
+}
+
+.sidebar-demo-container--tall {
+  height: 500px;
+}

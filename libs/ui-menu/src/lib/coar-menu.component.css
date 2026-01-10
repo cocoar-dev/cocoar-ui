@@ -26,3 +26,16 @@
   /* Shadow for overlay menus */
   box-shadow: var(--coar-menu-shadow, var(--coar-shadow-s, none));
 }
+
+/**
+ * Borderless mode: removes visual container styling for seamless embedding
+ * Use when menu is embedded in a sidebar, panel, or custom container
+ */
+:host(.coar-menu--borderless) {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  min-width: unset;
+  max-width: unset;
+}

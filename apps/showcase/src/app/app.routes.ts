@@ -149,4 +149,8 @@ export const appRoutes: Route[] = [
     path: 'menu',
     loadComponent: () => import('./pages/menu/menu.page').then((m) => m.MenuPage),
   },
+  {
+    path: 'sidebar',
+    loadComponent: () => import('./pages/sidebar/sidebar.page').then((m) => m.SidebarPage),
+  },
 ];
