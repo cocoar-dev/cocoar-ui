@@ -9,54 +9,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  validate:
-    name: Lint, Test & Build
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    permissions:
-      contents: read
-    defaults:
-      run:
-        working-directory: .
-
-    steps:
-      - name: Checkout tag
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.release.tag_name }}
-
-      - name: Setup Volta (Node + pnpm)
-        uses: volta-cli/action@v4
-        with:
-          package-json-path: ./package.json
-
-      - name: Install Node.js
-        run: volta install node
-
-      - name: Install pnpm
-        run: volta install pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Lint
-        run: pnpm lint
-
-      - name: Generate scenario registry
-        run: pnpm nx generate-registry scenar-backstage
-
-      - name: Test
-        run: pnpm test
-
-      - name: Build
-        run: pnpm build
-
-  build-stable:
-    name: Build stable packages
+  build-and-pack-stable:
+    name: Lint, Test, Build & Pack Stable
     if: github.event.release.target_commitish == 'develop'
     runs-on: ubuntu-latest
-    needs: validate
+    timeout-minutes: 30
     permissions:
       contents: read
     defaults:
@@ -102,6 +59,15 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Generate scenario registry
+        run: pnpm nx generate-registry scenar-backstage
+
+      - name: Test
+        run: pnpm test
 
       - name: Build packages
         run: pnpm build
