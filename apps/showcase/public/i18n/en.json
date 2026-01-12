@@ -1,0 +1,9 @@
+{
+  "showcase.i18nPipe.demo.language": "Language",
+  "showcase.i18nPipe.demo.toggle": "Toggle language",
+  "showcase.i18nPipe.demo.simpleKey.label": "Simple key",
+  "showcase.i18nPipe.demo.simpleKey.value": "Hello",
+  "showcase.i18nPipe.demo.missingKey.label": "Missing key with fallback",
+  "showcase.i18nPipe.demo.params.label": "Params",
+  "showcase.i18nPipe.demo.params.value": "You have {count} items"
+}

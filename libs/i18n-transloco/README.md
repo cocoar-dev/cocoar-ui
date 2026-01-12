@@ -9,7 +9,6 @@ This library bridges `@cocoar/i18n` with Transloco, allowing COAR UI components 
 ## Features
 
 - **provideCoarTranslocoI18n** - Connects COAR_I18N to TranslocoService
-- **provideCoarTranslocoI18nUsingCoarInterpolation** - Same provider, but uses Cocoar `{name}` interpolation
 - **provideCoarTranslocoI18nEvents** - Connects COAR_I18N_EVENTS to Transloco language changes
 - **provideCoarI18nUsingTransloco** - Convenience providers (provider + events + CoarI18n)
 

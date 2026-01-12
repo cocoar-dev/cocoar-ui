@@ -8,6 +8,8 @@ This is the recommended setup because it provides all required Cocoar pieces in 
 - `COAR_I18N_EVENTS` (so pipes and reactive APIs update on language changes)
 - `CoarI18n` (the Cocoar service used by components/pipes)
 
+It also preloads the active language during application bootstrap to avoid rendering fallback text before translations are available.
+
 ## Usage
 
 ```ts
@@ -29,8 +31,6 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-## Interpolation option
+## Interpolation
 
-If you want Cocoar’s `{name}` interpolation semantics (instead of Transloco’s interpolation), use:
-
-- `provideCoarI18nUsingTranslocoWithCoarInterpolation()`
+`@cocoar/i18n` always applies Cocoar interpolation (`{name}`) after the backend resolves a translation.

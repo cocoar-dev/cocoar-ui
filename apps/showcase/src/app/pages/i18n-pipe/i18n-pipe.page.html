@@ -21,21 +21,23 @@
         <div class="demo-box">
           <div class="i18n-demo__row">
             <div class="i18n-demo__lang">
-              <strong>Language:</strong>
-              <code data-testid="showcase-lang">{{ i18n.currentLang() }}</code>
+              <strong>{{ 'showcase.i18nPipe.demo.language' | coarI18n: 'Language' }}:</strong>
+              <code data-testid="showcase-lang">{{ currentLang() }}</code>
             </div>
-            <coar-button size="sm" variant="secondary" (clicked)="i18n.toggleLang()"> Toggle language </coar-button>
+            <coar-button size="sm" variant="secondary" (clicked)="toggleLang()">
+              {{ 'showcase.i18nPipe.demo.toggle' | coarI18n: 'Toggle language' }}
+            </coar-button>
           </div>
 
           <dl class="i18n-demo__dl">
-            <dt>Simple key</dt>
-            <dd data-testid="showcase-simple">{{ 'demo.hello' | coarI18n }}</dd>
+            <dt>{{ 'showcase.i18nPipe.demo.simpleKey.label' | coarI18n: 'Simple key' }}</dt>
+            <dd data-testid="showcase-simple">{{ 'showcase.i18nPipe.demo.simpleKey.value' | coarI18n }}</dd>
 
-            <dt>Missing key with fallback</dt>
-            <dd data-testid="showcase-fallback">{{ 'demo.missing' | coarI18n: 'Fallback text' }}</dd>
+            <dt>{{ 'showcase.i18nPipe.demo.missingKey.label' | coarI18n: 'Missing key with fallback' }}</dt>
+            <dd data-testid="showcase-fallback">{{ 'showcase.i18nPipe.demo.missingKey.value' | coarI18n: 'Fallback text' }}</dd>
 
-            <dt>Params</dt>
-            <dd data-testid="showcase-params">{{ 'demo.items' | coarI18n: { count: 3 } }}</dd>
+            <dt>{{ 'showcase.i18nPipe.demo.params.label' | coarI18n: 'Params' }}</dt>
+            <dd data-testid="showcase-params">{{ 'showcase.i18nPipe.demo.params.value' | coarI18n: { count: 3 } }}</dd>
           </dl>
         </div>
       </div>

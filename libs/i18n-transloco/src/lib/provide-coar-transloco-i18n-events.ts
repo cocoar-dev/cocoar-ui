@@ -1,7 +1,8 @@
 import { Provider } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 import { COAR_I18N_EVENTS, CoarI18nEvents } from '@cocoar/i18n';
-import { map } from 'rxjs/operators';
+import { merge } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 /**
  * Provides COAR_I18N_EVENTS backed by TranslocoService.langChanges$.
@@ -27,7 +28,15 @@ export function provideCoarTranslocoI18nEvents(): Provider {
   return {
     provide: COAR_I18N_EVENTS,
     useFactory: (transloco: TranslocoService): CoarI18nEvents => ({
-      languageChanged$: transloco.langChanges$.pipe(map(() => void 0)),
+      languageChanged$: merge(
+        transloco.langChanges$,
+        transloco.events$.pipe(
+          filter(
+            (event) =>
+              event.type === 'translationLoadSuccess' || event.type === 'translationLoadFailure'
+          )
+        )
+      ).pipe(map(() => void 0)),
     }),
     deps: [TranslocoService],
   };

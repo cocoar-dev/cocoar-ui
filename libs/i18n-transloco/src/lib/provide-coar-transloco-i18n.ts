@@ -1,4 +1,4 @@
-import { Provider } from '@angular/core';
+import { ErrorHandler, Provider } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
 import { COAR_I18N_PROVIDER, CoarI18nProvider } from '@cocoar/i18n';
 
@@ -25,11 +25,33 @@ import { COAR_I18N_PROVIDER, CoarI18nProvider } from '@cocoar/i18n';
 export function provideCoarTranslocoI18n(): Provider {
   return {
     provide: COAR_I18N_PROVIDER,
-    useFactory: (transloco: TranslocoService): CoarI18nProvider => ({
-      t(key: string, params?: Record<string, unknown>): string {
-        return transloco.translate(key, params);
-      },
-    }),
-    deps: [TranslocoService],
+    useFactory: (transloco: TranslocoService, errorHandler: ErrorHandler): CoarI18nProvider => {
+      const loadedLangs = new Set<string>();
+
+      const ensureActiveLanguageLoaded = (): void => {
+        const lang = transloco.getActiveLang();
+        if (loadedLangs.has(lang)) {
+          return;
+        }
+
+        loadedLangs.add(lang);
+        transloco.load(lang).subscribe({
+          error: (err) => errorHandler.handleError(err),
+        });
+      };
+
+      return {
+        t(key: string): string {
+          // Transloco's `translate()` is sync and does not trigger loading.
+          // We proactively load the active language so consumers (like CoarI18nPipe)
+          // can render translations without requiring TranslocoPipe/directives.
+          ensureActiveLanguageLoaded();
+          // CoarI18n always applies Cocoar interpolation (`{name}`) on top.
+          // Passing params into Transloco here would mix interpolation semantics.
+          return transloco.translate(key);
+        },
+      };
+    },
+    deps: [TranslocoService, ErrorHandler],
   };
 }

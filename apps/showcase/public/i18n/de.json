@@ -1,0 +1,9 @@
+{
+  "showcase.i18nPipe.demo.language": "Sprache",
+  "showcase.i18nPipe.demo.toggle": "Sprache wechseln",
+  "showcase.i18nPipe.demo.simpleKey.label": "Einfacher Schlüssel",
+  "showcase.i18nPipe.demo.simpleKey.value": "Hallo",
+  "showcase.i18nPipe.demo.missingKey.label": "Fehlender Schlüssel mit Fallback",
+  "showcase.i18nPipe.demo.params.label": "Parameter",
+  "showcase.i18nPipe.demo.params.value": "Sie haben {count} Elemente"
+}

@@ -26,17 +26,22 @@ export class I18nPage {
 
   codeExamples = {
     translocoSetup: `import { ApplicationConfig } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
 import { CoarI18n } from '@cocoar/i18n';
-import {
-  provideCoarTranslocoI18n,
-  provideCoarTranslocoI18nEvents,
-} from '@cocoar/i18n-transloco';
+import { provideTransloco } from '@jsverse/transloco';
+import { provideCoarI18nUsingTransloco } from '@cocoar/i18n-transloco';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideCoarTranslocoI18n(),
-    provideCoarTranslocoI18nEvents(),
-    CoarI18n,
+    provideHttpClient(),
+    provideTransloco({
+      config: {
+        availableLangs: ['en', 'de'],
+        defaultLang: 'en',
+      },
+      loader: YourTranslocoLoader,
+    }),
+    ...provideCoarI18nUsingTransloco(),
   ],
 };`,
 
