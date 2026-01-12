@@ -4,6 +4,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "build": "nx run-many -t build",
+    "build:ui-docs": "nx build ui-docs --configuration=production",
     "build:icons": "node scripts/icons/build-frontend-icons.mjs",
     "build:scenar-registry": "node scripts/scenar/generate-registry.mjs",
     "docs:clean": "node scripts/docs/clean-docs.mjs",

@@ -33,6 +33,7 @@ const LIBRARIES = [
   'ui-overlay',
   'markdown-viewer',
   'i18n',
+  'i18n-transloco',
   'logging',
   'logging-abstractions',
 ];

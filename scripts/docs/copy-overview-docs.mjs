@@ -34,7 +34,10 @@ function findMarkdownFiles(dir, files = []) {
         continue;
       }
       findMarkdownFiles(fullPath, files);
-    } else if (entry.isFile() && entry.name.match(/\.(component|directive|service|pipe)\.md$/)) {
+    } else if (
+      entry.isFile() &&
+      entry.name.match(/\.(component|directive|service|pipe|overview)\.md$/)
+    ) {
       files.push(fullPath);
     }
   }
@@ -56,9 +59,12 @@ for (const fullPath of markdownFiles) {
   }
   const packageName = pathParts[1]; // e.g., 'ui-components'
 
-  // Extract class name from filename: coar-button.component.md → CoarButtonComponent
-  const filename = basename(fullPath, '.md'); // e.g., 'coar-button.component'
-  const className = convertToClassName(filename);
+  // Extract output name from filename.
+  // - coar-button.component.md → CoarButtonComponent
+  // - provide-coar-i18n-using-transloco.overview.md → provideCoarI18nUsingTransloco
+  const className = fullPath.endsWith('.overview.md')
+    ? kebabToCamel(basename(fullPath, '.overview.md'))
+    : convertToClassName(basename(fullPath, '.md'));
 
   // Determine output path: docs/libs/{package}/{ClassName}/overview.md
   const outputDir = join(workspaceRoot, 'docs/libs', packageName, className);
@@ -96,4 +102,14 @@ function convertToClassName(filename) {
         .join('')
     )
     .join('');
+}
+
+function kebabToCamel(input) {
+  const parts = input.split('-').filter(Boolean);
+  if (parts.length === 0) {
+    return input;
+  }
+
+  const [first, ...rest] = parts;
+  return first + rest.map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join('');
 }

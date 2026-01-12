@@ -11,7 +11,8 @@
         "{workspaceRoot}/libs/**/*.component.md",
         "{workspaceRoot}/libs/**/*.directive.md",
         "{workspaceRoot}/libs/**/*.service.md",
-        "{workspaceRoot}/libs/**/*.pipe.md"
+        "{workspaceRoot}/libs/**/*.pipe.md",
+        "{workspaceRoot}/libs/**/*.overview.md"
       ],
       "outputs": ["{workspaceRoot}/docs/libs", "{workspaceRoot}/libs/ui-docs/api"],
       "options": {

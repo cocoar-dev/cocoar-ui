@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { cpSync, existsSync } from 'fs';
+import { cpSync, existsSync, rmSync } from 'fs';
 import { join } from 'path';
 
 const distPath = 'dist/libs/ui-docs';
@@ -9,6 +9,8 @@ const distPath = 'dist/libs/ui-docs';
 const docsSource = 'docs/libs';
 const docsDest = join(distPath, 'docs', 'libs');
 if (existsSync(docsSource)) {
+  // Avoid stale docs: cpSync merges folders but does not remove deleted files.
+  rmSync(docsDest, { recursive: true, force: true });
   cpSync(docsSource, docsDest, { recursive: true });
   console.log(`✓ Copied ${docsSource} → ${docsDest}`);
 } else {
@@ -19,6 +21,7 @@ if (existsSync(docsSource)) {
 const apiSource = 'libs/ui-docs/api';
 const apiDest = join(distPath, 'api');
 if (existsSync(apiSource)) {
+  rmSync(apiDest, { recursive: true, force: true });
   cpSync(apiSource, apiDest, { recursive: true });
   console.log(`✓ Copied ${apiSource} → ${apiDest}`);
 } else {
@@ -29,6 +32,7 @@ if (existsSync(apiSource)) {
 const consumingSource = 'docs/consuming';
 const consumingDest = join(distPath, 'docs', 'consuming');
 if (existsSync(consumingSource)) {
+  rmSync(consumingDest, { recursive: true, force: true });
   cpSync(consumingSource, consumingDest, { recursive: true });
   console.log(`✓ Copied ${consumingSource} → ${consumingDest}`);
 } else {

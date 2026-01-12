@@ -26,12 +26,107 @@ console.log('📝 Generating API markdown from Compodoc JSON...\n');
 
 let totalGenerated = 0;
 
+/**
+ * Limit which non-Angular symbols produce API markdown.
+ *
+ * Rationale: Compodoc exposes lots of low-level constants/variables across packages
+ * (e.g. injection token keys) that create noisy, low-value docs.
+ * We only generate extra docs for packages/symbols that are consumer-relevant.
+ */
+const EXTRA_DOCS_CONFIG = {
+  i18n: {
+    includeInterfaces: true,
+    includeFunctions: false,
+    includeFunctionNames: null,
+    includeFunctionTagName: null,
+    includeVariableNames: new Set(['COAR_I18N_PROVIDER', 'COAR_I18N_EVENTS']),
+    includeVariableTagName: null,
+  },
+  'i18n-transloco': {
+    includeInterfaces: true,
+    includeFunctions: true,
+    // Only document the consumer-facing entry points.
+    includeFunctionNames: new Set([
+      'provideCoarI18nUsingTransloco',
+      'provideCoarI18nUsingTranslocoWithCoarInterpolation',
+    ]),
+    // Future: allow opting-in a function via JSDoc without touching this script.
+    // Example: add `/** @coarDocs */` above the function.
+    includeFunctionTagName: 'coarDocs',
+    includeVariableNames: new Set(),
+    includeVariableTagName: null,
+  },
+};
+
+function getExtraDocsConfig(packageName) {
+  return (
+    EXTRA_DOCS_CONFIG[packageName] ?? {
+      includeInterfaces: false,
+      includeFunctions: false,
+      includeFunctionNames: null,
+      includeFunctionTagName: null,
+      includeVariableNames: new Set(),
+      includeVariableTagName: null,
+    }
+  );
+}
+
+function hasJSDocTag(item, expectedTagName) {
+  if (!expectedTagName) {
+    return false;
+  }
+
+  const tags = item?.jsdoctags;
+  if (!Array.isArray(tags) || tags.length === 0) {
+    return false;
+  }
+
+  const wanted = String(expectedTagName).toLowerCase();
+
+  // Compodoc tag shapes vary; handle both simple and TS AST-based ones.
+  return tags.some((t) => {
+    const raw = t?.tagName?.escapedText ?? t?.tagName ?? t?.name;
+    if (!raw) {
+      return false;
+    }
+    const normalized = String(raw).replace(/^@/, '').toLowerCase();
+    return normalized === wanted;
+  });
+}
+
+function shouldEmitFunction(extraDocsConfig, fn) {
+  if (!extraDocsConfig.includeFunctions) {
+    return false;
+  }
+  const allowlist = extraDocsConfig.includeFunctionNames;
+  if (!allowlist) {
+    return true;
+  }
+
+  if (fn?.name && allowlist.has(fn.name)) {
+    return true;
+  }
+
+  return hasJSDocTag(fn, extraDocsConfig.includeFunctionTagName);
+}
+
+function shouldEmitVariable(extraDocsConfig, v) {
+  const allowlist = extraDocsConfig.includeVariableNames;
+  if (allowlist?.size && v?.name && allowlist.has(v.name)) {
+    return true;
+  }
+
+  return hasJSDocTag(v, extraDocsConfig.includeVariableTagName);
+}
+
 // Read all JSON files from api directory
 const jsonFiles = readdirSync(API_DIR).filter((f) => f.endsWith('.json') && f !== 'index.json');
 
 for (const jsonFile of jsonFiles) {
   const packageName = jsonFile.replace('.json', '');
   const jsonPath = join(API_DIR, jsonFile);
+
+  const extraDocsConfig = getExtraDocsConfig(packageName);
 
   console.log(`📦 Processing ${packageName}...`);
 
@@ -58,6 +153,15 @@ for (const jsonFile of jsonFiles) {
     totalGenerated++;
   }
 
+  // Process interfaces
+  const interfaces = data.interfaces || [];
+  if (extraDocsConfig.includeInterfaces) {
+    for (const iface of interfaces) {
+      generateApiFile(packageName, iface.name, 'Interface', iface);
+      totalGenerated++;
+    }
+  }
+
   // Process pipes
   const pipes = data.pipes || [];
   for (const pipe of pipes) {
@@ -65,8 +169,67 @@ for (const jsonFile of jsonFiles) {
     totalGenerated++;
   }
 
+  // Process miscellaneous (functions, variables, etc.)
+  const misc = data.miscellaneous || {};
+
+  if (extraDocsConfig.includeFunctions) {
+    // Compodoc output varies by version:
+    // - some versions expose `misc.functions` as a flat array
+    // - some expose `misc.groupedFunctions` as an object keyed by file
+    const miscFunctions = misc.groupedFunctions ?? misc.functions;
+    if (Array.isArray(miscFunctions)) {
+      for (const fn of miscFunctions) {
+        if (!shouldEmitFunction(extraDocsConfig, fn)) {
+          continue;
+        }
+        generateApiFile(packageName, fn.name, 'Function', fn);
+        totalGenerated++;
+      }
+    } else if (miscFunctions && typeof miscFunctions === 'object') {
+      for (const fileFunctions of Object.values(miscFunctions)) {
+        if (!Array.isArray(fileFunctions)) {
+          continue;
+        }
+        for (const fn of fileFunctions) {
+          if (!shouldEmitFunction(extraDocsConfig, fn)) {
+            continue;
+          }
+          generateApiFile(packageName, fn.name, 'Function', fn);
+          totalGenerated++;
+        }
+      }
+    }
+  }
+
+  const miscVariables = misc.groupedVariables ?? misc.variables;
+  const includeVariableNames = extraDocsConfig.includeVariableNames;
+  if (includeVariableNames.size > 0 || extraDocsConfig.includeVariableTagName) {
+    const emitVariable = (v) => {
+      if (!shouldEmitVariable(extraDocsConfig, v)) {
+        return;
+      }
+      generateApiFile(packageName, v.name, 'Variable', v);
+      totalGenerated++;
+    };
+
+    if (Array.isArray(miscVariables)) {
+      for (const v of miscVariables) {
+        emitVariable(v);
+      }
+    } else if (miscVariables && typeof miscVariables === 'object') {
+      for (const fileVariables of Object.values(miscVariables)) {
+        if (!Array.isArray(fileVariables)) {
+          continue;
+        }
+        for (const v of fileVariables) {
+          emitVariable(v);
+        }
+      }
+    }
+  }
+
   console.log(
-    `  ✓ ${components.length} components, ${directives.length} directives, ${services.length} services, ${pipes.length} pipes\n`
+    `  ✓ ${components.length} components, ${directives.length} directives, ${services.length} services, ${interfaces.length} interfaces, ${pipes.length} pipes\n`
   );
 }
 
@@ -142,11 +305,97 @@ function generateItemApiMarkdown(packageName, className, type, data) {
     lines.push(...generateDirectiveSections(data));
   } else if (type === 'Service') {
     lines.push(...generateServiceSections(data));
+  } else if (type === 'Interface') {
+    lines.push(...generateInterfaceSections(data));
   } else if (type === 'Pipe') {
     lines.push(...generatePipeSections(data));
+  } else if (type === 'Function') {
+    lines.push(...generateFunctionSections(data));
+  } else if (type === 'Variable') {
+    lines.push(...generateVariableSections(data));
   }
 
   return lines.join('\n');
+}
+
+/**
+ * Generate interface-specific sections
+ */
+function generateInterfaceSections(iface) {
+  const lines = [];
+
+  if (iface.properties && iface.properties.length > 0) {
+    lines.push('## Properties');
+    lines.push('');
+    lines.push('| Name | Type | Description |');
+    lines.push('| --- | --- | --- |');
+
+    for (const prop of iface.properties) {
+      const name = `\`${prop.name}\``;
+      const type = prop.type ? `\`${escapeMarkdown(prop.type)}\`` : '-';
+      const description = cleanHtml(prop.description || '').replace(/\n/g, ' ');
+      lines.push(`| ${name} | ${type} | ${description} |`);
+    }
+
+    lines.push('');
+  }
+
+  return lines;
+}
+
+/**
+ * Generate function-specific sections
+ */
+function generateFunctionSections(fn) {
+  const lines = [];
+
+  lines.push('## Signature');
+  lines.push('');
+  lines.push('```ts');
+
+  const args = (fn.args || []).map((a) => (a.type ? `${a.name}: ${a.type}` : a.name)).join(', ');
+  const returnType = fn.returnType ? `: ${fn.returnType}` : '';
+  lines.push(`function ${fn.name}(${args})${returnType};`);
+  lines.push('```');
+  lines.push('');
+
+  if (fn.args && fn.args.length > 0) {
+    lines.push('## Parameters');
+    lines.push('');
+
+    for (const arg of fn.args) {
+      const argType = arg.type ? `: \`${escapeMarkdown(arg.type)}\`` : '';
+      lines.push(`- \`${arg.name}\`${argType}`);
+    }
+
+    lines.push('');
+  }
+
+  if (fn.returnType) {
+    lines.push(`**Returns:** \`${escapeMarkdown(fn.returnType)}\``);
+    lines.push('');
+  }
+
+  return lines;
+}
+
+/**
+ * Generate variable-specific sections
+ */
+function generateVariableSections(v) {
+  const lines = [];
+
+  lines.push('## Type');
+  lines.push('');
+
+  if (v.type) {
+    lines.push(`\`${escapeMarkdown(v.type)}\``);
+  } else {
+    lines.push('-');
+  }
+  lines.push('');
+
+  return lines;
 }
 
 /**
