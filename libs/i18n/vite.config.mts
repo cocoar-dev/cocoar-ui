@@ -16,7 +16,7 @@ export default defineConfig(() => ({
       setupFiles: 'list',
     },
     include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
-    setupFiles: ['@analogjs/vitest-angular/setup-zone', 'src/test-setup.ts'],
+    setupFiles: ['src/setup-zone-once.ts', 'src/test-setup.ts'],
     reporters: ['default'],
     coverage: {
       reportsDirectory: '../../coverage/libs/i18n',
