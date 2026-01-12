@@ -26,7 +26,9 @@
       "@cocoar/markdown-viewer": ["libs/markdown-viewer/src/index.ts"],
       "@cocoar/ui-menu": ["libs/ui-menu/src/index.ts"],
       "@cocoar/scenar-abstractions": ["libs/scenar/scenar-abstractions/src/index.ts"],
-      "@cocoar/scenar-testing-playwright": ["libs/scenar/scenar-testing-playwright/src/index.ts"]
+      "@cocoar/scenar-testing-playwright": ["libs/scenar/scenar-testing-playwright/src/index.ts"],
+      "@cocoar/i18n": ["libs/i18n/src/index.ts"],
+      "@cocoar/i18n-transloco": ["libs/i18n-transloco/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

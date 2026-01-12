@@ -1,0 +1,31 @@
+{
+  "name": "@cocoar/i18n",
+  "version": "0.0.1",
+  "description": "Core i18n abstraction for the Cocoar Design System",
+  "author": "Cocoar",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cocoar-dev/cocoar-ui.git",
+    "directory": "libs/i18n"
+  },
+  "bugs": {
+    "url": "https://github.com/cocoar-dev/cocoar-ui/issues"
+  },
+  "homepage": "https://github.com/cocoar-dev/cocoar-ui",
+  "keywords": [
+    "angular",
+    "i18n",
+    "internationalization",
+    "localization",
+    "cocoar"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@angular/core": "^21.0.0",
+    "rxjs": "^7.0.0"
+  },
+  "sideEffects": false
+}

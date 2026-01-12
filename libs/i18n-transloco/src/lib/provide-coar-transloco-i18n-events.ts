@@ -1,0 +1,38 @@
+import { Provider } from '@angular/core';
+import { TranslocoService } from '@jsverse/transloco';
+import { COAR_I18N_EVENTS, CoarI18nEvents } from '@cocoar/i18n';
+import { map } from 'rxjs/operators';
+
+/**
+ * Provides COAR_I18N_EVENTS backed by TranslocoService.langChanges$.
+ *
+ * This provider connects Transloco's language change notifications to
+ * the Cocoar i18n events contract, enabling runtime language switching
+ * in COAR UI components and pipes.
+ *
+ * @example
+ * ```ts
+ * import { provideTransloco } from '@jsverse/transloco';
+ * import {
+ *   provideCoarTranslocoI18n,
+ *   provideCoarTranslocoI18nEvents
+ * } from '@cocoar/i18n-transloco';
+ *
+ * export const appConfig: ApplicationConfig = {
+ *   providers: [
+ *     provideTransloco({ ... }),
+ *     provideCoarTranslocoI18n(),
+ *     provideCoarTranslocoI18nEvents(),
+ *   ],
+ * };
+ * ```
+ */
+export function provideCoarTranslocoI18nEvents(): Provider {
+  return {
+    provide: COAR_I18N_EVENTS,
+    useFactory: (transloco: TranslocoService): CoarI18nEvents => ({
+      languageChanged$: transloco.langChanges$.pipe(map(() => void 0)),
+    }),
+    deps: [TranslocoService],
+  };
+}

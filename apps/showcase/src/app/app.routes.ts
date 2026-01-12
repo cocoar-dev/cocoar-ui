@@ -153,4 +153,8 @@ export const appRoutes: Route[] = [
     path: 'sidebar',
     loadComponent: () => import('./pages/sidebar/sidebar.page').then((m) => m.SidebarPage),
   },
+  {
+    path: 'i18n-pipe',
+    loadComponent: () => import('./pages/i18n-pipe/i18n-pipe.page').then((m) => m.I18nPipePage),
+  },
 ];
