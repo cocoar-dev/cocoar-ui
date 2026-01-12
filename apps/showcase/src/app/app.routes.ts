@@ -39,6 +39,10 @@ export const appRoutes: Route[] = [
       import('./pages/localization/localization.page').then((m) => m.LocalizationPage),
   },
   {
+    path: 'i18n',
+    loadComponent: () => import('./pages/i18n/i18n.page').then((m) => m.I18nPage),
+  },
+  {
     path: 'code-block',
     loadComponent: () => import('./pages/code-block/code-block.page').then((m) => m.CodeBlockPage),
   },

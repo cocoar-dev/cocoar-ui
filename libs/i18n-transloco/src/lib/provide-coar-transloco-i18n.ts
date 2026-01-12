@@ -12,12 +12,12 @@ import { COAR_I18N_PROVIDER, CoarI18nProvider } from '@cocoar/i18n';
  * @example
  * ```ts
  * import { provideTransloco } from '@jsverse/transloco';
- * import { provideCoarTranslocoI18n } from '@cocoar/i18n-transloco';
+ * import { provideCoarI18nUsingTransloco } from '@cocoar/i18n-transloco';
  *
  * export const appConfig: ApplicationConfig = {
  *   providers: [
  *     provideTransloco({ ... }),
- *     provideCoarTranslocoI18n(),
+ *     ...provideCoarI18nUsingTransloco(),
  *   ],
  * };
  * ```

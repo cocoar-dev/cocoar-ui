@@ -1,7 +1,10 @@
 {
   "extends": "./tsconfig.lib.json",
   "compilerOptions": {
-    "declarationMap": false
+    "declarationMap": false,
+    "paths": {
+      "@cocoar/ts-utils": ["../../dist/shared/ts-utils/src/index.d.ts"]
+    }
   },
   "angularCompilerOptions": {
     "compilationMode": "partial"

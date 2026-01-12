@@ -13,16 +13,12 @@ import { map } from 'rxjs/operators';
  * @example
  * ```ts
  * import { provideTransloco } from '@jsverse/transloco';
- * import {
- *   provideCoarTranslocoI18n,
- *   provideCoarTranslocoI18nEvents
- * } from '@cocoar/i18n-transloco';
+ * import { provideCoarI18nUsingTransloco } from '@cocoar/i18n-transloco';
  *
  * export const appConfig: ApplicationConfig = {
  *   providers: [
  *     provideTransloco({ ... }),
- *     provideCoarTranslocoI18n(),
- *     provideCoarTranslocoI18nEvents(),
+ *     ...provideCoarI18nUsingTransloco(),
  *   ],
  * };
  * ```

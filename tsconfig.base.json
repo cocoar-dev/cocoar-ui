@@ -28,7 +28,8 @@
       "@cocoar/scenar-abstractions": ["libs/scenar/scenar-abstractions/src/index.ts"],
       "@cocoar/scenar-testing-playwright": ["libs/scenar/scenar-testing-playwright/src/index.ts"],
       "@cocoar/i18n": ["libs/i18n/src/index.ts"],
-      "@cocoar/i18n-transloco": ["libs/i18n-transloco/src/index.ts"]
+      "@cocoar/i18n-transloco": ["libs/i18n-transloco/src/index.ts"],
+      "@cocoar/ts-utils": ["shared/ts-utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

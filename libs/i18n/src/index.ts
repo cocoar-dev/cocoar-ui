@@ -6,5 +6,3 @@ export * from './lib/coar-default-i18n';
 export * from './lib/provide-coar-default-i18n';
 export * from './lib/coar-i18n.pipe';
 export * from './lib/coar-is-missing-translation';
-export * from './lib/coar-t-with-default';
-export * from './lib/coar-t-observable';

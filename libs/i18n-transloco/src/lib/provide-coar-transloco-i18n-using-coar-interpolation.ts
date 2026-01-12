@@ -1,10 +1,6 @@
 import { Provider } from '@angular/core';
 import { TranslocoService } from '@jsverse/transloco';
-import {
-  COAR_I18N_PROVIDER,
-  CoarI18nProvider,
-  coarInterpolate,
-} from '@cocoar/i18n';
+import { COAR_I18N_PROVIDER, CoarI18nProvider, coarInterpolate } from '@cocoar/i18n';
 
 /**
  * Provides COAR_I18N_PROVIDER backed by TranslocoService with strict Cocoar interpolation.
@@ -16,12 +12,12 @@ import {
  * @example
  * ```ts
  * import { provideTransloco } from '@jsverse/transloco';
- * import { provideCoarTranslocoI18nUsingCoarInterpolation } from '@cocoar/i18n-transloco';
+ * import { provideCoarI18nUsingTranslocoWithCoarInterpolation } from '@cocoar/i18n-transloco';
  *
  * export const appConfig: ApplicationConfig = {
  *   providers: [
  *     provideTransloco({ ... }),
- *     provideCoarTranslocoI18nUsingCoarInterpolation(),
+ *     ...provideCoarI18nUsingTranslocoWithCoarInterpolation(),
  *   ],
  * };
  * ```

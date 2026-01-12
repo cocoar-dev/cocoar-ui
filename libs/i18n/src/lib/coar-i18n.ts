@@ -1,9 +1,10 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, Signal, inject } from '@angular/core';
 import { COAR_I18N_PROVIDER } from './coar-i18n-provider';
 import { coarIsMissingTranslation } from './coar-is-missing-translation';
 import { coarInterpolate } from './coar-interpolate';
 import { distinctUntilChanged, map, Observable, of, startWith } from 'rxjs';
 import { COAR_I18N_EVENTS } from './coar-i18n-events';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable({ providedIn: 'root' })
 export class CoarI18n {
@@ -22,7 +23,7 @@ export class CoarI18n {
   t(key: string): string;
   t(key: string, fallback: string): string;
   t(key: string, params: Record<string, unknown>): string;
-  t(key: string, fallback: string, params: Record<string, unknown>): string;
+  t(key: string, fallback: string, params?: Record<string, unknown>): string;
   t(
     key: string,
     fallbackOrParams?: string | Record<string, unknown>,
@@ -43,9 +44,9 @@ export class CoarI18n {
 
     const raw = this.provider.t(key, params);
 
-    const base = coarIsMissingTranslation(key, raw) ? (fallback ?? key) : raw!;
+    const base = coarIsMissingTranslation(key, raw) ? (fallback ?? key) : (raw ?? '');
 
-    // Wichtig: auch Fallback oder Key können {placeholders} enthalten
+    // Important: the fallback (and even the key) may contain {placeholders}
     return coarInterpolate(base, params);
   }
 
@@ -53,12 +54,12 @@ export class CoarI18n {
    * Reactive variant that updates when the language changes (if events are wired).
    */
   t$(key: string, params?: Record<string, unknown>, fallback?: string): Observable<string> {
-    // Keine Events → einmalig auswerten
+    // No events → evaluate once
     if (!this.events) {
       return of(this.callT(key, params, fallback));
     }
 
-    // Mit Events → bei jedem Sprachwechsel neu auswerten
+    // With events → re-evaluate on every language change
     return this.events.languageChanged$.pipe(
       startWith<void>(undefined),
       map(() => this.callT(key, params, fallback)),
@@ -66,7 +67,14 @@ export class CoarI18n {
     );
   }
 
-  // Kleiner Helfer, damit die Overload-Matrix in t$ nicht hässlich wird
+  tSignal(key: string, params?: Record<string, unknown>, fallback?: string): Signal<string> {
+    const obs$ = this.t$(key, params, fallback);
+    return toSignal(obs$, {
+      initialValue: this.callT(key, params, fallback),
+    });
+  }
+
+  // Small helper so t$ doesn't need to replicate the overload matrix.
   private callT(key: string, params?: Record<string, unknown>, fallback?: string): string {
     if (params && fallback !== undefined) {
       // t(key, fallback, params)

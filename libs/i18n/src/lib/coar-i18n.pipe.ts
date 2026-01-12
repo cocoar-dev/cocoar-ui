@@ -1,90 +1,81 @@
-import { ChangeDetectorRef, OnDestroy, Pipe, PipeTransform, inject } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { ChangeDetectorRef, Pipe, PipeTransform, inject, OnDestroy } from '@angular/core';
 import { CoarI18n } from './coar-i18n';
-import { COAR_I18N_EVENTS } from './coar-i18n-events';
-import { coarIsMissingTranslation } from './coar-is-missing-translation';
+import { BehaviorSubjectProxy } from '@cocoar/ts-utils';
 
-/**
- * Angular pipe for translating i18n keys in templates.
- *
- * Supports runtime language changes when COAR_I18N_EVENTS is provided.
- * The pipe is impure to react to language changes and parameter changes.
- *
- * @example
- * ```html
- * <!-- Simple key -->
- * <span>{{ 'coar.datePicker.today' | coarI18n }}</span>
- *
- * <!-- With fallback default -->
- * <span>{{ 'coar.button.save' | coarI18n:'Save' }}</span>
- *
- * <!-- With parameters -->
- * <span>{{ 'coar.items.count' | coarI18n:{ count: items.length } }}</span>
- *
- * <!-- With parameters and fallback -->
- * <span>{{ 'coar.items.count' | coarI18n:{ count: items.length }:'You have {count} items.' }}</span>
- *
- * <!-- Chaining with other pipes -->
- * <h2>{{ 'coar.alert.title' | coarI18n:'Alert' | uppercase }}</h2>
- * ```
- */
 @Pipe({
   name: 'coarI18n',
   standalone: true,
-  pure: false, // Allows reaction to language changes and param changes
+  pure: false, // Required because translations can change at runtime
 })
 export class CoarI18nPipe implements PipeTransform, OnDestroy {
   private readonly i18n = inject(CoarI18n);
-  private readonly events = inject(COAR_I18N_EVENTS, { optional: true });
   private readonly cdr = inject(ChangeDetectorRef);
-  private langSub?: Subscription;
 
-  constructor() {
-    // Subscribe to language changes if events are available
-    if (this.events) {
-      this.langSub = this.events.languageChanged$.subscribe(() => {
-        // Mark view for check so Angular re-evaluates the pipe
-        this.cdr.markForCheck();
-      });
-    }
-  }
+  private readonly subject = new BehaviorSubjectProxy<string>('');
+
+  private lastKey?: string;
+  private lastParamsJson?: string;
+  private lastFallback?: string;
 
   transform(
     key: string | null | undefined,
     paramsOrFallback?: Record<string, unknown> | string,
-    maybeFallback?: string
+    maybeFallbackOrParams?: string | Record<string, unknown>
   ): string {
     if (!key) {
-      // No key provided → use fallback if available
+      // If there's no key, return fallback if one exists
       if (typeof paramsOrFallback === 'string') {
         return paramsOrFallback;
       }
-      return maybeFallback ?? '';
+      if (typeof maybeFallbackOrParams === 'string') {
+        return maybeFallbackOrParams;
+      }
+      return '';
     }
 
+    // Normal param/fallback dispatching (same as in your earlier version)
     let params: Record<string, unknown> | undefined;
     let fallback: string | undefined;
 
-    // Determine if first argument is params or fallback
+    // Case A — first argument is fallback (string)
     if (typeof paramsOrFallback === 'string') {
       fallback = paramsOrFallback;
+      if (maybeFallbackOrParams && typeof maybeFallbackOrParams === 'object') {
+        params = maybeFallbackOrParams as Record<string, unknown>;
+      }
     } else {
-      params = paramsOrFallback;
-      fallback = maybeFallback;
+      // Case B — first argument is params (object)
+      params = paramsOrFallback ?? undefined;
+      if (typeof maybeFallbackOrParams === 'string') {
+        fallback = maybeFallbackOrParams;
+      }
     }
 
-    // Call the appropriate overload based on params being defined
-    const result = params !== undefined ? this.i18n.t(key, params) : this.i18n.t(key);
+    // Compare inputs to determine if a new subscription is needed
+    const paramsJson = params ? JSON.stringify(params) : undefined;
 
-    // Use unified missing-translation semantics
-    if (coarIsMissingTranslation(key, result)) {
-      return fallback ?? result ?? '';
+    if (
+      key !== this.lastKey ||
+      fallback !== this.lastFallback ||
+      paramsJson !== this.lastParamsJson
+    ) {
+      this.lastKey = key;
+      this.lastFallback = fallback;
+      this.lastParamsJson = paramsJson;
+
+      // Switch Observable completely using BehaviorSubjectProxy
+      this.subject.next(this.i18n.t$(key, params, fallback));
+
+      // Update the view when new translated values arrive
+      this.subject.subscribe(() => {
+        this.cdr.markForCheck();
+      });
     }
 
-    return result;
+    return this.subject.value;
   }
 
   ngOnDestroy(): void {
-    this.langSub?.unsubscribe();
+    this.subject.unsubscribe();
   }
 }

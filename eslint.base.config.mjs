@@ -14,7 +14,11 @@ export default [
         'error',
         {
           enforceBuildableLibDependency: true,
-          allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$', '^@cocoar/scenar($|/)'],
+          allow: [
+            '^.*/eslint(\\.base)?\\.config\\.[cm]?[jt]s$',
+            '^@cocoar/scenar($|/)',
+            '^@cocoar/ts-utils($|/)',
+          ],
           depConstraints: [
             {
               sourceTag: '*',

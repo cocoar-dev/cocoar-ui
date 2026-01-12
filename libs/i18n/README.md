@@ -8,20 +8,20 @@ This library provides a framework-agnostic i18n contract that COAR UI components
 
 ## Features
 
-- **CoarI18n** interface - Core translation contract
+- **CoarI18n** service - Core translation API (with overloads)
 - **CoarI18nEvents** - Optional language change events
 - **coarInterpolate** - Placeholder interpolation helper (`{name}` syntax)
 - **CoarDefaultI18n** - Minimal passthrough implementation (returns key unchanged)
 - **CoarI18nPipe** - Angular pipe for template usage with optional default values
 - **coarIsMissingTranslation** - Unified missing-translation detection
-- **coarTWithDefault** - TypeScript helper for translations with defaults
-- **coarT$** - Observable-based helper for reactive translations
 
 ## Installation
 
 ```bash
 pnpm add @cocoar/i18n
 ```
+
+Note: `@cocoar/i18n` brings its internal helper dependencies (like `@cocoar/ts-utils`) automatically. You don't need to install them manually.
 
 ## Usage
 
@@ -44,67 +44,76 @@ pnpm add @cocoar/i18n
 {{ 'coar.button.save' | coarI18n:'Save' | uppercase }}
 ```
 
-### TypeScript Helpers
+### TypeScript Usage
 
-#### coarTWithDefault - Simple synchronous helper
+#### Synchronous usage via `CoarI18n.t()`
 
 ```typescript
 import { inject } from '@angular/core';
-import { COAR_I18N, coarTWithDefault } from '@cocoar/i18n';
+import { CoarI18n } from '@cocoar/i18n';
 
 export class MyComponent {
-  private readonly i18n = inject(COAR_I18N);
+  private readonly i18n = inject(CoarI18n);
 
-  label = coarTWithDefault(this.i18n, 'coar.button.save', 'Save');
+  label = this.i18n.t('coar.button.save', 'Save');
 
   getMessage(count: number) {
-    return coarTWithDefault(
-      this.i18n,
-      'coar.items.count',
-      'You have {count} items.',
-      { count }
-    );
+    return this.i18n.t('coar.items.count', 'You have {count} items.', { count });
   }
 }
 ```
 
-#### coarT$ - Reactive observable helper
+#### Reactive usage via `CoarI18n.t$()`
 
 ```typescript
 import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { COAR_I18N, COAR_I18N_EVENTS, coarT$ } from '@cocoar/i18n';
+import { CoarI18n } from '@cocoar/i18n';
 
 @Component({
   selector: 'app-example',
   template: `<h1>{{ title() }}</h1>`,
 })
 export class ExampleComponent {
-  private readonly i18n = inject(COAR_I18N);
-  private readonly events = inject(COAR_I18N_EVENTS, { optional: true });
+  private readonly i18n = inject(CoarI18n);
 
   readonly title = toSignal(
-    coarT$(this.i18n, this.events, 'coar.alert.errorTitle', undefined, 'Error')
+    this.i18n.t$('coar.alert.errorTitle', undefined, 'Error')
   );
 }
 ```
 
-#### Reactive usage with language changes
+#### Signal usage via `CoarI18n.tSignal()`
+
+If you prefer Signals directly:
+
+```typescript
+import { Component, inject } from '@angular/core';
+import { CoarI18n } from '@cocoar/i18n';
+
+@Component({
+  selector: 'app-example',
+  template: `<h1>{{ title() }}</h1>`,
+})
+export class ExampleComponent {
+  private readonly i18n = inject(CoarI18n);
+
+  readonly title = this.i18n.tSignal('coar.alert.errorTitle', undefined, 'Error');
+}
+```
+
+#### Manual subscriptions (optional)
 
 ```typescript
 import { Component, DestroyRef, inject, signal } from '@angular/core';
-import {
-  COAR_I18N,
-  COAR_I18N_EVENTS,
-  coarTWithDefault,
-} from '@cocoar/i18n';
+import { CoarI18n, COAR_I18N_EVENTS } from '@cocoar/i18n';
 
 @Component({
   selector: 'coar-menu',
   template: `<button>{{ closeLabel() }}</button>`,
 })
 export class CoarMenuComponent {
-  private readonly i18n = inject(COAR_I18N);
+  private readonly i18n = inject(CoarI18n);
   private readonly events = inject(COAR_I18N_EVENTS, { optional: true });
   private readonly destroyRef = inject(DestroyRef);
 
@@ -113,7 +122,7 @@ export class CoarMenuComponent {
   constructor() {
     const updateLabels = () => {
       this.closeLabel.set(
-        coarTWithDefault(this.i18n, 'coar.menu.close', 'Close')
+        this.i18n.t('coar.menu.close', 'Close')
       );
     };
 

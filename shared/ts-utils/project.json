@@ -1,0 +1,41 @@
+{
+  "name": "ts-utils",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "shared/ts-utils/src",
+  "projectType": "library",
+  "release": {
+    "version": {
+      "manifestRootsToUpdate": ["dist/{projectRoot}"],
+      "currentVersionResolver": "git-tag",
+      "fallbackCurrentVersionResolver": "disk"
+    }
+  },
+  "tags": ["type:lib", "scope:shared"],
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/shared/ts-utils",
+        "main": "shared/ts-utils/src/index.ts",
+        "tsConfig": "shared/ts-utils/tsconfig.lib.json",
+        "assets": ["shared/ts-utils/*.md"]
+      }
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "reportsDirectory": "../../coverage/shared/ts-utils"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/shared/ts-utils"
+      }
+    }
+  }
+}

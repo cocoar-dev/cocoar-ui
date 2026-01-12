@@ -1,14 +1,12 @@
 import { ChangeDetectorRef, Injector, runInInjectionContext } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { describe, expect, it, vi } from 'vitest';
 
 import { CoarI18n } from './coar-i18n';
-import { COAR_I18N_EVENTS, CoarI18nEvents } from './coar-i18n-events';
 import { CoarI18nPipe } from './coar-i18n.pipe';
 
 function createPipe(options?: {
-  t?: (key: string, params?: Record<string, unknown>) => string;
-  events?: CoarI18nEvents;
+  t$?: (key: string, params?: Record<string, unknown>, fallback?: string) => Observable<string>;
   markForCheck?: () => void;
 }): {
   pipe: CoarI18nPipe;
@@ -18,17 +16,13 @@ function createPipe(options?: {
   const markForCheck = vi.fn(options?.markForCheck);
 
   const i18n = {
-    t: vi.fn(options?.t ?? ((key: string) => key)),
+    t$: vi.fn(options?.t$ ?? ((key: string) => of(key))),
   } as unknown as CoarI18n;
 
   const providers = [
     { provide: CoarI18n, useValue: i18n },
     { provide: ChangeDetectorRef, useValue: { markForCheck } },
   ];
-
-  if (options?.events) {
-    providers.push({ provide: COAR_I18N_EVENTS, useValue: options.events });
-  }
 
   const injector = Injector.create({ providers });
 
@@ -53,58 +47,76 @@ describe('CoarI18nPipe', () => {
   });
 
   it('translates a key without params', () => {
-    const { pipe, i18n } = createPipe({ t: () => 'Translated' });
+    const { pipe, i18n } = createPipe({ t$: () => of('Translated') });
 
     const result = pipe.transform('coar.button.save');
 
     expect(result).toBe('Translated');
-    expect(i18n.t as unknown as ReturnType<typeof vi.fn>).toHaveBeenCalledWith('coar.button.save');
+    expect(i18n.t$ as unknown as ReturnType<typeof vi.fn>).toHaveBeenCalledWith(
+      'coar.button.save',
+      undefined,
+      undefined
+    );
   });
 
   it('translates a key with params', () => {
-    const { pipe, i18n } = createPipe({ t: () => 'Count: 5' });
+    const { pipe, i18n } = createPipe({ t$: () => of('Count: 5') });
 
     const result = pipe.transform('coar.items.count', { count: 5 });
 
     expect(result).toBe('Count: 5');
-    expect(i18n.t as unknown as ReturnType<typeof vi.fn>).toHaveBeenCalledWith('coar.items.count', {
-      count: 5,
-    });
+    expect(i18n.t$ as unknown as ReturnType<typeof vi.fn>).toHaveBeenCalledWith(
+      'coar.items.count',
+      { count: 5 },
+      undefined
+    );
   });
 
-  it('uses fallback when translation is missing (translation equals key)', () => {
-    const { pipe } = createPipe({ t: (key) => key });
+  it('passes fallback to CoarI18n.t$ when provided', () => {
+    const { pipe, i18n } = createPipe({ t$: () => of('Save') });
 
     expect(pipe.transform('coar.button.save', 'Save')).toBe('Save');
+    expect(i18n.t$ as unknown as ReturnType<typeof vi.fn>).toHaveBeenCalledWith(
+      'coar.button.save',
+      undefined,
+      'Save'
+    );
   });
 
-  it('returns key when translation is missing and no fallback is provided', () => {
-    const { pipe } = createPipe({ t: (key) => key });
+  it('passes params + fallback to CoarI18n.t$ when both are provided', () => {
+    const { pipe, i18n } = createPipe({ t$: () => of('You have 3 items') });
 
-    expect(pipe.transform('coar.button.save')).toBe('coar.button.save');
+    expect(pipe.transform('coar.items.count', { count: 3 }, 'Fallback')).toBe('You have 3 items');
+    expect(i18n.t$ as unknown as ReturnType<typeof vi.fn>).toHaveBeenCalledWith(
+      'coar.items.count',
+      { count: 3 },
+      'Fallback'
+    );
   });
 
-  it('subscribes to language changes when COAR_I18N_EVENTS is provided', () => {
-    const languageChanged$ = new Subject<void>();
-    const events: CoarI18nEvents = { languageChanged$ };
+  it('does not re-subscribe when inputs are unchanged', () => {
+    const { pipe, i18n } = createPipe({ t$: () => of('Translated') });
 
-    const { pipe, markForCheck } = createPipe({ events });
+    expect(pipe.transform('coar.button.save')).toBe('Translated');
+    expect(pipe.transform('coar.button.save')).toBe('Translated');
 
-    expect(markForCheck).not.toHaveBeenCalled();
+    expect(i18n.t$ as unknown as ReturnType<typeof vi.fn>).toHaveBeenCalledTimes(1);
+  });
 
-    languageChanged$.next();
-    expect(markForCheck).toHaveBeenCalledTimes(1);
+  it('marks for check when a new translated value arrives', () => {
+    const translated$ = new Subject<string>();
+    const { pipe, markForCheck } = createPipe({ t$: () => translated$ });
+
+    // Initial render wires up the subscription.
+    pipe.transform('coar.button.save');
+
+    expect(markForCheck).toHaveBeenCalledTimes(1); // initial BehaviorSubject emission
+
+    translated$.next('Hello');
+    expect(markForCheck).toHaveBeenCalledTimes(2);
 
     pipe.ngOnDestroy();
-
-    languageChanged$.next();
-    expect(markForCheck).toHaveBeenCalledTimes(1);
-  });
-
-  it('does not require COAR_I18N_EVENTS', () => {
-    const { pipe } = createPipe();
-
-    expect(() => pipe.transform('coar.button.save', 'Save')).not.toThrow();
-    pipe.ngOnDestroy();
+    translated$.next('Hallo');
+    expect(markForCheck).toHaveBeenCalledTimes(2);
   });
 });

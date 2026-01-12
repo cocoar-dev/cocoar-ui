@@ -9,7 +9,9 @@ This library bridges `@cocoar/i18n` with Transloco, allowing COAR UI components 
 ## Features
 
 - **provideCoarTranslocoI18n** - Connects COAR_I18N to TranslocoService
+- **provideCoarTranslocoI18nUsingCoarInterpolation** - Same provider, but uses Cocoar `{name}` interpolation
 - **provideCoarTranslocoI18nEvents** - Connects COAR_I18N_EVENTS to Transloco language changes
+- **provideCoarI18nUsingTransloco** - Convenience providers (provider + events + CoarI18n)
 
 ## Installation
 
@@ -21,7 +23,7 @@ pnpm add @cocoar/i18n-transloco @jsverse/transloco
 
 ```typescript
 import { provideTransloco } from '@jsverse/transloco';
-import { provideCoarTranslocoI18n, provideCoarTranslocoI18nEvents } from '@cocoar/i18n-transloco';
+import { provideCoarI18nUsingTransloco } from '@cocoar/i18n-transloco';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -32,8 +34,7 @@ export const appConfig: ApplicationConfig = {
       },
       loader: YourTranslocoLoader,
     }),
-    provideCoarTranslocoI18n(),
-    provideCoarTranslocoI18nEvents(),
+    ...provideCoarI18nUsingTransloco(),
   ],
 };
 ```
