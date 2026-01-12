@@ -69,7 +69,8 @@ jobs:
           echo "Setting version to: $VERSION"
 
           # Update version in all publishable package.json files
-          for pkg in dist/libs/*/package.json; do
+          shopt -s nullglob
+          for pkg in dist/libs/*/package.json dist/shared/*/package.json; do
             if [ -f "$pkg" ]; then
               echo "Updating $pkg to version $VERSION"
               jq --arg v "$VERSION" '.version = $v' "$pkg" > tmp.json && mv tmp.json "$pkg"
@@ -94,7 +95,8 @@ jobs:
       - name: Pack npm packages
         run: |
           mkdir -p artifacts
-          for pkg_dir in dist/libs/*; do
+          shopt -s nullglob
+          for pkg_dir in dist/libs/* dist/shared/*; do
             if [ -d "$pkg_dir" ] && [ -f "$pkg_dir/package.json" ]; then
               echo "Packing $pkg_dir"
               (cd "$pkg_dir" && npm pack --pack-destination ../../../artifacts)

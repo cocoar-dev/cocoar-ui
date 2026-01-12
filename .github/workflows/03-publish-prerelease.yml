@@ -85,7 +85,8 @@ jobs:
 
       - name: Update package versions
         run: |
-          for pkg in dist/libs/*/package.json; do
+          shopt -s nullglob
+          for pkg in dist/libs/*/package.json dist/shared/*/package.json; do
             if [ -f "$pkg" ]; then
               echo "Updating $pkg to version $PACKAGE_VERSION"
               jq --arg v "$PACKAGE_VERSION" '.version = $v' "$pkg" > tmp.json && mv tmp.json "$pkg"
@@ -109,7 +110,8 @@ jobs:
       - name: Pack npm packages
         run: |
           mkdir -p artifacts
-          for pkg_dir in dist/libs/*; do
+          shopt -s nullglob
+          for pkg_dir in dist/libs/* dist/shared/*; do
             if [ -d "$pkg_dir" ] && [ -f "$pkg_dir/package.json" ]; then
               echo "Packing $pkg_dir"
               (cd "$pkg_dir" && npm pack --pack-destination ../../../artifacts) || echo "Skipped private package"
@@ -131,7 +133,7 @@ jobs:
         shell: bash
         run: |
           shopt -s nullglob
-          for pkg_dir in dist/libs/*; do
+          for pkg_dir in dist/libs/* dist/shared/*; do
             if [ -d "$pkg_dir" ] && [ -f "$pkg_dir/package.json" ]; then
               PKG_NAME=$(jq -r '.name' "$pkg_dir/package.json")
               PKG_VERSION=$(jq -r '.version' "$pkg_dir/package.json")

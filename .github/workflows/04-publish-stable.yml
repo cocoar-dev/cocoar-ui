@@ -81,7 +81,8 @@ jobs:
 
       - name: Update package versions
         run: |
-          for pkg in dist/libs/*/package.json; do
+          shopt -s nullglob
+          for pkg in dist/libs/*/package.json dist/shared/*/package.json; do
             if [ -f "$pkg" ]; then
               echo "Updating $pkg to version $RELEASE_VERSION"
               jq --arg v "$RELEASE_VERSION" '.version = $v' "$pkg" > tmp.json && mv tmp.json "$pkg"
@@ -105,7 +106,8 @@ jobs:
       - name: Pack npm packages
         run: |
           mkdir -p artifacts
-          for pkg_dir in dist/libs/*; do
+          shopt -s nullglob
+          for pkg_dir in dist/libs/* dist/shared/*; do
             if [ -d "$pkg_dir" ] && [ -f "$pkg_dir/package.json" ]; then
               echo "Packing $pkg_dir"
               (cd "$pkg_dir" && npm pack --pack-destination ../../../artifacts)
@@ -128,7 +130,8 @@ jobs:
       #
       # - name: Publish to npmjs.com
       #   run: |
-      #     for pkg_dir in dist/libs/*; do
+      #     shopt -s nullglob
+      #     for pkg_dir in dist/libs/* dist/shared/*; do
       #       if [ -d "$pkg_dir" ] && [ -f "$pkg_dir/package.json" ]; then
       #         PKG_NAME=$(jq -r '.name' "$pkg_dir/package.json")
       #         echo "Publishing $PKG_NAME@$RELEASE_VERSION"
