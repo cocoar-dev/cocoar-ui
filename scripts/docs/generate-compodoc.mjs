@@ -9,7 +9,15 @@
  */
 
 import { execSync } from 'child_process';
-import { copyFileSync, mkdirSync, existsSync, readdirSync, statSync, readFileSync, writeFileSync } from 'fs';
+import {
+  copyFileSync,
+  mkdirSync,
+  existsSync,
+  readdirSync,
+  statSync,
+  readFileSync,
+  writeFileSync,
+} from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -24,6 +32,7 @@ const LIBRARIES = [
   'ui-menu',
   'ui-overlay',
   'markdown-viewer',
+  'i18n',
   'logging',
   'logging-abstractions',
 ];
@@ -39,22 +48,22 @@ if (!existsSync(API_OUTPUT_DIR)) {
 for (const lib of LIBRARIES) {
   const libPath = join(ROOT_DIR, 'libs', lib);
   const configFile = join(libPath, '.compodocrc.json');
-  
+
   if (!existsSync(configFile)) {
     console.warn(`⚠️  Skipping ${lib} - no .compodocrc.json found`);
     continue;
   }
 
   console.log(`📖 Generating docs for @cocoar/${lib}...`);
-  
+
   try {
     // Run Compodoc from the library directory (config paths are relative to lib)
     const result = execSync(
       `npx compodoc -p tsconfig.lib.json -d ${join('../../tmp/compodoc', lib)} --exportFormat json --silent`,
-      { 
+      {
         cwd: libPath,
         stdio: 'pipe',
-        encoding: 'utf-8'
+        encoding: 'utf-8',
       }
     );
 
@@ -68,7 +77,7 @@ for (const lib of LIBRARIES) {
     } else {
       console.warn(`   ⚠️  No documentation.json generated for ${lib}\n`);
       // Show last few lines of compodoc output for debugging
-      const lines = result.split('\n').filter(l => l.trim());
+      const lines = result.split('\n').filter((l) => l.trim());
       if (lines.length > 0) {
         console.log(`   Last output: ${lines[lines.length - 1]}`);
       }
@@ -89,10 +98,10 @@ const indexData = {
   schemaVersion: 2,
   generatedAt: new Date().toISOString(),
   generator: 'Compodoc',
-  packages: LIBRARIES.map(lib => {
+  packages: LIBRARIES.map((lib) => {
     const jsonPath = join(API_OUTPUT_DIR, `${lib}.json`);
     let componentCount = 0;
-    
+
     if (existsSync(jsonPath)) {
       try {
         const data = JSON.parse(readFileSync(jsonPath, 'utf-8'));
@@ -105,9 +114,9 @@ const indexData = {
     return {
       name: `@cocoar/${lib}`,
       apiFile: `./${lib}.json`,
-      componentCount
+      componentCount,
     };
-  })
+  }),
 };
 
 const indexPath = join(API_OUTPUT_DIR, 'index.json');
@@ -117,6 +126,6 @@ console.log('   ✓ Created libs/ui-docs/api/index.json\n');
 console.log('✅ API documentation generation complete!\n');
 console.log(`📁 Output: libs/ui-docs/api/`);
 console.log(`   - index.json (package index for AI discovery)`);
-LIBRARIES.forEach(lib => {
+LIBRARIES.forEach((lib) => {
   console.log(`   - ${lib}.json`);
 });
