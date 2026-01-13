@@ -111,9 +111,6 @@ importers:
       '@eslint/js':
         specifier: ^9.8.0
         version: 9.39.1
-      '@jsverse/transloco':
-        specifier: ^8.2.0
-        version: 8.2.0(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2)(typescript@5.9.3)
       '@nx/angular':
         specifier: 22.3.3
         version: 22.3.3(7ed0aa3cf73f97b658b04988627e9558)
@@ -2020,19 +2017,6 @@ packages:
     engines: {node: '>=10.0'}
     peerDependencies:
       tslib: '2'
-
-  '@jsverse/transloco-utils@8.2.0':
-    resolution: {integrity: sha512-rDactF2Qmu4JKBpecyYLzD3spPZ0U+6wgoQS2OIcVraq5riV8eE3sPYb5dgL2wxMgGtJRuT8PgMMAD7LUOcCNw==}
-    engines: {node: '>=18'}
-
-  '@jsverse/transloco@8.2.0':
-    resolution: {integrity: sha512-5SU9mjmKHlTraW/GKSUsWEjt7ATBLzKcKd6w+mTbRrnU38ZyYdCJoR2W/ii8lWiRwhfgbXTFCsTUueW5Ak61WA==}
-    peerDependencies:
-      '@angular/core': '>=16.0.0'
-      rxjs: '>=6.0.0'
-
-  '@jsverse/utils@1.0.0-beta.5':
-    resolution: {integrity: sha512-z7IdlV6BdSeF3Veii8Yyk64KuyTjNIQnFaW5PAhmDx0wN29lB2BFp8WO6+tJPLPjtlz2yKeNrjkp1XqnMPaeHA==}
 
   '@leichtgewicht/ip-codec@2.0.5':
     resolution: {integrity: sha512-Vo+PSpZG2/fmgmiNzYK9qWRh8h/CHrwD0mo1h1DzL4yzHNSfWYujGTYsWGreD000gcgmZ7K4Ys6Tx9TxtsKdDw==}
@@ -4279,15 +4263,6 @@ packages:
   cosmiconfig@7.1.0:
     resolution: {integrity: sha512-AdmX6xUzdNASswsFtmwSt7Vj8po9IuqXm0UXz7QKPuEUmPB4XyjGfaAr2PSuELMwkRMVH1EpIkX5bTZGRB3eCA==}
     engines: {node: '>=10'}
-
-  cosmiconfig@8.3.6:
-    resolution: {integrity: sha512-kcZ6+W5QzcJ3P1Mt+83OUv/oHFqZHIx8DuxG6eZ5RGMERoLqp4BuGjhHLYGK+Kf5XVkQvqBSmAy/nGWN3qDgEA==}
-    engines: {node: '>=14'}
-    peerDependencies:
-      typescript: '>=4.9.5'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
 
   cosmiconfig@9.0.0:
     resolution: {integrity: sha512-itvL5h8RETACmOTFc4UfIyB2RfEHi71Ax6E/PivVxq9NseKbOWpeyHEOIbmAw1rs8Ak0VursQNww7lf7YtUwzg==}
@@ -11273,25 +11248,6 @@ snapshots:
       '@jsonjoy.com/codegen': 1.0.0(tslib@2.8.1)
       tslib: 2.8.1
 
-  '@jsverse/transloco-utils@8.2.0(typescript@5.9.3)':
-    dependencies:
-      cosmiconfig: 8.3.6(typescript@5.9.3)
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - typescript
-
-  '@jsverse/transloco@8.2.0(@angular/core@21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0))(rxjs@7.8.2)(typescript@5.9.3)':
-    dependencies:
-      '@angular/core': 21.0.6(@angular/compiler@21.0.6)(rxjs@7.8.2)(zone.js@0.16.0)
-      '@jsverse/transloco-utils': 8.2.0(typescript@5.9.3)
-      '@jsverse/utils': 1.0.0-beta.5
-      rxjs: 7.8.2
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - typescript
-
-  '@jsverse/utils@1.0.0-beta.5': {}
-
   '@leichtgewicht/ip-codec@2.0.5': {}
 
   '@listr2/prompt-adapter-inquirer@3.0.5(@inquirer/prompts@7.9.0(@types/node@20.19.9))(@types/node@20.19.9)(listr2@9.0.5)':
@@ -14071,15 +14027,6 @@ snapshots:
       parse-json: 5.2.0
       path-type: 4.0.0
       yaml: 1.10.2
-
-  cosmiconfig@8.3.6(typescript@5.9.3):
-    dependencies:
-      import-fresh: 3.3.1
-      js-yaml: 4.1.1
-      parse-json: 5.2.0
-      path-type: 4.0.0
-    optionalDependencies:
-      typescript: 5.9.3
 
   cosmiconfig@9.0.0(typescript@5.9.3):
     dependencies:

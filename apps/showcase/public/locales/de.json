@@ -1,0 +1,55 @@
+{
+  "code": "de",
+  "date": {
+    "pattern": "dd.mm.yyyy",
+    "firstDayOfWeek": 1,
+    "monthNames": [
+      "Januar",
+      "Februar",
+      "März",
+      "April",
+      "Mai",
+      "Juni",
+      "Juli",
+      "August",
+      "September",
+      "Oktober",
+      "November",
+      "Dezember"
+    ],
+    "monthNamesShort": [
+      "Jan",
+      "Feb",
+      "Mär",
+      "Apr",
+      "Mai",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Okt",
+      "Nov",
+      "Dez"
+    ],
+    "dayNames": ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"],
+    "dayNamesShort": ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
+    "amPm": ["AM", "PM"]
+  },
+  "number": {
+    "decimal": ",",
+    "group": ".",
+    "grouping": [3]
+  },
+  "currency": {
+    "default": "EUR",
+    "symbols": { "USD": "$", "EUR": "€", "GBP": "£" },
+    "position": "after",
+    "spacing": true,
+    "decimals": 2
+  },
+  "percent": {
+    "symbol": "%",
+    "spacing": true,
+    "decimals": 0
+  }
+}

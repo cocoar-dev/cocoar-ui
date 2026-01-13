@@ -91,7 +91,7 @@ It provides:
   - `queryRequired()` / `queryAll()` for ergonomic queries
 
 - Common testing utilities
-  - Locale stub: `createCoarLocaleServiceStub()` (for components using `COAR_LOCALE_SERVICE`)
+  - Locale stub: `createCoarLocalizationServiceStub()` (for components using `COAR_LOCALIZATION_SERVICE`)
   - Overlay helpers: `createCoarOverlayTestContainer()`, `cleanupCoarOverlays()`, `createCoarOverlayAttachmentResolver()`
   - Event helpers: `dispatchKeyboardEvent()`, `dispatchPointerEvent()`, `dispatchClick()`, `setInputValueAndBlur()`
   - Noop animations: `provideCoarNoopAnimations()`
@@ -131,13 +131,13 @@ This keeps per-library setup consistent and avoids duplicated boilerplate.
 ### Locale formatting stub
 
 This repo’s component libraries currently use locale *formatting* (numbers/dates), not a translation/i18n framework.
-If a component injects `COAR_LOCALE_SERVICE`, you can stub it like this:
+If a component injects `COAR_LOCALIZATION_SERVICE`, you can stub it like this:
 
 ```ts
-import { COAR_LOCALE_SERVICE } from '@cocoar/ui-components';
-import { createCoarLocaleServiceStub } from '@cocoar/testing-angular';
+import { COAR_LOCALIZATION_SERVICE } from '@cocoar/ui-components';
+import { createCoarLocalizationServiceStub } from '@cocoar/testing-angular';
 
-providers: [{ provide: COAR_LOCALE_SERVICE, useValue: createCoarLocaleServiceStub() }]
+providers: [{ provide: COAR_LOCALIZATION_SERVICE, useValue: createCoarLocalizationServiceStub() }]
 ```
 
 ### Overlays in unit tests

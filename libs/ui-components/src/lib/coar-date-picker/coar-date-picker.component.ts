@@ -27,7 +27,14 @@ import {
   coarProvideValueAccessor,
   CoarControlValueAccessor,
 } from '../forms/coar-control-value-accessor';
-import { COAR_LOCALE_SERVICE, type DateFormatConfig } from '../services/locale.service';
+
+/** Configuration for date formatting */
+export interface DateFormatConfig {
+  /** Date format pattern: 'dd.mm.yyyy', 'dd/mm/yyyy', 'mm/dd/yyyy', 'yyyy-mm-dd' */
+  readonly pattern: 'dd.mm.yyyy' | 'dd/mm/yyyy' | 'mm/dd/yyyy' | 'yyyy-mm-dd';
+  /** First day of week: 1 = Monday, 7 = Sunday */
+  readonly firstDayOfWeek: 1 | 7;
+}
 import { createOverlayBuilder, type OverlayRef, type Placement } from '@cocoar/ui-overlay';
 
 export type CoarDatePickerSize = 'xs' | 'sm' | 'md' | 'lg';
@@ -109,7 +116,6 @@ function getLocalizedWeekdays(locale: string, firstDayOfWeek: 1 | 7): string[] {
 export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.PlainDate | null> {
   private readonly elementRef = inject(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly localeService = inject(COAR_LOCALE_SERVICE, { optional: true });
   private readonly overlayBuilder = createOverlayBuilder();
 
   private overlayRef: OverlayRef | null = null;
@@ -274,7 +280,7 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
 
   /**
    * Effective date format configuration.
-   * Priority: input dateFormatConfig > locale service > fallback
+   * Priority: input dateFormatConfig > browser Intl detection > fallback
    */
   protected effectiveDateFormat = computed((): DateFormatConfig => {
     // 1. Direct config input takes highest priority
@@ -283,16 +289,25 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
       return directConfig;
     }
 
-    // 2. Use locale service if available
-    if (this.localeService) {
-      return this.localeService.getDateFormat(this.locale());
-    }
+    // 2. Detect from browser Intl (lightweight fallback)
+    const locale = this.locale() ?? navigator.language;
+    try {
+      const formatter = new Intl.DateTimeFormat(locale);
+      const parts = formatter.formatToParts(new Date(2024, 0, 15));
+      const dayIndex = parts.findIndex((p) => p.type === 'day');
+      const monthIndex = parts.findIndex((p) => p.type === 'month');
+      const yearIndex = parts.findIndex((p) => p.type === 'year');
 
-    // 3. Fallback to European format
-    return {
-      pattern: 'dd.mm.yyyy',
-      firstDayOfWeek: 1,
-    };
+      let pattern: DateFormatConfig['pattern'] = 'dd.mm.yyyy';
+      if (dayIndex < monthIndex && monthIndex < yearIndex) pattern = 'dd.mm.yyyy';
+      else if (monthIndex < dayIndex && dayIndex < yearIndex) pattern = 'mm/dd/yyyy';
+      else if (yearIndex < monthIndex && monthIndex < dayIndex) pattern = 'yyyy-mm-dd';
+
+      return { pattern, firstDayOfWeek: 1 };
+    } catch {
+      // 3. Fallback
+      return { pattern: 'dd.mm.yyyy', firstDayOfWeek: 1 };
+    }
   });
 
   /** Get the date format pattern */
@@ -319,7 +334,7 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
    * Priority: input locale > locale service default > browser locale
    */
   protected effectiveLocale = computed(() => {
-    return this.locale() ?? this.localeService?.getDefaultLocale() ?? navigator.language;
+    return this.locale() ?? navigator.language;
   });
 
   /** Whether the picker has an error state */

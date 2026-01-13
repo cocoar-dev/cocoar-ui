@@ -19,16 +19,16 @@
 
 ## DI Token
 
-### `COAR_LOCALE_SERVICE`
+### `COAR_LOCALIZATION_SERVICE`
 
-An Angular DI token that resolves to an `ICoarLocaleService`.
+An Angular DI token that resolves to an `ICoarLocalizationService`.
 
 - The token is `providedIn: 'root'`.
-- Default factory returns an instance of `CoarLocaleService`.
+- Default factory returns an instance of `CoarLocalizationService`.
 
 ## Interface
 
-### `ICoarLocaleService`
+### `ICoarLocalizationService`
 
 #### `getNumberFormat(locale?: string): NumberFormatConfig`
 Returns number separators for the provided `locale`, or for the current default locale if `locale` is omitted.
@@ -50,9 +50,9 @@ Registers an app-specific locale id with partial overrides:
 
 ## Default implementation
 
-### `CoarLocaleService`
+### `CoarLocalizationService`
 
-Default implementation used by `COAR_LOCALE_SERVICE`.
+Default implementation used by `COAR_LOCALIZATION_SERVICE`.
 
 Behavior highlights:
 

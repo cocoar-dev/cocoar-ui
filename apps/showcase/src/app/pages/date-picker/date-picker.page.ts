@@ -165,14 +165,14 @@ maxDate = Temporal.Now.plainDateISO().add({ months: 3 });
 />`;
 
   localeExample = `// Configure locale service at application level
-import { COAR_LOCALE_SERVICE } from '@cocoar/ui-components';
+import { COAR_LOCALIZATION_SERVICE } from '@cocoar/ui-components';
 
 // In app.config.ts or module providers
 providers: [
   {
-    provide: COAR_LOCALE_SERVICE,
+    provide: COAR_LOCALIZATION_SERVICE,
     useFactory: () => {
-      const service = new CoarLocaleService();
+      const service = new CoarLocalizationService();
       service.setDefaultLocale('de-AT'); // Sets application-wide default
       return service;
     }

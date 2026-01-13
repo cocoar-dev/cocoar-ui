@@ -1,0 +1,37 @@
+{
+  "name": "@cocoar/localization",
+  "version": "0.0.1",
+  "description": "Localization and language management for the Cocoar Design System",
+  "author": "Cocoar",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cocoar-dev/cocoar-ui.git",
+    "directory": "libs/localization"
+  },
+  "bugs": {
+    "url": "https://github.com/cocoar-dev/cocoar-ui/issues"
+  },
+  "homepage": "https://github.com/cocoar-dev/cocoar-ui",
+  "keywords": [
+    "angular",
+    "locale",
+    "language",
+    "internationalization",
+    "i18n",
+    "cocoar"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@js-temporal/polyfill": "^0.5.1",
+    "@angular/common": "21.0.6",
+    "@angular/core": "^21.0.0",
+    "rxjs": "^7.0.0"
+  },
+  "dependencies": {
+    "@cocoar/ts-utils": "^0.0.1"
+  },
+  "sideEffects": false
+}

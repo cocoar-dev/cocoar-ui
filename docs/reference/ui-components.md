@@ -547,4 +547,3 @@ Use as boolean attribute: `<coar-tag borderless>` or `[borderless]="true"` |
 
 ### Outputs
 None.
-

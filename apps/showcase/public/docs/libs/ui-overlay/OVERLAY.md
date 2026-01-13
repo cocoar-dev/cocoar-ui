@@ -1,4 +1,4 @@
-﻿# Cocoar Overlay System
+# Cocoar Overlay System
 
 The Cocoar Overlay System provides framework-pure primitives for floating UI like menus, tooltips, popovers, and dialogs.
 

@@ -24,6 +24,7 @@
   },
   "peerDependencies": {
     "@angular/core": "^20.3.0",
+    "@cocoar/localization": "^0.0.1",
     "@cocoar/ui-overlay": "^0.0.1",
     "@maskito/core": "^4.0.0",
     "@maskito/kit": "^4.0.0",

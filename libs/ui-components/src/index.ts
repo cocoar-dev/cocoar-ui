@@ -22,13 +22,3 @@ export * from './lib/coar-date-picker';
 
 // Forms
 export * from './lib/forms/coar-control-value-accessor';
-
-// Services
-export {
-  COAR_LOCALE_SERVICE,
-  CoarLocaleService,
-  type ICoarLocaleService,
-  type NumberFormatConfig,
-  type DateFormatConfig,
-  type LocaleConfig,
-} from './lib/services/locale.service';

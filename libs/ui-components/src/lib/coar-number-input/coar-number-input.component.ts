@@ -24,11 +24,12 @@ import {
 } from '../forms/coar-control-value-accessor';
 import { Maskito } from '@maskito/core';
 import { maskitoNumberOptionsGenerator } from '@maskito/kit';
-import {
-  COAR_LOCALE_SERVICE,
-  type ICoarLocaleService as _ICoarLocaleService,
-  type NumberFormatConfig,
-} from '../services/locale.service';
+
+/** Configuration for number formatting */
+export interface NumberFormatConfig {
+  readonly decimal: string;
+  readonly thousand: string;
+}
 
 export type CoarNumberInputSize = 'xs' | 'sm' | 'md' | 'lg';
 export type CoarNumberInputStepperButtons = 'none' | 'increment' | 'decrement' | 'both';
@@ -73,7 +74,6 @@ function transformStepperButtons(value: boolean | string): CoarNumberInputSteppe
 })
 export class CoarNumberInputComponent extends CoarControlValueAccessor<number | null> {
   private readonly destroyRef = inject(DestroyRef);
-  private readonly localeService = inject(COAR_LOCALE_SERVICE, { optional: true });
   private maskitoInstance?: Maskito;
 
   /** Label text displayed above the input */
@@ -251,9 +251,8 @@ export class CoarNumberInputComponent extends CoarControlValueAccessor<number | 
   /**
    * Resolve number format configuration with priority chain:
    * 1. numberFormat input (explicit config object)
-   * 2. localeService.getNumberFormat(locale) (service with locale override)
-   * 3. localeService.getNumberFormat() (service with default locale)
-   * 4. Hardcoded fallback { decimal: '.', thousand: '' }
+   * 2. Browser Intl.NumberFormat detection with locale
+   * 3. Hardcoded fallback { decimal: '.', thousand: '' }
    */
   private resolveNumberFormat(): NumberFormatConfig {
     // Priority 1: Explicit config object
@@ -262,12 +261,22 @@ export class CoarNumberInputComponent extends CoarControlValueAccessor<number | 
       return format;
     }
 
-    // Priority 2 & 3: Locale service (with optional locale override)
-    if (this.localeService) {
-      return this.localeService.getNumberFormat(this.locale());
+    // Priority 2: Use Intl.NumberFormat to detect format for the locale
+    const locale = this.locale();
+    if (locale) {
+      try {
+        const formatter = new Intl.NumberFormat(locale);
+        const parts = formatter.formatToParts(1000.1);
+        return {
+          decimal: parts.find((p) => p.type === 'decimal')?.value ?? '.',
+          thousand: parts.find((p) => p.type === 'group')?.value ?? '',
+        };
+      } catch {
+        // Intl failed, fall through to fallback
+      }
     }
 
-    // Priority 4: Fallback
+    // Priority 3: Fallback
     return { decimal: '.', thousand: '' };
   }
 

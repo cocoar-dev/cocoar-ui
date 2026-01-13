@@ -1,25 +1,18 @@
 import {
   ApplicationConfig,
-  Injectable,
-  inject,
   provideBrowserGlobalErrorListeners,
   provideZoneChangeDetection,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
-import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { provideHttpClient } from '@angular/common/http';
 import { appRoutes } from './app.routes';
 import { COAR_OVERLAY_SPEC_RESOLVERS, type OverlaySpec } from '@cocoar/ui-overlay';
-import { provideTransloco, type TranslocoLoader, type Translation } from '@jsverse/transloco';
-import { provideCoarI18nUsingTransloco } from '@cocoar/i18n-transloco';
-
-@Injectable({ providedIn: 'root' })
-class ShowcaseTranslocoHttpLoader implements TranslocoLoader {
-  private readonly http = inject(HttpClient);
-
-  getTranslation(lang: string) {
-    return this.http.get<Translation>(`/i18n/${lang}.json`);
-  }
-}
+import {
+  provideCoarLocalization,
+  provideCoarI18n,
+  provideCoarIntlLocalizationSource,
+  provideCoarHttpLocalizationSource,
+} from '@cocoar/localization';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,19 +20,19 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
     provideHttpClient(),
-    provideTransloco({
-      config: {
-        availableLangs: ['en', 'de'],
-        defaultLang: 'en',
-        reRenderOnLangChange: true,
-        prodMode: false,
-        missingHandler: {
-          logMissingKey: true,
-        },
-      },
-      loader: ShowcaseTranslocoHttpLoader,
+    // Configure locale (languages and default)
+    provideCoarLocalization({
+      availableLanguages: ['en', 'de'],
+      defaultLanguage: 'en',
     }),
-    ...provideCoarI18nUsingTransloco(),
+    // Add Intl as first source (complete defaults)
+    provideCoarIntlLocalizationSource(),
+    // Add HTTP as second source (business overrides)
+    provideCoarHttpLocalizationSource({
+      url: (lang: string) => `/locales/${lang}.json`,
+    }),
+    // Configure i18n (pure Cocoar implementation - no Transloco!)
+    provideCoarI18n(),
     {
       provide: COAR_OVERLAY_SPEC_RESOLVERS,
       multi: true,

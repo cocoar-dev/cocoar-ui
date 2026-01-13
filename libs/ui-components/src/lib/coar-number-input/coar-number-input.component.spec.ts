@@ -9,14 +9,7 @@ import {
   CoarNumberInputSize,
   CoarNumberInputStepperButtons,
 } from './coar-number-input.component';
-import { COAR_LOCALE_SERVICE, NumberFormatConfig } from '../services/locale.service';
-
-// Mock locale service
-class MockLocaleService {
-  getNumberFormat(locale?: string): NumberFormatConfig {
-    return { decimal: '.', thousand: '' };
-  }
-}
+import { provideCoarLocalization } from '@cocoar/localization';
 
 @Component({
   standalone: true,
@@ -37,7 +30,7 @@ describe('CoarNumberInputComponent', () => {
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
-        { provide: COAR_LOCALE_SERVICE, useClass: MockLocaleService },
+        provideCoarLocalization({ availableLanguages: ['en'], defaultLanguage: 'en' }),
       ],
     }).compileComponents();
 

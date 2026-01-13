@@ -18,8 +18,8 @@ In both cases, explicit component inputs should be preferred when the component 
 
 ## Basic idea
 
-- The service is accessed through the DI token `COAR_LOCALE_SERVICE`.
-- A default implementation (`CoarLocaleService`) is provided automatically.
+- The service is accessed through the DI token `COAR_LOCALIZATION_SERVICE`.
+- A default implementation (`CoarLocalizationService`) is provided automatically.
 - The default implementation derives formatting rules via browser `Intl.*` APIs.
 
 ## Choosing between “global default” and “per component”
@@ -30,12 +30,12 @@ If your application has a single, stable locale (or a user preference that is kn
 
 ```ts
 import { provideAppInitializer, inject } from '@angular/core';
-import { COAR_LOCALE_SERVICE } from '@cocoar/ui-components';
+import { COAR_LOCALIZATION_SERVICE } from '@cocoar/ui-components';
 
 export const appConfig = {
   providers: [
     provideAppInitializer(() => {
-      inject(COAR_LOCALE_SERVICE).setDefaultLocale('de-AT');
+      inject(COAR_LOCALIZATION_SERVICE).setDefaultLocale('de-AT');
     }),
   ],
 };
@@ -59,9 +59,9 @@ If you need a format that does not map cleanly to a standard locale, you can reg
 
 ```ts
 import { inject } from '@angular/core';
-import { COAR_LOCALE_SERVICE } from '@cocoar/ui-components';
+import { COAR_LOCALIZATION_SERVICE } from '@cocoar/ui-components';
 
-const localeService = inject(COAR_LOCALE_SERVICE);
+const localeService = inject(COAR_LOCALIZATION_SERVICE);
 
 localeService.registerLocale('finance-eu', {
   number: { decimal: ',', thousand: ' ' },
@@ -73,7 +73,7 @@ localeService.setDefaultLocale('finance-eu');
 
 ## When to provide your own implementation
 
-Provide a custom `ICoarLocaleService` when:
+Provide a custom `ICoarLocalizationService` when:
 
 - Your app already has a locale/format policy (tenant/user settings).
 - You want full control over defaults or persistence.

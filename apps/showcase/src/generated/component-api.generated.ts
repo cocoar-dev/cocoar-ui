@@ -1501,4 +1501,3 @@ export const TooltipOverlayApi: ComponentApi = {
   ],
   "outputs": []
 };
-

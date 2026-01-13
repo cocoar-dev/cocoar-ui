@@ -4,5 +4,5 @@ export * from './lib/dom';
 export * from './lib/browser-observers';
 export * from './lib/animations';
 export * from './lib/events';
-export * from './lib/locale-testing';
+export * from './lib/localization-testing';
 export * from './lib/overlay-testing';

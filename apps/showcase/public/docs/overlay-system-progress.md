@@ -1,4 +1,4 @@
-﻿# Overlay System - Progress Tracker
+# Overlay System - Progress Tracker
 
 This document tracks implementation progress for the Cocoar Overlay System.
 

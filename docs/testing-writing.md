@@ -59,13 +59,13 @@ import { provideCoarNoopAnimations } from '@cocoar/testing-angular';
 providers: [...provideCoarNoopAnimations()]
 ```
 
-- **Locale formatting** (`COAR_LOCALE_SERVICE`):
+- **Locale formatting** (`COAR_LOCALIZATION_SERVICE`):
 
 ```ts
-import { COAR_LOCALE_SERVICE } from '@cocoar/ui-components';
-import { createCoarLocaleServiceStub } from '@cocoar/testing-angular';
+import { COAR_LOCALIZATION_SERVICE } from '@cocoar/ui-components';
+import { createCoarLocalizationServiceStub } from '@cocoar/testing-angular';
 
-providers: [{ provide: COAR_LOCALE_SERVICE, useValue: createCoarLocaleServiceStub() }]
+providers: [{ provide: COAR_LOCALIZATION_SERVICE, useValue: createCoarLocalizationServiceStub() }]
 ```
 
 - **Overlays**: route overlays into a test container and clean up:
@@ -207,4 +207,3 @@ Implementation:
 - Avoid fixed delays (`waitForTimeout`) unless there is no alternative
 - Make the selector more stable (ARIA roles, explicit labels)
 - If a behavior is under product discussion or blocked by missing showcase examples, keep the test as a `test.fixme(...)` with an actionable reason
-
