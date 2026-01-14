@@ -40,7 +40,7 @@ import { CoarTranslationStore } from './coar-translation-store';
 export class CoarI18nService implements CoarI18nProvider {
   private readonly locale = inject(CoarLocalizationService);
   private readonly store = inject(CoarTranslationStore);
-  private readonly loader = inject(CoarTranslationLoader);
+  private readonly loader = inject(CoarTranslationLoader, { optional: true });
 
   /**
    * Signal containing all translations for the current language.
@@ -104,6 +104,12 @@ export class CoarI18nService implements CoarI18nProvider {
    * @returns Observable that completes when loading finishes
    */
   private loadLanguage(language: string): Observable<void> {
+    // No loader configured - mark as loaded with empty translations
+    if (!this.loader) {
+      this.store.setTranslations(language, {});
+      return of(void 0);
+    }
+
     return this.loader.loadTranslations(language).pipe(
       tap((translations) => {
         this.store.setTranslations(language, translations);
