@@ -59,13 +59,22 @@ import { provideCoarNoopAnimations } from '@cocoar/testing-angular';
 providers: [...provideCoarNoopAnimations()]
 ```
 
-- **Locale formatting** (`COAR_LOCALIZATION_SERVICE`):
+- **Localization** (`CoarLocalizationService`):
 
 ```ts
-import { COAR_LOCALIZATION_SERVICE } from '@cocoar/ui-components';
-import { createCoarLocalizationServiceStub } from '@cocoar/testing-angular';
+import { CoarLocalizationService } from '@cocoar/localization';
+import { signal } from '@angular/core';
+import { of } from 'rxjs';
 
-providers: [{ provide: COAR_LOCALIZATION_SERVICE, useValue: createCoarLocalizationServiceStub() }]
+const mockLocale = {
+  language: signal('en'),
+  getCurrentLanguage: () => 'en',
+  setLanguage: vi.fn(),
+  getDefaultLanguage: () => 'en',
+  languageChanged$: of('en'),
+};
+
+providers: [{ provide: CoarLocalizationService, useValue: mockLocale }]
 ```
 
 - **Overlays**: route overlays into a test container and clean up:

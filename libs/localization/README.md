@@ -1,17 +1,18 @@
 # @cocoar/localization
 
-Locale and language management for the Cocoar Design System.
+Complete localization system for the Cocoar Design System.
 
 ## Overview
 
-This library provides centralized language management for Cocoar applications. It serves as the single source of truth for the current language and notifies other systems (i18n, localization/formatting) about language changes.
+This library provides centralized language management, formatting (L10n), and translations (i18n) for Cocoar applications. It serves as the single source of truth for the current language and automatically synchronizes all localization systems.
 
 ## Features
 
-- **CoarLocalizationService** - Language state management
-- **Centralized Configuration** - Single source of truth for available languages
-- **Signal-based API** - Reactive language updates using Angular Signals
-- **Observable API** - RxJS-based language change notifications
+- **Language Management** - Centralized language state with Signal-based API
+- **L10n (Localization)** - Date, number, currency, percent formatting with browser Intl API + optional HTTP overrides
+- **i18n (Internationalization)** - Translation system with automatic loading and parameter interpolation
+- **Automatic Synchronization** - Language changes automatically trigger L10n and i18n updates
+- **Reactive API** - Angular Signals for reactive language and translation updates
 - **Lightweight** - Zero dependencies beyond Angular core and RxJS
 
 ## Installation
@@ -20,11 +21,9 @@ This library provides centralized language management for Cocoar applications. I
 pnpm add @cocoar/localization
 ```
 
-## Usage
+## Quick Start
 
-### Configuration
-
-Configure available languages and default language using `provideCoarLocalization()`:
+### Minimal Setup (L10n only)
 
 ```typescript
 import { ApplicationConfig } from '@angular/core';
@@ -32,15 +31,47 @@ import { provideCoarLocalization } from '@cocoar/localization';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    // Core system: language management + Intl formatting
     provideCoarLocalization({
-      availableLanguages: ['en', 'de', 'fr'],
       defaultLanguage: 'en',
     }),
   ],
 };
 ```
 
-### Basic Usage
+This gives you:
+- Language management (`CoarLocalizationService`)
+- Browser Intl API for formatting (date, number, currency, percent)
+- i18n system (but no translation loader)
+
+### With HTTP Sources (L10n + i18n)
+
+```typescript
+import { ApplicationConfig } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import {
+  provideCoarLocalization,
+  provideCoarL10nHttpSource,
+  provideCoarI18nHttpSource,
+} from '@cocoar/localization';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHttpClient(),
+
+    // Core system
+    provideCoarLocalization({
+      defaultLanguage: 'en',
+    }),
+
+    // Optional: L10n HTTP overrides for business rules
+    provideCoarL10nHttpSource(),  // Defaults to /locales/{lang}.json
+
+    // Optional: i18n HTTP translations
+    provideCoarI18nHttpSource(),  // Defaults to /i18n/{lang}.json
+  ],
+};
+```
 
 ```typescript
 import { Component, inject, effect } from '@angular/core';
@@ -141,14 +172,14 @@ export class MyService {
 
 ### provideCoarLocalization()
 
-Configures the locale system with available languages and default language.
+Configures the locale system with the default language.
+
+**Note:** Browser Intl API is automatically included as the first localization source.
 
 ```typescript
 function provideCoarLocalization(config: CoarLocalizationConfig): EnvironmentProviders;
 
 interface CoarLocalizationConfig {
-  /** All languages available in the application */
-  availableLanguages: string[];
   /** The default/fallback language */
   defaultLanguage: string;
 }
@@ -158,7 +189,6 @@ interface CoarLocalizationConfig {
 
 ```typescript
 provideCoarLocalization({
-  availableLanguages: ['en', 'de', 'fr', 'es'],
   defaultLanguage: 'en',
 });
 ```
@@ -173,65 +203,15 @@ provideCoarLocalization({
 #### Methods
 
 - **`getCurrentLanguage(): string`** - Returns the current language code
-- **`setLanguage(language: string): void`** - Sets the current language
-- **`getAvailableLanguages(): string[]`** - Returns all available languages (from config)
+- **`setLanguage(language: string): Promise<void>`** - Sets the current language (async to load data)
 - **`getDefaultLanguage(): string`** - Returns the default language (from config)
 
 ## Default Configuration
 
 If `provideCoarLocalization()` is not called, the service uses these defaults:
 - **Default language**: `'en'`
-- **Available languages**: `['en']`
-      deps: [CoarLocalizationService],
-    },
-  ],
-};
-```
-
-
-## Integration with i18n
-
-The `@cocoar/localization` library includes a complete i18n system with built-in HTTP loader.
-
-**Example:**
-
-```typescript
-import { ApplicationConfig } from '@angular/core';
-import { provideHttpClient } from '@angular/common/http';
-import { provideCoarLocalization, provideCoarI18n } from '@cocoar/localization';
-
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideHttpClient(),
-
-    // 1. Configure locale (languages and default)
-    provideCoarLocalization({
-      availableLanguages: ['en', 'de', 'fr'],
-      defaultLanguage: 'en',
-    }),
-
-    // 2. Set up i18n (loads from /i18n/en.json, /i18n/de.json, etc.)
-    provideCoarI18n(),
-  ],
-};
-```
-
-For custom loaders (SignalR, static imports, etc.), implement `CoarTranslationLoader`.
-
-
-This service is designed to be the foundation for both i18n (translations) and localization (formatting). Other systems can subscribe to `languageChanged$` to react to language changes:
-
-```typescript
-// Example: i18n integration (future)
-locale.languageChanged$.subscribe((lang) => {
-  translationService.loadLanguage(lang);
-});
-
-// Example: localization integration (future)
-locale.languageChanged$.subscribe((lang) => {
-  formattingService.setLocale(lang);
-});
-```
+- **L10n source**: Browser Intl API (always included automatically)
+- **i18n service**: Available but no translation loader (use `provideCoarI18nHttpSource()` to add one)
 
 ## License
 

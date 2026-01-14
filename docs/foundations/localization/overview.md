@@ -1,80 +1,135 @@
-# Localization Service
+# Localization System
 
-The Cocoar Localization Service provides **locale-aware formatting rules** for:
+The Cocoar Localization System provides **language management**, **locale-aware formatting (L10n)**, and **translations (i18n)** for Cocoar applications.
 
-- Numbers (decimal + thousands separators)
-- Dates (supported date patterns + first day of week)
+**Package:** `@cocoar/localization`
 
-It is intentionally **not** a translation/i18n solution. It answers “how to format” rather than “what text to show”.
+## What it provides
 
-## Where it’s used
+### Language Management
+- Centralized language state with Signal-based API
+- Automatic synchronization of L10n and i18n when language changes
+- Observable streams for reactive updates
 
-Several UI components consume these formatting rules, for example:
+### L10n (Localization)
+- Date, number, currency, percent formatting
+- Browser Intl API as default source (zero-config)
+- Optional HTTP overrides for business-specific rules
+- Reactive pipes that update when language changes
 
-- **Date Picker** uses it to derive a default `dateFormatConfig` when none is provided.
-- **Number Input** uses it to derive a default `numberFormat` (decimal/thousand separators) when none is provided.
+### i18n (Internationalization)
+- Translation system with key-based lookups
+- Automatic translation loading when language changes
+- Parameter interpolation
+- HTTP loader for JSON translation files
 
-In both cases, explicit component inputs should be preferred when the component instance needs a specific format.
+## Quick Start
 
-## Basic idea
-
-- The service is accessed through the DI token `COAR_LOCALIZATION_SERVICE`.
-- A default implementation (`CoarLocalizationService`) is provided automatically.
-- The default implementation derives formatting rules via browser `Intl.*` APIs.
-
-## Choosing between “global default” and “per component”
-
-### Global default
-
-If your application has a single, stable locale (or a user preference that is known early), you can set the default locale once:
+### Basic Setup (L10n only)
 
 ```ts
-import { provideAppInitializer, inject } from '@angular/core';
-import { COAR_LOCALIZATION_SERVICE } from '@cocoar/ui-components';
+import { ApplicationConfig } from '@angular/core';
+import { provideCoarLocalization } from '@cocoar/localization';
 
-export const appConfig = {
+export const appConfig: ApplicationConfig = {
   providers: [
-    provideAppInitializer(() => {
-      inject(COAR_LOCALIZATION_SERVICE).setDefaultLocale('de-AT');
+    provideCoarLocalization({
+      defaultLanguage: 'en',
     }),
   ],
 };
 ```
 
-### Per component
+This provides:
+- Language management
+- Browser Intl API for formatting
+- i18n system (but no translation loader)
 
-If different screens or individual inputs require different formats, override directly on the component:
-
-```html
-<!-- Number Input: explicit number format -->
-<coar-number-input [numberFormat]="{ decimal: ',', thousand: '.' }" />
-
-<!-- Date Picker: explicit date format config -->
-<coar-date-picker [dateFormatConfig]="{ pattern: 'dd.mm.yyyy', firstDayOfWeek: 1 }" />
-```
-
-## Custom locale IDs
-
-If you need a format that does not map cleanly to a standard locale, you can register an app-specific locale ID:
+### With HTTP Sources
 
 ```ts
-import { inject } from '@angular/core';
-import { COAR_LOCALIZATION_SERVICE } from '@cocoar/ui-components';
+import { ApplicationConfig } from '@angular/core';
+import { provideHttpClient } from '@angular/common/http';
+import {
+  provideCoarLocalization,
+  provideCoarL10nHttpSource,
+  provideCoarI18nHttpSource,
+} from '@cocoar/localization';
 
-const localeService = inject(COAR_LOCALIZATION_SERVICE);
-
-localeService.registerLocale('finance-eu', {
-  number: { decimal: ',', thousand: ' ' },
-  date: { pattern: 'dd.mm.yyyy', firstDayOfWeek: 1 },
-});
-
-localeService.setDefaultLocale('finance-eu');
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHttpClient(),
+    provideCoarLocalization({ defaultLanguage: 'en' }),
+    provideCoarL10nHttpSource(),  // Defaults to /locales/{lang}.json
+    provideCoarI18nHttpSource(),  // Defaults to /i18n/{lang}.json
+  ],
+};
 ```
 
-## When to provide your own implementation
+## Changing Language
 
-Provide a custom `ICoarLocalizationService` when:
+```ts
+import { Component, inject } from '@angular/core';
+import { CoarLocalizationService } from '@cocoar/localization';
 
-- Your app already has a locale/format policy (tenant/user settings).
-- You want full control over defaults or persistence.
-- You need deterministic rules that do not depend on the browser’s `Intl` behavior.
+@Component({
+  selector: 'app-language-switcher',
+  template: `
+    <div>
+      <p>Current: {{ locale.language() }}</p>
+      <button (click)="locale.setLanguage('de')">Deutsch</button>
+      <button (click)="locale.setLanguage('en')">English</button>
+    </div>
+  `,
+})
+export class LanguageSwitcherComponent {
+  readonly locale = inject(CoarLocalizationService);
+}
+```
+
+When language changes:
+1. `locale.language()` signal updates
+2. L10n data reloads (if HTTP source configured)
+3. i18n translations reload (if HTTP source configured)
+4. All formatting pipes update automatically
+
+## Custom URL Patterns
+
+```ts
+// Custom L10n URL (business formatting overrides)
+provideCoarL10nHttpSource({
+  url: (lang) => `/api/config/intl-${lang}.json`,
+  headers: { 'Authorization': 'Bearer ' + getToken() }
+})
+
+// Custom i18n URL (translations)
+provideCoarI18nHttpSource({
+  url: (lang) => `/api/translations/${lang}.json`,
+  headers: { 'Authorization': 'Bearer ' + getToken() }
+})
+```
+
+## L10n JSON Format
+
+```json
+{
+  "dateFormat": {
+    "pattern": "dd.mm.yyyy",
+    "firstDayOfWeek": 1
+  },
+  "numberFormat": {
+    "decimal": ",",
+    "thousand": "."
+  }
+}
+```
+
+## Where it's used
+
+UI components consume localization for formatting defaults:
+
+- **Date Picker** - Uses L10n for default date pattern and first day of week
+- **Number Input** - Uses L10n for default decimal/thousand separators
+- **All components** - Can use i18n for translatable labels/messages
+
+Components always allow explicit overrides via inputs when needed.

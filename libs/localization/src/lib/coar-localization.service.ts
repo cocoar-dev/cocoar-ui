@@ -214,20 +214,6 @@ export class CoarLocalizationService {
   }
 
   /**
-   * Get the list of available languages configured for the application.
-   *
-   * @returns Array of available language codes, or empty array if not configured
-   *
-   * @example
-   * ```typescript
-   * const langs = locale.getAvailableLanguages(); // ['en', 'de', 'fr']
-   * ```
-   */
-  getAvailableLanguages(): string[] {
-    return this.config?.availableLanguages ?? [];
-  }
-
-  /**
    * Get the default language configured for the application.
    *
    * @returns The default language code

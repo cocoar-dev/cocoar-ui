@@ -7,6 +7,42 @@ import { Injectable, Signal, WritableSignal, computed, signal } from '@angular/c
 export type CoarTranslations = Record<string, string>;
 
 /**
+ * Flattens nested translation objects into dot notation.
+ *
+ * Supports both flat and nested JSON structures:
+ * - Flat: { "app.title": "My App" }
+ * - Nested: { "app": { "title": "My App" } }
+ *
+ * Both produce: { "app.title": "My App" }
+ *
+ * @example
+ * Input: { app: { title: 'My App', subtitle: 'Welcome' } }
+ * Output: { 'app.title': 'My App', 'app.subtitle': 'Welcome' }
+ */
+function flattenTranslations(obj: unknown, prefix = ''): CoarTranslations {
+  const result: CoarTranslations = {};
+
+  if (typeof obj !== 'object' || obj === null) {
+    return result;
+  }
+
+  for (const [key, value] of Object.entries(obj)) {
+    const newKey = prefix ? `${prefix}.${key}` : key;
+
+    if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+      // Recursively flatten nested objects
+      Object.assign(result, flattenTranslations(value, newKey));
+    } else if (typeof value === 'string') {
+      // Store string values
+      result[newKey] = value;
+    }
+    // Skip non-string primitive values (numbers, booleans, arrays)
+  }
+
+  return result;
+}
+
+/**
  * Reactive store for translation data.
  *
  * Stores translations for multiple languages in memory and provides
@@ -63,18 +99,28 @@ export class CoarTranslationStore {
    * Stores all translations for a specific language.
    *
    * Replaces any existing translations for that language.
+   * Automatically flattens nested objects into dot notation.
    *
    * @param language - Language code (e.g., 'en', 'de')
-   * @param translations - Translation key-value pairs
+   * @param translations - Translation key-value pairs (flat or nested)
    *
    * @example
    * ```ts
-   * // HTTP: Load entire language at once
-   * store.setTranslations('en', { 'hello': 'Hello', 'goodbye': 'Goodbye' });
+   * // Flat format
+   * store.setTranslations('en', { 'hello': 'Hello', 'app.title': 'My App' });
+   *
+   * // Nested format (auto-flattened)
+   * store.setTranslations('en', { app: { title: 'My App' }, hello: 'Hello' });
+   * // Both produce the same result
    * ```
    */
-  setTranslations(language: string, translations: CoarTranslations): void {
-    const translationMap = new Map<string, string>(Object.entries(translations));
+  setTranslations(
+    language: string,
+    translations: CoarTranslations | Record<string, unknown>
+  ): void {
+    // Flatten nested structures into dot notation
+    const flattened = flattenTranslations(translations);
+    const translationMap = new Map<string, string>(Object.entries(flattened));
 
     this.storage.update((current) => {
       const next = new Map(current);
@@ -117,15 +163,24 @@ export class CoarTranslationStore {
    *
    * Only updates/adds the provided keys, keeps existing keys intact.
    * Creates the language if it doesn't exist.
+   * Automatically flattens nested objects into dot notation.
    *
    * @param language - Language code
-   * @param partialTranslations - Partial translation key-value pairs to merge
+   * @param partialTranslations - Partial translation key-value pairs to merge (flat or nested)
    *
    * @example
    * ```ts
+   * // Flat format
    * // Existing: { 'hello': 'Hello', 'goodbye': 'Goodbye' }
    * store.updateTranslations('en', { 'hello': 'Hi' });
    * // Result: { 'hello': 'Hi', 'goodbye': 'Goodbye' }
+   * ```
+   *
+   * @example
+   * ```ts
+   * // Nested format (auto-flattened)
+   * store.updateTranslations('en', { app: { title: 'New Title' } });
+   * // Updates 'app.title' key
    * ```
    *
    * @example
@@ -136,14 +191,20 @@ export class CoarTranslationStore {
    * });
    * ```
    */
-  updateTranslations(language: string, partialTranslations: CoarTranslations): void {
+  updateTranslations(
+    language: string,
+    partialTranslations: CoarTranslations | Record<string, unknown>
+  ): void {
+    // Flatten nested structures into dot notation
+    const flattened = flattenTranslations(partialTranslations);
+
     this.storage.update((current) => {
       const next = new Map(current);
       const langMap = next.get(language) ?? new Map<string, string>();
       const updatedLangMap = new Map(langMap);
 
       // Merge partial updates into existing translations
-      for (const [key, value] of Object.entries(partialTranslations)) {
+      for (const [key, value] of Object.entries(flattened)) {
         updatedLangMap.set(key, value);
       }
 

@@ -74,35 +74,38 @@ export class LocalizationPage {
 import { provideHttpClient } from '@angular/common/http';
 import {
   provideCoarLocalization,
-  provideCoarIntlLocalizationSource,
-  provideCoarHttpLocalizationSource,
-  provideCoarI18n,
+  provideCoarL10nHttpSource,
+  provideCoarI18nHttpSource,
 } from '@cocoar/localization';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),
 
-    // Configure locale system
+    // Core localization system (language + L10n + i18n)
     provideCoarLocalization({
-      availableLanguages: ['en', 'de', 'fr'],
       defaultLanguage: 'en',
     }),
 
-    // Localization (L10n) - Formatting sources
-    provideCoarIntlLocalizationSource(),              // Browser Intl API (complete defaults)
-    provideCoarHttpLocalizationSource({               // Business overrides (optional)
-      url: (lang) => \`/locales/\${lang}.json\`
-    }),
+    // Optional: L10n HTTP source for formatting overrides (Intl is auto-included)
+    provideCoarL10nHttpSource(),  // Defaults to /locales/{lang}.json
 
-    // Internationalization (i18n) - Translations
-    provideCoarI18n(),                          // Loads from /i18n/{lang}.json
+    // Optional: i18n HTTP source for translations
+    provideCoarI18nHttpSource(),  // Defaults to /i18n/{lang}.json
   ],
 };`;
 
-  protected readonly customHttpSourceExample = `// Custom URL pattern with authentication
-provideCoarHttpLocalizationSource({
+  protected readonly customHttpSourceExample = `// Custom L10n URL pattern with authentication
+provideCoarL10nHttpSource({
   url: (lang) => \`/api/config/intl-\${lang}.json\`,
+  headers: {
+    'Authorization': 'Bearer ' + getToken()
+  }
+})
+
+// Custom i18n URL pattern with authentication
+provideCoarI18nHttpSource({
+  url: (lang) => \`/api/translations/\${lang}.json\`,
   headers: {
     'Authorization': 'Bearer ' + getToken()
   }

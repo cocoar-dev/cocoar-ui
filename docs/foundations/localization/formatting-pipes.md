@@ -144,9 +144,23 @@ export class CoarDatePipe implements PipeTransform {
 
 ## Setup
 
-### 1. Register Locale Data
+### 1. Configure Localization
 
-**⚠️ IMPORTANT:** You must register locale data for any non-English language you want to use:
+```ts
+import { provideHttpClient } from '@angular/common/http';
+import { provideCoarLocalization } from '@cocoar/localization';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHttpClient(),
+    provideCoarLocalization({ defaultLanguage: 'en' }),
+  ],
+};
+```
+
+### 2. Register Angular Locale Data
+
+**⚠️ IMPORTANT:** You must register Angular locale data for any non-English language you want to use:
 
 ```typescript
 // app.config.ts
@@ -313,6 +327,6 @@ All pipes set `pure: false` to react to language changes. This is required but h
 
 ---
 
-**Package:** `@cocoar/localization`  
-**Version:** 1.0.0  
+**Package:** `@cocoar/localization`
+**Version:** 1.0.0
 **License:** MIT

@@ -9,9 +9,8 @@ import { appRoutes } from './app.routes';
 import { COAR_OVERLAY_SPEC_RESOLVERS, type OverlaySpec } from '@cocoar/ui-overlay';
 import {
   provideCoarLocalization,
-  provideCoarI18n,
-  provideCoarIntlLocalizationSource,
-  provideCoarHttpLocalizationSource,
+  provideCoarI18nHttpSource,
+  provideCoarL10nHttpSource,
 } from '@cocoar/localization';
 
 export const appConfig: ApplicationConfig = {
@@ -20,19 +19,14 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(appRoutes),
     provideHttpClient(),
-    // Configure locale (languages and default)
+    // Core localization system (language management + L10n + i18n)
     provideCoarLocalization({
-      availableLanguages: ['en', 'de'],
       defaultLanguage: 'en',
     }),
-    // Add Intl as first source (complete defaults)
-    provideCoarIntlLocalizationSource(),
-    // Add HTTP as second source (business overrides)
-    provideCoarHttpLocalizationSource({
-      url: (lang: string) => `/locales/${lang}.json`,
-    }),
-    // Configure i18n (pure Cocoar implementation - no Transloco!)
-    provideCoarI18n(),
+    // Optional: L10n HTTP source for business overrides (Intl is auto-included)
+    provideCoarL10nHttpSource(), // Defaults to /locales/{lang}.json
+    // Optional: i18n HTTP source for translations
+    provideCoarI18nHttpSource(), // Defaults to /i18n/{lang}.json
     {
       provide: COAR_OVERLAY_SPEC_RESOLVERS,
       multi: true,

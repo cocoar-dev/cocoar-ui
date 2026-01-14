@@ -10,6 +10,8 @@ export interface CoarHttpLocaleSourceConfig {
   /**
    * URL generator function that returns the URL for a given language.
    *
+   * @default (lang) => `/locales/${lang}.json`
+   *
    * @param language - Language code (e.g., 'en', 'de', 'en-US')
    * @returns URL to load locale data from
    *
@@ -20,7 +22,7 @@ export interface CoarHttpLocaleSourceConfig {
    * url: (lang) => `https://cdn.example.com/locales/${lang}.json`
    * ```
    */
-  url: (language: string) => string;
+  url?: (language: string) => string;
 
   /**
    * Optional HTTP headers to include in requests.
@@ -45,18 +47,16 @@ export interface CoarHttpLocaleSourceConfig {
  *
  * @example
  * ```ts
- * // Basic usage (default URL pattern)
- * provideCoarHttpLocalizationSource({
- *   url: (lang) => `/locales/${lang}.json`
- * })
+ * // Basic usage (default: /locales/{lang}.json)
+ * provideCoarL10nHttpSource()
  *
  * // Custom URL pattern
- * provideCoarHttpLocalizationSource({
+ * provideCoarL10nHttpSource({
  *   url: (lang) => `/api/config/intl-${lang}.json`
  * })
  *
  * // With authentication
- * provideCoarHttpLocalizationSource({
+ * provideCoarL10nHttpSource({
  *   url: (lang) => `/api/locales/${lang}.json`,
  *   headers: {
  *     'Authorization': 'Bearer ' + getToken()
@@ -81,15 +81,18 @@ export interface CoarHttpLocaleSourceConfig {
  * }
  * ```
  */
-export function provideCoarHttpLocalizationSource(
-  config: CoarHttpLocaleSourceConfig
+export function provideCoarL10nHttpSource(
+  config?: CoarHttpLocaleSourceConfig
 ): EnvironmentProviders {
+  const urlFn = config?.url ?? ((lang: string) => `/l10n/${lang}.json`);
+  const headers = config?.headers;
+
   return makeEnvironmentProviders([
     {
       provide: COAR_LOCALIZATION_DATA_LOADERS,
       multi: true,
       useFactory: (http: HttpClient) => {
-        return new CoarHttpLocaleDataLoader(http, config.url, config.headers);
+        return new CoarHttpLocaleDataLoader(http, urlFn, headers);
       },
       deps: [HttpClient],
     },

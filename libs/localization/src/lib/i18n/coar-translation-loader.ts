@@ -37,18 +37,13 @@ export abstract class CoarTranslationLoader {
 /**
  * HTTP-based translation loader.
  *
- * Loads translation JSON files from a configurable base path.
+ * Loads translation JSON files from a configurable URL function.
  *
- * ## Default behavior
- * - Base path: `/i18n/`
- * - File pattern: `{language}.json`
- * - Example: `/i18n/en.json`, `/i18n/de.json`
- *
- * ## Custom path
+ * ## Usage
  * ```ts
  * const loader = new CoarHttpTranslationLoader();
- * loader.basePath = '/assets/translations/';
- * // Loads: /assets/translations/en.json
+ * loader.urlFn = (lang) => `/i18n/${lang}.json`;
+ * loader.headers = { 'Authorization': 'Bearer token' };
  * ```
  *
  * ## Expected JSON format
@@ -64,11 +59,16 @@ export abstract class CoarTranslationLoader {
 export class CoarHttpTranslationLoader implements CoarTranslationLoader {
   private readonly http = inject(HttpClient);
 
-  /** Base path for translation files */
-  basePath = '/i18n/';
+  /** URL generator function */
+  urlFn: (language: string) => string = (lang) => `/i18n/${lang}.json`;
+
+  /** Optional HTTP headers */
+  headers?: Record<string, string>;
 
   loadTranslations(language: string): Observable<CoarTranslations> {
-    const url = `${this.basePath}${language}.json`;
-    return this.http.get<CoarTranslations>(url);
+    const url = this.urlFn(language);
+    return this.http.get<CoarTranslations>(url, {
+      headers: this.headers,
+    });
   }
 }

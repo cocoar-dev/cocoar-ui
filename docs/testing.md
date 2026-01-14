@@ -91,7 +91,7 @@ It provides:
   - `queryRequired()` / `queryAll()` for ergonomic queries
 
 - Common testing utilities
-  - Locale stub: `createCoarLocalizationServiceStub()` (for components using `COAR_LOCALIZATION_SERVICE`)
+  - Locale stub: Mock `CoarLocalizationService` if needed (most components don't require it)
   - Overlay helpers: `createCoarOverlayTestContainer()`, `cleanupCoarOverlays()`, `createCoarOverlayAttachmentResolver()`
   - Event helpers: `dispatchKeyboardEvent()`, `dispatchPointerEvent()`, `dispatchClick()`, `setInputValueAndBlur()`
   - Noop animations: `provideCoarNoopAnimations()`

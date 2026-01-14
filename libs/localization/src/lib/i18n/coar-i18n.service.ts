@@ -22,19 +22,16 @@ import { CoarTranslationStore } from './coar-translation-store';
  * - Reactive Signal-based API
  *
  * ## Usage
- * Use `provideCoarI18n()` to configure - don't instantiate directly.
+ * Use `provideCoarLocalization()` + `provideCoarI18nHttpSource()` to configure.
  *
  * @example
  * ```ts
  * export const appConfig: ApplicationConfig = {
  *   providers: [
  *     provideCoarLocalization({
- *       availableLanguages: ['en', 'de'],
  *       defaultLanguage: 'en',
  *     }),
- *     provideCoarI18n({
- *       loader: CoarHttpTranslationLoader,
- *     }),
+ *     provideCoarI18nHttpSource(),
  *   ],
  * };
  * ```
