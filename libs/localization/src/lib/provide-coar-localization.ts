@@ -99,9 +99,19 @@ export function provideCoarLocalization(config: CoarLocalizationConfig): Environ
         const i18nService = inject(COAR_I18N_PROVIDER) as CoarI18nService;
 
         return async () => {
+          console.debug(
+            '[CoarLocalization] APP_INITIALIZER running - defaultLanguage:',
+            config.defaultLanguage
+          );
+
           // Preload L10n data for default language
           try {
+            console.debug(
+              '[CoarLocalization] APP_INITIALIZER calling setLanguage:',
+              config.defaultLanguage
+            );
             await localeService.setLanguage(config.defaultLanguage);
+            console.debug('[CoarLocalization] APP_INITIALIZER setLanguage completed');
           } catch (error) {
             console.warn(
               `[CoarLocale] Failed to preload locale data for '${config.defaultLanguage}':`,
@@ -111,11 +121,18 @@ export function provideCoarLocalization(config: CoarLocalizationConfig): Environ
 
           // Preload i18n translations if loader is available
           try {
+            console.debug('[CoarLocalization] APP_INITIALIZER preloading translations');
             await i18nService.preloadLanguage(config.defaultLanguage);
+            console.debug('[CoarLocalization] APP_INITIALIZER translations preloaded');
           } catch (error) {
             // Silently ignore if no loader is registered
             // This allows using L10n without i18n
+            console.debug(
+              '[CoarLocalization] APP_INITIALIZER no translation loader (OK for L10n-only)'
+            );
           }
+
+          console.debug('[CoarLocalization] APP_INITIALIZER completed');
         };
       },
     },

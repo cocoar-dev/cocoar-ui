@@ -18,8 +18,6 @@ import {
 
 import { FormsModule } from '@angular/forms';
 import { Temporal } from '@js-temporal/polyfill';
-import { of } from 'rxjs';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { Maskito } from '@maskito/core';
 import { maskitoDateOptionsGenerator } from '@maskito/kit';
 import { CoarIconComponent } from '../coar-icon/coar-icon.component';
@@ -129,7 +127,7 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
   private readonly currentLanguage = computed(() => {
     // Use the language Signal from service if available, otherwise undefined
     const lang = this.localizationService?.language();
-    console.log('[CoarDatePicker] currentLanguage computed - result:', lang);
+    console.debug('[CoarDatePicker] currentLanguage computed:', lang);
     return lang;
   });
 
@@ -277,8 +275,16 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
   protected daysOfWeek = computed(() => {
     const locale = this.effectiveLocale();
     const firstDay = this.firstDayOfWeek();
-    console.log('[CoarDatePicker] daysOfWeek - locale:', locale, 'firstDay:', firstDay);
-    return getLocalizedWeekdays(locale, firstDay);
+    const days = getLocalizedWeekdays(locale, firstDay);
+    console.debug(
+      '[CoarDatePicker] daysOfWeek - locale:',
+      locale,
+      'firstDay:',
+      firstDay,
+      'days:',
+      days
+    );
+    return days;
   });
 
   /** Reference to the input element */
@@ -365,7 +371,7 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
     const localeInput = this.locale();
     const currentLang = this.currentLanguage();
     const effective = localeInput ?? currentLang ?? navigator.language;
-    console.log(
+    console.debug(
       '[CoarDatePicker] effectiveLocale - input:',
       localeInput,
       'currentLang:',
@@ -438,12 +444,20 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
   protected viewMonth = computed(() => {
     const viewMonth = this.viewDate();
     const locale = this.effectiveLocale();
-    console.log('[CoarDatePicker] viewMonth - locale:', locale, 'month:', viewMonth.month);
     const formatter = new Intl.DateTimeFormat(locale, {
       month: 'long',
     });
     const jsDate = new Date(viewMonth.year, viewMonth.month - 1, 1);
-    return formatter.format(jsDate);
+    const monthName = formatter.format(jsDate);
+    console.debug(
+      '[CoarDatePicker] viewMonth - locale:',
+      locale,
+      'month:',
+      viewMonth.month,
+      'name:',
+      monthName
+    );
+    return monthName;
   });
 
   /** Year for calendar header */
