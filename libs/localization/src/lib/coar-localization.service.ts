@@ -57,6 +57,14 @@ export class CoarLocalizationService {
   private readonly languageSignal = signal<string>(this.config?.defaultLanguage ?? 'en');
   private readonly languageChangedSubject = new Subject<string>();
 
+  constructor() {
+    // Expose to window for debugging
+    if (typeof window !== 'undefined') {
+      (window as any).__coarLocalizationStore = this.localeDataStore;
+      console.log('[CoarLocalization] Debug: Access store via window.__coarLocalizationStore');
+    }
+  }
+
   /**
    * Signal containing the current language.
    * Updates automatically when the language changes.
