@@ -126,9 +126,12 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
   private overlayRef: OverlayRef | null = null;
 
   /** Current language from localization service (reactive) */
-  private readonly currentLanguage = toSignal(
-    this.localizationService?.languageChanged$ ?? of(navigator.language)
-  );
+  private readonly currentLanguage = computed(() => {
+    // Use the language Signal from service if available, otherwise undefined
+    const lang = this.localizationService?.language();
+    console.log('[CoarDatePicker] currentLanguage computed - result:', lang);
+    return lang;
+  });
 
   // ============================================================
   // Inputs
@@ -274,7 +277,7 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
   protected daysOfWeek = computed(() => {
     const locale = this.effectiveLocale();
     const firstDay = this.firstDayOfWeek();
-    console.log('[CoarDatePicker] daysOfWeek computed - locale:', locale, 'firstDay:', firstDay);
+    console.log('[CoarDatePicker] daysOfWeek - locale:', locale, 'firstDay:', firstDay);
     return getLocalizedWeekdays(locale, firstDay);
   });
 
@@ -359,12 +362,11 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
    * Priority: input locale > locale service language > browser locale
    */
   protected effectiveLocale = computed(() => {
-    // Always re-evaluate navigator.language to ensure fresh browser locale
     const localeInput = this.locale();
     const currentLang = this.currentLanguage();
     const effective = localeInput ?? currentLang ?? navigator.language;
     console.log(
-      '[CoarDatePicker] effectiveLocale computed - input:',
+      '[CoarDatePicker] effectiveLocale - input:',
       localeInput,
       'currentLang:',
       currentLang,
@@ -436,7 +438,7 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
   protected viewMonth = computed(() => {
     const viewMonth = this.viewDate();
     const locale = this.effectiveLocale();
-    console.log('[CoarDatePicker] viewMonth computed - locale:', locale, 'month:', viewMonth.month);
+    console.log('[CoarDatePicker] viewMonth - locale:', locale, 'month:', viewMonth.month);
     const formatter = new Intl.DateTimeFormat(locale, {
       month: 'long',
     });
