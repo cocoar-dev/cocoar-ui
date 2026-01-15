@@ -64,14 +64,20 @@ export class CoarIntlLocaleDataLoader extends CoarLocalizationDataLoader {
       pattern = 'dd.mm.yyyy';
     }
 
-    // Detect first day of week
-    const sundayFirstLocales = ['en-US', 'en-CA', 'ja-JP', 'ko-KR', 'zh-TW', 'he-IL'];
-    const baseLocale = locale.split('-')[0];
-    const firstDayOfWeek = sundayFirstLocales.some(
-      (l) => locale.startsWith(l) || (baseLocale === 'en' && locale.includes('US'))
-    )
-      ? 0 // Sunday
-      : 1; // Monday
+    // Detect first day of week using Intl.Locale API
+    let firstDayOfWeek = 1; // Default to Monday
+    try {
+      const localeObj = new Intl.Locale(locale);
+      const weekInfo = (localeObj as any).weekInfo || (localeObj as any).getWeekInfo?.();
+      if (weekInfo?.firstDay !== undefined) {
+        // Intl.Locale uses ISO day numbers (1=Monday, 7=Sunday)
+        // Our system uses 0=Sunday, 1=Monday for consistency with Date.getDay()
+        firstDayOfWeek = weekInfo.firstDay === 7 ? 0 : weekInfo.firstDay;
+      }
+    } catch {
+      // Modern browsers support Intl.Locale with weekInfo
+      // If not available, default to Monday (international standard)
+    }
 
     // Generate month names
     const monthFormatter = new Intl.DateTimeFormat(locale, { month: 'long' });

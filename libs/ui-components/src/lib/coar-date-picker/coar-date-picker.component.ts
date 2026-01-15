@@ -29,7 +29,7 @@ import {
   coarProvideValueAccessor,
   CoarControlValueAccessor,
 } from '../forms/coar-control-value-accessor';
-import { CoarLocalizationService } from '@cocoar/localization';
+import { CoarLocalizationService, CoarLocalizationDataStore } from '@cocoar/localization';
 
 /** Configuration for date formatting */
 export interface DateFormatConfig {
@@ -121,6 +121,7 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
   private readonly destroyRef = inject(DestroyRef);
   private readonly overlayBuilder = createOverlayBuilder();
   private readonly localizationService = inject(CoarLocalizationService, { optional: true });
+  private readonly localizationDataStore = inject(CoarLocalizationDataStore, { optional: true });
 
   private overlayRef: OverlayRef | null = null;
 
@@ -289,7 +290,7 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
 
   /**
    * Effective date format configuration.
-   * Priority: input dateFormatConfig > browser Intl detection > fallback
+   * Priority: input dateFormatConfig > localization service > browser Intl detection > fallback
    */
   protected effectiveDateFormat = computed((): DateFormatConfig => {
     // 1. Direct config input takes highest priority
@@ -298,7 +299,19 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
       return directConfig;
     }
 
-    // 2. Detect from browser Intl (lightweight fallback)
+    // 2. Try to get from localization data store (which uses Intl with proper firstDayOfWeek detection)
+    const currentLang = this.localizationService?.getCurrentLanguage();
+    const localeData = currentLang
+      ? this.localizationDataStore?.getLocaleData(currentLang)
+      : undefined;
+    if (localeData?.date) {
+      return {
+        pattern: localeData.date.pattern,
+        firstDayOfWeek: localeData.date.firstDayOfWeek === 0 ? 7 : 1, // Convert 0=Sunday to 7, keep 1=Monday
+      };
+    }
+
+    // 3. Fallback to Intl detection (for components without localization service)
     const locale = this.effectiveLocale();
     try {
       const formatter = new Intl.DateTimeFormat(locale);
@@ -314,7 +327,7 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
 
       return { pattern, firstDayOfWeek: 1 };
     } catch {
-      // 3. Fallback
+      // 4. Final fallback
       return { pattern: 'dd.mm.yyyy', firstDayOfWeek: 1 };
     }
   });
