@@ -271,9 +271,12 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
   protected displayValue = signal('');
 
   /** Days of week header (localized based on locale and firstDayOfWeek) */
-  protected daysOfWeek = computed(() =>
-    getLocalizedWeekdays(this.effectiveLocale(), this.firstDayOfWeek())
-  );
+  protected daysOfWeek = computed(() => {
+    const locale = this.effectiveLocale();
+    const firstDay = this.firstDayOfWeek();
+    console.log('[CoarDatePicker] daysOfWeek computed - locale:', locale, 'firstDay:', firstDay);
+    return getLocalizedWeekdays(locale, firstDay);
+  });
 
   /** Reference to the input element */
   protected inputRef = viewChild<ElementRef<HTMLInputElement>>('dateInput');
@@ -356,7 +359,19 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
    * Priority: input locale > locale service language > browser locale
    */
   protected effectiveLocale = computed(() => {
-    return this.locale() ?? this.currentLanguage() ?? navigator.language;
+    // Always re-evaluate navigator.language to ensure fresh browser locale
+    const localeInput = this.locale();
+    const currentLang = this.currentLanguage();
+    const effective = localeInput ?? currentLang ?? navigator.language;
+    console.log(
+      '[CoarDatePicker] effectiveLocale computed - input:',
+      localeInput,
+      'currentLang:',
+      currentLang,
+      'effective:',
+      effective
+    );
+    return effective;
   });
 
   /** Whether the picker has an error state */
@@ -420,7 +435,9 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
   /** Month name for calendar header */
   protected viewMonth = computed(() => {
     const viewMonth = this.viewDate();
-    const formatter = new Intl.DateTimeFormat(this.effectiveLocale(), {
+    const locale = this.effectiveLocale();
+    console.log('[CoarDatePicker] viewMonth computed - locale:', locale, 'month:', viewMonth.month);
+    const formatter = new Intl.DateTimeFormat(locale, {
       month: 'long',
     });
     const jsDate = new Date(viewMonth.year, viewMonth.month - 1, 1);
