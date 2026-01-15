@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, fakeAsync, tick, flush } from '@angular/core/testing';
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import {
   CoarScrollbarDirective,
   CoarScrollbarTheme,
@@ -10,6 +10,7 @@ import {
 // Test host component
 @Component({
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CoarScrollbarDirective],
   template: `
     <div
@@ -348,6 +349,7 @@ describe('CoarScrollbarDirective', () => {
 // Test deferred initialization
 @Component({
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CoarScrollbarDirective],
   template: `
     <div

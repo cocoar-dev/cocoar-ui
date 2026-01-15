@@ -187,7 +187,8 @@ describe('CoarTextInputComponent', () => {
     it('should emit valueChange on input', () => {
       const valueChangeEvents: string[] = [];
       component.valueChange.subscribe((v) => valueChangeEvents.push(v));
-      const input = getInputElement()!;
+      const input = getInputElement();
+      if (!input) throw new Error('Input element not found');
       input.value = 'new value';
       input.dispatchEvent(new Event('input'));
       fixture.detectChanges();
@@ -197,7 +198,8 @@ describe('CoarTextInputComponent', () => {
     it('should update value via two-way binding', () => {
       fixture.componentRef.setInput('value', 'initial');
       fixture.detectChanges();
-      const input = getInputElement()!;
+      const input = getInputElement();
+      if (!input) throw new Error('Input element not found');
       input.value = 'updated';
       input.dispatchEvent(new Event('input'));
       fixture.detectChanges();

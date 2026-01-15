@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { Component, InjectionToken } from '@angular/core';
+import { ChangeDetectionStrategy, Component, InjectionToken } from '@angular/core';
 import { vi } from 'vitest';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
@@ -13,6 +13,7 @@ import { provideCoarLocalization } from '@cocoar/localization';
 
 @Component({
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, CoarNumberInputComponent],
   template: ` <coar-number-input [formControl]="control" /> `,
 })
@@ -473,7 +474,8 @@ describe('CoarNumberInputComponent', () => {
       fixture.detectChanges();
 
       const input = getInputElement();
-      const focusSpy = vi.spyOn(input!, 'focus');
+      if (!input) throw new Error('Input element not found');
+      const focusSpy = vi.spyOn(input, 'focus');
 
       const clearIcon = fixture.nativeElement.querySelector('.coar-number-input-clear');
       clearIcon?.dispatchEvent(new MouseEvent('click', { bubbles: true }));

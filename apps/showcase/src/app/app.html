@@ -46,6 +46,7 @@
     </coar-menu>
 
     <div coar-sidebar-footer class="sidebar-footer">
+      <coar-single-select [options]="languages" [value]="currentLanguage" (valueChange)="switchLanguage($event)" placeholder="Language" size="sm" />
       <coar-button variant="ghost" size="sm" [fullWidth]="true" (clicked)="toggleTheme()">
         {{ isDarkMode ? '☀️ Light' : '🌙 Dark' }}
       </coar-button>

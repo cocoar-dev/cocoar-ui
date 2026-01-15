@@ -10,6 +10,7 @@ import {
 
 @Component({
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, CoarCheckboxComponent],
   template: ` <coar-checkbox [formControl]="control" /> `,
 })

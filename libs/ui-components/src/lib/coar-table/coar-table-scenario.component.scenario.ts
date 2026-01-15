@@ -1,10 +1,11 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { defineScenario } from '@cocoar/scenar-abstractions';
 import { CoarTableComponent, CoarTableVariant } from './coar-table.component';
 
 @Component({
   selector: 'coar-table-scenario',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CoarTableComponent],
   template: `
     <coar-table [variant]="variant()" [compact]="compact()" [hover]="hover()">

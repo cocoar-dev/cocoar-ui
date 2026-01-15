@@ -24,6 +24,9 @@ import {
 } from '../forms/coar-control-value-accessor';
 import { Maskito } from '@maskito/core';
 import { maskitoNumberOptionsGenerator } from '@maskito/kit';
+import { of } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { CoarLocalizationService } from '@cocoar/localization';
 
 /** Configuration for number formatting */
 export interface NumberFormatConfig {
@@ -74,6 +77,10 @@ function transformStepperButtons(value: boolean | string): CoarNumberInputSteppe
 })
 export class CoarNumberInputComponent extends CoarControlValueAccessor<number | null> {
   private readonly destroyRef = inject(DestroyRef);
+  private readonly localizationService = inject(CoarLocalizationService, { optional: true });
+  private readonly currentLanguage = toSignal(
+    this.localizationService?.languageChanged$ ?? of(navigator.language)
+  );
   private maskitoInstance?: Maskito;
 
   /** Label text displayed above the input */
@@ -262,7 +269,7 @@ export class CoarNumberInputComponent extends CoarControlValueAccessor<number | 
     }
 
     // Priority 2: Use Intl.NumberFormat to detect format for the locale
-    const locale = this.locale();
+    const locale = this.locale() ?? this.currentLanguage() ?? navigator.language;
     if (locale) {
       try {
         const formatter = new Intl.NumberFormat(locale);

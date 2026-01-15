@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { defineScenario } from '@cocoar/scenar-abstractions';
 
 import { CoarPopoverComponent } from './coar-popover.component';
@@ -19,6 +19,7 @@ export const scenario = defineScenario<CoarPopoverPlaywrightComponent>({
 @Component({
   selector: 'coar-popover-playwright-scenario',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CoarPopoverComponent],
   template: `
     <coar-popover

@@ -1,4 +1,4 @@
-import { Component, TemplateRef, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, TemplateRef, viewChild } from '@angular/core';
 import { defineScenario } from '@cocoar/scenar-abstractions';
 import { CoarTabGroupComponent } from './coar-tab-group.component';
 import { CoarTabComponent } from './coar-tab.component';
@@ -6,6 +6,7 @@ import { CoarTabComponent } from './coar-tab.component';
 @Component({
   selector: 'coar-tabs-scenario',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CoarTabGroupComponent, CoarTabComponent],
   template: `
     <coar-tab-group>

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
@@ -7,6 +7,7 @@ import { CoarPasswordInputComponent, CoarPasswordInputSize } from './coar-passwo
 
 @Component({
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, CoarPasswordInputComponent],
   template: ` <coar-password-input [formControl]="control" /> `,
 })
@@ -214,7 +215,8 @@ describe('CoarPasswordInputComponent', () => {
     it('should emit valueChange on input', () => {
       const spy = vi.fn();
       component.valueChange.subscribe(spy);
-      const input = getInputElement()!;
+      const input = getInputElement();
+      if (!input) throw new Error('Input element not found');
       input.value = 'newpassword';
       input.dispatchEvent(new Event('input'));
       fixture.detectChanges();
@@ -222,7 +224,8 @@ describe('CoarPasswordInputComponent', () => {
     });
 
     it('should update value via two-way binding', () => {
-      const input = getInputElement()!;
+      const input = getInputElement();
+      if (!input) throw new Error('Input element not found');
       input.value = 'updated';
       input.dispatchEvent(new Event('input'));
       fixture.detectChanges();

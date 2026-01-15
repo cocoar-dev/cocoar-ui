@@ -18,6 +18,8 @@ import {
 
 import { FormsModule } from '@angular/forms';
 import { Temporal } from '@js-temporal/polyfill';
+import { of } from 'rxjs';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { Maskito } from '@maskito/core';
 import { maskitoDateOptionsGenerator } from '@maskito/kit';
 import { CoarIconComponent } from '../coar-icon/coar-icon.component';
@@ -27,6 +29,7 @@ import {
   coarProvideValueAccessor,
   CoarControlValueAccessor,
 } from '../forms/coar-control-value-accessor';
+import { CoarLocalizationService } from '@cocoar/localization';
 
 /** Configuration for date formatting */
 export interface DateFormatConfig {
@@ -117,8 +120,14 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
   private readonly elementRef = inject(ElementRef);
   private readonly destroyRef = inject(DestroyRef);
   private readonly overlayBuilder = createOverlayBuilder();
+  private readonly localizationService = inject(CoarLocalizationService, { optional: true });
 
   private overlayRef: OverlayRef | null = null;
+
+  /** Current language from localization service (reactive) */
+  private readonly currentLanguage = toSignal(
+    this.localizationService?.languageChanged$ ?? of(navigator.language)
+  );
 
   // ============================================================
   // Inputs
@@ -290,7 +299,7 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
     }
 
     // 2. Detect from browser Intl (lightweight fallback)
-    const locale = this.locale() ?? navigator.language;
+    const locale = this.effectiveLocale();
     try {
       const formatter = new Intl.DateTimeFormat(locale);
       const parts = formatter.formatToParts(new Date(2024, 0, 15));
@@ -331,10 +340,10 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
 
   /**
    * Effective locale for calendar month/year display.
-   * Priority: input locale > locale service default > browser locale
+   * Priority: input locale > locale service language > browser locale
    */
   protected effectiveLocale = computed(() => {
-    return this.locale() ?? navigator.language;
+    return this.locale() ?? this.currentLanguage() ?? navigator.language;
   });
 
   /** Whether the picker has an error state */
@@ -486,7 +495,12 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
 
     const ref = this.overlayBuilder
       .anchor({ kind: 'element', element: trigger })
-      .position({ placement, offset: 4, flip: false, shift: false })
+      .position({
+        placement: placement === 'top' ? 'top-end' : 'bottom-end',
+        offset: 4,
+        flip: false,
+        shift: false,
+      })
       .scroll({ strategy: 'reposition' })
       .dismiss({ outsideClick: true, escapeKey: true })
       .size({ mode: 'content' })

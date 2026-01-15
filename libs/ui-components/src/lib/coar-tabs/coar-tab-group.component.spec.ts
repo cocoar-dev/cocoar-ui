@@ -1,11 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, TemplateRef, ViewChild } from '@angular/core';
 import { CoarTabGroupComponent } from './coar-tab-group.component';
 import { CoarTabComponent } from './coar-tab.component';
 
 // Test host component with tabs
 @Component({
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CoarTabGroupComponent, CoarTabComponent],
   template: `
     <coar-tab-group [activeTab]="activeTab" (activeTabChange)="onActiveTabChange($event)">
@@ -181,7 +182,8 @@ describe('CoarTabGroupComponent', () => {
 
   describe('keyboard navigation', () => {
     it('should navigate right with ArrowRight', () => {
-      const firstTab = getTabButton(0)!;
+      const firstTab = getTabButton(0);
+      if (!firstTab) throw new Error('First tab not found');
       firstTab.focus();
 
       const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
@@ -196,7 +198,8 @@ describe('CoarTabGroupComponent', () => {
       getTabButton(1)?.click();
       fixture.detectChanges();
 
-      const secondTab = getTabButton(1)!;
+      const secondTab = getTabButton(1);
+      if (!secondTab) throw new Error('Second tab not found');
       secondTab.focus();
 
       const event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
@@ -212,7 +215,8 @@ describe('CoarTabGroupComponent', () => {
       getTabButton(1)?.click();
       fixture.detectChanges();
 
-      const secondTab = getTabButton(1)!;
+      const secondTab = getTabButton(1);
+      if (!secondTab) throw new Error('Second tab not found');
       secondTab.focus();
 
       const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
@@ -234,7 +238,8 @@ describe('CoarTabGroupComponent', () => {
       const getButton = (index: number) =>
         newElement.querySelectorAll('[role="tab"]')[index] as HTMLButtonElement;
 
-      const firstTab = getButton(0)!;
+      const firstTab = getButton(0);
+      if (!firstTab) throw new Error('First tab not found');
       firstTab.focus();
 
       const event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
@@ -251,7 +256,8 @@ describe('CoarTabGroupComponent', () => {
       getTabButton(1)?.click();
       fixture.detectChanges();
 
-      const secondTab = getTabButton(1)!;
+      const secondTab = getTabButton(1);
+      if (!secondTab) throw new Error('Second tab not found');
       secondTab.focus();
 
       const event = new KeyboardEvent('keydown', { key: 'Home' });
@@ -262,7 +268,8 @@ describe('CoarTabGroupComponent', () => {
     });
 
     it('should navigate to last tab with End', () => {
-      const firstTab = getTabButton(0)!;
+      const firstTab = getTabButton(0);
+      if (!firstTab) throw new Error('First tab not found');
       firstTab.focus();
 
       const event = new KeyboardEvent('keydown', { key: 'End' });
@@ -283,7 +290,8 @@ describe('CoarTabGroupComponent', () => {
       const getButton = (index: number) =>
         newElement.querySelectorAll('[role="tab"]')[index] as HTMLButtonElement;
 
-      const firstTab = getButton(0)!;
+      const firstTab = getButton(0);
+      if (!firstTab) throw new Error('First tab not found');
       firstTab.focus();
 
       const event = new KeyboardEvent('keydown', { key: 'End' });

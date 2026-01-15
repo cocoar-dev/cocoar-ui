@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
@@ -6,6 +6,7 @@ import { CoarTooltipDirective } from './coar-tooltip.directive';
 
 @Component({
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CoarTooltipDirective],
   template: `
     <button
@@ -55,6 +56,7 @@ describe('CoarTooltipDirective', () => {
 
     @Component({
       standalone: true,
+      changeDetection: ChangeDetectionStrategy.OnPush,
       imports: [CoarTooltipDirective],
       template: `
         <button
