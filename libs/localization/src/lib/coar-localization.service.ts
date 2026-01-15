@@ -58,13 +58,6 @@ export class CoarLocalizationService {
   private readonly languageChangedSubject = new Subject<string>();
 
   constructor() {
-    const defaultLang = this.config?.defaultLanguage ?? 'en';
-    console.debug('[CoarLocalizationService] Initialized with defaultLanguage:', defaultLang);
-    console.debug(
-      '[CoarLocalizationService] language Signal initial value:',
-      this.languageSignal()
-    );
-
     // Expose to window for debugging
     if (typeof window !== 'undefined') {
       (window as any).__coarLocalizationStore = this.localeDataStore;
@@ -143,23 +136,11 @@ export class CoarLocalizationService {
    */
   async setLanguage(language: string): Promise<void> {
     const current = this.languageSignal();
-    console.debug(
-      '[CoarLocalizationService] setLanguage called - current:',
-      current,
-      'new:',
-      language
-    );
 
     // Load locale data if not already loaded (cached)
     if (!this.localeDataStore.hasLocaleData(language)) {
-      console.debug(
-        '[CoarLocalizationService] Locale data not cached for:',
-        language,
-        '- loading...'
-      );
       try {
         await this.loadAndmergeLocalizationData(language);
-        console.debug('[CoarLocalizationService] Locale data loaded for:', language);
       } catch (error) {
         console.warn(
           `[CoarLocalizationService] Failed to load locale data for '${language}':`,
@@ -168,17 +149,12 @@ export class CoarLocalizationService {
         // Continue with language switch even if locale data fails to load
         // Formatting pipes will use fallback values
       }
-    } else {
-      console.debug('[CoarLocalizationService] Locale data already cached for:', language);
     }
 
     // Only notify if language actually changed
     if (current !== language) {
-      console.debug('[CoarLocalizationService] Language changed from', current, 'to', language);
       this.languageSignal.set(language);
       this.languageChangedSubject.next(language);
-    } else {
-      console.debug('[CoarLocalizationService] Language unchanged:', language);
     }
   }
 

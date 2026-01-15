@@ -126,9 +126,7 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
   /** Current language from localization service (reactive) */
   private readonly currentLanguage = computed(() => {
     // Use the language Signal from service if available, otherwise undefined
-    const lang = this.localizationService?.language();
-    console.debug('[CoarDatePicker] currentLanguage computed:', lang);
-    return lang;
+    return this.localizationService?.language();
   });
 
   // ============================================================
@@ -272,20 +270,9 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
   protected displayValue = signal('');
 
   /** Days of week header (localized based on locale and firstDayOfWeek) */
-  protected daysOfWeek = computed(() => {
-    const locale = this.effectiveLocale();
-    const firstDay = this.firstDayOfWeek();
-    const days = getLocalizedWeekdays(locale, firstDay);
-    console.debug(
-      '[CoarDatePicker] daysOfWeek - locale:',
-      locale,
-      'firstDay:',
-      firstDay,
-      'days:',
-      days
-    );
-    return days;
-  });
+  protected daysOfWeek = computed(() =>
+    getLocalizedWeekdays(this.effectiveLocale(), this.firstDayOfWeek())
+  );
 
   /** Reference to the input element */
   protected inputRef = viewChild<ElementRef<HTMLInputElement>>('dateInput');
@@ -368,18 +355,7 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
    * Priority: input locale > locale service language > browser locale
    */
   protected effectiveLocale = computed(() => {
-    const localeInput = this.locale();
-    const currentLang = this.currentLanguage();
-    const effective = localeInput ?? currentLang ?? navigator.language;
-    console.debug(
-      '[CoarDatePicker] effectiveLocale - input:',
-      localeInput,
-      'currentLang:',
-      currentLang,
-      'effective:',
-      effective
-    );
-    return effective;
+    return this.locale() ?? this.currentLanguage() ?? navigator.language;
   });
 
   /** Whether the picker has an error state */
@@ -444,20 +420,11 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
   protected viewMonth = computed(() => {
     const viewMonth = this.viewDate();
     const locale = this.effectiveLocale();
-    const formatter = new Intl.DateTimeFormat(locale, {
+    const formatter = new Intl.DateTimeFormat(this.effectiveLocale(), {
       month: 'long',
     });
     const jsDate = new Date(viewMonth.year, viewMonth.month - 1, 1);
-    const monthName = formatter.format(jsDate);
-    console.debug(
-      '[CoarDatePicker] viewMonth - locale:',
-      locale,
-      'month:',
-      viewMonth.month,
-      'name:',
-      monthName
-    );
-    return monthName;
+    return formatter.format(jsDate);
   });
 
   /** Year for calendar header */
