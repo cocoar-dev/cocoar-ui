@@ -3,14 +3,17 @@ import {
   Component,
   computed,
   effect,
+  inject,
   input,
   model,
   output,
   signal,
   booleanAttribute,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { Temporal } from '@js-temporal/polyfill';
+import { of } from 'rxjs';
 
 import type { DateFormatConfig } from '../date/coar-date-format';
 import type { CoarDateMarker } from '../date/coar-date-marker';
@@ -25,7 +28,11 @@ import {
 import { CoarIconComponent } from '../coar-icon/coar-icon.component';
 import { CoarPopoverComponent } from '../coar-popover/coar-popover.component';
 import { CoarPopoverGroupService } from '../coar-popover/coar-popover-group.service';
-import { CoarI18nPipe } from '@cocoar/localization';
+import {
+  CoarI18nPipe,
+  CoarLocalizationService,
+  CoarLocalizationDataStore,
+} from '@cocoar/localization';
 
 @Component({
   selector: 'coar-mini-calendar',
@@ -37,6 +44,17 @@ import { CoarI18nPipe } from '@cocoar/localization';
   providers: [CoarPopoverGroupService],
 })
 export class CoarMiniCalendarComponent {
+  private readonly localizationService = inject(CoarLocalizationService, { optional: true });
+  private readonly localizationDataStore = inject(CoarLocalizationDataStore, { optional: true });
+
+  /** Current language from localization service (reactive) */
+  private readonly currentLanguage = toSignal(
+    this.localizationService?.languageState.value$ ?? of(''),
+    {
+      initialValue: this.localizationService?.languageState.value ?? '',
+    }
+  );
+
   /** Current selected date (two-way bindable with [(value)]) */
   value = model<Temporal.PlainDate | null>(null);
   valueChange = output<Temporal.PlainDate | null>();
@@ -47,8 +65,11 @@ export class CoarMiniCalendarComponent {
   /** Maximum selectable date */
   max = input<Temporal.PlainDate | null>(null);
 
-  /** Locale identifier for calendar month/week labels */
-  locale = input<string>(navigator.language);
+  /**
+   * Locale identifier for date formatting (e.g., 'de-AT', 'en-US').
+   * Uses global locale service default if not specified.
+   */
+  locale = input<string>();
 
   /** Date format configuration (pattern and first day of week) */
   dateFormatConfig = input<DateFormatConfig>();
@@ -79,18 +100,37 @@ export class CoarMiniCalendarComponent {
   /** Focused date in the calendar (for keyboard navigation) */
   protected focusedDate = signal<Temporal.PlainDate | null>(null);
 
+  /**
+   * Effective locale for calendar month/year display.
+   * Priority: input locale > locale service language > browser locale
+   */
+  protected effectiveLocale = computed(() => {
+    return this.locale() ?? this.currentLanguage() ?? navigator.language;
+  });
+
   protected effectiveDateFormat = computed((): DateFormatConfig => {
     const directConfig = this.dateFormatConfig();
     if (directConfig) return directConfig;
 
-    const detectedPattern = coarDetectDateFormatPatternFromIntl(this.locale());
+    // Try to get from localization data store (which uses Intl with proper firstDayOfWeek detection)
+    const storeLocale = this.effectiveLocale();
+    const localeData = this.localizationDataStore?.getLocaleData(storeLocale);
+    if (localeData?.date) {
+      return {
+        pattern: localeData.date.pattern,
+        firstDayOfWeek: localeData.date.firstDayOfWeek === 0 ? 7 : 1, // Convert 0=Sunday to 7, keep 1=Monday
+      };
+    }
+
+    // Fallback: detect pattern from Intl, default firstDayOfWeek to Monday
+    const detectedPattern = coarDetectDateFormatPatternFromIntl(this.effectiveLocale());
     return { pattern: detectedPattern ?? 'dd.mm.yyyy', firstDayOfWeek: 1 };
   });
 
   protected firstDayOfWeek = computed(() => this.effectiveDateFormat().firstDayOfWeek);
 
   protected daysOfWeek = computed(() =>
-    coarGetLocalizedWeekdays(this.locale(), this.firstDayOfWeek())
+    coarGetLocalizedWeekdays(this.effectiveLocale(), this.firstDayOfWeek())
   );
 
   protected calendarDays = computed(() => {
@@ -101,7 +141,7 @@ export class CoarMiniCalendarComponent {
 
   protected viewMonth = computed(() => {
     const viewMonth = this.viewDate();
-    const formatter = new Intl.DateTimeFormat(this.locale(), { month: 'long' });
+    const formatter = new Intl.DateTimeFormat(this.effectiveLocale(), { month: 'long' });
     const jsDate = new Date(viewMonth.year, viewMonth.month - 1, 1);
     return formatter.format(jsDate);
   });

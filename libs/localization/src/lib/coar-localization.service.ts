@@ -1,9 +1,20 @@
 import { inject, Injectable } from '@angular/core';
-import { BehaviorSubject, lastValueFrom } from 'rxjs';
+import { BehaviorSubject, Subject, lastValueFrom } from 'rxjs';
 import { ReadonlyState } from '@cocoar/ts-utils';
-import { COAR_LOCALIZATION_CONFIG, COAR_LOCALIZATION_DATA_LOADERS } from './provide-coar-localization';
+import {
+  COAR_LOCALIZATION_CONFIG,
+  COAR_LOCALIZATION_DATA_LOADERS,
+} from './provide-coar-localization';
 import { CoarLocalizationDataStore } from './l10n/localization-data-store';
 import { mergeLocalizationData } from './l10n/merge-localization-data';
+
+/**
+ * Represents a pending language change that needs coordination with i18n.
+ */
+interface PendingLanguageChange {
+  language: string;
+  resolve: () => void;
+}
 
 /**
  * Core locale service responsible for language management.
@@ -45,10 +56,18 @@ import { mergeLocalizationData } from './l10n/merge-localization-data';
 export class CoarLocalizationService {
   private readonly config = inject(COAR_LOCALIZATION_CONFIG, { optional: true });
   private readonly localeDataStore = inject(CoarLocalizationDataStore);
-  private readonly localeDataLoaders = inject(COAR_LOCALIZATION_DATA_LOADERS, { optional: true }) ?? [];
+  private readonly localeDataLoaders =
+    inject(COAR_LOCALIZATION_DATA_LOADERS, { optional: true }) ?? [];
   private readonly defaultLanguage = this.config?.defaultLanguage ?? 'en';
 
   private readonly languageSubject = new BehaviorSubject<string>(this.defaultLanguage);
+
+  /**
+   * Subject for coordinating language changes with i18n service.
+   * The i18n service subscribes to this to load translations BEFORE the language change is emitted.
+   * @internal
+   */
+  readonly pendingLanguageChange$ = new Subject<PendingLanguageChange>();
 
   /**
    * Canonical language state.
@@ -61,8 +80,9 @@ export class CoarLocalizationService {
   constructor() {
     // Expose to window for debugging
     if (typeof window !== 'undefined') {
-      (window as unknown as { __coarLocalizationStore?: CoarLocalizationDataStore }).__coarLocalizationStore =
-        this.localeDataStore;
+      (
+        window as unknown as { __coarLocalizationStore?: CoarLocalizationDataStore }
+      ).__coarLocalizationStore = this.localeDataStore;
     }
   }
 
@@ -88,21 +108,36 @@ export class CoarLocalizationService {
   async setLanguage(language: string): Promise<void> {
     const current = this.languageState.value;
 
+    // Skip if language hasn't changed
+    if (current === language) {
+      return;
+    }
+
     // Load locale data if not already loaded (cached)
     if (!this.localeDataStore.hasLocaleData(language)) {
       try {
         await this.loadAndmergeLocalizationData(language);
       } catch (error) {
-        console.warn(`[CoarLocalizationService] Failed to load locale data for '${language}':`, error);
+        console.warn(
+          `[CoarLocalizationService] Failed to load locale data for '${language}':`,
+          error
+        );
         // Continue with language switch even if locale data fails to load
         // Formatting pipes will use fallback values
       }
     }
 
-    // Only notify if language actually changed
-    if (current !== language) {
-      this.languageSubject.next(language);
-    }
+    // Wait for i18n service to load translations before emitting language change
+    // Use a timeout in case i18n service is not injected (e.g., in tests)
+    await Promise.race([
+      new Promise<void>((resolve) => {
+        this.pendingLanguageChange$.next({ language, resolve });
+      }),
+      new Promise<void>((resolve) => setTimeout(resolve, 100)), // Fallback timeout
+    ]);
+
+    // Now emit the language change (UI will react with translations ready)
+    this.languageSubject.next(language);
   }
 
   /**
@@ -160,7 +195,10 @@ export class CoarLocalizationService {
     try {
       await this.loadAndmergeLocalizationData(language);
     } catch (error) {
-      console.warn(`[CoarLocalizationService] Failed to preload locale data for '${language}':`, error);
+      console.warn(
+        `[CoarLocalizationService] Failed to preload locale data for '${language}':`,
+        error
+      );
       throw error;
     }
   }

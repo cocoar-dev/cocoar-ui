@@ -45,8 +45,28 @@ export class CoarI18nService implements CoarI18nProvider {
   private readonly destroyRef = inject(DestroyRef);
 
   constructor() {
-    // Auto-load translations when language changes.
-    // Observable-first so there is a single canonical dataflow.
+    // Coordination: Wait for pending language changes, load translations, then resolve
+    // This ensures translations are ready BEFORE the language state changes
+    this.locale.pendingLanguageChange$
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        switchMap(({ language, resolve }) => {
+          // Load translations if not already loaded
+          if (this.store.hasLanguage(language)) {
+            resolve(); // Already loaded, resolve immediately
+            return of(void 0);
+          }
+
+          // Load and then resolve
+          return this.loadLanguage(language).pipe(
+            tap(() => resolve()) // Signal that translations are ready
+          );
+        })
+      )
+      .subscribe();
+
+    // Fallback: Auto-load translations when language changes without coordination
+    // (for backwards compatibility if someone directly mutates the subject)
     this.locale.languageState.value$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((lang) => {
       if (this.store.hasLanguage(lang)) {
         return;
