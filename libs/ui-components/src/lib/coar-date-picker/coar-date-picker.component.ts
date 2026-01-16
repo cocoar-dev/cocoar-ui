@@ -423,7 +423,6 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
   /** Month name for calendar header */
   protected viewMonth = computed(() => {
     const viewMonth = this.viewDate();
-    const locale = this.effectiveLocale();
     const formatter = new Intl.DateTimeFormat(this.effectiveLocale(), {
       month: 'long',
     });
