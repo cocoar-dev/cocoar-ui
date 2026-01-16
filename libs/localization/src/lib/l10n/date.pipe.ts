@@ -42,7 +42,7 @@ export class CoarDatePipe implements PipeTransform {
       date = value;
     }
 
-    const effectiveLocale = locale ?? this.localeService.getCurrentLanguage();
+    const effectiveLocale = locale ?? this.localeService.languageState.value;
     const localeData = this.localeDataStore.getLocaleData(effectiveLocale);
 
     if (!localeData) {

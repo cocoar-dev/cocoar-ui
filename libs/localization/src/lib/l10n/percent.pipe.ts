@@ -25,7 +25,7 @@ export class CoarPercentPipe implements PipeTransform {
   transform(value: number | null | undefined, locale?: string, decimals?: number): string {
     if (value == null || isNaN(value)) return '';
 
-    const effectiveLocale = locale ?? this.localeService.getCurrentLanguage();
+    const effectiveLocale = locale ?? this.localeService.languageState.value;
     const localeData = this.localeDataStore.getLocaleData(effectiveLocale);
 
     if (!localeData) {
@@ -49,7 +49,7 @@ export class CoarPercentPipe implements PipeTransform {
         : formattedInteger;
 
     // Add percent symbol
-    const space = percentConfig.spacing ? ' ' : '';
+    const space = percentConfig.spacing ? '\u00A0' : '';
     return `${formattedNumber}${space}${percentConfig.symbol}`;
   }
 }

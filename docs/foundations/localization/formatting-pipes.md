@@ -133,7 +133,7 @@ export class CoarDatePipe implements PipeTransform {
   private readonly locale = inject(CoarLocalizationService);
 
   transform(value: Date | string | number, format?: string): string | null {
-    const currentLocale = this.locale.getCurrentLanguage();
+    const currentLocale = this.locale.languageState.value;
     const datePipe = new DatePipe(currentLocale);
     return datePipe.transform(value, format);
   }

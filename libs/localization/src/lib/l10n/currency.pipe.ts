@@ -23,7 +23,7 @@ export class CoarCurrencyPipe implements PipeTransform {
   transform(value: number | null | undefined, locale?: string, currency?: string): string {
     if (value == null || isNaN(value)) return '';
 
-    const effectiveLocale = locale ?? this.localeService.getCurrentLanguage();
+    const effectiveLocale = locale ?? this.localeService.languageState.value;
     const localeData = this.localeDataStore.getLocaleData(effectiveLocale);
 
     if (!localeData) {
@@ -46,7 +46,7 @@ export class CoarCurrencyPipe implements PipeTransform {
         : formattedInteger;
 
     // Add currency symbol
-    const space = currencyConfig.spacing ? ' ' : '';
+    const space = currencyConfig.spacing ? '\u00A0' : '';
     if (currencyConfig.position === 'before') {
       return `${symbol}${space}${formattedNumber}`;
     } else {

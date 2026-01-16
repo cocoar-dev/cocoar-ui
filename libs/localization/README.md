@@ -8,11 +8,11 @@ This library provides centralized language management, formatting (L10n), and tr
 
 ## Features
 
-- **Language Management** - Centralized language state with Signal-based API
+- **Language Management** - Centralized language state with Observable-first API
 - **L10n (Localization)** - Date, number, currency, percent formatting with browser Intl API + optional HTTP overrides
 - **i18n (Internationalization)** - Translation system with automatic loading and parameter interpolation
 - **Automatic Synchronization** - Language changes automatically trigger L10n and i18n updates
-- **Reactive API** - Angular Signals for reactive language and translation updates
+- **Reactive API** - Observable-first API; Signals are available for Angular template/Signal edges
 - **Lightweight** - Zero dependencies beyond Angular core and RxJS
 
 ## Installation
@@ -40,7 +40,7 @@ export const appConfig: ApplicationConfig = {
 ```
 
 This gives you:
-- Language management (`CoarLocalizationService`)
+- Language management (`CoarLocalizationService`, Observable-first)
 - Browser Intl API for formatting (date, number, currency, percent)
 - i18n system (but no translation loader)
 
@@ -74,14 +74,15 @@ export const appConfig: ApplicationConfig = {
 ```
 
 ```typescript
-import { Component, inject, effect } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CoarLocalizationService } from '@cocoar/localization';
 
 @Component({
   selector: 'app-language-switcher',
   template: `
     <div>
-      <p>Current language: {{ locale.language() }}</p>
+      <p>Current language: {{ currentLanguage() }}</p>
       <button (click)="switchToGerman()">Deutsch</button>
       <button (click)="switchToEnglish()">English</button>
     </div>
@@ -89,13 +90,9 @@ import { CoarLocalizationService } from '@cocoar/localization';
 })
 export class LanguageSwitcherComponent {
   readonly locale = inject(CoarLocalizationService);
-
-  constructor() {
-    // React to language changes using effects
-    effect(() => {
-      console.log('Language changed to:', this.locale.language());
-    });
-  }
+  readonly currentLanguage = toSignal(this.locale.languageState.value$, {
+    initialValue: this.locale.languageState.value,
+  });
 
   switchToGerman() {
     this.locale.setLanguage('de');
@@ -104,26 +101,6 @@ export class LanguageSwitcherComponent {
   switchToEnglish() {
     this.locale.setLanguage('en');
   }
-}
-```
-
-### Using the Signal
-
-```typescript
-import { Component, inject, computed } from '@angular/core';
-import { CoarLocalizationService } from '@cocoar/localization';
-
-@Component({
-  selector: 'app-example',
-  template: `<h1>{{ greeting() }}</h1>`,
-})
-export class ExampleComponent {
-  private readonly locale = inject(CoarLocalizationService);
-
-  readonly greeting = computed(() => {
-    const lang = this.locale.language();
-    return lang === 'de' ? 'Hallo Welt' : 'Hello World';
-  });
 }
 ```
 
@@ -143,13 +120,16 @@ export class ExampleComponent implements OnInit {
 
   ngOnInit() {
     // Subscribe to language changes
-    this.locale.languageChanged$.subscribe((newLang) => {
+    this.locale.languageState.value$.subscribe((newLang) => {
       console.log('Language changed to:', newLang);
       this.changeCount++;
       // Reload data, update formatting, etc.
     });
   }
 }
+
+// Note: languageState.value$ emits the current language immediately on subscribe.
+// If you only care about subsequent changes, use `skip(1)` in your pipe chain.
 ```
 
 ### Getting Current Language
@@ -162,7 +142,7 @@ export class MyService {
   private readonly locale = inject(CoarLocalizationService);
 
   doWork() {
-    const currentLang = this.locale.getCurrentLanguage();
+    const currentLang = this.locale.languageState.value;
     console.log('Current language:', currentLang);
   }
 }
@@ -197,12 +177,10 @@ provideCoarLocalization({
 
 #### Properties
 
-- **`language: Signal<string>`** - Signal containing the current language code
-- **`languageChanged$: Observable<string>`** - Observable that emits when language changes
+- **`languageState: ReadonlyState<string>`** - Canonical language state (`.value` + `.value$`)
 
 #### Methods
 
-- **`getCurrentLanguage(): string`** - Returns the current language code
 - **`setLanguage(language: string): Promise<void>`** - Sets the current language (async to load data)
 - **`getDefaultLanguage(): string`** - Returns the default language (from config)
 

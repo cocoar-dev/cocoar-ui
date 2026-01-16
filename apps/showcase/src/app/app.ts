@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 
 import {
@@ -7,11 +8,7 @@ import {
   CoarSidebarComponent,
   CoarSingleSelectComponent,
 } from '@cocoar/ui-components';
-import {
-  CoarMenuComponent,
-  CoarMenuItemComponent,
-  CoarMenuHeadingComponent,
-} from '@cocoar/ui-menu';
+import { CoarMenuComponent, CoarMenuItemComponent, CoarMenuHeadingComponent } from '@cocoar/ui-menu';
 import { CoarLocalizationService } from '@cocoar/localization';
 
 @Component({
@@ -39,7 +36,9 @@ export class App {
     { value: 'de', label: '🇩🇪 Deutsch' },
   ];
 
-  currentLanguage = this.localization.language();
+  currentLanguage = toSignal(this.localization.languageState.value$, {
+    initialValue: this.localization.languageState.value,
+  });
 
   toggleTheme(): void {
     this.isDarkMode = !this.isDarkMode;
@@ -49,6 +48,5 @@ export class App {
   switchLanguage(lang: string | null): void {
     if (!lang) return;
     this.localization.setLanguage(lang);
-    this.currentLanguage = lang;
   }
 }

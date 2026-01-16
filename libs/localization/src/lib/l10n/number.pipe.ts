@@ -23,7 +23,7 @@ export class CoarNumberPipe implements PipeTransform {
   transform(value: number | null | undefined, locale?: string, decimals = 2): string {
     if (value == null || isNaN(value)) return '';
 
-    const effectiveLocale = locale ?? this.localeService.getCurrentLanguage();
+    const effectiveLocale = locale ?? this.localeService.languageState.value;
     const localeData = this.localeDataStore.getLocaleData(effectiveLocale);
 
     if (!localeData) {

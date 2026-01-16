@@ -19,33 +19,33 @@ describe('CoarI18nContext', () => {
     expect(context).toBeTruthy();
   });
 
-  describe('getCurrentLanguage', () => {
-    it('should return the current language from CoarLocalizationService', () => {
-      expect(context.getCurrentLanguage()).toBe('en');
+  describe('languageState', () => {
+    it('should expose the current language from CoarLocalizationService', () => {
+      expect(context.languageState.value).toBe('en');
     });
 
-    it('should return updated language after change', async () => {
+    it('should reflect updated language after change', async () => {
       await localeService.setLanguage('de');
-      expect(context.getCurrentLanguage()).toBe('de');
+      expect(context.languageState.value).toBe('de');
 
       await localeService.setLanguage('fr');
-      expect(context.getCurrentLanguage()).toBe('fr');
+      expect(context.languageState.value).toBe('fr');
     });
 
     it('should support language codes with regions', async () => {
       await localeService.setLanguage('en-US');
-      expect(context.getCurrentLanguage()).toBe('en-US');
+      expect(context.languageState.value).toBe('en-US');
 
       await localeService.setLanguage('de-AT');
-      expect(context.getCurrentLanguage()).toBe('de-AT');
+      expect(context.languageState.value).toBe('de-AT');
     });
   });
 
-  describe('language$ observable', () => {
+  describe('languageState.value$ observable', () => {
     it('should emit when language changes via CoarLocalizationService', async () => {
       const emittedValues: string[] = [];
 
-      context.language$.subscribe((lang) => {
+      context.languageState.value$.subscribe((lang) => {
         emittedValues.push(lang);
       });
 
@@ -54,13 +54,13 @@ describe('CoarI18nContext', () => {
 
       await new Promise((resolve) => setTimeout(resolve, 10));
 
-      expect(emittedValues).toEqual(['de', 'fr']);
+      expect(emittedValues).toEqual(['en', 'de', 'fr']);
     });
 
     it('should not emit when language does not change', async () => {
       const emittedValues: string[] = [];
 
-      context.language$.subscribe((lang) => {
+      context.languageState.value$.subscribe((lang) => {
         emittedValues.push(lang);
       });
 
@@ -71,18 +71,18 @@ describe('CoarI18nContext', () => {
 
       await new Promise((resolve) => setTimeout(resolve, 10));
 
-      expect(emittedValues).toEqual(['de', 'fr']);
+      expect(emittedValues).toEqual(['en', 'de', 'fr']);
     });
 
     it('should support multiple subscribers', async () => {
       const subscriber1Values: string[] = [];
       const subscriber2Values: string[] = [];
 
-      context.language$.subscribe((lang) => {
+      context.languageState.value$.subscribe((lang) => {
         subscriber1Values.push(lang);
       });
 
-      context.language$.subscribe((lang) => {
+      context.languageState.value$.subscribe((lang) => {
         subscriber2Values.push(lang);
       });
 
@@ -91,12 +91,12 @@ describe('CoarI18nContext', () => {
 
       await new Promise((resolve) => setTimeout(resolve, 10));
 
-      expect(subscriber1Values).toEqual(['de', 'fr']);
-      expect(subscriber2Values).toEqual(['de', 'fr']);
+      expect(subscriber1Values).toEqual(['en', 'de', 'fr']);
+      expect(subscriber2Values).toEqual(['en', 'de', 'fr']);
     });
 
-    it('should reflect same observable as CoarLocalizationService.languageChanged$', () => {
-      expect(context.language$).toBe(localeService.languageChanged$);
+    it('should reflect same state as CoarLocalizationService.languageState', () => {
+      expect(context.languageState).toBe(localeService.languageState);
     });
   });
 
@@ -104,22 +104,22 @@ describe('CoarI18nContext', () => {
     it('should stay synchronized with CoarLocalizationService state', async () => {
       const contextValues: string[] = [];
 
-      context.language$.subscribe((lang) => {
+      context.languageState.value$.subscribe((lang) => {
         contextValues.push(lang);
       });
 
       await localeService.setLanguage('de');
-      expect(context.getCurrentLanguage()).toBe('de');
+      expect(context.languageState.value).toBe('de');
 
       await localeService.setLanguage('fr');
-      expect(context.getCurrentLanguage()).toBe('fr');
+      expect(context.languageState.value).toBe('fr');
 
       await localeService.setLanguage('en-US');
-      expect(context.getCurrentLanguage()).toBe('en-US');
+      expect(context.languageState.value).toBe('en-US');
 
       await new Promise((resolve) => setTimeout(resolve, 10));
 
-      expect(contextValues).toEqual(['de', 'fr', 'en-US']);
+      expect(contextValues).toEqual(['en', 'de', 'fr', 'en-US']);
     });
 
     it('should provide consistent state across multiple context instances', async () => {
@@ -128,9 +128,9 @@ describe('CoarI18nContext', () => {
 
       await localeService.setLanguage('de');
 
-      expect(context1.getCurrentLanguage()).toBe('de');
-      expect(context2.getCurrentLanguage()).toBe('de');
-      expect(context.getCurrentLanguage()).toBe('de');
+      expect(context1.languageState.value).toBe('de');
+      expect(context2.languageState.value).toBe('de');
+      expect(context.languageState.value).toBe('de');
     });
   });
 });

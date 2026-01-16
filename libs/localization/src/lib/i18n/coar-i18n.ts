@@ -2,7 +2,7 @@ import { Injectable, Signal, inject } from '@angular/core';
 import { COAR_I18N_PROVIDER } from './coar-i18n-provider';
 import { coarIsMissingTranslation } from './coar-is-missing-translation';
 import { coarInterpolate } from './coar-interpolate';
-import { distinctUntilChanged, map, Observable, startWith } from 'rxjs';
+import { distinctUntilChanged, map, Observable } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CoarLocalizationService } from '../coar-localization.service';
 
@@ -24,11 +24,7 @@ export class CoarI18n {
   t(key: string, fallback: string): string;
   t(key: string, params: Record<string, unknown>): string;
   t(key: string, fallback: string, params?: Record<string, unknown>): string;
-  t(
-    key: string,
-    fallbackOrParams?: string | Record<string, unknown>,
-    maybeParams?: Record<string, unknown>
-  ): string {
+  t(key: string, fallbackOrParams?: string | Record<string, unknown>, maybeParams?: Record<string, unknown>): string {
     let fallback: string | undefined;
     let params: Record<string, unknown> | undefined;
 
@@ -56,9 +52,7 @@ export class CoarI18n {
    */
   t$(key: string, params?: Record<string, unknown>, fallback?: string): Observable<string> {
     // Re-evaluate on every language change from CoarLocalizationService
-    // startWith ensures initial emission
-    return this.locale.languageChanged$.pipe(
-      startWith(undefined),
+    return this.locale.languageState.value$.pipe(
       map(() => this.callT(key, params, fallback)),
       distinctUntilChanged()
     );

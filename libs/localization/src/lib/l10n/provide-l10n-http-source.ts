@@ -84,7 +84,7 @@ export interface CoarHttpLocaleSourceConfig {
 export function provideCoarL10nHttpSource(
   config?: CoarHttpLocaleSourceConfig
 ): EnvironmentProviders {
-  const urlFn = config?.url ?? ((lang: string) => `/l10n/${lang}.json`);
+  const urlFn = config?.url ?? ((lang: string) => `/locales/${lang}.json`);
   const headers = config?.headers;
 
   return makeEnvironmentProviders([

@@ -3,9 +3,9 @@
   <p class="lead">Complete localization system covering translations (i18n) and locale formatting (L10n) for Angular applications.</p>
 
   <div class="controls">
-    <coar-button (click)="toggleLang()"> Switch to {{ locale.getCurrentLanguage() === 'en' ? 'German' : 'English' }} </coar-button>
+    <coar-button (click)="toggleLang()"> Switch to {{ locale.languageState.value === 'en' ? 'German' : 'English' }} </coar-button>
     <p>
-      Current language: <strong>{{ locale.getCurrentLanguage() }}</strong>
+      Current language: <strong>{{ locale.languageState.value }}</strong>
     </p>
   </div>
 

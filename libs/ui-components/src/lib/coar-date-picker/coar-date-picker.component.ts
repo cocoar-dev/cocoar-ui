@@ -12,9 +12,10 @@ import {
   viewChild,
   booleanAttribute,
   DestroyRef,
-  afterNextRender,
   TemplateRef,
 } from '@angular/core';
+
+import { toSignal } from '@angular/core/rxjs-interop';
 
 import { FormsModule } from '@angular/forms';
 import { Temporal } from '@js-temporal/polyfill';
@@ -28,6 +29,7 @@ import {
   CoarControlValueAccessor,
 } from '../forms/coar-control-value-accessor';
 import { CoarLocalizationService, CoarLocalizationDataStore } from '@cocoar/localization';
+import { of } from 'rxjs';
 
 /** Configuration for date formatting */
 export interface DateFormatConfig {
@@ -124,10 +126,12 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
   private overlayRef: OverlayRef | null = null;
 
   /** Current language from localization service (reactive) */
-  private readonly currentLanguage = computed(() => {
-    // Use the language Signal from service if available, otherwise undefined
-    return this.localizationService?.language();
-  });
+  private readonly currentLanguage = toSignal(
+    this.localizationService?.languageState.value$ ?? of(''),
+    {
+      initialValue: this.localizationService?.languageState.value ?? '',
+    }
+  );
 
   // ============================================================
   // Inputs
@@ -299,9 +303,9 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
     }
 
     // 2. Try to get from localization data store (which uses Intl with proper firstDayOfWeek detection)
-    const currentLang = this.localizationService?.getCurrentLanguage();
-    const localeData = currentLang
-      ? this.localizationDataStore?.getLocaleData(currentLang)
+    const storeLocale = this.locale() ?? this.currentLanguage();
+    const localeData = storeLocale
+      ? this.localizationDataStore?.getLocaleData(storeLocale)
       : undefined;
     if (localeData?.date) {
       return {
@@ -474,12 +478,15 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
       }
     });
 
-    // Initialize Maskito after render
-    afterNextRender(() => {
+    // Keep Maskito config in sync with date format + constraints.
+    effect(() => {
       const inputElement = this.inputRef()?.nativeElement;
-      if (inputElement) {
-        this.initializeMaskito(inputElement);
+      if (!inputElement) {
+        return;
       }
+
+      this.maskitoInstance?.destroy();
+      this.initializeMaskito(inputElement);
     });
 
     // Cleanup on destroy

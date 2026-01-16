@@ -18,10 +18,7 @@ import {
 
 import { FormsModule } from '@angular/forms';
 import { CoarIconComponent, CoarIconSize } from '../coar-icon/coar-icon.component';
-import {
-  CoarControlValueAccessor,
-  coarProvideValueAccessor,
-} from '../forms/coar-control-value-accessor';
+import { CoarControlValueAccessor, coarProvideValueAccessor } from '../forms/coar-control-value-accessor';
 import { Maskito } from '@maskito/core';
 import { maskitoNumberOptionsGenerator } from '@maskito/kit';
 import { of } from 'rxjs';
@@ -79,7 +76,10 @@ export class CoarNumberInputComponent extends CoarControlValueAccessor<number | 
   private readonly destroyRef = inject(DestroyRef);
   private readonly localizationService = inject(CoarLocalizationService, { optional: true });
   private readonly currentLanguage = toSignal(
-    this.localizationService?.languageChanged$ ?? of(navigator.language)
+    this.localizationService?.languageState.value$ ?? of(navigator.language),
+    {
+      initialValue: this.localizationService?.languageState.value ?? navigator.language,
+    }
   );
   private maskitoInstance?: Maskito;
 
@@ -318,9 +318,7 @@ export class CoarNumberInputComponent extends CoarControlValueAccessor<number | 
     if (str.trim() === '') return null;
     const format = this.resolveNumberFormat();
     // Remove thousand separators first (before converting decimal)
-    const withoutThousands = format.thousand
-      ? str.replace(new RegExp(`\\${format.thousand}`, 'g'), '')
-      : str;
+    const withoutThousands = format.thousand ? str.replace(new RegExp(`\\${format.thousand}`, 'g'), '') : str;
     // Replace locale-specific decimal separator with period for parseFloat
     const normalized = withoutThousands.replace(format.decimal, '.');
     const parsed = parseFloat(normalized);

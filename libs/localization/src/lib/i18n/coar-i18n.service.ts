@@ -1,4 +1,5 @@
-import { Injectable, computed, effect, inject, untracked } from '@angular/core';
+import { DestroyRef, Injectable, inject } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Observable, of, switchMap, tap, catchError } from 'rxjs';
 import { CoarLocalizationService } from '../coar-localization.service';
 import { CoarI18nProvider } from './coar-i18n-provider';
@@ -41,37 +42,23 @@ export class CoarI18nService implements CoarI18nProvider {
   private readonly locale = inject(CoarLocalizationService);
   private readonly store = inject(CoarTranslationStore);
   private readonly loader = inject(CoarTranslationLoader, { optional: true });
-
-  /**
-   * Signal containing all translations for the current language.
-   *
-   * Returns undefined if language not yet loaded.
-   */
-  private readonly currentTranslations = computed(() => {
-    const lang = this.locale.language();
-    return this.store.getTranslations(lang);
-  });
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor() {
-    // Auto-load translations when language changes
-    effect(
-      () => {
-        const lang = this.locale.language();
+    // Auto-load translations when language changes.
+    // Observable-first so there is a single canonical dataflow.
+    this.locale.languageState.value$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((lang) => {
+      if (this.store.hasLanguage(lang)) {
+        return;
+      }
 
-        // If language already loaded, do nothing
-        if (untracked(() => this.store.hasLanguage(lang))) {
-          return;
-        }
-
-        // Load translations for new language
-        this.loadLanguage(lang).subscribe();
-      },
-      { allowSignalWrites: true }
-    );
+      this.loadLanguage(lang).subscribe();
+    });
   }
 
   t(key: string, params?: Record<string, unknown>): string {
-    const translations = this.currentTranslations();
+    const lang = this.locale.languageState.value;
+    const translations = this.store.getTranslations(lang);
 
     // Language not loaded yet - return key
     if (!translations) {

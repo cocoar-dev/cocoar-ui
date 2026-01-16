@@ -95,18 +95,12 @@ Centralized language management service.
 
 #### Properties
 
-**`language: Signal<string>`**
-- Signal containing current language code
-- Updates automatically when language changes
-
-**`languageChanged$: Observable<string>`**
-- Observable emitting when language changes
-- For RxJS-based reactions
+**`languageState: ReadonlyState<string>`**
+- Canonical language state
+- `languageState.value` returns current language synchronously
+- `languageState.value$` emits current language immediately on subscribe and then on changes
 
 #### Methods
-
-**`getCurrentLanguage(): string`**
-- Returns current language code synchronously
 
 **`setLanguage(language: string): Promise<void>`**
 - Sets current language

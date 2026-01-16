@@ -1,3 +1,4 @@
+import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { CoarLocalizationData, CoarDateFormatData } from './localization-data';
 import { CoarLocalizationDataLoader } from './localization-data-loader';
@@ -11,6 +12,7 @@ import { CoarLocalizationDataLoader } from './localization-data-loader';
  * For business-specific overrides (e.g., force Monday as first day of week),
  * use CoarHttpLocaleDataLoader to load custom JSON files.
  */
+@Injectable()
 export class CoarIntlLocaleDataLoader extends CoarLocalizationDataLoader {
   loadLocaleData(locale: string): Observable<CoarLocalizationData> {
     return of(this.detectFromIntl(locale));
@@ -129,21 +131,37 @@ export class CoarIntlLocaleDataLoader extends CoarLocalizationDataLoader {
    */
   private detectNumberFormat(locale: string) {
     const formatter = new Intl.NumberFormat(locale);
-    const formatted = formatter.format(1234.56);
 
-    // Extract decimal separator
-    const decimal = formatted.match(/[.,]/)?.[0] ?? '.';
+    // Prefer formatToParts so we reliably distinguish decimal vs group.
+    // Example (en): 1,234,567.89
+    // Example (de): 1.234.567,89
+    try {
+      const parts = formatter.formatToParts(1234567.89);
+      const decimalPart = parts.find((p) => p.type === 'decimal');
+      const groupPart = parts.find((p) => p.type === 'group');
 
-    // Extract group separator (find character between thousands)
-    const formattedThousands = formatter.format(1234567);
-    const groupMatch = formattedThousands.match(/1(.)234/);
-    const group = groupMatch ? groupMatch[1] : ',';
+      return {
+        decimal: decimalPart?.value ?? '.',
+        group: groupPart?.value ?? ',',
+        grouping: [3],
+      };
+    } catch {
+      // Fallback for environments without formatToParts.
+      const formatted = formatter.format(1234.56);
+      const formattedThousands = formatter.format(1234567);
 
-    return {
-      decimal,
-      group,
-      grouping: [3], // Standard grouping by 3 digits
-    };
+      const matchDecimal = formatted.match(/\d([^\d])\d{2}$/);
+      const decimal = matchDecimal?.[1] ?? '.';
+
+      const matchGroup = formattedThousands.match(/1([^\d])234/);
+      const group = matchGroup?.[1] ?? ',';
+
+      return {
+        decimal,
+        group,
+        grouping: [3],
+      };
+    }
   }
 
   /**

@@ -1,9 +1,7 @@
-import { inject, Injectable, Signal, signal } from '@angular/core';
-import { Observable, Subject, lastValueFrom } from 'rxjs';
-import {
-  COAR_LOCALIZATION_CONFIG,
-  COAR_LOCALIZATION_DATA_LOADERS,
-} from './provide-coar-localization';
+import { inject, Injectable } from '@angular/core';
+import { BehaviorSubject, lastValueFrom } from 'rxjs';
+import { ReadonlyState } from '@cocoar/ts-utils';
+import { COAR_LOCALIZATION_CONFIG, COAR_LOCALIZATION_DATA_LOADERS } from './provide-coar-localization';
 import { CoarLocalizationDataStore } from './l10n/localization-data-store';
 import { mergeLocalizationData } from './l10n/merge-localization-data';
 
@@ -27,15 +25,10 @@ import { mergeLocalizationData } from './l10n/merge-localization-data';
  *
  *   constructor() {
  *     // Get current language
- *     console.log(this.locale.getCurrentLanguage());
- *
- *     // React to changes via Signal
- *     effect(() => {
- *       console.log('Language changed:', this.locale.language());
- *     });
+ *     console.log(this.locale.languageState.value);
  *
  *     // React to changes via Observable
- *     this.locale.languageChanged$.subscribe(lang => {
+ *     this.locale.languageState.value$.subscribe(lang => {
  *       console.log('Language changed:', lang);
  *     });
  *   }
@@ -52,67 +45,25 @@ import { mergeLocalizationData } from './l10n/merge-localization-data';
 export class CoarLocalizationService {
   private readonly config = inject(COAR_LOCALIZATION_CONFIG, { optional: true });
   private readonly localeDataStore = inject(CoarLocalizationDataStore);
-  private readonly localeDataLoaders =
-    inject(COAR_LOCALIZATION_DATA_LOADERS, { optional: true }) ?? [];
-  private readonly languageSignal = signal<string>(this.config?.defaultLanguage ?? 'en');
-  private readonly languageChangedSubject = new Subject<string>();
+  private readonly localeDataLoaders = inject(COAR_LOCALIZATION_DATA_LOADERS, { optional: true }) ?? [];
+  private readonly defaultLanguage = this.config?.defaultLanguage ?? 'en';
+
+  private readonly languageSubject = new BehaviorSubject<string>(this.defaultLanguage);
+
+  /**
+   * Canonical language state.
+   *
+   * - `languageState.value` gives synchronous access
+   * - `languageState.value$` is the canonical stream (emits current value immediately)
+   */
+  readonly languageState = new ReadonlyState(this.languageSubject);
 
   constructor() {
     // Expose to window for debugging
     if (typeof window !== 'undefined') {
-      (window as any).__coarLocalizationStore = this.localeDataStore;
-      console.log('[CoarLocalization] Debug: Access store via window.__coarLocalizationStore');
+      (window as unknown as { __coarLocalizationStore?: CoarLocalizationDataStore }).__coarLocalizationStore =
+        this.localeDataStore;
     }
-  }
-
-  /**
-   * Signal containing the current language.
-   * Updates automatically when the language changes.
-   *
-   * @example
-   * ```typescript
-   * const locale = inject(CoarLocalizationService);
-   *
-   * // Use in computed
-   * const greeting = computed(() =>
-   *   locale.language() === 'de' ? 'Hallo' : 'Hello'
-   * );
-   *
-   * // Use in effect
-   * effect(() => {
-   *   console.log('Current language:', locale.language());
-   * });
-   * ```
-   */
-  readonly language: Signal<string> = this.languageSignal.asReadonly();
-
-  /**
-   * Observable that emits when the language changes.
-   * Emits the new language code immediately after the change.
-   *
-   * @example
-   * ```typescript
-   * locale.languageChanged$.subscribe(newLang => {
-   *   console.log('Language changed to:', newLang);
-   *   // Reload translations, update formatting rules, etc.
-   * });
-   * ```
-   */
-  readonly languageChanged$: Observable<string> = this.languageChangedSubject.asObservable();
-
-  /**
-   * Get the current language code.
-   *
-   * @returns The current language code (e.g., 'en', 'de', 'en-US')
-   *
-   * @example
-   * ```typescript
-   * const currentLang = locale.getCurrentLanguage();
-   * console.log(currentLang); // 'en'
-   * ```
-   */
-  getCurrentLanguage(): string {
-    return this.languageSignal();
   }
 
   /**
@@ -135,17 +86,14 @@ export class CoarLocalizationService {
    * ```
    */
   async setLanguage(language: string): Promise<void> {
-    const current = this.languageSignal();
+    const current = this.languageState.value;
 
     // Load locale data if not already loaded (cached)
     if (!this.localeDataStore.hasLocaleData(language)) {
       try {
         await this.loadAndmergeLocalizationData(language);
       } catch (error) {
-        console.warn(
-          `[CoarLocalizationService] Failed to load locale data for '${language}':`,
-          error
-        );
+        console.warn(`[CoarLocalizationService] Failed to load locale data for '${language}':`, error);
         // Continue with language switch even if locale data fails to load
         // Formatting pipes will use fallback values
       }
@@ -153,8 +101,7 @@ export class CoarLocalizationService {
 
     // Only notify if language actually changed
     if (current !== language) {
-      this.languageSignal.set(language);
-      this.languageChangedSubject.next(language);
+      this.languageSubject.next(language);
     }
   }
 
@@ -213,10 +160,7 @@ export class CoarLocalizationService {
     try {
       await this.loadAndmergeLocalizationData(language);
     } catch (error) {
-      console.warn(
-        `[CoarLocalizationService] Failed to preload locale data for '${language}':`,
-        error
-      );
+      console.warn(`[CoarLocalizationService] Failed to preload locale data for '${language}':`, error);
       throw error;
     }
   }
@@ -232,6 +176,6 @@ export class CoarLocalizationService {
    * ```
    */
   getDefaultLanguage(): string {
-    return this.config?.defaultLanguage ?? 'en';
+    return this.defaultLanguage;
   }
 }

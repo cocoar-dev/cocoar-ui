@@ -1,9 +1,5 @@
 import { Component, inject } from '@angular/core';
-import {
-  CoarButtonComponent,
-  CoarCodeBlockComponent,
-  CoarDividerComponent,
-} from '@cocoar/ui-components';
+import { CoarButtonComponent, CoarCodeBlockComponent, CoarDividerComponent } from '@cocoar/ui-components';
 import {
   CoarCurrencyPipe,
   CoarDatePipe,
@@ -58,7 +54,7 @@ export class LocalizationPage {
   protected readonly total = 1535.09;
 
   async toggleLang(): Promise<void> {
-    const current = this.locale.getCurrentLanguage();
+    const current = this.locale.languageState.value;
     const next = current === 'en' ? 'de' : 'en';
 
     // Preload translations before switching (prevents showing keys)

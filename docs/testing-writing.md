@@ -63,15 +63,14 @@ providers: [...provideCoarNoopAnimations()]
 
 ```ts
 import { CoarLocalizationService } from '@cocoar/localization';
-import { signal } from '@angular/core';
-import { of } from 'rxjs';
+import { ReadonlyState } from '@cocoar/ts-utils';
+import { BehaviorSubject } from 'rxjs';
 
+const languageSubject = new BehaviorSubject('en');
 const mockLocale = {
-  language: signal('en'),
-  getCurrentLanguage: () => 'en',
-  setLanguage: vi.fn(),
+  languageState: new ReadonlyState(languageSubject),
+  setLanguage: vi.fn(async (lang: string) => languageSubject.next(lang)),
   getDefaultLanguage: () => 'en',
-  languageChanged$: of('en'),
 };
 
 providers: [{ provide: CoarLocalizationService, useValue: mockLocale }]

@@ -1,5 +1,4 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
 import { CoarLocalizationService } from '../coar-localization.service';
 
 /**
@@ -24,7 +23,7 @@ import { CoarLocalizationService } from '../coar-localization.service';
  *     provide: COAR_I18N_PROVIDER,
  *     useFactory: (context: CoarI18nContext, backend: MyBackend) => {
  *       // Subscribe to language changes
- *       context.language$.subscribe(lang => {
+ *       context.languageState.value$.subscribe(lang => {
  *         backend.switchLanguage(lang);
  *       });
  *
@@ -44,35 +43,12 @@ export class CoarI18nContext {
   private readonly localeService = inject(CoarLocalizationService);
 
   /**
-   * Observable that emits whenever the language changes.
+   * Canonical language state.
    *
-   * Translation providers should subscribe to this observable to stay
-   * synchronized with the current language state.
-   *
-   * @example
-   * ```typescript
-   * context.language$.subscribe(newLang => {
-   *   console.log('Language changed to:', newLang);
-   *   translationBackend.loadLanguage(newLang);
-   * });
-   * ```
+   * - `languageState.value` gives synchronous access
+   * - `languageState.value$` is the canonical stream (emits current value immediately)
    */
-  readonly language$: Observable<string> = this.localeService.languageChanged$;
-
-  /**
-   * Get the current language code.
-   *
-   * @returns The current language code (e.g., 'en', 'de', 'en-US')
-   *
-   * @example
-   * ```typescript
-   * const currentLang = context.getCurrentLanguage();
-   * console.log(currentLang); // 'en'
-   * ```
-   */
-  getCurrentLanguage(): string {
-    return this.localeService.getCurrentLanguage();
-  }
+  readonly languageState = this.localeService.languageState;
 
   // Future additions:
   // - Translation cache management
