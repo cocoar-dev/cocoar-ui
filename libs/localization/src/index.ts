@@ -24,4 +24,5 @@ export * from './lib/i18n/coar-interpolate';
 export * from './lib/i18n/coar-is-missing-translation';
 export * from './lib/i18n/coar-translation-store';
 export * from './lib/i18n/coar-translation-loader';
+export * from './lib/i18n/coar-intl-translation-loader';
 export * from './lib/i18n/provide-coar-i18n-http-source';

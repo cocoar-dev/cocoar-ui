@@ -25,11 +25,12 @@ import {
 import { CoarIconComponent } from '../coar-icon/coar-icon.component';
 import { CoarPopoverComponent } from '../coar-popover/coar-popover.component';
 import { CoarPopoverGroupService } from '../coar-popover/coar-popover-group.service';
+import { CoarI18nPipe } from '@cocoar/localization';
 
 @Component({
   selector: 'coar-mini-calendar',
   standalone: true,
-  imports: [CoarIconComponent, CoarPopoverComponent],
+  imports: [CoarIconComponent, CoarPopoverComponent, CoarI18nPipe],
   templateUrl: './coar-mini-calendar.component.html',
   styleUrl: './coar-mini-calendar.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

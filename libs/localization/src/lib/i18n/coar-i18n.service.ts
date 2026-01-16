@@ -1,11 +1,11 @@
 import { DestroyRef, Injectable, inject } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Observable, of, switchMap, tap, catchError } from 'rxjs';
+import { Observable, of, switchMap, tap, catchError, forkJoin } from 'rxjs';
 import { CoarLocalizationService } from '../coar-localization.service';
 import { CoarI18nProvider } from './coar-i18n-provider';
 import { coarInterpolate } from './coar-interpolate';
-import { CoarTranslationLoader } from './coar-translation-loader';
-import { CoarTranslationStore } from './coar-translation-store';
+import { COAR_TRANSLATION_LOADERS } from './coar-translation-loader';
+import { CoarTranslationStore, CoarTranslations } from './coar-translation-store';
 
 /**
  * Core i18n service implementation.
@@ -41,7 +41,7 @@ import { CoarTranslationStore } from './coar-translation-store';
 export class CoarI18nService implements CoarI18nProvider {
   private readonly locale = inject(CoarLocalizationService);
   private readonly store = inject(CoarTranslationStore);
-  private readonly loader = inject(CoarTranslationLoader, { optional: true });
+  private readonly loaders = inject(COAR_TRANSLATION_LOADERS, { optional: true }) ?? [];
   private readonly destroyRef = inject(DestroyRef);
 
   constructor() {
@@ -82,33 +82,70 @@ export class CoarI18nService implements CoarI18nProvider {
   }
 
   /**
-   * Loads translations for a specific language.
+   * Loads translations from all sources and deep-merges them.
    *
-   * Called automatically when language changes via effect.
-   * Can also be called manually to preload languages.
+   * Sources are executed in order:
+   * 1. Intl (always first, provides common translations from browser APIs)
+   * 2. HTTP (if configured, merges application-specific overrides)
+   * 3. Custom sources (if provided, can add dynamic updates)
+   *
+   * Later sources override earlier sources at the key level.
    *
    * @param language - Language code to load
    * @returns Observable that completes when loading finishes
    */
   private loadLanguage(language: string): Observable<void> {
-    // No loader configured - mark as loaded with empty translations
-    if (!this.loader) {
+    // No loaders configured - mark as loaded with empty translations
+    if (this.loaders.length === 0) {
       this.store.setTranslations(language, {});
       return of(void 0);
     }
 
-    return this.loader.loadTranslations(language).pipe(
-      tap((translations) => {
-        this.store.setTranslations(language, translations);
+    // Load from all sources in parallel
+    const loadObservables = this.loaders.map((loader) =>
+      loader.loadTranslations(language).pipe(
+        catchError((err) => {
+          console.warn(`[CoarI18n] Translation loader failed for '${language}':`, err);
+          return of(null); // Return null for failed sources
+        })
+      )
+    );
+
+    return forkJoin(loadObservables).pipe(
+      tap((results) => {
+        // Deep merge all sources (nulls are ignored)
+        const merged = this.mergeTranslations(
+          results.filter((r) => r !== null) as CoarTranslations[]
+        );
+        this.store.setTranslations(language, merged);
       }),
       switchMap(() => of(void 0)),
       catchError((error) => {
-        console.error(`Failed to load translations for language: ${language}`, error);
+        console.error(`[CoarI18n] Failed to load translations for '${language}':`, error);
         // Store empty translations to prevent repeated load attempts
         this.store.setTranslations(language, {});
         return of(void 0);
       })
     );
+  }
+
+  /**
+   * Merges multiple translation sources.
+   * Later sources override earlier sources at the key level.
+   */
+  private mergeTranslations(sources: CoarTranslations[]): CoarTranslations {
+    const result: CoarTranslations = {};
+
+    for (const source of sources) {
+      if (!source) continue;
+
+      // Merge all keys from this source
+      for (const [key, value] of Object.entries(source)) {
+        result[key] = value;
+      }
+    }
+
+    return result;
   }
 
   /**

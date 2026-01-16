@@ -1,7 +1,16 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, InjectionToken } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import type { CoarTranslations } from './coar-translation-store';
+
+/**
+ * Injection token for translation loaders (multi-provider).
+ * Loaders are executed in order and results are deep-merged.
+ * Intl loader is always first (provides common defaults from browser Intl API).
+ */
+export const COAR_TRANSLATION_LOADERS = new InjectionToken<CoarTranslationLoader[]>(
+  'COAR_TRANSLATION_LOADERS'
+);
 
 /**
  * Abstract loader for translation data.

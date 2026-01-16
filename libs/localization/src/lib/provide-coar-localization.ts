@@ -11,6 +11,8 @@ import { CoarLocalizationDataStore } from './l10n/localization-data-store';
 import { CoarIntlLocaleDataLoader } from './l10n/intl-localization-data-loader';
 import { COAR_I18N_PROVIDER } from './i18n/coar-i18n-provider';
 import { CoarI18nService } from './i18n/coar-i18n.service';
+import { COAR_TRANSLATION_LOADERS } from './i18n/coar-translation-loader';
+import { CoarIntlTranslationLoader } from './i18n/coar-intl-translation-loader';
 
 /**
  * Configuration for the locale system.
@@ -88,6 +90,13 @@ export function provideCoarLocalization(config: CoarLocalizationConfig): Environ
     {
       provide: COAR_I18N_PROVIDER,
       useClass: CoarI18nService,
+    },
+
+    // i18n: Auto-include Intl source as first translation loader (provides common defaults)
+    {
+      provide: COAR_TRANSLATION_LOADERS,
+      multi: true,
+      useClass: CoarIntlTranslationLoader,
     },
 
     // APP_INITIALIZER: Preload default language (L10n + i18n if loader registered)

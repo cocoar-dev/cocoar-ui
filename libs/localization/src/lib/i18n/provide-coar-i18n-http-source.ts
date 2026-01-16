@@ -1,5 +1,5 @@
 import { EnvironmentProviders, makeEnvironmentProviders } from '@angular/core';
-import { CoarTranslationLoader, CoarHttpTranslationLoader } from './coar-translation-loader';
+import { COAR_TRANSLATION_LOADERS, CoarHttpTranslationLoader } from './coar-translation-loader';
 
 /**
  * Configuration for HTTP translation source.
@@ -95,7 +95,8 @@ export function provideCoarI18nHttpSource(config?: CoarI18nHttpSourceConfig): En
 
   return makeEnvironmentProviders([
     {
-      provide: CoarTranslationLoader,
+      provide: COAR_TRANSLATION_LOADERS,
+      multi: true,
       useFactory: () => {
         const loader = new CoarHttpTranslationLoader();
         loader.urlFn = urlFn;
