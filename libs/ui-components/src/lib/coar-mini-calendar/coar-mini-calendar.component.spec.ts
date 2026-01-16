@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Temporal } from '@js-temporal/polyfill';
 import { vi } from 'vitest';
+import { provideCoarLocalization } from '@cocoar/localization';
 
 import { CoarMiniCalendarComponent } from './coar-mini-calendar.component';
 
@@ -12,6 +13,7 @@ describe('CoarMiniCalendarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CoarMiniCalendarComponent],
+      providers: [provideCoarLocalization({ defaultLanguage: 'en' })],
     }).compileComponents();
 
     fixture = TestBed.createComponent(CoarMiniCalendarComponent);
