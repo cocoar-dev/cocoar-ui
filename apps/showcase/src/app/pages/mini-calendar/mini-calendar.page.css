@@ -1,0 +1,14 @@
+/* ========================================
+   MINI CALENDAR PAGE - Component-specific styles
+   ======================================== */
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: var(--coar-spacing-l);
+  align-items: start;
+}
+
+.demo-subtitle {
+  margin: 0 0 var(--coar-spacing-s);
+}

@@ -1,0 +1,135 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Mini Calendar</h1>
+    <p class="page-description">
+      An always-open calendar view for date selection. Use it standalone (e.g. in dashboards, side panels, and forms) or inside other components like
+      the date picker.
+    </p>
+  </header>
+
+  <coar-tab-group [(activeTab)]="activeTab">
+    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
+  </coar-tab-group>
+</div>
+
+<ng-template #examplesTemplate>
+  <div class="examples-content">
+    <section class="example-section">
+      <h3>Basic Usage</h3>
+      <p>A standalone calendar that is always visible.</p>
+
+      <div class="demo-row demo-row--align-end">
+        <coar-mini-calendar [(value)]="selectedDate" />
+      </div>
+
+      <p class="value-display">
+        Selected: <code>{{ formatDate(selectedDate()) }}</code>
+      </p>
+
+      <coar-code-block [code]="basicExample" language="html" />
+    </section>
+
+    <coar-divider />
+
+    <section class="example-section">
+      <h3>Week Numbers</h3>
+      <p>Enable ISO week numbers for business / planning contexts.</p>
+
+      <div class="demo-row demo-row--align-end">
+        <coar-mini-calendar [(value)]="weekNumberDate" [showWeekNumbers]="true" />
+      </div>
+
+      <p class="value-display">
+        Selected: <code>{{ formatDate(weekNumberDate()) }}</code>
+      </p>
+
+      <coar-code-block [code]="weekNumbersExample" language="html" />
+    </section>
+
+    <coar-divider />
+
+    <section class="example-section">
+      <h3>Min/Max Constraints</h3>
+      <p>Disable dates outside of a range using <code>min</code> and <code>max</code>.</p>
+
+      <div class="demo-row demo-row--align-end">
+        <coar-mini-calendar [(value)]="constrainedDate" [min]="minDate" [max]="maxDate" />
+      </div>
+
+      <p class="value-display">
+        Selected: <code>{{ formatDate(constrainedDate()) }}</code>
+        <br />
+        Range: <code>{{ formatDate(minDate) }}</code> to <code>{{ formatDate(maxDate) }}</code>
+      </p>
+
+      <coar-code-block [code]="constraintsExample" language="typescript" />
+    </section>
+
+    <coar-divider />
+
+    <section class="example-section">
+      <h3>Locale + First Day of Week</h3>
+      <p>
+        Month and weekday labels are localized using <code>Intl.DateTimeFormat</code>. The calendar start day is controlled by
+        <code>dateFormatConfig.firstDayOfWeek</code>.
+      </p>
+
+      <div class="demo-grid">
+        <div>
+          <h4 class="demo-subtitle">German (Monday first)</h4>
+          <coar-mini-calendar
+            [(value)]="localizedDate"
+            locale="de-DE"
+            [dateFormatConfig]="mondayFirst"
+            [showWeekNumbers]="true"
+            [highlightWeekends]="true"
+            [markers]="holidayMarkers"
+            [showTodayButton]="true"
+          />
+        </div>
+
+        <div>
+          <h4 class="demo-subtitle">US (Sunday first)</h4>
+          <coar-mini-calendar
+            [(value)]="localizedDate"
+            locale="en-US"
+            [dateFormatConfig]="sundayFirst"
+            [showWeekNumbers]="true"
+            [highlightWeekends]="true"
+            [markers]="holidayMarkers"
+            [showTodayButton]="true"
+          />
+        </div>
+      </div>
+
+      <p class="value-display">
+        Selected: <code>{{ formatDate(localizedDate()) }}</code>
+      </p>
+
+      <coar-code-block [code]="localeExample" language="html" />
+    </section>
+
+    <coar-divider />
+
+    <section class="example-section">
+      <h3>Date Markers</h3>
+      <p>Highlight single dates or ranges and show details in a popover on hover/click.</p>
+
+      <coar-note variant="info">
+        <p>Markers are useful for holidays, events, or availability windows.</p>
+      </coar-note>
+
+      <div class="demo-row demo-row--align-end">
+        <coar-mini-calendar [(value)]="markerDate" [markers]="holidayMarkers" [highlightWeekends]="true" />
+      </div>
+
+      <p class="value-display">
+        Selected: <code>{{ formatDate(markerDate()) }}</code>
+      </p>
+
+      <coar-code-block [code]="markersExample" language="typescript" />
+    </section>
+  </div>
+</ng-template>

@@ -65,100 +65,19 @@
 
   <!-- Calendar Dropdown (rendered via @cocoar/ui-overlay) -->
   <ng-template #calendarTemplate>
-    <div
-      class="coar-date-picker-calendar coar-date-picker-calendar--overlay"
-      [class.coar-date-picker-calendar--top]="calendarPosition() === 'top'"
-      [attr.id]="calendarId()"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Calendar"
-    >
-      <!-- Calendar Header -->
-      <div class="coar-date-picker-header">
-        <button type="button" class="coar-date-picker-nav" aria-label="Previous year" (click)="previousYear()">
-          <coar-icon name="chevrons-left" source="coar-builtin" size="sm" />
-        </button>
-        <button type="button" class="coar-date-picker-nav" aria-label="Previous month" (click)="previousMonth()">
-          <coar-icon name="chevron-left" source="coar-builtin" size="sm" />
-        </button>
-
-        <span class="coar-date-picker-month-year">
-          <span class="coar-date-picker-month">{{ viewMonth() }}</span>
-          <span class="coar-date-picker-year">{{ viewYear() }}</span>
-        </span>
-
-        <button type="button" class="coar-date-picker-nav coar-date-picker-nav--next" aria-label="Next month" (click)="nextMonth()">
-          <coar-icon name="chevron-right" source="coar-builtin" size="sm" />
-        </button>
-        <button type="button" class="coar-date-picker-nav coar-date-picker-nav--next" aria-label="Next year" (click)="nextYear()">
-          <coar-icon name="chevrons-right" source="coar-builtin" size="sm" />
-        </button>
-      </div>
-
-      <!-- Days of Week Header -->
-      <div class="coar-date-picker-weekdays" [class.coar-date-picker-weekdays--with-weeks]="showWeekNumbers()">
-        @if (showWeekNumbers()) {
-          <span class="coar-date-picker-week-spacer"></span>
-        }
-        @for (day of daysOfWeek(); track day) {
-          <span class="coar-date-picker-weekday">{{ day }}</span>
-        }
-      </div>
-
-      <!-- Calendar Grid -->
-      <div class="coar-date-picker-grid" [class.coar-date-picker-grid--with-weeks]="showWeekNumbers()" role="grid">
-        @for (day of calendarDays(); track day.date.toString(); let i = $index) {
-          <!-- Week number at start of each row -->
-          @if (showWeekNumbers() && i % 7 === 0) {
-            <span class="coar-date-picker-week-number">{{ weekNumbers()[i / 7] }}</span>
-          }
-          <coar-popover [disabled]="day.isDisabled || day.markers.length === 0" [openOnClick]="true" [openOnHover]="true" [interactive]="false">
-            <button
-              coarPopoverTrigger
-              type="button"
-              class="coar-date-picker-day"
-              [class.coar-date-picker-day--outside]="day.isOutsideMonth"
-              [class.coar-date-picker-day--today]="day.isToday"
-              [class.coar-date-picker-day--selected]="day.isSelected"
-              [class.coar-date-picker-day--focused]="day.isFocused"
-              [class.coar-date-picker-day--disabled]="day.isDisabled"
-              [class.coar-date-picker-day--weekend]="highlightWeekends() && day.isWeekend"
-              [class.coar-date-picker-day--marked]="day.markers.length > 0"
-              [class]="day.markerCssClass"
-              [disabled]="day.isDisabled"
-              [attr.aria-selected]="day.isSelected"
-              [attr.aria-current]="day.isToday ? 'date' : null"
-              [attr.tabindex]="day.isFocused ? 0 : -1"
-              (click)="selectDate(day.date)"
-            >
-              {{ day.day }}
-            </button>
-
-            @if (day.markers.length > 0) {
-              <div coarPopoverContent class="coar-date-picker-marker-popover">
-                <div class="coar-date-picker-marker-popover__list">
-                  @for (marker of getVisibleMarkers(day.markers); track marker.description) {
-                    <div class="coar-date-picker-marker-popover__item">
-                      {{ marker.description }}
-                    </div>
-                  }
-
-                  @if (getHiddenMarkerCount(day.markers) > 0) {
-                    <div class="coar-date-picker-marker-popover__more">+{{ getHiddenMarkerCount(day.markers) }} other events</div>
-                  }
-                </div>
-              </div>
-            }
-          </coar-popover>
-        }
-      </div>
-
-      <!-- Footer with Today Button -->
-      @if (showTodayButton()) {
-        <div class="coar-date-picker-footer">
-          <button type="button" class="coar-date-picker-today" (click)="selectToday()">Today</button>
-        </div>
-      }
+    <div class="coar-date-picker-calendar-host" [attr.id]="calendarId()" role="dialog" aria-modal="true" aria-label="Calendar">
+      <coar-mini-calendar
+        [value]="value()"
+        (valueChange)="onMiniCalendarValueChange($event)"
+        [min]="min()"
+        [max]="max()"
+        [locale]="effectiveLocale()"
+        [dateFormatConfig]="effectiveDateFormat()"
+        [showTodayButton]="showTodayButton()"
+        [showWeekNumbers]="showWeekNumbers()"
+        [highlightWeekends]="highlightWeekends()"
+        [markers]="markers()"
+      />
     </div>
   </ng-template>
 

@@ -1,0 +1,84 @@
+<div class="coar-mini-calendar" role="application" (keydown)="onKeydown($event)">
+  <div class="coar-mini-calendar-header">
+    <button type="button" class="coar-mini-calendar-nav" aria-label="Previous year" (click)="previousYear()">
+      <coar-icon name="chevrons-left" source="coar-builtin" size="sm" />
+    </button>
+    <button type="button" class="coar-mini-calendar-nav" aria-label="Previous month" (click)="previousMonth()">
+      <coar-icon name="chevron-left" source="coar-builtin" size="sm" />
+    </button>
+
+    <span class="coar-mini-calendar-month-year">
+      <span class="coar-mini-calendar-month">{{ viewMonth() }}</span>
+      <span class="coar-mini-calendar-year">{{ viewYear() }}</span>
+    </span>
+
+    <button type="button" class="coar-mini-calendar-nav coar-mini-calendar-nav--next" aria-label="Next month" (click)="nextMonth()">
+      <coar-icon name="chevron-right" source="coar-builtin" size="sm" />
+    </button>
+    <button type="button" class="coar-mini-calendar-nav coar-mini-calendar-nav--next" aria-label="Next year" (click)="nextYear()">
+      <coar-icon name="chevrons-right" source="coar-builtin" size="sm" />
+    </button>
+  </div>
+
+  <div class="coar-mini-calendar-weekdays" [class.coar-mini-calendar-weekdays--with-weeks]="showWeekNumbers()">
+    @if (showWeekNumbers()) {
+      <span class="coar-mini-calendar-week-spacer"></span>
+    }
+    @for (day of daysOfWeek(); track day) {
+      <span class="coar-mini-calendar-weekday">{{ day }}</span>
+    }
+  </div>
+
+  <div class="coar-mini-calendar-grid" [class.coar-mini-calendar-grid--with-weeks]="showWeekNumbers()" role="grid">
+    @for (day of calendarDays(); track day.date.toString(); let i = $index) {
+      @if (showWeekNumbers() && i % 7 === 0) {
+        <span class="coar-mini-calendar-week-number">{{ weekNumbers()[i / 7] }}</span>
+      }
+
+      <coar-popover [disabled]="day.isDisabled || day.markers.length === 0" [openOnClick]="true" [openOnHover]="true" [interactive]="false">
+        <button
+          coarPopoverTrigger
+          type="button"
+          class="coar-mini-calendar-day"
+          [class.coar-mini-calendar-day--outside]="day.isOutsideMonth"
+          [class.coar-mini-calendar-day--today]="day.isToday"
+          [class.coar-mini-calendar-day--selected]="day.isSelected"
+          [class.coar-mini-calendar-day--focused]="day.isFocused"
+          [class.coar-mini-calendar-day--disabled]="day.isDisabled"
+          [class.coar-mini-calendar-day--weekend]="highlightWeekends() && day.isWeekend"
+          [class.coar-mini-calendar-day--marked]="day.markers.length > 0"
+          [class]="day.markerCssClass"
+          [disabled]="day.isDisabled"
+          [attr.aria-selected]="day.isSelected"
+          [attr.aria-current]="day.isToday ? 'date' : null"
+          [attr.tabindex]="day.isFocused ? 0 : -1"
+          (click)="selectDate(day.date)"
+        >
+          {{ day.day }}
+        </button>
+
+        @if (day.markers.length > 0) {
+          <div coarPopoverContent class="coar-mini-calendar-marker-popover">
+            <div class="coar-mini-calendar-marker-popover__list">
+              @for (marker of getVisibleMarkers(day.markers); track marker.description) {
+                <div class="coar-mini-calendar-marker-popover__item">
+                  {{ marker.description }}
+                </div>
+              }
+
+              @if (getHiddenMarkerCount(day.markers) > 0) {
+                <div class="coar-mini-calendar-marker-popover__more">+{{ getHiddenMarkerCount(day.markers) }} other events</div>
+              }
+            </div>
+          </div>
+        }
+      </coar-popover>
+    }
+  </div>
+
+  @if (showTodayButton()) {
+    <div class="coar-mini-calendar-footer">
+      <button type="button" class="coar-mini-calendar-today" (click)="selectDate(today)">Today</button>
+    </div>
+  }
+</div>
