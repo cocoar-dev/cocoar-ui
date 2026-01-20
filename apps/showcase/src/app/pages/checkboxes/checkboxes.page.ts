@@ -32,8 +32,8 @@ export class CheckboxesPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarCheckboxComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarCheckboxComponent/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-checkbox.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-checkbox.api.md';
 
   // Demo values - now using CoarCheckboxState
   basicChecked = signal<CoarCheckboxState | undefined>(undefined);

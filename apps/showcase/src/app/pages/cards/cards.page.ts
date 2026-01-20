@@ -28,8 +28,8 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
 export class CardsPage {
   protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarCardComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarCardComponent/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-card.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-card.api.md';
 
   // Page-level tabs
   activeTab = 'examples';

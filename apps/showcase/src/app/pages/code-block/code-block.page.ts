@@ -20,8 +20,8 @@ export class CodeBlockPage {
 
   protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarCodeBlockComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarCodeBlockComponent/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-code-block.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-code-block.api.md';
 
   // Example code snippets
   basicExample = `<coar-button variant="primary">

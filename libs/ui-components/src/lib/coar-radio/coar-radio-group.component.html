@@ -1,0 +1,13 @@
+<div class="coar-radio-group">
+  <ng-content />
+</div>
+
+@if (hasMessage()) {
+  <div class="coar-radio-group__message" [id]="messageId()">
+    @if (hasError()) {
+      <span class="coar-radio-group__error">{{ error() }}</span>
+    } @else {
+      <span class="coar-radio-group__hint">{{ hint() }}</span>
+    }
+  </div>
+}

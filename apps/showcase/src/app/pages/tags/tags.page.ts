@@ -32,8 +32,8 @@ export class TagsPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarTagComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarTagComponent/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-tag.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-tag.api.md';
 
   /** Tag color variants */
   colors: TagColor[] = ['neutral', 'success', 'warning', 'error', 'info', 'accent'];

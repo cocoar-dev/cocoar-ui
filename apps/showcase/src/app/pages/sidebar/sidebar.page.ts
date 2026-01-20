@@ -36,8 +36,8 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
 export class SidebarPage {
   protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarSidebarComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarSidebarComponent/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-sidebar.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-sidebar.api.md';
 
   activeTab = 'examples';
 

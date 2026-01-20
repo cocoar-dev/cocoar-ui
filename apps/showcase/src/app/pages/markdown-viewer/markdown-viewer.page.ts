@@ -19,8 +19,8 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarCodeBlockComponent,
     CoarDividerComponent,
     CoarTabGroupComponent,
-    CoarTabComponent
-],
+    CoarTabComponent,
+  ],
   templateUrl: './markdown-viewer.page.html',
   styleUrl: './markdown-viewer.page.css',
 })
@@ -32,8 +32,8 @@ export class MarkdownViewerPage {
 
   protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
 
-  protected readonly docsPath = '/docs/libs/markdown-viewer/CoarMarkdownComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/markdown-viewer/CoarMarkdownComponent/api.md';
+  protected readonly docsPath = '/docs/libs/markdown-viewer/coar-markdown.docs.md';
+  protected readonly apiPath = '/docs/libs/markdown-viewer/coar-markdown.api.md';
 
   protected readonly markdownPath = '/docs/markdown-test.md';
 

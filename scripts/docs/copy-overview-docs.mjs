@@ -1,15 +1,19 @@
 #!/usr/bin/env node
 /**
- * Copy overview documentation from source files to docs/libs/
+ * Copy documentation from source files to docs/libs/
  *
- * Finds all *.component.md, *.directive.md, *.service.md files in libs/
- * and copies them to the corresponding docs/libs/{package}/{ClassName}/overview.md
+ * Finds all *.docs.md files in libs/ and copies them to
+ * docs/libs/{package}/ keeping the original filename.
  *
  * This keeps documentation co-located with source code while making it available
  * to the showcase app and @cocoar/ui-docs package.
+ *
+ * Naming convention:
+ * - Source: libs/ui-components/src/lib/coar-button/coar-button.docs.md
+ * - Output: docs/libs/ui-components/coar-button.docs.md
  */
 
-import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync } from 'fs';
 import { join, dirname, basename } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -17,12 +21,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const workspaceRoot = join(__dirname, '../..');
 
-console.log('📄 Copying overview documentation from source...\n');
+console.log('📄 Copying documentation from source...\n');
 
 let copiedCount = 0;
 
-// Recursively find all markdown files in libs/
-function findMarkdownFiles(dir, files = []) {
+// Recursively find all *.docs.md files in libs/
+function findDocsFiles(dir, files = []) {
   const entries = readdirSync(dir, { withFileTypes: true });
 
   for (const entry of entries) {
@@ -33,11 +37,8 @@ function findMarkdownFiles(dir, files = []) {
       if (entry.name === 'node_modules' || entry.name === 'dist') {
         continue;
       }
-      findMarkdownFiles(fullPath, files);
-    } else if (
-      entry.isFile() &&
-      entry.name.match(/\.(component|directive|service|pipe|overview)\.md$/)
-    ) {
+      findDocsFiles(fullPath, files);
+    } else if (entry.isFile() && entry.name.endsWith('.docs.md')) {
       files.push(fullPath);
     }
   }
@@ -46,9 +47,9 @@ function findMarkdownFiles(dir, files = []) {
 }
 
 const libsDir = join(workspaceRoot, 'libs');
-const markdownFiles = findMarkdownFiles(libsDir);
+const docsFiles = findDocsFiles(libsDir);
 
-for (const fullPath of markdownFiles) {
+for (const fullPath of docsFiles) {
   // Get relative path from workspace root
   const relativePath = fullPath.replace(workspaceRoot + '\\', '').replace(workspaceRoot + '/', '');
 
@@ -58,17 +59,11 @@ for (const fullPath of markdownFiles) {
     continue;
   }
   const packageName = pathParts[1]; // e.g., 'ui-components'
+  const fileName = basename(fullPath); // e.g., 'coar-button.docs.md'
 
-  // Extract output name from filename.
-  // - coar-button.component.md → CoarButtonComponent
-  // - provide-coar-i18n-using-transloco.overview.md → provideCoarI18nUsingTransloco
-  const className = fullPath.endsWith('.overview.md')
-    ? kebabToCamel(basename(fullPath, '.overview.md'))
-    : convertToClassName(basename(fullPath, '.md'));
-
-  // Determine output path: docs/libs/{package}/{ClassName}/overview.md
-  const outputDir = join(workspaceRoot, 'docs/libs', packageName, className);
-  const outputPath = join(outputDir, 'overview.md');
+  // Determine output path: docs/libs/{package}/{filename}
+  const outputDir = join(workspaceRoot, 'docs/libs', packageName);
+  const outputPath = join(outputDir, fileName);
 
   // Create directory if it doesn't exist
   if (!existsSync(outputDir)) {
@@ -79,37 +74,8 @@ for (const fullPath of markdownFiles) {
   const content = readFileSync(fullPath, 'utf8');
   writeFileSync(outputPath, content);
 
-  console.log(`  ✓ ${packageName}/${className}/overview.md`);
+  console.log(`  ✓ ${packageName}/${fileName}`);
   copiedCount++;
 }
 
-console.log(`\n✅ Copied ${copiedCount} overview files\n`);
-
-/**
- * Convert filename to PascalCase class name
- * Examples:
- *   coar-button.component → CoarButtonComponent
- *   coar-tooltip.directive → CoarTooltipDirective
- *   coar-icon.service → CoarIconService
- */
-function convertToClassName(filename) {
-  return filename
-    .split('.')
-    .map((part) =>
-      part
-        .split('-')
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join('')
-    )
-    .join('');
-}
-
-function kebabToCamel(input) {
-  const parts = input.split('-').filter(Boolean);
-  if (parts.length === 0) {
-    return input;
-  }
-
-  const [first, ...rest] = parts;
-  return first + rest.map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join('');
-}
+console.log(`\n✅ Copied ${copiedCount} docs files\n`);

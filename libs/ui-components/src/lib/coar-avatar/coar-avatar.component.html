@@ -1,0 +1,14 @@
+<div class="coar-avatar">
+  @if (showInitials()) {
+    <span class="coar-avatar__initials" [style.background-color]="computedBgColor()" [attr.aria-label]="name() || 'Avatar'">
+      {{ displayInitials() }}
+    </span>
+  } @else {
+    <img class="coar-avatar__image" [src]="src()" [alt]="name() || 'Avatar'" (error)="onImageError()" (load)="onImageLoad()" />
+  }
+
+  <!-- Status indicator slot (for badge) -->
+  <div class="coar-avatar__status">
+    <ng-content />
+  </div>
+</div>

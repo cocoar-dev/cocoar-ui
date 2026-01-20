@@ -20,8 +20,8 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarCodeBlockComponent,
     CoarDividerComponent,
     CoarTabGroupComponent,
-    CoarTabComponent
-],
+    CoarTabComponent,
+  ],
   templateUrl: './labels.page.html',
   styleUrl: './labels.page.css',
 })
@@ -30,8 +30,8 @@ export class LabelsPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarLabelComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarLabelComponent/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-label.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-label.api.md';
 
   // Code examples
   codeExamples = {

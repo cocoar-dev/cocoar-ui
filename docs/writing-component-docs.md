@@ -279,6 +279,92 @@ When adding or updating a component:
 - [ ] Type aliases/interfaces documented
 - [ ] Examples show real-world usage
 - [ ] Run `pnpm docs:api` to generate/update JSON
+- [ ] Create `{kebab-name}.docs.md` file for usage documentation
+
+---
+
+## Writing `.docs.md` Files
+
+In addition to JSDoc comments (which generate API docs), each component should have a **`.docs.md` file** for usage documentation, examples, and best practices.
+
+### File Location and Naming
+
+Place the docs file **next to your component source**:
+
+```
+libs/ui-components/src/lib/coar-button/
+├── coar-button.component.ts       # Component source
+├── coar-button.component.spec.ts  # Unit tests
+├── coar-button.component.css      # Styles
+└── coar-button.docs.md            # Usage documentation ← NEW
+```
+
+**Naming convention**: `{kebab-name}.docs.md`
+- `coar-button.docs.md` (not `coar-button.component.md`)
+- `coar-tooltip.docs.md` (for directives too, not `.directive.md`)
+- `coar-radio-group.docs.md` (use full kebab name)
+
+### What Goes in `.docs.md`
+
+The `.docs.md` file is for **consumer-facing documentation**:
+
+```markdown
+# CoarButton
+
+Brief description of what the component does and when to use it.
+
+## Basic Usage
+
+\`\`\`html
+<coar-button variant="primary" (clicked)="save()">
+  Save Changes
+</coar-button>
+\`\`\`
+
+## Variants
+
+Explain the different variants and when to use each...
+
+## With Icons
+
+Show icon usage examples...
+
+## Accessibility
+
+Document keyboard navigation, ARIA attributes, screen reader behavior...
+
+## Best Practices
+
+- ✓ Do: Use for primary actions
+- ✗ Don't: Use for navigation (use links instead)
+```
+
+### Build Process
+
+When you run `pnpm docs:all` or build the showcase:
+
+1. **Source**: `libs/ui-components/src/lib/coar-button/coar-button.docs.md`
+2. **Copied to**: `docs/libs/ui-components/coar-button.docs.md`
+3. **Served by**: Showcase app's Docs tab
+
+The file is copied **without renaming**, so use the correct filename from the start.
+
+### Showcase Integration
+
+In your showcase page, reference the docs file:
+
+```typescript
+// In your-component.page.ts
+protected readonly docsPath = '/docs/libs/ui-components/coar-button.docs.md';
+protected readonly apiPath = '/docs/libs/ui-components/coar-button.api.md';
+```
+
+### Quick Reference
+
+| What | Filename | Generated? |
+|------|----------|------------|
+| Usage docs | `{kebab-name}.docs.md` | No (hand-written) |
+| API docs | `{kebab-name}.api.md` | Yes (from Compodoc) |
 
 ## See Also
 

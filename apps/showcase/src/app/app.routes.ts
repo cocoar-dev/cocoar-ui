@@ -162,4 +162,16 @@ export const appRoutes: Route[] = [
     path: 'sidebar',
     loadComponent: () => import('./pages/sidebar/sidebar.page').then((m) => m.SidebarPage),
   },
+  {
+    path: 'avatar',
+    loadComponent: () => import('./pages/avatar/avatar.page').then((m) => m.AvatarPage),
+  },
+  {
+    path: 'radio',
+    loadComponent: () => import('./pages/radio/radio.page').then((m) => m.RadioPage),
+  },
+  {
+    path: 'popconfirm',
+    loadComponent: () => import('./pages/popconfirm/popconfirm.page').then((m) => m.PopconfirmPage),
+  },
 ];

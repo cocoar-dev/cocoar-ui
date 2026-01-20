@@ -82,8 +82,8 @@ For broader AI assistant support (Copilot, Claude, Cursor, etc.), run `npx @coco
 When working with Cocoar components, consult the installed documentation:
 
 - **Component catalog**: `node_modules/@cocoar/ui-docs/api/index.json`
-- **API reference**: `node_modules/@cocoar/ui-docs/docs/libs/{package}/{ClassName}/api.md`
-- **Usage examples**: `node_modules/@cocoar/ui-docs/docs/libs/{package}/{ClassName}/overview.md`
+- **API reference**: `node_modules/@cocoar/ui-docs/docs/libs/{package}/{kebab-name}.api.md`
+- **Usage examples**: `node_modules/@cocoar/ui-docs/docs/libs/{package}/{kebab-name}.docs.md`
 
 Always prefer the installed documentation over assumptions.
 ```
@@ -98,9 +98,9 @@ If you prefer not to use the CLI, add the discovery paths to your AGENTS.md or c
 When working with Cocoar components:
 
 1. **Discovery:** Check `node_modules/@cocoar/ui-docs/api/index.json` for available packages and components
-2. **Component Docs:** Load from `node_modules/@cocoar/ui-docs/docs/libs/{package}/{Component}/`
-   - `api.md` - API reference (inputs, outputs, methods)
-   - `overview.md` - Usage guide, examples, patterns
+2. **Component Docs:** Load from `node_modules/@cocoar/ui-docs/docs/libs/{package}/`
+   - `{kebab-name}.api.md` - API reference (inputs, outputs, methods)
+   - `{kebab-name}.docs.md` - Usage guide, examples, patterns
 3. **Detailed Metadata:** Load `node_modules/@cocoar/ui-docs/api/{package}.json` for full Compodoc data
 
 Documentation is version-matched with installed `@cocoar/*` packages.
@@ -124,7 +124,7 @@ import uiComponents from '@cocoar/ui-docs/api/ui-components.json';
 
 - **API Index:** `api/index.json`
 - **Component Metadata:** `api/{package}.json`
-- **Markdown Docs:** `docs/libs/{package}/{Component}/api.md` and `overview.md`
+- **Markdown Docs:** `docs/libs/{package}/{kebab-name}.api.md` and `{kebab-name}.docs.md`
 
 ---
 

@@ -1,4 +1,3 @@
-
 import { Component, signal } from '@angular/core';
 import {
   CoarButtonComponent,
@@ -22,8 +21,8 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarDividerComponent,
     CoarNoteComponent,
     CoarTabGroupComponent,
-    CoarTabComponent
-],
+    CoarTabComponent,
+  ],
   templateUrl: './popover.page.html',
   styleUrl: './popover.page.css',
 })
@@ -32,8 +31,8 @@ export class PopoverPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarPopoverComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarPopoverComponent/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-popover.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-popover.api.md';
 
   protected readonly clicksThroughOverlay = signal(0);
 

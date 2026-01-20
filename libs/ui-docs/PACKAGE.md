@@ -45,8 +45,8 @@ When running `nx build ui-docs`, Nx automatically:
    ```
    docs:clean    → Remove docs/libs/
    docs:api      → Generate libs/ui-docs/api/*.json (Compodoc)
-   docs:api:markdown → Generate docs/libs/{package}/{Component}/api.md
-   docs:overview → Copy *.component.md from source → docs/libs/{package}/{Component}/overview.md
+   docs:api:markdown → Generate docs/libs/{package}/{kebab-name}.api.md
+   docs:overview → Copy *.docs.md from source → docs/libs/{package}/{kebab-name}.docs.md
    ```
 3. **Builds package:** Compiles TypeScript and copies assets
 4. **Output:** `dist/libs/ui-docs/` ready for publishing
@@ -56,7 +56,7 @@ When running `nx build ui-docs`, Nx automatically:
 ```
 libs/ui-components/src/lib/coar-button/
 ├── coar-button.component.ts       # TypeScript source
-└── coar-button.component.md       # Documentation (tracked in git)
+└── coar-button.docs.md            # Documentation (tracked in git)
 ```
 
 ### Generated Files (Gitignored, Auto-generated)

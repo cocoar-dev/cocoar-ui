@@ -18,6 +18,9 @@ export * from './lib/coar-sidebar';
 export * from './lib/coar-label/coar-label.component';
 export * from './lib/coar-table/coar-table.component';
 export * from './lib/coar-scrollbar';
+export * from './lib/coar-avatar';
+export * from './lib/coar-radio';
+export * from './lib/coar-popconfirm';
 
 // Date utilities (Temporal-based)
 export * from './lib/date/coar-date-helpers';

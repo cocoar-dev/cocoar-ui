@@ -1,0 +1,144 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Avatar</h1>
+    <p class="description coar-body">
+      Avatars represent users or entities with images or initials. They support multiple sizes, shapes, and automatic fallback to initials when images
+      are unavailable.
+    </p>
+  </header>
+
+  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
+    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }">API</coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }">Docs</coar-tab>
+  </coar-tab-group>
+</div>
+
+<ng-template #examplesTemplate>
+  <div class="examples-content">
+    <!-- Basic Usage -->
+    <section class="example-section">
+      <h2 class="coar-heading">Basic Usage</h2>
+      <p class="section-intro coar-body-small">Avatars display user images with automatic initials fallback.</p>
+      <div class="example-demo">
+        <div class="avatar-row">
+          @for (user of users; track user.name) {
+            <div class="avatar-item">
+              <coar-avatar [src]="user.src" [name]="user.name" size="lg" />
+              <span class="avatar-label coar-caption">{{ user.name }}</span>
+            </div>
+          }
+        </div>
+      </div>
+      <coar-code-block [code]="codeExamples.basic" language="html" [collapsed]="true" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
+    <!-- Sizes -->
+    <section class="example-section">
+      <h2 class="coar-heading">Sizes</h2>
+      <p class="section-intro coar-body-small">Six preset sizes from extra-small (24px) to extra-extra-large (96px).</p>
+      <div class="example-demo">
+        <div class="avatar-row avatar-row--align-end">
+          @for (size of sizes; track size) {
+            <div class="avatar-item">
+              <coar-avatar [name]="users[0].name" [src]="users[0].src" [size]="size" />
+              <span class="avatar-label coar-caption">{{ size }} ({{ sizeLabels[size] }})</span>
+            </div>
+          }
+        </div>
+      </div>
+      <coar-code-block [code]="codeExamples.sizes" language="html" [collapsed]="true" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
+    <!-- Shapes -->
+    <section class="example-section">
+      <h2 class="coar-heading">Shapes</h2>
+      <p class="section-intro coar-body-small">Choose between circular avatars (default) or square with rounded corners.</p>
+      <div class="example-demo">
+        <div class="avatar-row">
+          @for (shape of shapes; track shape) {
+            <div class="avatar-item">
+              <coar-avatar [name]="users[1].name" [src]="users[1].src" [shape]="shape" size="xl" />
+              <span class="avatar-label coar-caption">{{ shape }}</span>
+            </div>
+          }
+        </div>
+      </div>
+      <coar-code-block [code]="codeExamples.shapes" language="html" [collapsed]="true" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
+    <!-- Initials Fallback -->
+    <section class="example-section">
+      <h2 class="coar-heading">Initials Fallback</h2>
+      <p class="section-intro coar-body-small">
+        When no image is available, the avatar shows the first 3 characters of the name. Use the <code>coarInitials</code> pipe to extract first
+        letters from full names.
+      </p>
+      <div class="example-demo">
+        <div class="avatar-row">
+          @for (user of fallbackUsers; track user.name) {
+            <div class="avatar-item">
+              <coar-avatar [name]="user.name | coarInitials" size="lg" />
+              <span class="avatar-label coar-caption">{{ user.name }} → {{ user.name | coarInitials }}</span>
+            </div>
+          }
+        </div>
+      </div>
+      <coar-card padding="sm" class="info-card">
+        <strong class="coar-body-small-bold">Two Approaches</strong>
+        <p class="coar-body-small">
+          Pass raw text like <code>name="ABC"</code> to show exact characters, or use the <code>coarInitials</code> pipe like
+          <code>[name]="'Alice Johnson' | coarInitials"</code> to extract first letters.
+        </p>
+      </coar-card>
+      <coar-code-block [code]="codeExamples.fallback" language="html" [collapsed]="true" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
+    <!-- With Status Indicator -->
+    <section class="example-section">
+      <h2 class="coar-heading">With Status Indicator</h2>
+      <p class="section-intro coar-body-small">Combine with a badge component to show online/offline status.</p>
+      <div class="example-demo">
+        <div class="avatar-row">
+          <div class="avatar-item">
+            <div class="avatar-with-status">
+              <coar-avatar [name]="users[0].name" [src]="users[0].src" size="lg" />
+              <coar-badge variant="success" [dot]="true" size="xs" class="status-indicator" />
+            </div>
+            <span class="avatar-label coar-caption">Online</span>
+          </div>
+          <div class="avatar-item">
+            <div class="avatar-with-status">
+              <coar-avatar [name]="users[1].name" [src]="users[1].src" size="lg" />
+              <coar-badge variant="secondary" [dot]="true" size="xs" class="status-indicator" />
+            </div>
+            <span class="avatar-label coar-caption">Offline</span>
+          </div>
+          <div class="avatar-item">
+            <div class="avatar-with-status">
+              <coar-avatar [name]="users[2].name" [src]="users[2].src" size="lg" />
+              <coar-badge variant="warning" [dot]="true" size="xs" class="status-indicator" />
+            </div>
+            <span class="avatar-label coar-caption">Away</span>
+          </div>
+          <div class="avatar-item">
+            <div class="avatar-with-status">
+              <coar-avatar [name]="users[3].name" [src]="users[3].src" size="lg" />
+              <coar-badge variant="error" [dot]="true" size="xs" class="status-indicator" />
+            </div>
+            <span class="avatar-label coar-caption">Busy</span>
+          </div>
+        </div>
+      </div>
+      <coar-code-block [code]="codeExamples.withStatus" language="html" [collapsed]="true" />
+    </section>
+  </div>
+</ng-template>

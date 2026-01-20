@@ -1,0 +1,62 @@
+/* ========================================
+   COAR RADIO GROUP COMPONENT
+   ======================================== */
+
+:host {
+  display: block;
+}
+
+.coar-radio-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* ========================================
+   ORIENTATIONS
+   ======================================== */
+
+:host(.coar-radio-group--vertical) .coar-radio-group {
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+:host(.coar-radio-group--horizontal) .coar-radio-group {
+  flex-direction: row;
+  gap: 1.5rem;
+}
+
+/* ========================================
+   MESSAGE
+   ======================================== */
+
+.coar-radio-group__message {
+  margin-top: 0.375rem;
+  font-family: var(--coar-body-small-family);
+  font-size: var(--coar-body-small-size);
+  line-height: var(--coar-body-small-line-height);
+}
+
+.coar-radio-group__hint {
+  color: var(--coar-text-neutral-tertiary);
+}
+
+.coar-radio-group__error {
+  color: var(--coar-text-error-primary);
+}
+
+/* ========================================
+   DISABLED STATE
+   ======================================== */
+
+:host(.coar-radio-group--disabled) {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ========================================
+   ERROR STATE
+   ======================================== */
+
+:host(.coar-radio-group--error) {
+  /* Error styling applied to children via context */
+}

@@ -12,12 +12,7 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
 @Component({
   selector: 'app-table-page',
   standalone: true,
-  imports: [
-    CoarTabGroupComponent,
-    CoarTabComponent,
-    CoarCodeBlockComponent,
-    CoarTableComponent
-],
+  imports: [CoarTabGroupComponent, CoarTabComponent, CoarCodeBlockComponent, CoarTableComponent],
   templateUrl: './table.page.html',
   styleUrl: './table.page.css',
 })
@@ -26,8 +21,8 @@ export class TablePage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarTableComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarTableComponent/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-table.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-table.api.md';
 
   // Sample data for demos
   sampleData = [

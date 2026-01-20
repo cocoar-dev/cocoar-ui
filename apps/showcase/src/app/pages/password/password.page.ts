@@ -18,8 +18,8 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarCodeBlockComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
-    CoarDividerComponent
-],
+    CoarDividerComponent,
+  ],
   templateUrl: './password.page.html',
   styleUrl: './password.page.css',
 })
@@ -28,8 +28,8 @@ export class PasswordPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarPasswordInputComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarPasswordInputComponent/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-password-input.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-password-input.api.md';
 
   // Demo values
   basicValue = signal('');

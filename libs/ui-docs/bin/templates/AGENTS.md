@@ -9,9 +9,9 @@ When working with Cocoar components, consult the installed documentation:
   - Dark mode configuration
 - **Component catalog**: `node_modules/@cocoar/ui-docs/api/index.json`
   - Lists all available components with their package locations
-- **API reference**: `node_modules/@cocoar/ui-docs/docs/libs/{package}/{ClassName}/api.md`
+- **API reference**: `node_modules/@cocoar/ui-docs/docs/libs/{package}/{kebab-name}.api.md`
   - Complete API documentation (inputs, outputs, methods, properties)
-- **Usage examples**: `node_modules/@cocoar/ui-docs/docs/libs/{package}/{ClassName}/overview.md`
+- **Usage examples**: `node_modules/@cocoar/ui-docs/docs/libs/{package}/{kebab-name}.docs.md`
   - Code examples, usage patterns, best practices
 
 ### Example packages

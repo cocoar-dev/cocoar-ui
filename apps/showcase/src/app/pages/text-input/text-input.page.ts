@@ -18,8 +18,8 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarCodeBlockComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
-    CoarDividerComponent
-],
+    CoarDividerComponent,
+  ],
   templateUrl: './text-input.page.html',
   styleUrl: './text-input.page.css',
 })
@@ -28,8 +28,8 @@ export class TextInputPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarTextInputComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarTextInputComponent/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-text-input.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-text-input.api.md';
 
   // Demo values
   basicValue = signal('');

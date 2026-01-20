@@ -1,4 +1,3 @@
-
 import { Component, signal } from '@angular/core';
 import {
   CoarCodeBlockComponent,
@@ -19,8 +18,8 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarCodeBlockComponent,
     CoarDividerComponent,
     CoarTabGroupComponent,
-    CoarTabComponent
-],
+    CoarTabComponent,
+  ],
   templateUrl: './multi-select.page.html',
   styleUrl: './multi-select.page.css',
 })
@@ -29,8 +28,8 @@ export class MultiSelectPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarMultiSelectComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarMultiSelectComponent/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-multi-select.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-multi-select.api.md';
 
   selectedSkills = signal<string[]>([]);
   selectedWithValue = signal<string[]>(['skill-1', 'skill-3']);

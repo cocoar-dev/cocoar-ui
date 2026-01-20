@@ -1,0 +1,77 @@
+/* ========================================
+   POPCONFIRM PAGE - SPECIFIC STYLES
+   ========================================
+   Common styles are in: app/shared/showcase-pages.css
+   Only page-specific overrides belong here.
+   ======================================== */
+
+/* Demo row layout */
+.demo-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+/* Deleted message display */
+.deleted-message {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--coar-background-success-secondary);
+  border-radius: var(--coar-radius-md);
+  color: var(--coar-text-success-primary);
+}
+
+/* Action log display */
+.action-log {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.75rem 1rem;
+  background: var(--coar-background-neutral-secondary);
+  border-radius: var(--coar-radius-md);
+  min-width: 180px;
+}
+
+/* Placement grid */
+.placement-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  padding: 2rem;
+}
+
+/* Accessibility and best practices info cards */
+.accessibility-info,
+.best-practices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.accessibility-info ul,
+.best-practices ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+}
+
+.accessibility-info li,
+.best-practices li {
+  margin-bottom: 0.25rem;
+}
+
+.accessibility-info code,
+.best-practices code {
+  background: var(--coar-background-neutral-tertiary);
+  padding: 0.125rem 0.375rem;
+  border-radius: var(--coar-radius-xxs);
+  font-family: 'Consolas', 'Monaco', monospace;
+  font-size: 0.875em;
+}
+
+.accessibility-info p {
+  margin: 0.25rem 0 0;
+}

@@ -189,8 +189,8 @@ When helping troubleshoot:
 
 | Need | Location |
 |------|----------|
-| Component API | `api/{package}.json` or `docs/components/{name}/api.md` |
-| Usage examples | `docs/components/{name}/overview.md` |
+| Component API | `api/{package}.json` or `docs/libs/{package}/{kebab-name}.api.md` |
+| Usage examples | `docs/libs/{package}/{kebab-name}.docs.md` |
 | Integration guide | `docs/consuming/angular.md` |
 | Design tokens | `docs/foundations/` (when created) |
 | Forms patterns | `docs/patterns/forms/` |

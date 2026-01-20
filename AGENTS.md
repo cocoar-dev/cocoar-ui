@@ -24,6 +24,10 @@ When creating scenarios for component testing:
 
 7. **[.github/skills/cocoar-scenarios/SKILL.md](.github/skills/cocoar-scenarios/SKILL.md)** — Agent Skill with templates for scenarios and Playwright tests
 
+When creating documentation for components:
+
+8. **[docs/writing-component-docs.md](docs/writing-component-docs.md)** — How to write JSDoc and `.docs.md` files
+
 **⚠️ IMPORTANT:** AI assistants MUST load NAMING.md, ARCHITECTURE.md, and CONTRIBUTING.md into context before generating or modifying any files.
 
 **These documents work together as a complete behavioral contract.**
@@ -187,6 +191,26 @@ When working in this repository, AI assistants must:
 - [ ] Follow [.github/skills/cocoar-scenarios/SKILL.md](.github/skills/cocoar-scenarios/SKILL.md) templates
 - [ ] Regenerate registry after creating scenarios: `node scripts/scenar/generate-registry.mjs`
 
+### Documentation (see [docs/writing-component-docs.md](docs/writing-component-docs.md))
+
+- [ ] **Create `{kebab-name}.docs.md`** file for each component/directive
+- [ ] Place docs file **next to source** (e.g., `coar-button/coar-button.docs.md`)
+- [ ] Include: overview, usage examples, variants, accessibility, best practices
+- [ ] Use JSDoc comments in TypeScript for API documentation (auto-generated)
+- [ ] Run `pnpm docs:all` to regenerate documentation
+
+**Documentation file naming:**
+```
+libs/ui-components/src/lib/coar-button/
+├── coar-button.component.ts    # Source
+└── coar-button.docs.md         # Usage docs (hand-written)
+
+→ Generates:
+docs/libs/ui-components/
+├── coar-button.api.md          # API (auto-generated from JSDoc)
+└── coar-button.docs.md         # Usage (copied from source)
+```
+
 ### Performance (see ARCHITECTURE.md)
 
 - [ ] Use `OnPush` change detection where appropriate
@@ -221,6 +245,7 @@ If uncertain about a decision, AI assistants should:
 - **Follow ARCHITECTURE.md** — Framework purity, design tokens, component patterns
 - **Follow CONTRIBUTING.md** — Quality standards, testing, definition of done
 - **Create scenarios by default** — For components, directives, services; prefer Playwright over heavily-mocked Vitest
+- **Create `{kebab-name}.docs.md`** — Usage docs next to component source
 - **Use CSS variables only** — All styling from Figma tokens
 - **Use `@cocoar/logging`** — No `console.log` in libraries
 - **Test accessibility** — Keyboard navigation, ARIA, screen readers
@@ -257,9 +282,9 @@ When working with Cocoar components, consult the installed documentation:
 
 - **Component catalog**: `node_modules/@cocoar/ui-docs/api/index.json`
   - Lists all available components with their package locations
-- **API reference**: `node_modules/@cocoar/ui-docs/docs/libs/{package}/{ClassName}/api.md`
+- **API reference**: `node_modules/@cocoar/ui-docs/docs/libs/{package}/{kebab-name}.api.md`
   - Complete API documentation (inputs, outputs, methods, properties)
-- **Usage examples**: `node_modules/@cocoar/ui-docs/docs/libs/{package}/{ClassName}/overview.md`
+- **Usage examples**: `node_modules/@cocoar/ui-docs/docs/libs/{package}/{kebab-name}.docs.md`
   - Code examples, usage patterns, best practices
 
 ### Example packages

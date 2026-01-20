@@ -1,0 +1,20 @@
+<label class="coar-radio__label" [for]="inputId()">
+  <input
+    #radioInput
+    type="radio"
+    class="coar-radio__input"
+    [id]="inputId()"
+    [name]="radioName()"
+    [checked]="isChecked()"
+    [disabled]="isDisabled()"
+    (change)="onInputChange()"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+  />
+  <span class="coar-radio__control">
+    <span class="coar-radio__dot"></span>
+  </span>
+  <span class="coar-radio__text">
+    <ng-content />
+  </span>
+</label>

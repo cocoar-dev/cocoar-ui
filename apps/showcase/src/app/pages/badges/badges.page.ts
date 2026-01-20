@@ -34,8 +34,8 @@ export class BadgesPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarBadgeComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarBadgeComponent/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-badge.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-badge.api.md';
 
   /** Badge variants */
   variants: BadgeVariant[] = ['primary', 'secondary', 'success', 'warning', 'error', 'info'];

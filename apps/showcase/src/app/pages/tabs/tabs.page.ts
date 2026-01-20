@@ -20,16 +20,16 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarCodeBlockComponent,
     CoarButtonComponent,
     CoarDividerComponent,
-    LazyDemoComponent
-],
+    LazyDemoComponent,
+  ],
   templateUrl: './tabs.page.html',
   styleUrl: './tabs.page.css',
 })
 export class TabsPage {
   protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarTabGroupComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarTabGroupComponent/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-tab-group.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-tab-group.api.md';
 
   // Page-level tabs
   activeTab = 'examples';

@@ -17,8 +17,8 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarCodeBlockComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
-    ShowcaseSectionComponent
-],
+    ShowcaseSectionComponent,
+  ],
   templateUrl: './dividers.page.html',
   styleUrl: './dividers.page.css',
 })
@@ -27,8 +27,8 @@ export class DividersPage {
 
   protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarDividerComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarDividerComponent/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-divider.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-divider.api.md';
 
   /** Code examples */
   codeExamples = {

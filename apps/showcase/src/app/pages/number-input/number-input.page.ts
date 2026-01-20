@@ -18,8 +18,8 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarCodeBlockComponent,
     CoarTabGroupComponent,
     CoarTabComponent,
-    CoarDividerComponent
-],
+    CoarDividerComponent,
+  ],
   templateUrl: './number-input.page.html',
   styleUrl: './number-input.page.css',
 })
@@ -28,8 +28,8 @@ export class NumberInputPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarNumberInputComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarNumberInputComponent/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-number-input.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-number-input.api.md';
 
   protected readonly germanNumberFormat = { decimal: ',', thousand: '.' } as const;
   protected readonly usNumberFormat = { decimal: '.', thousand: ',' } as const;

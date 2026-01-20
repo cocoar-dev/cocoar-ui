@@ -1,0 +1,161 @@
+/* ========================================
+   COAR AVATAR COMPONENT
+   ======================================== */
+
+:host {
+  display: inline-flex;
+  position: relative;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+:host(.coar-avatar--clickable) {
+  cursor: pointer;
+}
+
+:host(.coar-avatar--clickable:focus-visible) {
+  outline: 2px solid var(--coar-border-accent-primary);
+  outline-offset: 2px;
+  border-radius: 50%;
+}
+
+:host(.coar-avatar--square.coar-avatar--clickable:focus-visible) {
+  border-radius: var(--coar-radius-xs);
+}
+
+.coar-avatar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--coar-background-neutral-tertiary);
+}
+
+:host(.coar-avatar--square) .coar-avatar {
+  border-radius: var(--coar-radius-xs);
+}
+
+/* ========================================
+   IMAGE
+   ======================================== */
+
+.coar-avatar__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ========================================
+   INITIALS
+   ======================================== */
+
+.coar-avatar__initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-family: var(--coar-body-base-family);
+  font-weight: 600;
+  color: white;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+/* ========================================
+   STATUS INDICATOR (for badge slot)
+   ======================================== */
+
+.coar-avatar__status {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  transform: translate(25%, 25%);
+}
+
+.coar-avatar__status:empty {
+  display: none;
+}
+
+/* ========================================
+   SIZES
+   xs: 24px, sm: 32px, md: 40px, lg: 48px, xl: 64px, 2xl: 96px
+   ======================================== */
+
+:host(.coar-avatar--xs) .coar-avatar {
+  width: 24px;
+  height: 24px;
+}
+
+:host(.coar-avatar--xs) .coar-avatar__initials {
+  font-size: 10px;
+}
+
+:host(.coar-avatar--sm) .coar-avatar {
+  width: 32px;
+  height: 32px;
+}
+
+:host(.coar-avatar--sm) .coar-avatar__initials {
+  font-size: 12px;
+}
+
+:host(.coar-avatar--md) .coar-avatar {
+  width: 40px;
+  height: 40px;
+}
+
+:host(.coar-avatar--md) .coar-avatar__initials {
+  font-size: 14px;
+}
+
+:host(.coar-avatar--lg) .coar-avatar {
+  width: 48px;
+  height: 48px;
+}
+
+:host(.coar-avatar--lg) .coar-avatar__initials {
+  font-size: 16px;
+}
+
+:host(.coar-avatar--xl) .coar-avatar {
+  width: 64px;
+  height: 64px;
+}
+
+:host(.coar-avatar--xl) .coar-avatar__initials {
+  font-size: 20px;
+}
+
+:host(.coar-avatar--2xl) .coar-avatar {
+  width: 96px;
+  height: 96px;
+}
+
+:host(.coar-avatar--2xl) .coar-avatar__initials {
+  font-size: 28px;
+}
+
+/* ========================================
+   STATUS POSITION BY SIZE
+   ======================================== */
+
+:host(.coar-avatar--xs) .coar-avatar__status {
+  transform: translate(15%, 15%);
+}
+
+:host(.coar-avatar--sm) .coar-avatar__status {
+  transform: translate(20%, 20%);
+}
+
+:host(.coar-avatar--md) .coar-avatar__status,
+:host(.coar-avatar--lg) .coar-avatar__status {
+  transform: translate(25%, 25%);
+}
+
+:host(.coar-avatar--xl) .coar-avatar__status,
+:host(.coar-avatar--2xl) .coar-avatar__status {
+  transform: translate(30%, 30%);
+}

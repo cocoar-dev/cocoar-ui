@@ -3,12 +3,12 @@
  * Generate API markdown files from Compodoc JSON
  *
  * Reads all Compodoc JSON files from libs/ui-docs/api/ and generates
- * markdown API documentation in docs/libs/{package}/{ClassName}/api.md
+ * markdown API documentation in docs/libs/{package}/{kebab-name}.api.md
  *
- * Structure mirrors the package layout:
- * - docs/libs/ui-components/CoarButtonComponent/api.md
- * - docs/libs/ui-menu/CoarMenuComponent/api.md
- * - docs/libs/logging/LoggerService/api.md
+ * Naming convention:
+ * - docs/libs/ui-components/coar-button.api.md
+ * - docs/libs/ui-menu/coar-menu.api.md
+ * - docs/libs/logging/logger.api.md
  *
  * Usage: node scripts/docs/generate-api-markdown.mjs
  */
@@ -236,16 +236,37 @@ for (const jsonFile of jsonFiles) {
 console.log(`✅ Generated ${totalGenerated} API files across ${jsonFiles.length} packages`);
 
 /**
+ * Convert PascalCase class name to kebab-case filename base
+ * Examples:
+ *   CoarButtonComponent → coar-button
+ *   CoarTooltipDirective → coar-tooltip
+ *   CoarIconService → coar-icon
+ *   CoarI18nConfig (interface) → coar-i18n-config
+ */
+function classNameToKebab(className) {
+  // Remove common suffixes (Component, Directive, Service, Pipe, Interface)
+  const withoutSuffix = className.replace(/(Component|Directive|Service|Pipe|Interface)$/, '');
+  // Convert PascalCase to kebab-case
+  return withoutSuffix
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
+    .toLowerCase();
+}
+
+/**
  * Generate API file for a single item (component, directive, service, pipe)
+ *
+ * Output: docs/libs/{package}/{kebab-name}.api.md
+ * Example: docs/libs/ui-components/coar-button.api.md
  */
 function generateApiFile(packageName, className, type, data) {
   const packageDir = join(DOCS_DIR, packageName);
-  const itemDir = join(packageDir, className);
-  const apiFilePath = join(itemDir, 'api.md');
+  const kebabName = classNameToKebab(className);
+  const apiFilePath = join(packageDir, `${kebabName}.api.md`);
 
   // Create directory if it doesn't exist
-  if (!existsSync(itemDir)) {
-    mkdirSync(itemDir, { recursive: true });
+  if (!existsSync(packageDir)) {
+    mkdirSync(packageDir, { recursive: true });
   }
 
   // Generate markdown
@@ -253,7 +274,7 @@ function generateApiFile(packageName, className, type, data) {
 
   // Write file
   writeFileSync(apiFilePath, markdown);
-  console.log(`  ✓ ${packageName}/${className}/api.md`);
+  console.log(`  ✓ ${packageName}/${kebabName}.api.md`);
 }
 
 /**

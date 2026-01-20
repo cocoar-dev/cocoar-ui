@@ -25,8 +25,8 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarDividerComponent,
     CoarNoteComponent,
     CoarTabGroupComponent,
-    CoarTabComponent
-],
+    CoarTabComponent,
+  ],
   templateUrl: './date-picker.page.html',
   styleUrl: './date-picker.page.css',
 })
@@ -35,8 +35,8 @@ export class DatePickerPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarDatePickerComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarDatePickerComponent/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-date-picker.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-date-picker.api.md';
 
   // Demo values
   basicDate = signal<Temporal.PlainDate | null>(null);

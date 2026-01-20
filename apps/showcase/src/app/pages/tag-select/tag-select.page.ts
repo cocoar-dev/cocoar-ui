@@ -1,4 +1,3 @@
-
 import { Component, signal } from '@angular/core';
 import {
   CoarCodeBlockComponent,
@@ -21,8 +20,8 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarDividerComponent,
     CoarNoteComponent,
     CoarTabGroupComponent,
-    CoarTabComponent
-],
+    CoarTabComponent,
+  ],
   templateUrl: './tag-select.page.html',
   styleUrl: './tag-select.page.css',
 })
@@ -31,8 +30,8 @@ export class TagSelectPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarTagSelectComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarTagSelectComponent/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-tag-select.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-tag-select.api.md';
 
   tags = signal<string[]>([]);
   tagsWithValue = signal<string[]>(['Angular', 'TypeScript']);

@@ -47,21 +47,84 @@ export class DataGridPage {
   activeTab = 'examples';
 
   // Markdown documentation paths (will be generated when compodoc runs for data-grid)
-  protected readonly docsPath = '/docs/libs/data-grid/CoarDataGridDirective/overview.md';
-  protected readonly apiPath = '/docs/libs/data-grid/CoarDataGridDirective/api.md';
+  protected readonly docsPath = '/docs/libs/data-grid/coar-data-grid.docs.md';
+  protected readonly apiPath = '/docs/libs/data-grid/coar-data-grid.api.md';
 
   // Sample user data
   readonly users: User[] = [
-    { id: 1, name: 'Alice Johnson', email: 'alice@example.com', role: 'Admin', status: 'Active', age: 32 },
+    {
+      id: 1,
+      name: 'Alice Johnson',
+      email: 'alice@example.com',
+      role: 'Admin',
+      status: 'Active',
+      age: 32,
+    },
     { id: 2, name: 'Bob Smith', email: 'bob@example.com', role: 'User', status: 'Active', age: 28 },
-    { id: 3, name: 'Charlie Brown', email: 'charlie@example.com', role: 'User', status: 'Inactive', age: 45 },
-    { id: 4, name: 'Diana Prince', email: 'diana@example.com', role: 'Admin', status: 'Active', age: 35 },
-    { id: 5, name: 'Eve Wilson', email: 'eve@example.com', role: 'Guest', status: 'Active', age: 29 },
-    { id: 6, name: 'Frank Miller', email: 'frank@example.com', role: 'User', status: 'Active', age: 41 },
-    { id: 7, name: 'Grace Lee', email: 'grace@example.com', role: 'User', status: 'Inactive', age: 26 },
-    { id: 8, name: 'Henry Chen', email: 'henry@example.com', role: 'Admin', status: 'Active', age: 38 },
-    { id: 9, name: 'Ivy Martinez', email: 'ivy@example.com', role: 'User', status: 'Active', age: 31 },
-    { id: 10, name: 'Jack Thompson', email: 'jack@example.com', role: 'Guest', status: 'Active', age: 44 },
+    {
+      id: 3,
+      name: 'Charlie Brown',
+      email: 'charlie@example.com',
+      role: 'User',
+      status: 'Inactive',
+      age: 45,
+    },
+    {
+      id: 4,
+      name: 'Diana Prince',
+      email: 'diana@example.com',
+      role: 'Admin',
+      status: 'Active',
+      age: 35,
+    },
+    {
+      id: 5,
+      name: 'Eve Wilson',
+      email: 'eve@example.com',
+      role: 'Guest',
+      status: 'Active',
+      age: 29,
+    },
+    {
+      id: 6,
+      name: 'Frank Miller',
+      email: 'frank@example.com',
+      role: 'User',
+      status: 'Active',
+      age: 41,
+    },
+    {
+      id: 7,
+      name: 'Grace Lee',
+      email: 'grace@example.com',
+      role: 'User',
+      status: 'Inactive',
+      age: 26,
+    },
+    {
+      id: 8,
+      name: 'Henry Chen',
+      email: 'henry@example.com',
+      role: 'Admin',
+      status: 'Active',
+      age: 38,
+    },
+    {
+      id: 9,
+      name: 'Ivy Martinez',
+      email: 'ivy@example.com',
+      role: 'User',
+      status: 'Active',
+      age: 31,
+    },
+    {
+      id: 10,
+      name: 'Jack Thompson',
+      email: 'jack@example.com',
+      role: 'Guest',
+      status: 'Active',
+      age: 44,
+    },
   ];
 
   // ============================================================
@@ -130,8 +193,12 @@ readonly gridBuilder = CoarGridBuilder.create<User>()
   readonly styledGrid = CoarGridBuilder.create<User>()
     .columns([
       (col) => col.field('name').header('Name').flex(1),
-      (col) => col.field('status').header('Status').width(100)
-        .cellClass((params) => params.value === 'Active' ? 'status-active' : 'status-inactive'),
+      (col) =>
+        col
+          .field('status')
+          .header('Status')
+          .width(100)
+          .cellClass((params) => (params.value === 'Active' ? 'status-active' : 'status-inactive')),
       (col) => col.field('age').header('Age').width(80),
     ])
     .rowData(this.users)

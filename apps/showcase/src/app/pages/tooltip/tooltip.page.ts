@@ -1,4 +1,3 @@
-
 import { Component, signal } from '@angular/core';
 import {
   CoarButtonComponent,
@@ -24,8 +23,8 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarDividerComponent,
     CoarNoteComponent,
     CoarTabGroupComponent,
-    CoarTabComponent
-],
+    CoarTabComponent,
+  ],
   templateUrl: './tooltip.page.html',
   styleUrl: './tooltip.page.css',
 })
@@ -34,8 +33,8 @@ export class TooltipPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarTooltipDirective/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarTooltipDirective/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-tooltip.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-tooltip.api.md';
 
   protected readonly clicksThroughOverlay = signal(0);
 

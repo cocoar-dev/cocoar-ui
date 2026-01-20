@@ -32,8 +32,8 @@ export class ButtonsPage {
 
   activeTab = 'examples';
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarButtonComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarButtonComponent/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-button.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-button.api.md';
 
   // Loading demos - multiple scenarios
   isLoading = signal(false);

@@ -19,8 +19,8 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarCodeBlockComponent,
     CoarDividerComponent,
     CoarTabGroupComponent,
-    CoarTabComponent
-],
+    CoarTabComponent,
+  ],
   templateUrl: './notes.page.html',
   styleUrl: './notes.page.css',
 })
@@ -29,8 +29,8 @@ export class NotesPage {
 
   protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarNoteComponent/overview.md';
-  protected readonly apiPath = '/docs/libs/ui-components/CoarNoteComponent/api.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-note.docs.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-note.api.md';
 
   /** Code examples */
   codeExamples = {

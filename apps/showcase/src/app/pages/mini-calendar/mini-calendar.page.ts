@@ -33,9 +33,9 @@ export class MiniCalendarPage {
 
   activeTab = 'examples';
 
-  protected readonly apiPath = '/docs/libs/ui-components/CoarMiniCalendarComponent/api.md';
+  protected readonly apiPath = '/docs/libs/ui-components/coar-mini-calendar.api.md';
 
-  protected readonly docsPath = '/docs/libs/ui-components/CoarMiniCalendarComponent/overview.md';
+  protected readonly docsPath = '/docs/libs/ui-components/coar-mini-calendar.docs.md';
 
   selectedDate = signal<Temporal.PlainDate | null>(Temporal.Now.plainDateISO());
   weekNumberDate = signal<Temporal.PlainDate | null>(Temporal.Now.plainDateISO());
