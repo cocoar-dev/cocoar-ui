@@ -579,6 +579,12 @@ test('button visual regression', async ({ page }) => {
 
 > **For AI Assistants (GitHub Copilot, Claude, ChatGPT, etc.)**
 
+### 🚀 Quick Start for AI Agents
+
+**Agent Skill:** [.github/skills/cocoar-scenarios/SKILL.md](../.github/skills/cocoar-scenarios/SKILL.md)
+
+Concise guide with copy-paste templates for components, directives, and services. GitHub Copilot loads this automatically.
+
 ### When Creating Scenarios
 
 1. **Check component location first**:

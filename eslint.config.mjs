@@ -3,7 +3,7 @@ import baseConfig from './eslint.base.config.mjs';
 export default [
   ...baseConfig,
   {
-    ignores: ['**/dist', '**/vitest.config.*.timestamp*'],
+    ignores: ['**/dist', '**/vitest.config.*.timestamp*', '**/*.scenario.ts'],
   },
   {
     files: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx'],

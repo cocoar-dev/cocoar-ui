@@ -20,6 +20,10 @@ When working on tests (adding, updating, or debugging), also load:
 5. **[docs/testing.md](docs/testing.md)** — How to run tests in this repo (Vitest + Playwright)
 6. **[docs/testing-writing.md](docs/testing-writing.md)** — How to write tests (helpers, tags, `test.fixme` conventions)
 
+When creating scenarios for component testing:
+
+7. **[.github/skills/cocoar-scenarios/SKILL.md](.github/skills/cocoar-scenarios/SKILL.md)** — Agent Skill with templates for scenarios and Playwright tests
+
 **⚠️ IMPORTANT:** AI assistants MUST load NAMING.md, ARCHITECTURE.md, and CONTRIBUTING.md into context before generating or modifying any files.
 
 **These documents work together as a complete behavioral contract.**
@@ -170,9 +174,18 @@ When working in this repository, AI assistants must:
 - [ ] Write clean, typed TypeScript (strict mode)
 - [ ] Follow Angular style guides
 - [ ] Add tests for new functionality
+- [ ] **Create scenarios for new components/features** (Playwright > Vitest with heavy mocking)
 - [ ] Document public APIs
 - [ ] Update showcase app usage/examples for UI changes
 - [ ] Remove unused imports/variables
+
+### Testing & Scenarios
+
+- [ ] **Create scenarios by default** for components, directives, and services
+- [ ] Use integrated scenarios for related functionality (e.g., service + pipe + directive together)
+- [ ] Prefer Playwright browser tests over Vitest with heavy mocking (more reliable)
+- [ ] Follow [.github/skills/cocoar-scenarios/SKILL.md](.github/skills/cocoar-scenarios/SKILL.md) templates
+- [ ] Regenerate registry after creating scenarios: `node scripts/scenar/generate-registry.mjs`
 
 ### Performance (see ARCHITECTURE.md)
 
@@ -207,6 +220,7 @@ If uncertain about a decision, AI assistants should:
 - **Follow NAMING.md** — All naming conventions (selectors, classes, CSS variables)
 - **Follow ARCHITECTURE.md** — Framework purity, design tokens, component patterns
 - **Follow CONTRIBUTING.md** — Quality standards, testing, definition of done
+- **Create scenarios by default** — For components, directives, services; prefer Playwright over heavily-mocked Vitest
 - **Use CSS variables only** — All styling from Figma tokens
 - **Use `@cocoar/logging`** — No `console.log` in libraries
 - **Test accessibility** — Keyboard navigation, ARIA, screen readers
@@ -258,3 +272,26 @@ When working with Cocoar components, consult the installed documentation:
 **Always prefer the installed documentation over assumptions or general knowledge.**
 <!-- @cocoar/ui-docs:end -->
 
+<!-- @cocoar/scenarios:start -->
+## Scenario System for Component Testing
+
+When creating scenarios for isolated component testing:
+
+- **Agent Skill**: [.github/skills/cocoar-scenarios/SKILL.md](.github/skills/cocoar-scenarios/SKILL.md)
+  - Concise templates for components, directives, and services
+  - Playwright test examples
+  - Registry generation workflow
+
+**Use scenarios for:**
+- Playwright E2E tests on isolated components
+- Testing directives (with host component wrapper)
+- Visual regression and accessibility testing
+
+**Quick workflow:**
+1. Create `*.scenario.ts` using template from Agent Skill
+2. Run `node scripts/scenar/generate-registry.mjs`
+3. Verify at `http://localhost:4300/__scenario/{id}`
+4. Write Playwright test with `openScenario()` helper
+
+**Full documentation:** [docs/writing-scenarios.md](docs/writing-scenarios.md)
+<!-- @cocoar/scenarios:end -->
