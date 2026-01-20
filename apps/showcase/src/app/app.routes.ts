@@ -147,6 +147,10 @@ export const appRoutes: Route[] = [
     loadComponent: () => import('./pages/table/table.page').then((m) => m.TablePage),
   },
   {
+    path: 'data-grid',
+    loadComponent: () => import('./pages/data-grid/data-grid.page').then((m) => m.DataGridPage),
+  },
+  {
     path: 'notes',
     loadComponent: () => import('./pages/notes/notes.page').then((m) => m.NotesPage),
   },

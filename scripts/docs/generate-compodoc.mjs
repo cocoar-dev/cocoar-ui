@@ -32,6 +32,7 @@ const LIBRARIES = [
   'ui-menu',
   'ui-overlay',
   'markdown-viewer',
+  'data-grid',
   'i18n',
   'i18n-transloco',
   'logging',

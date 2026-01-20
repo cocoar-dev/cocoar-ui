@@ -1,0 +1,10 @@
+/**
+ * @cocoar/data-grid styles
+ *
+ * Import this file in your app styles to get the Cocoar AG Grid theme.
+ * You do NOT need to import AG Grid's base CSS separately - it's included via AllCommunityModule.
+ *
+ * Example:
+ *   @import '@cocoar/data-grid/styles.css';
+ */
+@import './lib/theme/ag-theme-cocoar.css';

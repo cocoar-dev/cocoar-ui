@@ -16,6 +16,9 @@
 /* Import OverlayScrollbars styles */
 @import 'overlayscrollbars/overlayscrollbars.css';
 
+/* Import Data Grid (AG Grid) theme */
+@import '../../../libs/data-grid/src/styles.css';
+
 /* Import shared showcase page styles */
 @import './app/shared/showcase-pages.css';
 

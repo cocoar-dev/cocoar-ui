@@ -1,0 +1,235 @@
+/**
+ * Cocoar Theme for AG Grid
+ *
+ * Maps AG Grid CSS variables to Cocoar design tokens.
+ * Supports light and dark mode via .light-mode/.dark-mode classes.
+ *
+ * Usage:
+ *   1. Import AG Grid base styles in your app
+ *   2. Import this theme CSS
+ *   3. Apply "ag-theme-cocoar" class to your grid
+ *
+ * @example
+ * ```html
+ * <ag-grid-angular
+ *   class="ag-theme-cocoar"
+ *   [coarDataGrid]="gridBuilder"
+ * />
+ * ```
+ */
+
+/* ============================================================================
+   AG GRID BASE STYLES - Import required AG Grid CSS
+   ============================================================================ */
+
+/* Note: Consumers should import AG Grid styles in their app:
+   @import 'ag-grid-community/styles/ag-grid.css';
+*/
+
+/* ============================================================================
+   COCOAR THEME - Maps AG Grid variables to Cocoar tokens
+   ============================================================================ */
+
+.ag-theme-cocoar {
+  /* ==========================================================================
+     Typography
+     ========================================================================== */
+  --ag-font-family: var(--coar-font-family-body, Poppins, sans-serif);
+  --ag-font-size: var(--coar-font-size-xs, 14px);
+
+  /* ==========================================================================
+     Spacing & Sizing
+     ========================================================================== */
+  --ag-grid-size: 4px;
+  --ag-cell-horizontal-padding: var(--coar-spacing-m, 16px);
+  --ag-row-height: 40px;
+  --ag-header-height: 40px;
+  --ag-list-item-height: 36px;
+
+  /* ==========================================================================
+     Borders & Radius
+     ========================================================================== */
+  --ag-borders: solid 1px;
+  --ag-border-radius: var(--coar-radius-m, 8px);
+  --ag-wrapper-border-radius: var(--coar-radius-m, 8px);
+  --ag-row-border-style: solid;
+  --ag-row-border-width: 1px;
+
+  /* ==========================================================================
+     Colors - Light Mode (default)
+     ========================================================================== */
+
+  /* Background colors */
+  --ag-background-color: var(--coar-background-neutral-primary, #ffffff);
+  --ag-header-background-color: var(--coar-background-neutral-secondary, #f5f5f5);
+  --ag-odd-row-background-color: var(--coar-background-neutral-primary, #ffffff);
+  --ag-row-hover-color: var(--coar-background-neutral-tertiary, #e5e5e5);
+  --ag-selected-row-background-color: var(--coar-background-accent-tertiary, #e6f0ff);
+  --ag-modal-overlay-background-color: rgba(0, 0, 0, 0.5);
+
+  /* Border colors */
+  --ag-border-color: var(--coar-border-neutral-tertiary, #e5e5e5);
+  --ag-row-border-color: var(--coar-border-neutral-tertiary, #e5e5e5);
+  --ag-header-column-separator-color: var(--coar-border-neutral-tertiary, #e5e5e5);
+
+  /* Text colors */
+  --ag-foreground-color: var(--coar-text-neutral-primary, #171717);
+  --ag-header-foreground-color: var(--coar-text-neutral-secondary, #404040);
+  --ag-secondary-foreground-color: var(--coar-text-neutral-tertiary, #525252);
+  --ag-disabled-foreground-color: var(--coar-text-neutral-disabled, #a3a3a3);
+
+  /* Accent colors (selection, focus, etc.) */
+  --ag-range-selection-border-color: var(--coar-border-accent-primary, #0066cc);
+  --ag-range-selection-background-color: var(--coar-background-accent-tertiary, #e6f0ff);
+  --ag-range-selection-highlight-color: var(--coar-background-accent-secondary, #cce0ff);
+
+  /* Input colors */
+  --ag-input-focus-border-color: var(--coar-border-accent-primary, #0066cc);
+  --ag-input-disabled-background-color: var(--coar-background-neutral-disabled, #d4d4d4);
+
+  /* Icon colors */
+  --ag-icon-font-color: var(--coar-icon-neutral-secondary, #404040);
+
+  /* ==========================================================================
+     Subheader/Panel styles
+     ========================================================================== */
+  --ag-subheader-background-color: var(--coar-background-neutral-secondary, #f5f5f5);
+  --ag-control-panel-background-color: var(--coar-background-neutral-primary, #ffffff);
+  --ag-side-button-selected-background-color: var(--coar-background-accent-tertiary, #e6f0ff);
+
+  /* ==========================================================================
+     Filter & Menu
+     ========================================================================== */
+  --ag-menu-background-color: var(--coar-background-neutral-primary, #ffffff);
+  --ag-menu-border-color: var(--coar-border-neutral-tertiary, #e5e5e5);
+
+  /* ==========================================================================
+     Checkbox & Toggle
+     ========================================================================== */
+  --ag-checkbox-checked-color: var(--coar-background-accent-primary, #0066cc);
+  --ag-checkbox-unchecked-color: var(--coar-border-neutral-tertiary, #e5e5e5);
+  --ag-checkbox-indeterminate-color: var(--coar-background-accent-secondary, #cce0ff);
+
+  /* ==========================================================================
+     Chips/Tags
+     ========================================================================== */
+  --ag-chip-background-color: var(--coar-background-neutral-secondary, #f5f5f5);
+
+  /* ==========================================================================
+     Invalid state
+     ========================================================================== */
+  --ag-invalid-color: var(--coar-text-semantic-error-bold, #dc2626);
+}
+
+/* ============================================================================
+   DARK MODE OVERRIDES
+   ============================================================================ */
+
+.dark-mode .ag-theme-cocoar,
+.ag-theme-cocoar.dark-mode {
+  /* Background colors */
+  --ag-background-color: var(--coar-background-neutral-primary, #18181b);
+  --ag-header-background-color: var(--coar-background-neutral-secondary, #27272a);
+  --ag-odd-row-background-color: var(--coar-background-neutral-primary, #18181b);
+  --ag-row-hover-color: var(--coar-background-neutral-tertiary, #3f3f46);
+  --ag-selected-row-background-color: var(--coar-background-accent-tertiary, #1e3a5f);
+
+  /* Border colors */
+  --ag-border-color: var(--coar-border-neutral-tertiary, #3f3f46);
+  --ag-row-border-color: var(--coar-border-neutral-tertiary, #3f3f46);
+  --ag-header-column-separator-color: var(--coar-border-neutral-tertiary, #3f3f46);
+
+  /* Text colors */
+  --ag-foreground-color: var(--coar-text-neutral-primary, #fafafa);
+  --ag-header-foreground-color: var(--coar-text-neutral-secondary, #e4e4e7);
+  --ag-secondary-foreground-color: var(--coar-text-neutral-tertiary, #a1a1aa);
+  --ag-disabled-foreground-color: var(--coar-text-neutral-disabled, #71717a);
+
+  /* Icon colors */
+  --ag-icon-font-color: var(--coar-icon-neutral-secondary, #e4e4e7);
+
+  /* Subheader/Panel */
+  --ag-subheader-background-color: var(--coar-background-neutral-secondary, #27272a);
+  --ag-control-panel-background-color: var(--coar-background-neutral-primary, #18181b);
+
+  /* Menu */
+  --ag-menu-background-color: var(--coar-background-neutral-primary, #18181b);
+  --ag-menu-border-color: var(--coar-border-neutral-tertiary, #3f3f46);
+
+  /* Checkbox */
+  --ag-checkbox-unchecked-color: var(--coar-border-neutral-tertiary, #3f3f46);
+
+  /* Chips */
+  --ag-chip-background-color: var(--coar-background-neutral-secondary, #27272a);
+
+  /* Input */
+  --ag-input-disabled-background-color: var(--coar-background-neutral-disabled, #3f3f46);
+}
+
+/* ============================================================================
+   ADDITIONAL STYLING REFINEMENTS
+   ============================================================================ */
+
+.ag-theme-cocoar {
+  /* Remove focus outline on rows (optional - for cleaner look) */
+  .ag-row-focus {
+    outline: none;
+  }
+
+  /* Header styling */
+  .ag-header {
+    font-weight: 600;
+  }
+
+  .ag-header-cell {
+    padding-left: var(--coar-spacing-m, 16px);
+    padding-right: var(--coar-spacing-m, 16px);
+  }
+
+  /* Cell styling */
+  .ag-cell {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Remove cell focus border for cleaner look */
+  .ag-cell-focus:not(.ag-cell-range-selected) {
+    border-color: transparent !important;
+  }
+
+  /* Row hover transition */
+  .ag-row {
+    transition: background-color 0.15s ease;
+  }
+
+  /* Clickable cells styling */
+  .ag-cell.clickable {
+    cursor: pointer;
+    color: var(--coar-text-accent-primary, #0066cc);
+  }
+
+  .ag-cell.clickable:hover {
+    text-decoration: underline;
+  }
+
+  /* Text alignment utilities */
+  .ag-cell.text-right {
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  .ag-cell.text-center {
+    justify-content: center;
+    text-align: center;
+  }
+
+  /* Loading overlay */
+  .ag-overlay-loading-wrapper {
+    background-color: var(--ag-background-color);
+  }
+
+  /* Empty state */
+  .ag-overlay-no-rows-wrapper {
+    color: var(--ag-secondary-foreground-color);
+  }
+}

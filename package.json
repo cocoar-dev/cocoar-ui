@@ -78,6 +78,8 @@
     "@types/mdast": "^4.0.4",
     "@types/node": "20.19.9",
     "@typescript-eslint/utils": "^8.40.0",
+    "ag-grid-angular": "^33.0.0",
+    "ag-grid-community": "^33.0.0",
     "@vitest/coverage-v8": "4.0.8",
     "@vitest/ui": "4.0.8",
     "angular-eslint": "21.0.1",

@@ -1,0 +1,83 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1>Data Grid</h1>
+    <p class="description">
+      A powerful data grid powered by AG Grid with Cocoar theme integration and a fluent builder API.
+    </p>
+  </header>
+
+  <coar-tab-group [(activeTab)]="activeTab">
+    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }">API</coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }">Docs</coar-tab>
+  </coar-tab-group>
+</div>
+
+<ng-template #examplesTemplate>
+  <div class="examples-content">
+    <!-- Basic Usage -->
+    <section class="example-section">
+      <h2>Basic Usage</h2>
+      <p class="section-intro">
+        Use <code>CoarGridBuilder</code> to define columns and data with a fluent API.
+      </p>
+
+      <div class="example-preview">
+        <ag-grid-angular
+          class="ag-theme-cocoar"
+          [coarDataGrid]="basicGrid"
+          style="height: 400px; width: 100%;"
+        />
+      </div>
+
+      <coar-code-block [code]="basicCode" language="typescript" [collapsed]="true" />
+      <coar-code-block [code]="basicHtml" language="html" [collapsed]="true" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
+    <!-- Row Selection -->
+    <section class="example-section">
+      <h2>Row Selection</h2>
+      <p class="section-intro">
+        Enable single or multiple row selection with click handlers.
+      </p>
+
+      <div class="example-preview">
+        <ag-grid-angular
+          class="ag-theme-cocoar"
+          [coarDataGrid]="selectionGrid"
+          style="height: 300px; width: 100%;"
+        />
+      </div>
+
+      @if (selectedUser) {
+        <div class="selected-info">
+          Selected: <strong>{{ selectedUser.name }}</strong> ({{ selectedUser.email }})
+        </div>
+      }
+
+      <coar-code-block [code]="selectionCode" language="typescript" [collapsed]="true" />
+    </section>
+
+    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+
+    <!-- Conditional Styling -->
+    <section class="example-section">
+      <h2>Conditional Styling</h2>
+      <p class="section-intro">
+        Apply dynamic styles to rows and cells based on data.
+      </p>
+
+      <div class="example-preview styled-grid">
+        <ag-grid-angular
+          [coarDataGrid]="styledGrid"
+          style="height: 300px; width: 100%;"
+        />
+      </div>
+
+      <coar-code-block [code]="styledCode" language="typescript" [collapsed]="true" />
+      <coar-code-block [code]="styledCss" language="css" [collapsed]="true" />
+    </section>
+  </div>
+</ng-template>
