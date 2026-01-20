@@ -67,7 +67,7 @@ export class CoarMultiSelectComponent<T = unknown> extends CoarSelectBase<T[]> {
   value = model<T[]>([]);
 
   /** Whether to show a clear button when values are selected */
-  clearable = input<boolean, unknown>(true, {
+  clearable = input<boolean, unknown>(false, {
     transform: (v: unknown) => (v === '' ? true : Boolean(v)),
   });
 

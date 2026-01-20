@@ -152,6 +152,11 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
   /** Date markers for highlighting special dates (holidays, events, etc.) */
   markers = input<CoarDateMarker[]>([]);
 
+  /** Whether to show a clear button when a date is selected (default: true for backward compatibility) */
+  clearable = input<boolean, unknown>(true, {
+    transform: (v: unknown) => (v === '' ? true : booleanAttribute(v)),
+  });
+
   // ============================================================
   // Model & Outputs
   // ============================================================
@@ -195,6 +200,11 @@ export class CoarDatePickerComponent extends CoarControlValueAccessor<Temporal.P
 
   /** Calendar dropdown position (chosen before opening) */
   protected calendarPosition = signal<'top' | 'bottom'>('bottom');
+
+  /** Whether to show the clear button */
+  protected showClearButton = computed(() => {
+    return this.clearable() && this.value() !== null && !this.isDisabled() && !this.readonly();
+  });
 
   /** Display value for the input field */
   protected displayValue = signal('');

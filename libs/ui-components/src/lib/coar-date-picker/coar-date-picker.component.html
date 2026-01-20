@@ -28,7 +28,7 @@
       source="coar-builtin"
       size="auto"
       class="coar-date-picker-clear"
-      [class.coar-date-picker-clear--hidden]="!value() || isDisabled() || readonly()"
+      [class.coar-date-picker-clear--hidden]="!showClearButton()"
       aria-hidden="true"
       (click)="clearDate($event)"
     />

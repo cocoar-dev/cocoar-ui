@@ -70,7 +70,7 @@ export class CoarSingleSelectComponent<T = unknown> extends CoarSelectBase<T | n
   value = model<T | null>(null);
 
   /** Whether to show a clear button when a value is selected */
-  clearable = input<boolean, unknown>(true, {
+  clearable = input<boolean, unknown>(false, {
     transform: (v: unknown) => (v === '' ? true : Boolean(v)),
   });
 
