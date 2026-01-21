@@ -23,10 +23,19 @@ export * from './lib/coar-radio';
 export * from './lib/coar-popconfirm';
 
 // Date utilities (Temporal-based)
+export * from './lib/date/coar-date-format';
 export * from './lib/date/coar-date-helpers';
 export * from './lib/date/coar-date-marker';
+export * from './lib/date/coar-time-format';
+export * from './lib/date/coar-time-helpers';
+
+// Date/Time components
 export * from './lib/coar-date-picker';
 export * from './lib/coar-mini-calendar';
+export * from './lib/coar-date-time-picker';
+export * from './lib/coar-time-picker';
+export * from './lib/coar-scrollable-calendar';
+export * from './lib/coar-month-list';
 
 // Forms
 export * from './lib/forms/coar-control-value-accessor';

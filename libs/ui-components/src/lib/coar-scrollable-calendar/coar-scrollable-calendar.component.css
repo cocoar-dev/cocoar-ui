@@ -1,0 +1,261 @@
+/* ========================================
+   COAR SCROLLABLE CALENDAR COMPONENT
+   ======================================== */
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.coar-scrollable-calendar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 280px;
+  overflow: hidden;
+  background: var(--coar-background-neutral-primary);
+}
+
+/* ========================================
+   WEEKDAY HEADERS
+   ======================================== */
+
+.coar-scrollable-calendar__weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+  padding: var(--coar-spacing-s) var(--coar-spacing-m);
+  background: var(--coar-background-neutral-primary);
+  flex-shrink: 0;
+}
+
+.coar-scrollable-calendar__weekdays--with-weeks {
+  grid-template-columns: 32px repeat(7, 1fr);
+}
+
+.coar-scrollable-calendar__weekday {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  font-family: var(--coar-body-caption-family);
+  font-size: var(--coar-body-caption-size);
+  font-weight: var(--coar-body-small-bold-weight);
+  color: var(--coar-text-neutral-secondary);
+  text-transform: uppercase;
+}
+
+.coar-scrollable-calendar__week-spacer {
+  /* Empty cell above week numbers column */
+}
+
+/* ========================================
+   SCROLLABLE MONTHS CONTAINER
+   ======================================== */
+
+.coar-scrollable-calendar__months-wrapper {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Fade effects at top and bottom of calendar list - offset from right to not cover scrollbar */
+.coar-scrollable-calendar__months-wrapper::before,
+.coar-scrollable-calendar__months-wrapper::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 10px; /* Leave gap for scrollbar */
+  height: 28px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.coar-scrollable-calendar__months-wrapper::before {
+  top: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--coar-background-neutral-primary) 20%,
+    transparent 100%
+  );
+}
+
+.coar-scrollable-calendar__months-wrapper::after {
+  bottom: 0;
+  background: linear-gradient(to top, var(--coar-background-neutral-primary) 0%, transparent 100%);
+}
+
+.coar-scrollable-calendar__months {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 var(--coar-spacing-m) var(--coar-spacing-m);
+}
+
+/* ========================================
+   MONTH BLOCK
+   ======================================== */
+
+.coar-scrollable-calendar__month {
+  padding-top: var(--coar-spacing-m);
+
+  /* CSS virtualization - only render visible content */
+  content-visibility: auto;
+  contain-intrinsic-size: auto 260px;
+}
+
+.coar-scrollable-calendar__month-header {
+  display: flex;
+  align-items: baseline;
+  gap: var(--coar-spacing-xs);
+  margin-bottom: var(--coar-spacing-s);
+  padding-bottom: var(--coar-spacing-xs);
+}
+
+.coar-scrollable-calendar__month-name {
+  font-family: var(--coar-body-base-family);
+  font-size: var(--coar-body-base-size);
+  font-weight: var(--coar-body-bold-weight);
+  color: var(--coar-text-neutral-primary);
+}
+
+.coar-scrollable-calendar__month-year {
+  font-family: var(--coar-body-small-base-family);
+  font-size: var(--coar-body-small-base-size);
+  font-weight: var(--coar-body-small-base-weight);
+  color: var(--coar-text-neutral-secondary);
+}
+
+/* ========================================
+   DAYS GRID
+   ======================================== */
+
+.coar-scrollable-calendar__grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.coar-scrollable-calendar__grid--with-weeks {
+  position: relative;
+  grid-template-columns: 32px repeat(7, 1fr);
+}
+
+.coar-scrollable-calendar__grid--with-weeks::before {
+  content: '';
+  position: absolute;
+  left: 30px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--coar-border-neutral-secondary);
+  opacity: 0.15;
+}
+
+.coar-scrollable-calendar__week-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  font-family: var(--coar-body-caption-family);
+  font-size: 10px;
+  color: var(--coar-text-neutral-tertiary);
+  opacity: 0.6;
+}
+
+/* ========================================
+   DAY BUTTON
+   ======================================== */
+
+.coar-scrollable-calendar__day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 1;
+  min-height: 32px;
+  padding: 2px;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  background-clip: content-box;
+  font-family: var(--coar-body-small-base-family);
+  font-size: var(--coar-body-small-base-size);
+  color: var(--coar-text-neutral-primary);
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.coar-scrollable-calendar__day:hover:not(:disabled):not(.coar-scrollable-calendar__day--selected) {
+  background: var(--coar-background-neutral-secondary);
+}
+
+.coar-scrollable-calendar__day--outside {
+  color: var(--coar-text-neutral-tertiary);
+  opacity: 0.5;
+}
+
+.coar-scrollable-calendar__day--today:not(.coar-scrollable-calendar__day--selected) {
+  font-weight: var(--coar-body-small-bold-weight);
+  color: var(--coar-text-accent-primary);
+  background: var(--coar-background-accent-tertiary);
+}
+
+.coar-scrollable-calendar__day--selected {
+  background: var(--coar-background-accent-primary);
+  color: var(--coar-text-on-bold);
+  font-weight: var(--coar-body-small-bold-weight);
+}
+
+.coar-scrollable-calendar__day--selected:hover {
+  background: var(--coar-background-accent-hover);
+}
+
+.coar-scrollable-calendar__day--disabled {
+  color: var(--coar-text-neutral-disabled);
+  cursor: not-allowed;
+}
+
+.coar-scrollable-calendar__day--disabled:hover {
+  background: transparent;
+}
+
+.coar-scrollable-calendar__day--weekend {
+  background: var(--coar-background-neutral-secondary);
+}
+
+.coar-scrollable-calendar__day--weekend:hover:not(:disabled):not(
+    .coar-scrollable-calendar__day--selected
+  ) {
+  background: var(--coar-background-neutral-tertiary);
+}
+
+.coar-scrollable-calendar__day--weekend.coar-scrollable-calendar__day--selected {
+  background: var(--coar-background-accent-primary);
+}
+
+.coar-scrollable-calendar__day--weekend.coar-scrollable-calendar__day--selected:hover {
+  background: var(--coar-background-accent-hover);
+}
+
+.coar-scrollable-calendar__day--marked {
+  position: relative;
+}
+
+.coar-scrollable-calendar__day--marked::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--coar-background-accent-primary);
+}
+
+.coar-scrollable-calendar__day--marked.coar-scrollable-calendar__day--selected::after {
+  background: var(--coar-text-on-bold);
+}

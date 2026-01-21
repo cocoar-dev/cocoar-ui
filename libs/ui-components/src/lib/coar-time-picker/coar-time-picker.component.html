@@ -1,0 +1,121 @@
+<div class="coar-time-picker" role="group" [attr.aria-label]="ariaLabel()">
+  <!-- Hours Spinner -->
+  <div class="coar-time-picker__spinner coar-time-picker__hours">
+    <button
+      type="button"
+      class="coar-time-picker__btn coar-time-picker__btn--up"
+      [disabled]="isDisabled() || readonly()"
+      (click)="incrementHours()"
+      tabindex="-1"
+      aria-label="Increase hours"
+    >
+      <coar-icon name="up" [size]="size() === 'xs' ? 'xs' : 'sm'" />
+    </button>
+
+    <div
+      class="coar-time-picker__value"
+      role="spinbutton"
+      tabindex="0"
+      [attr.aria-valuenow]="displayHours()"
+      [attr.aria-valuemin]="minHours()"
+      [attr.aria-valuemax]="maxHours()"
+      aria-label="Hours"
+      (keydown)="onHoursKeydown($event)"
+    >
+      {{ displayHours().toString().padStart(2, '0') }}
+    </div>
+
+    <button
+      type="button"
+      class="coar-time-picker__btn coar-time-picker__btn--down"
+      [disabled]="isDisabled() || readonly()"
+      (click)="decrementHours()"
+      tabindex="-1"
+      aria-label="Decrease hours"
+    >
+      <coar-icon name="down" [size]="size() === 'xs' ? 'xs' : 'sm'" />
+    </button>
+  </div>
+
+  <!-- Separator -->
+  <span class="coar-time-picker__separator" aria-hidden="true">:</span>
+
+  <!-- Minutes Spinner -->
+  <div class="coar-time-picker__spinner coar-time-picker__minutes">
+    <button
+      type="button"
+      class="coar-time-picker__btn coar-time-picker__btn--up"
+      [disabled]="isDisabled() || readonly()"
+      (click)="incrementMinutes()"
+      tabindex="-1"
+      aria-label="Increase minutes"
+    >
+      <coar-icon name="up" [size]="size() === 'xs' ? 'xs' : 'sm'" />
+    </button>
+
+    <div
+      class="coar-time-picker__value"
+      role="spinbutton"
+      tabindex="0"
+      [attr.aria-valuenow]="displayMinutes()"
+      aria-valuemin="0"
+      aria-valuemax="59"
+      aria-label="Minutes"
+      (keydown)="onMinutesKeydown($event)"
+    >
+      {{ displayMinutes().toString().padStart(2, '0') }}
+    </div>
+
+    <button
+      type="button"
+      class="coar-time-picker__btn coar-time-picker__btn--down"
+      [disabled]="isDisabled() || readonly()"
+      (click)="decrementMinutes()"
+      tabindex="-1"
+      aria-label="Decrease minutes"
+    >
+      <coar-icon name="down" [size]="size() === 'xs' ? 'xs' : 'sm'" />
+    </button>
+  </div>
+
+  <!-- AM/PM Selector (12-hour mode only) -->
+  @if (is12HourFormat()) {
+    <div class="coar-time-picker__spinner coar-time-picker__period">
+      <button
+        type="button"
+        class="coar-time-picker__btn coar-time-picker__btn--up"
+        [disabled]="isDisabled() || readonly()"
+        (click)="togglePeriod()"
+        tabindex="-1"
+        aria-label="Toggle AM/PM"
+      >
+        <coar-icon name="up" [size]="size() === 'xs' ? 'xs' : 'sm'" />
+      </button>
+
+      <div
+        class="coar-time-picker__value coar-time-picker__period-value"
+        role="spinbutton"
+        tabindex="0"
+        [attr.aria-valuenow]="period() === 'AM' ? 0 : 1"
+        aria-valuemin="0"
+        aria-valuemax="1"
+        [attr.aria-valuetext]="period()"
+        aria-label="AM/PM"
+        (keydown)="onPeriodKeydown($event)"
+      >
+        {{ period() }}
+      </div>
+
+      <button
+        type="button"
+        class="coar-time-picker__btn coar-time-picker__btn--down"
+        [disabled]="isDisabled() || readonly()"
+        (click)="togglePeriod()"
+        tabindex="-1"
+        aria-label="Toggle AM/PM"
+      >
+        <coar-icon name="down" [size]="size() === 'xs' ? 'xs' : 'sm'" />
+      </button>
+    </div>
+  }
+</div>

@@ -1,0 +1,55 @@
+<div class="coar-scrollable-calendar">
+  <!-- Weekday headers -->
+  <div class="coar-scrollable-calendar__weekdays" [class.coar-scrollable-calendar__weekdays--with-weeks]="showWeekNumbers()">
+    @if (showWeekNumbers()) {
+      <span class="coar-scrollable-calendar__week-spacer"></span>
+    }
+    @for (day of daysOfWeek(); track day) {
+      <span class="coar-scrollable-calendar__weekday">{{ day }}</span>
+    }
+  </div>
+
+  <!-- Scrollable months container with fade effect -->
+  <div class="coar-scrollable-calendar__months-wrapper">
+    <div #scrollContainer class="coar-scrollable-calendar__months" coarScrollbar [overflowX]="'hidden'" [autoHide]="'leave'">
+      @for (month of months(); track month.yearMonth.toString()) {
+        <div [id]="getMonthElementId(month.yearMonth)" [attr.data-year-month]="month.yearMonth.toString()" class="coar-scrollable-calendar__month">
+          <!-- Month header -->
+          <div class="coar-scrollable-calendar__month-header">
+            <span class="coar-scrollable-calendar__month-name">{{ month.monthName }}</span>
+            <span class="coar-scrollable-calendar__month-year">{{ month.year }}</span>
+          </div>
+
+          <!-- Days grid -->
+          <div class="coar-scrollable-calendar__grid" [class.coar-scrollable-calendar__grid--with-weeks]="showWeekNumbers()" role="grid">
+            @for (day of month.days; track day.date.toString(); let i = $index) {
+              @if (showWeekNumbers() && i % 7 === 0) {
+                <span class="coar-scrollable-calendar__week-number">
+                  {{ month.weekNumbers[i / 7] }}
+                </span>
+              }
+
+              <button
+                type="button"
+                class="coar-scrollable-calendar__day"
+                [class.coar-scrollable-calendar__day--outside]="day.isOutsideMonth"
+                [class.coar-scrollable-calendar__day--today]="day.isToday"
+                [class.coar-scrollable-calendar__day--selected]="day.isSelected"
+                [class.coar-scrollable-calendar__day--disabled]="day.isDisabled"
+                [class.coar-scrollable-calendar__day--weekend]="highlightWeekends() && day.isWeekend"
+                [class.coar-scrollable-calendar__day--marked]="day.markers.length > 0"
+                [class]="day.markerCssClass"
+                [disabled]="day.isDisabled"
+                [attr.aria-selected]="day.isSelected"
+                [attr.aria-current]="day.isToday ? 'date' : null"
+                (click)="selectDate(day.date)"
+              >
+                {{ day.day }}
+              </button>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<div class="coar-month-list">
+  <!-- Year Stepper -->
+  <div class="coar-month-list__year-stepper">
+    <button type="button" class="coar-month-list__year-btn" [disabled]="isPrevYearDisabled()" (click)="previousYear()" aria-label="Previous year">
+      <coar-icon name="left" size="sm" />
+    </button>
+
+    <span class="coar-month-list__year">{{ currentYear() }}</span>
+
+    <button type="button" class="coar-month-list__year-btn" [disabled]="isNextYearDisabled()" (click)="nextYear()" aria-label="Next year">
+      <coar-icon name="right" size="sm" />
+    </button>
+  </div>
+
+  <!-- Month List -->
+  <div class="coar-month-list__months" coarScrollbar [overflowX]="'hidden'" [autoHide]="'leave'" role="listbox" aria-label="Months">
+    @for (item of monthItems(); track item.month) {
+      <button
+        type="button"
+        class="coar-month-list__month"
+        [class.coar-month-list__month--active]="item.isActive"
+        role="option"
+        [attr.aria-selected]="item.isActive"
+        (click)="selectMonth(item.yearMonth)"
+      >
+        {{ item.name }}
+      </button>
+    }
+  </div>
+</div>

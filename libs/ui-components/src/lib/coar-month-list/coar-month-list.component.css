@@ -1,0 +1,116 @@
+/* ========================================
+   COAR MONTH LIST COMPONENT
+   ======================================== */
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.coar-month-list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--coar-spacing-s);
+  background: transparent;
+}
+
+/* ========================================
+   YEAR STEPPER
+   ======================================== */
+
+.coar-month-list__year-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--coar-spacing-xs);
+  margin-bottom: var(--coar-spacing-m);
+  padding-bottom: var(--coar-spacing-s);
+  border-bottom: 1px solid var(--coar-border-neutral-tertiary);
+  flex-shrink: 0;
+}
+
+.coar-month-list__year-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: var(--coar-radius-xs);
+  background: transparent;
+  color: var(--coar-icon-neutral-secondary);
+  cursor: pointer;
+  opacity: 0.35;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    opacity 0.15s ease;
+}
+
+.coar-month-list__year-btn:hover:not(:disabled) {
+  background: var(--coar-background-neutral-secondary);
+  color: var(--coar-icon-neutral-primary);
+  opacity: 1;
+}
+
+.coar-month-list__year-btn:disabled {
+  color: var(--coar-icon-neutral-disabled);
+  cursor: not-allowed;
+}
+
+.coar-month-list__year {
+  flex: 1;
+  text-align: center;
+  font-family: var(--coar-body-base-family);
+  font-size: var(--coar-body-base-size);
+  font-weight: var(--coar-body-bold-weight);
+  font-variant-numeric: tabular-nums;
+  color: var(--coar-text-neutral-primary);
+}
+
+/* ========================================
+   MONTH LIST
+   ======================================== */
+
+.coar-month-list__months {
+  display: flex;
+  flex-direction: column;
+  gap: var(--coar-spacing-2xs);
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.coar-month-list__month {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 32px;
+  padding: 0 var(--coar-spacing-s);
+  border: none;
+  border-radius: var(--coar-radius-xs);
+  background: transparent;
+  font-family: var(--coar-body-small-base-family);
+  font-size: var(--coar-body-small-base-size);
+  font-weight: var(--coar-body-small-base-weight);
+  color: var(--coar-text-neutral-primary);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.coar-month-list__month:hover {
+  background: var(--coar-background-neutral-secondary);
+}
+
+.coar-month-list__month--active {
+  color: var(--coar-text-accent-primary);
+  font-weight: var(--coar-body-small-bold-weight);
+}

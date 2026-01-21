@@ -1,0 +1,206 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Date Time Picker</h1>
+    <p class="page-description">
+      A two-column date-time picker with scrollable calendar, month navigation, and optional time selection. Supports both date-only and datetime
+      modes using the Temporal API.
+    </p>
+  </header>
+
+  <coar-tab-group [(activeTab)]="activeTab">
+    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
+  </coar-tab-group>
+</div>
+
+<ng-template #examplesTemplate>
+  <div class="examples-content">
+    <!-- Date-only Mode -->
+    <section class="example-section">
+      <h3>Date-only Mode</h3>
+      <p>Use <code>mode="date"</code> for calendar-only selection without time picker. Returns <code>Temporal.PlainDate</code>.</p>
+
+      <div class="demo-row">
+        <coar-date-time-picker mode="date" label="Select a Date" [(value)]="basicDateOnly" placeholder="Pick a date..." />
+      </div>
+
+      <p class="value-display">
+        Selected: <code>{{ formatValue(basicDateOnly()) }}</code>
+      </p>
+
+      <coar-code-block [code]="basicDateOnlyExample" language="html" />
+    </section>
+
+    <coar-divider />
+
+    <!-- DateTime Mode -->
+    <section class="example-section">
+      <h3>DateTime Mode (Default)</h3>
+      <p>The default mode includes both calendar and time picker. Returns <code>Temporal.PlainDateTime</code>.</p>
+
+      <div class="demo-row">
+        <coar-date-time-picker label="Appointment" [(value)]="basicDateTime" placeholder="Select date and time..." />
+      </div>
+
+      <p class="value-display">
+        Selected: <code>{{ formatValue(basicDateTime()) }}</code>
+      </p>
+
+      <coar-code-block [code]="basicDateTimeExample" language="html" />
+    </section>
+
+    <coar-divider />
+
+    <!-- Pre-selected Value -->
+    <section class="example-section">
+      <h3>Pre-selected Value</h3>
+      <p>Date-time picker with an initial value set.</p>
+
+      <div class="demo-row">
+        <coar-date-time-picker label="Event Start" [(value)]="preselectedDateTime" />
+      </div>
+
+      <p class="value-display">
+        Selected: <code>{{ formatValue(preselectedDateTime()) }}</code>
+      </p>
+    </section>
+
+    <coar-divider />
+
+    <!-- Time Format -->
+    <section class="example-section">
+      <h3>Time Format (12h / 24h)</h3>
+      <p>
+        Control the time format explicitly or let it auto-detect from locale. Set <code>use24Hour="auto"</code> (default) for locale-based detection.
+      </p>
+
+      <div class="demo-grid">
+        <coar-date-time-picker label="24-Hour Format" [(value)]="time24h" [use24Hour]="true" />
+        <coar-date-time-picker label="12-Hour Format (AM/PM)" [(value)]="time12h" [use24Hour]="false" />
+      </div>
+
+      <coar-code-block [code]="timeFormatExample" language="html" />
+    </section>
+
+    <coar-divider />
+
+    <!-- Minute Step -->
+    <section class="example-section">
+      <h3>Minute Step</h3>
+      <p>Control the minute increment using <code>minuteStep</code>. Available values: 1, 5, 10, or 15.</p>
+
+      <div class="demo-grid">
+        <coar-date-time-picker label="1-Minute Step" [(value)]="step1DateTime" [minuteStep]="1" />
+        <coar-date-time-picker label="5-Minute Step (Default)" [(value)]="step5DateTime" [minuteStep]="5" />
+        <coar-date-time-picker label="15-Minute Step" [(value)]="step15DateTime" [minuteStep]="15" />
+      </div>
+
+      <coar-code-block [code]="minuteStepExample" language="html" />
+    </section>
+
+    <coar-divider />
+
+    <!-- Min/Max Constraints -->
+    <section class="example-section">
+      <h3>Min/Max Constraints</h3>
+      <p>Restrict selectable dates using min and max properties.</p>
+
+      <div class="demo-row">
+        <coar-date-time-picker
+          label="Book Appointment"
+          [(value)]="constrainedDateTime"
+          [min]="minDateTime"
+          [max]="maxDateTime"
+          placeholder="Select within range..."
+        />
+      </div>
+
+      <p class="value-display">
+        Selected: <code>{{ formatValue(constrainedDateTime()) }}</code>
+        <br />
+        Range: <code>{{ formatValue(minDateTime) }}</code> to <code>{{ formatValue(maxDateTime) }}</code>
+      </p>
+
+      <coar-code-block [code]="constraintsExample" language="typescript" />
+    </section>
+
+    <coar-divider />
+
+    <!-- Size Variants -->
+    <section class="example-section">
+      <h3>Size Variants</h3>
+      <p>Available in four sizes: extra-small, small, medium (default), and large.</p>
+
+      <div class="demo-grid">
+        <coar-date-time-picker size="xs" label="Extra Small" [(value)]="xsDateTime" />
+        <coar-date-time-picker size="sm" label="Small" [(value)]="smDateTime" />
+        <coar-date-time-picker size="md" label="Medium" [(value)]="mdDateTime" />
+        <coar-date-time-picker size="lg" label="Large" [(value)]="lgDateTime" />
+      </div>
+
+      <coar-code-block [code]="sizesExample" language="html" />
+    </section>
+
+    <coar-divider />
+
+    <!-- States -->
+    <section class="example-section">
+      <h3>States</h3>
+      <p>Date-time pickers can be disabled, readonly, show errors, or be marked as required.</p>
+
+      <div class="demo-grid">
+        <coar-date-time-picker label="Disabled" [(value)]="disabledDateTime" disabled />
+        <coar-date-time-picker label="Readonly" [(value)]="readonlyDateTime" readonly />
+        <coar-date-time-picker label="Error State" [(value)]="errorDateTime" error message="Please select a valid date and time" />
+        <coar-date-time-picker label="Required" [(value)]="requiredDateTime" required />
+      </div>
+
+      <coar-code-block [code]="statesExample" language="html" />
+    </section>
+
+    <coar-divider />
+
+    <!-- Locale -->
+    <section class="example-section">
+      <h3>Locale Support</h3>
+      <p>The date-time picker adapts to different locales for date format, weekday names, month names, and time format (12h/24h auto-detection).</p>
+
+      <div class="demo-grid">
+        <coar-date-time-picker label="German (de-DE)" locale="de-DE" [dateFormatConfig]="germanFormat" [(value)]="germanDateTime" />
+        <coar-date-time-picker label="US English (en-US)" locale="en-US" [dateFormatConfig]="usFormat" [(value)]="usDateTime" />
+      </div>
+
+      <coar-code-block [code]="localeExample" language="html" />
+    </section>
+
+    <coar-divider />
+
+    <!-- Markers -->
+    <section class="example-section">
+      <h3>Date Markers</h3>
+      <p>Highlight special dates (holidays, events) with markers that show in the calendar.</p>
+
+      <div class="demo-row">
+        <coar-date-time-picker label="With Holidays" [(value)]="markerDateTime" [markers]="holidayMarkers" [highlightWeekends]="true" />
+      </div>
+
+      <p class="value-display">
+        Selected: <code>{{ formatValue(markerDateTime()) }}</code>
+      </p>
+
+      <coar-code-block [code]="markersExample" language="typescript" />
+    </section>
+
+    <coar-divider />
+
+    <!-- Note about existing DatePicker -->
+    <section class="example-section">
+      <coar-note type="info">
+        <strong>Note:</strong> The original <code>coar-date-picker</code> component is still available for simpler use cases where you only need date
+        selection with a compact single-month calendar. Use <code>coar-date-time-picker</code> when you need the new two-column layout with scrollable
+        calendar and/or time selection.
+      </coar-note>
+    </section>
+  </div>
+</ng-template>

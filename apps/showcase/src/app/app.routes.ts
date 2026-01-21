@@ -114,6 +114,11 @@ export const appRoutes: Route[] = [
       import('./pages/date-picker/date-picker.page').then((m) => m.DatePickerPage),
   },
   {
+    path: 'date-time-picker',
+    loadComponent: () =>
+      import('./pages/date-time-picker/date-time-picker.page').then((m) => m.DateTimePickerPage),
+  },
+  {
     path: 'mini-calendar',
     loadComponent: () =>
       import('./pages/mini-calendar/mini-calendar.page').then((m) => m.MiniCalendarPage),
