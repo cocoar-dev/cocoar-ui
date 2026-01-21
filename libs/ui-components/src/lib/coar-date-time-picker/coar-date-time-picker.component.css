@@ -257,7 +257,7 @@
   flex-direction: row;
   min-width: 480px;
   max-width: 600px;
-  height: 400px;
+  height: 340px;
   background: var(--coar-background-neutral-primary);
   border: 1px solid var(--coar-border-neutral-tertiary);
   border-radius: var(--coar-radius-s);
@@ -324,7 +324,6 @@
   justify-content: space-between;
   gap: var(--coar-spacing-xs);
   padding: var(--coar-spacing-s);
-  border-bottom: 1px solid var(--coar-border-neutral-tertiary);
   flex-shrink: 0;
 }
 
@@ -374,51 +373,21 @@
    ======================================== */
 
 .coar-date-time-picker-month-list-wrapper {
-  position: relative;
+  display: flex;
+  flex-direction: column;
   flex: 1;
   min-height: 0;
-  overflow: hidden;
 }
 
-/* Fade overlays using pseudo-elements positioned to avoid scrollbar */
-.coar-date-time-picker-month-list-wrapper::before,
-.coar-date-time-picker-month-list-wrapper::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  /* Leave 10px gap on right for scrollbar */
-  right: 10px;
-  height: 24px;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.coar-date-time-picker-month-list-wrapper::before {
-  top: 0;
-  background: linear-gradient(
-    to bottom,
-    var(--coar-background-neutral-secondary) 0%,
-    transparent 100%
-  );
-}
-
-.coar-date-time-picker-month-list-wrapper::after {
-  bottom: 0;
-  background: linear-gradient(
-    to top,
-    var(--coar-background-neutral-secondary) 0%,
-    transparent 100%
-  );
-}
+/* Month list no longer needs scrolling with 2-column grid layout */
 
 .coar-date-time-picker-month-list {
-  height: 100%;
-  overflow-y: auto;
+  flex: 1;
 }
 
 .coar-date-time-picker-month-list-content {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: var(--coar-spacing-2xs);
   padding: var(--coar-spacing-s);
 }
@@ -428,25 +397,35 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 32px;
-  padding: 0 var(--coar-spacing-s);
+  height: 28px;
+  padding: 0 var(--coar-spacing-xs);
   border: none;
   border-radius: var(--coar-radius-xs);
   background: transparent;
   font-family: var(--coar-body-small-base-family);
-  font-size: var(--coar-body-small-base-size);
+  font-size: var(--coar-body-caption-size);
   font-weight: var(--coar-body-small-base-weight);
   color: var(--coar-text-neutral-primary);
-  text-align: left;
+  text-align: center;
   cursor: pointer;
   transition:
     background-color 0.15s ease,
     color 0.15s ease;
-  flex-shrink: 0;
 }
 
 .coar-date-time-picker-month-item:hover {
-  background: var(--coar-background-neutral-tertiary);
+  /* background: var(--coar-background-neutral-tertiary); */
+  color: black;
+}
+
+/* Left column months (odd items: 1, 3, 5...) → right-aligned */
+.coar-date-time-picker-month-item:nth-child(odd) {
+  justify-content: flex-end;
+}
+
+/* Right column months (even items: 2, 4, 6...) → left-aligned */
+.coar-date-time-picker-month-item:nth-child(even) {
+  justify-content: flex-start;
 }
 
 .coar-date-time-picker-month-item--active {

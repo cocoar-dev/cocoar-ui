@@ -60,6 +60,7 @@ export type CoarScrollbarOverflow = 'hidden' | 'scroll' | 'visible-hidden' | 'vi
  */
 @Directive({
   selector: '[coarScrollbar]',
+  exportAs: 'coarScrollbar',
   standalone: true,
   host: {
     // Prevents flickering during initialization

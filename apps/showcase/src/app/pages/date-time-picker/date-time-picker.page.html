@@ -194,6 +194,31 @@
 
     <coar-divider />
 
+    <!-- All Features Combined -->
+    <section class="example-section">
+      <h3>All Features Combined</h3>
+      <p>Combining week numbers, date markers, highlighted weekends, and date-time selection.</p>
+
+      <div class="demo-row">
+        <coar-date-time-picker
+          label="Full Featured Calendar"
+          [(value)]="fullFeaturedDateTime"
+          [markers]="holidayMarkers"
+          [showWeekNumbers]="true"
+          [highlightWeekends]="true"
+          [minuteStep]="15"
+        />
+      </div>
+
+      <p class="value-display">
+        Selected: <code>{{ formatValue(fullFeaturedDateTime()) }}</code>
+      </p>
+
+      <coar-code-block [code]="fullFeaturedExample" language="html" />
+    </section>
+
+    <coar-divider />
+
     <!-- Note about existing DatePicker -->
     <section class="example-section">
       <coar-note type="info">

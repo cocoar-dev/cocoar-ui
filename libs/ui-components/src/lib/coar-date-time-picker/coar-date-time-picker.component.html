@@ -106,9 +106,9 @@
           </button>
         </div>
 
-        <!-- Month List -->
+        <!-- Month List (2-column grid) -->
         <div class="coar-date-time-picker-month-list-wrapper">
-          <div class="coar-date-time-picker-month-list" coarScrollbar [overflowX]="'hidden'" [autoHide]="'leave'" role="listbox" aria-label="Months">
+          <div class="coar-date-time-picker-month-list" role="listbox" aria-label="Months">
             <div class="coar-date-time-picker-month-list-content">
               @for (item of monthItems(); track item.month) {
                 <button

@@ -209,3 +209,31 @@
 :host(.coar-time-picker--readonly) .coar-time-picker__period-btn {
   pointer-events: none;
 }
+
+/* ========================================
+   SHOW BUTTONS ON HOVER/FOCUS
+   ======================================== */
+
+/* Hide buttons by default for cleaner look */
+.coar-time-picker__btn {
+  opacity: 0;
+  transition:
+    opacity 0.15s ease,
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+/* Show buttons when hovering over the time picker */
+:host(:hover) .coar-time-picker__btn {
+  opacity: 0.35;
+}
+
+/* Show buttons when any input is focused (click/tap) */
+:host(:focus-within) .coar-time-picker__btn {
+  opacity: 0.35;
+}
+
+/* Full opacity when hovering the button itself */
+.coar-time-picker__btn:hover:not(:disabled) {
+  opacity: 1;
+}

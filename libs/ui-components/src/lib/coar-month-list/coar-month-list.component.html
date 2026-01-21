@@ -13,7 +13,7 @@
   </div>
 
   <!-- Month List -->
-  <div class="coar-month-list__months" coarScrollbar [overflowX]="'hidden'" [autoHide]="'leave'" role="listbox" aria-label="Months">
+  <div #monthsContainer class="coar-month-list__months" coarScrollbar [overflowX]="'hidden'" [autoHide]="'leave'" role="listbox" aria-label="Months">
     @for (item of monthItems(); track item.month) {
       <button
         type="button"

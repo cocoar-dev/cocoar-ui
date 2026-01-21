@@ -242,18 +242,20 @@
 
 .coar-scrollable-calendar__day--marked {
   position: relative;
+  overflow: visible;
 }
 
 .coar-scrollable-calendar__day--marked::after {
   content: '';
   position: absolute;
-  bottom: 4px;
+  bottom: 2px;
   left: 50%;
   transform: translateX(-50%);
-  width: 4px;
-  height: 4px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background: var(--coar-background-accent-primary);
+  background: var(--coar-background-semantic-error-bold);
+  z-index: 1;
 }
 
 .coar-scrollable-calendar__day--marked.coar-scrollable-calendar__day--selected::after {

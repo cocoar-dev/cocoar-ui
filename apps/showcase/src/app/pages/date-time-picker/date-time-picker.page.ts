@@ -115,23 +115,72 @@ export class DateTimePickerPage {
   // ============================================================
 
   markerDateTime = signal<Temporal.PlainDateTime | null>(null);
+  fullFeaturedDateTime = signal<Temporal.PlainDateTime | null>(null);
   holidayMarkers: CoarDateMarker[] = [
-    {
-      startDate: Temporal.PlainDate.from('2025-12-24'),
-      description: 'Christmas Eve',
-    },
-    {
-      startDate: Temporal.PlainDate.from('2025-12-25'),
-      endDate: Temporal.PlainDate.from('2025-12-26'),
-      description: 'Christmas Holidays',
-    },
-    {
-      startDate: Temporal.PlainDate.from('2025-12-31'),
-      description: "New Year's Eve",
-    },
+    // New Year's Day - multiple events on same day
     {
       startDate: Temporal.PlainDate.from('2026-01-01'),
       description: "New Year's Day",
+    },
+    {
+      startDate: Temporal.PlainDate.from('2026-01-01'),
+      description: 'Company Holiday',
+    },
+    {
+      startDate: Temporal.PlainDate.from('2026-01-01'),
+      description: "Alice's Birthday Party",
+    },
+    {
+      startDate: Temporal.PlainDate.from('2026-01-01'),
+      description: 'Annual Team Kickoff Meeting',
+    },
+    {
+      startDate: Temporal.PlainDate.from('2026-01-01'),
+      description: 'Project Alpha Review',
+    },
+    {
+      startDate: Temporal.PlainDate.from('2026-01-01'),
+      description: 'Budget Planning Session',
+    },
+    {
+      startDate: Temporal.PlainDate.from('2026-01-01'),
+      description: 'New Year Fireworks',
+    },
+    {
+      startDate: Temporal.PlainDate.from('2026-01-06'),
+      description: 'Epiphany',
+    },
+    {
+      startDate: Temporal.PlainDate.from('2026-02-14'),
+      description: "Valentine's Day",
+    },
+    {
+      startDate: Temporal.PlainDate.from('2026-02-14'),
+      description: 'Dinner Reservation',
+    },
+    {
+      startDate: Temporal.PlainDate.from('2026-04-05'),
+      endDate: Temporal.PlainDate.from('2026-04-06'),
+      description: 'Easter Weekend',
+    },
+    {
+      startDate: Temporal.PlainDate.from('2026-04-05'),
+      endDate: Temporal.PlainDate.from('2026-04-12'),
+      description: 'Spring Vacation',
+    },
+    {
+      startDate: Temporal.PlainDate.from('2026-12-24'),
+      description: 'Christmas Eve',
+    },
+    {
+      startDate: Temporal.PlainDate.from('2026-12-25'),
+      endDate: Temporal.PlainDate.from('2026-12-26'),
+      description: 'Christmas Holidays',
+    },
+    {
+      startDate: Temporal.PlainDate.from('2026-12-24'),
+      endDate: Temporal.PlainDate.from('2027-01-02'),
+      description: 'Winter Break',
     },
   ];
 
@@ -277,6 +326,15 @@ holidayMarkers: CoarDateMarker[] = [
   [(value)]="dateTime"
   [markers]="holidayMarkers"
   [highlightWeekends]="true"
+/>`;
+
+  fullFeaturedExample = `<coar-date-time-picker
+  label="Full Featured Calendar"
+  [(value)]="dateTime"
+  [markers]="holidayMarkers"
+  [showWeekNumbers]="true"
+  [highlightWeekends]="true"
+  [minuteStep]="15"
 />`;
 
   // ============================================================

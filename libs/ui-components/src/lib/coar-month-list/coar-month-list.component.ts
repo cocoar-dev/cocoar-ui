@@ -1,11 +1,15 @@
 import {
+  afterNextRender,
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
+  ElementRef,
   inject,
   input,
   model,
   output,
+  viewChild,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -53,6 +57,16 @@ export class CoarMonthListComponent {
   );
 
   // ============================================================
+  // View References
+  // ============================================================
+
+  /** Reference to the months container */
+  private monthsContainerRef = viewChild<ElementRef<HTMLElement>>('monthsContainer');
+
+  /** Reference to the scrollbar directive for programmatic scrolling */
+  private scrollbarDirective = viewChild(CoarScrollbarDirective);
+
+  // ============================================================
   // Inputs
   // ============================================================
 
@@ -86,6 +100,26 @@ export class CoarMonthListComponent {
 
   /** Emitted when the year changes via stepper */
   yearChanged = output<number>();
+
+  // ============================================================
+  // Constructor
+  // ============================================================
+
+  constructor() {
+    // Scroll to center the active month initially (with delay for OverlayScrollbars init)
+    afterNextRender(() => {
+      // OverlayScrollbars defers initialization, so we need a small delay
+      setTimeout(() => this.scrollToActiveMonth(), 150);
+    });
+
+    // Scroll to active month when it changes
+    effect(() => {
+      // Read the active month to track changes
+      this.activeMonth();
+      // Scroll to make the active month visible (with small delay for DOM update)
+      setTimeout(() => this.scrollToActiveMonth(), 0);
+    });
+  }
 
   // ============================================================
   // Computed Values
@@ -177,5 +211,40 @@ export class CoarMonthListComponent {
   selectMonth(yearMonth: Temporal.PlainYearMonth): void {
     this.activeMonth.set(yearMonth);
     this.monthSelected.emit(yearMonth);
+  }
+
+  // ============================================================
+  // Private Methods
+  // ============================================================
+
+  /**
+   * Scrolls the month list to make the active month visible.
+   * Works with OverlayScrollbars by scrolling its viewport element directly.
+   */
+  private scrollToActiveMonth(): void {
+    // Get the OverlayScrollbars instance and its viewport
+    const osInstance = this.scrollbarDirective()?.getInstance();
+    const viewport = osInstance?.elements().viewport;
+    if (!viewport) return;
+
+    // Find the active month button within the viewport's content
+    const activeButton = viewport.querySelector('.coar-month-list__month--active') as HTMLElement;
+    if (!activeButton) return;
+
+    // Calculate scroll position to make the active month visible
+    const buttonTop = activeButton.offsetTop;
+    const buttonHeight = activeButton.offsetHeight;
+    const viewportHeight = viewport.clientHeight;
+    const currentScrollTop = viewport.scrollTop;
+
+    // Check if button is above the visible area
+    if (buttonTop < currentScrollTop) {
+      viewport.scrollTop = buttonTop;
+    }
+    // Check if button is below the visible area
+    else if (buttonTop + buttonHeight > currentScrollTop + viewportHeight) {
+      viewport.scrollTop = buttonTop + buttonHeight - viewportHeight;
+    }
+    // Otherwise it's already visible, no scroll needed
   }
 }

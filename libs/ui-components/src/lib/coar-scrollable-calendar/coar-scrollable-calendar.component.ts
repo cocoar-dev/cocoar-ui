@@ -11,6 +11,7 @@ import {
   model,
   NgZone,
   output,
+  signal,
   viewChild,
   booleanAttribute,
 } from '@angular/core';
@@ -18,6 +19,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 
 import { Temporal } from '@js-temporal/polyfill';
 import { of } from 'rxjs';
+
+import { createOverlayBuilder, type OverlayRef } from '@cocoar/ui-overlay';
 
 import type { DateFormatConfig } from '../date/coar-date-format';
 import type { CoarDateMarker } from '../date/coar-date-marker';
@@ -55,6 +58,7 @@ export interface CoarCalendarDay {
   readonly isWeekend: boolean;
   readonly markers: CoarDateMarker[];
   readonly markerCssClass: string;
+  readonly markerTooltip: string | null;
 }
 
 /**
@@ -143,8 +147,22 @@ export class CoarScrollableCalendarComponent {
   /**
    * Number of months to display before and after the current year.
    * Default: 12 months before, 12 months after (2 years total + current year).
+   * @deprecated Use infinite scroll instead - this input is kept for backwards compatibility
    */
   monthRange = input<{ before: number; after: number }>({ before: 12, after: 12 });
+
+  /**
+   * Maximum number of months to keep in the DOM at once.
+   * Default: 25 (roughly 2 years). Lower values improve performance but may cause
+   * more frequent loading when scrolling quickly.
+   */
+  maxMonthsInDom = input<number>(25);
+
+  /**
+   * Number of months to load when reaching the edge of the current range.
+   * Default: 6 (half a year at a time).
+   */
+  monthsToLoad = input<number>(6);
 
   // ============================================================
   // Outputs
@@ -170,6 +188,31 @@ export class CoarScrollableCalendarComponent {
 
   /** Flag to track when activeMonth is updated from scroll handler (prevents effect feedback loop) */
   private isUpdatingFromScroll = false;
+
+  /** Flag to prevent multiple concurrent infinite scroll loads */
+  private isLoadingMonths = false;
+
+  /** The earliest month currently in the DOM */
+  private earliestMonth = signal<Temporal.PlainYearMonth>(
+    Temporal.Now.plainDateISO().toPlainYearMonth().subtract({ months: 12 })
+  );
+
+  /** The latest month currently in the DOM */
+  private latestMonth = signal<Temporal.PlainYearMonth>(
+    Temporal.Now.plainDateISO().toPlainYearMonth().add({ months: 12 })
+  );
+
+  /** Signal-based months array for infinite scroll */
+  protected months = signal<CoarCalendarMonth[]>([]);
+
+  /** Overlay builder for marker tooltips */
+  private readonly overlayBuilder = createOverlayBuilder();
+
+  /** Current marker tooltip overlay reference */
+  private markerTooltipRef: OverlayRef | null = null;
+
+  /** Timeout for delayed tooltip show */
+  private markerTooltipTimeout: ReturnType<typeof setTimeout> | null = null;
 
   // ============================================================
   // Computed Values
@@ -208,27 +251,22 @@ export class CoarScrollableCalendarComponent {
     coarGetLocalizedWeekdays(this.effectiveLocale(), this.firstDayOfWeek())
   );
 
-  /** All months to display in the scrollable view */
-  protected months = computed((): CoarCalendarMonth[] => {
-    const range = this.monthRange();
-    const baseMonth = this.today.toPlainYearMonth();
-
-    const months: CoarCalendarMonth[] = [];
-
-    // Generate months from (baseMonth - before) to (baseMonth + after)
-    for (let offset = -range.before; offset <= range.after; offset++) {
-      const yearMonth = baseMonth.add({ months: offset });
-      months.push(this.createCalendarMonth(yearMonth));
-    }
-
-    return months;
-  });
-
   // ============================================================
   // Constructor & Effects
   // ============================================================
 
+  /** Flag to track pending scroll after month loading */
+  private pendingScrollTarget: Temporal.PlainYearMonth | null = null;
+
+  /** Track previous marker/value state to avoid unnecessary rebuilds */
+  private lastMarkersLength = 0;
+  private lastValueString = '';
+  private lastHighlightWeekends = false;
+
   constructor() {
+    // Initialize the months array
+    this.initializeMonths();
+
     // Scroll to active month on initial render and set up scroll listener
     afterNextRender(() => {
       this.scrollToMonth(this.activeMonth(), false);
@@ -240,9 +278,94 @@ export class CoarScrollableCalendarComponent {
       const month = this.activeMonth();
       // Only scroll if not triggered by our own scroll handler or programmatic scroll
       if (!this.isScrollingProgrammatically && !this.isUpdatingFromScroll) {
-        this.scrollToMonth(month, true);
+        // Ensure the month is in the DOM before scrolling
+        this.scrollToMonthWithLoad(month);
       }
     });
+
+    // Rebuild months when markers, value, or highlightWeekends changes
+    effect(() => {
+      const markers = this.markers();
+      const value = this.value();
+      const highlightWeekends = this.highlightWeekends();
+
+      // Check if anything actually changed
+      const valueString = value?.toString() ?? '';
+      const markersLength = markers.length;
+
+      if (
+        markersLength !== this.lastMarkersLength ||
+        valueString !== this.lastValueString ||
+        highlightWeekends !== this.lastHighlightWeekends
+      ) {
+        this.lastMarkersLength = markersLength;
+        this.lastValueString = valueString;
+        this.lastHighlightWeekends = highlightWeekends;
+
+        // Only rebuild if we have months (after initialization)
+        if (this.months().length > 0) {
+          this.rebuildMonths();
+        }
+      }
+    });
+  }
+
+  /**
+   * Rebuilds all months to update day states (selected, markers, etc.)
+   */
+  private rebuildMonths(): void {
+    const currentMonths = this.months();
+    if (currentMonths.length === 0) return;
+
+    const updatedMonths = currentMonths.map((month) => this.createCalendarMonth(month.yearMonth));
+    this.months.set(updatedMonths);
+  }
+
+  /**
+   * Scrolls to a month, loading it first if necessary.
+   */
+  private scrollToMonthWithLoad(targetMonth: Temporal.PlainYearMonth): void {
+    const earliest = this.earliestMonth();
+    const latest = this.latestMonth();
+
+    // Check if month is already in range
+    const isInRange =
+      Temporal.PlainYearMonth.compare(targetMonth, earliest) >= 0 &&
+      Temporal.PlainYearMonth.compare(targetMonth, latest) <= 0;
+
+    if (isInRange) {
+      // Month is already loaded, scroll to it instantly
+      // Using instant scroll to avoid timing issues with infinite scroll detection
+      // Smooth scroll could still be animating when the programmatic flag resets,
+      // causing checkInfiniteScroll to trigger and load more months
+      this.scrollToMonth(targetMonth, false);
+    } else {
+      // Need to load months first, then scroll
+      // Block infinite scroll and scroll events during targeted navigation
+      this.isScrollingProgrammatically = true;
+      this.pendingScrollTarget = targetMonth;
+      this.loadMonthsToReach(targetMonth);
+    }
+  }
+
+  /**
+   * Loads months to reach a target month that's outside the current range.
+   */
+  private loadMonthsToReach(targetMonth: Temporal.PlainYearMonth): void {
+    const earliest = this.earliestMonth();
+    const latest = this.latestMonth();
+
+    if (Temporal.PlainYearMonth.compare(targetMonth, earliest) < 0) {
+      // Target is before our range - load earlier months
+      const monthsNeeded =
+        (earliest.year - targetMonth.year) * 12 + (earliest.month - targetMonth.month);
+      this.loadEarlierMonthsSync(monthsNeeded + 3); // Add buffer
+    } else {
+      // Target is after our range - load later months
+      const monthsNeeded =
+        (targetMonth.year - latest.year) * 12 + (targetMonth.month - latest.month);
+      this.loadLaterMonthsSync(monthsNeeded + 3); // Add buffer
+    }
   }
 
   /**
@@ -267,6 +390,260 @@ export class CoarScrollableCalendarComponent {
         viewport.removeEventListener('scroll', scrollHandler);
       });
     }, 100);
+  }
+
+  /**
+   * Initializes the months array with an initial range around today.
+   */
+  private initializeMonths(): void {
+    const baseMonth = this.today.toPlainYearMonth();
+    const range = this.monthRange();
+
+    // Set the range boundaries
+    this.earliestMonth.set(baseMonth.subtract({ months: range.before }));
+    this.latestMonth.set(baseMonth.add({ months: range.after }));
+
+    // Generate initial months
+    const initialMonths: CoarCalendarMonth[] = [];
+    let current = this.earliestMonth();
+    const end = this.latestMonth();
+
+    while (Temporal.PlainYearMonth.compare(current, end) <= 0) {
+      initialMonths.push(this.createCalendarMonth(current));
+      current = current.add({ months: 1 });
+    }
+
+    this.months.set(initialMonths);
+  }
+
+  /**
+   * Checks if we need to load more months based on scroll position.
+   */
+  private checkInfiniteScroll(): void {
+    if (this.isLoadingMonths || this.isScrollingProgrammatically) {
+      return;
+    }
+
+    const osInstance = this.scrollbarDirective()?.getInstance();
+    const viewport = osInstance?.elements().viewport;
+    if (!viewport) return;
+
+    const scrollTop = viewport.scrollTop;
+    const scrollHeight = viewport.scrollHeight;
+    const clientHeight = viewport.clientHeight;
+    const threshold = 500; // pixels from edge to trigger load
+
+    // Check if near top - load earlier months
+    if (scrollTop < threshold) {
+      this.loadEarlierMonths(this.monthsToLoad());
+    }
+
+    // Check if near bottom - load later months
+    if (scrollHeight - scrollTop - clientHeight < threshold) {
+      this.loadLaterMonths(this.monthsToLoad());
+    }
+  }
+
+  /**
+   * Loads earlier months and maintains scroll position.
+   */
+  private loadEarlierMonths(count: number): void {
+    if (this.isLoadingMonths) return;
+    this.isLoadingMonths = true;
+
+    const osInstance = this.scrollbarDirective()?.getInstance();
+    const viewport = osInstance?.elements().viewport;
+    const scrollHeightBefore = viewport?.scrollHeight ?? 0;
+
+    // Generate new months
+    const newMonths: CoarCalendarMonth[] = [];
+    let current = this.earliestMonth();
+
+    for (let i = 0; i < count; i++) {
+      current = current.subtract({ months: 1 });
+      newMonths.unshift(this.createCalendarMonth(current));
+    }
+
+    this.earliestMonth.set(current);
+
+    // Add new months to the beginning
+    this.ngZone.run(() => {
+      this.months.update((months: CoarCalendarMonth[]) => [...newMonths, ...months]);
+
+      // Trim from the end if we have too many months
+      this.trimMonthsFromEnd();
+    });
+
+    // Maintain scroll position after DOM update
+    requestAnimationFrame(() => {
+      if (viewport) {
+        const scrollHeightAfter = viewport.scrollHeight;
+        const addedHeight = scrollHeightAfter - scrollHeightBefore;
+        viewport.scrollTop += addedHeight;
+      }
+      this.isLoadingMonths = false;
+      this.checkPendingScroll();
+    });
+  }
+
+  /**
+   * Loads later months.
+   */
+  private loadLaterMonths(count: number): void {
+    if (this.isLoadingMonths) return;
+    this.isLoadingMonths = true;
+
+    // Generate new months
+    const newMonths: CoarCalendarMonth[] = [];
+    let current = this.latestMonth();
+
+    for (let i = 0; i < count; i++) {
+      current = current.add({ months: 1 });
+      newMonths.push(this.createCalendarMonth(current));
+    }
+
+    this.latestMonth.set(current);
+
+    // Add new months to the end
+    this.ngZone.run(() => {
+      this.months.update((months: CoarCalendarMonth[]) => [...months, ...newMonths]);
+
+      // Trim from the beginning if we have too many months
+      this.trimMonthsFromBeginning();
+    });
+
+    // Small delay to allow DOM to update
+    requestAnimationFrame(() => {
+      this.isLoadingMonths = false;
+      this.checkPendingScroll();
+    });
+  }
+
+  /**
+   * Loads earlier months synchronously (for targeted navigation).
+   * Does not maintain scroll position - caller handles scrolling.
+   */
+  private loadEarlierMonthsSync(count: number): void {
+    // Generate new months
+    const newMonths: CoarCalendarMonth[] = [];
+    let current = this.earliestMonth();
+
+    for (let i = 0; i < count; i++) {
+      current = current.subtract({ months: 1 });
+      newMonths.unshift(this.createCalendarMonth(current));
+    }
+
+    this.earliestMonth.set(current);
+
+    // Add new months to the beginning (no trimming for targeted navigation)
+    this.months.update((months: CoarCalendarMonth[]) => [...newMonths, ...months]);
+
+    // Schedule scroll after DOM update
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        this.checkPendingScroll();
+      });
+    });
+  }
+
+  /**
+   * Loads later months synchronously (for targeted navigation).
+   */
+  private loadLaterMonthsSync(count: number): void {
+    // Generate new months
+    const newMonths: CoarCalendarMonth[] = [];
+    let current = this.latestMonth();
+
+    for (let i = 0; i < count; i++) {
+      current = current.add({ months: 1 });
+      newMonths.push(this.createCalendarMonth(current));
+    }
+
+    this.latestMonth.set(current);
+
+    // Add new months to the end (no trimming for targeted navigation)
+    this.months.update((months: CoarCalendarMonth[]) => [...months, ...newMonths]);
+
+    // Schedule scroll after DOM update
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        this.checkPendingScroll();
+      });
+    });
+  }
+
+  /**
+   * Checks if there's a pending scroll target and scrolls to it if available.
+   */
+  private checkPendingScroll(): void {
+    if (!this.pendingScrollTarget) return;
+
+    const target = this.pendingScrollTarget;
+    const earliest = this.earliestMonth();
+    const latest = this.latestMonth();
+
+    // Check if target is now in range
+    const isInRange =
+      Temporal.PlainYearMonth.compare(target, earliest) >= 0 &&
+      Temporal.PlainYearMonth.compare(target, latest) <= 0;
+
+    if (isInRange) {
+      this.pendingScrollTarget = null;
+
+      // Scroll to the target month (instant, no animation)
+      const container = this.scrollContainerRef()?.nativeElement;
+      if (container) {
+        const monthId = this.getMonthElementId(target);
+        const monthElement = container.querySelector(`#${monthId}`);
+        if (monthElement) {
+          monthElement.scrollIntoView({
+            behavior: 'instant',
+            block: 'start',
+          });
+        }
+      }
+
+      // Update activeMonth after instant scroll (onScroll won't fire for instant jumps)
+      this.isUpdatingFromScroll = true;
+      this.activeMonth.set(target);
+      this.activeMonthChange.emit(target);
+
+      // Reset flags after a short delay to allow any queued scroll events to be ignored
+      setTimeout(() => {
+        this.isScrollingProgrammatically = false;
+        this.isUpdatingFromScroll = false;
+      }, 100);
+    }
+  }
+
+  /**
+   * Trims months from the end of the array to stay within maxMonthsInDom.
+   */
+  private trimMonthsFromEnd(): void {
+    const max = this.maxMonthsInDom();
+    const currentMonths = this.months();
+
+    if (currentMonths.length > max) {
+      const trimCount = currentMonths.length - max;
+      const trimmed = currentMonths.slice(0, -trimCount);
+      this.months.set(trimmed);
+      this.latestMonth.set(trimmed[trimmed.length - 1].yearMonth);
+    }
+  }
+
+  /**
+   * Trims months from the beginning of the array to stay within maxMonthsInDom.
+   */
+  private trimMonthsFromBeginning(): void {
+    const max = this.maxMonthsInDom();
+    const currentMonths = this.months();
+
+    if (currentMonths.length > max) {
+      const trimCount = currentMonths.length - max;
+      const trimmed = currentMonths.slice(trimCount);
+      this.months.set(trimmed);
+      this.earliestMonth.set(trimmed[0].yearMonth);
+    }
   }
 
   // ============================================================
@@ -309,7 +686,9 @@ export class CoarScrollableCalendarComponent {
 
   /** Handle scroll events to update active month */
   protected onScroll(): void {
-    if (this.isScrollingProgrammatically) return;
+    if (this.isScrollingProgrammatically) {
+      return;
+    }
 
     const container = this.scrollContainerRef()?.nativeElement;
     if (!container) return;
@@ -354,6 +733,9 @@ export class CoarScrollableCalendarComponent {
         this.isUpdatingFromScroll = false;
       });
     }
+
+    // Check if we need to load more months (infinite scroll)
+    this.checkInfiniteScroll();
   }
 
   /** Handle date selection */
@@ -430,6 +812,15 @@ export class CoarScrollableCalendarComponent {
     // Get CSS class from first marker if available
     const markerCssClass = dateMarkers.length > 0 ? (dateMarkers[0].cssClass ?? '') : '';
 
+    // Build tooltip from marker descriptions
+    const markerTooltip =
+      dateMarkers.length > 0
+        ? dateMarkers
+            .map((m) => m.description)
+            .filter(Boolean)
+            .join('\n') || null
+        : null;
+
     return {
       date,
       day: date.day,
@@ -440,6 +831,261 @@ export class CoarScrollableCalendarComponent {
       isWeekend: dayOfWeek === 6 || dayOfWeek === 7, // Saturday or Sunday
       markers: dateMarkers,
       markerCssClass,
+      markerTooltip,
     };
+  }
+
+  // ============================================================
+  // Marker Tooltip Methods
+  // ============================================================
+
+  /** Tracks if mouse is currently over the tooltip */
+  private isMouseOverTooltip = false;
+  /** Timeout for delayed hide */
+  private hideTooltipTimeout: ReturnType<typeof setTimeout> | null = null;
+
+  /**
+   * Shows the marker tooltip for a day with markers.
+   */
+  protected showMarkerTooltip(event: MouseEvent, day: CoarCalendarDay): void {
+    if (day.markers.length === 0) return;
+
+    // Capture element reference immediately (before setTimeout)
+    const target = event.currentTarget as HTMLElement;
+
+    // Clear any pending timeouts
+    if (this.markerTooltipTimeout) {
+      clearTimeout(this.markerTooltipTimeout);
+    }
+    if (this.hideTooltipTimeout) {
+      clearTimeout(this.hideTooltipTimeout);
+      this.hideTooltipTimeout = null;
+    }
+
+    // Close existing tooltip if showing a different day
+    if (this.markerTooltipRef) {
+      this.markerTooltipRef.close();
+      this.markerTooltipRef = null;
+    }
+
+    this.isMouseOverTooltip = false;
+
+    // Show tooltip with a small delay to avoid flicker
+    this.markerTooltipTimeout = setTimeout(() => {
+      // Verify element is still in the DOM before opening overlay
+      if (!target.isConnected) {
+        return;
+      }
+
+      this.markerTooltipRef = this.overlayBuilder
+        .anchor({ kind: 'element', element: target })
+        .position({ placement: ['right', 'left', 'top', 'bottom'], offset: 8 })
+        .backdrop({ kind: 'none' })
+        .dismiss({ outsideClick: false, escapeKey: false })
+        .fromComponent(CoarMarkerTooltipComponent)
+        .open({
+          markers: day.markers,
+        });
+
+      // Add mouse listeners to the tooltip panel to keep it open when hovered
+      const panelElement = this.markerTooltipRef.getPanelElement?.();
+      if (panelElement) {
+        panelElement.addEventListener('mouseenter', this.onTooltipMouseEnter);
+        panelElement.addEventListener('mouseleave', this.onTooltipMouseLeave);
+      }
+    }, 150);
+  }
+
+  /**
+   * Schedules hiding the marker tooltip (with delay to allow moving to tooltip).
+   */
+  protected scheduleHideMarkerTooltip(): void {
+    // Don't hide if mouse is over the tooltip
+    if (this.isMouseOverTooltip) return;
+
+    // Clear any pending show timeout
+    if (this.markerTooltipTimeout) {
+      clearTimeout(this.markerTooltipTimeout);
+      this.markerTooltipTimeout = null;
+    }
+
+    // Schedule hide with delay to allow mouse to move to tooltip
+    this.hideTooltipTimeout = setTimeout(() => {
+      if (!this.isMouseOverTooltip) {
+        this.hideMarkerTooltip();
+      }
+    }, 100);
+  }
+
+  /**
+   * Handler for mouse entering the tooltip.
+   */
+  private onTooltipMouseEnter = (): void => {
+    this.isMouseOverTooltip = true;
+    if (this.hideTooltipTimeout) {
+      clearTimeout(this.hideTooltipTimeout);
+      this.hideTooltipTimeout = null;
+    }
+  };
+
+  /**
+   * Handler for mouse leaving the tooltip.
+   */
+  private onTooltipMouseLeave = (): void => {
+    this.isMouseOverTooltip = false;
+    this.hideMarkerTooltip();
+  };
+
+  /**
+   * Hides the marker tooltip immediately.
+   */
+  protected hideMarkerTooltip(): void {
+    if (this.markerTooltipTimeout) {
+      clearTimeout(this.markerTooltipTimeout);
+      this.markerTooltipTimeout = null;
+    }
+    if (this.hideTooltipTimeout) {
+      clearTimeout(this.hideTooltipTimeout);
+      this.hideTooltipTimeout = null;
+    }
+    if (this.markerTooltipRef) {
+      // Remove listeners before closing
+      const panelElement = this.markerTooltipRef.getPanelElement?.();
+      if (panelElement) {
+        panelElement.removeEventListener('mouseenter', this.onTooltipMouseEnter);
+        panelElement.removeEventListener('mouseleave', this.onTooltipMouseLeave);
+      }
+      this.markerTooltipRef.close();
+      this.markerTooltipRef = null;
+    }
+    this.isMouseOverTooltip = false;
+  }
+}
+
+/**
+ * Internal component for displaying marker tooltip content.
+ */
+@Component({
+  selector: 'coar-marker-tooltip',
+  standalone: true,
+  template: `
+    <div class="coar-marker-tooltip">
+      <div class="coar-marker-tooltip__arrow"></div>
+      <div class="coar-marker-tooltip__content">
+        @for (marker of markers(); track marker.description) {
+          <div class="coar-marker-tooltip__item">
+            <span class="coar-marker-tooltip__dot"></span>
+            <div class="coar-marker-tooltip__details">
+              <span class="coar-marker-tooltip__text">{{ marker.description }}</span>
+              @if (marker.endDate && !isSameDay(marker.startDate, marker.endDate)) {
+                <span class="coar-marker-tooltip__dates">
+                  {{ formatDate(marker.startDate) }} – {{ formatDate(marker.endDate) }}
+                </span>
+              }
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  `,
+  styles: [
+    `
+      :host {
+        display: block;
+        filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+      }
+
+      .coar-marker-tooltip {
+        position: relative;
+        min-width: 160px;
+        max-width: 260px;
+        padding: var(--coar-spacing-xs) var(--coar-spacing-s);
+        background: var(--coar-background-neutral-primary);
+        border: 1px solid var(--coar-border-neutral-tertiary);
+        border-radius: var(--coar-radius-sm);
+      }
+
+      /* Arrow - points left when tooltip is on the right of the anchor */
+      .coar-marker-tooltip__arrow {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: var(--coar-background-neutral-primary);
+        border: 1px solid var(--coar-border-neutral-tertiary);
+        transform: rotate(45deg);
+        left: -6px;
+        top: 50%;
+        margin-top: -5px;
+        border-top: none;
+        border-right: none;
+      }
+
+      .coar-marker-tooltip__content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--coar-spacing-2xs);
+        max-height: 180px;
+        overflow-y: auto;
+      }
+
+      .coar-marker-tooltip__item {
+        display: flex;
+        align-items: flex-start;
+        gap: var(--coar-spacing-xs);
+        padding: 2px 0;
+      }
+
+      .coar-marker-tooltip__details {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .coar-marker-tooltip__item:not(:last-child) {
+        border-bottom: 1px solid var(--coar-border-neutral-quaternary);
+        padding-bottom: var(--coar-spacing-2xs);
+      }
+
+      .coar-marker-tooltip__dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--coar-background-semantic-error-bold);
+        flex-shrink: 0;
+      }
+
+      .coar-marker-tooltip__text {
+        font-family: var(--coar-body-small-base-family);
+        font-size: var(--coar-body-small-base-size);
+        color: var(--coar-text-neutral-primary);
+        line-height: 1.4;
+      }
+
+      .coar-marker-tooltip__dates {
+        font-family: var(--coar-body-small-base-family);
+        font-size: 11px;
+        color: var(--coar-text-neutral-secondary);
+        line-height: 1.3;
+      }
+
+      .coar-marker-tooltip__dot {
+        margin-top: 5px;
+      }
+    `,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class CoarMarkerTooltipComponent {
+  /** The markers to display */
+  markers = input<CoarDateMarker[]>([]);
+
+  /** Check if two dates are the same day */
+  isSameDay(a: Temporal.PlainDate, b: Temporal.PlainDate): boolean {
+    return a.equals(b);
+  }
+
+  /** Format a date for display */
+  formatDate(date: Temporal.PlainDate): string {
+    return `${date.day}/${date.month}`;
   }
 }

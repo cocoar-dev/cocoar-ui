@@ -27,7 +27,6 @@ import { CoarLocalizationService, CoarLocalizationDataStore } from '@cocoar/loca
 
 import { CoarIconComponent } from '../coar-icon/coar-icon.component';
 import { CoarScrollableCalendarComponent } from '../coar-scrollable-calendar/coar-scrollable-calendar.component';
-import { CoarScrollbarDirective } from '../coar-scrollbar/coar-scrollbar.directive';
 import { CoarTimePickerComponent } from '../coar-time-picker/coar-time-picker.component';
 import {
   CoarControlValueAccessor,
@@ -95,7 +94,6 @@ export type CoarDateTimePickerValue = Temporal.PlainDate | Temporal.PlainDateTim
     FormsModule,
     CoarIconComponent,
     CoarScrollableCalendarComponent,
-    CoarScrollbarDirective,
     CoarTimePickerComponent,
   ],
   templateUrl: './coar-date-time-picker.component.html',
@@ -427,7 +425,12 @@ export class CoarDateTimePickerComponent extends CoarControlValueAccessor<CoarDa
   /** Whether next year button is disabled */
   protected isNextYearDisabled = computed(() => this.currentYear() >= this.maxYear());
 
-  /** List of month items for display */
+  /**
+   * Month list items for the current year.
+   * Shows 12 months (Jan-Dec) for the year displayed in the year stepper.
+   * The list scrolls to center the active month, creating a synchronized
+   * scroll effect with the calendar.
+   */
   protected monthItems = computed(() => {
     const year = this.currentYear();
     const currentMonth = this.currentMonthNumber();
