@@ -13,6 +13,10 @@ import { COAR_I18N_PROVIDER } from './i18n/coar-i18n-provider';
 import { CoarI18nService } from './i18n/coar-i18n.service';
 import { COAR_TRANSLATION_LOADERS } from './i18n/coar-translation-loader';
 import { CoarIntlTranslationLoader } from './i18n/coar-intl-translation-loader';
+import { CoarTimeZoneProvider } from './timezone/coar-timezone-provider';
+import { BrowserTimeZoneProvider } from './timezone/browser-timezone-provider';
+import { CoarTimeZoneService } from './timezone/coar-timezone.service';
+import { COAR_TIMEZONE_PROVIDERS } from './timezone/coar-timezone-providers.token';
 
 /**
  * Configuration for the locale system.
@@ -22,6 +26,28 @@ export interface CoarLocalizationConfig {
    * Default language to use on initialization.
    */
   defaultLanguage: string;
+
+  /**
+   * Optional custom timezone providers.
+   *
+   * Providers are resolved in array order (first to last).
+   * First non-null value wins.
+   *
+   * Browser provider (Intl API) is always present as guaranteed baseline
+   * and automatically added after custom providers.
+   *
+   * @example
+   * ```ts
+   * // With custom profile provider
+   * provideCoarLocalization({
+   *   defaultLanguage: 'en',
+   *   timeZoneProviders: [
+   *     inject(ProfileTimeZoneProvider)
+   *   ]
+   * })
+   * ```
+   */
+  timeZoneProviders?: CoarTimeZoneProvider[];
 }
 
 /**
@@ -78,6 +104,19 @@ export function provideCoarLocalization(config: CoarLocalizationConfig): Environ
     },
     CoarLocalizationService,
     CoarLocalizationDataStore,
+
+    // TimeZone: Provide the timezone service
+    CoarTimeZoneService,
+
+    // TimeZone: Browser provider (always present as guaranteed baseline)
+    BrowserTimeZoneProvider,
+
+    // TimeZone: Register custom providers from config (if any)
+    ...(config.timeZoneProviders?.map((provider) => ({
+      provide: COAR_TIMEZONE_PROVIDERS,
+      multi: true,
+      useValue: provider,
+    })) ?? []),
 
     // L10n: Auto-include Intl source as first loader (provides complete defaults)
     {

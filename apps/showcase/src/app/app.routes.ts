@@ -39,6 +39,11 @@ export const appRoutes: Route[] = [
       import('./pages/localization/localization.page').then((m) => m.LocalizationPage),
   },
   {
+    path: 'timezone',
+    loadComponent: () =>
+      import('./pages/timezone-demo.component').then((m) => m.TimezoneDemoComponent),
+  },
+  {
     path: 'code-block',
     loadComponent: () => import('./pages/code-block/code-block.page').then((m) => m.CodeBlockPage),
   },

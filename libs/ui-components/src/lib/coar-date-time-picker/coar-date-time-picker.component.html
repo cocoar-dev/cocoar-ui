@@ -87,9 +87,9 @@
           [markers]="markers()"
           (dateSelected)="onDateSelected($event)"
         />
-        @if (showTodayButton() && todayButtonDirection() !== 'hidden') {
-          <button type="button" class="coar-date-time-picker-today-fab" (click)="scrollToToday()" aria-label="Go to today">
-            <coar-icon [name]="todayButtonDirection()" size="xs" />
+        @if (showCurrentMonthButton() && currentMonthScrollDirection() !== 'hidden') {
+          <button type="button" class="coar-date-time-picker-today-fab" (click)="scrollToCurrentMonth()" aria-label="Scroll to current month">
+            <coar-icon [name]="currentMonthScrollDirection()" size="xs" />
           </button>
         }
       </div>

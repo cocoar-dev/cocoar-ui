@@ -1,6 +1,7 @@
 // Locale (language management)
 export * from './lib/coar-localization.service';
 export * from './lib/provide-coar-localization';
+export * from './lib/timezone/index';
 
 // L10n (localization data and formatting pipes)
 export * from './lib/l10n/localization-data';

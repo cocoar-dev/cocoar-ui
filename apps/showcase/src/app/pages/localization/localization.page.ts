@@ -1,5 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { CoarButtonComponent, CoarCodeBlockComponent, CoarDividerComponent } from '@cocoar/ui-components';
+import {
+  CoarButtonComponent,
+  CoarCodeBlockComponent,
+  CoarDividerComponent,
+} from '@cocoar/ui-components';
 import {
   CoarCurrencyPipe,
   CoarDatePipe,
@@ -7,7 +11,6 @@ import {
   CoarLocalizationService,
   CoarNumberPipe,
   CoarPercentPipe,
-  CoarTranslationLoader,
   CoarTranslationStore,
 } from '@cocoar/localization';
 import { firstValueFrom } from 'rxjs';
@@ -38,7 +41,6 @@ import { firstValueFrom } from 'rxjs';
 export class LocalizationPage {
   protected readonly locale = inject(CoarLocalizationService);
   private readonly store = inject(CoarTranslationStore);
-  private readonly loader = inject(CoarTranslationLoader);
 
   // Sample data for formatting examples
   protected readonly now = new Date();
@@ -53,16 +55,11 @@ export class LocalizationPage {
   protected readonly tax = 0.19;
   protected readonly total = 1535.09;
 
-  async toggleLang(): Promise<void> {
+  toggleLang(): void {
     const current = this.locale.languageState.value;
     const next = current === 'en' ? 'de' : 'en';
 
-    // Preload translations before switching (prevents showing keys)
-    if (!this.store.hasLanguage(next)) {
-      const translations = await firstValueFrom(this.loader.loadTranslations(next));
-      this.store.setTranslations(next, translations);
-    }
-
+    // Switch language - translations will load automatically
     this.locale.setLanguage(next);
   }
 
