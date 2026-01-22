@@ -27,6 +27,7 @@ import { CoarLocalizationService, CoarLocalizationDataStore } from '@cocoar/loca
 
 import { CoarIconComponent } from '../coar-icon/coar-icon.component';
 import { CoarScrollableCalendarComponent } from '../coar-scrollable-calendar/coar-scrollable-calendar.component';
+import { CoarScrollbarDirective } from '../coar-scrollbar/coar-scrollbar.directive';
 import { CoarTimePickerComponent } from '../coar-time-picker/coar-time-picker.component';
 import {
   CoarControlValueAccessor,
@@ -95,6 +96,7 @@ export type CoarDateTimePickerValue = Temporal.PlainDate | Temporal.PlainDateTim
     CoarIconComponent,
     CoarScrollableCalendarComponent,
     CoarTimePickerComponent,
+    CoarScrollbarDirective,
   ],
   templateUrl: './coar-date-time-picker.component.html',
   styleUrl: './coar-date-time-picker.component.css',
@@ -300,14 +302,18 @@ export class CoarDateTimePickerComponent extends CoarControlValueAccessor<CoarDa
     const directConfig = this.dateFormatConfig();
     if (directConfig) return directConfig;
 
-    const storeLocale = this.locale() ?? this.currentLanguage();
-    const localeData = storeLocale
-      ? this.localizationDataStore?.getLocaleData(storeLocale)
-      : undefined;
+    // Try to get from localization data store using the language key
+    // The store uses language codes ('en', 'de') not full locales ('en-GB')
+    // Read dataVersion to establish signal dependency for async loading
+    const _version = this.localizationDataStore?.dataVersion();
+    const language = this.currentLanguage();
+    const localeData = language ? this.localizationDataStore?.getLocaleData(language) : undefined;
     if (localeData?.date) {
+      // Convert 0-6 (Sun-Sat) format to ISO 1-7 (Mon-Sun) format
+      const isoFirstDay = localeData.date.firstDayOfWeek === 0 ? 7 : localeData.date.firstDayOfWeek;
       return {
         pattern: localeData.date.pattern,
-        firstDayOfWeek: localeData.date.firstDayOfWeek === 0 ? 7 : 1,
+        firstDayOfWeek: isoFirstDay as 1 | 7,
       };
     }
 
@@ -436,7 +442,7 @@ export class CoarDateTimePickerComponent extends CoarControlValueAccessor<CoarDa
     const currentMonth = this.currentMonthNumber();
     const locale = this.effectiveLocale();
 
-    const formatter = new Intl.DateTimeFormat(locale, { month: 'long' });
+    const formatter = new Intl.DateTimeFormat(locale, { month: 'short' });
 
     const items: Array<{
       month: number;
@@ -460,6 +466,37 @@ export class CoarDateTimePickerComponent extends CoarControlValueAccessor<CoarDa
 
     return items;
   });
+
+  /**
+   * Markers for the currently selected date.
+   * Used to display events in the side panel.
+   */
+  protected selectedDateMarkers = computed((): CoarDateMarker[] => {
+    const date = this.selectedDate();
+    if (!date) return [];
+
+    return this.markers().filter((marker) => {
+      const afterStart = Temporal.PlainDate.compare(date, marker.startDate) >= 0;
+      const beforeEnd = marker.endDate
+        ? Temporal.PlainDate.compare(date, marker.endDate) <= 0
+        : Temporal.PlainDate.compare(date, marker.startDate) === 0;
+      return afterStart && beforeEnd;
+    });
+  });
+
+  /**
+   * Format a date for display in the events section.
+   */
+  protected formatMarkerDate(date: Temporal.PlainDate): string {
+    return `${date.day}/${date.month}`;
+  }
+
+  /**
+   * Check if two dates are the same.
+   */
+  protected isSameDate(a: Temporal.PlainDate, b: Temporal.PlainDate): boolean {
+    return a.equals(b);
+  }
 
   // ============================================================
   // Constructor & Lifecycle
@@ -516,16 +553,26 @@ export class CoarDateTimePickerComponent extends CoarControlValueAccessor<CoarDa
     const template = this.panelTemplateRef();
     if (!trigger || !template) return;
 
-    const placement = this.resolvePlacement(trigger, this.estimatePanelHeight());
-    this.panelPosition.set(placement === 'top' ? 'top' : 'bottom');
+    const verticalPlacement = this.resolvePlacement(trigger, this.estimatePanelHeight());
+    this.panelPosition.set(verticalPlacement === 'top' ? 'top' : 'bottom');
+
+    // Determine horizontal alignment based on trigger vs panel width
+    // Panel is 480-600px (or 528-648px with week numbers)
+    const triggerWidth = trigger.getBoundingClientRect().width;
+    const panelMinWidth = this.showWeekNumbers() ? 528 : 480;
+
+    // If panel is wider than trigger, center it; otherwise right-align
+    const horizontalAlignment = triggerWidth >= panelMinWidth ? '-end' : '';
+    const placement = `${verticalPlacement}${horizontalAlignment}` as Placement;
 
     const ref = this.overlayBuilder
       .anchor({ kind: 'element', element: trigger })
       .position({
-        placement: placement === 'top' ? 'top-end' : 'bottom-end',
+        placement,
         offset: 4,
         flip: false,
-        shift: false,
+        // Enable shift to clamp the panel within viewport bounds
+        shift: true,
       })
       .scroll({ strategy: 'reposition' })
       .dismiss({ outsideClick: true, escapeKey: true })
@@ -640,8 +687,10 @@ export class CoarDateTimePickerComponent extends CoarControlValueAccessor<CoarDa
 
   /** Select a month from the list */
   protected selectMonth(yearMonth: Temporal.PlainYearMonth): void {
+    // Only set activeMonth - the scrollable calendar's effect handles scrolling
+    // Do NOT call scrollToMonth directly here, as it causes race conditions
+    // with the effect-based scrolling and can trigger runaway infinite scrolling
     this.activeMonth.set(yearMonth);
-    this.scrollableCalendarRef()?.scrollToMonth(yearMonth, true);
   }
 
   /** Handle Today button click */

@@ -84,6 +84,15 @@ export class CoarLocalizationService {
         window as unknown as { __coarLocalizationStore?: CoarLocalizationDataStore }
       ).__coarLocalizationStore = this.localeDataStore;
     }
+
+    // Load locale data for the default language on initialization
+    // This ensures firstDayOfWeek and other formatting data is available immediately
+    this.loadAndmergeLocalizationData(this.defaultLanguage).catch((error) => {
+      console.warn(
+        `[CoarLocalizationService] Failed to load initial locale data for '${this.defaultLanguage}':`,
+        error
+      );
+    });
   }
 
   /**

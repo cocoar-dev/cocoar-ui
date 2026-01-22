@@ -1,4 +1,4 @@
-import { signal, WritableSignal } from '@angular/core';
+import { computed, signal, Signal, WritableSignal } from '@angular/core';
 import type { CoarLocalizationData } from './localization-data';
 
 /**
@@ -7,6 +7,15 @@ import type { CoarLocalizationData } from './localization-data';
  */
 export class CoarLocalizationDataStore {
   private readonly store: WritableSignal<Map<string, CoarLocalizationData>> = signal(new Map());
+
+  /**
+   * Reactive signal that changes whenever any locale data is updated.
+   * Use this in computed() to ensure reactivity to data loading.
+   */
+  readonly dataVersion: Signal<number> = computed(() => {
+    // Reading store() creates the signal dependency
+    return this.store().size;
+  });
 
   /**
    * Set locale data for a specific locale.

@@ -20,8 +20,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Temporal } from '@js-temporal/polyfill';
 import { of } from 'rxjs';
 
-import { createOverlayBuilder, type OverlayRef } from '@cocoar/ui-overlay';
-
 import type { DateFormatConfig } from '../date/coar-date-format';
 import type { CoarDateMarker } from '../date/coar-date-marker';
 import {
@@ -205,15 +203,6 @@ export class CoarScrollableCalendarComponent {
   /** Signal-based months array for infinite scroll */
   protected months = signal<CoarCalendarMonth[]>([]);
 
-  /** Overlay builder for marker tooltips */
-  private readonly overlayBuilder = createOverlayBuilder();
-
-  /** Current marker tooltip overlay reference */
-  private markerTooltipRef: OverlayRef | null = null;
-
-  /** Timeout for delayed tooltip show */
-  private markerTooltipTimeout: ReturnType<typeof setTimeout> | null = null;
-
   // ============================================================
   // Computed Values
   // ============================================================
@@ -230,13 +219,19 @@ export class CoarScrollableCalendarComponent {
     const directConfig = this.dateFormatConfig();
     if (directConfig) return directConfig;
 
-    // Try to get from localization data store
-    const storeLocale = this.effectiveLocale();
-    const localeData = this.localizationDataStore?.getLocaleData(storeLocale);
+    // Try to get from localization data store using the language key
+    // The store uses language codes ('en', 'de') not full locales ('en-GB')
+    // Read dataVersion to establish signal dependency for async loading
+    const _version = this.localizationDataStore?.dataVersion();
+    const language = this.currentLanguage();
+    const localeData = language ? this.localizationDataStore?.getLocaleData(language) : undefined;
     if (localeData?.date) {
+      // Convert 0-6 (Sun-Sat) format to ISO 1-7 (Mon-Sun) format
+      // 0 (Sun) -> 7, 1 (Mon) -> 1, 2 (Tue) -> 2, ..., 6 (Sat) -> 6
+      const isoFirstDay = localeData.date.firstDayOfWeek === 0 ? 7 : localeData.date.firstDayOfWeek;
       return {
         pattern: localeData.date.pattern,
-        firstDayOfWeek: localeData.date.firstDayOfWeek === 0 ? 7 : 1,
+        firstDayOfWeek: isoFirstDay as 1 | 7,
       };
     }
 
@@ -250,6 +245,29 @@ export class CoarScrollableCalendarComponent {
   protected daysOfWeek = computed(() =>
     coarGetLocalizedWeekdays(this.effectiveLocale(), this.firstDayOfWeek())
   );
+
+  /**
+   * Weekday headers with weekend flag for styling.
+   * Returns array of { name, isWeekend } for each day.
+   */
+  protected weekdayHeaders = computed(() => {
+    const names = this.daysOfWeek();
+    const firstDay = this.firstDayOfWeek();
+
+    return names.map((name, index) => {
+      // Calculate which ISO day of week this is (1=Mon, 7=Sun)
+      // If firstDayOfWeek is 1 (Monday): index 0=Mon(1), index 5=Sat(6), index 6=Sun(7)
+      // If firstDayOfWeek is 7 (Sunday): index 0=Sun(7), index 1=Mon(1), index 6=Sat(6)
+      let isoDayOfWeek: number;
+      if (firstDay === 1) {
+        isoDayOfWeek = index + 1; // 0->1(Mon), 5->6(Sat), 6->7(Sun)
+      } else {
+        isoDayOfWeek = index === 0 ? 7 : index; // 0->7(Sun), 1->1(Mon), 6->6(Sat)
+      }
+      const isWeekend = isoDayOfWeek === 6 || isoDayOfWeek === 7;
+      return { name, isWeekend };
+    });
+  });
 
   // ============================================================
   // Constructor & Effects
@@ -833,259 +851,5 @@ export class CoarScrollableCalendarComponent {
       markerCssClass,
       markerTooltip,
     };
-  }
-
-  // ============================================================
-  // Marker Tooltip Methods
-  // ============================================================
-
-  /** Tracks if mouse is currently over the tooltip */
-  private isMouseOverTooltip = false;
-  /** Timeout for delayed hide */
-  private hideTooltipTimeout: ReturnType<typeof setTimeout> | null = null;
-
-  /**
-   * Shows the marker tooltip for a day with markers.
-   */
-  protected showMarkerTooltip(event: MouseEvent, day: CoarCalendarDay): void {
-    if (day.markers.length === 0) return;
-
-    // Capture element reference immediately (before setTimeout)
-    const target = event.currentTarget as HTMLElement;
-
-    // Clear any pending timeouts
-    if (this.markerTooltipTimeout) {
-      clearTimeout(this.markerTooltipTimeout);
-    }
-    if (this.hideTooltipTimeout) {
-      clearTimeout(this.hideTooltipTimeout);
-      this.hideTooltipTimeout = null;
-    }
-
-    // Close existing tooltip if showing a different day
-    if (this.markerTooltipRef) {
-      this.markerTooltipRef.close();
-      this.markerTooltipRef = null;
-    }
-
-    this.isMouseOverTooltip = false;
-
-    // Show tooltip with a small delay to avoid flicker
-    this.markerTooltipTimeout = setTimeout(() => {
-      // Verify element is still in the DOM before opening overlay
-      if (!target.isConnected) {
-        return;
-      }
-
-      this.markerTooltipRef = this.overlayBuilder
-        .anchor({ kind: 'element', element: target })
-        .position({ placement: ['right', 'left', 'top', 'bottom'], offset: 8 })
-        .backdrop({ kind: 'none' })
-        .dismiss({ outsideClick: false, escapeKey: false })
-        .fromComponent(CoarMarkerTooltipComponent)
-        .open({
-          markers: day.markers,
-        });
-
-      // Add mouse listeners to the tooltip panel to keep it open when hovered
-      const panelElement = this.markerTooltipRef.getPanelElement?.();
-      if (panelElement) {
-        panelElement.addEventListener('mouseenter', this.onTooltipMouseEnter);
-        panelElement.addEventListener('mouseleave', this.onTooltipMouseLeave);
-      }
-    }, 150);
-  }
-
-  /**
-   * Schedules hiding the marker tooltip (with delay to allow moving to tooltip).
-   */
-  protected scheduleHideMarkerTooltip(): void {
-    // Don't hide if mouse is over the tooltip
-    if (this.isMouseOverTooltip) return;
-
-    // Clear any pending show timeout
-    if (this.markerTooltipTimeout) {
-      clearTimeout(this.markerTooltipTimeout);
-      this.markerTooltipTimeout = null;
-    }
-
-    // Schedule hide with delay to allow mouse to move to tooltip
-    this.hideTooltipTimeout = setTimeout(() => {
-      if (!this.isMouseOverTooltip) {
-        this.hideMarkerTooltip();
-      }
-    }, 100);
-  }
-
-  /**
-   * Handler for mouse entering the tooltip.
-   */
-  private onTooltipMouseEnter = (): void => {
-    this.isMouseOverTooltip = true;
-    if (this.hideTooltipTimeout) {
-      clearTimeout(this.hideTooltipTimeout);
-      this.hideTooltipTimeout = null;
-    }
-  };
-
-  /**
-   * Handler for mouse leaving the tooltip.
-   */
-  private onTooltipMouseLeave = (): void => {
-    this.isMouseOverTooltip = false;
-    this.hideMarkerTooltip();
-  };
-
-  /**
-   * Hides the marker tooltip immediately.
-   */
-  protected hideMarkerTooltip(): void {
-    if (this.markerTooltipTimeout) {
-      clearTimeout(this.markerTooltipTimeout);
-      this.markerTooltipTimeout = null;
-    }
-    if (this.hideTooltipTimeout) {
-      clearTimeout(this.hideTooltipTimeout);
-      this.hideTooltipTimeout = null;
-    }
-    if (this.markerTooltipRef) {
-      // Remove listeners before closing
-      const panelElement = this.markerTooltipRef.getPanelElement?.();
-      if (panelElement) {
-        panelElement.removeEventListener('mouseenter', this.onTooltipMouseEnter);
-        panelElement.removeEventListener('mouseleave', this.onTooltipMouseLeave);
-      }
-      this.markerTooltipRef.close();
-      this.markerTooltipRef = null;
-    }
-    this.isMouseOverTooltip = false;
-  }
-}
-
-/**
- * Internal component for displaying marker tooltip content.
- */
-@Component({
-  selector: 'coar-marker-tooltip',
-  standalone: true,
-  template: `
-    <div class="coar-marker-tooltip">
-      <div class="coar-marker-tooltip__arrow"></div>
-      <div class="coar-marker-tooltip__content">
-        @for (marker of markers(); track marker.description) {
-          <div class="coar-marker-tooltip__item">
-            <span class="coar-marker-tooltip__dot"></span>
-            <div class="coar-marker-tooltip__details">
-              <span class="coar-marker-tooltip__text">{{ marker.description }}</span>
-              @if (marker.endDate && !isSameDay(marker.startDate, marker.endDate)) {
-                <span class="coar-marker-tooltip__dates">
-                  {{ formatDate(marker.startDate) }} – {{ formatDate(marker.endDate) }}
-                </span>
-              }
-            </div>
-          </div>
-        }
-      </div>
-    </div>
-  `,
-  styles: [
-    `
-      :host {
-        display: block;
-        filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
-      }
-
-      .coar-marker-tooltip {
-        position: relative;
-        min-width: 160px;
-        max-width: 260px;
-        padding: var(--coar-spacing-xs) var(--coar-spacing-s);
-        background: var(--coar-background-neutral-primary);
-        border: 1px solid var(--coar-border-neutral-tertiary);
-        border-radius: var(--coar-radius-sm);
-      }
-
-      /* Arrow - points left when tooltip is on the right of the anchor */
-      .coar-marker-tooltip__arrow {
-        position: absolute;
-        width: 10px;
-        height: 10px;
-        background: var(--coar-background-neutral-primary);
-        border: 1px solid var(--coar-border-neutral-tertiary);
-        transform: rotate(45deg);
-        left: -6px;
-        top: 50%;
-        margin-top: -5px;
-        border-top: none;
-        border-right: none;
-      }
-
-      .coar-marker-tooltip__content {
-        display: flex;
-        flex-direction: column;
-        gap: var(--coar-spacing-2xs);
-        max-height: 180px;
-        overflow-y: auto;
-      }
-
-      .coar-marker-tooltip__item {
-        display: flex;
-        align-items: flex-start;
-        gap: var(--coar-spacing-xs);
-        padding: 2px 0;
-      }
-
-      .coar-marker-tooltip__details {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-      }
-
-      .coar-marker-tooltip__item:not(:last-child) {
-        border-bottom: 1px solid var(--coar-border-neutral-quaternary);
-        padding-bottom: var(--coar-spacing-2xs);
-      }
-
-      .coar-marker-tooltip__dot {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--coar-background-semantic-error-bold);
-        flex-shrink: 0;
-      }
-
-      .coar-marker-tooltip__text {
-        font-family: var(--coar-body-small-base-family);
-        font-size: var(--coar-body-small-base-size);
-        color: var(--coar-text-neutral-primary);
-        line-height: 1.4;
-      }
-
-      .coar-marker-tooltip__dates {
-        font-family: var(--coar-body-small-base-family);
-        font-size: 11px;
-        color: var(--coar-text-neutral-secondary);
-        line-height: 1.3;
-      }
-
-      .coar-marker-tooltip__dot {
-        margin-top: 5px;
-      }
-    `,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class CoarMarkerTooltipComponent {
-  /** The markers to display */
-  markers = input<CoarDateMarker[]>([]);
-
-  /** Check if two dates are the same day */
-  isSameDay(a: Temporal.PlainDate, b: Temporal.PlainDate): boolean {
-    return a.equals(b);
-  }
-
-  /** Format a date for display */
-  formatDate(date: Temporal.PlainDate): string {
-    return `${date.day}/${date.month}`;
   }
 }

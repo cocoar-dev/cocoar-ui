@@ -265,6 +265,13 @@
   overflow: hidden;
 }
 
+/* Wider panel when week numbers are displayed to keep day buttons the same size.
+   Week number column is 32px, so panel needs ~48px extra width to compensate. */
+.coar-date-time-picker-panel--with-weeks {
+  min-width: 528px;
+  max-width: 648px;
+}
+
 /* Left Column: Calendar */
 .coar-date-time-picker-calendar-column {
   position: relative;
@@ -282,12 +289,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   padding: 0;
-  color: var(--coar-text-brand-primary);
+  color: var(--coar-text-neutral-primary);
   background: var(--coar-background-neutral-primary);
-  border: 1px solid var(--coar-border-brand-primary);
+  border: 1px solid var(--coar-border-neutral-tertiary);
   border-radius: var(--coar-radius-full);
   cursor: pointer;
   box-shadow: var(--coar-shadow-md);
@@ -298,7 +305,7 @@
 }
 
 .coar-date-time-picker-today-fab:hover {
-  background: var(--coar-background-brand-tertiary);
+  transform: scale(1.05);
 }
 
 .coar-date-time-picker-today-fab:active {
@@ -375,8 +382,7 @@
 .coar-date-time-picker-month-list-wrapper {
   display: flex;
   flex-direction: column;
-  flex: 1;
-  min-height: 0;
+  flex-shrink: 0;
 }
 
 /* Month list no longer needs scrolling with 2-column grid layout */
@@ -387,9 +393,9 @@
 
 .coar-date-time-picker-month-list-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--coar-spacing-2xs);
-  padding: var(--coar-spacing-s);
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--coar-spacing-3xs) var(--coar-spacing-2xs);
+  padding: var(--coar-spacing-xs) var(--coar-spacing-s);
 }
 
 .coar-date-time-picker-month-item {
@@ -397,8 +403,8 @@
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 28px;
-  padding: 0 var(--coar-spacing-xs);
+  height: 24px;
+  padding: 0;
   border: none;
   border-radius: var(--coar-radius-xs);
   background: transparent;
@@ -414,18 +420,7 @@
 }
 
 .coar-date-time-picker-month-item:hover {
-  /* background: var(--coar-background-neutral-tertiary); */
-  color: black;
-}
-
-/* Left column months (odd items: 1, 3, 5...) → right-aligned */
-.coar-date-time-picker-month-item:nth-child(odd) {
-  justify-content: flex-end;
-}
-
-/* Right column months (even items: 2, 4, 6...) → left-aligned */
-.coar-date-time-picker-month-item:nth-child(even) {
-  justify-content: flex-start;
+  background: var(--coar-background-neutral-tertiary);
 }
 
 .coar-date-time-picker-month-item--active {
@@ -433,12 +428,83 @@
   font-weight: var(--coar-body-small-bold-weight);
 }
 
+/* ========================================
+   EVENTS SECTION
+   ======================================== */
+
+.coar-date-time-picker-events {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  border-top: 1px solid var(--coar-border-neutral-quaternary);
+  margin-bottom: 4px;
+}
+
+.coar-date-time-picker-events-header {
+  padding: var(--coar-spacing-xs) var(--coar-spacing-s);
+  font-family: var(--coar-body-caption-family);
+  font-size: var(--coar-body-caption-size);
+  font-weight: var(--coar-body-small-bold-weight);
+  color: var(--coar-text-neutral-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.coar-date-time-picker-events-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 0 var(--coar-spacing-s) var(--coar-spacing-s);
+  flex: 1;
+  min-height: 0;
+}
+
+.coar-date-time-picker-event-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--coar-spacing-xs);
+}
+
+.coar-date-time-picker-event-dot {
+  width: 6px;
+  height: 6px;
+  margin-top: 5px;
+  border-radius: 50%;
+  background: var(--coar-text-accent-primary);
+  flex-shrink: 0;
+}
+
+.coar-date-time-picker-event-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.coar-date-time-picker-event-text {
+  font-family: var(--coar-body-small-base-family);
+  font-size: var(--coar-body-caption-size);
+  color: var(--coar-text-neutral-primary);
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.coar-date-time-picker-event-dates {
+  font-family: var(--coar-body-small-base-family);
+  font-size: 10px;
+  color: var(--coar-text-neutral-secondary);
+  line-height: 1.2;
+}
+
 /* Time Section */
 .coar-date-time-picker-time-section {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--coar-spacing-s);
+  /* padding: var(--coar-spacing-s); */
   /* border-top: 1px solid var(--coar-border-neutral-tertiary); */
   flex-shrink: 0;
 }

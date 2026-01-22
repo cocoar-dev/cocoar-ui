@@ -112,13 +112,18 @@ export class CoarMiniCalendarComponent {
     const directConfig = this.dateFormatConfig();
     if (directConfig) return directConfig;
 
-    // Try to get from localization data store (which uses Intl with proper firstDayOfWeek detection)
-    const storeLocale = this.effectiveLocale();
-    const localeData = this.localizationDataStore?.getLocaleData(storeLocale);
+    // Try to get from localization data store using the language key
+    // The store uses language codes ('en', 'de') not full locales ('en-GB')
+    // Read dataVersion to establish signal dependency for async loading
+    const _version = this.localizationDataStore?.dataVersion();
+    const language = this.currentLanguage();
+    const localeData = language ? this.localizationDataStore?.getLocaleData(language) : undefined;
     if (localeData?.date) {
+      // Convert 0-6 (Sun-Sat) format to ISO 1-7 (Mon-Sun) format
+      const isoFirstDay = localeData.date.firstDayOfWeek === 0 ? 7 : localeData.date.firstDayOfWeek;
       return {
         pattern: localeData.date.pattern,
-        firstDayOfWeek: localeData.date.firstDayOfWeek === 0 ? 7 : 1, // Convert 0=Sunday to 7, keep 1=Monday
+        firstDayOfWeek: isoFirstDay as 1 | 7,
       };
     }
 

@@ -4,8 +4,10 @@
     @if (showWeekNumbers()) {
       <span class="coar-scrollable-calendar__week-spacer"></span>
     }
-    @for (day of daysOfWeek(); track day) {
-      <span class="coar-scrollable-calendar__weekday">{{ day }}</span>
+    @for (header of weekdayHeaders(); track header.name) {
+      <span class="coar-scrollable-calendar__weekday" [class.coar-scrollable-calendar__weekday--weekend]="highlightWeekends() && header.isWeekend">{{
+        header.name
+      }}</span>
     }
   </div>
 
@@ -15,7 +17,7 @@
       @for (month of months(); track month.yearMonth.toString()) {
         <div [id]="getMonthElementId(month.yearMonth)" [attr.data-year-month]="month.yearMonth.toString()" class="coar-scrollable-calendar__month">
           <!-- Month header -->
-          <div class="coar-scrollable-calendar__month-header">
+          <div class="coar-scrollable-calendar__month-header" [class.coar-scrollable-calendar__month-header--with-weeks]="showWeekNumbers()">
             <span class="coar-scrollable-calendar__month-name">{{ month.monthName }}</span>
             <span class="coar-scrollable-calendar__month-year">{{ month.year }}</span>
           </div>
@@ -43,8 +45,6 @@
                 [attr.aria-selected]="day.isSelected"
                 [attr.aria-current]="day.isToday ? 'date' : null"
                 (click)="selectDate(day.date)"
-                (mouseenter)="showMarkerTooltip($event, day)"
-                (mouseleave)="scheduleHideMarkerTooltip()"
               >
                 {{ day.day }}
               </button>

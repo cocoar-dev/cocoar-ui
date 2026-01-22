@@ -65,7 +65,14 @@
 
   <!-- Panel (rendered via @cocoar/ui-overlay) -->
   <ng-template #panelTemplate>
-    <div class="coar-date-time-picker-panel" [attr.id]="panelId()" role="dialog" aria-modal="true" aria-label="Date time picker">
+    <div
+      class="coar-date-time-picker-panel"
+      [class.coar-date-time-picker-panel--with-weeks]="showWeekNumbers()"
+      [attr.id]="panelId()"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Date time picker"
+    >
       <!-- Left Column: Scrollable Calendar -->
       <div class="coar-date-time-picker-calendar-column">
         <coar-scrollable-calendar
@@ -82,7 +89,7 @@
         />
         @if (showTodayButton() && todayButtonDirection() !== 'hidden') {
           <button type="button" class="coar-date-time-picker-today-fab" (click)="scrollToToday()" aria-label="Go to today">
-            <coar-icon [name]="todayButtonDirection()" size="sm" />
+            <coar-icon [name]="todayButtonDirection()" size="xs" />
           </button>
         }
       </div>
@@ -106,7 +113,7 @@
           </button>
         </div>
 
-        <!-- Month List (2-column grid) -->
+        <!-- Month List (4-column grid) -->
         <div class="coar-date-time-picker-month-list-wrapper">
           <div class="coar-date-time-picker-month-list" role="listbox" aria-label="Months">
             <div class="coar-date-time-picker-month-list-content">
@@ -138,6 +145,29 @@
               [readonly]="readonly()"
               (valueChange)="onTimeChanged($event)"
             />
+          </div>
+        }
+
+        <!-- Events Section (shows markers for selected date) -->
+        @if (selectedDateMarkers().length > 0) {
+          <div class="coar-date-time-picker-events">
+            <div class="coar-date-time-picker-events-list" coarScrollbar [overflowX]="'hidden'" [overflowY]="'scroll'">
+              <div style="display: flex; gap: 6px; flex-direction: column">
+                @for (marker of selectedDateMarkers(); track marker.description) {
+                  <div class="coar-date-time-picker-event-item">
+                    <span class="coar-date-time-picker-event-dot"></span>
+                    <div class="coar-date-time-picker-event-details">
+                      <span class="coar-date-time-picker-event-text">{{ marker.description }}</span>
+                      @if (marker.endDate && !isSameDate(marker.startDate, marker.endDate)) {
+                        <span class="coar-date-time-picker-event-dates">
+                          {{ formatMarkerDate(marker.startDate) }} – {{ formatMarkerDate(marker.endDate) }}
+                        </span>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
           </div>
         }
       </div>

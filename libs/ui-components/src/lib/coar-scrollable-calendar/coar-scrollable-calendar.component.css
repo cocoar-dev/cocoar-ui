@@ -45,6 +45,10 @@
   text-transform: uppercase;
 }
 
+.coar-scrollable-calendar__weekday--weekend {
+  background: var(--coar-background-neutral-secondary);
+}
+
 .coar-scrollable-calendar__week-spacer {
   /* Empty cell above week numbers column */
 }
@@ -108,8 +112,11 @@
   display: flex;
   align-items: baseline;
   gap: var(--coar-spacing-xs);
-  margin-bottom: var(--coar-spacing-s);
   padding-bottom: var(--coar-spacing-xs);
+}
+
+.coar-scrollable-calendar__month-header--with-weeks {
+  padding-left: 32px;
 }
 
 .coar-scrollable-calendar__month-name {
@@ -200,7 +207,7 @@
 .coar-scrollable-calendar__day--today:not(.coar-scrollable-calendar__day--selected) {
   font-weight: var(--coar-body-small-bold-weight);
   color: var(--coar-text-accent-primary);
-  background: var(--coar-background-accent-tertiary);
+  /* background: var(--coar-background-accent-tertiary); */
 }
 
 .coar-scrollable-calendar__day--selected {
@@ -248,13 +255,13 @@
 .coar-scrollable-calendar__day--marked::after {
   content: '';
   position: absolute;
-  bottom: 2px;
+  bottom: 6px;
   left: 50%;
   transform: translateX(-50%);
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: var(--coar-background-semantic-error-bold);
+  background: var(--coar-text-accent-primary);
   z-index: 1;
 }
 
