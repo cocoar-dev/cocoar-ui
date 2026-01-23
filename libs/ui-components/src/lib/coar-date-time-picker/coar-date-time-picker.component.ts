@@ -26,9 +26,7 @@ import { createOverlayBuilder, type OverlayRef, type Placement } from '@cocoar/u
 import { CoarLocalizationService, CoarLocalizationDataStore } from '@cocoar/localization';
 
 import { CoarIconComponent } from '../coar-icon/coar-icon.component';
-import { CoarScrollableCalendarComponent } from '../coar-scrollable-calendar/coar-scrollable-calendar.component';
-import { CoarScrollbarDirective } from '../coar-scrollbar/coar-scrollbar.directive';
-import { CoarTimePickerComponent } from '../coar-time-picker/coar-time-picker.component';
+import { CoarDateTimePickerPanelContentComponent } from './coar-date-time-picker-panel-content.component';
 import {
   CoarControlValueAccessor,
   coarProvideValueAccessor,
@@ -91,13 +89,7 @@ export type CoarDateTimePickerValue = Temporal.PlainDate | Temporal.PlainDateTim
 @Component({
   selector: 'coar-date-time-picker',
   standalone: true,
-  imports: [
-    FormsModule,
-    CoarIconComponent,
-    CoarScrollableCalendarComponent,
-    CoarTimePickerComponent,
-    CoarScrollbarDirective,
-  ],
+  imports: [FormsModule, CoarIconComponent, CoarDateTimePickerPanelContentComponent],
   templateUrl: './coar-date-time-picker.component.html',
   styleUrl: './coar-date-time-picker.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -289,9 +281,6 @@ export class CoarDateTimePickerComponent extends CoarControlValueAccessor<CoarDa
 
   /** Reference to the panel template */
   protected panelTemplateRef = viewChild<TemplateRef<unknown>>('panelTemplate');
-
-  /** Reference to the scrollable calendar */
-  protected scrollableCalendarRef = viewChild(CoarScrollableCalendarComponent);
 
   // ============================================================
   // Computed Values
@@ -706,7 +695,6 @@ export class CoarDateTimePickerComponent extends CoarControlValueAccessor<CoarDa
     const currentDate = Temporal.Now.plainDateISO();
     const yearMonth = currentDate.toPlainYearMonth();
     this.activeMonth.set(yearMonth);
-    this.scrollableCalendarRef()?.scrollToMonth(yearMonth, true);
   }
 
   // ============================================================

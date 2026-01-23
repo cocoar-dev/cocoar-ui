@@ -185,6 +185,13 @@ export class DateTimePickerPage {
   ];
 
   // ============================================================
+  // Popup sizing demo
+  // ============================================================
+
+  popupShellDefault = signal<Temporal.PlainDateTime | null>(null);
+  popupShellWithWeeks = signal<Temporal.PlainDateTime | null>(null);
+
+  // ============================================================
   // Code examples
   // ============================================================
 

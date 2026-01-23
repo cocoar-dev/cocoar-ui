@@ -1,0 +1,62 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Date Time Picker (Panel Content)</h1>
+    <p class="page-description">
+      Dedicated view for the popup content component (no input/trigger). This is what the overlay renders inside the popup shell.
+    </p>
+  </header>
+
+  <div class="dtp-shell" [class.dtp-shell--with-weeks]="showWeekNumbers()" role="application" aria-label="Date time picker panel content preview">
+    <coar-date-time-picker-panel-content
+      [value]="selectedDate()"
+      [activeMonth]="activeMonth()"
+      (activeMonthChange)="activeMonth.set($event)"
+      [min]="null"
+      [max]="null"
+      [locale]="locale()"
+      [dateFormatConfig]="dateFormatConfig()"
+      [showWeekNumbers]="showWeekNumbers()"
+      [highlightWeekends]="highlightWeekends()"
+      [markers]="markers()"
+      [showCurrentMonthButton]="true"
+      [currentMonthScrollDirection]="currentMonthScrollDirection()"
+      [currentYear]="currentYear()"
+      [isPrevYearDisabled]="isPrevYearDisabled()"
+      [isNextYearDisabled]="isNextYearDisabled()"
+      [monthItems]="monthItems()"
+      [mode]="mode()"
+      [selectedTime]="selectedTime()"
+      [use24Hour]="'auto'"
+      [minuteStep]="5"
+      [disabled]="false"
+      [readonly]="false"
+      [selectedDateMarkers]="selectedDateMarkers()"
+      (dateSelected)="onDateSelected($event)"
+      (scrollToCurrentMonth)="scrollToCurrentMonth()"
+      (previousYear)="previousYear()"
+      (nextYear)="nextYear()"
+      (selectMonth)="selectMonth($event)"
+      (timeChanged)="onTimeChanged($event)"
+    />
+  </div>
+
+  <section class="options">
+    <label class="option">
+      <input type="checkbox" [checked]="showWeekNumbers()" (change)="showWeekNumbers.set(!showWeekNumbers())" />
+      <span>Show week numbers (wider shell)</span>
+    </label>
+
+    <label class="option">
+      <input type="checkbox" [checked]="highlightWeekends()" (change)="highlightWeekends.set(!highlightWeekends())" />
+      <span>Highlight weekends</span>
+    </label>
+
+    <label class="option">
+      <span>Mode:</span>
+      <select [value]="mode()" (change)="mode.set($any($event.target).value)">
+        <option value="date">date</option>
+        <option value="datetime">datetime</option>
+      </select>
+    </label>
+  </section>
+</div>

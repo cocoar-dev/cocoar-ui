@@ -34,6 +34,29 @@
 
     <coar-divider />
 
+    <!-- Popup Sizing / Shell vs Content -->
+    <section class="example-section">
+      <h3>Popup Sizing (Shell)</h3>
+      <p>
+        The popup content is now a dedicated, borderless component used inside the overlay. The outer popup shell keeps the same width/height as
+        before. The only intentional sizing difference is when <code>showWeekNumbers</code> is enabled (wider shell to keep day buttons the same
+        size).
+      </p>
+
+      <div class="demo-grid">
+        <coar-date-time-picker label="Default Popup" [(value)]="popupShellDefault" />
+        <coar-date-time-picker label="With Week Numbers" [(value)]="popupShellWithWeeks" [showWeekNumbers]="true" />
+      </div>
+
+      <p class="value-display">
+        Default: <code>{{ formatValue(popupShellDefault()) }}</code>
+        <br />
+        With weeks: <code>{{ formatValue(popupShellWithWeeks()) }}</code>
+      </p>
+    </section>
+
+    <coar-divider />
+
     <!-- DateTime Mode -->
     <section class="example-section">
       <h3>DateTime Mode (Default)</h3>

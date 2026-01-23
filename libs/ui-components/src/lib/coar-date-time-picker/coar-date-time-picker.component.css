@@ -249,12 +249,11 @@
 }
 
 /* ========================================
-   PANEL (Two-Column Layout)
+   PANEL SHELL (Sizing + Border)
    ======================================== */
 
-.coar-date-time-picker-panel {
+.coar-date-time-picker-panel-shell {
   display: flex;
-  flex-direction: row;
   min-width: 480px;
   max-width: 600px;
   height: 340px;
@@ -265,60 +264,16 @@
   overflow: hidden;
 }
 
-/* Wider panel when week numbers are displayed to keep day buttons the same size.
-   Week number column is 32px, so panel needs ~48px extra width to compensate. */
-.coar-date-time-picker-panel--with-weeks {
-  min-width: 528px;
-  max-width: 648px;
-}
-
-/* Left Column: Calendar */
-.coar-date-time-picker-calendar-column {
-  position: relative;
+.coar-date-time-picker-panel-shell > coar-date-time-picker-panel-content {
   flex: 1;
   min-width: 0;
-  height: 100%;
-  background: var(--coar-background-neutral-primary);
 }
 
-/* Floating Today Button */
-.coar-date-time-picker-today-fab {
-  position: absolute;
-  bottom: var(--coar-spacing-m);
-  right: var(--coar-spacing-m);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  color: var(--coar-text-neutral-primary);
-  background: var(--coar-background-neutral-primary);
-  border: 1px solid var(--coar-border-neutral-tertiary);
-  border-radius: var(--coar-radius-full);
-  cursor: pointer;
-  box-shadow: var(--coar-shadow-md);
-  transition:
-    background-color 150ms ease,
-    transform 100ms ease;
-  z-index: 10;
-}
-
-.coar-date-time-picker-today-fab:hover {
-  transform: scale(1.05);
-}
-
-.coar-date-time-picker-today-fab:active {
-  transform: scale(0.95);
-}
-
-/* Right Column: Month List + Time */
-.coar-date-time-picker-side-column {
-  display: flex;
-  flex-direction: column;
-  width: 200px;
-  flex-shrink: 0;
-  background: var(--coar-background-neutral-secondary);
+/* Wider panel when week numbers are displayed to keep day buttons the same size.
+   Week number column is 32px, so panel needs ~48px extra width to compensate. */
+.coar-date-time-picker-panel-shell--with-weeks {
+  min-width: 528px;
+  max-width: 648px;
 }
 
 /* ========================================

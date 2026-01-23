@@ -124,6 +124,13 @@ export const appRoutes: Route[] = [
       import('./pages/date-time-picker/date-time-picker.page').then((m) => m.DateTimePickerPage),
   },
   {
+    path: 'date-time-picker-panel',
+    loadComponent: () =>
+      import('./pages/date-time-picker-panel-content/date-time-picker-panel-content.page').then(
+        (m) => m.DateTimePickerPanelContentPage
+      ),
+  },
+  {
     path: 'mini-calendar',
     loadComponent: () =>
       import('./pages/mini-calendar/mini-calendar.page').then((m) => m.MiniCalendarPage),
