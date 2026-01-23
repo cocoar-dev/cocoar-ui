@@ -4,7 +4,7 @@
     <button
       type="button"
       class="coar-time-picker__btn coar-time-picker__btn--up"
-      [disabled]="isDisabled() || readonly()"
+      [disabled]="isDisabled() || readonly() || isIncrementHoursDisabled()"
       (click)="incrementHours()"
       tabindex="-1"
       aria-label="Increase hours"
@@ -28,7 +28,7 @@
     <button
       type="button"
       class="coar-time-picker__btn coar-time-picker__btn--down"
-      [disabled]="isDisabled() || readonly()"
+      [disabled]="isDisabled() || readonly() || isDecrementHoursDisabled()"
       (click)="decrementHours()"
       tabindex="-1"
       aria-label="Decrease hours"
@@ -45,7 +45,7 @@
     <button
       type="button"
       class="coar-time-picker__btn coar-time-picker__btn--up"
-      [disabled]="isDisabled() || readonly()"
+      [disabled]="isDisabled() || readonly() || isIncrementMinutesDisabled()"
       (click)="incrementMinutes()"
       tabindex="-1"
       aria-label="Increase minutes"
@@ -69,7 +69,7 @@
     <button
       type="button"
       class="coar-time-picker__btn coar-time-picker__btn--down"
-      [disabled]="isDisabled() || readonly()"
+      [disabled]="isDisabled() || readonly() || isDecrementMinutesDisabled()"
       (click)="decrementMinutes()"
       tabindex="-1"
       aria-label="Decrease minutes"
@@ -84,7 +84,7 @@
       <button
         type="button"
         class="coar-time-picker__btn coar-time-picker__btn--up"
-        [disabled]="isDisabled() || readonly()"
+        [disabled]="isDisabled() || readonly() || (period() === 'AM' ? isPmDisabled() : isAmDisabled())"
         (click)="togglePeriod()"
         tabindex="-1"
         aria-label="Toggle AM/PM"
@@ -109,7 +109,7 @@
       <button
         type="button"
         class="coar-time-picker__btn coar-time-picker__btn--down"
-        [disabled]="isDisabled() || readonly()"
+        [disabled]="isDisabled() || readonly() || (period() === 'AM' ? isPmDisabled() : isAmDisabled())"
         (click)="togglePeriod()"
         tabindex="-1"
         aria-label="Toggle AM/PM"

@@ -1,0 +1,170 @@
+<div class="coar-plain-date-picker-wrapper">
+  <!-- Label -->
+  @if (label()) {
+    <span class="coar-plain-date-picker-label" [attr.id]="labelId()">
+      {{ label() }}
+      @if (required()) {
+        <span class="coar-plain-date-picker-required" aria-hidden="true">*</span>
+      }
+    </span>
+  }
+
+  <!-- Trigger -->
+  <div
+    #trigger
+    class="coar-plain-date-picker-trigger"
+    [class.coar-plain-date-picker-trigger--disabled]="isDisabled()"
+    [class.coar-plain-date-picker-trigger--readonly]="readonly()"
+    [class.coar-plain-date-picker-trigger--error]="hasError()"
+    [class.coar-plain-date-picker-trigger--open]="isOpen()"
+    [attr.aria-expanded]="isOpen()"
+    [attr.aria-haspopup]="'dialog'"
+    [attr.aria-controls]="isOpen() ? panelId() : null"
+    role="combobox"
+  >
+    <!-- Clear Button (left side) -->
+    <coar-icon
+      name="x"
+      source="coar-builtin"
+      size="auto"
+      class="coar-plain-date-picker-clear"
+      [class.coar-plain-date-picker-clear--hidden]="!showClearButton()"
+      aria-hidden="true"
+      (click)="clearValue($event)"
+    />
+
+    <!-- Input -->
+    <input
+      #dateInput
+      type="text"
+      class="coar-plain-date-picker-input"
+      [attr.id]="inputId()"
+      [value]="displayValue()"
+      [placeholder]="placeholder() || inputPlaceholder()"
+      [disabled]="isDisabled()"
+      [readonly]="readonly()"
+      [attr.aria-labelledby]="label() ? labelId() : null"
+      [attr.aria-invalid]="hasError()"
+      autocomplete="off"
+      (input)="onInputChange($event)"
+      (blur)="onInputBlur()"
+      (keydown)="onTriggerKeydown($event)"
+    />
+
+    <!-- Calendar Icon -->
+    <button
+      type="button"
+      class="coar-plain-date-picker-btn"
+      aria-label="Open picker"
+      [disabled]="isDisabled() || readonly()"
+      (click)="onTriggerClick()"
+    >
+      <coar-icon name="calendar" source="coar-builtin" size="sm" />
+    </button>
+  </div>
+
+  <!-- Panel (rendered via @cocoar/ui-overlay) -->
+  <ng-template #panelTemplate>
+    <div
+      class="coar-plain-date-picker-panel"
+      [class.coar-plain-date-picker-panel--with-weeks]="showWeekNumbers()"
+      [attr.id]="panelId()"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Date picker"
+    >
+      <!-- Left Column: Scrollable Calendar -->
+      <div class="coar-plain-date-picker-calendar-column">
+        <coar-scrollable-calendar
+          [value]="value()"
+          [activeMonth]="resolvedActiveMonth()"
+          (activeMonthChange)="onActiveMonthChanged($event)"
+          [min]="min()"
+          [max]="max()"
+          [locale]="effectiveLocale()"
+          [dateFormatConfig]="effectiveDateFormat()"
+          [showWeekNumbers]="showWeekNumbers()"
+          [highlightWeekends]="highlightWeekends()"
+          [markers]="markers()"
+          (dateSelected)="onDateSelected($event)"
+        />
+
+        @if (showTodayMonthFab()) {
+          <button type="button" class="coar-plain-date-picker-today-fab" (click)="scrollToTodayMonth()" aria-label="Jump to today's month">
+            <coar-icon [name]="todayMonthScrollDirection()" size="xs" />
+          </button>
+        }
+      </div>
+
+      <!-- Right Column: Month List -->
+      <div class="coar-plain-date-picker-side-column">
+        <!-- Year Stepper -->
+        <div class="coar-plain-date-picker-year-stepper">
+          <button
+            type="button"
+            class="coar-plain-date-picker-year-btn"
+            [disabled]="isPrevYearDisabled()"
+            (click)="previousYear()"
+            aria-label="Previous year"
+          >
+            <coar-icon name="left" size="sm" />
+          </button>
+          <span class="coar-plain-date-picker-year">{{ currentYear() }}</span>
+          <button type="button" class="coar-plain-date-picker-year-btn" [disabled]="isNextYearDisabled()" (click)="nextYear()" aria-label="Next year">
+            <coar-icon name="right" size="sm" />
+          </button>
+        </div>
+
+        <!-- Month List (4-column grid) -->
+        <div class="coar-plain-date-picker-month-list-wrapper">
+          <div class="coar-plain-date-picker-month-list" role="listbox" aria-label="Months">
+            <div class="coar-plain-date-picker-month-list-content">
+              @for (item of monthItems(); track item.month) {
+                <button
+                  type="button"
+                  class="coar-plain-date-picker-month-item"
+                  [class.coar-plain-date-picker-month-item--active]="item.isActive"
+                  role="option"
+                  [attr.aria-selected]="item.isActive"
+                  (click)="selectMonth(item.yearMonth)"
+                >
+                  {{ item.name }}
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+
+        <!-- Events Section (shows markers for selected date) -->
+        @if (selectedDateMarkers().length > 0) {
+          <div class="coar-plain-date-picker-events">
+            <div class="coar-plain-date-picker-events-list" coarScrollbar [overflowX]="'hidden'" [overflowY]="'scroll'">
+              <div style="display: flex; gap: 6px; flex-direction: column">
+                @for (marker of selectedDateMarkers(); track marker.description) {
+                  <div class="coar-plain-date-picker-event-item">
+                    <span class="coar-plain-date-picker-event-dot"></span>
+                    <div class="coar-plain-date-picker-event-details">
+                      <span class="coar-plain-date-picker-event-text">{{ marker.description }}</span>
+                      @if (marker.endDate && !marker.startDate.equals(marker.endDate)) {
+                        <span class="coar-plain-date-picker-event-dates">
+                          {{ marker.startDate.day }}/{{ marker.startDate.month }} – {{ marker.endDate.day }}/{{ marker.endDate.month }}
+                        </span>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Helper/Error Message -->
+  @if (message()) {
+    <span class="coar-plain-date-picker-message" [class.coar-plain-date-picker-message--error]="hasError()">
+      {{ message() }}
+    </span>
+  }
+</div>

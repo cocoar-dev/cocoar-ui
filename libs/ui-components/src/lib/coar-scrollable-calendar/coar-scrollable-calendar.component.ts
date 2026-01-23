@@ -193,6 +193,9 @@ export class CoarScrollableCalendarComponent {
   /** Becomes true once the actual scroll viewport element is available (OverlayScrollbars initialized). */
   private readonly scrollViewportReady = signal(false);
 
+  /** Becomes true once the calendar is properly scrolled to the active month. Prevents visible flickering. */
+  protected readonly isScrollPositioned = signal(false);
+
   /** The earliest month currently in the DOM */
   private earliestMonth = signal<Temporal.PlainYearMonth>(
     Temporal.Now.plainDateISO().toPlainYearMonth().subtract({ months: 12 })
@@ -209,6 +212,24 @@ export class CoarScrollableCalendarComponent {
   // ============================================================
   // Computed Values
   // ============================================================
+
+  /**
+   * Minimum month boundary derived from min date input.
+   * Infinite scroll will not load months before this.
+   */
+  private minMonth = computed(() => {
+    const minDate = this.min();
+    return minDate ? minDate.toPlainYearMonth() : null;
+  });
+
+  /**
+   * Maximum month boundary derived from max date input.
+   * Infinite scroll will not load months after this.
+   */
+  private maxMonth = computed(() => {
+    const maxDate = this.max();
+    return maxDate ? maxDate.toPlainYearMonth() : null;
+  });
 
   /**
    * Effective locale for calendar display.
@@ -279,10 +300,12 @@ export class CoarScrollableCalendarComponent {
   /** Flag to track pending scroll after month loading */
   private pendingScrollTarget: Temporal.PlainYearMonth | null = null;
 
-  /** Track previous marker/value state to avoid unnecessary rebuilds */
+  /** Track previous marker/value/min/max state to avoid unnecessary rebuilds */
   private lastMarkersLength = 0;
   private lastValueString = '';
   private lastHighlightWeekends = false;
+  private lastMinString = '';
+  private lastMaxString = '';
 
   private readonly monthScrollTopInsetPx = 0;
 
@@ -308,24 +331,33 @@ export class CoarScrollableCalendarComponent {
       }
     });
 
-    // Rebuild months when markers, value, or highlightWeekends changes
+    // Rebuild months when markers, value, highlightWeekends, or min/max changes
+    // Min/max affects the isDisabled state of individual days
     effect(() => {
       const markers = this.markers();
       const value = this.value();
       const highlightWeekends = this.highlightWeekends();
+      const min = this.min();
+      const max = this.max();
 
       // Check if anything actually changed
       const valueString = value?.toString() ?? '';
       const markersLength = markers.length;
+      const minString = min?.toString() ?? '';
+      const maxString = max?.toString() ?? '';
 
       if (
         markersLength !== this.lastMarkersLength ||
         valueString !== this.lastValueString ||
-        highlightWeekends !== this.lastHighlightWeekends
+        highlightWeekends !== this.lastHighlightWeekends ||
+        minString !== this.lastMinString ||
+        maxString !== this.lastMaxString
       ) {
         this.lastMarkersLength = markersLength;
         this.lastValueString = valueString;
         this.lastHighlightWeekends = highlightWeekends;
+        this.lastMinString = minString;
+        this.lastMaxString = maxString;
 
         // Only rebuild if we have months (after initialization)
         if (this.months().length > 0) {
@@ -333,6 +365,65 @@ export class CoarScrollableCalendarComponent {
         }
       }
     });
+
+    // Watch for min/max input changes and constrain months array
+    // This is needed because inputs are not available in the constructor
+    effect(() => {
+      const minMonth = this.minMonth();
+      const maxMonth = this.maxMonth();
+      const currentMonths = this.months();
+
+      // Only run if we have months (after initialization)
+      if (currentMonths.length === 0) return;
+
+      this.constrainMonthsToRange(minMonth, maxMonth);
+    });
+  }
+
+  /**
+   * Constrains the months array to respect min/max boundaries.
+   * Removes months outside the allowed range and updates boundary signals.
+   */
+  private constrainMonthsToRange(
+    minMonth: Temporal.PlainYearMonth | null,
+    maxMonth: Temporal.PlainYearMonth | null
+  ): void {
+    const currentMonths = this.months();
+    if (currentMonths.length === 0) return;
+
+    const currentEarliest = this.earliestMonth();
+    const currentLatest = this.latestMonth();
+
+    // Determine new boundaries
+    let newEarliest = currentEarliest;
+    let newLatest = currentLatest;
+
+    if (minMonth && Temporal.PlainYearMonth.compare(newEarliest, minMonth) < 0) {
+      newEarliest = minMonth;
+    }
+    if (maxMonth && Temporal.PlainYearMonth.compare(newLatest, maxMonth) > 0) {
+      newLatest = maxMonth;
+    }
+
+    // Check if we need to trim the months array
+    const needsTrim =
+      Temporal.PlainYearMonth.compare(newEarliest, currentEarliest) !== 0 ||
+      Temporal.PlainYearMonth.compare(newLatest, currentLatest) !== 0;
+
+    if (!needsTrim) return;
+
+    // Filter months to only include those within the new boundaries
+    const filteredMonths = currentMonths.filter((month) => {
+      const ym = month.yearMonth;
+      const afterOrAtMin = Temporal.PlainYearMonth.compare(ym, newEarliest) >= 0;
+      const beforeOrAtMax = Temporal.PlainYearMonth.compare(ym, newLatest) <= 0;
+      return afterOrAtMin && beforeOrAtMax;
+    });
+
+    // Update boundary signals and months array
+    this.earliestMonth.set(newEarliest);
+    this.latestMonth.set(newLatest);
+    this.months.set(filteredMonths);
   }
 
   /**
@@ -461,7 +552,11 @@ export class CoarScrollableCalendarComponent {
       const viewport = this.getScrollViewportElement();
       if (!container || !viewport) {
         if (attempts < maxAttempts) requestAnimationFrame(tryAlign);
-        else this.isScrollingProgrammatically = false;
+        else {
+          this.isScrollingProgrammatically = false;
+          // Show calendar even if alignment failed to avoid permanent invisible state
+          this.isScrollPositioned.set(true);
+        }
         return;
       }
 
@@ -469,7 +564,10 @@ export class CoarScrollableCalendarComponent {
       const monthElement = container.querySelector(`#${monthId}`) as HTMLElement | null;
       if (!monthElement) {
         if (attempts < maxAttempts) requestAnimationFrame(tryAlign);
-        else this.isScrollingProgrammatically = false;
+        else {
+          this.isScrollingProgrammatically = false;
+          this.isScrollPositioned.set(true);
+        }
         return;
       }
 
@@ -479,6 +577,11 @@ export class CoarScrollableCalendarComponent {
 
       if (Math.abs(offset) > 1) {
         viewport.scrollTop = viewport.scrollTop + offset;
+      }
+
+      // Calendar is now visible at correct position - show it immediately on first successful alignment
+      if (!this.isScrollPositioned()) {
+        this.isScrollPositioned.set(true);
       }
 
       if (attempts < maxAttempts) {
@@ -535,14 +638,29 @@ export class CoarScrollableCalendarComponent {
 
   /**
    * Initializes the months array with an initial range around today.
+   * Respects min/max date constraints when setting boundaries.
    */
   private initializeMonths(): void {
     const baseMonth = this.today.toPlainYearMonth();
     const range = this.monthRange();
+    const minMonth = this.minMonth();
+    const maxMonth = this.maxMonth();
+
+    // Calculate initial range boundaries
+    let earliest = baseMonth.subtract({ months: range.before });
+    let latest = baseMonth.add({ months: range.after });
+
+    // Clamp to min/max constraints
+    if (minMonth && Temporal.PlainYearMonth.compare(earliest, minMonth) < 0) {
+      earliest = minMonth;
+    }
+    if (maxMonth && Temporal.PlainYearMonth.compare(latest, maxMonth) > 0) {
+      latest = maxMonth;
+    }
 
     // Set the range boundaries
-    this.earliestMonth.set(baseMonth.subtract({ months: range.before }));
-    this.latestMonth.set(baseMonth.add({ months: range.after }));
+    this.earliestMonth.set(earliest);
+    this.latestMonth.set(latest);
 
     // Generate initial months
     const initialMonths: CoarCalendarMonth[] = [];
@@ -559,6 +677,7 @@ export class CoarScrollableCalendarComponent {
 
   /**
    * Checks if we need to load more months based on scroll position.
+   * Respects min/max constraints - won't load beyond boundaries.
    */
   private checkInfiniteScroll(): void {
     if (this.isLoadingMonths || this.isScrollingProgrammatically) {
@@ -574,35 +693,66 @@ export class CoarScrollableCalendarComponent {
     const clientHeight = viewport.clientHeight;
     const threshold = 500; // pixels from edge to trigger load
 
-    // Check if near top - load earlier months
-    if (scrollTop < threshold) {
+    const minMonth = this.minMonth();
+    const maxMonth = this.maxMonth();
+    const currentEarliest = this.earliestMonth();
+    const currentLatest = this.latestMonth();
+
+    // Check if near top - load earlier months (only if not at min boundary)
+    const canLoadEarlier =
+      !minMonth || Temporal.PlainYearMonth.compare(currentEarliest, minMonth) > 0;
+    if (scrollTop < threshold && canLoadEarlier) {
       this.loadEarlierMonths(this.monthsToLoad());
     }
 
-    // Check if near bottom - load later months
-    if (scrollHeight - scrollTop - clientHeight < threshold) {
+    // Check if near bottom - load later months (only if not at max boundary)
+    const canLoadLater = !maxMonth || Temporal.PlainYearMonth.compare(currentLatest, maxMonth) < 0;
+    if (scrollHeight - scrollTop - clientHeight < threshold && canLoadLater) {
       this.loadLaterMonths(this.monthsToLoad());
     }
   }
 
   /**
    * Loads earlier months and maintains scroll position.
+   * Respects min date constraint - won't load beyond minMonth.
    */
   private loadEarlierMonths(count: number): void {
     if (this.isLoadingMonths) return;
+
+    const minMonth = this.minMonth();
+    const currentEarliest = this.earliestMonth();
+
+    // Check if already at min boundary
+    if (minMonth && Temporal.PlainYearMonth.compare(currentEarliest, minMonth) <= 0) {
+      return;
+    }
+
     this.isLoadingMonths = true;
 
     const osInstance = this.scrollbarDirective()?.getInstance();
     const viewport = osInstance?.elements().viewport;
     const scrollHeightBefore = viewport?.scrollHeight ?? 0;
 
-    // Generate new months
+    // Generate new months, stopping at min boundary
     const newMonths: CoarCalendarMonth[] = [];
-    let current = this.earliestMonth();
+    let current = currentEarliest;
 
     for (let i = 0; i < count; i++) {
-      current = current.subtract({ months: 1 });
+      const nextMonth = current.subtract({ months: 1 });
+
+      // Stop if we've reached the min boundary
+      if (minMonth && Temporal.PlainYearMonth.compare(nextMonth, minMonth) < 0) {
+        break;
+      }
+
+      current = nextMonth;
       newMonths.unshift(this.createCalendarMonth(current));
+    }
+
+    // Only proceed if we have months to add
+    if (newMonths.length === 0) {
+      this.isLoadingMonths = false;
+      return;
     }
 
     this.earliestMonth.set(current);
@@ -629,18 +779,41 @@ export class CoarScrollableCalendarComponent {
 
   /**
    * Loads later months.
+   * Respects max date constraint - won't load beyond maxMonth.
    */
   private loadLaterMonths(count: number): void {
     if (this.isLoadingMonths) return;
+
+    const maxMonth = this.maxMonth();
+    const currentLatest = this.latestMonth();
+
+    // Check if already at max boundary
+    if (maxMonth && Temporal.PlainYearMonth.compare(currentLatest, maxMonth) >= 0) {
+      return;
+    }
+
     this.isLoadingMonths = true;
 
-    // Generate new months
+    // Generate new months, stopping at max boundary
     const newMonths: CoarCalendarMonth[] = [];
-    let current = this.latestMonth();
+    let current = currentLatest;
 
     for (let i = 0; i < count; i++) {
-      current = current.add({ months: 1 });
+      const nextMonth = current.add({ months: 1 });
+
+      // Stop if we've exceeded the max boundary
+      if (maxMonth && Temporal.PlainYearMonth.compare(nextMonth, maxMonth) > 0) {
+        break;
+      }
+
+      current = nextMonth;
       newMonths.push(this.createCalendarMonth(current));
+    }
+
+    // Only proceed if we have months to add
+    if (newMonths.length === 0) {
+      this.isLoadingMonths = false;
+      return;
     }
 
     this.latestMonth.set(current);
@@ -663,16 +836,28 @@ export class CoarScrollableCalendarComponent {
   /**
    * Loads earlier months synchronously (for targeted navigation).
    * Does not maintain scroll position - caller handles scrolling.
+   * Respects min date constraint.
    */
   private loadEarlierMonthsSync(count: number): void {
-    // Generate new months
+    const minMonth = this.minMonth();
+
+    // Generate new months, respecting min constraint
     const newMonths: CoarCalendarMonth[] = [];
     let current = this.earliestMonth();
 
     for (let i = 0; i < count; i++) {
-      current = current.subtract({ months: 1 });
+      const nextMonth = current.subtract({ months: 1 });
+
+      // Stop if we've reached the min boundary
+      if (minMonth && Temporal.PlainYearMonth.compare(nextMonth, minMonth) < 0) {
+        break;
+      }
+
+      current = nextMonth;
       newMonths.unshift(this.createCalendarMonth(current));
     }
+
+    if (newMonths.length === 0) return;
 
     this.earliestMonth.set(current);
 
@@ -689,16 +874,28 @@ export class CoarScrollableCalendarComponent {
 
   /**
    * Loads later months synchronously (for targeted navigation).
+   * Respects max date constraint.
    */
   private loadLaterMonthsSync(count: number): void {
-    // Generate new months
+    const maxMonth = this.maxMonth();
+
+    // Generate new months, respecting max constraint
     const newMonths: CoarCalendarMonth[] = [];
     let current = this.latestMonth();
 
     for (let i = 0; i < count; i++) {
-      current = current.add({ months: 1 });
+      const nextMonth = current.add({ months: 1 });
+
+      // Stop if we've exceeded the max boundary
+      if (maxMonth && Temporal.PlainYearMonth.compare(nextMonth, maxMonth) > 0) {
+        break;
+      }
+
+      current = nextMonth;
       newMonths.push(this.createCalendarMonth(current));
     }
+
+    if (newMonths.length === 0) return;
 
     this.latestMonth.set(current);
 

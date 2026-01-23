@@ -1,0 +1,24 @@
+/* ========================================
+   PLAIN DATE PICKER PAGE - Component-specific styles
+   ========================================
+   Shared styles are inherited from showcase-pages.css
+   Only add styles specific to this page here
+   ======================================== */
+
+/* Date picker demo grid */
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--coar-spacing-l);
+  margin-bottom: var(--coar-spacing-m);
+}
+
+/* Note styling */
+coar-note ul {
+  margin: var(--coar-spacing-s) 0 0;
+  padding-left: var(--coar-spacing-l);
+}
+
+coar-note li {
+  margin-bottom: var(--coar-spacing-xs);
+}

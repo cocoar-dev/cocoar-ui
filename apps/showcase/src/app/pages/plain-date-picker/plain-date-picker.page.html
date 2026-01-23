@@ -1,0 +1,191 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Plain Date Picker (NEW)</h1>
+    <p class="page-description">
+      A strongly-typed date picker that returns <code>Temporal.PlainDate</code> exclusively. Unlike the old <code>coar-date-picker</code>, this
+      component has no mode switching — it always returns a date without time.
+    </p>
+    <coar-note variant="info">
+      <strong>Type Safety:</strong> This picker only returns <code>Temporal.PlainDate | null</code>. For datetime values, use
+      <code>coar-plain-date-time-picker</code>.
+    </coar-note>
+  </header>
+
+  <coar-tab-group [(activeTab)]="activeTab">
+    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
+    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }">API</coar-tab>
+    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }">Docs</coar-tab>
+  </coar-tab-group>
+</div>
+
+<ng-template #examplesTemplate>
+  <div class="examples-content">
+    <section class="example-section">
+      <h3>Type Comparison: Old vs New</h3>
+      <p>The key difference from the old <code>coar-date-picker</code>:</p>
+      <coar-code-block [code]="typeComparisonExample" language="typescript" />
+    </section>
+
+    <coar-divider />
+
+    <section class="example-section">
+      <h3>Basic Usage</h3>
+      <p>A simple date picker with label and placeholder. Returns <code>Temporal.PlainDate | null</code>.</p>
+
+      <div class="demo-row">
+        <coar-plain-date-picker label="Select a Date" [(value)]="basicDate" placeholder="Pick a date..." />
+      </div>
+
+      <p class="value-display">
+        Selected: <code>{{ formatDate(basicDate()) }}</code>
+        <br />
+        Type: <code>Temporal.PlainDate | null</code>
+      </p>
+
+      <coar-code-block [code]="basicExample" language="html" />
+    </section>
+
+    <coar-divider />
+
+    <section class="example-section">
+      <h3>Pre-selected Value</h3>
+      <p>Date picker with an initial value set.</p>
+
+      <div class="demo-row">
+        <coar-plain-date-picker label="Event Date" [(value)]="preselectedDate" />
+      </div>
+
+      <p class="value-display">
+        Selected: <code>{{ formatDate(preselectedDate()) }}</code>
+      </p>
+    </section>
+
+    <coar-divider />
+
+    <section class="example-section">
+      <h3>Min/Max Constraints</h3>
+      <p>Restrict the selectable date range. Note: <code>min</code> and <code>max</code> are typed as <code>Temporal.PlainDate</code>.</p>
+
+      <div class="demo-row">
+        <coar-plain-date-picker label="Booking Date" [(value)]="minMaxDate" [min]="minDate" [max]="maxDate" placeholder="Select within range..." />
+      </div>
+
+      <p class="value-display">
+        Selected: <code>{{ formatDate(minMaxDate()) }}</code>
+        <br />
+        Range: <code>{{ formatDate(minDate) }}</code> to <code>{{ formatDate(maxDate) }}</code>
+      </p>
+
+      <coar-code-block [code]="minMaxExample" language="typescript" />
+    </section>
+
+    <coar-divider />
+
+    <section class="example-section">
+      <h3>Size Variants</h3>
+      <p>Available in four sizes: extra-small, small, medium (default), and large.</p>
+
+      <div class="demo-grid">
+        <coar-plain-date-picker size="xs" label="Extra Small" [(value)]="xsDate" />
+        <coar-plain-date-picker size="sm" label="Small" [(value)]="smDate" />
+        <coar-plain-date-picker size="md" label="Medium" [(value)]="mdDate" />
+        <coar-plain-date-picker size="lg" label="Large" [(value)]="lgDate" />
+      </div>
+
+      <coar-code-block [code]="sizesExample" language="html" />
+    </section>
+
+    <coar-divider />
+
+    <section class="example-section">
+      <h3>States</h3>
+      <p>Date pickers can be disabled, readonly, show errors, or be marked as required.</p>
+
+      <div class="demo-grid">
+        <coar-plain-date-picker label="Disabled" [(value)]="disabledDate" disabled />
+        <coar-plain-date-picker label="Readonly" [(value)]="readonlyDate" readonly />
+        <coar-plain-date-picker label="Error State" [(value)]="errorDate" error message="Please select a valid date" />
+        <coar-plain-date-picker label="Required" [(value)]="requiredDate" required />
+      </div>
+
+      <coar-code-block [code]="statesExample" language="html" />
+    </section>
+
+    <coar-divider />
+
+    <section class="example-section">
+      <h3>Week Numbers</h3>
+      <p>Display ISO week numbers on the left side of the calendar.</p>
+
+      <div class="demo-row">
+        <coar-plain-date-picker label="With Week Numbers" [(value)]="weekNumberDate" [showWeekNumbers]="true" />
+      </div>
+
+      <coar-code-block [code]="weekNumbersExample" language="html" />
+    </section>
+
+    <coar-divider />
+
+    <section class="example-section">
+      <h3>Date Format Examples</h3>
+      <p>Different date format configurations:</p>
+
+      <div class="demo-grid">
+        <coar-plain-date-picker label="European (dd.mm.yyyy)" [(value)]="europeanDate" [dateFormatConfig]="europeanFormat" placeholder="DD.MM.YYYY" />
+        <coar-plain-date-picker label="US Format (mm/dd/yyyy)" [(value)]="usDate" [dateFormatConfig]="usFormat" placeholder="MM/DD/YYYY" />
+        <coar-plain-date-picker label="ISO Format (yyyy-mm-dd)" [(value)]="isoDate" [dateFormatConfig]="isoFormat" placeholder="YYYY-MM-DD" />
+      </div>
+
+      <p class="value-display">
+        All three pickers show the same date (December 25, 2025) in different formats.
+        <br />
+        European: <code>{{ formatDate(europeanDate()) }}</code> | US: <code>{{ formatDate(usDate()) }}</code> | ISO:
+        <code>{{ formatDate(isoDate()) }}</code>
+      </p>
+    </section>
+
+    <coar-divider />
+
+    <section class="example-section">
+      <h3>Date Markers</h3>
+      <p>Highlight special dates like holidays with markers.</p>
+
+      <div class="demo-row">
+        <coar-plain-date-picker
+          label="With Holidays"
+          [(value)]="markerDate"
+          [markers]="holidayMarkers"
+          [showWeekNumbers]="true"
+          [highlightWeekends]="true"
+        />
+      </div>
+
+      <p class="value-display">
+        Selected: <code>{{ formatDate(markerDate()) }}</code>
+      </p>
+
+      <coar-code-block [code]="markersExample" language="typescript" />
+    </section>
+
+    <coar-divider />
+
+    <section class="example-section">
+      <h3>Full Featured Example</h3>
+      <p>All features combined: week numbers, weekend highlighting, and markers.</p>
+
+      <div class="demo-row">
+        <coar-plain-date-picker
+          label="Full Featured"
+          [(value)]="fullFeaturedDate"
+          [showWeekNumbers]="true"
+          [highlightWeekends]="true"
+          [markers]="holidayMarkers"
+        />
+      </div>
+
+      <p class="value-display">
+        Selected: <code>{{ formatDate(fullFeaturedDate()) }}</code>
+      </p>
+    </section>
+  </div>
+</ng-template>

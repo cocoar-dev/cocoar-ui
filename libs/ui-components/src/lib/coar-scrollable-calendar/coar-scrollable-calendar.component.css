@@ -61,6 +61,13 @@
   position: relative;
   flex: 1;
   overflow: hidden;
+
+  /* Hide content until scroll position is set to prevent flicker */
+  visibility: hidden;
+}
+
+.coar-scrollable-calendar__months-wrapper--ready {
+  visibility: visible;
 }
 
 /* Fade effects at top and bottom of calendar list - offset from right to not cover scrollbar */

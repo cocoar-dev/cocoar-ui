@@ -118,6 +118,18 @@ export class CoarTimePickerComponent extends CoarControlValueAccessor<CoarTimeVa
    */
   ariaLabel = input<string>('Time');
 
+  /**
+   * Minimum allowed time (hours and minutes in 24h format).
+   * Used to constrain time selection when on a min date boundary.
+   */
+  minTime = input<CoarTimeValue | null>(null);
+
+  /**
+   * Maximum allowed time (hours and minutes in 24h format).
+   * Used to constrain time selection when on a max date boundary.
+   */
+  maxTime = input<CoarTimeValue | null>(null);
+
   // ============================================================
   // Model & Outputs
   // ============================================================
@@ -183,6 +195,83 @@ export class CoarTimePickerComponent extends CoarControlValueAccessor<CoarTimeVa
   /** Whether the picker is disabled (input or CVA) */
   protected isDisabled = computed(() => this.disabled() || this.cvaDisabled());
 
+  /** Convert time to total minutes for comparison */
+  private timeToMinutes(time: CoarTimeValue): number {
+    return time.hours * 60 + time.minutes;
+  }
+
+  /** Whether increment hours button is disabled (would exceed max) */
+  protected isIncrementHoursDisabled = computed(() => {
+    const maxTime = this.maxTime();
+    if (!maxTime) return false;
+    const currentMinutes = this.minutes();
+    const nextHours = (this.hours() + 1) % 24;
+    // Can't increment if next hour would exceed max
+    return (
+      this.timeToMinutes({ hours: nextHours, minutes: currentMinutes }) >
+      this.timeToMinutes(maxTime)
+    );
+  });
+
+  /** Whether decrement hours button is disabled (would go below min) */
+  protected isDecrementHoursDisabled = computed(() => {
+    const minTime = this.minTime();
+    if (!minTime) return false;
+    const currentMinutes = this.minutes();
+    const prevHours = (this.hours() - 1 + 24) % 24;
+    // Can't decrement if previous hour would be below min
+    return (
+      this.timeToMinutes({ hours: prevHours, minutes: currentMinutes }) <
+      this.timeToMinutes(minTime)
+    );
+  });
+
+  /** Whether increment minutes button is disabled */
+  protected isIncrementMinutesDisabled = computed(() => {
+    const maxTime = this.maxTime();
+    if (!maxTime) return false;
+    const step = this.minuteStep();
+    let nextMinutes = this.minutes() + step;
+    let nextHours = this.hours();
+    if (nextMinutes >= 60) {
+      nextMinutes = nextMinutes % 60;
+      nextHours = (nextHours + 1) % 24;
+    }
+    return (
+      this.timeToMinutes({ hours: nextHours, minutes: nextMinutes }) > this.timeToMinutes(maxTime)
+    );
+  });
+
+  /** Whether decrement minutes button is disabled */
+  protected isDecrementMinutesDisabled = computed(() => {
+    const minTime = this.minTime();
+    if (!minTime) return false;
+    const step = this.minuteStep();
+    let prevMinutes = this.minutes() - step;
+    let prevHours = this.hours();
+    if (prevMinutes < 0) {
+      prevMinutes = 60 + prevMinutes;
+      prevHours = (prevHours - 1 + 24) % 24;
+    }
+    return (
+      this.timeToMinutes({ hours: prevHours, minutes: prevMinutes }) < this.timeToMinutes(minTime)
+    );
+  });
+
+  /** Whether AM period is disabled (min time is in PM) */
+  protected isAmDisabled = computed(() => {
+    const minTime = this.minTime();
+    // AM is disabled if minimum time starts at 12:00 (noon) or later
+    return minTime !== null && minTime.hours >= 12;
+  });
+
+  /** Whether PM period is disabled (max time is before noon) */
+  protected isPmDisabled = computed(() => {
+    const maxTime = this.maxTime();
+    // PM is disabled if maximum time is before 12:00 (noon)
+    return maxTime !== null && maxTime.hours < 12;
+  });
+
   // ============================================================
   // Constructor & Effects
   // ============================================================
@@ -209,6 +298,7 @@ export class CoarTimePickerComponent extends CoarControlValueAccessor<CoarTimeVa
   /** Increment hours by 1 */
   incrementHours(): void {
     if (this.isDisabled() || this.readonly()) return;
+    if (this.isIncrementHoursDisabled()) return;
 
     if (this.is12HourFormat()) {
       // In 12h mode, increment display hours (1-12) and handle period switch
@@ -239,6 +329,7 @@ export class CoarTimePickerComponent extends CoarControlValueAccessor<CoarTimeVa
   /** Decrement hours by 1 */
   decrementHours(): void {
     if (this.isDisabled() || this.readonly()) return;
+    if (this.isDecrementHoursDisabled()) return;
 
     if (this.is12HourFormat()) {
       const currentDisplay = this.displayHours();
@@ -268,6 +359,7 @@ export class CoarTimePickerComponent extends CoarControlValueAccessor<CoarTimeVa
   /** Increment minutes by step */
   incrementMinutes(): void {
     if (this.isDisabled() || this.readonly()) return;
+    if (this.isIncrementMinutesDisabled()) return;
 
     const step = this.minuteStep();
     const { minutes: newMinutes, hourDelta } = coarIncrementMinutes(this.minutes(), 1, step);
@@ -288,6 +380,7 @@ export class CoarTimePickerComponent extends CoarControlValueAccessor<CoarTimeVa
   /** Decrement minutes by step */
   decrementMinutes(): void {
     if (this.isDisabled() || this.readonly()) return;
+    if (this.isDecrementMinutesDisabled()) return;
 
     const step = this.minuteStep();
     const { minutes: newMinutes, hourDelta } = coarIncrementMinutes(this.minutes(), -1, step);
@@ -311,6 +404,9 @@ export class CoarTimePickerComponent extends CoarControlValueAccessor<CoarTimeVa
     if (!this.is12HourFormat()) return;
 
     const newPeriod: CoarTimePeriod = this.period() === 'AM' ? 'PM' : 'AM';
+    // Check if the new period is allowed
+    if (newPeriod === 'AM' && this.isAmDisabled()) return;
+    if (newPeriod === 'PM' && this.isPmDisabled()) return;
     this.period.set(newPeriod);
 
     // Update 24h hours based on new period
@@ -326,6 +422,9 @@ export class CoarTimePickerComponent extends CoarControlValueAccessor<CoarTimeVa
     if (this.isDisabled() || this.readonly()) return;
     if (!this.is12HourFormat()) return;
     if (this.period() === period) return;
+    // Check if the new period is allowed
+    if (period === 'AM' && this.isAmDisabled()) return;
+    if (period === 'PM' && this.isPmDisabled()) return;
 
     this.period.set(period);
 

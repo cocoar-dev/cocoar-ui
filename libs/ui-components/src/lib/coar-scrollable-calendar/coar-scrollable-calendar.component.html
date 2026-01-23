@@ -12,7 +12,7 @@
   </div>
 
   <!-- Scrollable months container with fade effect -->
-  <div class="coar-scrollable-calendar__months-wrapper">
+  <div class="coar-scrollable-calendar__months-wrapper" [class.coar-scrollable-calendar__months-wrapper--ready]="isScrollPositioned()">
     <div #scrollContainer class="coar-scrollable-calendar__months" coarScrollbar [overflowX]="'hidden'" [autoHide]="'leave'">
       @for (month of months(); track month.yearMonth.toString()) {
         <div [id]="getMonthElementId(month.yearMonth)" [attr.data-year-month]="month.yearMonth.toString()" class="coar-scrollable-calendar__month">

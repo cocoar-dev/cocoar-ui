@@ -30,12 +30,16 @@ export * from './lib/date/coar-time-format';
 export * from './lib/date/coar-time-helpers';
 
 // Date/Time components
-export * from './lib/coar-date-picker';
-export * from './lib/coar-mini-calendar';
-export * from './lib/coar-date-time-picker';
+export * from './lib/coar-plain-date-picker';
+export * from './lib/coar-plain-date-time-picker';
 export * from './lib/coar-time-picker';
 export * from './lib/coar-scrollable-calendar';
 export * from './lib/coar-month-list';
+
+// Legacy (deprecated - use coar-plain-date-picker and coar-plain-date-time-picker instead)
+export * from './lib/coar-date-picker';
+export * from './lib/coar-mini-calendar';
+export * from './lib/coar-date-time-picker';
 
 // Forms
 export * from './lib/forms/coar-control-value-accessor';

@@ -131,6 +131,18 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'plain-date-picker',
+    loadComponent: () =>
+      import('./pages/plain-date-picker/plain-date-picker.page').then((m) => m.PlainDatePickerPage),
+  },
+  {
+    path: 'plain-date-time-picker',
+    loadComponent: () =>
+      import('./pages/plain-date-time-picker/plain-date-time-picker.page').then(
+        (m) => m.PlainDateTimePickerPage
+      ),
+  },
+  {
     path: 'mini-calendar',
     loadComponent: () =>
       import('./pages/mini-calendar/mini-calendar.page').then((m) => m.MiniCalendarPage),
