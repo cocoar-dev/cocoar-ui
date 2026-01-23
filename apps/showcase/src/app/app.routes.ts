@@ -114,23 +114,6 @@ export const appRoutes: Route[] = [
     loadComponent: () => import('./pages/checkboxes/checkboxes.page').then((m) => m.CheckboxesPage),
   },
   {
-    path: 'date-picker',
-    loadComponent: () =>
-      import('./pages/date-picker/date-picker.page').then((m) => m.DatePickerPage),
-  },
-  {
-    path: 'date-time-picker',
-    loadComponent: () =>
-      import('./pages/date-time-picker/date-time-picker.page').then((m) => m.DateTimePickerPage),
-  },
-  {
-    path: 'date-time-picker-panel',
-    loadComponent: () =>
-      import('./pages/date-time-picker-panel-content/date-time-picker-panel-content.page').then(
-        (m) => m.DateTimePickerPanelContentPage
-      ),
-  },
-  {
     path: 'plain-date-picker',
     loadComponent: () =>
       import('./pages/plain-date-picker/plain-date-picker.page').then((m) => m.PlainDatePickerPage),

@@ -42,14 +42,14 @@ import { Component, inject } from '@angular/core';
 import { CoarI18n } from '@cocoar/localization';
 
 @Component({
-  selector: 'coar-date-picker',
+  selector: 'coar-plain-date-picker',
   template: `
     <button (click)="selectToday()">
       {{ i18n.t('common.today') }}
     </button>
   `
 })
-export class CoarDatePickerComponent {
+export class CoarPlainDatePickerComponent {
   protected readonly i18n = inject(CoarI18n);
 
   selectToday() {

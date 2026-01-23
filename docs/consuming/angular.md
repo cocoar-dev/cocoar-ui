@@ -101,7 +101,8 @@ Coar now supports Angular forms via `ControlValueAccessor` for:
 - `coar-password-input`
 - `coar-number-input`
 - `coar-checkbox`
-- `coar-date-picker`
+- `coar-plain-date-picker`
+- `coar-plain-date-time-picker`
 - `coar-single-select`
 - `coar-multi-select`
 - `coar-tag-select`

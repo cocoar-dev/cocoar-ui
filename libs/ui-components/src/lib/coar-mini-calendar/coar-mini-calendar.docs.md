@@ -2,7 +2,7 @@
 
 The **Mini Calendar** is an always-open calendar view for selecting a date.
 
-It is designed to be embedded anywhere (side panels, dashboards, forms) and can also be used inside other components (like `CoarDatePickerComponent`).
+It is designed to be embedded anywhere (side panels, dashboards, forms) and can also be used inside other components.
 
 ## Basic usage
 

@@ -181,18 +181,6 @@ holidayMarkers: CoarDateMarker[] = [
   [markers]="holidayMarkers"
 />`;
 
-  typeComparisonExample = `// OLD: CoarDatePickerComponent
-// - value: Temporal.PlainDate | Temporal.PlainDateTime | null
-// - Could return either type depending on mode
-
-// NEW: CoarPlainDatePickerComponent
-// - value: Temporal.PlainDate | null (ONLY)
-// - Strongly typed, no ambiguity
-// - min/max are also Temporal.PlainDate | null
-
-// For datetime, use CoarPlainDateTimePickerComponent
-// - value: Temporal.PlainDateTime | null (ONLY)`;
-
   formatDate(date: Temporal.PlainDate | null): string {
     if (!date) return 'null';
     return date.toString();

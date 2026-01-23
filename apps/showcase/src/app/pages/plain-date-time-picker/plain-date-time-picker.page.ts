@@ -180,20 +180,6 @@ maxDateTime = Temporal.Now.plainDateISO()
 <coar-plain-date-time-picker label="Error" [(value)]="dateTime" error message="Invalid date/time" />
 <coar-plain-date-time-picker label="Required" [(value)]="dateTime" required />`;
 
-  typeComparisonExample = `// OLD: CoarDateTimePickerComponent
-// - value: Temporal.PlainDate | Temporal.PlainDateTime | null
-// - mode: 'date' | 'datetime' input controlled the type
-// - Could return either type depending on mode
-
-// NEW: CoarPlainDateTimePickerComponent
-// - value: Temporal.PlainDateTime | null (ONLY)
-// - No mode input - always returns datetime
-// - min/max are also Temporal.PlainDateTime | null
-// - Strongly typed, no ambiguity
-
-// For date-only, use CoarPlainDatePickerComponent
-// - value: Temporal.PlainDate | null (ONLY)`;
-
   formatDateTime(dateTime: Temporal.PlainDateTime | null): string {
     if (!dateTime) return 'null';
     return dateTime.toString();

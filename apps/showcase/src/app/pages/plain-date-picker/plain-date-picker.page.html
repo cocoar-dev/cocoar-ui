@@ -1,9 +1,8 @@
 <div class="component-page">
   <header class="page-header">
-    <h1 class="coar-title">Plain Date Picker (NEW)</h1>
+    <h1 class="coar-title">Date Picker</h1>
     <p class="page-description">
-      A strongly-typed date picker that returns <code>Temporal.PlainDate</code> exclusively. Unlike the old <code>coar-date-picker</code>, this
-      component has no mode switching — it always returns a date without time.
+      A strongly-typed date picker that returns <code>Temporal.PlainDate</code> exclusively. This component always returns a date without time.
     </p>
     <coar-note variant="info">
       <strong>Type Safety:</strong> This picker only returns <code>Temporal.PlainDate | null</code>. For datetime values, use
@@ -20,14 +19,6 @@
 
 <ng-template #examplesTemplate>
   <div class="examples-content">
-    <section class="example-section">
-      <h3>Type Comparison: Old vs New</h3>
-      <p>The key difference from the old <code>coar-date-picker</code>:</p>
-      <coar-code-block [code]="typeComparisonExample" language="typescript" />
-    </section>
-
-    <coar-divider />
-
     <section class="example-section">
       <h3>Basic Usage</h3>
       <p>A simple date picker with label and placeholder. Returns <code>Temporal.PlainDate | null</code>.</p>

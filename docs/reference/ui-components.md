@@ -14,6 +14,25 @@ Tokens (global stylesheet):
 @import '@cocoar/ui-tokens/css/all.css';
 ```
 
+## coar-avatar
+
+- Class: CoarAvatarComponent
+- Selector: `coar-avatar`
+
+### Inputs
+| Name | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| src | string | no | '' | Image URL for the avatar |
+| name | string | no | '' | User's full name (used for initials fallback and alt text) |
+| size | 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl' | no | 'md' | Avatar size |
+| shape | 'circle' \| 'square' | no | 'circle' | Avatar shape |
+| clickable | boolean | no | false | Whether the avatar is interactive (clickable) |
+| initials | string | no | '' | Custom initials override (otherwise computed from name) |
+| bgColor | string | no | '' | Background color for initials (auto-generated from name if not set) |
+
+### Outputs
+None.
+
 ## coar-badge
 
 - Class: CoarBadgeComponent
@@ -46,8 +65,8 @@ None.
 | disabled | boolean | no | false | Whether the button is disabled |
 | loading | boolean | no | false | Whether the button is in loading state |
 | type | 'button' \| 'submit' \| 'reset' | no | 'button' | Button type attribute |
-| iconStart | CoreIconName \| undefined | no | undefined | Icon to display before the label |
-| iconEnd | CoreIconName \| undefined | no | undefined | Icon to display after the label |
+| iconStart | string \| undefined | no | undefined | Icon to display before the label |
+| iconEnd | string \| undefined | no | undefined | Icon to display after the label |
 | fullWidth | boolean | no | false | Whether the button should take full width |
 | ariaLabel | string | no | '' | Optional aria-label applied to the underlying <button> element |
 
@@ -119,40 +138,6 @@ None.
 ### Outputs
 None.
 
-## coar-date-picker
-
-- Class: CoarDatePickerComponent
-- Selector: `coar-date-picker`
-
-### Inputs
-| Name | Type | Required | Default | Description |
-| --- | --- | --- | --- | --- |
-| label | string | no | '' | Label text displayed above the input |
-| placeholder | string | no | 'Select date...' | Placeholder text when no date is selected |
-| size | 'xs' \| 'sm' \| 'md' \| 'lg' | no | 'md' | Size variant |
-| readonly | boolean | no | false | Whether the picker is readonly |
-| disabled | boolean | no | false | Whether the picker is disabled |
-| required | boolean | no | false | Whether the field is required |
-| error | boolean | no | false | Error state |
-| message | string | no | '' | Helper or error message |
-| min | Temporal.PlainDate \| null | no | null | Minimum selectable date |
-| max | Temporal.PlainDate \| null | no | null | Maximum selectable date |
-| locale | string | no | '' | Locale identifier for date formatting (e.g., 'de-AT', 'en-US').
-Uses global locale service default if not specified. |
-| dateFormatConfig | DateFormatConfig | no | '' | Date format configuration (pattern and first day of week).
-If not provided, uses locale service default or falls back to European format. |
-| showTodayButton | boolean | no | true | Whether to show a "Today" button |
-| showWeekNumbers | boolean | no | false | Whether to show week numbers |
-| highlightWeekends | boolean | no | false | Whether to highlight weekend days (Saturday/Sunday) with a subtle background |
-| markers | CoarDateMarker[] | no | [] | Date markers for highlighting special dates (holidays, events, etc.) |
-
-### Outputs
-| Name | Type | Description |
-| --- | --- | --- |
-| valueChange | Temporal.PlainDate \| null | Emitted when the selected date changes |
-| opened | void | Emitted when the picker opens |
-| closed | void | Emitted when the picker closes |
-
 ## coar-divider
 
 - Class: CoarDividerComponent
@@ -179,8 +164,11 @@ None.
 | Name | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
 | name | string | no | '' | Icon identifier.
-Examples: "settings", "user", "invoicePaid" |
-| source | string \| undefined | no | undefined | Optional icon source key. If omitted, the default source is used. |
+Examples: "settings", "user" |
+| source | string \| undefined | no | '' | Optional icon source key.
+
+- If omitted, the default source is used.
+- If multiple sources are registered, this can be used to target a specific one. |
 | size | CoarIconSize \| string | no | 'md' | Icon size. Defaults to 'md' (20px).
 Can be a preset token (xs, sm, md, lg, xl, auto) or a custom CSS value (e.g., '42px', '3rem'). |
 | rotate | number | no | 0 | Rotation angle in degrees (0, 90, 180, 270, or any number). |
@@ -209,27 +197,54 @@ None.
 | required | boolean | no | false | Whether to show a required indicator (*) after the label text. |
 | for | string \| undefined | no | undefined | The ID of the form element this label is associated with.
 Sets the 'for' attribute for accessibility. |
+| text | string | no | '' |  |
 
 ### Outputs
 None.
 
-## coar-menu-item
+## coar-mini-calendar
 
-- Class: CoarMenuItemComponent
-- Selector: `coar-menu-item`
+- Class: CoarMiniCalendarComponent
+- Selector: `coar-mini-calendar`
 
 ### Inputs
 | Name | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
-| label | string | no | '' | Item text content |
-| icon | CoreIconName \| undefined | no | undefined | Optional icon identifier (rendered via CoarIconComponent) |
-| disabled | boolean | no | false | Disabled state prevents interaction |
+| min | Temporal.PlainDate \| null | no | null | Minimum selectable date |
+| max | Temporal.PlainDate \| null | no | null | Maximum selectable date |
+| locale | string | no | '' | Locale identifier for date formatting (e.g., 'de-AT', 'en-US').
+Uses global locale service default if not specified. |
+| dateFormatConfig | DateFormatConfig | no | '' | Date format configuration (pattern and first day of week) |
+| showTodayButton | boolean | no | true | Whether to show a "Today" button |
+| showWeekNumbers | boolean | no | false | Whether to show week numbers |
+| highlightWeekends | boolean | no | false | Whether to highlight weekend days (Saturday/Sunday) with a subtle background |
+| markers | CoarDateMarker[] | no | [] | Date markers for highlighting special dates (holidays, events, etc.) |
 
 ### Outputs
 | Name | Type | Description |
 | --- | --- | --- |
-| itemClick | void | Emitted when user clicks/selects the item |
-| itemHover | Event | Emitted when user hovers over item (for flyout trigger) |
+| valueChange | Temporal.PlainDate \| null |  |
+
+## coar-month-list
+
+- Class: CoarMonthListComponent
+- Selector: `coar-month-list`
+
+### Inputs
+| Name | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| locale | string | no | '' | Locale identifier for month name formatting.
+Uses global locale service default if not specified. |
+| minYear | number | no | Temporal.Now.plainDateISO().year - 100 | Minimum year that can be selected.
+Default: current year - 100 |
+| maxYear | number | no | Temporal.Now.plainDateISO().year + 50 | Maximum year that can be selected.
+Default: current year + 50 |
+
+### Outputs
+| Name | Type | Description |
+| --- | --- | --- |
+| monthSelected | Temporal.PlainYearMonth | Emitted when a month is selected from the list |
+| yearChanged | number | Emitted when the year changes via stepper |
 
 ## coar-multi-select
 
@@ -239,7 +254,7 @@ None.
 ### Inputs
 | Name | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
-| clearable | boolean | no | true | Whether to show a clear button when values are selected |
+| clearable | boolean | no | false | Whether to show a clear button when values are selected |
 | maxDisplayItems | number | no | 3 | Maximum number of selected items to display before showing count |
 | showSelectAll | boolean | no | false | Whether to show "Select All" option |
 
@@ -339,6 +354,91 @@ If not provided, uses locale service default or falls back to { decimal: '.', th
 | focused | FocusEvent | Emits when input gains focus |
 | clear | void | Emits when clear button is clicked |
 
+## coar-plain-date-picker
+
+- Class: CoarPlainDatePickerComponent
+- Selector: `coar-plain-date-picker`
+
+### Inputs
+| Name | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| label | string | no | '' | Label text displayed above the input |
+| placeholder | string | no | '' | Placeholder text when no date is selected |
+| size | 'xs' \| 'sm' \| 'md' \| 'lg' | no | 'md' | Size variant |
+| readonly | boolean | no | false | Whether the picker is readonly |
+| disabled | boolean | no | false | Whether the picker is disabled |
+| required | boolean | no | false | Whether the field is required |
+| error | boolean | no | false | Error state |
+| message | string | no | '' | Helper or error message |
+| min | Temporal.PlainDate \| null | no | null | Minimum selectable date |
+| max | Temporal.PlainDate \| null | no | null | Maximum selectable date |
+| locale | string | no | '' | Locale identifier for date formatting (e.g., 'de-AT', 'en-US').
+Uses global locale service default if not specified. |
+| dateFormatConfig | DateFormatConfig | no | '' | Date format configuration (pattern and first day of week).
+If not provided, uses locale service default or falls back to European format. |
+| showTodayMonthButton | boolean | no | true | Whether to show the current month button (floating action button that scrolls to current month). |
+| showWeekNumbers | boolean | no | false | Whether to show week numbers |
+| highlightWeekends | boolean | no | false | Whether to highlight weekend days |
+| markers | CoarDateMarker[] | no | [] | Date markers for highlighting special dates |
+| clearable | boolean | no | true | Whether to show a clear button when a value is selected |
+| closeOnSelect | boolean | no | false | Whether to close the panel after selecting a date (default: false to allow viewing events) |
+| minYear | number | no | Temporal.Now.plainDateISO().year - 100 | Minimum year in the year stepper.
+Default: current year - 100 |
+| maxYear | number | no | Temporal.Now.plainDateISO().year + 50 | Maximum year in the year stepper.
+Default: current year + 50 |
+
+### Outputs
+| Name | Type | Description |
+| --- | --- | --- |
+| valueChange | Temporal.PlainDate \| null | Emitted when the selected value changes |
+| opened | void | Emitted when the picker opens |
+| closed | void | Emitted when the picker closes |
+
+## coar-plain-date-time-picker
+
+- Class: CoarPlainDateTimePickerComponent
+- Selector: `coar-plain-date-time-picker`
+
+### Inputs
+| Name | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| label | string | no | '' | Label text displayed above the input |
+| placeholder | string | no | '' | Placeholder text when no date/time is selected |
+| size | 'xs' \| 'sm' \| 'md' \| 'lg' | no | 'md' | Size variant |
+| readonly | boolean | no | false | Whether the picker is readonly |
+| disabled | boolean | no | false | Whether the picker is disabled |
+| required | boolean | no | false | Whether the field is required |
+| error | boolean | no | false | Error state |
+| message | string | no | '' | Helper or error message |
+| min | Temporal.PlainDateTime \| null | no | null | Minimum selectable datetime |
+| max | Temporal.PlainDateTime \| null | no | null | Maximum selectable datetime |
+| locale | string | no | '' | Locale identifier for date/time formatting (e.g., 'de-AT', 'en-US').
+Uses global locale service default if not specified. |
+| dateFormatConfig | DateFormatConfig | no | '' | Date format configuration (pattern and first day of week).
+If not provided, uses locale service default or falls back to European format. |
+| showTodayMonthButton | boolean | no | true | Whether to show the current month button (floating action button that scrolls to current month). |
+| showWeekNumbers | boolean | no | false | Whether to show week numbers |
+| highlightWeekends | boolean | no | false | Whether to highlight weekend days |
+| markers | CoarDateMarker[] | no | [] | Date markers for highlighting special dates |
+| clearable | boolean | no | true | Whether to show a clear button when a value is selected |
+| use24Hour | boolean \| 'auto' | no | 'auto' | Whether to use 24-hour time format.
+- true: Always use 24h format
+- false: Always use 12h format with AM/PM
+- 'auto': Detect from locale (default) |
+| minuteStep | 1 \| 5 \| 10 \| 15 | no | 5 | Step interval for minute selection (1, 5, 10, or 15) |
+| defaultTime | CoarTimeValue | no | { hours: 9, minutes: 0 } | Default time to use when selecting a date without existing time. |
+| minYear | number | no | Temporal.Now.plainDateISO().year - 100 | Minimum year in the year stepper.
+Default: current year - 100 |
+| maxYear | number | no | Temporal.Now.plainDateISO().year + 50 | Maximum year in the year stepper.
+Default: current year + 50 |
+
+### Outputs
+| Name | Type | Description |
+| --- | --- | --- |
+| valueChange | Temporal.PlainDateTime \| null | Emitted when the selected value changes |
+| opened | void | Emitted when the picker opens |
+| closed | void | Emitted when the picker closes |
+
 ## coar-popover
 
 - Class: CoarPopoverComponent
@@ -357,6 +457,89 @@ If not provided, uses locale service default or falls back to { decimal: '.', th
 ### Outputs
 None.
 
+## coar-radio
+
+- Class: CoarRadioComponent
+- Selector: `coar-radio`
+
+### Inputs
+| Name | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| value | T | yes | required | Value of this radio option |
+| disabled | boolean | no | false | Disables this specific radio button |
+
+### Outputs
+None.
+
+## coar-radio-group
+
+- Class: CoarRadioGroupComponent
+- Selector: `coar-radio-group`
+
+### Inputs
+| Name | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| name | string | yes | required | Group name for radio inputs |
+| label | string | no | '' | Accessible label for the group |
+| orientation | 'horizontal' \| 'vertical' | no | 'vertical' | Layout orientation |
+| size | 'sm' \| 'md' \| 'lg' | no | 'md' | Size of radio buttons |
+| disabled | boolean | no | false | Disables all radio buttons in the group |
+| required | boolean | no | false | Marks the group as required |
+| error | string | no | '' | Error message to display |
+| hint | string | no | '' | Hint text displayed below the group |
+
+### Outputs
+| Name | Type | Description |
+| --- | --- | --- |
+| valueChange | T | Emits when selection changes |
+
+## coar-scrollable-calendar
+
+- Class: CoarScrollableCalendarComponent
+- Selector: `coar-scrollable-calendar`
+
+### Inputs
+| Name | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| min | Temporal.PlainDate \| null | no | null | Minimum selectable date |
+| max | Temporal.PlainDate \| null | no | null | Maximum selectable date |
+| locale | string | no | '' | Locale identifier for date formatting (e.g., 'de-AT', 'en-US').
+Uses global locale service default if not specified. |
+| dateFormatConfig | DateFormatConfig | no | '' | Date format configuration (pattern and first day of week) |
+| showWeekNumbers | boolean | no | false | Whether to show week numbers |
+| highlightWeekends | boolean | no | false | Whether to highlight weekend days (Saturday/Sunday) with a subtle background |
+| markers | CoarDateMarker[] | no | [] | Date markers for highlighting special dates (holidays, events, etc.) |
+| monthRange | { before: number; after: number } | no | { before: 12, after: 12 } | Number of months to display before and after the current year.
+Default: 12 months before, 12 months after (2 years total + current year). |
+| maxMonthsInDom | number | no | 25 | Maximum number of months to keep in the DOM at once.
+Default: 25 (roughly 2 years). Lower values improve performance but may cause
+more frequent loading when scrolling quickly. |
+| monthsToLoad | number | no | 6 | Number of months to load when reaching the edge of the current range.
+Default: 6 (half a year at a time). |
+
+### Outputs
+| Name | Type | Description |
+| --- | --- | --- |
+| valueChange | Temporal.PlainDate \| null | Emitted when the selected date changes |
+| activeMonthChange | Temporal.PlainYearMonth | Emitted when the visible/active month changes due to scrolling |
+| dateSelected | Temporal.PlainDate | Emitted when a date is clicked |
+
+## coar-sidebar
+
+- Class: CoarSidebarComponent
+- Selector: `coar-sidebar`
+
+### Inputs
+| Name | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| position | 'left' \| 'right' | no | 'left' | Sidebar position: left or right side of screen.
+Default is 'left'. |
+| collapsed | boolean | no | false | Collapsed state for narrow/icon-only sidebar.
+Use as boolean attribute: `<coar-sidebar collapsed>` or `[collapsed]="true"` |
+
+### Outputs
+None.
+
 ## coar-single-select
 
 - Class: CoarSingleSelectComponent
@@ -365,48 +548,12 @@ None.
 ### Inputs
 | Name | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
-| clearable | boolean | no | true | Whether to show a clear button when a value is selected |
+| clearable | boolean | no | false | Whether to show a clear button when a value is selected |
 
 ### Outputs
 | Name | Type | Description |
 | --- | --- | --- |
 | valueChange | T \| null | Emits when the selected value changes |
-
-## coar-sub-expand
-
-- Class: CoarSubExpandComponent
-- Selector: `coar-sub-expand`
-
-### Inputs
-| Name | Type | Required | Default | Description |
-| --- | --- | --- | --- | --- |
-| label | string | yes | required | Label text for the menu item |
-| icon | CoreIconName \| undefined | no | undefined | Optional icon identifier |
-| disabled | boolean | no | false | Disabled state prevents interaction |
-| submenuTemplate | TemplateRef<unknown> \| null | no | null | Optional external submenu template. Prefer an inline `<ng-template>` child when possible. |
-
-### Outputs
-| Name | Type | Description |
-| --- | --- | --- |
-| openChange | boolean | Emits when expanded state changes (for [(open)]) |
-
-## coar-submenu-item, coar-sub-flyout
-
-- Class: CoarSubmenuItemComponent
-- Selector: `coar-submenu-item, coar-sub-flyout`
-
-### Inputs
-| Name | Type | Required | Default | Description |
-| --- | --- | --- | --- | --- |
-| label | string | yes | required | Label text for the menu item |
-| icon | CoreIconName \| undefined | no | undefined | Optional icon identifier |
-| disabled | boolean | no | false | Disabled state prevents interaction |
-| submenuTemplate | TemplateRef<unknown> \| null | no | null | Optional external submenu template.
-
-Prefer an inline `<ng-template>` child when possible. |
-
-### Outputs
-None.
 
 ## coar-tab
 
@@ -532,6 +679,36 @@ Use as boolean attribute: `<coar-tag borderless>` or `[borderless]="true"` |
 | focused | FocusEvent | Emits when input gains focus |
 | clear | void | Emits when clear button is clicked |
 
+## coar-time-picker
+
+- Class: CoarTimePickerComponent
+- Selector: `coar-time-picker`
+
+### Inputs
+| Name | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| size | 'xs' \| 'sm' \| 'md' \| 'lg' | no | 'md' | Size variant |
+| readonly | boolean | no | false | Whether the picker is readonly |
+| disabled | boolean | no | false | Whether the picker is disabled |
+| use24Hour | boolean \| 'auto' | no | 'auto' | Whether to use 24-hour format.
+- true: Always use 24h format (00-23)
+- false: Always use 12h format with AM/PM
+- 'auto': Detect from locale (default) |
+| minuteStep | 1 \| 5 \| 10 \| 15 | no | 5 | Step interval for minute selection.
+Minutes will snap to multiples of this value. |
+| locale | string | no | '' | Locale identifier for 12h/24h format detection.
+Uses global locale service default if not specified. |
+| ariaLabel | string | no | 'Time' | Label for screen readers (visually hidden). |
+| minTime | CoarTimeValue \| null | no | null | Minimum allowed time (hours and minutes in 24h format).
+Used to constrain time selection when on a min date boundary. |
+| maxTime | CoarTimeValue \| null | no | null | Maximum allowed time (hours and minutes in 24h format).
+Used to constrain time selection when on a max date boundary. |
+
+### Outputs
+| Name | Type | Description |
+| --- | --- | --- |
+| valueChange | CoarTimeValue \| null | Emitted when the time value changes |
+
 ## coar-tooltip-overlay
 
 - Class: CoarTooltipOverlayComponent
@@ -547,3 +724,4 @@ Use as boolean attribute: `<coar-tag borderless>` or `[borderless]="true"` |
 
 ### Outputs
 None.
+
