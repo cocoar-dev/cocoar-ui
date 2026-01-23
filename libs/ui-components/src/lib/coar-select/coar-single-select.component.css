@@ -103,6 +103,28 @@
   margin-bottom: var(--coar-component-lg-label-margin);
 }
 
+/* ========================================
+   INLINE APPEARANCE (borderless)
+   ======================================== */
+
+:host(.coar-single-select--inline) .coar-select-trigger {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+}
+
+:host(.coar-single-select--inline) .coar-select-trigger:hover:not(.coar-select-trigger--disabled):not(
+    .coar-select-trigger--readonly
+  ) {
+  background: var(--coar-background-neutral-tertiary);
+}
+
+:host(.coar-single-select--inline) .coar-select-trigger--focused:not(.coar-select-trigger--error),
+:host(.coar-single-select--inline) .coar-select-trigger--open {
+  background: var(--coar-background-neutral-tertiary);
+  box-shadow: none;
+}
+
 /* Value */
 .coar-select-value {
   flex: 1;
@@ -300,13 +322,13 @@
 
 .coar-select-search-input {
   width: 100%;
-  height: 32px;
+  height: var(--coar-select-search-height, 32px);
   padding: 0 var(--coar-spacing-s);
   border: 1px solid var(--coar-border-input);
   border-radius: var(--coar-radius-xs);
   background: var(--coar-surface-input);
   font-family: var(--coar-body-small-base-family);
-  font-size: var(--coar-body-small-base-size);
+  font-size: var(--coar-select-option-font-size, var(--coar-body-small-base-size));
   color: var(--coar-text-neutral-primary);
   outline: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
@@ -332,9 +354,9 @@
   display: flex;
   align-items: center;
   gap: var(--coar-spacing-xs);
-  padding: var(--coar-spacing-s) var(--coar-spacing-m);
+  padding: var(--coar-select-option-padding, var(--coar-spacing-s) var(--coar-spacing-m));
   font-family: var(--coar-body-small-base-family);
-  font-size: var(--coar-body-small-base-size);
+  font-size: var(--coar-select-option-font-size, var(--coar-body-small-base-size));
   color: var(--coar-text-neutral-primary);
   cursor: pointer;
   transition: background-color 0.1s ease;
@@ -383,7 +405,7 @@
   padding: var(--coar-spacing-m);
   text-align: center;
   font-family: var(--coar-body-small-base-family);
-  font-size: var(--coar-body-small-base-size);
+  font-size: var(--coar-select-option-font-size, var(--coar-body-small-base-size));
   color: var(--coar-text-neutral-tertiary);
 }
 

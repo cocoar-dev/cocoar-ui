@@ -60,6 +60,17 @@ export class CoarOverlayRef implements OverlayRef {
 
     this.panel = document.createElement('div');
     this.panel.className = 'coar-overlay-panel';
+    
+    // Apply custom panel class(es) if provided
+    if (this.spec.panelClass) {
+      const classes = Array.isArray(this.spec.panelClass)
+        ? this.spec.panelClass
+        : [this.spec.panelClass];
+      for (const cls of classes) {
+        if (cls) this.panel.classList.add(cls);
+      }
+    }
+    
     this.host.appendChild(this.panel);
 
     this.shouldAnimateMenu = this.spec.a11y.role === 'menu';

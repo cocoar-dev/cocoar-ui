@@ -11,6 +11,11 @@ export interface OverlaySpec<TInputs = void> {
   focus?: FocusSpec;
   a11y?: A11ySpec;
   attachment?: AttachmentSpec;
+  /**
+   * Additional CSS class(es) to add to the overlay panel element.
+   * Useful for applying custom styles or size variants.
+   */
+  panelClass?: string | string[];
 }
 
 /**
@@ -139,5 +144,6 @@ export const COAR_OVERLAY_DEFAULTS = {
   attachment: { strategy: 'body' } as const satisfies AttachmentSpec,
 } as const;
 
-export type ResolvedOverlaySpec<TInputs> = Required<Omit<OverlaySpec<TInputs>, 'content'>> &
-  Pick<Required<OverlaySpec<TInputs>>, 'content'>;
+export type ResolvedOverlaySpec<TInputs> = Required<Omit<OverlaySpec<TInputs>, 'content' | 'panelClass'>> &
+  Pick<Required<OverlaySpec<TInputs>>, 'content'> &
+  Pick<OverlaySpec<TInputs>, 'panelClass'>;

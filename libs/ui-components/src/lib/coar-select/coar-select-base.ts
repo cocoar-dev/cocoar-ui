@@ -16,6 +16,13 @@ import { CoarSelectOption } from './coar-select-option.interface';
 
 export type CoarSelectSize = 'xs' | 'sm' | 'md' | 'lg';
 
+/**
+ * Visual appearance of the select trigger.
+ * - 'outline': Default bordered input style
+ * - 'inline': Borderless, transparent background - blends into surrounding content
+ */
+export type CoarSelectAppearance = 'outline' | 'inline';
+
 /** Dropdown position relative to the trigger */
 export type CoarDropdownPosition = 'top' | 'bottom';
 
@@ -40,6 +47,13 @@ export abstract class CoarSelectBase<T> extends CoarControlValueAccessor<T> {
 
   /** Select size - matches button/input heights for consistent layouts */
   size = input<CoarSelectSize>('md');
+
+  /**
+   * Visual appearance of the select trigger.
+   * - 'outline': Default bordered input style
+   * - 'inline': Borderless, transparent - blends into surrounding content
+   */
+  appearance = input<CoarSelectAppearance>('outline');
 
   /** Disables the select (greyed out, not focusable) */
   disabled = input<boolean, unknown>(false, { transform: booleanAttribute });

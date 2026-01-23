@@ -351,7 +351,7 @@
 .coar-zoned-date-time-picker-panel-body {
   display: flex;
   flex-direction: row;
-  height: 340px;
+  height: 330px;
   flex-shrink: 0;
 }
 
@@ -534,7 +534,8 @@
 .coar-zoned-date-time-picker-display-tz-section {
   display: flex;
   flex-direction: column;
-  gap: var(--coar-spacing-xs);
+  align-items: center;
+  gap: var(--coar-spacing-2xs);
   padding: var(--coar-spacing-s);
   border-top: 1px solid var(--coar-border-neutral-quaternary);
   flex-shrink: 0;
@@ -543,11 +544,12 @@
 .coar-zoned-date-time-picker-display-tz-label {
   font-family: var(--coar-body-caption-family);
   font-size: var(--coar-body-caption-size);
-  color: var(--coar-text-neutral-secondary);
+  color: var(--coar-text-neutral-tertiary);
 }
 
-.coar-zoned-date-time-picker-display-tz-select {
-  width: 100%;
+/* Timezone select uses inline appearance, centered */
+.coar-zoned-date-time-picker-tz-select {
+  /* Let the select size itself based on content */
 }
 
 /* ========================================
@@ -600,6 +602,12 @@
   white-space: nowrap;
 }
 
+/* Placeholder states when no value is selected */
+.coar-zoned-date-time-picker-footer-tz--placeholder,
+.coar-zoned-date-time-picker-footer-datetime--placeholder {
+  opacity: 0.5;
+}
+
 .coar-zoned-date-time-picker-footer-lock {
   display: flex;
   align-items: center;
@@ -616,6 +624,7 @@
     background-color 0.15s ease,
     color 0.15s ease;
   flex-shrink: 0;
+  margin: -8px;
 }
 
 .coar-zoned-date-time-picker-footer-lock:hover {

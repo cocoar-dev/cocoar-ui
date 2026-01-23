@@ -51,6 +51,7 @@ export type { CoarSelectSize };
     '[class.coar-single-select--sm]': 'size() === "sm"',
     '[class.coar-single-select--md]': 'size() === "md"',
     '[class.coar-single-select--lg]': 'size() === "lg"',
+    '[class.coar-single-select--inline]': 'appearance() === "inline"',
     '[class.coar-single-select--disabled]': 'isDisabled()',
     '[class.coar-single-select--readonly]': 'readonly()',
     '[class.coar-single-select--error]': 'hasError()',
@@ -165,12 +166,16 @@ export class CoarSingleSelectComponent<T = unknown> extends CoarSelectBase<T | n
     this.searchQuery.set('');
     this.highlightedIndex.set(-1);
 
+    // Build panel class based on size
+    const sizeClass = `coar-select-dropdown--${this.size()}`;
+
     const ref = this.overlayBuilder
       .anchor({ kind: 'element', element: trigger })
       .position({ placement, offset: 4, flip: false, shift: false })
       .scroll({ strategy: 'reposition' })
       .dismiss({ outsideClick: true, escapeKey: true })
       .size({ mode: 'content', minWidth: 'anchor' })
+      .panelClass(sizeClass)
       .fromTemplate(template)
       .open({});
     this.overlayRef = ref;

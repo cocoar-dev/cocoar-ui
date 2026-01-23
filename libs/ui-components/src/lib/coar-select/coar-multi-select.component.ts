@@ -249,12 +249,16 @@ export class CoarMultiSelectComponent<T = unknown> extends CoarSelectBase<T[]> {
     this.searchQuery.set('');
     this.highlightedIndex.set(-1);
 
+    // Build panel class based on size
+    const sizeClass = `coar-select-dropdown--${this.size()}`;
+
     const ref = this.overlayBuilder
       .anchor({ kind: 'element', element: trigger })
       .position({ placement, offset: 4, flip: false, shift: false })
       .scroll({ strategy: 'reposition' })
       .dismiss({ outsideClick: true, escapeKey: true })
       .size({ mode: 'content', minWidth: 'anchor' })
+      .panelClass(sizeClass)
       .fromTemplate(template)
       .open({});
     this.overlayRef = ref;

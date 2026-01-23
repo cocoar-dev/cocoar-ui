@@ -77,6 +77,14 @@ export class CoarOverlayOpenBuilder {
   }
 
   /**
+   * Add CSS class(es) to the overlay panel element.
+   * Useful for applying custom styles or size variants.
+   */
+  panelClass(value: string | string[]): CoarOverlayOpenBuilder {
+    return new CoarOverlayOpenBuilder(this.service, { ...this.settings, panelClass: value });
+  }
+
+  /**
    * Applies baseline settings, without overriding fields already set on this builder.
    * Useful for applying a preset after you've already configured part of the builder.
    */
@@ -92,6 +100,7 @@ export class CoarOverlayOpenBuilder {
     merged.focus ??= value.focus;
     merged.a11y ??= value.a11y;
     merged.attachment ??= value.attachment;
+    merged.panelClass ??= value.panelClass;
 
     return new CoarOverlayOpenBuilder(this.service, merged);
   }

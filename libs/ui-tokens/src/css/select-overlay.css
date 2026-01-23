@@ -1,0 +1,40 @@
+/**
+ * Cocoar Design System - Select Overlay Size Variants
+ *
+ * These styles are applied to overlay panels via panelClass.
+ * They define size-specific custom properties consumed by
+ * the select dropdown content.
+ */
+
+/* ========================================
+   SELECT DROPDOWN SIZE VARIANTS
+   Applied via panelClass on overlay panel
+   ======================================== */
+
+/* XS Size */
+.coar-select-dropdown--xs {
+  --coar-select-option-font-size: var(--coar-component-xs-font-size);
+  --coar-select-option-padding: var(--coar-spacing-xs) var(--coar-spacing-s);
+  --coar-select-search-height: 24px;
+}
+
+/* SM Size */
+.coar-select-dropdown--sm {
+  --coar-select-option-font-size: var(--coar-component-sm-font-size);
+  --coar-select-option-padding: var(--coar-spacing-xs) var(--coar-spacing-s);
+  --coar-select-search-height: 28px;
+}
+
+/* MD Size (default) */
+.coar-select-dropdown--md {
+  --coar-select-option-font-size: var(--coar-body-small-base-size);
+  --coar-select-option-padding: var(--coar-spacing-s) var(--coar-spacing-m);
+  --coar-select-search-height: 32px;
+}
+
+/* LG Size */
+.coar-select-dropdown--lg {
+  --coar-select-option-font-size: var(--coar-component-lg-font-size);
+  --coar-select-option-padding: var(--coar-spacing-m) var(--coar-spacing-l);
+  --coar-select-search-height: 40px;
+}

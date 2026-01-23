@@ -165,6 +165,27 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
    */
   defaultTime = input<CoarTimeValue>({ hours: 9, minutes: 0 });
 
+  /**
+   * Filter patterns for available timezone options.
+   *
+   * Supports wildcards:
+   * - `*` matches any characters
+   * - Patterns are case-insensitive
+   *
+   * If not provided or empty, all IANA timezones are available.
+   *
+   * @example
+   * // Only European timezones
+   * [timezoneFilter]="['Europe/*']"
+   *
+   * // European + specific US cities
+   * [timezoneFilter]="['Europe/*', 'America/New_York', 'America/Los_Angeles']"
+   *
+   * // Anything containing 'New'
+   * [timezoneFilter]="['*New*']"
+   */
+  timezoneFilter = input<string[]>([]);
+
   // ============================================================
   // Model & Outputs
   // ============================================================
@@ -370,26 +391,34 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
     };
   });
 
+  /** All IANA timezones from the browser */
+  private readonly allTimezones: string[] = ['UTC', ...Intl.supportedValuesOf('timeZone')];
+
   /**
-   * Common timezone options for the select dropdowns.
+   * Filtered timezone options for the select dropdowns.
+   * If timezoneFilter is empty, all timezones are available.
+   * Supports wildcards: 'Europe/*', '*New*', etc.
    */
-  protected readonly timezoneOptions: CoarSelectOption<string>[] = [
-    { value: 'UTC', label: 'UTC' },
-    { value: 'Europe/London', label: 'London' },
-    { value: 'Europe/Paris', label: 'Paris' },
-    { value: 'Europe/Berlin', label: 'Berlin' },
-    { value: 'Europe/Vienna', label: 'Vienna' },
-    { value: 'Europe/Moscow', label: 'Moscow' },
-    { value: 'America/New_York', label: 'New York' },
-    { value: 'America/Chicago', label: 'Chicago' },
-    { value: 'America/Denver', label: 'Denver' },
-    { value: 'America/Los_Angeles', label: 'Los Angeles' },
-    { value: 'Asia/Dubai', label: 'Dubai' },
-    { value: 'Asia/Singapore', label: 'Singapore' },
-    { value: 'Asia/Tokyo', label: 'Tokyo' },
-    { value: 'Asia/Shanghai', label: 'Shanghai' },
-    { value: 'Australia/Sydney', label: 'Sydney' },
-  ];
+  protected readonly timezoneOptions = computed<CoarSelectOption<string>[]>(() => {
+    const filters = this.timezoneFilter();
+
+    if (!filters || filters.length === 0) {
+      // No filter: return all timezones
+      return this.allTimezones.map(tz => ({ value: tz, label: tz }));
+    }
+
+    // Convert wildcard patterns to regex
+    const regexPatterns = filters.map(pattern => {
+      // Escape regex special chars except *, then convert * to .*
+      const escaped = pattern.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*');
+      return new RegExp(`^${escaped}$`, 'i');
+    });
+
+    // Filter timezones that match any pattern
+    const filtered = this.allTimezones.filter(tz => regexPatterns.some(regex => regex.test(tz)));
+
+    return filtered.map(tz => ({ value: tz, label: tz }));
+  });
 
   /** Get placeholder text based on date and time format */
   protected inputPlaceholder = computed(() => {

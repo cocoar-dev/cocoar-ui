@@ -187,13 +187,15 @@
           <!-- Display Timezone Section (in side column) -->
           @if (showTimeZoneSelector()) {
             <div class="coar-zoned-date-time-picker-display-tz-section">
-              <span class="coar-zoned-date-time-picker-display-tz-label">View in:</span>
+              <span class="coar-zoned-date-time-picker-display-tz-label">Display Timezone</span>
               <coar-single-select
-                class="coar-zoned-date-time-picker-display-tz-select"
-                [options]="timezoneOptions"
+                class="coar-zoned-date-time-picker-tz-select"
+                [options]="timezoneOptions()"
                 [value]="effectiveDisplayTimeZone()"
                 [searchable]="true"
                 [placeholder]="'Select timezone'"
+                size="sm"
+                appearance="inline"
                 (valueChange)="onDisplayTimeZoneChanged($event)"
               />
             </div>
@@ -226,13 +228,22 @@
       <!-- End panel-body -->
 
       <!-- Event Timezone Footer (full width, one-liner) -->
-      @if (showTimeZoneSelector() && value()) {
+      @if (showTimeZoneSelector()) {
         <div class="coar-zoned-date-time-picker-footer" [class.coar-zoned-date-time-picker-footer--differs]="timeZonesDiffer()">
-          @if (isEditingValueTimeZone()) {
+          @if (!value()) {
+            <!-- No value: show placeholder to prevent layout shift -->
+            <span class="coar-zoned-date-time-picker-footer-tz-section">
+              <span class="coar-zoned-date-time-picker-footer-label">Location:</span>
+              <span class="coar-zoned-date-time-picker-footer-tz coar-zoned-date-time-picker-footer-tz--placeholder">{{ valueTimeZoneDisplayName() }}</span>
+            </span>
+            <span class="coar-zoned-date-time-picker-footer-datetime coar-zoned-date-time-picker-footer-datetime--placeholder">
+              —
+            </span>
+          } @else if (isEditingValueTimeZone()) {
             <!-- Editing mode: show select -->
             <coar-single-select
               class="coar-zoned-date-time-picker-value-tz-select"
-              [options]="timezoneOptions"
+              [options]="timezoneOptions()"
               [value]="valueTimeZone()"
               [searchable]="true"
               [placeholder]="'Select timezone'"

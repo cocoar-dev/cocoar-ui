@@ -76,6 +76,15 @@ export class OverlayBuilder<TInputs = void> {
     return this;
   }
 
+  /**
+   * Add CSS class(es) to the overlay panel element.
+   * Useful for applying custom styles or size variants.
+   */
+  panelClass(cls: string | string[]): this {
+    this.draft.panelClass = cls;
+    return this;
+  }
+
   content<TNewInputs>(
     fn: (c: ContentBuilder) => ContentSpec<TNewInputs>
   ): OverlayBuilder<TNewInputs> {

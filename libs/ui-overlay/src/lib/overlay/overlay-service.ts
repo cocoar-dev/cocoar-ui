@@ -196,6 +196,7 @@ export class CoarOverlayService {
       focus: resolvedSpec.focus ?? COAR_OVERLAY_DEFAULTS.focus,
       a11y: resolvedSpec.a11y ?? COAR_OVERLAY_DEFAULTS.a11y,
       attachment: resolvedSpec.attachment ?? COAR_OVERLAY_DEFAULTS.attachment,
+      panelClass: resolvedSpec.panelClass,
     };
   }
 
