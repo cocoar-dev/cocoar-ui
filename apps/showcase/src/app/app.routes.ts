@@ -126,6 +126,13 @@ export const appRoutes: Route[] = [
       ),
   },
   {
+    path: 'zoned-date-time-picker',
+    loadComponent: () =>
+      import('./pages/zoned-date-time-picker/zoned-date-time-picker.page').then(
+        (m) => m.ZonedDateTimePickerPage
+      ),
+  },
+  {
     path: 'mini-calendar',
     loadComponent: () =>
       import('./pages/mini-calendar/mini-calendar.page').then((m) => m.MiniCalendarPage),

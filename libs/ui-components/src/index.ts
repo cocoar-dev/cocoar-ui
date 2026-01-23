@@ -32,6 +32,7 @@ export * from './lib/date/coar-time-helpers';
 // Date/Time components
 export * from './lib/coar-plain-date-picker';
 export * from './lib/coar-plain-date-time-picker';
+export * from './lib/coar-zoned-date-time-picker';
 export * from './lib/coar-time-picker';
 export * from './lib/coar-scrollable-calendar';
 export * from './lib/coar-month-list';

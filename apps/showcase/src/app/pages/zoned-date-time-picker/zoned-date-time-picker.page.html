@@ -1,0 +1,138 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Zoned DateTime Picker</h1>
+    <p class="page-description">
+      A strongly-typed datetime picker that returns <code>Temporal.ZonedDateTime</code> with full timezone support. Captures user intent (local time +
+      timezone) and can derive UTC instants.
+    </p>
+    <coar-note variant="info">
+      <strong>Store Intent, Derive Math:</strong> This picker captures the user's intended local time and timezone. The UTC instant is derived and can
+      be recalculated if DST rules change.
+    </coar-note>
+  </header>
+
+  <coar-tab-group [(activeTab)]="activeTab">
+    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
+  </coar-tab-group>
+</div>
+
+<ng-template #examplesTemplate>
+  <div class="examples-content">
+    <section class="example-section">
+      <h3>Basic Usage</h3>
+      <p>A zoned datetime picker that uses the timezone from <code>CoarTimeZoneService</code>. Returns <code>Temporal.ZonedDateTime | null</code>.</p>
+
+      <div class="demo-row">
+        <coar-zoned-date-time-picker label="Meeting Time" [(value)]="basicZonedDateTime" placeholder="Pick a date and time..." />
+      </div>
+
+      <p class="value-display">
+        Selected: <code>{{ formatZonedDateTime(basicZonedDateTime()) }}</code>
+        <br />
+        Type: <code>Temporal.ZonedDateTime | null</code>
+      </p>
+
+      <coar-code-block [code]="basicExample" language="html" />
+    </section>
+
+    <coar-divider />
+
+    <section class="example-section">
+      <h3>Different Timezones</h3>
+      <p>ZonedDateTimePicker can work with any IANA timezone. The timezone badge shows where the event "lives".</p>
+
+      <div class="demo-grid">
+        <coar-zoned-date-time-picker label="Vienna (CET/CEST)" [(value)]="viennaDateTime" [timeZone]="'Europe/Vienna'" />
+        <coar-zoned-date-time-picker label="New York (EST/EDT)" [(value)]="newYorkDateTime" [timeZone]="'America/New_York'" />
+        <coar-zoned-date-time-picker label="Tokyo (JST)" [(value)]="tokyoDateTime" [timeZone]="'Asia/Tokyo'" />
+      </div>
+
+      <div class="timezone-comparison">
+        <h4>Same Moment, Different Clocks:</h4>
+        @if (viennaDateTime()) {
+          <p>
+            Vienna: <code>{{ formatZonedDateTime(viennaDateTime()) }}</code>
+            <br />
+            → Instant: <code>{{ formatInstant(viennaDateTime()?.toInstant() ?? null) }}</code>
+          </p>
+        }
+      </div>
+
+      <coar-code-block [code]="timezoneExample" language="html" />
+    </section>
+
+    <coar-divider />
+
+    <section class="example-section">
+      <h3>Locked Timezone</h3>
+      <p>Use <code>timeZoneLocked</code> to protect the timezone from accidental changes. Users can see the timezone but cannot modify it.</p>
+
+      <div class="demo-row">
+        <coar-zoned-date-time-picker
+          label="Company HQ Time (Vienna)"
+          [(value)]="lockedTzDateTime"
+          [timeZone]="'Europe/Vienna'"
+          [timeZoneLocked]="true"
+        />
+      </div>
+
+      <p class="value-display">
+        Selected: <code>{{ formatZonedDateTime(lockedTzDateTime()) }}</code>
+      </p>
+    </section>
+
+    <coar-divider />
+
+    <section class="example-section">
+      <h3>Instant Output</h3>
+      <p>
+        The <code>(instantChange)</code> output emits the derived UTC instant whenever the value changes. Use this for API calls, storage, or sorting.
+      </p>
+
+      <div class="demo-row">
+        <coar-zoned-date-time-picker label="Event Time" [(value)]="instantDemoDateTime" (instantChange)="onInstantChanged($event)" />
+      </div>
+
+      <div class="instant-display">
+        <div class="instant-row">
+          <span class="instant-label">User Intent:</span>
+          <code>{{ formatZonedDateTime(instantDemoDateTime()) }}</code>
+        </div>
+        <div class="instant-row">
+          <span class="instant-label">Derived Instant (UTC):</span>
+          <code>{{ formatInstant(lastInstant()) }}</code>
+        </div>
+      </div>
+
+      <coar-code-block [code]="instantExample" language="typescript" />
+    </section>
+
+    <coar-divider />
+
+    <section class="example-section">
+      <h3>Intent vs Instant</h3>
+      <p>
+        The key insight: <strong>store intent, derive math</strong>. The ZonedDateTime preserves both what the user meant (local time + timezone) and
+        what moment that represents (instant).
+      </p>
+
+      <coar-note variant="warning">
+        <strong>Why This Matters:</strong> If you only store the UTC instant, and DST rules change, a 10:00 AM meeting could become 9:00 AM or 11:00
+        AM. By storing the local time + timezone, you can always recalculate the correct instant.
+      </coar-note>
+
+      <coar-code-block [code]="intentVsInstantExample" language="typescript" />
+    </section>
+
+    <coar-divider />
+
+    <section class="example-section">
+      <h3>With Markers</h3>
+      <p>Add date markers to highlight important dates like holidays or events.</p>
+
+      <div class="demo-row">
+        <coar-zoned-date-time-picker label="Holiday Meeting" [(value)]="markerDateTime" [markers]="holidayMarkers" />
+      </div>
+    </section>
+  </div>
+</ng-template>
