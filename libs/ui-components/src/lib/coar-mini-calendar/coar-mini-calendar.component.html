@@ -78,7 +78,7 @@
 
   @if (showTodayButton()) {
     <div class="coar-mini-calendar-footer">
-      <button type="button" class="coar-mini-calendar-today" (click)="selectDate(today)">{{ 'common.today' | coarI18n }}</button>
+      <button type="button" class="coar-mini-calendar-today" (click)="selectDate(today())">{{ 'common.today' | coarI18n }}</button>
     </div>
   }
 </div>

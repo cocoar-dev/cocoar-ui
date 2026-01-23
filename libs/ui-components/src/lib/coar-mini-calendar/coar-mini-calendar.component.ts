@@ -32,6 +32,7 @@ import {
   CoarI18nPipe,
   CoarLocalizationService,
   CoarLocalizationDataStore,
+  CoarTimeZoneService,
 } from '@cocoar/localization';
 
 @Component({
@@ -46,6 +47,7 @@ import {
 export class CoarMiniCalendarComponent {
   private readonly localizationService = inject(CoarLocalizationService, { optional: true });
   private readonly localizationDataStore = inject(CoarLocalizationDataStore, { optional: true });
+  private readonly timeZoneService = inject(CoarTimeZoneService, { optional: true });
 
   /** Current language from localization service (reactive) */
   private readonly currentLanguage = toSignal(
@@ -92,10 +94,22 @@ export class CoarMiniCalendarComponent {
   /** Visible markers before switching to "+N other events". */
   protected readonly markerPopoverVisibleMarkers = 4;
 
-  protected readonly today = Temporal.Now.plainDateISO();
+  /**
+   * Today's date based on the configured timezone.
+   * Reactive: updates when timezone changes.
+   */
+  protected readonly today = computed(() => {
+    const tz = this.timeZoneService?.currentTimeZone();
+    if (tz) {
+      return Temporal.Now.plainDateISO(tz);
+    }
+    return Temporal.Now.plainDateISO();
+  });
 
   /** Currently viewed month/year in the calendar */
-  protected viewDate = signal<Temporal.PlainYearMonth>(this.today.toPlainYearMonth());
+  protected viewDate = signal<Temporal.PlainYearMonth>(
+    Temporal.Now.plainDateISO().toPlainYearMonth()
+  );
 
   /** Focused date in the calendar (for keyboard navigation) */
   protected focusedDate = signal<Temporal.PlainDate | null>(null);
@@ -186,7 +200,7 @@ export class CoarMiniCalendarComponent {
     effect(() => {
       if (this.value()) return;
       if (this.focusedDate()) return;
-      this.focusedDate.set(this.today);
+      this.focusedDate.set(this.today());
     });
   }
 
@@ -207,8 +221,8 @@ export class CoarMiniCalendarComponent {
   }
 
   goToToday(): void {
-    this.viewDate.set(this.today.toPlainYearMonth());
-    this.focusedDate.set(this.today);
+    this.viewDate.set(this.today().toPlainYearMonth());
+    this.focusedDate.set(this.today());
   }
 
   selectDate(date: Temporal.PlainDate): void {
@@ -313,7 +327,7 @@ export class CoarMiniCalendarComponent {
   }
 
   private moveFocus(amount: number, unit: 'day' | 'month' | 'year'): void {
-    const current = this.focusedDate() ?? this.value() ?? this.today;
+    const current = this.focusedDate() ?? this.value() ?? this.today();
 
     let newDate: Temporal.PlainDate;
     switch (unit) {
@@ -345,7 +359,7 @@ export class CoarMiniCalendarComponent {
       date,
       day: date.day,
       isOutsideMonth,
-      isToday: Temporal.PlainDate.compare(date, this.today) === 0,
+      isToday: Temporal.PlainDate.compare(date, this.today()) === 0,
       isSelected: selected ? Temporal.PlainDate.compare(date, selected) === 0 : false,
       isFocused: focused ? Temporal.PlainDate.compare(date, focused) === 0 : false,
       isDisabled: this.isDateDisabled(date),

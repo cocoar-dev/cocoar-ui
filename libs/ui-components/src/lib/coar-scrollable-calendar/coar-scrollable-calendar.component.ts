@@ -30,7 +30,11 @@ import {
 } from '../date/coar-date-helpers';
 import { CoarScrollbarDirective } from '../coar-scrollbar/coar-scrollbar.directive';
 
-import { CoarLocalizationService, CoarLocalizationDataStore } from '@cocoar/localization';
+import {
+  CoarLocalizationService,
+  CoarLocalizationDataStore,
+  CoarTimeZoneService,
+} from '@cocoar/localization';
 
 /**
  * Represents a single month view in the scrollable calendar.
@@ -87,6 +91,7 @@ export interface CoarCalendarDay {
 export class CoarScrollableCalendarComponent {
   private readonly localizationService = inject(CoarLocalizationService, { optional: true });
   private readonly localizationDataStore = inject(CoarLocalizationDataStore, { optional: true });
+  private readonly timeZoneService = inject(CoarTimeZoneService, { optional: true });
   private readonly ngZone = inject(NgZone);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -179,7 +184,17 @@ export class CoarScrollableCalendarComponent {
   // Internal State
   // ============================================================
 
-  protected readonly today = Temporal.Now.plainDateISO();
+  /**
+   * Today's date based on the configured timezone.
+   * Reactive: updates when timezone changes.
+   */
+  protected readonly today = computed(() => {
+    const tz = this.timeZoneService?.currentTimeZone();
+    if (tz) {
+      return Temporal.Now.plainDateISO(tz);
+    }
+    return Temporal.Now.plainDateISO();
+  });
 
   /** Flag to prevent scroll events while programmatically scrolling */
   private isScrollingProgrammatically = false;
@@ -641,7 +656,7 @@ export class CoarScrollableCalendarComponent {
    * Respects min/max date constraints when setting boundaries.
    */
   private initializeMonths(): void {
-    const baseMonth = this.today.toPlainYearMonth();
+    const baseMonth = this.today().toPlainYearMonth();
     const range = this.monthRange();
     const minMonth = this.minMonth();
     const maxMonth = this.maxMonth();
@@ -1149,7 +1164,7 @@ export class CoarScrollableCalendarComponent {
       date,
       day: date.day,
       isOutsideMonth,
-      isToday: Temporal.PlainDate.compare(date, this.today) === 0,
+      isToday: Temporal.PlainDate.compare(date, this.today()) === 0,
       isSelected: selectedDate ? Temporal.PlainDate.compare(date, selectedDate) === 0 : false,
       isDisabled: this.isDateDisabled(date),
       isWeekend: dayOfWeek === 6 || dayOfWeek === 7, // Saturday or Sunday

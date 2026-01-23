@@ -2,47 +2,38 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  DestroyRef,
   effect,
   ElementRef,
-  inject,
   input,
   model,
   output,
-  signal,
   TemplateRef,
   viewChild,
   booleanAttribute,
 } from '@angular/core';
 
-import { toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { Temporal } from '@js-temporal/polyfill';
 import { Maskito } from '@maskito/core';
 import { maskitoDateOptionsGenerator } from '@maskito/kit';
-import { of } from 'rxjs';
 
-import { createOverlayBuilder, type OverlayRef, type Placement } from '@cocoar/ui-overlay';
-import { CoarLocalizationService, CoarLocalizationDataStore } from '@cocoar/localization';
+import { type Placement } from '@cocoar/ui-overlay';
 
 import { CoarIconComponent } from '../coar-icon/coar-icon.component';
 import { CoarScrollableCalendarComponent } from '../coar-scrollable-calendar/coar-scrollable-calendar.component';
 import { CoarScrollbarDirective } from '../coar-scrollbar/coar-scrollbar.directive';
-import {
-  CoarControlValueAccessor,
-  coarProvideValueAccessor,
-} from '../forms/coar-control-value-accessor';
+import { coarProvideValueAccessor } from '../forms/coar-control-value-accessor';
 import type { DateFormatConfig } from '../date/coar-date-format';
 import type { CoarDateMarker } from '../date/coar-date-marker';
 import {
-  coarDetectDateFormatPatternFromIntl,
   coarFormatPlainDate,
-  coarGetDateSeparatorForPattern,
   coarParsePlainDateFromInput,
   coarTemporalPlainDateToDate,
 } from '../date/coar-date-helpers';
+import { CoarDatePickerBase, type CoarDatePickerSize } from '../date/coar-date-picker-base';
 
-export type CoarPlainDatePickerSize = 'xs' | 'sm' | 'md' | 'lg';
+// Re-export size type for backward compatibility
+export type CoarPlainDatePickerSize = CoarDatePickerSize;
 
 /**
  * Date picker component with scrollable calendar.
@@ -86,49 +77,13 @@ export type CoarPlainDatePickerSize = 'xs' | 'sm' | 'md' | 'lg';
     '[class.coar-plain-date-picker--open]': 'isOpen()',
   },
 })
-export class CoarPlainDatePickerComponent extends CoarControlValueAccessor<Temporal.PlainDate | null> {
-  private readonly destroyRef = inject(DestroyRef);
-  private readonly overlayBuilder = createOverlayBuilder();
-  private readonly localizationService = inject(CoarLocalizationService, { optional: true });
-  private readonly localizationDataStore = inject(CoarLocalizationDataStore, { optional: true });
-
-  private overlayRef: OverlayRef | null = null;
-
-  /** Current language from localization service (reactive) */
-  private readonly currentLanguage = toSignal(
-    this.localizationService?.languageState.value$ ?? of(''),
-    {
-      initialValue: this.localizationService?.languageState.value ?? '',
-    }
-  );
+export class CoarPlainDatePickerComponent extends CoarDatePickerBase<Temporal.PlainDate> {
+  /** Maskito instance for input masking */
+  private maskitoInstance?: Maskito;
 
   // ============================================================
-  // Inputs
+  // Date Picker Specific Inputs
   // ============================================================
-
-  /** Label text displayed above the input */
-  label = input<string>('');
-
-  /** Placeholder text when no date is selected */
-  placeholder = input<string>('');
-
-  /** Size variant */
-  size = input<CoarPlainDatePickerSize>('md');
-
-  /** Whether the picker is readonly */
-  readonly = input<boolean, unknown>(false, { transform: booleanAttribute });
-
-  /** Whether the picker is disabled */
-  disabled = input<boolean, unknown>(false, { transform: booleanAttribute });
-
-  /** Whether the field is required */
-  required = input<boolean, unknown>(false, { transform: booleanAttribute });
-
-  /** Error state */
-  error = input<boolean, unknown>(false, { transform: booleanAttribute });
-
-  /** Helper or error message */
-  message = input<string>('');
 
   /** Minimum selectable date */
   min = input<Temporal.PlainDate | null>(null);
@@ -136,51 +91,8 @@ export class CoarPlainDatePickerComponent extends CoarControlValueAccessor<Tempo
   /** Maximum selectable date */
   max = input<Temporal.PlainDate | null>(null);
 
-  /**
-   * Locale identifier for date formatting (e.g., 'de-AT', 'en-US').
-   * Uses global locale service default if not specified.
-   */
-  locale = input<string>();
-
-  /**
-   * Date format configuration (pattern and first day of week).
-   * If not provided, uses locale service default or falls back to European format.
-   */
-  dateFormatConfig = input<DateFormatConfig>();
-
-  /**
-   * Whether to show the current month button (floating action button that scrolls to current month).
-   */
-  showTodayMonthButton = input<boolean, unknown>(true, { transform: booleanAttribute });
-
-  /** Whether to show week numbers */
-  showWeekNumbers = input<boolean, unknown>(false, { transform: booleanAttribute });
-
-  /** Whether to highlight weekend days */
-  highlightWeekends = input<boolean, unknown>(false, { transform: booleanAttribute });
-
-  /** Date markers for highlighting special dates */
-  markers = input<CoarDateMarker[]>([]);
-
-  /** Whether to show a clear button when a value is selected */
-  clearable = input<boolean, unknown>(true, {
-    transform: (v: unknown) => (v === '' ? true : booleanAttribute(v)),
-  });
-
   /** Whether to close the panel after selecting a date (default: false to allow viewing events) */
   closeOnSelect = input<boolean, unknown>(false, { transform: booleanAttribute });
-
-  /**
-   * Minimum year in the year stepper.
-   * Default: current year - 100
-   */
-  minYear = input<number>(Temporal.Now.plainDateISO().year - 100);
-
-  /**
-   * Maximum year in the year stepper.
-   * Default: current year + 50
-   */
-  maxYear = input<number>(Temporal.Now.plainDateISO().year + 50);
 
   // ============================================================
   // Model & Outputs
@@ -192,12 +104,6 @@ export class CoarPlainDatePickerComponent extends CoarControlValueAccessor<Tempo
   /** Emitted when the selected value changes */
   valueChange = output<Temporal.PlainDate | null>();
 
-  /** Emitted when the picker opens */
-  opened = output<void>();
-
-  /** Emitted when the picker closes */
-  closed = output<void>();
-
   // ============================================================
   // Internal State
   // ============================================================
@@ -208,9 +114,6 @@ export class CoarPlainDatePickerComponent extends CoarControlValueAccessor<Tempo
   /** Unique ID for this component instance */
   private readonly uid = `coar-plain-date-picker-${CoarPlainDatePickerComponent.nextId++}`;
 
-  /** Maskito instance for input masking */
-  private maskitoInstance?: Maskito;
-
   /** ID for the label element */
   protected labelId = computed(() => `${this.uid}-label`);
 
@@ -219,27 +122,6 @@ export class CoarPlainDatePickerComponent extends CoarControlValueAccessor<Tempo
 
   /** ID for the panel */
   protected panelId = computed(() => `${this.uid}-panel`);
-
-  /** Whether the panel is open */
-  protected isOpen = signal(false);
-
-  /** Panel position (determined before opening) */
-  protected panelPosition = signal<'top' | 'bottom'>('bottom');
-
-  /** Display value for the input field */
-  protected displayValue = signal('');
-
-  /** Currently visible month in the calendar (synced with month list) */
-  protected activeMonth = signal<Temporal.PlainYearMonth | null>(null);
-
-  /** Resolved active month (uses value's month or today) */
-  protected resolvedActiveMonth = computed((): Temporal.PlainYearMonth => {
-    const explicit = this.activeMonth();
-    if (explicit) return explicit;
-    const val = this.value();
-    if (val) return val.toPlainYearMonth();
-    return Temporal.Now.plainDateISO().toPlainYearMonth();
-  });
 
   /** Reference to the input element */
   protected inputRef = viewChild<ElementRef<HTMLInputElement>>('dateInput');
@@ -251,107 +133,21 @@ export class CoarPlainDatePickerComponent extends CoarControlValueAccessor<Tempo
   protected panelTemplateRef = viewChild<TemplateRef<unknown>>('panelTemplate');
 
   // ============================================================
-  // Computed Values
+  // Computed Values (Date Picker Specific)
   // ============================================================
-
-  /**
-   * Effective date format configuration.
-   */
-  protected effectiveDateFormat = computed((): DateFormatConfig => {
-    const directConfig = this.dateFormatConfig();
-    if (directConfig) return directConfig;
-
-    // Try to get from localization data store using the language key
-    const _version = this.localizationDataStore?.dataVersion();
-    const language = this.currentLanguage();
-    const localeData = language ? this.localizationDataStore?.getLocaleData(language) : undefined;
-    if (localeData?.date) {
-      const isoFirstDay = localeData.date.firstDayOfWeek === 0 ? 7 : localeData.date.firstDayOfWeek;
-      return {
-        pattern: localeData.date.pattern,
-        firstDayOfWeek: isoFirstDay as 1 | 7,
-      };
-    }
-
-    const locale = this.effectiveLocale();
-    const detectedPattern = coarDetectDateFormatPatternFromIntl(locale);
-    return { pattern: detectedPattern ?? 'dd.mm.yyyy', firstDayOfWeek: 1 };
-  });
-
-  /** Get the date format pattern */
-  protected dateFormat = computed(() => this.effectiveDateFormat().pattern);
-
-  /** Get the separator character */
-  protected separator = computed(() => coarGetDateSeparatorForPattern(this.dateFormat()));
 
   /** Get placeholder text based on date format */
   protected inputPlaceholder = computed(() => {
     return this.dateFormat().toUpperCase();
   });
 
-  /** Effective locale */
-  protected effectiveLocale = computed(() => {
-    return this.locale() ?? this.currentLanguage() ?? navigator.language;
-  });
-
-  /** Whether the picker has an error state */
-  protected hasError = computed(() => this.error());
-
-  /** Whether the picker is disabled */
-  protected isDisabled = computed(() => this.disabled() || this.cvaDisabled());
-
-  /** Whether to show the clear button */
-  protected showClearButton = computed(() => {
-    return this.clearable() && this.value() !== null && !this.isDisabled() && !this.readonly();
-  });
-
-  // ============================================================
-  // Month List Computed Values
-  // ============================================================
-
-  /** Current year from activeMonth */
-  protected currentYear = computed(() => this.resolvedActiveMonth().year);
-
-  /** Current month number from activeMonth (1-12) */
-  protected currentMonthNumber = computed(() => this.resolvedActiveMonth().month);
-
-  /** Whether previous year button is disabled */
-  protected isPrevYearDisabled = computed(() => this.currentYear() <= this.minYear());
-
-  /** Whether next year button is disabled */
-  protected isNextYearDisabled = computed(() => this.currentYear() >= this.maxYear());
-
-  /**
-   * Month list items for the current year.
-   */
-  protected monthItems = computed(() => {
-    const year = this.currentYear();
-    const currentMonth = this.currentMonthNumber();
-    const locale = this.effectiveLocale();
-
-    const formatter = new Intl.DateTimeFormat(locale, { month: 'short' });
-
-    const items: Array<{
-      month: number;
-      name: string;
-      isActive: boolean;
-      yearMonth: Temporal.PlainYearMonth;
-    }> = [];
-
-    for (let m = 1; m <= 12; m++) {
-      const jsDate = new Date(year, m - 1, 1);
-      const name = formatter.format(jsDate);
-      const yearMonth = Temporal.PlainYearMonth.from({ year, month: m });
-
-      items.push({
-        month: m,
-        name,
-        isActive: m === currentMonth,
-        yearMonth,
-      });
-    }
-
-    return items;
+  /** Resolved active month (uses value's month or today) */
+  protected override resolvedActiveMonth = computed((): Temporal.PlainYearMonth => {
+    const explicit = this.activeMonth();
+    if (explicit) return explicit;
+    const val = this.value();
+    if (val) return val.toPlainYearMonth();
+    return this.today().toPlainYearMonth();
   });
 
   /**
@@ -370,19 +166,13 @@ export class CoarPlainDatePickerComponent extends CoarControlValueAccessor<Tempo
     });
   });
 
-  /** Direction for the "jump to today" FAB */
-  protected todayMonthScrollDirection = computed((): 'up' | 'down' | 'hidden' => {
-    const active = this.resolvedActiveMonth();
-    const todayMonth = Temporal.Now.plainDateISO().toPlainYearMonth();
-    const comparison = Temporal.PlainYearMonth.compare(active, todayMonth);
-    if (comparison === 0) return 'hidden';
-    return comparison > 0 ? 'up' : 'down';
-  });
+  // ============================================================
+  // Abstract Method Implementations
+  // ============================================================
 
-  /** Whether to show the today month FAB */
-  protected showTodayMonthFab = computed(() => {
-    return this.showTodayMonthButton() && this.todayMonthScrollDirection() !== 'hidden';
-  });
+  protected override getValue(): Temporal.PlainDate | null {
+    return this.value();
+  }
 
   // ============================================================
   // Constructor & Lifecycle
@@ -423,7 +213,7 @@ export class CoarPlainDatePickerComponent extends CoarControlValueAccessor<Tempo
   // ============================================================
 
   /** Open the picker panel */
-  openPanel(): void {
+  override openPanel(): void {
     if (this.isDisabled() || this.readonly()) return;
     if (this.overlayRef) return;
 
@@ -466,27 +256,6 @@ export class CoarPlainDatePickerComponent extends CoarControlValueAccessor<Tempo
     });
   }
 
-  /** Close the picker panel */
-  closePanel(): void {
-    if (!this.isOpen()) return;
-
-    const ref = this.overlayRef;
-    this.overlayRef = null;
-    ref?.close();
-
-    this.isOpen.set(false);
-    this.closed.emit();
-  }
-
-  /** Toggle the picker panel */
-  togglePanel(): void {
-    if (this.isOpen()) {
-      this.closePanel();
-    } else {
-      this.openPanel();
-    }
-  }
-
   /** Clear the selected value */
   clearValue(event: Event): void {
     event.stopPropagation();
@@ -510,36 +279,6 @@ export class CoarPlainDatePickerComponent extends CoarControlValueAccessor<Tempo
     }
   }
 
-  /** Handle active month change from calendar scroll */
-  protected onActiveMonthChanged(yearMonth: Temporal.PlainYearMonth): void {
-    this.activeMonth.set(yearMonth);
-  }
-
-  /** Navigate to previous year */
-  protected previousYear(): void {
-    if (this.isPrevYearDisabled()) return;
-    const current = this.resolvedActiveMonth();
-    this.activeMonth.set(current.subtract({ years: 1 }));
-  }
-
-  /** Navigate to next year */
-  protected nextYear(): void {
-    if (this.isNextYearDisabled()) return;
-    const current = this.resolvedActiveMonth();
-    this.activeMonth.set(current.add({ years: 1 }));
-  }
-
-  /** Select a month from the list */
-  protected selectMonth(yearMonth: Temporal.PlainYearMonth): void {
-    this.activeMonth.set(yearMonth);
-  }
-
-  /** Scroll to today's month */
-  protected scrollToTodayMonth(): void {
-    const today = Temporal.Now.plainDateISO();
-    this.activeMonth.set(today.toPlainYearMonth());
-  }
-
   // ============================================================
   // CVA Methods
   // ============================================================
@@ -561,17 +300,6 @@ export class CoarPlainDatePickerComponent extends CoarControlValueAccessor<Tempo
   // ============================================================
   // Event Handlers
   // ============================================================
-
-  protected onTriggerClick(): void {
-    this.togglePanel();
-  }
-
-  protected onTriggerKeydown(event: KeyboardEvent): void {
-    if (event.key === 'Enter' || event.key === ' ' || event.key === 'ArrowDown') {
-      event.preventDefault();
-      this.openPanel();
-    }
-  }
 
   protected onInputChange(event: Event): void {
     const input = event.target as HTMLInputElement;
@@ -611,17 +339,6 @@ export class CoarPlainDatePickerComponent extends CoarControlValueAccessor<Tempo
   // ============================================================
   // Private Helpers
   // ============================================================
-
-  private resolvePlacement(trigger: HTMLElement, estimatedPanelHeight: number): Placement {
-    const viewportHeight = document.documentElement?.clientHeight || window.innerHeight;
-    const rect = trigger.getBoundingClientRect();
-
-    const spaceBelow = Math.max(0, viewportHeight - rect.bottom);
-    const spaceAbove = Math.max(0, rect.top);
-
-    if (spaceBelow < estimatedPanelHeight && spaceAbove > spaceBelow) return 'top';
-    return 'bottom';
-  }
 
   private estimatePanelHeight(): number {
     return 340;
