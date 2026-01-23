@@ -173,7 +173,7 @@ export class CoarDateTimePickerComponent extends CoarControlValueAccessor<CoarDa
   /**
    * Whether to show the current month button (floating action button that scrolls to current month).
    */
-  showCurrentMonthButton = input<boolean, unknown>(true, { transform: booleanAttribute });
+  showTodayMonthButton = input<boolean, unknown>(true, { transform: booleanAttribute });
 
   /** Whether to show week numbers */
   showWeekNumbers = input<boolean, unknown>(false, { transform: booleanAttribute });
@@ -391,19 +391,6 @@ export class CoarDateTimePickerComponent extends CoarControlValueAccessor<CoarDa
       return val.toPlainDate();
     }
     return val;
-  });
-
-  /**
-   * Direction indicator for the Today button.
-   * Returns 'up' if viewing future months, 'down' if viewing past months,
-   * or 'hidden' if the current month (today's month) is in view.
-   */
-  protected currentMonthScrollDirection = computed((): 'up' | 'down' | 'hidden' => {
-    const active = this.activeMonth();
-    const currentMonth = Temporal.Now.plainDateISO().toPlainYearMonth();
-    const comparison = Temporal.PlainYearMonth.compare(active, currentMonth);
-    if (comparison === 0) return 'hidden';
-    return comparison > 0 ? 'up' : 'down';
   });
 
   // ============================================================
@@ -688,13 +675,6 @@ export class CoarDateTimePickerComponent extends CoarControlValueAccessor<CoarDa
   protected selectToday(): void {
     const today = Temporal.Now.plainDateISO();
     this.onDateSelected(today);
-  }
-
-  /** Scroll to today's date without selecting it */
-  protected scrollToCurrentMonth(): void {
-    const currentDate = Temporal.Now.plainDateISO();
-    const yearMonth = currentDate.toPlainYearMonth();
-    this.activeMonth.set(yearMonth);
   }
 
   // ============================================================

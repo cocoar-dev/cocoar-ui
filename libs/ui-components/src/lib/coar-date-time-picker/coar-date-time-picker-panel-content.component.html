@@ -1,26 +1,19 @@
 <div class="coar-date-time-picker-panel-content">
   <!-- Left Column: Scrollable Calendar -->
-  <div class="coar-date-time-picker-calendar-column">
-    <coar-scrollable-calendar
-      [value]="value()"
-      [activeMonth]="activeMonth()"
-      (activeMonthChange)="activeMonthChange.emit($event)"
-      [min]="min()"
-      [max]="max()"
-      [locale]="locale()"
-      [dateFormatConfig]="dateFormatConfig()"
-      [showWeekNumbers]="showWeekNumbers()"
-      [highlightWeekends]="highlightWeekends()"
-      [markers]="markers()"
-      (dateSelected)="dateSelected.emit($event)"
-    />
-
-    @if (showCurrentMonthButton() && currentMonthScrollDirection() !== 'hidden') {
-      <button type="button" class="coar-date-time-picker-today-fab" (click)="scrollToCurrentMonth.emit()" aria-label="Scroll to current month">
-        <coar-icon [name]="currentMonthScrollDirection()" size="xs" />
-      </button>
-    }
-  </div>
+  <coar-date-time-picker-calendar-column
+    [value]="value()"
+    [activeMonth]="activeMonth()"
+    (activeMonthChange)="activeMonthChange.emit($event)"
+    [min]="min()"
+    [max]="max()"
+    [locale]="locale()"
+    [dateFormatConfig]="dateFormatConfig()"
+    [showWeekNumbers]="showWeekNumbers()"
+    [highlightWeekends]="highlightWeekends()"
+    [markers]="markers()"
+    [showTodayMonthButton]="showTodayMonthButton()"
+    (dateSelected)="dateSelected.emit($event)"
+  />
 
   <!-- Right Column: Month List + Time Picker -->
   <div class="coar-date-time-picker-side-column">

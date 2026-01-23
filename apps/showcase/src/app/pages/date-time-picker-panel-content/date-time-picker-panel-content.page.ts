@@ -63,14 +63,6 @@ export class DateTimePickerPanelContentPage {
     return items;
   });
 
-  protected currentMonthScrollDirection = computed((): 'up' | 'down' | 'hidden' => {
-    const active = this.activeMonth();
-    const currentMonth = Temporal.Now.plainDateISO().toPlainYearMonth();
-    const comparison = Temporal.PlainYearMonth.compare(active, currentMonth);
-    if (comparison === 0) return 'hidden';
-    return comparison > 0 ? 'up' : 'down';
-  });
-
   protected markers = signal<CoarDateMarker[]>([
     {
       startDate: Temporal.PlainDate.from('2026-01-22'),
@@ -127,9 +119,5 @@ export class DateTimePickerPanelContentPage {
 
   protected selectMonth(yearMonth: Temporal.PlainYearMonth): void {
     this.activeMonth.set(yearMonth);
-  }
-
-  protected scrollToCurrentMonth(): void {
-    this.activeMonth.set(Temporal.Now.plainDateISO().toPlainYearMonth());
   }
 }

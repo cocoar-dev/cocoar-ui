@@ -17,46 +17,6 @@
   background: var(--coar-background-neutral-primary);
 }
 
-/* Left Column: Calendar */
-.coar-date-time-picker-calendar-column {
-  position: relative;
-  flex: 1;
-  min-width: 0;
-  height: 100%;
-  background: var(--coar-background-neutral-primary);
-}
-
-/* Floating Today Button */
-.coar-date-time-picker-today-fab {
-  position: absolute;
-  bottom: var(--coar-spacing-m);
-  right: var(--coar-spacing-m);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  padding: 0;
-  color: var(--coar-text-neutral-primary);
-  background: var(--coar-background-neutral-primary);
-  border: 1px solid var(--coar-border-neutral-tertiary);
-  border-radius: var(--coar-radius-full);
-  cursor: pointer;
-  box-shadow: var(--coar-shadow-md);
-  transition:
-    background-color 150ms ease,
-    transform 100ms ease;
-  z-index: 10;
-}
-
-.coar-date-time-picker-today-fab:hover {
-  transform: scale(1.05);
-}
-
-.coar-date-time-picker-today-fab:active {
-  transform: scale(0.95);
-}
-
 /* Right Column: Month List + Time */
 .coar-date-time-picker-side-column {
   display: flex;

@@ -190,6 +190,9 @@ export class CoarScrollableCalendarComponent {
   /** Flag to prevent multiple concurrent infinite scroll loads */
   private isLoadingMonths = false;
 
+  /** Becomes true once the actual scroll viewport element is available (OverlayScrollbars initialized). */
+  private readonly scrollViewportReady = signal(false);
+
   /** The earliest month currently in the DOM */
   private earliestMonth = signal<Temporal.PlainYearMonth>(
     Temporal.Now.plainDateISO().toPlainYearMonth().subtract({ months: 12 })
@@ -281,19 +284,23 @@ export class CoarScrollableCalendarComponent {
   private lastValueString = '';
   private lastHighlightWeekends = false;
 
+  private readonly monthScrollTopInsetPx = 0;
+
   constructor() {
     // Initialize the months array
     this.initializeMonths();
 
     // Scroll to active month on initial render and set up scroll listener
     afterNextRender(() => {
-      this.scrollToMonth(this.activeMonth(), false);
       this.setupScrollListener();
     });
 
     // Watch for external activeMonth changes and scroll to it
     effect(() => {
+      const isViewportReady = this.scrollViewportReady();
       const month = this.activeMonth();
+
+      if (!isViewportReady) return;
       // Only scroll if not triggered by our own scroll handler or programmatic scroll
       if (!this.isScrollingProgrammatically && !this.isUpdatingFromScroll) {
         // Ensure the month is in the DOM before scrolling
@@ -391,23 +398,139 @@ export class CoarScrollableCalendarComponent {
    * Native scroll events don't fire on the original element when using OverlayScrollbars.
    */
   private setupScrollListener(): void {
-    // Wait a bit for OverlayScrollbars to initialize (it defers by default)
-    setTimeout(() => {
+    const maxAttempts = 50;
+    const attemptDelayMs = 50;
+    let attempts = 0;
+
+    const tryAttach = () => {
       const osInstance = this.scrollbarDirective()?.getInstance();
       const viewport = osInstance?.elements().viewport;
-      if (!viewport) return;
+      if (!viewport) {
+        attempts++;
+        if (attempts <= maxAttempts) {
+          setTimeout(tryAttach, attemptDelayMs);
+        }
+        return;
+      }
 
-      // Listen to scroll events on the viewport element
+      this.scrollViewportReady.set(true);
+
+      // Listen to scroll events on the actual scroll viewport element.
+      // Native scroll events won't fire on the host element when using OverlayScrollbars.
       const scrollHandler = () => this.onScroll();
       this.ngZone.runOutsideAngular(() => {
         viewport.addEventListener('scroll', scrollHandler, { passive: true });
       });
 
-      // Clean up on destroy
       this.destroyRef.onDestroy(() => {
         viewport.removeEventListener('scroll', scrollHandler);
       });
-    }, 100);
+
+      // OverlayScrollbars initialization can reset the scroll position.
+      // Re-align after the viewport exists (effect already triggered by scrollViewportReady).
+      this.ensureMonthAlignedInViewport(this.activeMonth());
+    };
+
+    tryAttach();
+  }
+
+  private getScrollViewportElement(): HTMLElement | null {
+    const osViewport = this.scrollbarDirective()?.getInstance()?.elements().viewport;
+    if (osViewport) return osViewport;
+
+    const container = this.scrollContainerRef()?.nativeElement ?? null;
+    if (!container) return null;
+
+    const firstChild = container.firstElementChild as HTMLElement | null;
+    if (firstChild && firstChild.scrollHeight > firstChild.clientHeight) return firstChild;
+    if (container.scrollHeight > container.clientHeight) return container;
+
+    return firstChild ?? container;
+  }
+
+  private ensureMonthAlignedInViewport(targetMonth: Temporal.PlainYearMonth): void {
+    let attempts = 0;
+    const maxAttempts = 40;
+
+    this.isScrollingProgrammatically = true;
+
+    const tryAlign = () => {
+      attempts++;
+
+      const container = this.scrollContainerRef()?.nativeElement;
+      const viewport = this.getScrollViewportElement();
+      if (!container || !viewport) {
+        if (attempts < maxAttempts) requestAnimationFrame(tryAlign);
+        else this.isScrollingProgrammatically = false;
+        return;
+      }
+
+      const monthId = this.getMonthElementId(targetMonth);
+      const monthElement = container.querySelector(`#${monthId}`) as HTMLElement | null;
+      if (!monthElement) {
+        if (attempts < maxAttempts) requestAnimationFrame(tryAlign);
+        else this.isScrollingProgrammatically = false;
+        return;
+      }
+
+      const viewportRect = viewport.getBoundingClientRect();
+      const monthRect = monthElement.getBoundingClientRect();
+      const offset = monthRect.top - viewportRect.top - this.monthScrollTopInsetPx;
+
+      if (Math.abs(offset) > 1) {
+        viewport.scrollTop = viewport.scrollTop + offset;
+      }
+
+      if (attempts < maxAttempts) {
+        requestAnimationFrame(tryAlign);
+        return;
+      }
+
+      setTimeout(() => {
+        this.isScrollingProgrammatically = false;
+      }, 50);
+    };
+
+    requestAnimationFrame(tryAlign);
+  }
+
+  private scrollMonthElementToTop(monthElement: HTMLElement, smooth: boolean): void {
+    const viewport = this.getScrollViewportElement();
+
+    if (viewport) {
+      const viewportRect = viewport.getBoundingClientRect();
+      const monthRect = monthElement.getBoundingClientRect();
+      const currentScrollTop = viewport.scrollTop;
+      const targetScrollTop =
+        currentScrollTop + (monthRect.top - viewportRect.top) - this.monthScrollTopInsetPx;
+
+      this.isScrollingProgrammatically = true;
+      viewport.scrollTo({
+        top: targetScrollTop,
+        behavior: smooth ? 'smooth' : 'auto',
+      });
+
+      setTimeout(
+        () => {
+          this.isScrollingProgrammatically = false;
+        },
+        smooth ? 500 : 50
+      );
+      return;
+    }
+
+    this.isScrollingProgrammatically = true;
+    monthElement.scrollIntoView({
+      behavior: smooth ? 'smooth' : 'instant',
+      block: 'start',
+    });
+
+    setTimeout(
+      () => {
+        this.isScrollingProgrammatically = false;
+      },
+      smooth ? 500 : 50
+    );
   }
 
   /**
@@ -614,10 +737,7 @@ export class CoarScrollableCalendarComponent {
         const monthId = this.getMonthElementId(target);
         const monthElement = container.querySelector(`#${monthId}`);
         if (monthElement) {
-          monthElement.scrollIntoView({
-            behavior: 'instant',
-            block: 'start',
-          });
+          this.scrollMonthElementToTop(monthElement as HTMLElement, false);
         }
       }
 
@@ -682,20 +802,7 @@ export class CoarScrollableCalendarComponent {
     const monthElement = container.querySelector(`#${monthId}`);
     if (!monthElement) return;
 
-    this.isScrollingProgrammatically = true;
-
-    monthElement.scrollIntoView({
-      behavior: smooth ? 'smooth' : 'instant',
-      block: 'start',
-    });
-
-    // Reset flag after scroll animation
-    setTimeout(
-      () => {
-        this.isScrollingProgrammatically = false;
-      },
-      smooth ? 500 : 50
-    );
+    this.scrollMonthElementToTop(monthElement as HTMLElement, smooth);
   }
 
   // ============================================================
@@ -711,11 +818,13 @@ export class CoarScrollableCalendarComponent {
     const container = this.scrollContainerRef()?.nativeElement;
     if (!container) return;
 
+    const viewport = this.getScrollViewportElement() ?? container;
+
     // Find the month element with the most visible area
     const monthElements = container.querySelectorAll('[data-year-month]');
-    const containerRect = container.getBoundingClientRect();
-    const containerTop = containerRect.top;
-    const containerBottom = containerRect.bottom;
+    const viewportRect = viewport.getBoundingClientRect();
+    const containerTop = viewportRect.top;
+    const containerBottom = viewportRect.bottom;
 
     let mostVisibleMonth: Temporal.PlainYearMonth | null = null;
     let maxVisibleArea = 0;

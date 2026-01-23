@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 
 import { Temporal } from '@js-temporal/polyfill';
 
+import { CoarDateTimePickerCalendarColumnComponent } from './coar-date-time-picker-calendar-column.component';
 import { CoarIconComponent } from '../coar-icon/coar-icon.component';
-import { CoarScrollableCalendarComponent } from '../coar-scrollable-calendar/coar-scrollable-calendar.component';
 import { CoarScrollbarDirective } from '../coar-scrollbar/coar-scrollbar.directive';
 import { CoarTimePickerComponent } from '../coar-time-picker/coar-time-picker.component';
 
@@ -16,8 +16,8 @@ import type { CoarDateTimePickerMode } from './coar-date-time-picker.component';
   selector: 'coar-date-time-picker-panel-content',
   standalone: true,
   imports: [
+    CoarDateTimePickerCalendarColumnComponent,
     CoarIconComponent,
-    CoarScrollableCalendarComponent,
     CoarTimePickerComponent,
     CoarScrollbarDirective,
   ],
@@ -41,8 +41,7 @@ export class CoarDateTimePickerPanelContentComponent {
   highlightWeekends = input<boolean>(false);
   markers = input<CoarDateMarker[]>([]);
 
-  showCurrentMonthButton = input<boolean>(true);
-  currentMonthScrollDirection = input<'up' | 'down' | 'hidden'>('hidden');
+  showTodayMonthButton = input<boolean>(true);
 
   currentYear = input<number>(Temporal.Now.plainDateISO().year);
   isPrevYearDisabled = input<boolean>(false);
@@ -68,7 +67,6 @@ export class CoarDateTimePickerPanelContentComponent {
   selectedDateMarkers = input<CoarDateMarker[]>([]);
 
   dateSelected = output<Temporal.PlainDate>();
-  scrollToCurrentMonth = output<void>();
   previousYear = output<void>();
   nextYear = output<void>();
   selectMonth = output<Temporal.PlainYearMonth>();
