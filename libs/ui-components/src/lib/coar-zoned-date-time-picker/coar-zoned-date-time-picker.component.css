@@ -180,36 +180,51 @@
   padding: 4px;
   border-radius: var(--coar-radius-xs);
   color: var(--coar-icon-neutral-secondary);
-  cursor: pointer;
+  cursor: default;
   transition:
     background-color 0.15s ease,
-    color 0.15s ease;
+    color 0.15s ease,
+    opacity 0.15s ease;
   flex-shrink: 0;
 }
 
-.coar-zoned-date-time-picker-tz-indicator:hover {
+.coar-zoned-date-time-picker-tz-indicator--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Only show pointer cursor when there's something to toggle */
+.coar-zoned-date-time-picker-tz-indicator--clickable {
+  cursor: pointer;
+}
+
+.coar-zoned-date-time-picker-tz-indicator--clickable:hover {
   background: var(--coar-surface-neutral-secondary);
   color: var(--coar-icon-neutral-primary);
 }
 
-.coar-zoned-date-time-picker-tz-indicator--differs {
-  color: var(--coar-icon-accent-primary);
+/* Disabled state when UserTZ === LocationTZ (no toggle possible) */
+.coar-zoned-date-time-picker-tz-indicator--disabled {
+  opacity: 0.4;
+  cursor: default;
 }
 
-.coar-zoned-date-time-picker-tz-indicator--differs:hover {
-  background: var(--coar-surface-accent-secondary);
-  color: var(--coar-icon-accent-primary);
-}
-
-/* Indicator dot for timezone difference */
-.coar-zoned-date-time-picker-tz-indicator-dot {
+/* Timezone Badge (floating on bottom border of trigger, aligned with TZ icon) */
+.coar-zoned-date-time-picker-tz-badge {
   position: absolute;
-  top: 2px;
-  right: 2px;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--coar-surface-semantic-warning);
+  bottom: 0;
+  right: var(--coar-spacing-xl);
+  transform: translateY(50%);
+  padding: 0 var(--coar-spacing-s);
+  font-family: var(--coar-body-caption-family, var(--coar-body-small-family));
+  font-size: var(--coar-body-caption-size, 10px);
+  font-weight: var(--coar-body-caption-weight, 400);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  color: var(--coar-text-neutral-tertiary, var(--coar-text-neutral-secondary));
+  background-color: var(--coar-surface-input);
+  white-space: nowrap;
+  pointer-events: none;
 }
 
 /* Timezone Popover */
@@ -253,6 +268,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  width: 16px; /* Fixed width to prevent layout shift */
   margin-left: var(--coar-spacing-s);
   color: var(--coar-icon-neutral-disabled);
   cursor: pointer;
@@ -265,6 +281,8 @@
 .coar-zoned-date-time-picker-clear--hidden {
   opacity: 0;
   pointer-events: none;
+  margin-left: 0; /* Remove margin when hidden to prevent layout shift */
+  width: 0; /* Remove width when hidden */
 }
 
 .coar-zoned-date-time-picker-trigger:hover

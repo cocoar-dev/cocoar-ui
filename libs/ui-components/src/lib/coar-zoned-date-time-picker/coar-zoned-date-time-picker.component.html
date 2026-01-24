@@ -51,29 +51,52 @@
       (keydown)="onTriggerKeydown($event)"
     />
 
-    <!-- Timezone Indicator -->
-    @if (value()) {
+    <!-- Timezone Indicator (always rendered to prevent layout shift) -->
+    @if (showTimeZoneSelector()) {
       <span
         class="coar-zoned-date-time-picker-tz-indicator"
-        [class.coar-zoned-date-time-picker-tz-indicator--differs]="timeZonesDiffer()"
+        [class.coar-zoned-date-time-picker-tz-indicator--hidden]="!value()"
+        [class.coar-zoned-date-time-picker-tz-indicator--clickable]="locationDiffersFromUser() || timezoneIndicatorState() !== 'home'"
+        [class.coar-zoned-date-time-picker-tz-indicator--disabled]="!locationDiffersFromUser() && timezoneIndicatorState() === 'home'"
+        role="button"
+        [tabindex]="locationDiffersFromUser() || timezoneIndicatorState() !== 'home' ? 0 : -1"
+        [attr.aria-disabled]="!locationDiffersFromUser() && timezoneIndicatorState() === 'home' ? 'true' : null"
+        [attr.aria-label]="
+          locationDiffersFromUser()
+            ? 'Toggle timezone view. Currently showing ' +
+              popoverTimeZoneInfo().displayTzName +
+              '. Click to show ' +
+              (timezoneIndicatorState() === 'home' ? popoverTimeZoneInfo().valueTzName : popoverTimeZoneInfo().displayTzName)
+            : 'Timezone: ' + popoverTimeZoneInfo().displayTzName
+        "
         (click)="toggleTimeZoneView()"
+        (keydown.enter)="toggleTimeZoneView()"
+        (keydown.space)="toggleTimeZoneView(); $event.preventDefault()"
         [title]="
-          timeZonesDiffer()
-            ? 'Display: ' +
+          locationDiffersFromUser()
+            ? 'Viewing: ' +
               popoverTimeZoneInfo().displayTzName +
               ' (' +
               popoverTimeZoneInfo().displayTzOffset +
-              ')&#10;Value: ' +
+              ')&#10;Location: ' +
               popoverTimeZoneInfo().valueTzName +
               ' (' +
               popoverTimeZoneInfo().valueTzOffset +
-              ')&#10;Click to toggle view'
+              ')&#10;Click to toggle'
             : popoverTimeZoneInfo().displayTzName + ' (' + popoverTimeZoneInfo().displayTzOffset + ')'
         "
       >
-        <coar-icon name="globe" source="coar-builtin" size="xs" />
-        @if (timeZonesDiffer()) {
-          <span class="coar-zoned-date-time-picker-tz-indicator-dot"></span>
+        <!-- Icon based on which timezone is currently shown -->
+        @switch (timezoneIndicatorState()) {
+          @case ('home') {
+            <coar-icon name="home" source="coar-builtin" size="md" />
+          }
+          @case ('location') {
+            <coar-icon name="location" source="coar-builtin" size="md" />
+          }
+          @case ('world') {
+            <coar-icon name="world" source="coar-builtin" size="md" />
+          }
         }
       </span>
     }
@@ -88,6 +111,13 @@
     >
       <coar-icon name="calendar" source="coar-builtin" size="sm" />
     </button>
+
+    <!-- Timezone Badge (floating on bottom border) -->
+    @if (showTimeZoneSelector() && value()) {
+      <span class="coar-zoned-date-time-picker-tz-badge">
+        {{ currentTimeZoneDisplayName() | uppercase }}
+      </span>
+    }
   </div>
 
   <!-- Panel (rendered via @cocoar/ui-overlay) -->

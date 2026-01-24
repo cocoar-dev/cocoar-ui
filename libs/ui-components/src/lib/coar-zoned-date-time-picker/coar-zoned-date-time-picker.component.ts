@@ -12,7 +12,7 @@ import {
   viewChild,
   booleanAttribute,
 } from '@angular/core';
-
+import { UpperCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Temporal } from '@js-temporal/polyfill';
 import { Maskito } from '@maskito/core';
@@ -112,6 +112,7 @@ interface TimezoneGroup {
   standalone: true,
   imports: [
     FormsModule,
+    UpperCasePipe,
     CoarIconComponent,
     CoarScrollableCalendarComponent,
     CoarScrollbarDirective,
@@ -270,12 +271,6 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
   protected displayTimeZone = signal<string | null>(null);
 
   /**
-   * Whether we're showing the value in the value timezone (true) or display timezone (false).
-   * This is toggled by the indicator icon in the closed state.
-   */
-  protected showingValueTimeZone = signal<boolean>(false);
-
-  /**
    * Whether the value timezone is being edited (unlocked inline select mode).
    */
   protected isEditingValueTimeZone = signal<boolean>(false);
@@ -323,16 +318,55 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
    * When editing, this is the display timezone (value TZ is preserved).
    */
   protected currentWorkingTimeZone = computed((): string => {
-    // If showing value timezone or no value yet, use value's timezone
-    if (this.showingValueTimeZone()) {
+    // If showing location timezone, use value's timezone
+    if (this.timezoneIndicatorState() === 'location') {
       return this.valueTimeZone() ?? this.effectiveDisplayTimeZone();
     }
     return this.effectiveDisplayTimeZone();
   });
 
   /**
+   * The user's timezone from the service (or UTC fallback).
+   * This is the user's "home" timezone.
+   */
+  protected userTimeZone = computed((): string => {
+    return this.currentTimeZone?.() ?? 'UTC';
+  });
+
+  /**
+   * Whether the location timezone differs from the user's timezone.
+   * Used to determine if toggle functionality should be available.
+   */
+  protected locationDiffersFromUser = computed((): boolean => {
+    const locationTz = this.valueTimeZone();
+    if (!locationTz) return false;
+    return locationTz !== this.userTimeZone();
+  });
+
+  /**
+   * Timezone indicator state for the icon.
+   * - 'home': Showing value in user's timezone
+   * - 'location': Showing value in event's location timezone
+   * - 'world': Showing value in a third timezone (neither user nor location)
+   */
+  protected timezoneIndicatorState = computed((): 'home' | 'location' | 'world' => {
+    const displayTz = this.effectiveDisplayTimeZone();
+    const userTz = this.userTimeZone();
+    const locationTz = this.valueTimeZone();
+
+    if (displayTz === userTz) {
+      return 'home';
+    }
+    if (locationTz && displayTz === locationTz) {
+      return 'location';
+    }
+    return 'world';
+  });
+
+  /**
    * Whether the display timezone differs from the value timezone.
    * Used to show/hide the timezone indicator.
+   * @deprecated Use timezoneIndicatorState instead for icon logic
    */
   protected timeZonesDiffer = computed((): boolean => {
     const valueTz = this.valueTimeZone();
@@ -351,12 +385,32 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
   });
 
   /**
-   * Short display name for the display timezone.
+   * Short display name for the display timezone (user's home TZ).
    * Format: "Vienna (UTC+1)"
    */
   protected displayTimeZoneDisplayName = computed((): string => {
     const tz = this.effectiveDisplayTimeZone();
     return this.formatTimezoneShort(tz);
+  });
+
+  /**
+   * Short display name for the currently shown timezone (based on toggle state).
+   * This reflects what the user is actually seeing in the input.
+   * Format: "Vienna (UTC+1)" or "New York (UTC-5)"
+   */
+  protected currentTimeZoneDisplayName = computed((): string => {
+    const tz = this.currentWorkingTimeZone();
+    return this.formatTimezoneShort(tz);
+  });
+
+  /**
+   * Short abbreviation for the display timezone badge.
+   * Shows just the city name or a short form (max ~6 chars).
+   * E.g., 'Europe/Vienna' → 'VIE', 'America/New_York' → 'NYC'
+   */
+  protected displayTimeZoneAbbreviation = computed((): string => {
+    const tz = this.effectiveDisplayTimeZone();
+    return this.getTimezoneAbbreviation(tz);
   });
 
   /**
@@ -406,7 +460,7 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
    * The currently displayed value based on which timezone view is active.
    */
   protected currentDisplayedValue = computed((): string => {
-    if (this.showingValueTimeZone()) {
+    if (this.timezoneIndicatorState() === 'location') {
       return this.valueInValueTimeZone();
     }
     return this.valueInDisplayTimeZone();
@@ -522,6 +576,82 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
     const parts = tz.split('/');
     const cityPart = parts[parts.length - 1];
     return cityPart.replace(/_/g, ' ');
+  }
+
+  /**
+   * Get a short abbreviation for a timezone (for the badge).
+   * Uses common abbreviations for well-known cities, otherwise extracts from city name.
+   */
+  private getTimezoneAbbreviation(tz: string): string {
+    if (tz === 'UTC') return 'UTC';
+
+    // Common abbreviations for popular timezones
+    const abbreviations: Record<string, string> = {
+      'Europe/Vienna': 'VIE',
+      'Europe/London': 'LON',
+      'Europe/Paris': 'PAR',
+      'Europe/Berlin': 'BER',
+      'Europe/Zurich': 'ZRH',
+      'Europe/Amsterdam': 'AMS',
+      'Europe/Brussels': 'BRU',
+      'Europe/Madrid': 'MAD',
+      'Europe/Rome': 'ROM',
+      'Europe/Warsaw': 'WAW',
+      'Europe/Prague': 'PRG',
+      'Europe/Budapest': 'BUD',
+      'Europe/Stockholm': 'STO',
+      'Europe/Oslo': 'OSL',
+      'Europe/Copenhagen': 'CPH',
+      'Europe/Helsinki': 'HEL',
+      'Europe/Athens': 'ATH',
+      'Europe/Istanbul': 'IST',
+      'Europe/Moscow': 'MOW',
+      'America/New_York': 'NYC',
+      'America/Los_Angeles': 'LAX',
+      'America/Chicago': 'CHI',
+      'America/Denver': 'DEN',
+      'America/Phoenix': 'PHX',
+      'America/Toronto': 'YYZ',
+      'America/Vancouver': 'YVR',
+      'America/Mexico_City': 'MEX',
+      'America/Sao_Paulo': 'SAO',
+      'America/Buenos_Aires': 'BUE',
+      'America/Lima': 'LIM',
+      'America/Bogota': 'BOG',
+      'Asia/Tokyo': 'TYO',
+      'Asia/Shanghai': 'SHA',
+      'Asia/Hong_Kong': 'HKG',
+      'Asia/Singapore': 'SIN',
+      'Asia/Seoul': 'SEL',
+      'Asia/Taipei': 'TPE',
+      'Asia/Bangkok': 'BKK',
+      'Asia/Jakarta': 'JKT',
+      'Asia/Mumbai': 'BOM',
+      'Asia/Delhi': 'DEL',
+      'Asia/Kolkata': 'CCU',
+      'Asia/Dubai': 'DXB',
+      'Asia/Riyadh': 'RUH',
+      'Asia/Tel_Aviv': 'TLV',
+      'Australia/Sydney': 'SYD',
+      'Australia/Melbourne': 'MEL',
+      'Australia/Perth': 'PER',
+      'Australia/Brisbane': 'BNE',
+      'Pacific/Auckland': 'AKL',
+      'Pacific/Honolulu': 'HNL',
+      'Africa/Cairo': 'CAI',
+      'Africa/Johannesburg': 'JNB',
+      'Africa/Lagos': 'LOS',
+      'Africa/Nairobi': 'NBO',
+      'Africa/Accra': 'ACC',
+    };
+
+    if (abbreviations[tz]) {
+      return abbreviations[tz];
+    }
+
+    // Fallback: Extract first 3-4 letters of city name, uppercase
+    const city = this.extractCityName(tz);
+    return city.substring(0, 3).toUpperCase();
   }
 
   /**
@@ -948,11 +1078,26 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
   }
 
   /**
-   * Toggle between showing value in display timezone vs value timezone.
+   * Toggle between showing value in user timezone vs location timezone.
    * Used by the indicator icon in the trigger.
+   *
+   * Behavior:
+   * - home (user TZ) → switch to location TZ
+   * - location (event TZ) → switch to user TZ
+   * - world (other TZ) → switch to user TZ
    */
   protected toggleTimeZoneView(): void {
-    this.showingValueTimeZone.set(!this.showingValueTimeZone());
+    const state = this.timezoneIndicatorState();
+    const locationTz = this.valueTimeZone();
+    const userTz = this.userTimeZone();
+
+    if (state === 'home' && locationTz && locationTz !== userTz) {
+      // Home → Location: show in event timezone
+      this.displayTimeZone.set(locationTz);
+    } else {
+      // Location or World → Home: show in user timezone
+      this.displayTimeZone.set(userTz);
+    }
   }
 
   /**
