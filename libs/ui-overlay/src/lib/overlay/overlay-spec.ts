@@ -144,6 +144,8 @@ export const COAR_OVERLAY_DEFAULTS = {
   attachment: { strategy: 'body' } as const satisfies AttachmentSpec,
 } as const;
 
-export type ResolvedOverlaySpec<TInputs> = Required<Omit<OverlaySpec<TInputs>, 'content' | 'panelClass'>> &
+export type ResolvedOverlaySpec<TInputs> = Required<
+  Omit<OverlaySpec<TInputs>, 'content' | 'panelClass'>
+> &
   Pick<Required<OverlaySpec<TInputs>>, 'content'> &
   Pick<OverlaySpec<TInputs>, 'panelClass'>;

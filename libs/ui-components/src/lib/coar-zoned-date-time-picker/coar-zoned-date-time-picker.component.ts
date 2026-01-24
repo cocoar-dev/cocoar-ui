@@ -46,6 +46,28 @@ import { CoarDatePickerBase, type CoarDatePickerSize } from '../date/coar-date-p
 export type CoarZonedDateTimePickerSize = CoarDatePickerSize;
 
 /**
+ * A timezone item for display in the picker list.
+ */
+interface TimezoneItem {
+  /** Full IANA ID (e.g., 'Europe/Vienna') */
+  id: string;
+  /** City name for display (e.g., 'Vienna') */
+  city: string;
+  /** UTC offset for display (e.g., 'UTC+1') */
+  offset: string;
+}
+
+/**
+ * A group of timezones by continent/region.
+ */
+interface TimezoneGroup {
+  /** Group name (e.g., 'Europe', 'America') */
+  name: string;
+  /** Timezones in this group */
+  items: TimezoneItem[];
+}
+
+/**
  * Zoned date-time picker component with full timezone support.
  *
  * Returns strongly-typed `Temporal.ZonedDateTime` values that include:
@@ -231,6 +253,12 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
   /** Reference to the panel template */
   protected panelTemplateRef = viewChild<TemplateRef<unknown>>('panelTemplate');
 
+  /** Reference to the timezone search input */
+  protected tzSearchInputRef = viewChild<ElementRef<HTMLInputElement>>('tzSearchInput');
+
+  /** Reference to the timezone list container */
+  protected tzListRef = viewChild<ElementRef<HTMLElement>>('tzList');
+
   /** Pending time value (stored until a date is selected) */
   protected pendingTime = signal<CoarTimeValue | null>(null);
 
@@ -251,6 +279,16 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
    * Whether the value timezone is being edited (unlocked inline select mode).
    */
   protected isEditingValueTimeZone = signal<boolean>(false);
+
+  /**
+   * Whether the side column is showing the timezone picker instead of normal content.
+   */
+  protected isSelectingDisplayTimezone = signal<boolean>(false);
+
+  /**
+   * Search query for timezone filtering in the inline timezone picker.
+   */
+  protected timezoneSearchQuery = signal<string>('');
 
   // ============================================================
   // Computed Values (Zoned Date-Time Picker Specific)
@@ -304,21 +342,21 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
 
   /**
    * Short display name for the value timezone.
+   * Format: "Vienna (UTC+1)"
    */
   protected valueTimeZoneDisplayName = computed((): string => {
     const tz = this.valueTimeZone();
     if (!tz) return '';
-    const parts = tz.split('/');
-    return parts[parts.length - 1].replace(/_/g, ' ');
+    return this.formatTimezoneShort(tz);
   });
 
   /**
    * Short display name for the display timezone.
+   * Format: "Vienna (UTC+1)"
    */
   protected displayTimeZoneDisplayName = computed((): string => {
     const tz = this.effectiveDisplayTimeZone();
-    const parts = tz.split('/');
-    return parts[parts.length - 1].replace(/_/g, ' ');
+    return this.formatTimezoneShort(tz);
   });
 
   /**
@@ -404,21 +442,124 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
 
     if (!filters || filters.length === 0) {
       // No filter: return all timezones
-      return this.allTimezones.map(tz => ({ value: tz, label: tz }));
+      return this.allTimezones.map((tz) => ({ value: tz, label: tz }));
     }
 
     // Convert wildcard patterns to regex
-    const regexPatterns = filters.map(pattern => {
+    const regexPatterns = filters.map((pattern) => {
       // Escape regex special chars except *, then convert * to .*
       const escaped = pattern.replace(/[.+?^${}()|[\]\\]/g, '\\$&').replace(/\*/g, '.*');
       return new RegExp(`^${escaped}$`, 'i');
     });
 
     // Filter timezones that match any pattern
-    const filtered = this.allTimezones.filter(tz => regexPatterns.some(regex => regex.test(tz)));
+    const filtered = this.allTimezones.filter((tz) =>
+      regexPatterns.some((regex) => regex.test(tz))
+    );
 
-    return filtered.map(tz => ({ value: tz, label: tz }));
+    return filtered.map((tz) => ({ value: tz, label: tz }));
   });
+
+  /**
+   * Grouped timezone list for the inline timezone picker.
+   * Groups by continent with sticky headers.
+   */
+  protected readonly groupedTimezoneList = computed<TimezoneGroup[]>(() => {
+    const options = this.timezoneOptions();
+    const query = this.timezoneSearchQuery().toLowerCase().trim();
+
+    let timezones = options.map((o) => o.value);
+
+    // Filter by search query (searches both ID and display label)
+    if (query) {
+      timezones = timezones.filter((tz) => {
+        const label = this.formatTimezoneShort(tz);
+        return tz.toLowerCase().includes(query) || label.toLowerCase().includes(query);
+      });
+    }
+
+    // Group by continent/region (exclude UTC - not a real location)
+    const groups = new Map<string, TimezoneItem[]>();
+
+    for (const tz of timezones) {
+      // Skip UTC - it's not a real location, use PlainDateTimePicker instead
+      if (tz === 'UTC') {
+        continue;
+      }
+
+      const parts = tz.split('/');
+      const continent = parts[0];
+      const city = this.extractCityName(tz);
+      const offset = 'UTC' + this.getOffsetForTimeZoneCompact(tz);
+
+      if (!groups.has(continent)) {
+        groups.set(continent, []);
+      }
+      groups.get(continent)!.push({ id: tz, city, offset });
+    }
+
+    // Convert to array and sort alphabetically by continent
+    const result: TimezoneGroup[] = [];
+
+    const sortedContinents = [...groups.keys()].sort();
+    for (const continent of sortedContinents) {
+      const items = groups.get(continent)!;
+      // Sort items within group by city name
+      items.sort((a, b) => a.city.localeCompare(b.city));
+      result.push({ name: continent, items });
+    }
+
+    return result;
+  });
+
+  /**
+   * Extract the city name from a timezone ID.
+   * E.g., 'Europe/Vienna' → 'Vienna', 'America/Argentina/Buenos_Aires' → 'Buenos Aires'
+   */
+  private extractCityName(tz: string): string {
+    if (tz === 'UTC') return 'UTC';
+
+    const parts = tz.split('/');
+    const cityPart = parts[parts.length - 1];
+    return cityPart.replace(/_/g, ' ');
+  }
+
+  /**
+   * Format a timezone ID to a short display format.
+   * E.g., 'Europe/Vienna' → 'Vienna (UTC+1)'
+   */
+  protected formatTimezoneShort(tz: string): string {
+    if (tz === 'UTC') return 'UTC';
+
+    const city = this.extractCityName(tz);
+    const offset = this.getOffsetForTimeZoneCompact(tz);
+
+    return `${city} (UTC${offset})`;
+  }
+
+  /**
+   * Get a compact UTC offset string for a timezone.
+   * E.g., '+1', '-5', '+5:30'
+   */
+  private getOffsetForTimeZoneCompact(tz: string): string {
+    const instant = Temporal.Now.instant();
+    const zoned = instant.toZonedDateTimeISO(tz);
+
+    const offsetNs = zoned.offsetNanoseconds;
+    const offsetMinutes = Math.floor(offsetNs / 60_000_000_000);
+
+    if (offsetMinutes === 0) return '+0';
+
+    const sign = offsetMinutes >= 0 ? '+' : '-';
+    const absMinutes = Math.abs(offsetMinutes);
+    const hours = Math.floor(absMinutes / 60);
+    const mins = absMinutes % 60;
+
+    if (mins === 0) {
+      return `${sign}${hours}`;
+    }
+    return `${sign}${hours}:${String(mins).padStart(2, '0')}`;
+  }
 
   /** Get placeholder text based on date and time format */
   protected inputPlaceholder = computed(() => {
@@ -638,6 +779,9 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
       if (this.overlayRef !== ref) return;
       this.overlayRef = null;
       this.isOpen.set(false);
+      // Reset timezone picker state when panel closes
+      this.isSelectingDisplayTimezone.set(false);
+      this.timezoneSearchQuery.set('');
       this.closed.emit();
     });
   }
@@ -741,6 +885,69 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
   }
 
   /**
+   * Start the inline timezone picker (replaces side column content).
+   */
+  protected startSelectingDisplayTimezone(): void {
+    this.timezoneSearchQuery.set('');
+    this.isSelectingDisplayTimezone.set(true);
+    // Focus the search input and scroll to active timezone after the view updates
+    setTimeout(() => {
+      this.tzSearchInputRef()?.nativeElement.focus();
+      this.scrollToActiveTimezone();
+    });
+  }
+
+  /**
+   * Scroll the timezone list to show the currently active timezone.
+   */
+  private scrollToActiveTimezone(): void {
+    const listEl = this.tzListRef()?.nativeElement;
+    if (!listEl) return;
+
+    const activeItem = listEl.querySelector(
+      '.coar-zoned-date-time-picker-tz-picker-item--active'
+    ) as HTMLElement;
+    if (!activeItem) return;
+
+    // Scroll the item into view, centered in the list
+    activeItem.scrollIntoView({ block: 'center', behavior: 'instant' });
+  }
+
+  /**
+   * Cancel the inline timezone picker.
+   */
+  protected cancelSelectingDisplayTimezone(): void {
+    this.isSelectingDisplayTimezone.set(false);
+    this.timezoneSearchQuery.set('');
+  }
+
+  /**
+   * Close the timezone picker when clicking outside of it (e.g., on the calendar).
+   */
+  protected closeTimezonePickerOnOutsideClick(): void {
+    if (this.isSelectingDisplayTimezone()) {
+      this.cancelSelectingDisplayTimezone();
+    }
+  }
+
+  /**
+   * Select a timezone from the inline timezone picker.
+   */
+  protected selectDisplayTimezone(tz: string): void {
+    this.displayTimeZone.set(tz);
+    this.isSelectingDisplayTimezone.set(false);
+    this.timezoneSearchQuery.set('');
+  }
+
+  /**
+   * Handle search input change in the inline timezone picker.
+   */
+  protected onTimezoneSearchChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.timezoneSearchQuery.set(input.value);
+  }
+
+  /**
    * Toggle between showing value in display timezone vs value timezone.
    * Used by the indicator icon in the trigger.
    */
@@ -753,6 +960,8 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
    */
   protected startEditingValueTimeZone(): void {
     if (this.timeZoneLocked()) return;
+    // Close display timezone picker if open
+    this.cancelSelectingDisplayTimezone();
     this.isEditingValueTimeZone.set(true);
   }
 

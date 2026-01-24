@@ -398,7 +398,7 @@
 .coar-plain-date-picker-month-list-content {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--coar-spacing-3xs) var(--coar-spacing-2xs);
+  gap: var(--coar-spacing-xxs) var(--coar-spacing-xxs);
   padding: var(--coar-spacing-xs) var(--coar-spacing-s);
 }
 

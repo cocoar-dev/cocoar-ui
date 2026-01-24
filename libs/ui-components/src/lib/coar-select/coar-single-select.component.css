@@ -39,13 +39,15 @@
   border-radius: var(--coar-radius-xs);
   background: var(--coar-surface-input);
   cursor: pointer;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
   outline: none;
 }
 
-.coar-select-trigger:hover:not(.coar-select-trigger--disabled):not(.coar-select-trigger--readonly):not(
-    .coar-select-trigger--error
-  ):not(.coar-select-trigger--focused) {
+.coar-select-trigger:hover:not(.coar-select-trigger--disabled):not(
+    .coar-select-trigger--readonly
+  ):not(.coar-select-trigger--error):not(.coar-select-trigger--focused) {
   border-color: var(--coar-border-input-hover);
 }
 
@@ -113,7 +115,8 @@
   box-shadow: none;
 }
 
-:host(.coar-single-select--inline) .coar-select-trigger:hover:not(.coar-select-trigger--disabled):not(
+:host(.coar-single-select--inline)
+  .coar-select-trigger:hover:not(.coar-select-trigger--disabled):not(
     .coar-select-trigger--readonly
   ) {
   background: var(--coar-background-neutral-tertiary);
@@ -179,7 +182,10 @@
   color: var(--coar-icon-neutral-disabled);
   cursor: pointer;
   border-radius: var(--coar-radius-xs);
-  transition: color 0.15s ease, background-color 0.15s ease, opacity 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease,
+    opacity 0.15s ease;
   opacity: 0.4; /* Dimmed by default, matches text-input behavior */
 }
 
@@ -294,9 +300,9 @@
 }
 
 /* Top position - opens above the trigger (JS fallback) */
-.coar-select-dropdown--top:not(.coar-select-dropdown--overlay):not(.coar-select-dropdown--portal):not(
-    .coar-select-dropdown--css-anchor
-  ) {
+.coar-select-dropdown--top:not(.coar-select-dropdown--overlay):not(
+    .coar-select-dropdown--portal
+  ):not(.coar-select-dropdown--css-anchor) {
   top: auto;
   bottom: 100%;
   margin-top: 0;
@@ -331,7 +337,9 @@
   font-size: var(--coar-select-option-font-size, var(--coar-body-small-base-size));
   color: var(--coar-text-neutral-primary);
   outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .coar-select-search-input::placeholder {

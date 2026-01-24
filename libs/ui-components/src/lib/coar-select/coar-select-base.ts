@@ -177,9 +177,10 @@ export abstract class CoarSelectBase<T> extends CoarControlValueAccessor<T> {
    * When reversed, converts display index to data index.
    */
   protected isHighlighted(displayIndex: number): boolean {
-    const dataIndex = this.dropdownPosition() === 'top'
-      ? this.filteredOptions().length - 1 - displayIndex
-      : displayIndex;
+    const dataIndex =
+      this.dropdownPosition() === 'top'
+        ? this.filteredOptions().length - 1 - displayIndex
+        : displayIndex;
     return this.highlightedIndex() === dataIndex;
   }
 
@@ -188,9 +189,10 @@ export abstract class CoarSelectBase<T> extends CoarControlValueAccessor<T> {
    * When reversed, converts display index to data index.
    */
   protected setHighlightFromDisplay(displayIndex: number): void {
-    const dataIndex = this.dropdownPosition() === 'top'
-      ? this.filteredOptions().length - 1 - displayIndex
-      : displayIndex;
+    const dataIndex =
+      this.dropdownPosition() === 'top'
+        ? this.filteredOptions().length - 1 - displayIndex
+        : displayIndex;
     this.highlightedIndex.set(dataIndex);
   }
 
@@ -398,9 +400,10 @@ export abstract class CoarSelectBase<T> extends CoarControlValueAccessor<T> {
       return;
     }
 
-    const domEl = typeof document !== 'undefined'
-      ? (document.getElementById(this.searchInputId()) as HTMLInputElement | null)
-      : null;
+    const domEl =
+      typeof document !== 'undefined'
+        ? (document.getElementById(this.searchInputId()) as HTMLInputElement | null)
+        : null;
 
     domEl?.focus();
   }

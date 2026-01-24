@@ -103,7 +103,7 @@
       <!-- Main content: two columns side by side -->
       <div class="coar-zoned-date-time-picker-panel-body">
         <!-- Left Column: Scrollable Calendar -->
-        <div class="coar-zoned-date-time-picker-calendar-column">
+        <div class="coar-zoned-date-time-picker-calendar-column" (click)="closeTimezonePickerOnOutsideClick()">
           <coar-scrollable-calendar
             [value]="selectedDate()"
             [activeMonth]="resolvedActiveMonth()"
@@ -124,104 +124,154 @@
             </button>
           }
         </div>
-        <!-- Right Column: Month List + Time Picker + Timezone -->
+        <!-- Right Column: Month List + Time Picker + Timezone OR Timezone Picker -->
         <div class="coar-zoned-date-time-picker-side-column">
-          <!-- Year Stepper -->
-          <div class="coar-zoned-date-time-picker-year-stepper">
-            <button
-              type="button"
-              class="coar-zoned-date-time-picker-year-btn"
-              [disabled]="isPrevYearDisabled()"
-              (click)="previousYear()"
-              aria-label="Previous year"
-            >
-              <coar-icon name="left" size="sm" />
-            </button>
-            <span class="coar-zoned-date-time-picker-year">{{ currentYear() }}</span>
-            <button
-              type="button"
-              class="coar-zoned-date-time-picker-year-btn"
-              [disabled]="isNextYearDisabled()"
-              (click)="nextYear()"
-              aria-label="Next year"
-            >
-              <coar-icon name="right" size="sm" />
-            </button>
-          </div>
-
-          <!-- Month List (4-column grid) -->
-          <div class="coar-zoned-date-time-picker-month-list-wrapper">
-            <div class="coar-zoned-date-time-picker-month-list" role="listbox" aria-label="Months">
-              <div class="coar-zoned-date-time-picker-month-list-content">
-                @for (item of monthItems(); track item.month) {
-                  <button
-                    type="button"
-                    class="coar-zoned-date-time-picker-month-item"
-                    [class.coar-zoned-date-time-picker-month-item--active]="item.isActive"
-                    role="option"
-                    [attr.aria-selected]="item.isActive"
-                    (click)="selectMonth(item.yearMonth)"
-                  >
-                    {{ item.name }}
-                  </button>
-                }
-              </div>
-            </div>
-          </div>
-
-          <!-- Time Picker -->
-          <div class="coar-zoned-date-time-picker-time-section">
-            <coar-time-picker
-              [value]="selectedTime()"
-              [use24Hour]="use24Hour()"
-              [minuteStep]="minuteStep()"
-              [locale]="effectiveLocale()"
-              [disabled]="isDisabled()"
-              [readonly]="readonly()"
-              [minTime]="effectiveMinTime()"
-              [maxTime]="effectiveMaxTime()"
-              (valueChange)="onTimeChanged($event)"
-            />
-          </div>
-
-          <!-- Display Timezone Section (in side column) -->
-          @if (showTimeZoneSelector()) {
-            <div class="coar-zoned-date-time-picker-display-tz-section">
-              <span class="coar-zoned-date-time-picker-display-tz-label">Display Timezone</span>
-              <coar-single-select
-                class="coar-zoned-date-time-picker-tz-select"
-                [options]="timezoneOptions()"
-                [value]="effectiveDisplayTimeZone()"
-                [searchable]="true"
-                [placeholder]="'Select timezone'"
-                size="sm"
-                appearance="inline"
-                (valueChange)="onDisplayTimeZoneChanged($event)"
+          <!-- Unified Header: Year Stepper OR Timezone Search -->
+          <div class="coar-zoned-date-time-picker-side-header">
+            @if (isSelectingDisplayTimezone()) {
+              <!-- Timezone Search Mode -->
+              <input
+                #tzSearchInput
+                type="text"
+                class="coar-zoned-date-time-picker-tz-search-input"
+                placeholder="Search timezone..."
+                [value]="timezoneSearchQuery()"
+                (input)="onTimezoneSearchChange($event)"
+                autocomplete="off"
               />
-            </div>
-          }
+              <button
+                type="button"
+                class="coar-zoned-date-time-picker-tz-search-close"
+                (click)="cancelSelectingDisplayTimezone()"
+                aria-label="Close timezone picker"
+              >
+                <coar-icon name="back" size="sm" />
+              </button>
+            } @else {
+              <!-- Year Stepper Mode -->
+              <button
+                type="button"
+                class="coar-zoned-date-time-picker-year-btn"
+                [disabled]="isPrevYearDisabled()"
+                (click)="previousYear()"
+                aria-label="Previous year"
+              >
+                <coar-icon name="left" size="sm" />
+              </button>
+              <span class="coar-zoned-date-time-picker-year">{{ currentYear() }}</span>
+              <button
+                type="button"
+                class="coar-zoned-date-time-picker-year-btn"
+                [disabled]="isNextYearDisabled()"
+                (click)="nextYear()"
+                aria-label="Next year"
+              >
+                <coar-icon name="right" size="sm" />
+              </button>
+            }
+          </div>
 
-          <!-- Events Section (shows markers for selected date) -->
-          @if (selectedDateMarkers().length > 0) {
-            <div class="coar-zoned-date-time-picker-events">
-              <div class="coar-zoned-date-time-picker-events-list" coarScrollbar [overflowX]="'hidden'" [overflowY]="'scroll'">
-                <div style="display: flex; gap: 6px; flex-direction: column">
-                  @for (marker of selectedDateMarkers(); track marker.description) {
-                    <div class="coar-zoned-date-time-picker-event-item">
-                      <span class="coar-zoned-date-time-picker-event-dot"></span>
-                      <div class="coar-zoned-date-time-picker-event-details">
-                        <span class="coar-zoned-date-time-picker-event-text">{{ marker.description }}</span>
-                        @if (marker.endDate && !marker.startDate.equals(marker.endDate)) {
-                          <span class="coar-zoned-date-time-picker-event-dates">
-                            {{ marker.startDate.day }}/{{ marker.startDate.month }} – {{ marker.endDate.day }}/{{ marker.endDate.month }}
-                          </span>
-                        }
-                      </div>
-                    </div>
+          @if (isSelectingDisplayTimezone()) {
+            <!-- Timezone Picker List (grouped by continent) -->
+            <div #tzList class="coar-zoned-date-time-picker-tz-picker-list" coarScrollbar [overflowX]="'hidden'" [overflowY]="'scroll'">
+              @for (group of groupedTimezoneList(); track group.name) {
+                <div class="coar-zoned-date-time-picker-tz-group">
+                  <div class="coar-zoned-date-time-picker-tz-group-header">{{ group.name }}</div>
+                  @for (item of group.items; track item.id) {
+                    <button
+                      type="button"
+                      class="coar-zoned-date-time-picker-tz-picker-item"
+                      [class.coar-zoned-date-time-picker-tz-picker-item--active]="item.id === effectiveDisplayTimeZone()"
+                      [title]="item.id"
+                      (click)="selectDisplayTimezone(item.id)"
+                    >
+                      <span class="coar-zoned-date-time-picker-tz-city">{{ item.city }}</span>
+                      <span class="coar-zoned-date-time-picker-tz-offset">{{ item.offset }}</span>
+                    </button>
+                  }
+                </div>
+              }
+              @if (groupedTimezoneList().length === 0) {
+                <div class="coar-zoned-date-time-picker-tz-picker-empty">No timezones found</div>
+              }
+            </div>
+          } @else {
+            <!-- Normal Mode: Months, Time, Timezone -->
+
+            <!-- Month List (4-column grid) -->
+            <div class="coar-zoned-date-time-picker-month-list-wrapper">
+              <div class="coar-zoned-date-time-picker-month-list" role="listbox" aria-label="Months">
+                <div class="coar-zoned-date-time-picker-month-list-content">
+                  @for (item of monthItems(); track item.month) {
+                    <button
+                      type="button"
+                      class="coar-zoned-date-time-picker-month-item"
+                      [class.coar-zoned-date-time-picker-month-item--active]="item.isActive"
+                      role="option"
+                      [attr.aria-selected]="item.isActive"
+                      (click)="selectMonth(item.yearMonth)"
+                    >
+                      {{ item.name }}
+                    </button>
                   }
                 </div>
               </div>
             </div>
+
+            <!-- Time Picker -->
+            <div class="coar-zoned-date-time-picker-time-section">
+              <coar-time-picker
+                [value]="selectedTime()"
+                [use24Hour]="use24Hour()"
+                [minuteStep]="minuteStep()"
+                [locale]="effectiveLocale()"
+                [disabled]="isDisabled()"
+                [readonly]="readonly()"
+                [minTime]="effectiveMinTime()"
+                [maxTime]="effectiveMaxTime()"
+                (valueChange)="onTimeChanged($event)"
+              />
+            </div>
+
+            <!-- Display Timezone Section (in side column) -->
+            @if (showTimeZoneSelector()) {
+              <div class="coar-zoned-date-time-picker-display-tz-section">
+                <span class="coar-zoned-date-time-picker-display-tz-label">Display Timezone</span>
+                <button
+                  type="button"
+                  class="coar-zoned-date-time-picker-display-tz-button"
+                  (click)="startSelectingDisplayTimezone()"
+                  [title]="effectiveDisplayTimeZone()"
+                  aria-label="Change display timezone"
+                >
+                  <span class="coar-zoned-date-time-picker-display-tz-value">{{ displayTimeZoneDisplayName() }}</span>
+                  <coar-icon name="down" size="xs" />
+                </button>
+              </div>
+            }
+
+            <!-- Events Section (shows markers for selected date) -->
+            @if (selectedDateMarkers().length > 0) {
+              <div class="coar-zoned-date-time-picker-events">
+                <div class="coar-zoned-date-time-picker-events-list" coarScrollbar [overflowX]="'hidden'" [overflowY]="'scroll'">
+                  <div style="display: flex; gap: 6px; flex-direction: column">
+                    @for (marker of selectedDateMarkers(); track marker.description) {
+                      <div class="coar-zoned-date-time-picker-event-item">
+                        <span class="coar-zoned-date-time-picker-event-dot"></span>
+                        <div class="coar-zoned-date-time-picker-event-details">
+                          <span class="coar-zoned-date-time-picker-event-text">{{ marker.description }}</span>
+                          @if (marker.endDate && !marker.startDate.equals(marker.endDate)) {
+                            <span class="coar-zoned-date-time-picker-event-dates">
+                              {{ marker.startDate.day }}/{{ marker.startDate.month }} – {{ marker.endDate.day }}/{{ marker.endDate.month }}
+                            </span>
+                          }
+                        </div>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            }
           }
         </div>
       </div>
@@ -234,11 +284,11 @@
             <!-- No value: show placeholder to prevent layout shift -->
             <span class="coar-zoned-date-time-picker-footer-tz-section">
               <span class="coar-zoned-date-time-picker-footer-label">Location:</span>
-              <span class="coar-zoned-date-time-picker-footer-tz coar-zoned-date-time-picker-footer-tz--placeholder">{{ valueTimeZoneDisplayName() }}</span>
+              <span class="coar-zoned-date-time-picker-footer-tz coar-zoned-date-time-picker-footer-tz--placeholder">{{
+                valueTimeZoneDisplayName()
+              }}</span>
             </span>
-            <span class="coar-zoned-date-time-picker-footer-datetime coar-zoned-date-time-picker-footer-datetime--placeholder">
-              —
-            </span>
+            <span class="coar-zoned-date-time-picker-footer-datetime coar-zoned-date-time-picker-footer-datetime--placeholder"> — </span>
           } @else if (isEditingValueTimeZone()) {
             <!-- Editing mode: show select -->
             <coar-single-select
