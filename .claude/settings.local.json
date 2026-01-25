@@ -9,7 +9,9 @@
       "Bash(find:*)",
       "Bash(pnpm nx lint:*)",
       "Bash(pnpm nx test:*)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(pnpm nx show project:*)",
+      "Bash(git mv:*)"
     ]
   }
 }
