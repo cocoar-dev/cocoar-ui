@@ -281,25 +281,32 @@
   margin-left: 4px;
 }
 
-/* Message */
+/* Message (always reserves 1 line of space) */
 .coar-checkbox-message {
-  margin-top: 4px;
+  display: block;
+  margin-top: var(--coar-spacing-xs);
   margin-left: 28px; /* md: 20px box + 8px gap */
+  height: calc(var(--coar-body-caption-size) * 1.4);
   font-family: var(--coar-body-caption-family);
   font-size: var(--coar-body-caption-size);
   font-weight: var(--coar-body-caption-weight);
-  color: var(--coar-text-neutral-secondary);
   line-height: 1.4;
+  color: var(--coar-text-neutral-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.coar-checkbox-message:empty {
+  visibility: hidden;
 }
 
 :host(.coar-checkbox--xs) .coar-checkbox-message {
   margin-left: 18px; /* xs: 14px box + 4px gap */
-  font-size: 10px;
 }
 
 :host(.coar-checkbox--sm) .coar-checkbox-message {
   margin-left: 22px; /* sm: 16px box + 6px gap */
-  font-size: 11px;
 }
 
 :host(.coar-checkbox--md) .coar-checkbox-message {
@@ -310,7 +317,7 @@
   margin-left: 34px; /* lg: 24px box + 10px gap */
 }
 
-.coar-checkbox-message-error {
+.coar-checkbox-message--error {
   color: var(--coar-text-semantic-error-bold);
 }
 

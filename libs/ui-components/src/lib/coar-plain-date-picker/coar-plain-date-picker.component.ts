@@ -123,6 +123,9 @@ export class CoarPlainDatePickerComponent extends CoarDatePickerBase<Temporal.Pl
   /** ID for the panel */
   protected panelId = computed(() => `${this.uid}-panel`);
 
+  /** ID for the message element */
+  protected messageId = computed(() => `${this.uid}-message`);
+
   /** Reference to the input element */
   protected inputRef = viewChild<ElementRef<HTMLInputElement>>('dateInput');
 

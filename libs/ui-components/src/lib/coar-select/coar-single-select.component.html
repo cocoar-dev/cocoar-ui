@@ -130,10 +130,11 @@
     </div>
   </ng-template>
 
-  <!-- Hint/Error Message -->
-  @if (displayMessage()) {
-    <div [id]="messageId()" class="coar-select-message" [class.coar-select-message--error]="hasError()">
-      {{ displayMessage() }}
-    </div>
-  }
+  <!-- Hint/Error Message (always rendered, 1 line reserved) -->
+  <div [id]="messageId()"
+       class="coar-form-field-message"
+       [class.coar-form-field-message--error]="hasError()"
+       [attr.title]="displayMessage() || null">
+    {{ displayMessage() }}
+  </div>
 </div>

@@ -123,11 +123,11 @@ export abstract class CoarDatePickerBase<T> extends CoarControlValueAccessor<T |
   /** Whether the field is required */
   required = input<boolean, unknown>(false, { transform: booleanAttribute });
 
-  /** Error state */
-  error = input<boolean, unknown>(false, { transform: booleanAttribute });
+  /** Error message (empty string = no error) */
+  error = input<string>('');
 
-  /** Helper or error message */
-  message = input<string>('');
+  /** Hint text displayed below the input */
+  hint = input<string>('');
 
   /**
    * Locale identifier for date formatting (e.g., 'de-AT', 'en-US').
@@ -253,7 +253,10 @@ export abstract class CoarDatePickerBase<T> extends CoarControlValueAccessor<T |
   // ============================================================
 
   /** Whether the picker has an error state */
-  protected hasError = computed(() => this.error());
+  protected hasError = computed(() => this.error().length > 0);
+
+  /** The message to display (error takes priority over hint) */
+  protected displayMessage = computed(() => this.error() || this.hint());
 
   /** Whether the picker is disabled (including CVA disabled state) */
   protected isDisabled = computed(() => this.disabled() || this.cvaDisabled());

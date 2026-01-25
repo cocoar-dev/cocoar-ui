@@ -55,6 +55,7 @@
    ======================================== */
 
 .coar-zoned-date-time-picker-trigger {
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--coar-spacing-s);
@@ -169,7 +170,46 @@
 }
 
 /* ========================================
-   TIMEZONE INDICATOR (in trigger)
+   TIMEZONE DISPLAY (floating on border)
+   ======================================== */
+
+.coar-zoned-date-time-picker-tz-inline {
+  position: absolute;
+  bottom: 0;
+  right: 44px;
+  transform: translateY(50%);
+  padding: 0 var(--coar-spacing-xs);
+  font-family: var(--coar-body-caption-family);
+  font-size: var(--coar-body-footnote-size);
+  font-weight: var(--coar-body-caption-weight);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  color: hsl(from var(--coar-text-neutral-tertiary) h s l / 0.7);
+  background-color: var(--coar-surface-input);
+  white-space: nowrap;
+  pointer-events: none;
+  border-radius: 3px;
+}
+
+.coar-zoned-date-time-picker-tz-inline--hidden {
+  visibility: hidden;
+}
+
+/* Size variants for timezone display position */
+:host(.coar-zoned-date-time-picker--xs) .coar-zoned-date-time-picker-tz-inline {
+  right: var(--coar-component-xs-height);
+}
+
+:host(.coar-zoned-date-time-picker--sm) .coar-zoned-date-time-picker-tz-inline {
+  right: var(--coar-component-sm-height);
+}
+
+:host(.coar-zoned-date-time-picker--lg) .coar-zoned-date-time-picker-tz-inline {
+  right: var(--coar-component-lg-height);
+}
+
+/* ========================================
+   TIMEZONE INDICATOR ICON (in trigger)
    ======================================== */
 
 .coar-zoned-date-time-picker-tz-indicator {
@@ -207,24 +247,6 @@
 .coar-zoned-date-time-picker-tz-indicator--disabled {
   opacity: 0.4;
   cursor: default;
-}
-
-/* Timezone Badge (floating on bottom border of trigger, aligned with TZ icon) */
-.coar-zoned-date-time-picker-tz-badge {
-  position: absolute;
-  bottom: 0;
-  right: var(--coar-spacing-xl);
-  transform: translateY(50%);
-  padding: 0 var(--coar-spacing-s);
-  font-family: var(--coar-body-caption-family, var(--coar-body-small-family));
-  font-size: var(--coar-body-caption-size, 10px);
-  font-weight: var(--coar-body-caption-weight, 400);
-  line-height: 1.2;
-  letter-spacing: 0.02em;
-  color: var(--coar-text-neutral-tertiary, var(--coar-text-neutral-secondary));
-  background-color: var(--coar-surface-input);
-  white-space: nowrap;
-  pointer-events: none;
 }
 
 /* Timezone Popover */
@@ -281,8 +303,6 @@
 .coar-zoned-date-time-picker-clear--hidden {
   opacity: 0;
   pointer-events: none;
-  margin-left: 0; /* Remove margin when hidden to prevent layout shift */
-  width: 0; /* Remove width when hidden */
 }
 
 .coar-zoned-date-time-picker-trigger:hover
@@ -754,6 +774,7 @@
   background: var(--coar-background-neutral-secondary);
   min-height: 32px;
   opacity: 1;
+  color: var(--coar-text-neutral-tertiary);
   transition: opacity 0.15s ease;
 }
 
@@ -825,6 +846,11 @@
 .coar-zoned-date-time-picker-value-tz-select {
   flex: 1;
   min-width: 0;
+}
+
+/* Hide message space for embedded select */
+.coar-zoned-date-time-picker-value-tz-select::ng-deep .coar-form-field-message {
+  display: none;
 }
 
 .coar-zoned-date-time-picker-value-tz-cancel {
@@ -911,17 +937,27 @@
 }
 
 /* ========================================
-   MESSAGE
+   MESSAGE (always reserves 1 line of space)
    ======================================== */
 
-.coar-zoned-date-time-picker-message {
+.coar-form-field-message {
   display: block;
   margin-top: var(--coar-spacing-xs);
+  height: calc(var(--coar-body-caption-size) * 1.4);
   font-family: var(--coar-body-caption-family);
   font-size: var(--coar-body-caption-size);
+  font-weight: var(--coar-body-caption-weight);
+  line-height: 1.4;
   color: var(--coar-text-neutral-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.coar-zoned-date-time-picker-message--error {
+.coar-form-field-message:empty {
+  visibility: hidden;
+}
+
+.coar-form-field-message--error {
   color: var(--coar-text-semantic-error-bold);
 }

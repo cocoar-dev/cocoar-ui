@@ -51,9 +51,13 @@
       (keydown)="onTriggerKeydown($event)"
     />
 
-    <!-- Timezone Indicator (always rendered to prevent layout shift) -->
-    @if (showTimeZoneSelector()) {
-      <span
+    <!-- Inline Timezone Display (between input and icon) -->
+    <span class="coar-zoned-date-time-picker-tz-inline" [class.coar-zoned-date-time-picker-tz-inline--hidden]="!value()">
+      {{ currentTimeZoneDisplayName() }}
+    </span>
+
+    <!-- Timezone Indicator Icon (always rendered to prevent layout shift) -->
+    <span
         class="coar-zoned-date-time-picker-tz-indicator"
         [class.coar-zoned-date-time-picker-tz-indicator--hidden]="!value()"
         [class.coar-zoned-date-time-picker-tz-indicator--clickable]="locationDiffersFromUser() || timezoneIndicatorState() !== 'home'"
@@ -89,17 +93,16 @@
         <!-- Icon based on which timezone is currently shown -->
         @switch (timezoneIndicatorState()) {
           @case ('home') {
-            <coar-icon name="home" source="coar-builtin" size="md" />
+            <coar-icon name="home" source="coar-builtin" size="sm" />
           }
           @case ('location') {
-            <coar-icon name="location" source="coar-builtin" size="md" />
+            <coar-icon name="location" source="coar-builtin" size="sm" />
           }
           @case ('world') {
-            <coar-icon name="world" source="coar-builtin" size="md" />
+            <coar-icon name="world" source="coar-builtin" size="sm" />
           }
         }
       </span>
-    }
 
     <!-- Calendar Icon -->
     <button
@@ -111,13 +114,6 @@
     >
       <coar-icon name="calendar" source="coar-builtin" size="sm" />
     </button>
-
-    <!-- Timezone Badge (floating on bottom border) -->
-    @if (showTimeZoneSelector() && value()) {
-      <span class="coar-zoned-date-time-picker-tz-badge">
-        {{ currentTimeZoneDisplayName() | uppercase }}
-      </span>
-    }
   </div>
 
   <!-- Panel (rendered via @cocoar/ui-overlay) -->
@@ -264,21 +260,19 @@
             </div>
 
             <!-- Display Timezone Section (in side column) -->
-            @if (showTimeZoneSelector()) {
-              <div class="coar-zoned-date-time-picker-display-tz-section">
-                <span class="coar-zoned-date-time-picker-display-tz-label">Display Timezone</span>
-                <button
-                  type="button"
-                  class="coar-zoned-date-time-picker-display-tz-button"
-                  (click)="startSelectingDisplayTimezone()"
-                  [title]="effectiveDisplayTimeZone()"
-                  aria-label="Change display timezone"
-                >
-                  <span class="coar-zoned-date-time-picker-display-tz-value">{{ displayTimeZoneDisplayName() }}</span>
-                  <coar-icon name="down" size="xs" />
-                </button>
-              </div>
-            }
+            <div class="coar-zoned-date-time-picker-display-tz-section">
+              <span class="coar-zoned-date-time-picker-display-tz-label">Display Timezone</span>
+              <button
+                type="button"
+                class="coar-zoned-date-time-picker-display-tz-button"
+                (click)="startSelectingDisplayTimezone()"
+                [title]="effectiveDisplayTimeZone()"
+                aria-label="Change display timezone"
+              >
+                <span class="coar-zoned-date-time-picker-display-tz-value">{{ displayTimeZoneDisplayName() }}</span>
+                <coar-icon name="down" size="xs" />
+              </button>
+            </div>
 
             <!-- Events Section (shows markers for selected date) -->
             @if (selectedDateMarkers().length > 0) {
@@ -308,64 +302,60 @@
       <!-- End panel-body -->
 
       <!-- Event Timezone Footer (full width, one-liner) -->
-      @if (showTimeZoneSelector()) {
-        <div class="coar-zoned-date-time-picker-footer" [class.coar-zoned-date-time-picker-footer--differs]="timeZonesDiffer()">
-          @if (!value()) {
-            <!-- No value: show placeholder to prevent layout shift -->
-            <span class="coar-zoned-date-time-picker-footer-tz-section">
-              <span class="coar-zoned-date-time-picker-footer-label">Location:</span>
-              <span class="coar-zoned-date-time-picker-footer-tz coar-zoned-date-time-picker-footer-tz--placeholder">{{
-                valueTimeZoneDisplayName()
-              }}</span>
-            </span>
-            <span class="coar-zoned-date-time-picker-footer-datetime coar-zoned-date-time-picker-footer-datetime--placeholder"> — </span>
-          } @else if (isEditingValueTimeZone()) {
-            <!-- Editing mode: show select -->
-            <coar-single-select
-              class="coar-zoned-date-time-picker-value-tz-select"
-              [options]="timezoneOptions()"
-              [value]="valueTimeZone()"
-              [searchable]="true"
-              [placeholder]="'Select timezone'"
-              size="sm"
-              (valueChange)="onValueTimeZoneChanged($event)"
-            />
-            <button
-              type="button"
-              class="coar-zoned-date-time-picker-value-tz-cancel"
-              (click)="cancelEditingValueTimeZone()"
-              aria-label="Cancel timezone change"
-            >
-              <coar-icon name="x" size="xs" />
-            </button>
-          } @else {
-            <!-- Locked mode: Location: timezone ... datetime 🔒 -->
-            <span class="coar-zoned-date-time-picker-footer-tz-section">
-              <span class="coar-zoned-date-time-picker-footer-label">Location:</span>
-              <span class="coar-zoned-date-time-picker-footer-tz">{{ valueTimeZoneDisplayName() }}</span>
-            </span>
-            <span class="coar-zoned-date-time-picker-footer-datetime">
-              {{ valueInValueTimeZone() }}
-            </span>
-            <button
-              type="button"
-              class="coar-zoned-date-time-picker-footer-lock"
-              (click)="startEditingValueTimeZone()"
-              aria-label="Change event timezone"
-              title="Click to change the event's timezone"
-            >
-              <coar-icon name="setting" size="xs" />
-            </button>
-          }
-        </div>
-      }
+      <div class="coar-zoned-date-time-picker-footer" [class.coar-zoned-date-time-picker-footer--differs]="timeZonesDiffer()">
+        @if (!value()) {
+          <!-- No value: show placeholder to prevent layout shift -->
+          <span class="coar-zoned-date-time-picker-footer-tz-section">
+            <span class="coar-zoned-date-time-picker-footer-tz coar-zoned-date-time-picker-footer-tz--placeholder">{{
+              valueTimeZoneDisplayName()
+            }}</span>
+          </span>
+          <span class="coar-zoned-date-time-picker-footer-datetime coar-zoned-date-time-picker-footer-datetime--placeholder"> — </span>
+        } @else if (isEditingValueTimeZone()) {
+          <!-- Editing mode: show select -->
+          <coar-single-select
+            class="coar-zoned-date-time-picker-value-tz-select"
+            [options]="timezoneOptions()"
+            [value]="valueTimeZone()"
+            [searchable]="true"
+            [placeholder]="'Select timezone'"
+            size="xs"
+            (valueChange)="onValueTimeZoneChanged($event)"
+            appearance="inline"
+          />
+          <button
+            type="button"
+            class="coar-zoned-date-time-picker-value-tz-cancel"
+            (click)="cancelEditingValueTimeZone()"
+            aria-label="Cancel timezone change"
+          >
+            <coar-icon name="x" size="xs" />
+          </button>
+        } @else {
+          <!-- Display mode: Location icon + timezone + datetime + settings -->
+          <span class="coar-zoned-date-time-picker-footer-tz-section">
+            <coar-icon name="location" size="sm" />
+            <span class="coar-zoned-date-time-picker-footer-tz">{{ valueTimeZoneDisplayName() }}</span>
+          </span>
+          <span class="coar-zoned-date-time-picker-footer-datetime">
+            {{ valueInValueTimeZone() }}
+          </span>
+          <button
+            type="button"
+            class="coar-zoned-date-time-picker-footer-lock"
+            (click)="startEditingValueTimeZone()"
+            aria-label="Change event timezone"
+            title="Click to change the event's timezone"
+          >
+            <coar-icon name="setting" size="xs" />
+          </button>
+        }
+      </div>
     </div>
   </ng-template>
 
-  <!-- Helper/Error Message -->
-  @if (message()) {
-    <span class="coar-zoned-date-time-picker-message" [class.coar-zoned-date-time-picker-message--error]="hasError()">
-      {{ message() }}
-    </span>
-  }
+  <!-- Hint/Error Message (always rendered, 1 line reserved) -->
+  <div [id]="messageId()" class="coar-form-field-message" [class.coar-form-field-message--error]="hasError()" [attr.title]="displayMessage() || null">
+    {{ displayMessage() }}
+  </div>
 </div>

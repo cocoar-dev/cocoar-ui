@@ -2,12 +2,10 @@
   <ng-content />
 </div>
 
-@if (hasMessage()) {
-  <div class="coar-radio-group__message" [id]="messageId()">
-    @if (hasError()) {
-      <span class="coar-radio-group__error">{{ error() }}</span>
-    } @else {
-      <span class="coar-radio-group__hint">{{ hint() }}</span>
-    }
-  </div>
-}
+<!-- Hint/Error Message (always rendered, 1 line reserved) -->
+<div class="coar-form-field-message"
+     [id]="messageId()"
+     [class.coar-form-field-message--error]="hasError()"
+     [attr.title]="displayMessage() || null">
+  {{ displayMessage() }}
+</div>

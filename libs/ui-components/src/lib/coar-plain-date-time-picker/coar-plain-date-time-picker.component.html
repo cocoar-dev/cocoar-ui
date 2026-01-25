@@ -182,10 +182,11 @@
     </div>
   </ng-template>
 
-  <!-- Helper/Error Message -->
-  @if (message()) {
-    <span class="coar-plain-date-time-picker-message" [class.coar-plain-date-time-picker-message--error]="hasError()">
-      {{ message() }}
-    </span>
-  }
+  <!-- Hint/Error Message (always rendered, 1 line reserved) -->
+  <div [id]="messageId()"
+       class="coar-form-field-message"
+       [class.coar-form-field-message--error]="hasError()"
+       [attr.title]="displayMessage() || null">
+    {{ displayMessage() }}
+  </div>
 </div>

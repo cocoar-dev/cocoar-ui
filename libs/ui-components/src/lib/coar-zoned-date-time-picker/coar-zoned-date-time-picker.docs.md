@@ -84,12 +84,6 @@ This visual cue helps users understand at a glance whether an event is local or 
   label="Vienna Meeting"
 />
 
-<!-- Listen for instant changes (for API calls) -->
-<coar-zoned-date-time-picker
-  [(value)]="meetingDateTime"
-  (instantChange)="onInstantChanged($event)"
-  label="Event Time"
-/>
 ```
 
 ## Inputs
@@ -100,8 +94,6 @@ This visual cue helps users understand at a glance whether an event is local or 
 | `label` | `string` | – | Label text above the input |
 | `placeholder` | `string` | – | Placeholder text when empty |
 | `timeZone` | `string \| null` | `null` | Default timezone for new values (IANA format) |
-| `timeZoneLocked` | `boolean` | `false` | Whether users can change the location timezone |
-| `showTimeZoneSelector` | `boolean` | `true` | Whether to show timezone controls |
 | `min` | `Temporal.ZonedDateTime \| null` | `null` | Minimum selectable datetime |
 | `max` | `Temporal.ZonedDateTime \| null` | `null` | Maximum selectable datetime |
 | `use24Hour` | `boolean \| 'auto'` | `'auto'` | Time format (auto = detect from locale) |
@@ -119,7 +111,6 @@ This visual cue helps users understand at a glance whether an event is local or 
 | Output | Type | Description |
 |--------|------|-------------|
 | `valueChange` | `Temporal.ZonedDateTime \| null` | Emitted when the value changes |
-| `instantChange` | `Temporal.Instant \| null` | Emitted when the derived UTC instant changes |
 
 ## Panel Layout
 
@@ -131,8 +122,8 @@ This visual cue helps users understand at a glance whether an event is local or 
 │  │   Calendar          │  │  May Jun Jul Aug              │ │
 │  │                     │  │  Sep Oct Nov Dec              │ │
 │  │                     │  ├───────────────────────────────┤ │
-│  │                     │  │      ▲ 11 : 30 ▲ PM          │ │
-│  │                     │  │      ▼      ▼    ▼           │ │
+│  │                     │  │      ▲ 11 : 30 ▲ PM           │ │
+│  │                     │  │      ▼      ▼    ▼            │ │
 │  │                     │  ├───────────────────────────────┤ │
 │  │                     │  │  Display Timezone             │ │
 │  │                     │  │  [Vienna (UTC+1)        ▼]    │ │
@@ -165,20 +156,6 @@ This visual cue helps users understand at a glance whether an event is local or 
 />
 ```
 
-### Locking the Timezone
-
-Use `timeZoneLocked` to prevent users from changing the event's location timezone:
-
-```html
-<!-- Users can view but not change the timezone -->
-<coar-zoned-date-time-picker
-  [(value)]="fixedMeeting"
-  [timeZone]="'Europe/Vienna'"
-  [timeZoneLocked]="true"
-  label="Company HQ Time"
-/>
-```
-
 ### Filtering Available Timezones
 
 ```html
@@ -203,8 +180,12 @@ Use `timeZoneLocked` to prevent users from changing the event's location timezon
 // In your component
 meetingDateTime = signal<Temporal.ZonedDateTime | null>(null);
 
-onInstantChanged(instant: Temporal.Instant | null) {
-  if (instant) {
+// Derive the instant from the value when needed
+saveToApi() {
+  const meeting = this.meetingDateTime();
+  if (meeting) {
+    const instant = meeting.toInstant();
+
     // Use for API calls
     const isoString = instant.toString();  // "2025-06-15T12:30:00Z"
 
@@ -253,15 +234,13 @@ if (meeting) {
 ### DO ✅
 
 - Store the complete `Temporal.ZonedDateTime` value, not just the instant
-- Use `(instantChange)` for API calls that need UTC
-- Lock timezone for company-wide events with fixed locations
+- Use `.toInstant()` when you need UTC for API calls
 - Show timezone indicator for events that may span multiple timezones
 
 ### DON'T ❌
 
 - Convert to UTC and discard timezone before storing
 - Assume the user's display timezone is the event's timezone
-- Hide the timezone selector for multi-timezone applications
 - Use this component if you only need a simple date/time without timezone context
 
 ## Related Components
@@ -276,7 +255,7 @@ If migrating from a simple datetime picker:
 
 1. Values change from `Date` to `Temporal.ZonedDateTime`
 2. You'll need to specify or derive the timezone for existing values
-3. Consider adding `(instantChange)` handler if you need UTC for APIs
+3. Use `value.toInstant()` when you need UTC for APIs
 
 ```typescript
 // Converting from Date to Temporal.ZonedDateTime

@@ -144,8 +144,7 @@ maxDate = Temporal.Now.plainDateISO().add({ months: 3 });
 <coar-plain-date-picker
   label="Error State"
   [(value)]="date"
-  error
-  message="Please select a valid date"
+  error="Please select a valid date"
 />
 
 <coar-plain-date-picker

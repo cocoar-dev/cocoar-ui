@@ -42,9 +42,10 @@
   }
 </label>
 
-<!-- Hint/Error Message -->
-@if (displayMessage()) {
-<div [id]="messageId()" class="coar-checkbox-message" [class.coar-checkbox-message-error]="hasError()">
+<!-- Hint/Error Message (always rendered, 1 line reserved) -->
+<div [id]="messageId()"
+     class="coar-checkbox-message"
+     [class.coar-checkbox-message--error]="hasError()"
+     [attr.title]="displayMessage() || null">
   {{ displayMessage() }}
 </div>
-}

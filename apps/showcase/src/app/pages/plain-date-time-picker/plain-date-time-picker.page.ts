@@ -177,7 +177,7 @@ maxDateTime = Temporal.Now.plainDateISO()
 
   statesExample = `<coar-plain-date-time-picker label="Disabled" [(value)]="dateTime" disabled />
 <coar-plain-date-time-picker label="Readonly" [(value)]="dateTime" readonly />
-<coar-plain-date-time-picker label="Error" [(value)]="dateTime" error message="Invalid date/time" />
+<coar-plain-date-time-picker label="Error" [(value)]="dateTime" error="Invalid date/time" />
 <coar-plain-date-time-picker label="Required" [(value)]="dateTime" required />`;
 
   formatDateTime(dateTime: Temporal.PlainDateTime | null): string {

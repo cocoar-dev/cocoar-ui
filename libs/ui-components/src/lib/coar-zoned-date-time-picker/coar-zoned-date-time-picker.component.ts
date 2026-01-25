@@ -10,7 +10,6 @@ import {
   signal,
   TemplateRef,
   viewChild,
-  booleanAttribute,
 } from '@angular/core';
 import { UpperCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -98,13 +97,6 @@ interface TimezoneGroup {
  *   [timeZone]="'Europe/Vienna'"
  *   label="Meeting Time"
  * />
- *
- * <!-- Listen for instant changes -->
- * <coar-zoned-date-time-picker
- *   [(value)]="meetingDateTime"
- *   (instantChange)="onInstantChanged($event)"
- *   label="Meeting Time"
- * />
  * ```
  */
 @Component({
@@ -151,20 +143,6 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
    * Examples: 'Europe/Vienna', 'America/New_York', 'UTC'
    */
   timeZone = input<string | null>(null);
-
-  /**
-   * Whether the timezone selector is locked (read-only).
-   * When locked, users can see but not change the timezone.
-   * Use this to protect the value timezone from accidental changes.
-   */
-  timeZoneLocked = input<boolean, unknown>(false, { transform: booleanAttribute });
-
-  /**
-   * Whether to show the timezone selector in the panel.
-   * When false, the timezone is determined by the `timeZone` input
-   * or the CoarTimeZoneService.
-   */
-  showTimeZoneSelector = input<boolean, unknown>(true, { transform: booleanAttribute });
 
   /** Minimum selectable datetime (in the value's timezone) */
   min = input<Temporal.ZonedDateTime | null>(null);
@@ -219,12 +197,6 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
   /** Emitted when the selected value changes */
   valueChange = output<Temporal.ZonedDateTime | null>();
 
-  /**
-   * Emitted when the derived instant (UTC) changes.
-   * This is a convenience output for consumers who need the instant
-   * for API calls, storage, or comparisons.
-   */
-  instantChange = output<Temporal.Instant | null>();
 
   // ============================================================
   // Internal State
@@ -244,6 +216,9 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
 
   /** ID for the panel */
   protected panelId = computed(() => `${this.uid}-panel`);
+
+  /** ID for the message element */
+  protected messageId = computed(() => `${this.uid}-message`);
 
   /** Reference to the input element */
   protected inputRef = viewChild<ElementRef<HTMLInputElement>>('dateInput');
@@ -837,12 +812,6 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
       this.displayValue.set(displayed);
     });
 
-    // Emit instant changes
-    effect(() => {
-      const instant = this.derivedInstant();
-      this.instantChange.emit(instant);
-    });
-
     // Keep Maskito config in sync
     effect(() => {
       this.dateFormat();
@@ -922,7 +891,6 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
     this.value.set(null);
     this.pendingTime.set(null);
     this.valueChange.emit(null);
-    this.instantChange.emit(null);
     this.cvaOnChange(null);
   }
 
@@ -1101,10 +1069,9 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
   }
 
   /**
-   * Start editing the value timezone (unlock).
+   * Start editing the value timezone.
    */
   protected startEditingValueTimeZone(): void {
-    if (this.timeZoneLocked()) return;
     // Close display timezone picker if open
     this.cancelSelectingDisplayTimezone();
     this.isEditingValueTimeZone.set(true);
@@ -1123,7 +1090,7 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
    * but it's now interpreted in a different timezone.
    */
   protected onValueTimeZoneChanged(newTimeZone: string | null): void {
-    if (!newTimeZone || this.timeZoneLocked()) return;
+    if (!newTimeZone) return;
 
     const currentValue = this.value();
     if (currentValue) {
