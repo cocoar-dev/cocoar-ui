@@ -30,7 +30,7 @@ If you only want to *run* tests, see [testing.md](testing.md).
 
 All Angular unit tests should use:
 
-- `@cocoar/testing-angular` (source: `libs/testing-angular/`)
+- `@cocoar/testing-angular` (source: `tools/testing-angular/`)
 
 Typical pattern:
 

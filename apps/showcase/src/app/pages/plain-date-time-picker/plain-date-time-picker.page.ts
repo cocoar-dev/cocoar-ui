@@ -9,7 +9,6 @@ import {
   CoarNoteComponent,
   CoarTabGroupComponent,
   CoarTabComponent,
-  type DateFormatConfig,
   type CoarDateMarker,
 } from '@cocoar/ui-components';
 

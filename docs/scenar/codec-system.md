@@ -15,7 +15,7 @@ The scenario codec system provides type-safe serialization and deserialization o
 
 ### Files
 
-- `libs/scenar/scenar-testing-playwright/src/lib/scenario-codecs.ts` - Playwright test serialization (shared helper)
+- `tools/scenar/scenar-testing-playwright/src/lib/scenario-codecs.ts` - Playwright test serialization (shared helper)
 - `apps/scenar-backstage/src/app/scenario-codecs.ts` - Backstage runtime deserialization
 
 ## How It Works
@@ -208,7 +208,7 @@ Potential improvements:
 
 ## References
 
-- [ScenarioCodec Interface](../../libs/scenar/scenar-testing-playwright/src/lib/scenario-codecs.ts)
+- [ScenarioCodec Interface](../../tools/scenar/scenar-testing-playwright/src/lib/scenario-codecs.ts)
 - [Metadata JSON](../apps/scenar-backstage/public/registry.metadata.json)
 
 ---

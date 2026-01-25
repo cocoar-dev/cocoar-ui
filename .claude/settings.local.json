@@ -6,7 +6,10 @@
       "mcp__chrome-devtools__click",
       "Bash(xargs -I {} sh -c 'echo \"\"=== {} ===\"\" && head -30 \"\"{}\"\"')",
       "Bash(grep:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(pnpm nx lint:*)",
+      "Bash(pnpm nx test:*)",
+      "WebSearch"
     ]
   }
 }

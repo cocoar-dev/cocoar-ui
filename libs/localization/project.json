@@ -2,7 +2,7 @@
   "name": "localization",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/localization/src",
-  "prefix": "lib",
+  "prefix": "coar",
   "projectType": "library",
   "release": {
     "version": {

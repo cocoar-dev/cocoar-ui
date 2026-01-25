@@ -64,52 +64,6 @@
     <coar-divider />
 
     <section class="example-section">
-      <h3>Locked Timezone</h3>
-      <p>Use <code>timeZoneLocked</code> to protect the timezone from accidental changes. Users can see the timezone but cannot modify it.</p>
-
-      <div class="demo-row">
-        <coar-zoned-date-time-picker
-          label="Company HQ Time (Vienna)"
-          [(value)]="lockedTzDateTime"
-          [timeZone]="'Europe/Vienna'"
-          [timeZoneLocked]="true"
-        />
-      </div>
-
-      <p class="value-display">
-        Selected: <code>{{ formatZonedDateTime(lockedTzDateTime()) }}</code>
-      </p>
-    </section>
-
-    <coar-divider />
-
-    <section class="example-section">
-      <h3>Instant Output</h3>
-      <p>
-        The <code>(instantChange)</code> output emits the derived UTC instant whenever the value changes. Use this for API calls, storage, or sorting.
-      </p>
-
-      <div class="demo-row">
-        <coar-zoned-date-time-picker label="Event Time" [(value)]="instantDemoDateTime" (instantChange)="onInstantChanged($event)" />
-      </div>
-
-      <div class="instant-display">
-        <div class="instant-row">
-          <span class="instant-label">User Intent:</span>
-          <code>{{ formatZonedDateTime(instantDemoDateTime()) }}</code>
-        </div>
-        <div class="instant-row">
-          <span class="instant-label">Derived Instant (UTC):</span>
-          <code>{{ formatInstant(lastInstant()) }}</code>
-        </div>
-      </div>
-
-      <coar-code-block [code]="instantExample" language="typescript" />
-    </section>
-
-    <coar-divider />
-
-    <section class="example-section">
       <h3>Intent vs Instant</h3>
       <p>
         The key insight: <strong>store intent, derive math</strong>. The ZonedDateTime preserves both what the user meant (local time + timezone) and

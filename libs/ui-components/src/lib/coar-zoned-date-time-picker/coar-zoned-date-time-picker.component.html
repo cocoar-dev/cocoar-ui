@@ -129,7 +129,7 @@
       <!-- Main content: two columns side by side -->
       <div class="coar-zoned-date-time-picker-panel-body">
         <!-- Left Column: Scrollable Calendar -->
-        <div class="coar-zoned-date-time-picker-calendar-column" (click)="closeTimezonePickerOnOutsideClick()">
+        <div class="coar-zoned-date-time-picker-calendar-column" (click)="closeTimezonePickerOnOutsideClick()" (keydown.escape)="closeTimezonePickerOnOutsideClick()" tabindex="-1">
           <coar-scrollable-calendar
             [value]="selectedDate()"
             [activeMonth]="resolvedActiveMonth()"

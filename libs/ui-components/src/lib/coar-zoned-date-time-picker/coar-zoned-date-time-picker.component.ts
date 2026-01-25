@@ -11,7 +11,6 @@ import {
   TemplateRef,
   viewChild,
 } from '@angular/core';
-import { UpperCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Temporal } from '@js-temporal/polyfill';
 import { Maskito } from '@maskito/core';
@@ -104,7 +103,6 @@ interface TimezoneGroup {
   standalone: true,
   imports: [
     FormsModule,
-    UpperCasePipe,
     CoarIconComponent,
     CoarScrollableCalendarComponent,
     CoarScrollbarDirective,
@@ -446,7 +444,6 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
    * Returns both display and value timezone info.
    */
   protected popoverTimeZoneInfo = computed(() => {
-    const val = this.value();
     const displayTz = this.effectiveDisplayTimeZone();
     const valueTz = this.valueTimeZone();
 

@@ -55,7 +55,7 @@ describe('CoarNumberInputComponent', () => {
   }
 
   function getMessageElement(): HTMLElement | null {
-    return fixture.nativeElement.querySelector('.coar-number-input-message');
+    return fixture.nativeElement.querySelector('.coar-form-field-message');
   }
 
   function getContainerElement(): HTMLElement | null {

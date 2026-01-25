@@ -1,7 +1,7 @@
 {
   "name": "testing-angular",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/testing-angular/src",
+  "sourceRoot": "tools/testing-angular/src",
   "projectType": "library",
   "tags": ["type:tools", "scope:shared"],
   "targets": {
@@ -9,7 +9,7 @@
       "executor": "@nx/vitest:test",
       "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "reportsDirectory": "../../coverage/libs/testing-angular"
+        "reportsDirectory": "../../coverage/tools/testing-angular"
       }
     },
     "lint": {

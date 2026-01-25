@@ -10,7 +10,6 @@ import {
   signal,
   TemplateRef,
   viewChild,
-  booleanAttribute,
 } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';

@@ -47,7 +47,7 @@ describe('CoarTextInputComponent', () => {
   }
 
   function getMessageElement(): HTMLElement | null {
-    return fixture.nativeElement.querySelector('.coar-text-input-message');
+    return fixture.nativeElement.querySelector('.coar-form-field-message');
   }
 
   function getContainerElement(): HTMLElement | null {

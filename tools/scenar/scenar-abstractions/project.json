@@ -1,7 +1,7 @@
 {
   "name": "scenar-abstractions",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/scenar/scenar-abstractions/src",
+  "sourceRoot": "tools/scenar/scenar-abstractions/src",
   "projectType": "library",
   "release": {
     "version": {
@@ -16,10 +16,10 @@
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/scenar/scenar-abstractions",
-        "main": "libs/scenar/scenar-abstractions/src/index.ts",
-        "tsConfig": "libs/scenar/scenar-abstractions/tsconfig.lib.json",
-        "assets": ["libs/scenar/scenar-abstractions/*.md"]
+        "outputPath": "dist/tools/scenar/scenar-abstractions",
+        "main": "tools/scenar/scenar-abstractions/src/index.ts",
+        "tsConfig": "tools/scenar/scenar-abstractions/tsconfig.lib.json",
+        "assets": ["tools/scenar/scenar-abstractions/*.md"]
       }
     },
     "nx-release-publish": {

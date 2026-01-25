@@ -5,7 +5,7 @@ import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
-  cacheDir: '../../node_modules/.vite/libs/testing-angular',
+  cacheDir: '../../node_modules/.vite/tools/testing-angular',
   plugins: [angular(), nxViteTsPaths()],
   test: {
     name: 'testing-angular',
@@ -16,7 +16,7 @@ export default defineConfig(() => ({
     setupFiles: ['src/test-setup.ts'],
     reporters: ['default'],
     coverage: {
-      reportsDirectory: '../../coverage/libs/testing-angular',
+      reportsDirectory: '../../coverage/tools/testing-angular',
       provider: 'v8' as const,
     },
   },

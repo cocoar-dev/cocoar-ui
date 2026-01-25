@@ -13,7 +13,6 @@ import {
   CoarPercentPipe,
   CoarTranslationStore,
 } from '@cocoar/localization';
-import { firstValueFrom } from 'rxjs';
 
 /**
  * Comprehensive showcase page for localization.

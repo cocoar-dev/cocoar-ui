@@ -75,7 +75,7 @@ pnpm e2e -- --grep "@smoke|@a11y"
 Angular unit tests in this repo should rely on the internal helper library:
 
 - Library: `@cocoar/testing-angular`
-- Source: `libs/testing-angular/`
+- Source: `tools/testing-angular/`
 
 It provides:
 
@@ -231,7 +231,7 @@ pnpm nx run scenar-backstage-e2e:e2e -- --project=chromium
 
 Scenario-navigation and typed query-parameter serialization is shared via:
 
-- `@cocoar/scenar-testing-playwright` (source: `libs/scenar/scenar-testing-playwright/`)
+- `@cocoar/scenar-testing-playwright` (source: `tools/scenar/scenar-testing-playwright/`)
 
 ### Passing Playwright CLI flags
 

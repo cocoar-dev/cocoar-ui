@@ -1,7 +1,7 @@
 {
   "name": "scenar-testing-playwright",
   "$schema": "../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/scenar/scenar-testing-playwright/src",
+  "sourceRoot": "tools/scenar/scenar-testing-playwright/src",
   "projectType": "library",
   "tags": ["scope:scenar", "type:lib"],
   "targets": {
@@ -9,9 +9,9 @@
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/libs/scenar/scenar-testing-playwright",
-        "main": "libs/scenar/scenar-testing-playwright/src/index.ts",
-        "tsConfig": "libs/scenar/scenar-testing-playwright/tsconfig.lib.json"
+        "outputPath": "dist/tools/scenar/scenar-testing-playwright",
+        "main": "tools/scenar/scenar-testing-playwright/src/index.ts",
+        "tsConfig": "tools/scenar/scenar-testing-playwright/tsconfig.lib.json"
       }
     }
   }

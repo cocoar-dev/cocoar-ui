@@ -51,13 +51,6 @@ export class ZonedDateTimePickerPage {
     Temporal.ZonedDateTime.from('2025-06-15T23:30[Asia/Tokyo]')
   );
 
-  // Locked timezone demo
-  lockedTzDateTime = signal<Temporal.ZonedDateTime | null>(null);
-
-  // Instant output demo
-  instantDemoDateTime = signal<Temporal.ZonedDateTime | null>(null);
-  lastInstant = signal<Temporal.Instant | null>(null);
-
   // Markers
   markerDateTime = signal<Temporal.ZonedDateTime | null>(null);
   holidayMarkers: CoarDateMarker[] = [
@@ -87,27 +80,7 @@ export class ZonedDateTimePickerPage {
   label="Vienna Meeting"
   [(value)]="viennaDateTime"
   [timeZone]="'Europe/Vienna'"
-/>
-
-<!-- Locked timezone (read-only) -->
-<coar-zoned-date-time-picker
-  label="Fixed Timezone"
-  [(value)]="dateTime"
-  [timeZone]="'America/New_York'"
-  [timeZoneLocked]="true"
 />`;
-
-  instantExample = `<coar-zoned-date-time-picker
-  label="Event Time"
-  [(value)]="eventDateTime"
-  (instantChange)="onInstantChanged($event)"
-/>
-
-// In component:
-onInstantChanged(instant: Temporal.Instant | null) {
-  // Use instant for API calls or storage
-  // instant.toString() → "2025-06-15T12:30:00Z"
-}`;
 
   intentVsInstantExample = `// ZonedDateTime stores BOTH:
 const meeting = Temporal.ZonedDateTime.from('2025-06-15T14:30[Europe/Vienna]');
@@ -132,9 +105,5 @@ meeting.toInstant().toString();       // "2025-06-15T12:30:00Z"
   formatInstant(val: Temporal.Instant | null): string {
     if (!val) return 'null';
     return val.toString();
-  }
-
-  onInstantChanged(instant: Temporal.Instant | null): void {
-    this.lastInstant.set(instant);
   }
 }
