@@ -28,8 +28,7 @@
     "@js-temporal/polyfill": "^0.5.1",
     "@angular/common": "21.0.6",
     "@angular/core": "^21.0.0",
-    "rxjs": "^7.0.0",
-    "@cocoar/scenar-abstractions": "0.0.1"
+    "rxjs": "^7.0.0"
   },
   "dependencies": {
     "@cocoar/ts-utils": "^0.0.1"
