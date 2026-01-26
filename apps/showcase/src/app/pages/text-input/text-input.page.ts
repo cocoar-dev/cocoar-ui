@@ -3,12 +3,8 @@ import { Component, signal } from '@angular/core';
 import {
   CoarTextInputComponent,
   CoarCodeBlockComponent,
-  CoarTabGroupComponent,
-  CoarTabComponent,
-  CoarDividerComponent,
+  CoarCardComponent,
 } from '@cocoar/ui-components';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-text-input',
@@ -16,21 +12,12 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   imports: [
     CoarTextInputComponent,
     CoarCodeBlockComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
-    CoarDividerComponent,
+    CoarCardComponent,
   ],
   templateUrl: './text-input.page.html',
   styleUrl: './text-input.page.css',
 })
 export class TextInputPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  activeTab = 'examples';
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-text-input.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-text-input.api.md';
-
   // Demo values
   basicValue = signal('');
   emailValue = signal('');
@@ -79,17 +66,11 @@ export class TextInputPage {
   (clear)="onClear()"
 />`,
 
-    sizes: `<!-- Extra Small - 27px height -->
-<coar-text-input size="xs" label="Extra Small" placeholder="Inline input" />
-
-<!-- Small - 32px height -->
-<coar-text-input size="sm" label="Small" placeholder="Compact input" />
-
-<!-- Medium (default) - 40px height -->
-<coar-text-input size="md" label="Medium" placeholder="Standard input" />
-
-<!-- Large - 48px height -->
-<coar-text-input size="lg" label="Large" placeholder="Prominent input" />`,
+    sizes: `<!-- Available sizes: xs, sm, md, lg -->
+<coar-text-input size="xs" label="Extra Small" placeholder="27px height" />
+<coar-text-input size="sm" label="Small" placeholder="32px height" />
+<coar-text-input size="md" label="Medium" placeholder="40px height" />
+<coar-text-input size="lg" label="Large" placeholder="48px height" />`,
 
     multiline: `<coar-text-input
   label="Bio"
@@ -104,10 +85,7 @@ export class TextInputPage {
 <coar-text-input label="Short Note" [rows]="3" />
 
 <!-- 6 rows (textarea) -->
-<coar-text-input label="Description" [rows]="6" />
-
-<!-- 10 rows (textarea) -->
-<coar-text-input label="Content" [rows]="10" />`,
+<coar-text-input label="Description" [rows]="6" />`,
   };
 
   onClear(): void {

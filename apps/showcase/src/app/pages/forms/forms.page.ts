@@ -1,21 +1,16 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CoarMarkdownComponent } from '@cocoar/markdown-viewer';
 import {
   CoarTextInputComponent,
   CoarPasswordInputComponent,
   CoarButtonComponent,
   CoarCardComponent,
   CoarNoteComponent,
-  CoarTabGroupComponent,
-  CoarTabComponent,
   CoarCodeBlockComponent,
   CoarCheckboxComponent,
   CoarCheckboxState,
 } from '@cocoar/ui-components';
-
-import { ShowcaseMarkdownDocsService } from '../../shared/services/showcase-markdown-docs.service';
 
 @Component({
   selector: 'app-forms',
@@ -23,14 +18,11 @@ import { ShowcaseMarkdownDocsService } from '../../shared/services/showcase-mark
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    CoarMarkdownComponent,
     CoarTextInputComponent,
     CoarPasswordInputComponent,
     CoarButtonComponent,
     CoarCardComponent,
     CoarNoteComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
     CoarCodeBlockComponent,
     CoarCheckboxComponent,
   ],
@@ -38,13 +30,6 @@ import { ShowcaseMarkdownDocsService } from '../../shared/services/showcase-mark
   styleUrl: './forms.page.css',
 })
 export class FormsPage {
-  private readonly markdownDocs = inject(ShowcaseMarkdownDocsService);
-
-  activeTab = 'examples';
-
-  protected readonly docsPath = '/docs/patterns/forms/overview.md';
-  protected readonly docsState$ = this.markdownDocs.load(this.docsPath);
-
   loginLoading = signal(false);
 
   readonly loginForm = new FormGroup({
@@ -92,24 +77,13 @@ export class FormsPage {
   }
 
   codeExamples = {
-    loginForm: `<form class="login-form" [formGroup]="loginForm" (submit)="onLoginSubmit($event)">
-  <coar-text-input
-    label="Email"
-    placeholder="your@email.com"
-    [required]="true"
-    formControlName="email"
-  />
-  <coar-password-input
-    label="Password"
-    [required]="true"
-    formControlName="password"
-  />
+    loginForm: `<form [formGroup]="loginForm" (submit)="onLoginSubmit($event)">
+  <coar-text-input label="Email" placeholder="your@email.com" [required]="true" formControlName="email" />
+  <coar-password-input label="Password" [required]="true" formControlName="password" />
   <coar-checkbox label="Remember me" formControlName="rememberMe" />
-  <div class="form-actions">
-    <coar-button variant="primary" type="submit" [loading]="loginLoading()" [disabled]="loginForm.invalid">
-      Sign In
-    </coar-button>
-  </div>
+  <coar-button variant="primary" type="submit" [loading]="loginLoading()" [disabled]="loginForm.invalid">
+    Sign In
+  </coar-button>
 </form>`,
 
     inlineForm: `<!-- Use matching sizes for input + button alignment -->
@@ -118,38 +92,18 @@ export class FormsPage {
   <coar-button variant="primary" size="sm" type="button">Subscribe</coar-button>
 </form>`,
 
-    registrationForm: `<form class="registration-form" [formGroup]="registrationForm">
-  <coar-text-input label="Full Name" placeholder="John Doe" [required]="true" formControlName="fullName" />
-  <coar-text-input
-    label="Email"
-    placeholder="your@email.com"
-    [required]="true"
-    hint="We'll never share your email"
-    formControlName="email"
-  />
+    registrationForm: `<form [formGroup]="registrationForm">
+  <coar-text-input label="Full Name" [required]="true" formControlName="fullName" />
+  <coar-text-input label="Email" [required]="true" hint="We'll never share your email" formControlName="email" />
   <div class="two-columns">
-    <coar-password-input
-      label="Password"
-      [required]="true"
-      hint="Min. 8 characters"
-      formControlName="password"
-    />
+    <coar-password-input label="Password" [required]="true" formControlName="password" />
     <coar-password-input label="Confirm Password" [required]="true" formControlName="confirmPassword" />
   </div>
   <coar-checkbox label="I accept the Terms of Service" [required]="true" formControlName="acceptTerms" />
-  <coar-checkbox
-    label="Subscribe to newsletter"
-    hint="Get product updates and tips"
-    formControlName="subscribeNewsletter"
-  />
-  <div class="form-actions">
-    <coar-button variant="primary" iconEnd="caret-right" type="button">Create Account</coar-button>
-    <coar-button variant="secondary" type="button">Cancel</coar-button>
-  </div>
+  <coar-button variant="primary" type="submit">Create Account</coar-button>
 </form>`,
 
-    searchForm: `<!-- Default md size (40px) for both -->
-<form class="search-form" [formGroup]="searchForm">
+    searchForm: `<form class="search-form" [formGroup]="searchForm">
   <coar-text-input placeholder="Search..." formControlName="query" />
   <coar-button variant="primary" type="button">Search</coar-button>
 </form>`,

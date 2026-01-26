@@ -4,12 +4,8 @@ import {
   CoarLabelComponent,
   CoarCardComponent,
   CoarCodeBlockComponent,
-  CoarDividerComponent,
-  CoarTabGroupComponent,
-  CoarTabComponent,
+  CoarNoteComponent,
 } from '@cocoar/ui-components';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-labels',
@@ -18,21 +14,12 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarLabelComponent,
     CoarCardComponent,
     CoarCodeBlockComponent,
-    CoarDividerComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
+    CoarNoteComponent,
   ],
   templateUrl: './labels.page.html',
   styleUrl: './labels.page.css',
 })
 export class LabelsPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  activeTab = 'examples';
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-label.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-label.api.md';
-
   // Code examples
   codeExamples = {
     sections: `<coar-label size="lg">Account Information</coar-label>

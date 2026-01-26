@@ -5,14 +5,10 @@ import { Temporal } from '@js-temporal/polyfill';
 import {
   CoarZonedDateTimePickerComponent,
   CoarCodeBlockComponent,
-  CoarDividerComponent,
+  CoarCardComponent,
   CoarNoteComponent,
-  CoarTabGroupComponent,
-  CoarTabComponent,
   type CoarDateMarker,
 } from '@cocoar/ui-components';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-zoned-date-time-picker',
@@ -21,18 +17,13 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     FormsModule,
     CoarZonedDateTimePickerComponent,
     CoarCodeBlockComponent,
-    CoarDividerComponent,
+    CoarCardComponent,
     CoarNoteComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
   ],
   templateUrl: './zoned-date-time-picker.page.html',
   styleUrl: './zoned-date-time-picker.page.css',
 })
 export class ZonedDateTimePickerPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  activeTab = 'examples';
 
   // Demo values - All using Temporal.ZonedDateTime
   basicZonedDateTime = signal<Temporal.ZonedDateTime | null>(null);

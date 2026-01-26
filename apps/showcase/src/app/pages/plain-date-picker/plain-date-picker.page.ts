@@ -5,15 +5,11 @@ import { Temporal } from '@js-temporal/polyfill';
 import {
   CoarPlainDatePickerComponent,
   CoarCodeBlockComponent,
-  CoarDividerComponent,
+  CoarCardComponent,
   CoarNoteComponent,
-  CoarTabGroupComponent,
-  CoarTabComponent,
   type DateFormatConfig,
   type CoarDateMarker,
 } from '@cocoar/ui-components';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-plain-date-picker',
@@ -22,23 +18,13 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     FormsModule,
     CoarPlainDatePickerComponent,
     CoarCodeBlockComponent,
-    CoarDividerComponent,
+    CoarCardComponent,
     CoarNoteComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
   ],
   templateUrl: './plain-date-picker.page.html',
   styleUrl: './plain-date-picker.page.css',
 })
 export class PlainDatePickerPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  activeTab = 'examples';
-
-  // Note: docs paths would be created when docs are generated
-  protected readonly docsPath = '/docs/libs/ui-components/coar-plain-date-picker.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-plain-date-picker.api.md';
-
   // Demo values - All using Temporal.PlainDate (the ONLY type this picker returns)
   basicDate = signal<Temporal.PlainDate | null>(null);
   preselectedDate = signal<Temporal.PlainDate | null>(Temporal.PlainDate.from('2025-06-15'));
@@ -70,10 +56,6 @@ export class PlainDatePickerPage {
   usFormat: DateFormatConfig = { pattern: 'mm/dd/yyyy', firstDayOfWeek: 7 };
   isoFormat: DateFormatConfig = { pattern: 'yyyy-mm-dd', firstDayOfWeek: 1 };
 
-  // Localized display demo values
-  germanDate = signal<Temporal.PlainDate | null>(null);
-  frenchDate = signal<Temporal.PlainDate | null>(null);
-
   // Week numbers demo values
   weekNumberDate = signal<Temporal.PlainDate | null>(null);
 
@@ -103,16 +85,16 @@ export class PlainDatePickerPage {
   ];
 
   // Code examples
-  basicExample = `<coar-plain-date-picker
+  codeExamples = {
+    basic: `<coar-plain-date-picker
   label="Select a Date"
   [(value)]="selectedDate"
   placeholder="Pick a date..."
 />
 
-// Type: Temporal.PlainDate | null
-// Example value: 2025-06-15`;
+// Type: Temporal.PlainDate | null`,
 
-  minMaxExample = `// In component - min/max are typed as Temporal.PlainDate
+    minMax: `// In component
 minDate = Temporal.Now.plainDateISO().subtract({ months: 1 });
 maxDate = Temporal.Now.plainDateISO().add({ months: 3 });
 
@@ -122,46 +104,25 @@ maxDate = Temporal.Now.plainDateISO().add({ months: 3 });
   [(value)]="selectedDate"
   [min]="minDate"
   [max]="maxDate"
-/>`;
+/>`,
 
-  sizesExample = `<coar-plain-date-picker size="xs" label="Extra Small" [(value)]="date" />
+    sizes: `<coar-plain-date-picker size="xs" label="Extra Small" [(value)]="date" />
 <coar-plain-date-picker size="sm" label="Small" [(value)]="date" />
 <coar-plain-date-picker size="md" label="Medium (default)" [(value)]="date" />
-<coar-plain-date-picker size="lg" label="Large" [(value)]="date" />`;
+<coar-plain-date-picker size="lg" label="Large" [(value)]="date" />`,
 
-  statesExample = `<coar-plain-date-picker
-  label="Disabled"
-  [(value)]="date"
-  disabled
-/>
+    states: `<coar-plain-date-picker label="Disabled" [(value)]="date" disabled />
+<coar-plain-date-picker label="Readonly" [(value)]="date" readonly />
+<coar-plain-date-picker label="Error State" [(value)]="date" error="Please select a valid date" />
+<coar-plain-date-picker label="Required" [(value)]="date" required />`,
 
-<coar-plain-date-picker
-  label="Readonly"
-  [(value)]="date"
-  readonly
-/>
-
-<coar-plain-date-picker
-  label="Error State"
-  [(value)]="date"
-  error="Please select a valid date"
-/>
-
-<coar-plain-date-picker
-  label="Required"
-  [(value)]="date"
-  required
-/>`;
-
-  weekNumbersExample = `<!-- Display ISO week numbers on the left side of the calendar -->
-<coar-plain-date-picker
+    weekNumbers: `<coar-plain-date-picker
   label="With Week Numbers"
   [(value)]="date"
   [showWeekNumbers]="true"
-/>`;
+/>`,
 
-  markersExample = `// Define markers in component
-holidayMarkers: CoarDateMarker[] = [
+    markers: `holidayMarkers: CoarDateMarker[] = [
   {
     startDate: Temporal.PlainDate.from('2025-12-24'),
     description: 'Christmas Eve',
@@ -173,12 +134,12 @@ holidayMarkers: CoarDateMarker[] = [
   },
 ];
 
-// In template
 <coar-plain-date-picker
   label="With Holidays"
   [(value)]="date"
   [markers]="holidayMarkers"
-/>`;
+/>`,
+  };
 
   formatDate(date: Temporal.PlainDate | null): string {
     if (!date) return 'null';

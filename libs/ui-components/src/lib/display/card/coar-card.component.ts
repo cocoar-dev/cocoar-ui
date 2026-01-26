@@ -1,7 +1,7 @@
 import { booleanAttribute, ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 
-export type CardColor = 'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent';
+export type CardColor = 'neutral' | 'outlined' | 'success' | 'warning' | 'error' | 'info' | 'accent';
 export type CardPadding = 'none' | 'sm' | 'md' | 'lg';
 
 @Component({
@@ -19,6 +19,7 @@ export type CardPadding = 'none' | 'sm' | 'md' | 'lg';
     '[class.coar-card--borderless]': 'borderless()',
     // Colors
     '[class.coar-card--neutral]': 'color() === "neutral"',
+    '[class.coar-card--outlined]': 'color() === "outlined"',
     '[class.coar-card--success]': 'color() === "success"',
     '[class.coar-card--warning]': 'color() === "warning"',
     '[class.coar-card--error]': 'color() === "error"',

@@ -1,129 +1,162 @@
 <div class="component-page">
   <header class="page-header">
     <h1 class="coar-title">Table</h1>
-    <p class="description coar-body">A simple, styled table component for displaying tabular data consistently.</p>
+    <p class="page-description">A simple, styled table component for displaying tabular data consistently.</p>
   </header>
 
-  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
-    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
-    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
-  </coar-tab-group>
+  <div class="examples-content">
+    <!-- ============================================ -->
+    <!-- BASIC EXAMPLES -->
+    <!-- ============================================ -->
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Basic Usage</h3>
+        <p class="example-description">Tables use alternating row colors by default for better readability.</p>
+        <div class="example-demo">
+          <coar-table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of sampleData; track user.email) {
+                <tr>
+                  <td>{{ user.name }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.role }}</td>
+                  <td>{{ user.status }}</td>
+                </tr>
+              }
+            </tbody>
+          </coar-table>
+        </div>
+        <coar-code-block [code]="basicExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Plain Variant</h3>
+        <p class="example-description">No alternating colors, uses subtle separator lines instead.</p>
+        <div class="example-demo">
+          <coar-table variant="plain">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of sampleData; track user.email) {
+                <tr>
+                  <td>{{ user.name }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.role }}</td>
+                  <td>{{ user.status }}</td>
+                </tr>
+              }
+            </tbody>
+          </coar-table>
+        </div>
+        <coar-code-block [code]="plainExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Bordered Variant</h3>
+        <p class="example-description">Full borders on all cells for a more structured look.</p>
+        <div class="example-demo">
+          <coar-table variant="bordered">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of sampleData; track user.email) {
+                <tr>
+                  <td>{{ user.name }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.role }}</td>
+                </tr>
+              }
+            </tbody>
+          </coar-table>
+        </div>
+        <coar-code-block [code]="borderedExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Compact</h3>
+        <p class="example-description">Reduced padding for data-dense views.</p>
+        <div class="example-demo">
+          <coar-table [compact]="true">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (user of sampleData; track user.email) {
+                <tr>
+                  <td>{{ user.name }}</td>
+                  <td>{{ user.email }}</td>
+                  <td>{{ user.role }}</td>
+                  <td>{{ user.status }}</td>
+                </tr>
+              }
+            </tbody>
+          </coar-table>
+        </div>
+        <coar-code-block [code]="compactExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- API SECTION -->
+    <!-- ============================================ -->
+    <details class="api-section">
+      <summary>Table API</summary>
+      <div class="api-content">
+        <h4>Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>variant</code></td>
+              <td><code>'default' | 'plain' | 'bordered'</code></td>
+              <td><code>'default'</code></td>
+              <td>Visual style of the table</td>
+            </tr>
+            <tr>
+              <td><code>compact</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Reduce cell padding for denser layouts</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Usage</h4>
+        <p class="coar-body-small">
+          Use standard HTML table elements (<code>&lt;thead&gt;</code>, <code>&lt;tbody&gt;</code>, <code>&lt;tr&gt;</code>, <code>&lt;th&gt;</code>,
+          <code>&lt;td&gt;</code>) inside the component.
+        </p>
+      </div>
+    </details>
+  </div>
 </div>
-
-<!-- ==================== EXAMPLES TAB ==================== -->
-<ng-template #examplesTemplate>
-  <!-- Basic Usage -->
-  <div class="example-section">
-    <h2 class="coar-heading">Basic Usage</h2>
-    <p class="section-intro coar-body-small">Tables use alternating row colors by default for better readability.</p>
-
-    <coar-table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Role</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (user of sampleData; track user.email) {
-        <tr>
-          <td>{{ user.name }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.role }}</td>
-          <td>{{ user.status }}</td>
-        </tr>
-        }
-      </tbody>
-    </coar-table>
-
-    <coar-code-block style="margin-top: 12px" [code]="basicExample" language="html" [collapsed]="true" />
-  </div>
-
-  <!-- Plain Variant -->
-  <div class="example-section">
-    <h2 class="coar-heading">Plain</h2>
-    <p class="section-intro coar-body-small">No alternating colors, uses subtle separator lines instead.</p>
-
-    <coar-table variant="plain">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Role</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (user of sampleData; track user.email) {
-        <tr>
-          <td>{{ user.name }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.role }}</td>
-          <td>{{ user.status }}</td>
-        </tr>
-        }
-      </tbody>
-    </coar-table>
-
-    <coar-code-block style="margin-top: 12px" [code]="plainExample" language="html" [collapsed]="true" />
-  </div>
-
-  <!-- Bordered Variant -->
-  <div class="example-section">
-    <h2 class="coar-heading">Bordered</h2>
-    <p class="section-intro coar-body-small">Full borders on all cells for a more structured look.</p>
-
-    <coar-table variant="bordered">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Role</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (user of sampleData; track user.email) {
-        <tr>
-          <td>{{ user.name }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.role }}</td>
-        </tr>
-        }
-      </tbody>
-    </coar-table>
-
-    <coar-code-block style="margin-top: 12px" [code]="borderedExample" language="html" [collapsed]="true" />
-  </div>
-
-  <!-- Compact -->
-  <div class="example-section">
-    <h2 class="coar-heading">Compact</h2>
-    <p class="section-intro coar-body-small">Reduced padding for data-dense views.</p>
-
-    <coar-table [compact]="true">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Role</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (user of sampleData; track user.email) {
-        <tr>
-          <td>{{ user.name }}</td>
-          <td>{{ user.email }}</td>
-          <td>{{ user.role }}</td>
-          <td>{{ user.status }}</td>
-        </tr>
-        }
-      </tbody>
-    </coar-table>
-
-    <coar-code-block style="margin-top: 12px" [code]="compactExample" language="html" [collapsed]="true" />
-  </div>
-</ng-template>

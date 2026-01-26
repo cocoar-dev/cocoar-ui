@@ -4,15 +4,10 @@ import {
   CoarBadgeComponent,
   CoarCardComponent,
   CoarCodeBlockComponent,
-  CoarDividerComponent,
-  CoarTabGroupComponent,
-  CoarTabComponent,
   CoarButtonComponent,
   BadgeVariant,
   BadgeSize,
 } from '@cocoar/ui-components';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-badges',
@@ -21,21 +16,12 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarBadgeComponent,
     CoarCardComponent,
     CoarCodeBlockComponent,
-    CoarDividerComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
     CoarButtonComponent,
   ],
   templateUrl: './badges.page.html',
   styleUrl: './badges.page.css',
 })
 export class BadgesPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  activeTab = 'examples';
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-badge.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-badge.api.md';
 
   /** Badge variants */
   variants: BadgeVariant[] = ['primary', 'secondary', 'success', 'warning', 'error', 'info'];

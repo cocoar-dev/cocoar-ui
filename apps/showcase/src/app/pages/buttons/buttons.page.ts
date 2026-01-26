@@ -4,13 +4,8 @@ import {
   CoarButtonComponent,
   CoarCardComponent,
   CoarCodeBlockComponent,
-  CoarDividerComponent,
   CoarNoteComponent,
-  CoarTabGroupComponent,
-  CoarTabComponent,
 } from '@cocoar/ui-components';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-buttons',
@@ -19,31 +14,16 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarButtonComponent,
     CoarCardComponent,
     CoarCodeBlockComponent,
-    CoarDividerComponent,
     CoarNoteComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
   ],
   templateUrl: './buttons.page.html',
   styleUrl: './buttons.page.css',
 })
 export class ButtonsPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  activeTab = 'examples';
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-button.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-button.api.md';
-
-  // Loading demos - multiple scenarios
+  // Loading demos
   isLoading = signal(false);
   isLoadingEnd = signal(false);
   isLoadingNoIcon = signal(false);
-  isLoadingBoth = signal(false);
-  isLoadingXs = signal(false);
-  isLoadingSm = signal(false);
-  isLoadingMd = signal(false);
-  isLoadingLg = signal(false);
 
   simulateLoading() {
     this.isLoading.set(true);
@@ -59,34 +39,6 @@ export class ButtonsPage {
     this.isLoadingNoIcon.set(true);
     setTimeout(() => this.isLoadingNoIcon.set(false), 2000);
   }
-
-  simulateLoadingBoth() {
-    this.isLoadingBoth.set(true);
-    setTimeout(() => this.isLoadingBoth.set(false), 2000);
-  }
-
-  simulateLoadingXs() {
-    this.isLoadingXs.set(true);
-    setTimeout(() => this.isLoadingXs.set(false), 2000);
-  }
-
-  simulateLoadingSm() {
-    this.isLoadingSm.set(true);
-    setTimeout(() => this.isLoadingSm.set(false), 2000);
-  }
-
-  simulateLoadingMd() {
-    this.isLoadingMd.set(true);
-    setTimeout(() => this.isLoadingMd.set(false), 2000);
-  }
-
-  simulateLoadingLg() {
-    this.isLoadingLg.set(true);
-    setTimeout(() => this.isLoadingLg.set(false), 2000);
-  }
-
-  // Click counter demo
-  clickCount = signal(0);
 
   // Code examples
   codeExamples = {

@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 
 import {
-  CoarTabGroupComponent,
-  CoarTabComponent,
   CoarCodeBlockComponent,
   CoarSidebarComponent,
   CoarButtonComponent,
+  CoarCardComponent,
 } from '@cocoar/ui-components';
 import {
   CoarMenuComponent,
@@ -14,17 +13,14 @@ import {
   CoarMenuHeadingComponent,
 } from '@cocoar/ui-menu';
 
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
-
 @Component({
   selector: 'app-sidebar-page',
   standalone: true,
   imports: [
-    CoarTabGroupComponent,
-    CoarTabComponent,
     CoarCodeBlockComponent,
     CoarSidebarComponent,
     CoarButtonComponent,
+    CoarCardComponent,
     CoarMenuComponent,
     CoarMenuItemComponent,
     CoarMenuDividerComponent,
@@ -34,12 +30,6 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   styleUrl: './sidebar.page.css',
 })
 export class SidebarPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-sidebar.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-sidebar.api.md';
-
-  activeTab = 'examples';
 
   basicExample = `<coar-sidebar>
   <coar-menu borderless>

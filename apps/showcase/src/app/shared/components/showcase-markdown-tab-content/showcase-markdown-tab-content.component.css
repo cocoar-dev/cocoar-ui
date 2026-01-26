@@ -8,3 +8,81 @@
 .docs-markdown {
   display: block;
 }
+
+/* Multi-markdown section styles */
+.markdown-section {
+  position: relative;
+  border: 1px solid var(--coar-border-neutral-tertiary);
+  border-radius: var(--coar-spacing-xs);
+  margin-block-end: var(--coar-spacing-m);
+}
+
+.markdown-section:last-child {
+  margin-block-end: 0;
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: var(--coar-spacing-s);
+  width: 100%;
+  padding: var(--coar-spacing-s) var(--coar-spacing-m);
+  background: var(--coar-bg-neutral-subtle);
+  border: none;
+  border-radius: var(--coar-spacing-xs) var(--coar-spacing-xs) 0 0;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: var(--coar-text-neutral-primary);
+  transition: background-color 0.15s ease;
+}
+
+.section-header:hover {
+  background: var(--coar-bg-neutral-muted);
+}
+
+.section-header:focus-visible {
+  outline: 2px solid var(--coar-border-accent-primary);
+  outline-offset: -2px;
+}
+
+.section-header[aria-expanded="false"] {
+  border-radius: var(--coar-spacing-xs);
+}
+
+.section-title {
+  flex: 1;
+  font-weight: 600;
+}
+
+.anchor-link {
+  position: absolute;
+  top: var(--coar-spacing-s);
+  right: var(--coar-spacing-m);
+  padding: var(--coar-spacing-xxs) var(--coar-spacing-xs);
+  color: var(--coar-text-neutral-tertiary);
+  text-decoration: none;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+
+.markdown-section:hover .anchor-link,
+.anchor-link:focus {
+  opacity: 1;
+}
+
+.anchor-link:hover {
+  color: var(--coar-text-accent-primary);
+}
+
+.anchor-link:focus-visible {
+  outline: 2px solid var(--coar-border-accent-primary);
+  outline-offset: 2px;
+  opacity: 1;
+}
+
+.section-content {
+  padding: var(--coar-spacing-m);
+  border-top: 1px solid var(--coar-border-neutral-tertiary);
+}

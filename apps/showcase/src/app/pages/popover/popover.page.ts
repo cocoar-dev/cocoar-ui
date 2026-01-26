@@ -1,15 +1,11 @@
 import { Component, signal } from '@angular/core';
 import {
   CoarButtonComponent,
+  CoarCardComponent,
   CoarCodeBlockComponent,
-  CoarDividerComponent,
   CoarNoteComponent,
   CoarPopoverComponent,
-  CoarTabComponent,
-  CoarTabGroupComponent,
 } from '@cocoar/ui-components';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-popover',
@@ -18,22 +14,13 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarPopoverComponent,
     CoarButtonComponent,
     CoarCodeBlockComponent,
-    CoarDividerComponent,
     CoarNoteComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
+    CoarCardComponent,
   ],
   templateUrl: './popover.page.html',
   styleUrl: './popover.page.css',
 })
 export class PopoverPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  activeTab = 'examples';
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-popover.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-popover.api.md';
-
   protected readonly clicksThroughOverlay = signal(0);
 
   protected onClickThroughOverlay(): void {

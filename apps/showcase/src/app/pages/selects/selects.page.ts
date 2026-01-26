@@ -1,10 +1,12 @@
-import { CommonModule } from '@angular/common';
+import { JsonPipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import {
   CoarCardComponent,
   CoarCodeBlockComponent,
   CoarNoteComponent,
   CoarSingleSelectComponent,
+  CoarMultiSelectComponent,
+  CoarTagSelectComponent,
   type CoarSelectOption,
 } from '@cocoar/ui-components';
 
@@ -16,22 +18,26 @@ interface Country {
 }
 
 @Component({
-  selector: 'app-single-select',
+  selector: 'app-selects',
   standalone: true,
   imports: [
-    CommonModule,
+    JsonPipe,
+    CoarCardComponent,
     CoarSingleSelectComponent,
+    CoarMultiSelectComponent,
+    CoarTagSelectComponent,
     CoarCodeBlockComponent,
     CoarNoteComponent,
-    CoarCardComponent,
   ],
-  templateUrl: './single-select.page.html',
-  styleUrl: './single-select.page.css',
+  templateUrl: './selects.page.html',
+  styleUrl: './selects.page.css',
 })
-export class SingleSelectPage {
+export class SelectsPage {
+  // ============================================
+  // SINGLE SELECT STATE
+  // ============================================
   singleValue = signal<string | null>(null);
   singleWithValue = signal<string | null>('at');
-
   selectedCountryObject = signal<Country | null>({
     id: 2,
     code: 'AT',
@@ -83,8 +89,48 @@ export class SingleSelectPage {
     return countryA?.id === countryB?.id;
   };
 
+  // ============================================
+  // MULTI SELECT STATE
+  // ============================================
+  selectedSkills = signal<string[]>([]);
+  selectedWithMultiValue = signal<string[]>(['skill-1', 'skill-3']);
+
+  skillOptions: CoarSelectOption<string>[] = [
+    { value: 'skill-1', label: 'JavaScript' },
+    { value: 'skill-2', label: 'TypeScript' },
+    { value: 'skill-3', label: 'Angular' },
+    { value: 'skill-4', label: 'React' },
+    { value: 'skill-5', label: 'Vue' },
+    { value: 'skill-6', label: 'Node.js' },
+    { value: 'skill-7', label: 'Python' },
+    { value: 'skill-8', label: 'Java' },
+  ];
+
+  // ============================================
+  // TAG SELECT STATE
+  // ============================================
+  tags = signal<string[]>([]);
+  tagsWithValue = signal<string[]>(['Angular', 'TypeScript']);
+
+  tagOptions: CoarSelectOption<string>[] = [
+    { value: 'Angular', label: 'Angular' },
+    { value: 'TypeScript', label: 'TypeScript' },
+    { value: 'RxJS', label: 'RxJS' },
+    { value: 'CSS', label: 'CSS' },
+    { value: 'HTML', label: 'HTML' },
+    { value: 'JavaScript', label: 'JavaScript' },
+  ];
+
+  onTagCreated(_tag: string): void {
+    // In a real app, you might add the new tag to the options
+  }
+
+  // ============================================
+  // CODE EXAMPLES
+  // ============================================
   codeExamples = {
-    basic: `<coar-single-select
+    // Single Select
+    singleBasic: `<coar-single-select
   label="Country"
   [options]="countryOptions"
   [value]="selectedCountry"
@@ -92,7 +138,7 @@ export class SingleSelectPage {
   placeholder="Select a country..."
 />`,
 
-    searchable: `<coar-single-select
+    singleSearchable: `<coar-single-select
   label="Country"
   [options]="countryOptions"
   [searchable]="true"
@@ -101,7 +147,7 @@ export class SingleSelectPage {
   (valueChange)="selectedCountry = $event"
 />`,
 
-    compareWith: `// Component
+    singleCompareWith: `// Component
 interface Country {
   id: number;
   code: string;
@@ -128,21 +174,73 @@ compareById = (a: Country | null, b: Country | null) => a?.id === b?.id;
   [compareWith]="compareById"
 />`,
 
-    states: `<coar-single-select label="Disabled" [options]="options" value="option-1" [disabled]="true" />
+    singleStates: `<coar-single-select label="Disabled" [options]="options" value="option-1" [disabled]="true" />
 <coar-single-select label="Readonly" [options]="options" value="option-2" [readonly]="true" />
 <coar-single-select label="Required" [options]="options" [required]="true" hint="This field is required" />
 <coar-single-select label="Error" [options]="options" error="Please select an option" />`,
 
-    sizes: `<coar-single-select label="Extra Small" [options]="options" size="xs" placeholder="xs" />
-<coar-single-select label="Small" [options]="options" size="sm" placeholder="sm" />
-<coar-single-select label="Medium" [options]="options" size="md" placeholder="md" />
-<coar-single-select label="Large" [options]="options" size="lg" placeholder="lg" />`,
-
-    dropdownPositionTop: `<coar-single-select
-  label="Country"
-  [options]="countryOptions"
-  dropdownPositionPreference="top"
-  placeholder="Select a country..."
+    // Multi Select
+    multiBasic: `<coar-multi-select
+  label="Skills"
+  [options]="skillOptions"
+  [value]="selectedSkills"
+  (valueChange)="selectedSkills = $event"
+  placeholder="Select skills..."
 />`,
+
+    multiSelectAllSearchable: `<coar-multi-select
+  label="Skills"
+  [options]="skillOptions"
+  [value]="selectedSkills"
+  (valueChange)="selectedSkills = $event"
+  [showSelectAll]="true"
+  [searchable]="true"
+  searchPlaceholder="Filter skills..."
+/>`,
+
+    multiMaxDisplayItems: `<coar-multi-select
+  label="Skills"
+  [options]="skillOptions"
+  [value]="selectedSkills"
+  (valueChange)="selectedSkills = $event"
+  [maxDisplayItems]="2"
+  placeholder="Select skills..."
+/>`,
+
+    // Tag Select
+    tagBasic: `<coar-tag-select
+  label="Tags"
+  [options]="tagOptions"
+  [value]="selectedTags"
+  (valueChange)="selectedTags = $event"
+  placeholder="Add tags..."
+/>`,
+
+    tagAllowCreate: `<coar-tag-select
+  label="Tags"
+  [options]="tagOptions"
+  [allowCreate]="true"
+  [value]="selectedTags"
+  (valueChange)="selectedTags = $event"
+  (tagCreated)="onTagCreated($event)"
+  placeholder="Type to add..."
+/>`,
+
+    tagMaxTags: `<coar-tag-select
+  label="Tags"
+  [options]="tagOptions"
+  [maxTags]="3"
+  [allowCreate]="true"
+  [value]="selectedTags"
+  (valueChange)="selectedTags = $event"
+  placeholder="Max 3 tags"
+/>`,
+
+    // Shared
+    sizes: `<!-- Available sizes: xs, sm, md, lg -->
+<coar-single-select label="Extra Small" [options]="options" size="xs" />
+<coar-single-select label="Small" [options]="options" size="sm" />
+<coar-single-select label="Medium" [options]="options" size="md" />
+<coar-single-select label="Large" [options]="options" size="lg" />`,
   };
 }

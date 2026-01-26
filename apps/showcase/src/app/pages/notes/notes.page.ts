@@ -4,11 +4,7 @@ import {
   CoarNoteComponent,
   CoarCardComponent,
   CoarCodeBlockComponent,
-  CoarDividerComponent,
-  CoarTabGroupComponent,
-  CoarTabComponent,
 } from '@cocoar/ui-components';
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-notes',
@@ -17,20 +13,11 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarNoteComponent,
     CoarCardComponent,
     CoarCodeBlockComponent,
-    CoarDividerComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
   ],
   templateUrl: './notes.page.html',
   styleUrl: './notes.page.css',
 })
 export class NotesPage {
-  activeTab = 'examples';
-
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-note.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-note.api.md';
 
   /** Code examples */
   codeExamples = {

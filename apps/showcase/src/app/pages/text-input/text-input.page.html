@@ -7,147 +7,256 @@
     </p>
   </header>
 
-  <coar-tab-group [(activeTab)]="activeTab">
-    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
-    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
-  </coar-tab-group>
-</div>
-
-<ng-template #examplesTemplate>
   <div class="examples-content">
-    <!-- Basic -->
-    <section class="example-section">
-      <h3>Basic Usage</h3>
-      <p>Simple text input with label, placeholder, and hint.</p>
-      <div class="example-demo">
-        <coar-text-input
-          label="Username"
-          placeholder="Enter your username"
-          hint="Choose a unique username"
-          [value]="basicValue()"
-          (valueChange)="basicValue.set($event)"
-        />
+    <!-- ============================================ -->
+    <!-- BASIC EXAMPLES -->
+    <!-- ============================================ -->
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Basic Usage</h3>
+        <p class="example-description">Simple text input with label, placeholder, and hint.</p>
+        <div class="example-demo">
+          <coar-text-input
+            label="Username"
+            placeholder="Enter your username"
+            hint="Choose a unique username"
+            [value]="basicValue()"
+            (valueChange)="basicValue.set($event)"
+          />
+        </div>
+        <p class="demo-value">Value: {{ basicValue() || 'empty' }}</p>
+        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Validation States</h3>
+        <p class="example-description">Required field indicator and error message display.</p>
+        <div class="example-demo example-demo--two-col">
+          <coar-text-input
+            label="Email"
+            placeholder="your@email.com"
+            [required]="true"
+            hint="Required field"
+            [value]="emailValue()"
+            (valueChange)="emailValue.set($event)"
+          />
+          <coar-text-input label="Email" value="invalid-email" error="Please enter a valid email address" />
+        </div>
+        <coar-code-block [code]="codeExamples.required" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Disabled & Readonly</h3>
+        <p class="example-description">Non-interactive states for display or locked fields.</p>
+        <div class="example-demo example-demo--two-col">
+          <coar-text-input label="Disabled" value="Cannot edit" [disabled]="true" />
+          <coar-text-input label="Readonly" value="View only" [readonly]="true" />
+        </div>
+        <coar-code-block [code]="codeExamples.disabled" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Prefix & Suffix</h3>
+        <p class="example-description">Add context with prefix or suffix text.</p>
+        <div class="example-demo example-demo--two-col">
+          <coar-text-input
+            label="Website"
+            placeholder="example.com"
+            prefix="https://"
+            [value]="websiteValue()"
+            (valueChange)="websiteValue.set($event)"
+          />
+          <coar-text-input label="Price" placeholder="0.00" suffix="EUR" [value]="priceValue()" (valueChange)="priceValue.set($event)" />
+        </div>
+        <coar-code-block [code]="codeExamples.prefixSuffix" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Clear Button</h3>
+        <p class="example-description">Optional clear button appears when input has value and is focused/hovered.</p>
+        <div class="example-demo">
+          <coar-text-input
+            label="Search"
+            placeholder="Type to search..."
+            [clearable]="true"
+            [value]="searchValue()"
+            (valueChange)="searchValue.set($event)"
+            (clear)="onClear()"
+          />
+        </div>
+        <p class="demo-value">Value: {{ searchValue() || 'empty' }}</p>
+        <coar-code-block [code]="codeExamples.clear" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Sizes</h3>
+        <p class="example-description">Four size variants for different contexts.</p>
+        <div class="example-demo example-demo--sizes">
+          <coar-text-input size="xs" label="Extra Small" placeholder="27px" />
+          <coar-text-input size="sm" label="Small" placeholder="32px" />
+          <coar-text-input size="md" label="Medium" placeholder="40px" />
+          <coar-text-input size="lg" label="Large" placeholder="48px" />
+        </div>
+        <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- MULTILINE SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Multiline (Textarea)</h2>
+    <p class="component-section-description">
+      Set the <code>rows</code> property to enable multiline mode. The input renders as a textarea for longer content.
+    </p>
+
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Basic Multiline</h3>
+        <p class="example-description">Enable multiline mode for longer text content like bios or descriptions.</p>
+        <div class="example-demo">
+          <coar-text-input
+            label="Bio"
+            placeholder="Tell us about yourself..."
+            [rows]="4"
+            hint="Max 500 characters"
+            [value]="bioValue()"
+            (valueChange)="bioValue.set($event)"
+          />
+        </div>
+        <coar-code-block [code]="codeExamples.multiline" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Row Heights</h3>
+        <p class="example-description">Control initial height with the rows property.</p>
+        <div class="example-demo example-demo--two-col">
+          <coar-text-input label="3 Rows" [rows]="3" placeholder="Default height..." />
+          <coar-text-input label="6 Rows" [rows]="6" placeholder="Taller..." />
+        </div>
+        <coar-code-block [code]="codeExamples.multilineRows" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- API SECTION -->
+    <!-- ============================================ -->
+    <details class="api-section">
+      <summary>Text Input API</summary>
+      <div class="api-content">
+        <h4>Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>value</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Current input value (two-way bindable)</td>
+            </tr>
+            <tr>
+              <td><code>label</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Label text displayed above the input</td>
+            </tr>
+            <tr>
+              <td><code>placeholder</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Placeholder text when empty</td>
+            </tr>
+            <tr>
+              <td><code>hint</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Hint text below the input</td>
+            </tr>
+            <tr>
+              <td><code>error</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Error message to display</td>
+            </tr>
+            <tr>
+              <td><code>prefix</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Prefix text before the input</td>
+            </tr>
+            <tr>
+              <td><code>suffix</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Suffix text after the input</td>
+            </tr>
+            <tr>
+              <td><code>size</code></td>
+              <td><code>'xs' | 'sm' | 'md' | 'lg'</code></td>
+              <td><code>'md'</code></td>
+              <td>Input size</td>
+            </tr>
+            <tr>
+              <td><code>rows</code></td>
+              <td><code>number</code></td>
+              <td><code>0</code></td>
+              <td>Number of rows (0 = single-line, >0 = textarea)</td>
+            </tr>
+            <tr>
+              <td><code>clearable</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Show clear button when input has value</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Disable the input</td>
+            </tr>
+            <tr>
+              <td><code>readonly</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Make the input read-only</td>
+            </tr>
+            <tr>
+              <td><code>required</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Mark as required (shows asterisk)</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Outputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>valueChange</code></td>
+              <td><code>string</code></td>
+              <td>Emits when the value changes</td>
+            </tr>
+            <tr>
+              <td><code>clear</code></td>
+              <td><code>void</code></td>
+              <td>Emits when the clear button is clicked</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <!-- Required & Error -->
-    <section class="example-section">
-      <h3>Validation States</h3>
-      <p>Required field indicator and error message display.</p>
-      <div class="example-demo example-demo--two-col">
-        <coar-text-input
-          label="Email"
-          placeholder="your@email.com"
-          [required]="true"
-          hint="Required field"
-          [value]="emailValue()"
-          (valueChange)="emailValue.set($event)"
-        />
-        <coar-text-input label="Email" value="invalid-email" error="Please enter a valid email address" />
-      </div>
-      <coar-code-block [code]="codeExamples.required" language="html" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <!-- Disabled & Readonly -->
-    <section class="example-section">
-      <h3>Disabled & Readonly</h3>
-      <p>Non-interactive states for display or locked fields.</p>
-      <div class="example-demo example-demo--two-col">
-        <coar-text-input label="Disabled" value="Cannot edit" [disabled]="true" />
-        <coar-text-input label="Readonly" value="View only" [readonly]="true" />
-      </div>
-      <coar-code-block [code]="codeExamples.disabled" language="html" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <!-- Prefix & Suffix -->
-    <section class="example-section">
-      <h3>Prefix & Suffix</h3>
-      <p>Add context with prefix or suffix text.</p>
-      <div class="example-demo example-demo--two-col">
-        <coar-text-input
-          label="Website"
-          placeholder="example.com"
-          prefix="https://"
-          [value]="websiteValue()"
-          (valueChange)="websiteValue.set($event)"
-        />
-        <coar-text-input label="Price" placeholder="0.00" suffix="EUR" [value]="priceValue()" (valueChange)="priceValue.set($event)" />
-      </div>
-      <coar-code-block [code]="codeExamples.prefixSuffix" language="html" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <!-- Clear Button -->
-    <section class="example-section">
-      <h3>Clear Button</h3>
-      <p>Optional clear button appears when input has value and is focused/hovered.</p>
-      <div class="example-demo">
-        <coar-text-input
-          label="Search"
-          placeholder="Type to search..."
-          [clearable]="true"
-          [value]="searchValue()"
-          (valueChange)="searchValue.set($event)"
-          (clear)="onClear()"
-        />
-      </div>
-      <coar-code-block [code]="codeExamples.clear" language="html" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <!-- Sizes -->
-    <section class="example-section">
-      <h3>Sizes</h3>
-      <p>Four size variants for different contexts.</p>
-      <div class="example-demo example-demo--sizes">
-        <coar-text-input size="xs" label="Extra Small" placeholder="27px height" />
-        <coar-text-input size="sm" label="Small" placeholder="32px height" />
-        <coar-text-input size="md" label="Medium" placeholder="40px height" />
-        <coar-text-input size="lg" label="Large" placeholder="48px height" />
-      </div>
-      <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <!-- Multiline -->
-    <section class="example-section">
-      <h3>Multiline (Textarea)</h3>
-      <p>Enable multiline mode for longer text content like bios or descriptions.</p>
-      <div class="example-demo">
-        <coar-text-input
-          label="Bio"
-          placeholder="Tell us about yourself..."
-          [rows]="4"
-          hint="Max 500 characters"
-          [value]="bioValue()"
-          (valueChange)="bioValue.set($event)"
-        />
-      </div>
-      <coar-code-block [code]="codeExamples.multiline" language="html" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <!-- Multiline Rows -->
-    <section class="example-section">
-      <h3>Multiline Row Heights</h3>
-      <p>Control initial height with the rows property.</p>
-      <div class="example-demo example-demo--two-col">
-        <coar-text-input label="3 Rows" [rows]="3" placeholder="Default height..." />
-        <coar-text-input label="6 Rows" [rows]="6" placeholder="Taller..." />
-      </div>
-      <coar-code-block [code]="codeExamples.multilineRows" language="html" [showLineNumbers]="false" />
-    </section>
+    </details>
   </div>
-</ng-template>
+</div>

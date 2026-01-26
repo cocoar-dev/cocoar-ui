@@ -1,22 +1,16 @@
 import { Component } from '@angular/core';
 
 import {
-  CoarTabGroupComponent,
-  CoarTabComponent,
   CoarCodeBlockComponent,
   CoarCardComponent,
   CoarButtonComponent,
   CoarTagComponent,
 } from '@cocoar/ui-components';
 
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
-
 @Component({
   selector: 'app-cards-page',
   standalone: true,
   imports: [
-    CoarTabGroupComponent,
-    CoarTabComponent,
     CoarCodeBlockComponent,
     CoarCardComponent,
     CoarButtonComponent,
@@ -26,13 +20,6 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   styleUrl: './cards.page.css',
 })
 export class CardsPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-card.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-card.api.md';
-
-  // Page-level tabs
-  activeTab = 'examples';
 
   // Code examples
   basicExample = `<coar-card>

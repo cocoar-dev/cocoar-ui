@@ -1,205 +1,227 @@
 <div class="component-page">
   <header class="page-header">
     <h1 class="coar-title">Tag</h1>
-    <p class="description coar-body">
+    <p class="page-description">
       Tags are labels for categorizing, labeling, or marking content. Unlike badges (used for counts and status dots), tags are interactive and can be
       closed or selected.
     </p>
   </header>
 
-  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
-    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
-    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
-  </coar-tab-group>
-</div>
-
-<ng-template #examplesTemplate>
   <div class="examples-content">
-    <!-- Color Variants -->
-    <section class="example-section">
-      <h2 class="coar-heading">Color Variants</h2>
-      <p class="section-intro coar-body-small">Six semantic color variants for different contexts and meanings.</p>
-      <div class="tag-row">
-        @for (color of colors; track color) {
-        <div class="tag-item">
-          <coar-tag [color]="color">{{ color | titlecase }}</coar-tag>
+    <!-- ============================================ -->
+    <!-- BASIC EXAMPLES -->
+    <!-- ============================================ -->
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Color Variants</h3>
+        <p class="example-description">Six semantic color variants for different contexts and meanings.</p>
+        <div class="example-demo tag-row">
+          @for (color of colors; track color) {
+            <div class="tag-item">
+              <coar-tag [color]="color">{{ color | titlecase }}</coar-tag>
+            </div>
+          }
         </div>
-        }
-      </div>
-      <div class="variant-descriptions">
-        <coar-card padding="sm">
-          <strong class="coar-body-small-bold">Neutral</strong>
-          <p class="coar-body-small">Default for general labels and categories.</p>
-        </coar-card>
-        <coar-card padding="sm">
-          <strong class="coar-body-small-bold">Success</strong>
-          <p class="coar-body-small">Published, active, or completed states.</p>
-        </coar-card>
-        <coar-card padding="sm">
-          <strong class="coar-body-small-bold">Warning</strong>
-          <p class="coar-body-small">Pending, draft, or attention needed.</p>
-        </coar-card>
-        <coar-card padding="sm">
-          <strong class="coar-body-small-bold">Error</strong>
-          <p class="coar-body-small">Rejected, expired, or problem states.</p>
-        </coar-card>
-        <coar-card padding="sm">
-          <strong class="coar-body-small-bold">Info</strong>
-          <p class="coar-body-small">Informational or neutral highlights.</p>
-        </coar-card>
-        <coar-card padding="sm">
-          <strong class="coar-body-small-bold">Accent</strong>
-          <p class="coar-body-small">Featured, highlighted, or selected items.</p>
-        </coar-card>
-      </div>
-      <coar-code-block [code]="codeExamples.basic" language="html" [collapsed]="true" />
-    </section>
+        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Sizes -->
-    <section class="example-section">
-      <h2 class="coar-heading">Sizes</h2>
-      <p class="section-intro coar-body-small">Three size options for different contexts.</p>
-      <div class="tag-row tag-row--align-center">
-        @for (size of sizes; track size) {
-        <div class="tag-item">
-          <coar-tag [size]="size" color="accent">{{ size | uppercase }}</coar-tag>
-          <span class="tag-label coar-caption">{{ size }}</span>
+      <coar-card color="outlined">
+        <h3>Sizes</h3>
+        <p class="example-description">Three size options for different contexts.</p>
+        <div class="example-demo tag-row tag-row--align-center">
+          @for (size of sizes; track size) {
+            <div class="tag-item">
+              <coar-tag [size]="size" color="accent">{{ size | uppercase }}</coar-tag>
+              <span class="tag-label coar-caption">{{ size }}</span>
+            </div>
+          }
         </div>
-        }
+        <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Elevated</h3>
+        <p class="example-description">Add elevation with box-shadow for emphasis.</p>
+        <div class="example-demo tag-row">
+          @for (color of colors; track color) {
+            <coar-tag [color]="color" elevated>{{ color | titlecase }}</coar-tag>
+          }
+        </div>
+        <coar-code-block [code]="codeExamples.elevated" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Borderless</h3>
+        <p class="example-description">Remove the border for a softer look.</p>
+        <div class="example-demo tag-row">
+          @for (color of colors; track color) {
+            <coar-tag [color]="color" borderless>{{ color | titlecase }}</coar-tag>
+          }
+        </div>
+        <coar-code-block [code]="codeExamples.borderless" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- CLOSABLE & USE CASES -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Interactive Tags</h2>
+    <p class="component-section-description">Tags can be removed by users and used for filtering or categorization.</p>
+
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Closable Tags</h3>
+        <p class="example-description">Tags can be removed by users. Click the x to remove a tag.</p>
+        <div class="example-demo tag-row">
+          @for (tag of tags(); track tag) {
+            <coar-tag color="accent" closable (closed)="removeTag(tag)">{{ tag }}</coar-tag>
+          }
+          @if (tags().length === 0) {
+            <span class="empty-state coar-body-small">All tags removed. </span>
+            <button class="reset-link coar-body-small" (click)="resetTags()">Reset tags</button>
+          }
+        </div>
+        <coar-code-block [code]="codeExamples.closable" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Use Cases</h3>
+        <p class="example-description">Common patterns for using tags in your application.</p>
+        <div class="use-case-grid">
+          <coar-card padding="md">
+            <h4 class="coar-body-large">Article Categories</h4>
+            <div class="use-case-demo">
+              <coar-tag color="accent" size="sm">Featured</coar-tag>
+              <coar-tag color="neutral" size="sm">Technology</coar-tag>
+              <coar-tag color="neutral" size="sm">Design</coar-tag>
+            </div>
+          </coar-card>
+          <coar-card padding="md">
+            <h4 class="coar-body-large">Status Labels</h4>
+            <div class="use-case-demo">
+              <coar-tag color="success" size="sm">Active</coar-tag>
+              <coar-tag color="warning" size="sm">Pending</coar-tag>
+              <coar-tag color="error" size="sm">Expired</coar-tag>
+            </div>
+          </coar-card>
+          <coar-card padding="md">
+            <h4 class="coar-body-large">Filter Tags</h4>
+            <div class="use-case-demo">
+              <coar-tag color="accent" size="sm" closable>React</coar-tag>
+              <coar-tag color="accent" size="sm" closable>Angular</coar-tag>
+              <coar-tag color="accent" size="sm" closable>Vue</coar-tag>
+            </div>
+          </coar-card>
+          <coar-card padding="md">
+            <h4 class="coar-body-large">Version Labels</h4>
+            <div class="use-case-demo">
+              <coar-tag color="success" size="sm">Stable</coar-tag>
+              <coar-tag color="warning" size="sm">Beta</coar-tag>
+              <coar-tag color="info" size="sm">v2.0</coar-tag>
+            </div>
+          </coar-card>
+        </div>
+        <coar-code-block [code]="codeExamples.categories" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- BADGE VS TAG -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Badge vs Tag</h2>
+    <p class="component-section-description">When to use each component.</p>
+
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Badge</h3>
+        <ul class="comparison-list coar-body-small">
+          <li>Notification counts (5, 99+)</li>
+          <li>Status dots (online/offline)</li>
+          <li>Attached to other elements</li>
+          <li>Pill-shaped (fully rounded)</li>
+          <li>Read-only, not interactive</li>
+        </ul>
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Tag</h3>
+        <ul class="comparison-list coar-body-small">
+          <li>Labels and categories</li>
+          <li>Keywords and metadata</li>
+          <li>Standalone elements</li>
+          <li>Slightly rounded corners</li>
+          <li>Can be closable/selectable</li>
+        </ul>
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- API SECTION -->
+    <!-- ============================================ -->
+    <details class="api-section">
+      <summary>Tag API</summary>
+      <div class="api-content">
+        <h4>Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>color</code></td>
+              <td><code>'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent'</code></td>
+              <td><code>'neutral'</code></td>
+              <td>Color variant</td>
+            </tr>
+            <tr>
+              <td><code>size</code></td>
+              <td><code>'sm' | 'md' | 'lg'</code></td>
+              <td><code>'md'</code></td>
+              <td>Tag size</td>
+            </tr>
+            <tr>
+              <td><code>elevated</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Add box-shadow for depth</td>
+            </tr>
+            <tr>
+              <td><code>borderless</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Remove the border</td>
+            </tr>
+            <tr>
+              <td><code>closable</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Show close button</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Outputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>closed</code></td>
+              <td><code>void</code></td>
+              <td>Emits when close button is clicked</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <coar-code-block [code]="codeExamples.sizes" language="html" [collapsed]="true" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Elevated -->
-    <section class="example-section">
-      <h2 class="coar-heading">Elevated</h2>
-      <p class="section-intro coar-body-small">Add elevation with box-shadow for emphasis.</p>
-
-      <div class="tag-row">
-        @for (color of colors; track color) {
-        <coar-tag [color]="color" elevated>{{ color | titlecase }}</coar-tag>
-        }
-      </div>
-
-      <coar-code-block [code]="codeExamples.elevated" language="html" [collapsed]="true" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Borderless -->
-    <section class="example-section">
-      <h2 class="coar-heading">Borderless</h2>
-      <p class="section-intro coar-body-small">Remove the border for a softer look.</p>
-
-      <div class="tag-row">
-        @for (color of colors; track color) {
-        <coar-tag [color]="color" borderless>{{ color | titlecase }}</coar-tag>
-        }
-      </div>
-
-      <coar-code-block [code]="codeExamples.borderless" language="html" [collapsed]="true" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Closable Tags -->
-    <section class="example-section">
-      <h2 class="coar-heading">Closable Tags</h2>
-      <p class="section-intro coar-body-small">Tags can be removed by users. Click the × to remove a tag.</p>
-      <div class="tag-row">
-        @for (tag of tags(); track tag) {
-        <coar-tag color="accent" closable (closed)="removeTag(tag)">{{ tag }}</coar-tag>
-        } @if (tags().length === 0) {
-        <span class="empty-state coar-body-small">All tags removed. </span>
-        <button class="reset-link coar-body-small" (click)="resetTags()">Reset tags</button>
-        }
-      </div>
-      <coar-code-block [code]="codeExamples.closable" language="html" [collapsed]="true" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Use Cases -->
-    <section class="example-section">
-      <h2 class="coar-heading">Use Cases</h2>
-      <p class="section-intro coar-body-small">Common patterns for using tags in your application.</p>
-
-      <div class="use-case-grid">
-        <coar-card padding="md">
-          <h3 class="coar-body-large">Article Categories</h3>
-          <div class="use-case-demo">
-            <coar-tag color="accent" size="sm">Featured</coar-tag>
-            <coar-tag color="neutral" size="sm">Technology</coar-tag>
-            <coar-tag color="neutral" size="sm">Design</coar-tag>
-          </div>
-        </coar-card>
-
-        <coar-card padding="md">
-          <h3 class="coar-body-large">Status Labels</h3>
-          <div class="use-case-demo">
-            <coar-tag color="success" size="sm">Active</coar-tag>
-            <coar-tag color="warning" size="sm">Pending</coar-tag>
-            <coar-tag color="error" size="sm">Expired</coar-tag>
-          </div>
-        </coar-card>
-
-        <coar-card padding="md">
-          <h3 class="coar-body-large">Filter Tags</h3>
-          <div class="use-case-demo">
-            <coar-tag color="accent" size="sm" closable>React</coar-tag>
-            <coar-tag color="accent" size="sm" closable>Angular</coar-tag>
-            <coar-tag color="accent" size="sm" closable>Vue</coar-tag>
-          </div>
-        </coar-card>
-
-        <coar-card padding="md">
-          <h3 class="coar-body-large">Version Labels</h3>
-          <div class="use-case-demo">
-            <coar-tag color="success" size="sm">Stable</coar-tag>
-            <coar-tag color="warning" size="sm">Beta</coar-tag>
-            <coar-tag color="info" size="sm">v2.0</coar-tag>
-          </div>
-        </coar-card>
-      </div>
-
-      <coar-code-block [code]="codeExamples.categories" language="html" [collapsed]="true" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Badge vs Tag -->
-    <section class="example-section">
-      <h2 class="coar-heading">Badge vs Tag</h2>
-      <p class="section-intro coar-body-small">When to use each component.</p>
-
-      <div class="comparison-grid">
-        <coar-card padding="md">
-          <h3 class="coar-body-large">Badge</h3>
-          <ul class="comparison-list coar-body-small">
-            <li>Notification counts (5, 99+)</li>
-            <li>Status dots (online/offline)</li>
-            <li>Attached to other elements</li>
-            <li>Pill-shaped (fully rounded)</li>
-            <li>Read-only, not interactive</li>
-          </ul>
-        </coar-card>
-
-        <coar-card padding="md">
-          <h3 class="coar-body-large">Tag</h3>
-          <ul class="comparison-list coar-body-small">
-            <li>Labels and categories</li>
-            <li>Keywords and metadata</li>
-            <li>Standalone elements</li>
-            <li>Slightly rounded corners</li>
-            <li>Can be closable/selectable</li>
-          </ul>
-        </coar-card>
-      </div>
-    </section>
+    </details>
   </div>
-</ng-template>
+</div>

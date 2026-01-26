@@ -10,10 +10,8 @@ import {
 import { coarMenuPreset, createOverlayBuilder, type OverlayRef } from '@cocoar/ui-overlay';
 import {
   CoarCodeBlockComponent,
-  CoarDividerComponent,
   CoarNoteComponent,
-  CoarTabGroupComponent,
-  CoarTabComponent,
+  CoarCardComponent,
 } from '@cocoar/ui-components';
 import {
   CoarMenuComponent,
@@ -24,17 +22,13 @@ import {
   CoarSubExpandComponent,
 } from '@cocoar/ui-menu';
 
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
-
 @Component({
   selector: 'app-menu',
   standalone: true,
   imports: [
     CoarCodeBlockComponent,
-    CoarDividerComponent,
     CoarNoteComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
+    CoarCardComponent,
     CoarMenuComponent,
     CoarMenuItemComponent,
     CoarMenuDividerComponent,
@@ -52,14 +46,7 @@ export class MenuPage {
 
   @ViewChild('contextMenuTemplate') contextMenuTemplate!: TemplateRef<void>;
 
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  activeTab = 'examples';
-
   private contextMenuRef: OverlayRef | null = null;
-
-  protected readonly docsPath = '/docs/libs/ui-menu/coar-menu.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-menu/coar-menu.api.md';
 
   protected readonly aimDebug = {
     enabled: false,

@@ -5,12 +5,9 @@ import {
   CoarIconComponent,
   CoarIconService,
   CoarCodeBlockComponent,
-  CoarTabGroupComponent,
-  CoarTabComponent,
+  CoarCardComponent,
   CoarTextInputComponent,
-  CoarDividerComponent,
 } from '@cocoar/ui-components';
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 type IconsPageSourceGroup = Readonly<{
   key: string;
@@ -23,23 +20,14 @@ type IconsPageSourceGroup = Readonly<{
   imports: [
     CoarIconComponent,
     CoarCodeBlockComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
+    CoarCardComponent,
     CoarTextInputComponent,
-    CoarDividerComponent,
   ],
   templateUrl: './icons.page.html',
   styleUrl: './icons.page.css',
 })
 export class IconsPage {
   private readonly iconService = inject(CoarIconService);
-
-  activeTab = 'examples';
-
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-icon.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-icon.api.md';
 
   /** All available icon names grouped by icon source */
   private readonly iconGroups = signal<readonly IconsPageSourceGroup[]>([]);

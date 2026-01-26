@@ -1,190 +1,260 @@
 <div class="component-page">
   <header class="page-header">
     <h1 class="coar-title">Popconfirm</h1>
-    <p class="description coar-body">
+    <p class="page-description">
       Popconfirm provides a lightweight confirmation dialog that appears near the trigger element. Use it to confirm destructive or important actions
       without blocking the entire interface.
     </p>
   </header>
 
-  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
-    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }">API</coar-tab>
-    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }">Docs</coar-tab>
-  </coar-tab-group>
-</div>
-
-<ng-template #examplesTemplate>
   <div class="examples-content">
-    <!-- Basic Usage -->
-    <section class="example-section">
-      <h2 class="coar-heading">Basic Usage</h2>
-      <p class="section-intro coar-body-small">
-        Add the <code>coarPopconfirm</code> directive to any button to require confirmation before an action.
-      </p>
-      <div class="example-demo">
-        <div class="demo-row">
-          @if (!itemDeleted()) {
-            <coar-button
-              variant="danger"
-              [coarPopconfirm]="'Are you sure you want to delete this item?'"
-              (confirmed)="onConfirm('delete')"
-              (cancelled)="onCancel('delete')"
-            >
-              Delete Item
-            </coar-button>
-          } @else {
-            <div class="deleted-message">
-              <span class="coar-body">Item deleted!</span>
-              <coar-button variant="ghost" size="sm" (clicked)="resetDemo()">Reset Demo</coar-button>
-            </div>
-          }
-          @if (actionLog().length > 0) {
-            <div class="action-log">
-              <span class="coar-caption">Recent actions:</span>
-              @for (action of actionLog(); track $index) {
-                <span class="coar-caption">{{ action }}</span>
-              }
-            </div>
-          }
+    <!-- ============================================ -->
+    <!-- BASIC EXAMPLES -->
+    <!-- ============================================ -->
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Basic Usage</h3>
+        <p class="example-description">Add the <code>coarPopconfirm</code> directive to any button to require confirmation before an action.</p>
+        <div class="example-demo">
+          <div class="demo-row">
+            @if (!itemDeleted()) {
+              <coar-button
+                variant="danger"
+                [coarPopconfirm]="'Are you sure you want to delete this item?'"
+                (confirmed)="onConfirm('delete')"
+                (cancelled)="onCancel('delete')"
+              >
+                Delete Item
+              </coar-button>
+            } @else {
+              <div class="deleted-message">
+                <span class="coar-body">Item deleted!</span>
+                <coar-button variant="ghost" size="sm" (clicked)="resetDemo()">Reset Demo</coar-button>
+              </div>
+            }
+            @if (actionLog().length > 0) {
+              <div class="action-log">
+                <span class="coar-caption">Recent actions:</span>
+                @for (action of actionLog(); track $index) {
+                  <span class="coar-caption">{{ action }}</span>
+                }
+              </div>
+            }
+          </div>
         </div>
-      </div>
-      <coar-code-block [code]="codeExamples.basic" language="html" [collapsed]="true" />
-    </section>
+        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+      <coar-card color="outlined">
+        <h3>With Title</h3>
+        <p class="example-description">Add a title and customize button text for clearer communication.</p>
+        <div class="example-demo">
+          <coar-button
+            variant="danger"
+            coarPopconfirm="This action cannot be undone. All associated data will be permanently removed."
+            popconfirmTitle="Delete permanently?"
+            confirmText="Yes, delete"
+            cancelText="Keep it"
+            confirmVariant="danger"
+            (confirmed)="onConfirm('permanent delete')"
+            (cancelled)="onCancel('permanent delete')"
+          >
+            Delete Forever
+          </coar-button>
+        </div>
+        <coar-code-block [code]="codeExamples.withTitle" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <!-- With Title -->
-    <section class="example-section">
-      <h2 class="coar-heading">With Title</h2>
-      <p class="section-intro coar-body-small">Add a title and customize button text for clearer communication.</p>
-      <div class="example-demo">
-        <coar-button
-          variant="danger"
-          coarPopconfirm="This action cannot be undone. All associated data will be permanently removed."
-          popconfirmTitle="Delete permanently?"
-          confirmText="Yes, delete"
-          cancelText="Keep it"
-          confirmVariant="danger"
-          (confirmed)="onConfirm('permanent delete')"
-          (cancelled)="onCancel('permanent delete')"
-        >
-          Delete Forever
-        </coar-button>
-      </div>
-      <coar-code-block [code]="codeExamples.withTitle" language="html" [collapsed]="true" />
-    </section>
+      <coar-card color="outlined">
+        <h3>Placements</h3>
+        <p class="example-description">Position the popconfirm relative to the trigger element.</p>
+        <div class="example-demo">
+          <div class="placement-grid">
+            @for (placement of placements; track placement) {
+              <coar-button
+                variant="secondary"
+                [coarPopconfirm]="'Confirm this action?'"
+                [placement]="placement"
+                (confirmed)="onConfirm(placement)"
+                (cancelled)="onCancel(placement)"
+              >
+                {{ placement | titlecase }}
+              </coar-button>
+            }
+          </div>
+        </div>
+        <coar-note variant="info">The popconfirm automatically repositions if there isn't enough space in the preferred direction.</coar-note>
+        <coar-code-block [code]="codeExamples.placements" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Placements -->
-    <section class="example-section">
-      <h2 class="coar-heading">Placements</h2>
-      <p class="section-intro coar-body-small">Position the popconfirm relative to the trigger element.</p>
-      <div class="example-demo">
-        <div class="placement-grid">
-          @for (placement of placements; track placement) {
+      <coar-card color="outlined">
+        <h3>Custom Button Text</h3>
+        <p class="example-description">Customize confirm and cancel button text to match the action context.</p>
+        <div class="example-demo">
+          <div class="demo-row">
             <coar-button
               variant="secondary"
-              [coarPopconfirm]="'Confirm this action?'"
-              [placement]="placement"
-              (confirmed)="onConfirm(placement)"
-              (cancelled)="onCancel(placement)"
+              coarPopconfirm="You have unsaved changes that will be lost."
+              popconfirmTitle="Discard changes?"
+              confirmText="Discard"
+              cancelText="Continue editing"
+              confirmVariant="danger"
+              (confirmed)="onConfirm('discard')"
+              (cancelled)="onCancel('discard')"
             >
-              {{ placement | titlecase }}
+              Cancel Editing
             </coar-button>
-          }
+            <coar-button
+              variant="primary"
+              coarPopconfirm="This will send the email to all 1,234 subscribers."
+              popconfirmTitle="Ready to send?"
+              confirmText="Send now"
+              cancelText="Review again"
+              confirmVariant="primary"
+              (confirmed)="onConfirm('send email')"
+              (cancelled)="onCancel('send email')"
+            >
+              Send Newsletter
+            </coar-button>
+          </div>
         </div>
-      </div>
-      <coar-note variant="info"> The popconfirm automatically repositions if there isn't enough space in the preferred direction. </coar-note>
-      <coar-code-block [code]="codeExamples.placements" language="html" [collapsed]="true" />
-    </section>
+        <coar-code-block [code]="codeExamples.customButtons" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+    <!-- ============================================ -->
+    <!-- ACCESSIBILITY & BEST PRACTICES -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Accessibility & Best Practices</h2>
+    <p class="component-section-description">Guidelines for effective popconfirm usage.</p>
 
-    <!-- Custom Button Text -->
-    <section class="example-section">
-      <h2 class="coar-heading">Custom Button Text</h2>
-      <p class="section-intro coar-body-small">Customize confirm and cancel button text to match the action context.</p>
-      <div class="example-demo">
-        <div class="demo-row">
-          <coar-button
-            variant="secondary"
-            coarPopconfirm="You have unsaved changes that will be lost."
-            popconfirmTitle="Discard changes?"
-            confirmText="Discard"
-            cancelText="Continue editing"
-            confirmVariant="danger"
-            (confirmed)="onConfirm('discard')"
-            (cancelled)="onCancel('discard')"
-          >
-            Cancel Editing
-          </coar-button>
-          <coar-button
-            variant="primary"
-            coarPopconfirm="This will send the email to all 1,234 subscribers."
-            popconfirmTitle="Ready to send?"
-            confirmText="Send now"
-            cancelText="Review again"
-            confirmVariant="primary"
-            (confirmed)="onConfirm('send email')"
-            (cancelled)="onCancel('send email')"
-          >
-            Send Newsletter
-          </coar-button>
-        </div>
-      </div>
-      <coar-code-block [code]="codeExamples.customButtons" language="html" [collapsed]="true" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Accessibility -->
-    <section class="example-section">
-      <h2 class="coar-heading">Accessibility</h2>
-      <p class="section-intro coar-body-small">Popconfirm is fully accessible with keyboard and screen reader support.</p>
-      <div class="accessibility-info">
-        <coar-card padding="sm">
-          <strong class="coar-body-small-bold">Keyboard Navigation</strong>
-          <ul class="coar-body-small">
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Keyboard Navigation</h3>
+        <p class="example-description">Popconfirm is fully accessible with keyboard and screen reader support.</p>
+        <div class="accessibility-info">
+          <ul class="coar-body-small" style="margin: 0; padding-left: var(--coar-spacing-m)">
             <li><code>Enter</code> / <code>Space</code> - Open popconfirm on trigger</li>
             <li><code>Tab</code> - Navigate between confirm and cancel buttons</li>
             <li><code>Enter</code> - Activate focused button</li>
             <li><code>Escape</code> - Close popconfirm (same as cancel)</li>
           </ul>
-        </coar-card>
-        <coar-card padding="sm">
-          <strong class="coar-body-small-bold">Focus Management</strong>
-          <p class="coar-body-small">When opened, focus moves to the popconfirm. When closed, focus returns to the trigger element.</p>
-        </coar-card>
-      </div>
-    </section>
+        </div>
+        <p class="coar-body-small" style="margin-top: var(--coar-spacing-m); color: var(--coar-text-neutral-secondary)">
+          When opened, focus moves to the popconfirm. When closed, focus returns to the trigger element.
+        </p>
+      </coar-card>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+      <coar-card color="outlined">
+        <h3>Best Practices</h3>
+        <p class="example-description">Do's and don'ts for effective confirmation dialogs.</p>
+        <div class="best-practices-content">
+          <div class="practice-group">
+            <strong class="coar-body-small-bold">Do</strong>
+            <ul class="coar-body-small" style="margin: var(--coar-spacing-xs) 0 0; padding-left: var(--coar-spacing-m)">
+              <li>Use for destructive actions (delete, remove, discard)</li>
+              <li>Write clear, action-specific messages</li>
+              <li>Use <code>confirmVariant="danger"</code> for destructive actions</li>
+              <li>Keep messages concise and scannable</li>
+            </ul>
+          </div>
+          <div class="practice-group" style="margin-top: var(--coar-spacing-m)">
+            <strong class="coar-body-small-bold">Don't</strong>
+            <ul class="coar-body-small" style="margin: var(--coar-spacing-xs) 0 0; padding-left: var(--coar-spacing-m)">
+              <li>Use for every action - reserve for important confirmations</li>
+              <li>Write vague messages like "Are you sure?"</li>
+              <li>Nest popconfirms within other overlays</li>
+              <li>Use for complex forms - use a modal instead</li>
+            </ul>
+          </div>
+        </div>
+      </coar-card>
+    </div>
 
-    <!-- Best Practices -->
-    <section class="example-section">
-      <h2 class="coar-heading">Best Practices</h2>
-      <div class="best-practices">
-        <coar-card padding="sm">
-          <strong class="coar-body-small-bold">✓ Do</strong>
-          <ul class="coar-body-small">
-            <li>Use for destructive actions (delete, remove, discard)</li>
-            <li>Write clear, action-specific messages</li>
-            <li>Use <code>confirmVariant="danger"</code> for destructive actions</li>
-            <li>Keep messages concise and scannable</li>
-          </ul>
-        </coar-card>
-        <coar-card padding="sm">
-          <strong class="coar-body-small-bold">✗ Don't</strong>
-          <ul class="coar-body-small">
-            <li>Use for every action - reserve for important confirmations</li>
-            <li>Write vague messages like "Are you sure?"</li>
-            <li>Nest popconfirms within other overlays</li>
-            <li>Use for complex forms - use a modal instead</li>
-          </ul>
-        </coar-card>
+    <!-- ============================================ -->
+    <!-- API SECTION -->
+    <!-- ============================================ -->
+    <details class="api-section">
+      <summary>Popconfirm API</summary>
+      <div class="api-content">
+        <h4>Directive Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>coarPopconfirm</code></td>
+              <td><code>string</code></td>
+              <td><code>-</code></td>
+              <td>Message text displayed in the popconfirm</td>
+            </tr>
+            <tr>
+              <td><code>popconfirmTitle</code></td>
+              <td><code>string</code></td>
+              <td><code>-</code></td>
+              <td>Optional title above the message</td>
+            </tr>
+            <tr>
+              <td><code>placement</code></td>
+              <td><code>'top' | 'bottom' | 'left' | 'right'</code></td>
+              <td><code>'top'</code></td>
+              <td>Preferred placement relative to trigger</td>
+            </tr>
+            <tr>
+              <td><code>confirmText</code></td>
+              <td><code>string</code></td>
+              <td><code>'Confirm'</code></td>
+              <td>Text for the confirm button</td>
+            </tr>
+            <tr>
+              <td><code>cancelText</code></td>
+              <td><code>string</code></td>
+              <td><code>'Cancel'</code></td>
+              <td>Text for the cancel button</td>
+            </tr>
+            <tr>
+              <td><code>confirmVariant</code></td>
+              <td><code>'primary' | 'danger'</code></td>
+              <td><code>'primary'</code></td>
+              <td>Visual variant of confirm button</td>
+            </tr>
+            <tr>
+              <td><code>popconfirmDisabled</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Disable the popconfirm (action proceeds directly)</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Directive Outputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>confirmed</code></td>
+              <td><code>EventEmitter&lt;void&gt;</code></td>
+              <td>Emits when user clicks the confirm button</td>
+            </tr>
+            <tr>
+              <td><code>cancelled</code></td>
+              <td><code>EventEmitter&lt;void&gt;</code></td>
+              <td>Emits when user clicks cancel or presses Escape</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </section>
+    </details>
   </div>
-</ng-template>
+</div>

@@ -2,26 +2,17 @@ import { Component } from '@angular/core';
 
 import {
   CoarCodeBlockComponent,
-  CoarDividerComponent,
-  CoarTabGroupComponent,
-  CoarTabComponent,
+  CoarCardComponent,
 } from '@cocoar/ui-components';
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-code-block',
   standalone: true,
-  imports: [CoarCodeBlockComponent, CoarDividerComponent, CoarTabGroupComponent, CoarTabComponent],
+  imports: [CoarCodeBlockComponent, CoarCardComponent],
   templateUrl: './code-block.page.html',
   styleUrl: './code-block.page.css',
 })
 export class CodeBlockPage {
-  activeTab = 'examples';
-
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-code-block.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-code-block.api.md';
 
   // Example code snippets
   basicExample = `<coar-button variant="primary">

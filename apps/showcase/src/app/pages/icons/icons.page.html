@@ -1,185 +1,253 @@
 <div class="component-page">
   <header class="page-header">
     <h1 class="coar-title">Icons</h1>
-    <p class="description coar-body">
-      A flexible icon system with built-in SVG icons. Icons support multiple sizes, colors, rotation, and animations.
-    </p>
+    <p class="page-description">A flexible icon system with built-in SVG icons. Icons support multiple sizes, colors, rotation, and animations.</p>
   </header>
 
-  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
-    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
-    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
-  </coar-tab-group>
-</div>
-
-<ng-template #examplesTemplate>
   <div class="examples-content">
-    <!-- Icon Gallery -->
-    <section class="example-section">
-      <h2 class="coar-heading">Icon Gallery</h2>
-      <p class="section-intro coar-body-small">Browse all {{ totalIconsCount }} available icons. Click an icon to copy its name.</p>
-
-      <div class="search-wrapper">
-        <coar-text-input placeholder="Search icons..." [value]="searchQuery()" (valueChange)="searchQuery.set($event)" [clearable]="true" />
-      </div>
-
-      @for (group of filteredIconGroups; track group.key) {
-        <div class="icon-source-group">
-          <h3 class="coar-body-small icon-source-title">Source: {{ group.key }}</h3>
-          <div class="icons-grid">
-            @for (icon of group.icons; track icon) {
-              <button class="icon-item" (click)="copyIconName(icon)" [title]="'Click to copy: ' + icon">
-                <coar-icon [name]="icon" [source]="group.key" size="lg" />
-                <span class="icon-name coar-caption">{{ icon }}</span>
-              </button>
-            }
-          </div>
+    <!-- ============================================ -->
+    <!-- ICON GALLERY -->
+    <!-- ============================================ -->
+    <div class="examples-grid">
+      <coar-card [elevated]="true" class="gallery-card">
+        <h3>Icon Gallery</h3>
+        <p class="example-description">Browse all {{ totalIconsCount }} available icons. Click an icon to copy its name.</p>
+        <div class="search-wrapper">
+          <coar-text-input placeholder="Search icons..." [value]="searchQuery()" (valueChange)="searchQuery.set($event)" [clearable]="true" />
         </div>
-      } @empty {
-        <p class="no-results coar-body-small">No icons match "{{ searchQuery() }}"</p>
-      }
-      <coar-code-block [code]="codeExamples.basic" language="html" [collapsed]="true" />
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Sizes -->
-    <section class="example-section">
-      <h2 class="coar-heading">Sizes</h2>
-      <p class="section-intro coar-body-small">Icons come in 5 preset sizes plus support for custom CSS values.</p>
-      <div class="example-demo">
-        <div class="sizes-row">
-          @for (size of sizes; track size) {
-            <div class="size-item">
-              <coar-icon name="settings" [size]="size" />
-              <span class="size-label coar-caption">{{ size }} ({{ sizeLabels[size] }})</span>
+        @for (group of filteredIconGroups; track group.key) {
+          <div class="icon-source-group">
+            <h4 class="coar-body-small icon-source-title">Source: {{ group.key }}</h4>
+            <div class="icons-grid">
+              @for (icon of group.icons; track icon) {
+                <button class="icon-item" (click)="copyIconName(icon)" [title]="'Click to copy: ' + icon">
+                  <coar-icon [name]="icon" [source]="group.key" size="lg" />
+                  <span class="icon-name coar-caption">{{ icon }}</span>
+                </button>
+              }
             </div>
-          }
-          <div class="size-item">
-            <coar-icon name="settings" size="48px" />
-            <span class="size-label coar-caption">custom (48px)</span>
           </div>
-        </div>
-      </div>
-      <div class="size-specs">
-        <span><code>xs</code> - 12px, inline text</span>
-        <span><code>sm</code> - 16px, small buttons</span>
-        <span><code>md</code> - 20px, default</span>
-        <span><code>lg</code> - 24px, prominent icons</span>
-        <span><code>xl</code> - 32px, hero icons</span>
-      </div>
-      <coar-code-block [code]="codeExamples.sizes" language="html" [collapsed]="true" />
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+        } @empty {
+          <p class="no-results coar-body-small">No icons match "{{ searchQuery() }}"</p>
+        }
+        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
 
-    <!-- Colors -->
-    <section class="example-section">
-      <h2 class="coar-heading">Colors</h2>
-      <p class="section-intro coar-body-small">Icons inherit color by default. Override with any valid CSS color value.</p>
-      <div class="example-demo">
-        <div class="colors-row">
-          <div class="color-item">
-            <coar-icon name="check" size="lg" color="green" />
-            <span class="color-label coar-caption">green</span>
-          </div>
-          <div class="color-item">
-            <coar-icon name="close" size="lg" color="red" />
-            <span class="color-label coar-caption">red</span>
-          </div>
-          <div class="color-item">
-            <coar-icon name="important" size="lg" color="orange" />
-            <span class="color-label coar-caption">orange</span>
-          </div>
-          <div class="color-item">
-            <coar-icon name="question" size="lg" color="blue" />
-            <span class="color-label coar-caption">blue</span>
-          </div>
-          <div class="color-item">
-            <coar-icon name="settings" size="lg" color="#666" />
-            <span class="color-label coar-caption">#666</span>
-          </div>
-          <div class="color-item color-item--accent">
-            <coar-icon name="user" size="lg" color="var(--coar-text-accent-primary)" />
-            <span class="color-label coar-caption">accent</span>
-          </div>
-        </div>
-      </div>
-      <coar-code-block [code]="codeExamples.colors" language="html" [collapsed]="true" />
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+    <!-- ============================================ -->
+    <!-- SIZES & COLORS -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Sizes & Colors</h2>
+    <p class="component-section-description">Icons come in 5 preset sizes and can use any valid CSS color value.</p>
 
-    <!-- Rotation -->
-    <section class="example-section">
-      <h2 class="coar-heading">Rotation</h2>
-      <p class="section-intro coar-body-small">Rotate icons to any angle. Add transitions for smooth animated rotation.</p>
-      <div class="example-demo">
-        <div class="rotation-row">
-          <div class="rotation-item">
-            <coar-icon name="caret-right" size="lg" [rotate]="0" />
-            <span class="rotation-label coar-caption">0°</span>
-          </div>
-          <div class="rotation-item">
-            <coar-icon name="caret-right" size="lg" [rotate]="90" />
-            <span class="rotation-label coar-caption">90°</span>
-          </div>
-          <div class="rotation-item">
-            <coar-icon name="caret-right" size="lg" [rotate]="180" />
-            <span class="rotation-label coar-caption">180°</span>
-          </div>
-          <div class="rotation-item">
-            <coar-icon name="caret-right" size="lg" [rotate]="270" />
-            <span class="rotation-label coar-caption">270°</span>
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Sizes</h3>
+        <p class="example-description">5 preset sizes plus support for custom CSS values.</p>
+        <div class="example-demo">
+          <div class="sizes-row">
+            @for (size of sizes; track size) {
+              <div class="size-item">
+                <coar-icon name="settings" [size]="size" />
+                <span class="size-label coar-caption">{{ size }} ({{ sizeLabels[size] }})</span>
+              </div>
+            }
+            <div class="size-item">
+              <coar-icon name="settings" size="48px" />
+              <span class="size-label coar-caption">custom (48px)</span>
+            </div>
           </div>
         </div>
-      </div>
-      <coar-code-block [code]="codeExamples.rotation" language="html" [collapsed]="true" />
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+        <div class="size-specs">
+          <span><code>xs</code> - 12px, inline text</span>
+          <span><code>sm</code> - 16px, small buttons</span>
+          <span><code>md</code> - 20px, default</span>
+          <span><code>lg</code> - 24px, prominent icons</span>
+          <span><code>xl</code> - 32px, hero icons</span>
+        </div>
+        <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <!-- Spin Animation -->
-    <section class="example-section">
-      <h2 class="coar-heading">Spin Animation</h2>
-      <p class="section-intro coar-body-small">Enable continuous spinning for loading indicators.</p>
-      <div class="example-demo">
-        <div class="spin-row">
-          <div class="spin-item">
-            <coar-icon name="load" size="xl" [spin]="true" />
-            <span class="spin-label coar-body-small">Loading...</span>
-          </div>
-          <div class="spin-item">
-            <coar-icon name="x" size="lg" [spin]="true" />
-            <span class="spin-label coar-caption">Processing</span>
+      <coar-card color="outlined">
+        <h3>Colors</h3>
+        <p class="example-description">Icons inherit color by default. Override with any valid CSS color value.</p>
+        <div class="example-demo">
+          <div class="colors-row">
+            <div class="color-item">
+              <coar-icon name="check" size="lg" color="green" />
+              <span class="color-label coar-caption">green</span>
+            </div>
+            <div class="color-item">
+              <coar-icon name="close" size="lg" color="red" />
+              <span class="color-label coar-caption">red</span>
+            </div>
+            <div class="color-item">
+              <coar-icon name="important" size="lg" color="orange" />
+              <span class="color-label coar-caption">orange</span>
+            </div>
+            <div class="color-item">
+              <coar-icon name="question" size="lg" color="blue" />
+              <span class="color-label coar-caption">blue</span>
+            </div>
+            <div class="color-item">
+              <coar-icon name="settings" size="lg" color="#666" />
+              <span class="color-label coar-caption">#666</span>
+            </div>
+            <div class="color-item color-item--accent">
+              <coar-icon name="user" size="lg" color="var(--coar-text-accent-primary)" />
+              <span class="color-label coar-caption">accent</span>
+            </div>
           </div>
         </div>
-      </div>
-      <coar-code-block [code]="codeExamples.spin" language="html" [collapsed]="true" />
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+        <coar-code-block [code]="codeExamples.colors" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
 
-    <!-- Eye Icons for Password -->
-    <section class="example-section">
-      <h2 class="coar-heading">Password Toggle Icons</h2>
-      <p class="section-intro coar-body-small">Dedicated eye icons for password visibility toggle.</p>
-      <div class="example-demo">
-        <div class="eye-row">
-          <div class="eye-item">
-            <coar-icon name="eye" size="lg" />
-            <span class="eye-label coar-caption">eye</span>
-          </div>
-          <div class="eye-item">
-            <coar-icon name="eye-off" size="lg" />
-            <span class="eye-label coar-caption">eye-off</span>
-          </div>
-          <div class="eye-item">
-            <coar-icon name="eye-open" size="lg" />
-            <span class="eye-label coar-caption">eye-open</span>
-          </div>
-          <div class="eye-item">
-            <coar-icon name="eye-closed" size="lg" />
-            <span class="eye-label coar-caption">eye-closed</span>
+    <!-- ============================================ -->
+    <!-- ANIMATIONS -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Rotation & Animation</h2>
+    <p class="component-section-description">Rotate icons to any angle and add spinning animations.</p>
+
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Rotation</h3>
+        <p class="example-description">Rotate icons to any angle. Add transitions for smooth animated rotation.</p>
+        <div class="example-demo">
+          <div class="rotation-row">
+            <div class="rotation-item">
+              <coar-icon name="caret-right" size="lg" [rotate]="0" />
+              <span class="rotation-label coar-caption">0°</span>
+            </div>
+            <div class="rotation-item">
+              <coar-icon name="caret-right" size="lg" [rotate]="90" />
+              <span class="rotation-label coar-caption">90°</span>
+            </div>
+            <div class="rotation-item">
+              <coar-icon name="caret-right" size="lg" [rotate]="180" />
+              <span class="rotation-label coar-caption">180°</span>
+            </div>
+            <div class="rotation-item">
+              <coar-icon name="caret-right" size="lg" [rotate]="270" />
+              <span class="rotation-label coar-caption">270°</span>
+            </div>
           </div>
         </div>
+        <coar-code-block [code]="codeExamples.rotation" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Spin Animation</h3>
+        <p class="example-description">Enable continuous spinning for loading indicators.</p>
+        <div class="example-demo">
+          <div class="spin-row">
+            <div class="spin-item">
+              <coar-icon name="load" size="xl" [spin]="true" />
+              <span class="spin-label coar-body-small">Loading...</span>
+            </div>
+            <div class="spin-item">
+              <coar-icon name="x" size="lg" [spin]="true" />
+              <span class="spin-label coar-caption">Processing</span>
+            </div>
+          </div>
+        </div>
+        <coar-code-block [code]="codeExamples.spin" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Password Toggle Icons</h3>
+        <p class="example-description">Dedicated eye icons for password visibility toggle.</p>
+        <div class="example-demo">
+          <div class="eye-row">
+            <div class="eye-item">
+              <coar-icon name="eye" size="lg" />
+              <span class="eye-label coar-caption">eye</span>
+            </div>
+            <div class="eye-item">
+              <coar-icon name="eye-off" size="lg" />
+              <span class="eye-label coar-caption">eye-off</span>
+            </div>
+            <div class="eye-item">
+              <coar-icon name="eye-open" size="lg" />
+              <span class="eye-label coar-caption">eye-open</span>
+            </div>
+            <div class="eye-item">
+              <coar-icon name="eye-closed" size="lg" />
+              <span class="eye-label coar-caption">eye-closed</span>
+            </div>
+          </div>
+        </div>
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- API SECTION -->
+    <!-- ============================================ -->
+    <details class="api-section">
+      <summary>Icon API</summary>
+      <div class="api-content">
+        <h4>Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>name</code></td>
+              <td><code>string</code></td>
+              <td><code>-</code></td>
+              <td>Icon name from the registered icon set</td>
+            </tr>
+            <tr>
+              <td><code>source</code></td>
+              <td><code>string</code></td>
+              <td><code>'default'</code></td>
+              <td>Icon source/set name</td>
+            </tr>
+            <tr>
+              <td><code>size</code></td>
+              <td><code>'xs' | 'sm' | 'md' | 'lg' | 'xl' | string</code></td>
+              <td><code>'md'</code></td>
+              <td>Icon size (preset or custom CSS value)</td>
+            </tr>
+            <tr>
+              <td><code>color</code></td>
+              <td><code>string</code></td>
+              <td><code>'currentColor'</code></td>
+              <td>Icon color (any valid CSS color)</td>
+            </tr>
+            <tr>
+              <td><code>rotate</code></td>
+              <td><code>number</code></td>
+              <td><code>0</code></td>
+              <td>Rotation angle in degrees</td>
+            </tr>
+            <tr>
+              <td><code>rotateTransition</code></td>
+              <td><code>number</code></td>
+              <td><code>0</code></td>
+              <td>Rotation transition duration in ms</td>
+            </tr>
+            <tr>
+              <td><code>spin</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Enable continuous spinning animation</td>
+            </tr>
+            <tr>
+              <td><code>label</code></td>
+              <td><code>string</code></td>
+              <td><code>-</code></td>
+              <td>Accessible label for screen readers</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </section>
+    </details>
   </div>
-</ng-template>
+</div>

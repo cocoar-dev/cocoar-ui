@@ -5,11 +5,9 @@ import {
   CoarTabComponent,
   CoarCodeBlockComponent,
   CoarButtonComponent,
-  CoarDividerComponent,
+  CoarCardComponent,
 } from '@cocoar/ui-components';
 import { LazyDemoComponent } from './lazy-demo.component';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-tabs-page',
@@ -19,20 +17,13 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarTabComponent,
     CoarCodeBlockComponent,
     CoarButtonComponent,
-    CoarDividerComponent,
+    CoarCardComponent,
     LazyDemoComponent,
   ],
   templateUrl: './tabs.page.html',
   styleUrl: './tabs.page.css',
 })
 export class TabsPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-tab-group.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-tab-group.api.md';
-
-  // Page-level tabs
-  activeTab = 'examples';
 
   // Demo controlled state
   demoActiveTab = 'demo-overview';

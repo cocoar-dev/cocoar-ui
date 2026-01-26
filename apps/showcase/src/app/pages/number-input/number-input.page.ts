@@ -3,12 +3,8 @@ import { Component, signal } from '@angular/core';
 import {
   CoarNumberInputComponent,
   CoarCodeBlockComponent,
-  CoarTabGroupComponent,
-  CoarTabComponent,
-  CoarDividerComponent,
+  CoarCardComponent,
 } from '@cocoar/ui-components';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-number-input',
@@ -16,21 +12,12 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   imports: [
     CoarNumberInputComponent,
     CoarCodeBlockComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
-    CoarDividerComponent,
+    CoarCardComponent,
   ],
   templateUrl: './number-input.page.html',
   styleUrl: './number-input.page.css',
 })
 export class NumberInputPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  activeTab = 'examples';
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-number-input.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-number-input.api.md';
-
   protected readonly germanNumberFormat = { decimal: ',', thousand: '.' } as const;
   protected readonly usNumberFormat = { decimal: '.', thousand: ',' } as const;
 
@@ -42,17 +29,6 @@ export class NumberInputPage {
   temperatureValue = signal<number | null>(20);
   germanPrice = signal<number | null>(1234.56);
   usPrice = signal<number | null>(1234.56);
-  formSimulationValue = signal<number | null>(1234.56);
-
-  onFormSimulationInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    const parsed = parseFloat(value);
-    this.formSimulationValue.set(isNaN(parsed) ? null : parsed);
-  }
-
-  onFormSimulationValueChange(value: number | null): void {
-    this.formSimulationValue.set(value);
-  }
 
   codeExamples = {
     basic: `<coar-number-input
@@ -117,27 +93,21 @@ export class NumberInputPage {
 <coar-number-input label="Temperature" suffix="°C" [min]="-40" [max]="50" [value]="20" />`,
 
     stepperButtons: `<!-- No buttons (default) -->
-  <coar-number-input label="No Buttons" [value]="basicValue()" (valueChange)="basicValue.set($event)" />
+<coar-number-input label="No Buttons" [value]="basicValue()" />
 
 <!-- Both buttons via attribute -->
-  <coar-number-input stepperButtons label="Both Buttons" [value]="basicValue()" (valueChange)="basicValue.set($event)" />
+<coar-number-input stepperButtons label="Both Buttons" [value]="basicValue()" />
 
 <!-- Only increment button (counter) -->
-  <coar-number-input stepperButtons="increment" label="Increment Only" [value]="basicValue()" (valueChange)="basicValue.set($event)" />
+<coar-number-input stepperButtons="increment" label="Increment Only" [value]="basicValue()" />
 
 <!-- Only decrement button (countdown) -->
-  <coar-number-input stepperButtons="decrement" label="Decrement Only" [value]="basicValue()" (valueChange)="basicValue.set($event)" />`,
+<coar-number-input stepperButtons="decrement" label="Decrement Only" [value]="basicValue()" />`,
 
-    sizes: `<!-- Extra Small - 27px height -->
+    sizes: `<!-- Available sizes: xs, sm, md, lg -->
 <coar-number-input stepperButtons size="xs" label="Extra Small" [value]="10" />
-
-<!-- Small - 32px height -->
 <coar-number-input stepperButtons size="sm" label="Small" [value]="20" />
-
-<!-- Medium (default) - 40px height -->
 <coar-number-input stepperButtons size="md" label="Medium" [value]="30" />
-
-<!-- Large - 48px height -->
 <coar-number-input stepperButtons size="lg" label="Large" [value]="40" />`,
 
     dragLabel: `<!-- Drag the label left/right to change value! -->

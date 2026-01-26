@@ -1,158 +1,239 @@
 <div class="component-page">
   <header class="page-header">
     <h1 class="coar-title">Tabs</h1>
-    <p class="description coar-body">A tabbed interface component for organizing content into separate views.</p>
+    <p class="page-description">A tabbed interface component for organizing content into separate views.</p>
   </header>
 
-  <!-- Main page tabs -->
-  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
-    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
-    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
-  </coar-tab-group>
-</div>
-
-<!-- ==================== EXAMPLES TAB ==================== -->
-<ng-template #examplesTemplate>
   <div class="examples-content">
-    <!-- Basic Usage -->
-    <section class="example-section">
-      <h2 class="coar-heading">Basic Usage</h2>
-      <p class="section-intro coar-body-small">Define tabs with a clean configuration. Content is referenced via <code>[content]</code> input.</p>
-      <div class="example-demo">
-        <coar-tab-group>
-          <coar-tab id="basic-overview" [content]="basicOverview">Overview</coar-tab>
-          <coar-tab id="basic-features" [content]="basicFeatures">Features</coar-tab>
-          <coar-tab id="basic-api" [content]="basicApi">API</coar-tab>
-        </coar-tab-group>
-      </div>
-      <coar-code-block [code]="basicExample" language="html" [collapsed]="true" />
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+    <!-- ============================================ -->
+    <!-- BASIC EXAMPLES -->
+    <!-- ============================================ -->
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Basic Usage</h3>
+        <p class="example-description">Define tabs with a clean configuration. Content is referenced via <code>[content]</code> input.</p>
+        <div class="example-demo">
+          <coar-tab-group>
+            <coar-tab id="basic-overview" [content]="basicOverview">Overview</coar-tab>
+            <coar-tab id="basic-features" [content]="basicFeatures">Features</coar-tab>
+            <coar-tab id="basic-api" [content]="basicApi">API</coar-tab>
+          </coar-tab-group>
+        </div>
+        <coar-code-block [code]="basicExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <!-- With Icons -->
-    <section class="example-section">
-      <h2 class="coar-heading">With Icons</h2>
-      <p class="section-intro coar-body-small">Add icons to make tabs more visually distinctive.</p>
-      <div class="example-demo">
-        <coar-tab-group>
-          <coar-tab id="icon-home" [content]="iconHome">🏠 Home</coar-tab>
-          <coar-tab id="icon-settings" [content]="iconSettings">⚙️ Settings</coar-tab>
-          <coar-tab id="icon-profile" [content]="iconProfile">👤 Profile</coar-tab>
-        </coar-tab-group>
-      </div>
-      <coar-code-block [code]="withIconsExample" language="html" [collapsed]="true" />
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+      <coar-card color="outlined">
+        <h3>With Icons</h3>
+        <p class="example-description">Add icons to make tabs more visually distinctive.</p>
+        <div class="example-demo">
+          <coar-tab-group>
+            <coar-tab id="icon-home" [content]="iconHome">🏠 Home</coar-tab>
+            <coar-tab id="icon-settings" [content]="iconSettings">⚙️ Settings</coar-tab>
+            <coar-tab id="icon-profile" [content]="iconProfile">👤 Profile</coar-tab>
+          </coar-tab-group>
+        </div>
+        <coar-code-block [code]="withIconsExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <!-- Disabled Tabs -->
-    <section class="example-section">
-      <h2 class="coar-heading">Disabled Tabs</h2>
-      <p class="section-intro coar-body-small">Disable tabs that shouldn't be accessible.</p>
-      <div class="example-demo">
-        <coar-tab-group>
-          <coar-tab id="disabled-active" [content]="disabledActive">Available</coar-tab>
-          <coar-tab id="disabled-soon" [disabled]="true" [content]="disabledSoon">Coming Soon</coar-tab>
-          <coar-tab id="disabled-also" [content]="disabledAlso">Also Available</coar-tab>
-        </coar-tab-group>
-      </div>
-      <coar-code-block [code]="disabledExample" language="html" [collapsed]="true" />
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+      <coar-card color="outlined">
+        <h3>Disabled Tabs</h3>
+        <p class="example-description">Disable tabs that shouldn't be accessible.</p>
+        <div class="example-demo">
+          <coar-tab-group>
+            <coar-tab id="disabled-active" [content]="disabledActive">Available</coar-tab>
+            <coar-tab id="disabled-soon" [disabled]="true" [content]="disabledSoon">Coming Soon</coar-tab>
+            <coar-tab id="disabled-also" [content]="disabledAlso">Also Available</coar-tab>
+          </coar-tab-group>
+        </div>
+        <coar-code-block [code]="disabledExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <!-- Controlled State -->
-    <section class="example-section">
-      <h2 class="coar-heading">Controlled State</h2>
-      <p class="section-intro coar-body-small">Control the active tab programmatically and respond to changes.</p>
-      <div class="example-demo">
-        <div class="controls-bar">
-          <span class="coar-body-small"
-            >Current tab: <strong>{{ demoActiveTab }}</strong></span
-          >
-          <div class="button-group">
-            <coar-button variant="secondary" size="sm" (clicked)="demoActiveTab = 'demo-overview'">Go to Overview</coar-button>
-            <coar-button variant="secondary" size="sm" (clicked)="demoActiveTab = 'demo-features'">Go to Features</coar-button>
+      <coar-card color="outlined">
+        <h3>Rich Labels</h3>
+        <p class="example-description">Use inline content for rich labels with badges, icons, or custom styling.</p>
+        <div class="example-demo">
+          <coar-tab-group>
+            <coar-tab id="rich-messages" [content]="richMessages">Messages <span class="demo-badge">5</span></coar-tab>
+            <coar-tab id="rich-notifications" [content]="richNotifications">🔔 Notifications</coar-tab>
+            <coar-tab id="rich-settings" [content]="richSettings">Settings</coar-tab>
+          </coar-tab-group>
+        </div>
+        <coar-code-block [code]="richLabelExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- CONTROLLED STATE & LAZY LOADING -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Controlled State & Lazy Loading</h2>
+    <p class="component-section-description">Control tabs programmatically and understand content loading strategies.</p>
+
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Controlled State</h3>
+        <p class="example-description">Control the active tab programmatically and respond to changes.</p>
+        <div class="example-demo">
+          <div class="controls-bar">
+            <span class="coar-body-small"
+              >Current tab: <strong>{{ demoActiveTab }}</strong></span
+            >
+            <div class="button-group">
+              <coar-button variant="secondary" size="sm" (clicked)="demoActiveTab = 'demo-overview'">Go to Overview</coar-button>
+              <coar-button variant="secondary" size="sm" (clicked)="demoActiveTab = 'demo-features'">Go to Features</coar-button>
+            </div>
+          </div>
+          <coar-tab-group [activeTab]="demoActiveTab" (activeTabChange)="demoActiveTab = $event">
+            <coar-tab id="demo-overview" [content]="demoOverview">Overview</coar-tab>
+            <coar-tab id="demo-features" [content]="demoFeatures">Features</coar-tab>
+          </coar-tab-group>
+        </div>
+        <coar-code-block [code]="controlledExample" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Lazy Loading</h3>
+        <p class="example-description">
+          All tab content is <strong>lazy by default</strong> — it's only rendered when the tab becomes active. Open the browser console to see
+          initialization logs.
+        </p>
+        <div class="example-demo">
+          <coar-tab-group [activeTab]="lazyDemoActiveTab" (activeTabChange)="lazyDemoActiveTab = $event">
+            <coar-tab id="lazy-template" [content]="lazyTemplate">📋 Template</coar-tab>
+            <coar-tab id="lazy-component" [content]="LazyDemoComponent" [contentInputs]="{ title: 'Dynamic Component', icon: '🎯' }"
+              >🚀 Component</coar-tab
+            >
+          </coar-tab-group>
+        </div>
+        <coar-code-block [code]="lazyLoadingExample" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+        <p class="coar-body-small" style="margin-top: 1rem">
+          Use <code>loadingStrategy="eager"</code> to keep content in DOM (just hidden when inactive).
+        </p>
+        <coar-code-block [code]="loadingStrategyExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- KEYBOARD NAVIGATION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Keyboard Navigation</h2>
+    <p class="component-section-description">The tabs component supports full keyboard navigation for accessibility.</p>
+
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Keyboard Shortcuts</h3>
+        <p class="example-description">Navigate tabs using standard keyboard patterns.</p>
+        <div class="keyboard-grid">
+          <div class="keyboard-item">
+            <kbd>←</kbd> <kbd>→</kbd>
+            <span>Navigate between tabs</span>
+          </div>
+          <div class="keyboard-item">
+            <kbd>Home</kbd>
+            <span>Jump to first tab</span>
+          </div>
+          <div class="keyboard-item">
+            <kbd>End</kbd>
+            <span>Jump to last tab</span>
+          </div>
+          <div class="keyboard-item">
+            <kbd>Enter</kbd> <kbd>Space</kbd>
+            <span>Activate focused tab</span>
           </div>
         </div>
-        <coar-tab-group [activeTab]="demoActiveTab" (activeTabChange)="demoActiveTab = $event">
-          <coar-tab id="demo-overview" [content]="demoOverview">Overview</coar-tab>
-          <coar-tab id="demo-features" [content]="demoFeatures">Features</coar-tab>
-        </coar-tab-group>
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- API SECTION -->
+    <!-- ============================================ -->
+    <details class="api-section">
+      <summary>Tabs API</summary>
+      <div class="api-content">
+        <h4>CoarTabGroupComponent Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>activeTab</code></td>
+              <td><code>string</code></td>
+              <td>First tab's ID</td>
+              <td>ID of the currently active tab</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>CoarTabGroupComponent Outputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>activeTabChange</code></td>
+              <td><code>EventEmitter&lt;string&gt;</code></td>
+              <td>Emits when the active tab changes</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>CoarTabComponent Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>id</code></td>
+              <td><code>string</code></td>
+              <td><code>-</code></td>
+              <td>Unique identifier for the tab</td>
+            </tr>
+            <tr>
+              <td><code>content</code></td>
+              <td><code>TemplateRef | Type</code></td>
+              <td><code>-</code></td>
+              <td>Template or component to render as content</td>
+            </tr>
+            <tr>
+              <td><code>contentInputs</code></td>
+              <td><code>object</code></td>
+              <td>
+                <code>{{ '{}' }}</code>
+              </td>
+              <td>Inputs to pass when using component content</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Whether the tab is disabled</td>
+            </tr>
+            <tr>
+              <td><code>loadingStrategy</code></td>
+              <td><code>'lazy' | 'eager'</code></td>
+              <td><code>'lazy'</code></td>
+              <td>When to load the content</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <coar-code-block [code]="controlledExample" language="typescript" [collapsed]="true" />
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Keyboard Navigation -->
-    <section class="example-section">
-      <h2 class="coar-heading">Keyboard Navigation</h2>
-      <p class="section-intro coar-body-small">The tabs component supports full keyboard navigation for accessibility.</p>
-      <div class="keyboard-grid">
-        <div class="keyboard-item">
-          <kbd>←</kbd> <kbd>→</kbd>
-          <span>Navigate between tabs</span>
-        </div>
-        <div class="keyboard-item">
-          <kbd>Home</kbd>
-          <span>Jump to first tab</span>
-        </div>
-        <div class="keyboard-item">
-          <kbd>End</kbd>
-          <span>Jump to last tab</span>
-        </div>
-        <div class="keyboard-item">
-          <kbd>Enter</kbd> <kbd>Space</kbd>
-          <span>Activate focused tab</span>
-        </div>
-      </div>
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Lazy Loading -->
-    <section class="example-section">
-      <h2 class="coar-heading">Lazy Loading</h2>
-      <p class="section-intro coar-body-small">
-        All tab content is <strong>lazy by default</strong> — it's only rendered when the tab becomes active. Open the browser console to see
-        initialization logs.
-      </p>
-
-      <h3 class="coar-body-bold" style="margin: 1rem 0 0.5rem">Template vs Component Content</h3>
-      <p class="coar-body-small" style="margin-bottom: 1rem">
-        Pass either a <code>TemplateRef</code> or a <code>Component</code> class to the <code>[content]</code> input.
-      </p>
-      <div class="example-demo">
-        <coar-tab-group [activeTab]="lazyDemoActiveTab" (activeTabChange)="lazyDemoActiveTab = $event">
-          <coar-tab id="lazy-template" [content]="lazyTemplate">📋 Template</coar-tab>
-          <coar-tab id="lazy-component" [content]="LazyDemoComponent" [contentInputs]="{ title: 'Dynamic Component', icon: '🎯' }"
-            >🚀 Component</coar-tab
-          >
-        </coar-tab-group>
-      </div>
-      <coar-code-block [code]="lazyLoadingExample" language="typescript" [collapsed]="true" />
-
-      <h3 class="coar-body-bold" style="margin: 1.5rem 0 0.5rem">Loading Strategy</h3>
-      <p class="coar-body-small" style="margin-bottom: 1rem">
-        Use <code>loadingStrategy="eager"</code> to keep content in DOM (just hidden when inactive).
-      </p>
-      <coar-code-block [code]="loadingStrategyExample" language="html" [collapsed]="true" />
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Rich Labels -->
-    <section class="example-section">
-      <h2 class="coar-heading">Rich Labels</h2>
-      <p class="section-intro coar-body-small">Use inline content for rich labels with badges, icons, or custom styling.</p>
-      <div class="example-demo">
-        <coar-tab-group>
-          <coar-tab id="rich-messages" [content]="richMessages">Messages <span class="demo-badge">5</span></coar-tab>
-          <coar-tab id="rich-notifications" [content]="richNotifications">🔔 Notifications</coar-tab>
-          <coar-tab id="rich-settings" [content]="richSettings">Settings</coar-tab>
-        </coar-tab-group>
-      </div>
-      <coar-code-block [code]="richLabelExample" language="html" [collapsed]="true" />
-    </section>
+    </details>
   </div>
-</ng-template>
+</div>
 
 <!-- ==================== CONTENT TEMPLATES ==================== -->
 

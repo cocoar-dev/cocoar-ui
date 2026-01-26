@@ -6,13 +6,8 @@ import {
   CoarButtonComponent,
   CoarCardComponent,
   CoarCodeBlockComponent,
-  CoarDividerComponent,
-  CoarTabGroupComponent,
-  CoarTabComponent,
   CoarNoteComponent,
 } from '@cocoar/ui-components';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-popconfirm',
@@ -23,21 +18,12 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarButtonComponent,
     CoarCardComponent,
     CoarCodeBlockComponent,
-    CoarDividerComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
     CoarNoteComponent,
   ],
   templateUrl: './popconfirm.page.html',
   styleUrl: './popconfirm.page.css',
 })
 export class PopconfirmPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  activeTab = 'examples';
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-popconfirm.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-popconfirm.api.md';
 
   /** Demo state */
   itemDeleted = signal(false);

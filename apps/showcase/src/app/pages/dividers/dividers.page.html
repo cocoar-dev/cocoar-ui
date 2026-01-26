@@ -6,119 +6,186 @@
     </p>
   </header>
 
-  <coar-tab-group [(activeTab)]="activeTab">
-    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
-    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
-  </coar-tab-group>
-</div>
-
-<ng-template #examplesTemplate>
   <div class="examples-content">
-    <!-- Basic -->
-    <app-section title="Basic Divider" description="A simple horizontal line to separate content sections." [first]="true">
-      <div class="demo-box demo-box--outlined">
-        <p>Content above the divider</p>
-        <coar-divider />
-        <p>Content below the divider</p>
-      </div>
-      <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" />
-    </app-section>
-
-    <!-- Width Variants -->
-    <app-section title="Width Variants" description="Control the width of the divider line.">
-      <div class="demo-box demo-box--outlined">
-        <p class="demo-label">100% width</p>
-        <coar-divider [width]="100" />
-      </div>
-      <div class="demo-box demo-box--outlined">
-        <p class="demo-label">90% width (default)</p>
-        <coar-divider [width]="90" />
-      </div>
-      <div class="demo-box demo-box--outlined">
-        <p class="demo-label">60% width</p>
-        <coar-divider [width]="60" />
-      </div>
-      <coar-code-block [code]="codeExamples.width" language="html" [showLineNumbers]="false" />
-    </app-section>
-
-    <!-- Variants -->
-    <app-section title="Style Variants" description="Choose between subtle (lighter) and strong (full opacity) styles.">
-      <div class="demo-box demo-box--outlined">
-        <p class="demo-label">Subtle (default)</p>
-        <coar-divider variant="subtle" />
-      </div>
-      <div class="demo-box demo-box--outlined">
-        <p class="demo-label">Strong</p>
-        <coar-divider variant="strong" />
-      </div>
-      <coar-code-block [code]="codeExamples.variants" language="html" [showLineNumbers]="false" />
-    </app-section>
-
-    <!-- Spacing -->
-    <app-section title="Spacing" description="Add vertical spacing above and/or below the divider.">
-      <div class="demo-box demo-box--outlined">
-        <p>Before</p>
-        <coar-divider [spacingTop]="16" [spacingBottom]="32" />
-        <p>After (16px top, 32px bottom)</p>
-      </div>
-      <coar-code-block [code]="codeExamples.spacing" language="html" [showLineNumbers]="false" />
-    </app-section>
-
-    <!-- With Text -->
-    <app-section title="With Text (Centered)" description="Add text content that appears centered with lines on both sides.">
-      <div class="demo-box demo-box--outlined">
-        <coar-divider>OR</coar-divider>
-      </div>
-      <div class="demo-box demo-box--outlined">
-        <coar-divider>Continue with</coar-divider>
-      </div>
-      <div class="demo-box demo-box--outlined">
-        <coar-divider>Section Break</coar-divider>
-      </div>
-      <coar-code-block [code]="codeExamples.withText" language="html" [showLineNumbers]="false" />
-    </app-section>
-
-    <!-- Left Aligned -->
-    <app-section title="Left Aligned Content" description="Content aligned to the left with the line extending to the right.">
-      <div class="demo-box demo-box--outlined">
-        <coar-divider align="left">Section Title</coar-divider>
-      </div>
-      <div class="demo-box demo-box--outlined">
-        <coar-divider align="left">📌 Important</coar-divider>
-      </div>
-      <div class="demo-box demo-box--outlined">
-        <coar-divider align="left">Step 1</coar-divider>
-      </div>
-      <coar-code-block [code]="codeExamples.alignLeft" language="html" [showLineNumbers]="false" />
-    </app-section>
-
-    <!-- Right Aligned -->
-    <app-section title="Right Aligned Content" description="Content aligned to the right with the line extending to the left.">
-      <div class="demo-box demo-box--outlined">
-        <coar-divider align="right">End of Section</coar-divider>
-      </div>
-      <div class="demo-box demo-box--outlined">
-        <coar-divider align="right">v1.0.0</coar-divider>
-      </div>
-      <coar-code-block [code]="codeExamples.alignRight" language="html" [showLineNumbers]="false" />
-    </app-section>
-
-    <!-- Real-world Examples -->
-    <app-section title="Real-world Examples" description="Common use cases combining multiple properties." [last]="true">
-      <div class="demo-box demo-box--form">
-        <div class="fake-button">Sign in with Email</div>
-        <coar-divider [spacingTop]="24" [spacingBottom]="24">or continue with</coar-divider>
-        <div class="social-buttons">
-          <div class="fake-button fake-button--outline">Google</div>
-          <div class="fake-button fake-button--outline">GitHub</div>
+    <!-- ============================================ -->
+    <!-- BASIC EXAMPLES -->
+    <!-- ============================================ -->
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Basic Divider</h3>
+        <p class="example-description">A simple horizontal line to separate content sections.</p>
+        <div class="demo-box demo-box--outlined">
+          <p>Content above the divider</p>
+          <coar-divider />
+          <p>Content below the divider</p>
         </div>
+        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Width Variants</h3>
+        <p class="example-description">Control the width of the divider line.</p>
+        <div class="demo-box demo-box--outlined">
+          <p class="demo-label">100% width</p>
+          <coar-divider [width]="100" />
+        </div>
+        <div class="demo-box demo-box--outlined">
+          <p class="demo-label">90% width (default)</p>
+          <coar-divider [width]="90" />
+        </div>
+        <div class="demo-box demo-box--outlined">
+          <p class="demo-label">60% width</p>
+          <coar-divider [width]="60" />
+        </div>
+        <coar-code-block [code]="codeExamples.width" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Style Variants</h3>
+        <p class="example-description">Choose between subtle (lighter) and strong (full opacity) styles.</p>
+        <div class="demo-box demo-box--outlined">
+          <p class="demo-label">Subtle (default)</p>
+          <coar-divider variant="subtle" />
+        </div>
+        <div class="demo-box demo-box--outlined">
+          <p class="demo-label">Strong</p>
+          <coar-divider variant="strong" />
+        </div>
+        <coar-code-block [code]="codeExamples.variants" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Spacing</h3>
+        <p class="example-description">Add vertical spacing above and/or below the divider.</p>
+        <div class="demo-box demo-box--outlined">
+          <p>Before</p>
+          <coar-divider [spacingTop]="16" [spacingBottom]="32" />
+          <p>After (16px top, 32px bottom)</p>
+        </div>
+        <coar-code-block [code]="codeExamples.spacing" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- WITH TEXT SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">With Text Content</h2>
+    <p class="component-section-description">Add text content that appears with lines on both sides.</p>
+
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Centered Text</h3>
+        <p class="example-description">Text appears centered with lines on both sides (default).</p>
+        <div class="demo-box demo-box--outlined">
+          <coar-divider>OR</coar-divider>
+        </div>
+        <div class="demo-box demo-box--outlined">
+          <coar-divider>Continue with</coar-divider>
+        </div>
+        <div class="demo-box demo-box--outlined">
+          <coar-divider>Section Break</coar-divider>
+        </div>
+        <coar-code-block [code]="codeExamples.withText" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Left Aligned</h3>
+        <p class="example-description">Content aligned to the left with the line extending to the right.</p>
+        <div class="demo-box demo-box--outlined">
+          <coar-divider align="left">Section Title</coar-divider>
+        </div>
+        <div class="demo-box demo-box--outlined">
+          <coar-divider align="left">Step 1</coar-divider>
+        </div>
+        <coar-code-block [code]="codeExamples.alignLeft" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Right Aligned</h3>
+        <p class="example-description">Content aligned to the right with the line extending to the left.</p>
+        <div class="demo-box demo-box--outlined">
+          <coar-divider align="right">End of Section</coar-divider>
+        </div>
+        <div class="demo-box demo-box--outlined">
+          <coar-divider align="right">v1.0.0</coar-divider>
+        </div>
+        <coar-code-block [code]="codeExamples.alignRight" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Real-world Examples</h3>
+        <p class="example-description">Common use cases combining multiple properties.</p>
+        <div class="demo-box demo-box--form">
+          <div class="fake-button">Sign in with Email</div>
+          <coar-divider [spacingTop]="24" [spacingBottom]="24">or continue with</coar-divider>
+          <div class="social-buttons">
+            <div class="fake-button fake-button--outline">Google</div>
+            <div class="fake-button fake-button--outline">GitHub</div>
+          </div>
+        </div>
+        <div class="demo-box demo-box--outlined">
+          <coar-divider align="left" variant="strong" [spacingBottom]="16">Advanced Options</coar-divider>
+          <p class="demo-text">Configuration options for power users...</p>
+        </div>
+        <coar-code-block [code]="codeExamples.combinations" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- API SECTION -->
+    <!-- ============================================ -->
+    <details class="api-section">
+      <summary>Divider API</summary>
+      <div class="api-content">
+        <h4>Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>variant</code></td>
+              <td><code>'subtle' | 'strong'</code></td>
+              <td><code>'subtle'</code></td>
+              <td>Line style (lighter or full opacity)</td>
+            </tr>
+            <tr>
+              <td><code>width</code></td>
+              <td><code>number</code></td>
+              <td><code>90</code></td>
+              <td>Width as a percentage (0-100)</td>
+            </tr>
+            <tr>
+              <td><code>align</code></td>
+              <td><code>'left' | 'center' | 'right'</code></td>
+              <td><code>'center'</code></td>
+              <td>Content alignment when text is provided</td>
+            </tr>
+            <tr>
+              <td><code>spacingTop</code></td>
+              <td><code>number</code></td>
+              <td><code>0</code></td>
+              <td>Top margin in pixels</td>
+            </tr>
+            <tr>
+              <td><code>spacingBottom</code></td>
+              <td><code>number</code></td>
+              <td><code>0</code></td>
+              <td>Bottom margin in pixels</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Content</h4>
+        <p class="coar-body-small">
+          Text content can be projected into the divider. When content is present, it appears with lines on both sides based on the
+          <code>align</code> setting.
+        </p>
       </div>
-      <div class="demo-box demo-box--outlined">
-        <coar-divider align="left" variant="strong" [spacingBottom]="16">Advanced Options</coar-divider>
-        <p class="demo-text">Configuration options for power users...</p>
-      </div>
-      <coar-code-block [code]="codeExamples.combinations" language="html" [showLineNumbers]="false" />
-    </app-section>
+    </details>
   </div>
-</ng-template>
+</div>

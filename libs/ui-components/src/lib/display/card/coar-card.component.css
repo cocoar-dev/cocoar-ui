@@ -18,10 +18,23 @@
    SEMANTIC COLORS (with default borders)
    ======================================== */
 
-/* Neutral (default) */
+/* Neutral (default) - subtle gray background */
 :host(.coar-card--neutral) {
   background-color: var(--coar-background-neutral-secondary);
   border-color: var(--coar-border-neutral-tertiary);
+}
+
+/* Outlined - clean surface background with subtle border
+   Light mode: white (primary) with very light border
+   Dark mode: darker surface (secondary) to blend with dark page */
+:host(.coar-card--outlined) {
+  background-color: var(--coar-background-neutral-primary);
+  border-color: var(--coar-color-gray-100);
+}
+
+:host-context(.dark-mode).coar-card--outlined {
+  background-color: var(--coar-background-neutral-secondary);
+  border-color: var(--coar-color-gray-200);
 }
 
 /* Success */

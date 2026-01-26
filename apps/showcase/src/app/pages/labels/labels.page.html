@@ -1,29 +1,23 @@
 <div class="component-page">
   <header class="page-header">
     <h1 class="coar-title">Label</h1>
-    <p class="description coar-body">Standalone label component for section titles, field groups, and custom form layouts.</p>
+    <p class="page-description">Standalone label component for section titles, field groups, and custom form layouts.</p>
   </header>
 
-  <coar-card color="info" padding="sm" class="info-callout">
-    <strong>💡 Tip:</strong> For standard form fields, use the built-in <code>label</code> property on <code>&lt;coar-text-input&gt;</code>. Use the
-    standalone <code>&lt;coar-label&gt;</code> for section headings, custom layouts, or non-input elements.
-  </coar-card>
-
-  <coar-tab-group [(activeTab)]="activeTab">
-    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }">API</coar-tab>
-    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }">Docs</coar-tab>
-  </coar-tab-group>
-</div>
-
-<ng-template #examplesTemplate>
   <div class="examples-content">
-    <!-- Section Headings -->
-    <section class="example-section">
-      <h2 class="coar-heading">Section Headings</h2>
-      <p class="section-intro coar-body-small">Use labels as section titles within forms or content areas.</p>
-      <div class="example-demo">
-        <div class="section-demo">
+    <coar-note variant="info">
+      For standard form fields, use the built-in <code>label</code> property on <code>&lt;coar-text-input&gt;</code>. Use the standalone
+      <code>&lt;coar-label&gt;</code> for section headings, custom layouts, or non-input elements.
+    </coar-note>
+
+    <!-- ============================================ -->
+    <!-- BASIC EXAMPLES -->
+    <!-- ============================================ -->
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Section Headings</h3>
+        <p class="example-description">Use labels as section titles within forms or content areas.</p>
+        <div class="example-demo section-demo">
           <coar-label size="lg">Account Information</coar-label>
           <p class="coar-body-small muted">Personal details and preferences for your account.</p>
 
@@ -33,18 +27,13 @@
           <coar-label size="sm">Notification Settings</coar-label>
           <p class="coar-body-small muted">Configure your email preferences.</p>
         </div>
-      </div>
-      <coar-code-block [code]="codeExamples.sections" language="html" [collapsed]="true" />
-    </section>
+        <coar-code-block [code]="codeExamples.sections" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Sizes -->
-    <section class="example-section">
-      <h2 class="coar-heading">Sizes</h2>
-      <p class="section-intro coar-body-small">Four sizes that match the component size system.</p>
-      <div class="example-demo">
-        <div class="standalone-sizes">
+      <coar-card color="outlined">
+        <h3>Sizes</h3>
+        <p class="example-description">Four sizes that match the component size system.</p>
+        <div class="example-demo standalone-sizes">
           <div class="standalone-size-row">
             <coar-label size="xs">Extra Small Label</coar-label>
             <code class="coar-body-small">size="xs"</code>
@@ -66,33 +55,23 @@
             <span class="size-spec coar-caption">15px</span>
           </div>
         </div>
-      </div>
-      <coar-code-block [code]="codeExamples.sizes" language="html" [collapsed]="true" />
-    </section>
+        <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Required Indicator -->
-    <section class="example-section">
-      <h2 class="coar-heading">Required Indicator</h2>
-      <p class="section-intro coar-body-small">Show an asterisk for required fields or sections.</p>
-      <div class="example-demo">
-        <div class="required-demos">
+      <coar-card color="outlined">
+        <h3>Required Indicator</h3>
+        <p class="example-description">Show an asterisk for required fields or sections.</p>
+        <div class="example-demo required-demos">
           <coar-label [required]="true">Required Section</coar-label>
           <coar-label>Optional Section</coar-label>
         </div>
-      </div>
-      <coar-code-block [code]="codeExamples.required" language="html" [collapsed]="true" />
-    </section>
+        <coar-code-block [code]="codeExamples.required" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Field Groups -->
-    <section class="example-section">
-      <h2 class="coar-heading">Field Groups</h2>
-      <p class="section-intro coar-body-small">Label a group of related elements like radio buttons or checkboxes.</p>
-      <div class="example-demo">
-        <div class="field-group-demo">
+      <coar-card color="outlined">
+        <h3>Field Groups</h3>
+        <p class="example-description">Label a group of related elements like radio buttons or checkboxes.</p>
+        <div class="example-demo field-group-demo">
           <coar-label size="sm" [required]="true">Preferred Contact Method</coar-label>
           <div class="radio-group">
             <label class="radio-option">
@@ -109,8 +88,63 @@
             </label>
           </div>
         </div>
+        <coar-code-block [code]="codeExamples.fieldGroup" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- API SECTION -->
+    <!-- ============================================ -->
+    <details class="api-section">
+      <summary>Label API</summary>
+      <div class="api-content">
+        <h4>Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>size</code></td>
+              <td><code>'xs' | 'sm' | 'md' | 'lg'</code></td>
+              <td><code>'md'</code></td>
+              <td>Label size</td>
+            </tr>
+            <tr>
+              <td><code>required</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Show required asterisk</td>
+            </tr>
+            <tr>
+              <td><code>for</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>ID of the input element this label is for</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Content Projection</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Slot</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>default</code></td>
+              <td>Label text content</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <coar-code-block [code]="codeExamples.fieldGroup" language="html" [collapsed]="true" />
-    </section>
+    </details>
   </div>
-</ng-template>
+</div>

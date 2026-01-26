@@ -1,173 +1,215 @@
 <div class="component-page">
   <header class="page-header">
     <h1 class="coar-title">Button</h1>
-    <p class="description coar-body">Buttons trigger actions and communicate what will happen when pressed.</p>
+    <p class="page-description">Buttons trigger actions and communicate what will happen when pressed.</p>
   </header>
 
-  <coar-tab-group [(activeTab)]="activeTab">
-    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
-    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
-  </coar-tab-group>
-</div>
-
-<ng-template #examplesTemplate>
   <div class="examples-content">
-    <!-- Variants -->
-    <section class="example-section">
-      <h2 class="coar-heading">Variants</h2>
-      <p class="section-intro coar-body-small">Choose the appropriate variant based on the action's importance and context.</p>
-      <div class="button-row">
-        <coar-button variant="primary">Primary</coar-button>
-        <coar-button variant="secondary">Secondary</coar-button>
-        <coar-button variant="tertiary">Tertiary</coar-button>
-        <coar-button variant="danger">Danger</coar-button>
-        <coar-button variant="ghost">Ghost</coar-button>
-      </div>
-      <div class="variant-descriptions">
-        <coar-card padding="sm">
-          <strong class="coar-body-small-bold">Primary</strong>
-          <p class="coar-body-small">Main call-to-action. Use sparingly, typically once per view.</p>
-        </coar-card>
-        <coar-card padding="sm">
-          <strong class="coar-body-small-bold">Secondary</strong>
-          <p class="coar-body-small">Alternative actions. Pairs well with primary buttons.</p>
-        </coar-card>
-        <coar-card padding="sm">
-          <strong class="coar-body-small-bold">Tertiary</strong>
-          <p class="coar-body-small">Low-emphasis actions with brand color hint.</p>
-        </coar-card>
-        <coar-card padding="sm">
-          <strong class="coar-body-small-bold">Danger</strong>
-          <p class="coar-body-small">Destructive actions like delete or remove.</p>
-        </coar-card>
-        <coar-card padding="sm">
-          <strong class="coar-body-small-bold">Ghost</strong>
-          <p class="coar-body-small">Minimal emphasis, often for cancel or dismiss.</p>
-        </coar-card>
-      </div>
-      <coar-code-block [code]="codeExamples.variants" language="html" [collapsed]="true" />
-    </section>
+    <!-- ============================================ -->
+    <!-- VARIANTS SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Variants</h2>
+    <p class="component-section-description">Choose the appropriate variant based on the action's importance and context.</p>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>All Variants</h3>
+        <p class="example-description">Five variants for different levels of emphasis.</p>
+        <div class="example-demo button-row">
+          <coar-button variant="primary">Primary</coar-button>
+          <coar-button variant="secondary">Secondary</coar-button>
+          <coar-button variant="tertiary">Tertiary</coar-button>
+          <coar-button variant="danger">Danger</coar-button>
+          <coar-button variant="ghost">Ghost</coar-button>
+        </div>
+        <coar-code-block [code]="codeExamples.variants" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <!-- Sizes -->
-    <section class="example-section">
-      <h2 class="coar-heading">Sizes</h2>
-      <p class="section-intro coar-body-small">Four sizes to fit different contexts and layouts.</p>
-      <div class="button-row button-row--align-end">
-        <coar-button size="xs">Extra Small</coar-button>
-        <coar-button size="sm">Small</coar-button>
-        <coar-button size="md">Medium</coar-button>
-        <coar-button size="lg">Large</coar-button>
-      </div>
-      <div class="size-specs">
-        <span class="coar-body-small"><code>xs</code> - 27px height, inline actions</span>
-        <span class="coar-body-small"><code>sm</code> - 32px height, compact UI</span>
-        <span class="coar-body-small"><code>md</code> - 40px height, default</span>
-        <span class="coar-body-small"><code>lg</code> - 48px height, prominent actions</span>
-      </div>
-      <coar-code-block [code]="codeExamples.sizes" language="html" [collapsed]="true" />
-    </section>
+      <coar-card color="outlined">
+        <h3>Variant Usage</h3>
+        <p class="example-description">When to use each variant.</p>
+        <div class="example-demo variant-list">
+          <div><strong>Primary</strong> — Main call-to-action. Use sparingly, typically once per view.</div>
+          <div><strong>Secondary</strong> — Alternative actions. Pairs well with primary buttons.</div>
+          <div><strong>Tertiary</strong> — Low-emphasis actions with brand color hint.</div>
+          <div><strong>Danger</strong> — Destructive actions like delete or remove.</div>
+          <div><strong>Ghost</strong> — Minimal emphasis, often for cancel or dismiss.</div>
+        </div>
+      </coar-card>
+    </div>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+    <!-- ============================================ -->
+    <!-- SIZES SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Sizes</h2>
+    <p class="component-section-description">Four sizes to fit different contexts and layouts.</p>
 
-    <!-- With Icons -->
-    <section class="example-section">
-      <h2 class="coar-heading">With Icons</h2>
-      <p class="section-intro coar-body-small">Add icons before or after the label to enhance meaning.</p>
-      <div class="button-row">
-        <coar-button iconStart="add">Add Item</coar-button>
-        <coar-button variant="secondary" iconEnd="caret-right">Next</coar-button>
-        <coar-button variant="tertiary" iconStart="clipboard" iconEnd="check">Download</coar-button>
-        <coar-button variant="danger" iconStart="bin">Delete</coar-button>
-      </div>
-      <coar-code-block [code]="codeExamples.icons" language="html" [collapsed]="true" />
-    </section>
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Size Comparison</h3>
+        <p class="example-description">Buttons aligned at baseline to show height differences.</p>
+        <div class="example-demo button-row button-row--align-end">
+          <coar-button size="xs">Extra Small</coar-button>
+          <coar-button size="sm">Small</coar-button>
+          <coar-button size="md">Medium</coar-button>
+          <coar-button size="lg">Large</coar-button>
+        </div>
+        <div class="demo-value size-specs"><code>xs</code> 27px | <code>sm</code> 32px | <code>md</code> 40px | <code>lg</code> 48px</div>
+        <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+      <coar-card color="outlined">
+        <h3>With Icons</h3>
+        <p class="example-description">Add icons before or after the label to enhance meaning.</p>
+        <div class="example-demo button-row">
+          <coar-button iconStart="add">Add Item</coar-button>
+          <coar-button variant="secondary" iconEnd="caret-right">Next</coar-button>
+          <coar-button variant="tertiary" iconStart="clipboard" iconEnd="check">Download</coar-button>
+          <coar-button variant="danger" iconStart="bin">Delete</coar-button>
+        </div>
+        <coar-code-block [code]="codeExamples.icons" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
 
-    <!-- Loading State -->
-    <section class="example-section">
-      <h2 class="coar-heading">Loading State</h2>
-      <p class="section-intro coar-body-small">Show a loading spinner while an async action is in progress.</p>
+    <!-- ============================================ -->
+    <!-- STATES SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">States</h2>
+    <p class="component-section-description">Loading and disabled states for different scenarios.</p>
 
-      <coar-note color="info" class="behavior-note">
-        <h4 class="coar-body-bold">Loading Behavior</h4>
-        <ul>
-          <li class="coar-body-small"><strong>With icon:</strong> The spinner replaces the icon position, keeping the button text visible.</li>
-          <li class="coar-body-small"><strong>Without icon:</strong> The spinner overlays the center while the text fades out.</li>
-        </ul>
-        <p class="coar-body-small">This ensures the button maintains its size and prevents layout shifts.</p>
-      </coar-note>
-
-      <div class="loading-demos">
-        <div class="loading-demo-item">
-          <span class="demo-label coar-body-small">With start icon (spinner replaces start icon):</span>
-          <div class="button-row">
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Loading State</h3>
+        <p class="example-description">Show a spinner while an async action is in progress. Click to test.</p>
+        <div class="example-demo">
+          <div class="loading-demo-row">
+            <span class="demo-label">With start icon:</span>
             <coar-button iconStart="check" [loading]="isLoading()" (clicked)="simulateLoading()">Save Changes</coar-button>
           </div>
-        </div>
-        <div class="loading-demo-item">
-          <span class="demo-label coar-body-small">With end icon (spinner replaces end icon):</span>
-          <div class="button-row">
+          <div class="loading-demo-row">
+            <span class="demo-label">With end icon:</span>
             <coar-button iconEnd="caret-right" [loading]="isLoadingEnd()" (clicked)="simulateLoadingEnd()">Continue</coar-button>
           </div>
-        </div>
-        <div class="loading-demo-item">
-          <span class="demo-label coar-body-small">Without icon (centered spinner):</span>
-          <div class="button-row">
+          <div class="loading-demo-row">
+            <span class="demo-label">Without icon:</span>
             <coar-button [loading]="isLoadingNoIcon()" (clicked)="simulateLoadingNoIcon()">Submit</coar-button>
           </div>
         </div>
-        <div class="loading-demo-item">
-          <span class="demo-label coar-body-small">Always loading:</span>
-          <div class="button-row">
-            <coar-button variant="secondary" [loading]="true">Processing</coar-button>
-            <coar-button variant="danger" [loading]="true">Deleting...</coar-button>
-          </div>
+        <coar-note variant="info">
+          <strong>Loading Behavior:</strong> With icon, spinner replaces the icon. Without icon, spinner overlays the center.
+        </coar-note>
+        <coar-code-block [code]="codeExamples.loading" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Disabled State</h3>
+        <p class="example-description">Disable buttons when actions are not available.</p>
+        <div class="example-demo button-row">
+          <coar-button [disabled]="true">Primary</coar-button>
+          <coar-button variant="secondary" [disabled]="true">Secondary</coar-button>
+          <coar-button variant="tertiary" [disabled]="true">Tertiary</coar-button>
+          <coar-button variant="danger" [disabled]="true">Danger</coar-button>
+          <coar-button variant="ghost" [disabled]="true">Ghost</coar-button>
         </div>
-        <div class="loading-demo-item">
-          <span class="demo-label coar-body-small">Loading across sizes (click to test):</span>
-          <div class="button-row" style="align-items: center">
-            <coar-button size="xs" iconStart="check" [loading]="isLoadingXs()" (clicked)="simulateLoadingXs()">Extra Small</coar-button>
-            <coar-button size="sm" iconStart="check" [loading]="isLoadingSm()" (clicked)="simulateLoadingSm()">Small</coar-button>
-            <coar-button size="md" iconStart="check" [loading]="isLoadingMd()" (clicked)="simulateLoadingMd()">Medium</coar-button>
-            <coar-button size="lg" iconStart="check" [loading]="isLoadingLg()" (clicked)="simulateLoadingLg()">Large</coar-button>
-          </div>
+        <coar-code-block [code]="codeExamples.disabled" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Full Width</h3>
+        <p class="example-description">Buttons can expand to fill their container.</p>
+        <div class="example-demo full-width-demo">
+          <coar-button [fullWidth]="true">Full Width Primary</coar-button>
+          <coar-button variant="secondary" [fullWidth]="true">Full Width Secondary</coar-button>
         </div>
+        <coar-code-block [code]="codeExamples.fullWidth" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- API SECTION -->
+    <!-- ============================================ -->
+    <details class="api-section">
+      <summary>Button API</summary>
+      <div class="api-content">
+        <h4>Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>variant</code></td>
+              <td><code>'primary' | 'secondary' | 'tertiary' | 'danger' | 'ghost'</code></td>
+              <td><code>'primary'</code></td>
+              <td>Button style variant</td>
+            </tr>
+            <tr>
+              <td><code>size</code></td>
+              <td><code>'xs' | 'sm' | 'md' | 'lg'</code></td>
+              <td><code>'md'</code></td>
+              <td>Button size</td>
+            </tr>
+            <tr>
+              <td><code>iconStart</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Icon name to display before the label</td>
+            </tr>
+            <tr>
+              <td><code>iconEnd</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Icon name to display after the label</td>
+            </tr>
+            <tr>
+              <td><code>loading</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Show loading spinner</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Disable the button</td>
+            </tr>
+            <tr>
+              <td><code>fullWidth</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Expand to fill container width</td>
+            </tr>
+            <tr>
+              <td><code>type</code></td>
+              <td><code>'button' | 'submit' | 'reset'</code></td>
+              <td><code>'button'</code></td>
+              <td>HTML button type</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Outputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>clicked</code></td>
+              <td><code>MouseEvent</code></td>
+              <td>Emits when the button is clicked (not emitted when disabled or loading)</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <p class="demo-hint coar-body-small">Click the buttons to see the loading state in action.</p>
-      <coar-code-block [code]="codeExamples.loading" language="html" [collapsed]="true" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Disabled State -->
-    <section class="example-section">
-      <h2 class="coar-heading">Disabled State</h2>
-      <p class="section-intro coar-body-small">Disable buttons when actions are not available.</p>
-      <div class="button-row">
-        <coar-button [disabled]="true">Primary</coar-button>
-        <coar-button variant="secondary" [disabled]="true">Secondary</coar-button>
-        <coar-button variant="tertiary" [disabled]="true">Tertiary</coar-button>
-        <coar-button variant="danger" [disabled]="true">Danger</coar-button>
-        <coar-button variant="ghost" [disabled]="true">Ghost</coar-button>
-      </div>
-      <coar-code-block [code]="codeExamples.disabled" language="html" [collapsed]="true" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Full Width -->
-    <section class="example-section">
-      <h2 class="coar-heading">Full Width</h2>
-      <p class="section-intro coar-body-small">Buttons can expand to fill their container.</p>
-      <div class="full-width-demo">
-        <coar-button [fullWidth]="true">Full Width Primary</coar-button>
-        <coar-button variant="secondary" [fullWidth]="true">Full Width Secondary</coar-button>
-      </div>
-      <coar-code-block [code]="codeExamples.fullWidth" language="html" [collapsed]="true" />
-    </section>
+    </details>
   </div>
-</ng-template>
+</div>

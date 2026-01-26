@@ -1,28 +1,19 @@
 import { Component } from '@angular/core';
 
 import {
-  CoarTabGroupComponent,
-  CoarTabComponent,
   CoarCodeBlockComponent,
+  CoarCardComponent,
   CoarTableComponent,
 } from '@cocoar/ui-components';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-table-page',
   standalone: true,
-  imports: [CoarTabGroupComponent, CoarTabComponent, CoarCodeBlockComponent, CoarTableComponent],
+  imports: [CoarCodeBlockComponent, CoarCardComponent, CoarTableComponent],
   templateUrl: './table.page.html',
   styleUrl: './table.page.css',
 })
 export class TablePage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  activeTab = 'examples';
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-table.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-table.api.md';
 
   // Sample data for demos
   sampleData = [

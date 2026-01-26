@@ -3,11 +3,8 @@ import { Component } from '@angular/core';
 import {
   CoarDividerComponent,
   CoarCodeBlockComponent,
-  CoarTabGroupComponent,
-  CoarTabComponent,
+  CoarCardComponent,
 } from '@cocoar/ui-components';
-import { ShowcaseSectionComponent } from '../../components/section';
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-dividers',
@@ -15,20 +12,12 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   imports: [
     CoarDividerComponent,
     CoarCodeBlockComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
-    ShowcaseSectionComponent,
+    CoarCardComponent,
   ],
   templateUrl: './dividers.page.html',
   styleUrl: './dividers.page.css',
 })
 export class DividersPage {
-  activeTab = 'examples';
-
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-divider.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-divider.api.md';
 
   /** Code examples */
   codeExamples = {

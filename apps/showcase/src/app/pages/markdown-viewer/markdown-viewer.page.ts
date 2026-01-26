@@ -3,13 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { Component, computed, inject, signal } from '@angular/core';
 import {
   CoarCodeBlockComponent,
-  CoarDividerComponent,
-  CoarTabComponent,
-  CoarTabGroupComponent,
+  CoarCardComponent,
 } from '@cocoar/ui-components';
 import { CoarMarkdownComponent } from '@cocoar/markdown-viewer';
 import { parse, type MarkdownDocument } from '@cocoar/markdown-core';
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-markdown-viewer',
@@ -17,9 +14,7 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   imports: [
     CoarMarkdownComponent,
     CoarCodeBlockComponent,
-    CoarDividerComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
+    CoarCardComponent,
   ],
   templateUrl: './markdown-viewer.page.html',
   styleUrl: './markdown-viewer.page.css',
@@ -27,13 +22,6 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
 export class MarkdownViewerPage {
   private readonly http = inject(HttpClient);
   private readonly document = inject(DOCUMENT);
-
-  activeTab = 'examples';
-
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  protected readonly docsPath = '/docs/libs/markdown-viewer/coar-markdown.docs.md';
-  protected readonly apiPath = '/docs/libs/markdown-viewer/coar-markdown.api.md';
 
   protected readonly markdownPath = '/docs/markdown-test.md';
 

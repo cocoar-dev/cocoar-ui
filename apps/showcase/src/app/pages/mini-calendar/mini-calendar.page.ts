@@ -4,15 +4,11 @@ import { Temporal } from '@js-temporal/polyfill';
 import {
   CoarMiniCalendarComponent,
   CoarCodeBlockComponent,
-  CoarDividerComponent,
+  CoarCardComponent,
   CoarNoteComponent,
-  CoarTabGroupComponent,
-  CoarTabComponent,
   type CoarDateMarker,
   type DateFormatConfig,
 } from '@cocoar/ui-components';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-mini-calendar',
@@ -20,23 +16,13 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   imports: [
     CoarMiniCalendarComponent,
     CoarCodeBlockComponent,
-    CoarDividerComponent,
+    CoarCardComponent,
     CoarNoteComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
   ],
   templateUrl: './mini-calendar.page.html',
   styleUrl: './mini-calendar.page.css',
 })
 export class MiniCalendarPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  activeTab = 'examples';
-
-  protected readonly apiPath = '/docs/libs/ui-components/coar-mini-calendar.api.md';
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-mini-calendar.docs.md';
-
   selectedDate = signal<Temporal.PlainDate | null>(Temporal.Now.plainDateISO());
   weekNumberDate = signal<Temporal.PlainDate | null>(Temporal.Now.plainDateISO());
   constrainedDate = signal<Temporal.PlainDate | null>(null);
@@ -69,41 +55,32 @@ export class MiniCalendarPage {
     },
   ];
 
-  basicExample = `<coar-mini-calendar [(value)]="selectedDate" />`;
+  codeExamples = {
+    basic: `<coar-mini-calendar [(value)]="selectedDate" />`,
 
-  constraintsExample = `minDate = Temporal.Now.plainDateISO().subtract({ months: 1 });
+    constraints: `minDate = Temporal.Now.plainDateISO().subtract({ months: 1 });
 maxDate = Temporal.Now.plainDateISO().add({ months: 3 });
 
-<coar-mini-calendar
-  [(value)]="date"
-  [min]="minDate"
-  [max]="maxDate"
-/>`;
+<coar-mini-calendar [(value)]="date" [min]="minDate" [max]="maxDate" />`,
 
-  weekNumbersExample = `<coar-mini-calendar
-  [(value)]="date"
-  [showWeekNumbers]="true"
-/>`;
+    weekNumbers: `<coar-mini-calendar [(value)]="date" [showWeekNumbers]="true" />`,
 
-  localeExample = `<coar-mini-calendar
+    locale: `<coar-mini-calendar
   [(value)]="date"
   locale="de-DE"
   [dateFormatConfig]="{ pattern: 'dd.mm.yyyy', firstDayOfWeek: 1 }"
   [showWeekNumbers]="true"
   [highlightWeekends]="true"
-  [markers]="holidayMarkers"
   [showTodayButton]="true"
-/>`;
+/>`,
 
-  markersExample = `holidayMarkers: CoarDateMarker[] = [
+    markers: `holidayMarkers: CoarDateMarker[] = [
   { startDate: Temporal.PlainDate.from('2025-12-24'), description: 'Christmas Eve' },
   { startDate: Temporal.PlainDate.from('2025-12-25'), endDate: Temporal.PlainDate.from('2025-12-26'), description: 'Christmas Holidays' },
 ];
 
-<coar-mini-calendar
-  [(value)]="date"
-  [markers]="holidayMarkers"
-/>`;
+<coar-mini-calendar [(value)]="date" [markers]="holidayMarkers" />`,
+  };
 
   formatDate(date: Temporal.PlainDate | null): string {
     return date?.toString() ?? 'null';

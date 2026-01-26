@@ -1,173 +1,164 @@
 <div class="component-page">
   <header class="page-header">
     <h1 class="coar-title">Forms</h1>
-    <p class="description coar-body">Form patterns and layouts demonstrating how input components work together.</p>
+    <p class="page-description">Form patterns and layouts demonstrating how input components work together.</p>
   </header>
 
-  <coar-tab-group [(activeTab)]="activeTab">
-    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="sizing" [content]="sizingTemplate">Size Alignment</coar-tab>
-    <coar-tab id="docs" [content]="docsTemplate">Docs</coar-tab>
-  </coar-tab-group>
+  <div class="examples-content">
+    <!-- ============================================ -->
+    <!-- FORM PATTERNS SECTION -->
+    <!-- ============================================ -->
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Login Form</h3>
+        <p class="example-description">A simple authentication form with email and password fields.</p>
+        <div class="example-demo">
+          <form class="form-container login-form" [formGroup]="loginForm" (submit)="onLoginSubmit($event)">
+            <coar-text-input label="Email" placeholder="your@email.com" [required]="true" formControlName="email" />
+            <coar-password-input label="Password" [required]="true" formControlName="password" />
+            <coar-checkbox label="Remember me" formControlName="rememberMe" />
+            <div class="form-actions">
+              <coar-button variant="primary" type="submit" [loading]="loginLoading()" [disabled]="loginForm.invalid"> Sign In </coar-button>
+              <coar-button variant="ghost" type="button">Forgot Password?</coar-button>
+            </div>
+          </form>
+        </div>
+        <div class="demo-value-object">
+          <strong>Form values:</strong>
+          <pre>{{ loginForm.getRawValue() | json }}</pre>
+        </div>
+        <coar-code-block [code]="codeExamples.loginForm" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Inline Form</h3>
+        <p class="example-description">Horizontal layout for simple single-field forms like newsletter signup.</p>
+        <div class="example-demo">
+          <form class="inline-form" [formGroup]="inlineForm">
+            <coar-text-input placeholder="Enter your email" size="sm" formControlName="email" />
+            <coar-button variant="primary" size="sm" type="button">Subscribe</coar-button>
+          </form>
+        </div>
+        <coar-note variant="info">Use matching sizes for inputs and buttons to ensure perfect vertical alignment.</coar-note>
+        <coar-code-block [code]="codeExamples.inlineForm" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Search Form</h3>
+        <p class="example-description">Search input with button using default md size (40px).</p>
+        <div class="example-demo">
+          <form class="search-form" [formGroup]="searchForm">
+            <coar-text-input placeholder="Search..." formControlName="query" />
+            <coar-button variant="primary" type="button">Search</coar-button>
+          </form>
+        </div>
+        <coar-code-block [code]="codeExamples.searchForm" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- REGISTRATION FORM SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Multi-Field Forms</h2>
+    <p class="component-section-description">Complex forms with validation, hints, and multi-column layouts.</p>
+
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Registration Form</h3>
+        <p class="example-description">Multi-field form with two-column password fields and checkboxes.</p>
+        <div class="example-demo">
+          <form class="form-container registration-form" [formGroup]="registrationForm">
+            <coar-text-input label="Full Name" placeholder="John Doe" [required]="true" formControlName="fullName" />
+            <coar-text-input
+              label="Email"
+              placeholder="your@email.com"
+              [required]="true"
+              hint="We'll never share your email"
+              formControlName="email"
+            />
+            <div class="form-row two-columns">
+              <coar-password-input label="Password" [required]="true" hint="Min. 8 characters" formControlName="password" />
+              <coar-password-input label="Confirm Password" [required]="true" formControlName="confirmPassword" />
+            </div>
+            <coar-checkbox label="I accept the Terms of Service" [required]="true" formControlName="acceptTerms" />
+            <coar-checkbox label="Subscribe to newsletter" hint="Get product updates and tips" formControlName="subscribeNewsletter" />
+            <div class="form-actions">
+              <coar-button variant="primary" iconEnd="caret-right" type="button">Create Account</coar-button>
+              <coar-button variant="secondary" type="button">Cancel</coar-button>
+            </div>
+          </form>
+        </div>
+        <div class="demo-value-object">
+          <strong>Form values:</strong>
+          <pre>{{ registrationForm.getRawValue() | json }}</pre>
+        </div>
+        <coar-code-block [code]="codeExamples.registrationForm" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SIZE ALIGNMENT SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Size Alignment</h2>
+    <p class="component-section-description">Input sizes match button sizes for consistent form layouts.</p>
+
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Component Height Comparison</h3>
+        <p class="example-description">All form components aligned at the same size.</p>
+        <div class="example-demo sizing-grid">
+          <div class="sizing-row">
+            <span class="sizing-label">Extra Small (xs)</span>
+            <div class="sizing-demo">
+              <coar-text-input placeholder="Input xs" size="xs" />
+              <coar-checkbox label="Check xs" size="xs" checked="checked" />
+              <coar-button size="xs">Button xs</coar-button>
+            </div>
+            <code class="sizing-value">27px</code>
+          </div>
+          <div class="sizing-row">
+            <span class="sizing-label">Small (sm)</span>
+            <div class="sizing-demo">
+              <coar-text-input placeholder="Input sm" size="sm" />
+              <coar-checkbox label="Check sm" size="sm" checked="checked" />
+              <coar-button size="sm">Button sm</coar-button>
+            </div>
+            <code class="sizing-value">32px</code>
+          </div>
+          <div class="sizing-row">
+            <span class="sizing-label">Medium (md)</span>
+            <div class="sizing-demo">
+              <coar-text-input placeholder="Input md" size="md" />
+              <coar-checkbox label="Check md" size="md" checked="checked" />
+              <coar-button size="md">Button md</coar-button>
+            </div>
+            <code class="sizing-value">40px</code>
+          </div>
+          <div class="sizing-row">
+            <span class="sizing-label">Large (lg)</span>
+            <div class="sizing-demo">
+              <coar-text-input placeholder="Input lg" size="lg" />
+              <coar-checkbox label="Check lg" size="lg" checked="checked" />
+              <coar-button size="lg">Button lg</coar-button>
+            </div>
+            <code class="sizing-value">48px</code>
+          </div>
+        </div>
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Best Practices</h3>
+        <p class="example-description">Guidelines for consistent form layouts.</p>
+        <div class="example-demo a11y-list">
+          <ul>
+            <li>Always use the same size for inputs and buttons in inline forms</li>
+            <li>Use <code>sm</code> for compact UI like toolbars or data tables</li>
+            <li>Use <code>md</code> (default) for most forms and dialogs</li>
+            <li>Use <code>lg</code> for prominent forms like login or hero sections</li>
+            <li>Required fields should have the <code>required</code> attribute for accessibility</li>
+          </ul>
+        </div>
+      </coar-card>
+    </div>
+  </div>
 </div>
-
-<ng-template #examplesTemplate>
-  <!-- Login Form -->
-  <div class="example-section">
-    <h2 class="coar-heading">Login Form</h2>
-    <p class="section-intro coar-body-small">A simple authentication form with email and password fields.</p>
-    <coar-card class="form-card">
-      <form class="form-container login-form" [formGroup]="loginForm" (submit)="onLoginSubmit($event)">
-        <coar-text-input label="Email" placeholder="your@email.com" [required]="true" formControlName="email" />
-        <coar-password-input label="Password" [required]="true" formControlName="password" />
-        <coar-checkbox label="Remember me" formControlName="rememberMe" />
-        <div class="form-actions">
-          <coar-button variant="primary" type="submit" [loading]="loginLoading()" [disabled]="loginForm.invalid"> Sign In </coar-button>
-          <coar-button variant="ghost" type="button">Forgot Password?</coar-button>
-        </div>
-      </form>
-    </coar-card>
-    <pre class="coar-body-small">{{ loginForm.getRawValue() | json }}</pre>
-    <coar-code-block [code]="codeExamples.loginForm" language="html" [collapsed]="true" />
-  </div>
-
-  <!-- Inline Form -->
-  <div class="example-section">
-    <h2 class="coar-heading">Inline Form</h2>
-    <p class="section-intro coar-body-small">Horizontal layout for simple single-field forms like newsletter signup.</p>
-
-    <coar-note color="accent">
-      <h4>Size Alignment</h4>
-      <p>Use matching sizes for inputs and buttons to ensure perfect vertical alignment.</p>
-    </coar-note>
-
-    <coar-card class="form-card tw:mt-8">
-      <form class="inline-form" [formGroup]="inlineForm">
-        <coar-text-input placeholder="Enter your email" size="sm" formControlName="email" />
-        <coar-button variant="primary" size="sm" type="button">Subscribe</coar-button>
-      </form>
-      <p class="demo-hint coar-body-small">Both input and button are 32px (size="sm") for perfect alignment.</p>
-    </coar-card>
-    <pre class="coar-body-small">{{ inlineForm.getRawValue() | json }}</pre>
-    <coar-code-block [code]="codeExamples.inlineForm" language="html" [collapsed]="true" />
-  </div>
-
-  <!-- Registration Form -->
-  <div class="example-section">
-    <h2 class="coar-heading">Registration Form</h2>
-    <p class="section-intro coar-body-small">Multi-field form with validation indicators and two-column layout.</p>
-    <coar-card class="form-card">
-      <form class="form-container registration-form" [formGroup]="registrationForm">
-        <div class="form-row">
-          <coar-text-input label="Full Name" placeholder="John Doe" [required]="true" formControlName="fullName" />
-        </div>
-        <div class="form-row">
-          <coar-text-input label="Email" placeholder="your@email.com" [required]="true" hint="We'll never share your email" formControlName="email" />
-        </div>
-        <div class="form-row two-columns">
-          <coar-password-input label="Password" [required]="true" hint="Min. 8 characters" formControlName="password" />
-          <coar-password-input label="Confirm Password" [required]="true" formControlName="confirmPassword" />
-        </div>
-        <div class="form-row checkboxes">
-          <coar-checkbox label="I accept the Terms of Service" [required]="true" formControlName="acceptTerms" />
-          <coar-checkbox label="Subscribe to newsletter" hint="Get product updates and tips" formControlName="subscribeNewsletter" />
-        </div>
-        <div class="form-actions">
-          <coar-button variant="primary" iconEnd="caret-right" type="button">Create Account</coar-button>
-          <coar-button variant="secondary" type="button">Cancel</coar-button>
-        </div>
-      </form>
-    </coar-card>
-    <pre class="coar-body-small">{{ registrationForm.getRawValue() | json }}</pre>
-    <coar-code-block [code]="codeExamples.registrationForm" language="html" [collapsed]="true" />
-  </div>
-
-  <!-- Search Form -->
-  <div class="example-section">
-    <h2 class="coar-heading">Search Form</h2>
-    <p class="section-intro coar-body-small">Search input with button using default md size (40px).</p>
-    <coar-card class="form-card">
-      <form class="search-form" [formGroup]="searchForm">
-        <coar-text-input placeholder="Search..." formControlName="query" />
-        <coar-button variant="primary" type="button">Search</coar-button>
-      </form>
-      <p class="demo-hint coar-body-small">Default md size (40px) for both components.</p>
-    </coar-card>
-    <pre class="coar-body-small">{{ searchForm.getRawValue() | json }}</pre>
-    <coar-code-block [code]="codeExamples.searchForm" language="html" [collapsed]="true" />
-  </div>
-</ng-template>
-
-<ng-template #sizingTemplate>
-  <!-- Size Comparison -->
-  <div class="example-section">
-    <h2 class="coar-heading">Component Height Comparison</h2>
-    <p class="section-intro coar-body-small">Input sizes match button sizes for consistent form layouts.</p>
-
-    <coar-card padding="lg">
-      <div class="sizing-grid">
-        <div class="sizing-row">
-          <span class="sizing-label coar-body-small">Extra Small (xs)</span>
-          <div class="sizing-demo">
-            <coar-text-input placeholder="Input xs" size="xs" />
-            <coar-checkbox label="Checkbox xs" size="xs" checked="checked" />
-            <coar-button size="xs">Button xs</coar-button>
-          </div>
-          <code class="sizing-value">27px</code>
-        </div>
-        <div class="sizing-row">
-          <span class="sizing-label coar-body-small">Small (sm)</span>
-          <div class="sizing-demo">
-            <coar-text-input placeholder="Input sm" size="sm" />
-            <coar-checkbox label="Checkbox sm" size="sm" checked="checked" />
-            <coar-button size="sm">Button sm</coar-button>
-          </div>
-          <code class="sizing-value">32px</code>
-        </div>
-        <div class="sizing-row">
-          <span class="sizing-label coar-body-small">Medium (md)</span>
-          <div class="sizing-demo">
-            <coar-text-input placeholder="Input md" size="md" />
-            <coar-checkbox label="Checkbox md" size="md" checked="checked" />
-            <coar-button size="md">Button md</coar-button>
-          </div>
-          <code class="sizing-value">40px</code>
-        </div>
-        <div class="sizing-row">
-          <span class="sizing-label coar-body-small">Large (lg)</span>
-          <div class="sizing-demo">
-            <coar-text-input placeholder="Input lg" size="lg" />
-            <coar-checkbox label="Checkbox lg" size="lg" checked="checked" />
-            <coar-button size="lg">Button lg</coar-button>
-          </div>
-          <code class="sizing-value">48px</code>
-        </div>
-      </div>
-    </coar-card>
-  </div>
-
-  <!-- Best Practices -->
-  <div class="example-section">
-    <h2 class="coar-heading">Best Practices</h2>
-    <ul class="a11y-list">
-      <li class="coar-body-small">Always use the same size for inputs and buttons in inline forms</li>
-      <li class="coar-body-small">Use <code>sm</code> for compact UI like toolbars or data tables</li>
-      <li class="coar-body-small">Use <code>md</code> (default) for most forms and dialogs</li>
-      <li class="coar-body-small">Use <code>lg</code> for prominent forms like login or hero sections</li>
-      <li class="coar-body-small">Required fields should have the <code>required</code> attribute for accessibility</li>
-    </ul>
-  </div>
-</ng-template>
-
-<ng-template #docsTemplate>
-  @if (docsState$ | async; as state) { @switch (state.status) { @case ('loading') {
-  <p class="coar-body-small" aria-busy="true">Loading…</p>
-  } @case ('error') {
-  <coar-note color="error">
-    Failed to load <code>{{ state.path }}</code
-    >.
-  </coar-note>
-  } @case ('loaded') {
-  <coar-markdown [doc]="state.doc"></coar-markdown>
-  } } }
-</ng-template>

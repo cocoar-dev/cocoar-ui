@@ -1,0 +1,37 @@
+/* ========================================
+   SELECTS PAGE - Component-specific styles
+   ========================================
+   Shared styles are inherited from showcase-pages.css
+   Only add styles specific to this page here
+   ======================================== */
+
+/* Page-specific demo grid layout for two-column examples within a card */
+.example-demo--grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--coar-spacing-m);
+}
+
+/* Size comparison grid - shows all sizes aligned at bottom */
+.example-demo--sizes {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--coar-spacing-m);
+  align-items: end;
+}
+
+@media (max-width: 768px) {
+  .example-demo--grid {
+    grid-template-columns: 1fr;
+  }
+
+  .example-demo--sizes {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .example-demo--sizes {
+    grid-template-columns: 1fr;
+  }
+}

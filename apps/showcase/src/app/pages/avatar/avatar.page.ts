@@ -4,16 +4,11 @@ import {
   CoarAvatarComponent,
   CoarCardComponent,
   CoarCodeBlockComponent,
-  CoarDividerComponent,
-  CoarTabGroupComponent,
-  CoarTabComponent,
   CoarBadgeComponent,
   CoarInitialsPipe,
   AvatarSize,
   AvatarShape,
 } from '@cocoar/ui-components';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-avatar',
@@ -22,9 +17,6 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarAvatarComponent,
     CoarCardComponent,
     CoarCodeBlockComponent,
-    CoarDividerComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
     CoarBadgeComponent,
     CoarInitialsPipe,
   ],
@@ -32,12 +24,6 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   styleUrl: './avatar.page.css',
 })
 export class AvatarPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  activeTab = 'examples';
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-avatar.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-avatar.api.md';
 
   /** Avatar sizes */
   sizes: AvatarSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];

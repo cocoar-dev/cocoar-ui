@@ -311,12 +311,13 @@ function generateItemApiMarkdown(packageName, className, type, data) {
       lines.push('');
     }
 
-    if (parts.examples) {
-      lines.push('## Examples');
-      lines.push('');
-      lines.push(parts.examples);
-      lines.push('');
-    }
+    // Skip examples section - examples belong in the Examples tab, not API
+    // if (parts.examples) {
+    //   lines.push('## Examples');
+    //   lines.push('');
+    //   lines.push(parts.examples);
+    //   lines.push('');
+    // }
   }
 
   // Type-specific sections

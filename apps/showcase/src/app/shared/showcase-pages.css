@@ -102,7 +102,7 @@ coar-code-block:first-child {
 .example-section,
 .api-section {
   margin-bottom: 0;
-  padding-bottom: 1.5rem;
+  /* padding-bottom: 1.5rem; */
   border-bottom: none;
 }
 
@@ -860,4 +860,182 @@ coar-table.api-table td:nth-child(3):last-child {
 .input-row .example-preview {
   flex: 1;
   min-width: 200px;
+}
+
+/* ========================================
+   EXAMPLES-FIRST LAYOUT (new pattern)
+   ========================================
+   Used by pages that show examples directly
+   without tabs. Two-column grid layout with
+   elevated cards and collapsible API sections.
+   ======================================== */
+
+/* Two-column grid for example cards */
+.examples-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--coar-spacing-l);
+  margin-bottom: var(--coar-spacing-l);
+}
+
+/* Section titles within examples (e.g., "Single Select", "Multi Select") */
+.component-section-title {
+  font-size: var(--coar-headings-heading-size);
+  font-weight: var(--coar-font-weight-semi-bold);
+  color: var(--coar-text-neutral-primary);
+  margin-top: var(--coar-spacing-xl);
+  margin-bottom: var(--coar-spacing-s);
+}
+
+.component-section-title:first-of-type {
+  margin-top: 0;
+}
+
+.component-section-description {
+  color: var(--coar-text-neutral-secondary);
+  margin-bottom: var(--coar-spacing-l);
+}
+
+/* Card content styling for examples-grid */
+.examples-grid h3 {
+  font-size: var(--coar-body-base-size);
+  font-weight: var(--coar-font-weight-semi-bold);
+  color: var(--coar-text-neutral-primary);
+  margin: 0 0 var(--coar-spacing-xs);
+}
+
+.example-description {
+  color: var(--coar-text-neutral-secondary);
+  font-size: var(--coar-body-small-base-size);
+  margin: 0 0 var(--coar-spacing-m);
+}
+
+/* Value display for interactive demos */
+.demo-value {
+  font-size: var(--coar-body-caption-size);
+  color: var(--coar-text-neutral-tertiary);
+  margin-top: var(--coar-spacing-xs);
+  margin-bottom: var(--coar-spacing-m);
+}
+
+/* Object value display with syntax highlighting */
+.demo-value-object {
+  background-color: var(--coar-background-neutral-secondary);
+  border: 1px solid var(--coar-border-neutral-tertiary);
+  border-radius: var(--coar-radius-m);
+  padding: var(--coar-spacing-m);
+  margin-bottom: var(--coar-spacing-m);
+  font-size: var(--coar-body-caption-size);
+}
+
+.demo-value-object strong {
+  display: block;
+  color: var(--coar-text-neutral-secondary);
+  margin-bottom: var(--coar-spacing-xs);
+}
+
+.demo-value-object pre {
+  margin: 0;
+  font-family: monospace;
+  font-size: var(--coar-body-caption-size);
+  color: var(--coar-text-neutral-primary);
+  white-space: pre-wrap;
+}
+
+/* Collapsible API sections using <details> */
+details.api-section {
+  margin-bottom: var(--coar-spacing-l);
+  border: 1px solid var(--coar-border-neutral-tertiary);
+  border-radius: var(--coar-radius-m);
+  background-color: var(--coar-background-neutral-primary);
+}
+
+details.api-section summary {
+  padding: var(--coar-spacing-m);
+  font-size: var(--coar-body-base-size);
+  font-weight: var(--coar-font-weight-semi-bold);
+  color: var(--coar-text-neutral-primary);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+}
+
+details.api-section summary::-webkit-details-marker {
+  display: none;
+}
+
+details.api-section summary::before {
+  content: '▶';
+  display: inline-block;
+  margin-right: var(--coar-spacing-s);
+  font-size: var(--coar-body-caption-size);
+  transition: transform 0.2s;
+}
+
+details.api-section[open] summary::before {
+  transform: rotate(90deg);
+}
+
+details.api-section summary:hover {
+  background-color: var(--coar-background-neutral-secondary);
+}
+
+details.api-section .api-content {
+  padding: 0 var(--coar-spacing-m) var(--coar-spacing-m);
+}
+
+details.api-section .api-content h4 {
+  font-size: var(--coar-body-small-base-size);
+  font-weight: var(--coar-font-weight-semi-bold);
+  color: var(--coar-text-neutral-secondary);
+  margin: var(--coar-spacing-m) 0 var(--coar-spacing-s);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+details.api-section .api-content h4:first-child {
+  margin-top: 0;
+}
+
+/* API tables within details sections */
+details.api-section table.api-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--coar-body-small-base-size);
+}
+
+details.api-section table.api-table th,
+details.api-section table.api-table td {
+  padding: var(--coar-spacing-s) var(--coar-spacing-m);
+  text-align: left;
+  border-bottom: 1px solid var(--coar-border-neutral-tertiary);
+}
+
+details.api-section table.api-table th {
+  font-weight: var(--coar-font-weight-semi-bold);
+  color: var(--coar-text-neutral-secondary);
+  background-color: var(--coar-background-neutral-secondary);
+}
+
+details.api-section table.api-table td {
+  color: var(--coar-text-neutral-primary);
+}
+
+details.api-section table.api-table td:last-child {
+  color: var(--coar-text-neutral-secondary);
+}
+
+details.api-section table.api-table code {
+  font-family: monospace;
+  font-size: var(--coar-body-caption-size);
+  background-color: var(--coar-background-neutral-secondary);
+  padding: 2px 6px;
+  border-radius: var(--coar-radius-xs);
+}
+
+/* Responsive: single column on smaller screens */
+@media (max-width: 1024px) {
+  .examples-grid {
+    grid-template-columns: 1fr;
+  }
 }

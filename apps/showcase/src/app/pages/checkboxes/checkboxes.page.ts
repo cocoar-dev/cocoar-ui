@@ -5,12 +5,7 @@ import {
   CoarCheckboxState,
   CoarCardComponent,
   CoarCodeBlockComponent,
-  CoarDividerComponent,
-  CoarTabGroupComponent,
-  CoarTabComponent,
 } from '@cocoar/ui-components';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-checkboxes',
@@ -20,22 +15,12 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarCheckboxComponent,
     CoarCardComponent,
     CoarCodeBlockComponent,
-    CoarDividerComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
   ],
   templateUrl: './checkboxes.page.html',
   styleUrl: './checkboxes.page.css',
 })
 export class CheckboxesPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  activeTab = 'examples';
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-checkbox.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-checkbox.api.md';
-
-  // Demo values - now using CoarCheckboxState
+  // Demo values - using CoarCheckboxState
   basicChecked = signal<CoarCheckboxState | undefined>(undefined);
   termsChecked = signal<CoarCheckboxState | undefined>(undefined);
   newsletterChecked = signal<CoarCheckboxState | undefined>('checked');

@@ -1,198 +1,252 @@
 <div class="component-page">
   <header class="page-header">
     <h1 class="coar-title">Sidebar</h1>
-    <p class="description coar-body">A three-part navigation sidebar with header, scrollable content, and footer sections.</p>
+    <p class="page-description">A three-part navigation sidebar with header, scrollable content, and footer sections.</p>
   </header>
 
-  <!-- Page-level tabs -->
-  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
-    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
-    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
-  </coar-tab-group>
-</div>
-
-<ng-template #examplesTemplate>
   <div class="examples-content">
-    <!-- Basic Example -->
-    <section class="example-section">
-      <h2 class="coar-subheading">Basic Usage</h2>
-      <p class="section-intro coar-body">A simple sidebar with menu items. Use <code>borderless</code> on the menu for seamless integration.</p>
-      <div class="example-demo">
-        <div class="sidebar-demo-container">
-          <coar-sidebar>
-            <coar-menu borderless>
-              <coar-menu-item>Dashboard</coar-menu-item>
-              <coar-menu-item>Projects</coar-menu-item>
-              <coar-menu-item>Settings</coar-menu-item>
-            </coar-menu>
-          </coar-sidebar>
+    <!-- ============================================ -->
+    <!-- BASIC EXAMPLES -->
+    <!-- ============================================ -->
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Basic Usage</h3>
+        <p class="example-description">A simple sidebar with menu items. Use <code>borderless</code> on the menu for seamless integration.</p>
+        <div class="example-demo">
+          <div class="sidebar-demo-container">
+            <coar-sidebar>
+              <coar-menu borderless>
+                <coar-menu-item>Dashboard</coar-menu-item>
+                <coar-menu-item>Projects</coar-menu-item>
+                <coar-menu-item>Settings</coar-menu-item>
+              </coar-menu>
+            </coar-sidebar>
+          </div>
         </div>
-      </div>
-      <coar-code-block [code]="basicExample" language="html" />
-    </section>
+        <coar-code-block [code]="basicExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <!-- With Header -->
-    <section class="example-section">
-      <h2 class="coar-subheading">With Header</h2>
-      <p class="section-intro coar-body">Add a header section with branding or title using the <code>coar-sidebar-header</code> selector.</p>
-      <div class="example-demo">
-        <div class="sidebar-demo-container">
-          <coar-sidebar>
-            <div coar-sidebar-header>
-              <h2 class="coar-heading">My App</h2>
-            </div>
-
-            <coar-menu borderless>
-              <coar-menu-item>Dashboard</coar-menu-item>
-              <coar-menu-item>Projects</coar-menu-item>
-              <coar-menu-item>Settings</coar-menu-item>
-            </coar-menu>
-          </coar-sidebar>
-        </div>
-      </div>
-      <coar-code-block [code]="withHeaderExample" language="html" />
-    </section>
-
-    <!-- With Footer -->
-    <section class="example-section">
-      <h2 class="coar-subheading">With Footer</h2>
-      <p class="section-intro coar-body">Add a footer section for actions or user info using the <code>coar-sidebar-footer</code> selector.</p>
-      <div class="example-demo">
-        <div class="sidebar-demo-container">
-          <coar-sidebar>
-            <coar-menu borderless>
-              <coar-menu-item>Dashboard</coar-menu-item>
-              <coar-menu-item>Projects</coar-menu-item>
-              <coar-menu-item>Reports</coar-menu-item>
-            </coar-menu>
-
-            <div coar-sidebar-footer>
-              <coar-button variant="ghost" size="sm">Logout</coar-button>
-            </div>
-          </coar-sidebar>
-        </div>
-      </div>
-      <coar-code-block [code]="withFooterExample" language="html" />
-    </section>
-
-    <!-- Full Example -->
-    <section class="example-section">
-      <h2 class="coar-subheading">Complete Example</h2>
-      <p class="section-intro coar-body">Sidebar with header, grouped menu items, and footer. The content area scrolls independently.</p>
-      <div class="example-demo">
-        <div class="sidebar-demo-container sidebar-demo-container--tall">
-          <coar-sidebar>
-            <div coar-sidebar-header>
-              <div style="display: flex; align-items: center; gap: 12px">
-                <div style="width: 32px; height: 32px; background: var(--coar-background-accent-primary); border-radius: 4px"></div>
-                <h2 class="coar-heading">Dashboard</h2>
-              </div>
-            </div>
-
-            <coar-menu borderless>
-              <coar-menu-heading>Main</coar-menu-heading>
-              <coar-menu-item>Dashboard</coar-menu-item>
-              <coar-menu-item>Projects</coar-menu-item>
-              <coar-menu-item>Team</coar-menu-item>
-
-              <coar-menu-divider></coar-menu-divider>
-
-              <coar-menu-heading>Settings</coar-menu-heading>
-              <coar-menu-item>Profile</coar-menu-item>
-              <coar-menu-item>Preferences</coar-menu-item>
-              <coar-menu-item>Notifications</coar-menu-item>
-              <coar-menu-item>Security</coar-menu-item>
-            </coar-menu>
-
-            <div coar-sidebar-footer>
-              <div style="padding: 8px">
-                <strong class="coar-body-bold">John Doe</strong>
-                <div class="coar-caption" style="color: var(--coar-text-neutral-tertiary)">john&#64;example.com</div>
-              </div>
-            </div>
-          </coar-sidebar>
-        </div>
-      </div>
-      <coar-code-block [code]="fullExample" language="html" />
-    </section>
-
-    <!-- Position -->
-    <section class="example-section">
-      <h2 class="coar-subheading">Position</h2>
-      <p class="section-intro coar-body">Sidebars can be positioned on the left (default) or right side.</p>
-      <div class="example-demo">
-        <div style="display: flex; gap: 16px">
+      <coar-card color="outlined">
+        <h3>With Header</h3>
+        <p class="example-description">Add a header section with branding or title using the <code>coar-sidebar-header</code> selector.</p>
+        <div class="example-demo">
           <div class="sidebar-demo-container">
             <coar-sidebar>
               <div coar-sidebar-header>
-                <h3 class="coar-subheading">Left</h3>
+                <h2 class="coar-heading">My App</h2>
               </div>
+
               <coar-menu borderless>
-                <coar-menu-item>Home</coar-menu-item>
-                <coar-menu-item>About</coar-menu-item>
+                <coar-menu-item>Dashboard</coar-menu-item>
+                <coar-menu-item>Projects</coar-menu-item>
+                <coar-menu-item>Settings</coar-menu-item>
               </coar-menu>
             </coar-sidebar>
           </div>
+        </div>
+        <coar-code-block [code]="withHeaderExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
+      <coar-card color="outlined">
+        <h3>With Footer</h3>
+        <p class="example-description">Add a footer section for actions or user info using the <code>coar-sidebar-footer</code> selector.</p>
+        <div class="example-demo">
           <div class="sidebar-demo-container">
-            <coar-sidebar position="right">
-              <div coar-sidebar-header>
-                <h3 class="coar-subheading">Right</h3>
-              </div>
+            <coar-sidebar>
               <coar-menu borderless>
-                <coar-menu-item>Help</coar-menu-item>
-                <coar-menu-item>Support</coar-menu-item>
+                <coar-menu-item>Dashboard</coar-menu-item>
+                <coar-menu-item>Projects</coar-menu-item>
+                <coar-menu-item>Reports</coar-menu-item>
+              </coar-menu>
+
+              <div coar-sidebar-footer>
+                <coar-button variant="ghost" size="sm">Logout</coar-button>
+              </div>
+            </coar-sidebar>
+          </div>
+        </div>
+        <coar-code-block [code]="withFooterExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Complete Example</h3>
+        <p class="example-description">Sidebar with header, grouped menu items, and footer. The content area scrolls independently.</p>
+        <div class="example-demo">
+          <div class="sidebar-demo-container sidebar-demo-container--tall">
+            <coar-sidebar>
+              <div coar-sidebar-header>
+                <div style="display: flex; align-items: center; gap: 12px">
+                  <div style="width: 32px; height: 32px; background: var(--coar-background-accent-primary); border-radius: 4px"></div>
+                  <h2 class="coar-heading">Dashboard</h2>
+                </div>
+              </div>
+
+              <coar-menu borderless>
+                <coar-menu-heading>Main</coar-menu-heading>
+                <coar-menu-item>Dashboard</coar-menu-item>
+                <coar-menu-item>Projects</coar-menu-item>
+                <coar-menu-item>Team</coar-menu-item>
+
+                <coar-menu-divider></coar-menu-divider>
+
+                <coar-menu-heading>Settings</coar-menu-heading>
+                <coar-menu-item>Profile</coar-menu-item>
+                <coar-menu-item>Preferences</coar-menu-item>
+                <coar-menu-item>Notifications</coar-menu-item>
+                <coar-menu-item>Security</coar-menu-item>
+              </coar-menu>
+
+              <div coar-sidebar-footer>
+                <div style="padding: 8px">
+                  <strong class="coar-body-bold">John Doe</strong>
+                  <div class="coar-caption" style="color: var(--coar-text-neutral-tertiary)">john&#64;example.com</div>
+                </div>
+              </div>
+            </coar-sidebar>
+          </div>
+        </div>
+        <coar-code-block [code]="fullExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- POSITION & STATES -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Position & States</h2>
+    <p class="component-section-description">Control sidebar position and collapsed state.</p>
+
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Position</h3>
+        <p class="example-description">Sidebars can be positioned on the left (default) or right side.</p>
+        <div class="example-demo">
+          <div style="display: flex; gap: 16px">
+            <div class="sidebar-demo-container">
+              <coar-sidebar>
+                <div coar-sidebar-header>
+                  <h3 class="coar-subheading">Left</h3>
+                </div>
+                <coar-menu borderless>
+                  <coar-menu-item>Home</coar-menu-item>
+                  <coar-menu-item>About</coar-menu-item>
+                </coar-menu>
+              </coar-sidebar>
+            </div>
+
+            <div class="sidebar-demo-container">
+              <coar-sidebar position="right">
+                <div coar-sidebar-header>
+                  <h3 class="coar-subheading">Right</h3>
+                </div>
+                <coar-menu borderless>
+                  <coar-menu-item>Help</coar-menu-item>
+                  <coar-menu-item>Support</coar-menu-item>
+                </coar-menu>
+              </coar-sidebar>
+            </div>
+          </div>
+        </div>
+        <coar-code-block [code]="positionExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Collapsed State</h3>
+        <p class="example-description">Use <code>collapsed</code> for a narrow icon-only sidebar (4rem width).</p>
+        <div class="example-demo">
+          <div class="sidebar-demo-container">
+            <coar-sidebar collapsed>
+              <coar-menu borderless>
+                <coar-menu-item>🏠</coar-menu-item>
+                <coar-menu-item>📁</coar-menu-item>
+                <coar-menu-item>⚙️</coar-menu-item>
               </coar-menu>
             </coar-sidebar>
           </div>
         </div>
-      </div>
-      <coar-code-block [code]="positionExample" language="html" />
-    </section>
+        <coar-code-block [code]="collapsedExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <!-- Collapsed -->
-    <section class="example-section">
-      <h2 class="coar-subheading">Collapsed State</h2>
-      <p class="section-intro coar-body">Use <code>collapsed</code> for a narrow icon-only sidebar (4rem width).</p>
-      <div class="example-demo">
-        <div class="sidebar-demo-container">
-          <coar-sidebar collapsed>
-            <coar-menu borderless>
-              <coar-menu-item>🏠</coar-menu-item>
-              <coar-menu-item>📁</coar-menu-item>
-              <coar-menu-item>⚙️</coar-menu-item>
-            </coar-menu>
-          </coar-sidebar>
+      <coar-card color="outlined">
+        <h3>Custom Content</h3>
+        <p class="example-description">The sidebar can contain any content, not just menus. Here's an example with form controls.</p>
+        <div class="example-demo">
+          <div class="sidebar-demo-container">
+            <coar-sidebar>
+              <div coar-sidebar-header>
+                <h3 class="coar-subheading">Filters</h3>
+              </div>
+
+              <div style="padding: 8px; display: flex; flex-direction: column; gap: 8px">
+                <label class="coar-body-small" style="display: flex; align-items: center; gap: 8px"> <input type="checkbox" /> Option 1 </label>
+                <label class="coar-body-small" style="display: flex; align-items: center; gap: 8px"> <input type="checkbox" /> Option 2 </label>
+                <label class="coar-body-small" style="display: flex; align-items: center; gap: 8px"> <input type="checkbox" /> Option 3 </label>
+              </div>
+
+              <div coar-sidebar-footer>
+                <coar-button variant="primary" size="sm">Apply Filters</coar-button>
+              </div>
+            </coar-sidebar>
+          </div>
         </div>
+        <coar-code-block [code]="customContentExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- API SECTION -->
+    <!-- ============================================ -->
+    <details class="api-section">
+      <summary>Sidebar API</summary>
+      <div class="api-content">
+        <h4>Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>position</code></td>
+              <td><code>'left' | 'right'</code></td>
+              <td><code>'left'</code></td>
+              <td>Which side of the viewport the sidebar appears</td>
+            </tr>
+            <tr>
+              <td><code>collapsed</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Whether the sidebar is in collapsed (narrow) mode</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Content Projection</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Selector</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>[coar-sidebar-header]</code></td>
+              <td>Fixed header area at the top of the sidebar</td>
+            </tr>
+            <tr>
+              <td><code>[coar-sidebar-footer]</code></td>
+              <td>Fixed footer area at the bottom of the sidebar</td>
+            </tr>
+            <tr>
+              <td>(default)</td>
+              <td>Scrollable content area in the middle</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <coar-code-block [code]="collapsedExample" language="html" />
-    </section>
-
-    <!-- Custom Content -->
-    <section class="example-section">
-      <h2 class="coar-subheading">Custom Content</h2>
-      <p class="section-intro coar-body">The sidebar can contain any content, not just menus. Here's an example with form controls.</p>
-      <div class="example-demo">
-        <div class="sidebar-demo-container">
-          <coar-sidebar>
-            <div coar-sidebar-header>
-              <h3 class="coar-subheading">Filters</h3>
-            </div>
-
-            <div style="padding: 8px; display: flex; flex-direction: column; gap: 8px">
-              <label class="coar-body-small" style="display: flex; align-items: center; gap: 8px"> <input type="checkbox" /> Option 1 </label>
-              <label class="coar-body-small" style="display: flex; align-items: center; gap: 8px"> <input type="checkbox" /> Option 2 </label>
-              <label class="coar-body-small" style="display: flex; align-items: center; gap: 8px"> <input type="checkbox" /> Option 3 </label>
-            </div>
-
-            <div coar-sidebar-footer>
-              <coar-button variant="primary" size="sm">Apply Filters</coar-button>
-            </div>
-          </coar-sidebar>
-        </div>
-      </div>
-      <coar-code-block [code]="customContentExample" language="html" />
-    </section>
+    </details>
   </div>
-</ng-template>
+</div>

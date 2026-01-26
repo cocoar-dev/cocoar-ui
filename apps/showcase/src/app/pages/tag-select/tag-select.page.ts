@@ -1,15 +1,11 @@
 import { Component, signal } from '@angular/core';
 import {
+  CoarCardComponent,
   CoarCodeBlockComponent,
-  CoarDividerComponent,
   CoarNoteComponent,
-  CoarTabComponent,
-  CoarTabGroupComponent,
   CoarTagSelectComponent,
   type CoarSelectOption,
 } from '@cocoar/ui-components';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-tag-select',
@@ -17,22 +13,13 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   imports: [
     CoarTagSelectComponent,
     CoarCodeBlockComponent,
-    CoarDividerComponent,
     CoarNoteComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
+    CoarCardComponent,
   ],
   templateUrl: './tag-select.page.html',
   styleUrl: './tag-select.page.css',
 })
 export class TagSelectPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  activeTab = 'examples';
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-tag-select.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-tag-select.api.md';
-
   tags = signal<string[]>([]);
   tagsWithValue = signal<string[]>(['Angular', 'TypeScript']);
   createdTags = signal<string[]>(['Angular', 'TypeScript', 'RxJS', 'CSS']);

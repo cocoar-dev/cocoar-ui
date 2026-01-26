@@ -11,7 +11,10 @@
       "Bash(pnpm nx test:*)",
       "WebSearch",
       "Bash(pnpm nx show project:*)",
-      "Bash(git mv:*)"
+      "Bash(git mv:*)",
+      "mcp__chrome-devtools__new_page",
+      "mcp__chrome-devtools__hover",
+      "mcp__chrome-devtools__evaluate_script"
     ]
   }
 }

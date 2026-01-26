@@ -1,83 +1,105 @@
 <div class="component-page">
   <header class="page-header">
-    <h1>Data Grid</h1>
-    <p class="description">
+    <h1 class="coar-title">Data Grid</h1>
+    <p class="page-description">
       A powerful data grid powered by AG Grid with Cocoar theme integration and a fluent builder API.
     </p>
   </header>
 
-  <coar-tab-group [(activeTab)]="activeTab">
-    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }">API</coar-tab>
-    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }">Docs</coar-tab>
-  </coar-tab-group>
-</div>
-
-<ng-template #examplesTemplate>
   <div class="examples-content">
-    <!-- Basic Usage -->
-    <section class="example-section">
-      <h2>Basic Usage</h2>
-      <p class="section-intro">
-        Use <code>CoarGridBuilder</code> to define columns and data with a fluent API.
-      </p>
-
-      <div class="example-preview">
-        <ag-grid-angular
-          class="ag-theme-cocoar"
-          [coarDataGrid]="basicGrid"
-          style="height: 400px; width: 100%;"
-        />
-      </div>
-
-      <coar-code-block [code]="basicCode" language="typescript" [collapsed]="true" />
-      <coar-code-block [code]="basicHtml" language="html" [collapsed]="true" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Row Selection -->
-    <section class="example-section">
-      <h2>Row Selection</h2>
-      <p class="section-intro">
-        Enable single or multiple row selection with click handlers.
-      </p>
-
-      <div class="example-preview">
-        <ag-grid-angular
-          class="ag-theme-cocoar"
-          [coarDataGrid]="selectionGrid"
-          style="height: 300px; width: 100%;"
-        />
-      </div>
-
-      @if (selectedUser) {
-        <div class="selected-info">
-          Selected: <strong>{{ selectedUser.name }}</strong> ({{ selectedUser.email }})
+    <!-- ============================================ -->
+    <!-- BASIC EXAMPLES -->
+    <!-- ============================================ -->
+    <div class="examples-grid">
+      <coar-card [elevated]="true" class="grid-card">
+        <h3>Basic Usage</h3>
+        <p class="example-description">Use <code>CoarGridBuilder</code> to define columns and data with a fluent API.</p>
+        <div class="example-preview">
+          <ag-grid-angular
+            class="ag-theme-cocoar"
+            [coarDataGrid]="basicGrid"
+            style="height: 400px; width: 100%;"
+          />
         </div>
-      }
+        <coar-code-block [code]="basicCode" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block [code]="basicHtml" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
 
-      <coar-code-block [code]="selectionCode" language="typescript" [collapsed]="true" />
-    </section>
+    <!-- ============================================ -->
+    <!-- ROW SELECTION & STYLING -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Row Selection & Styling</h2>
+    <p class="component-section-description">Enable row selection and apply conditional styling to rows and cells.</p>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+    <div class="examples-grid">
+      <coar-card [elevated]="true" class="grid-card">
+        <h3>Row Selection</h3>
+        <p class="example-description">Enable single or multiple row selection with click handlers.</p>
+        <div class="example-preview">
+          <ag-grid-angular
+            class="ag-theme-cocoar"
+            [coarDataGrid]="selectionGrid"
+            style="height: 300px; width: 100%;"
+          />
+        </div>
+        @if (selectedUser) {
+          <div class="selected-info">
+            Selected: <strong>{{ selectedUser.name }}</strong> ({{ selectedUser.email }})
+          </div>
+        }
+        <coar-code-block [code]="selectionCode" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <!-- Conditional Styling -->
-    <section class="example-section">
-      <h2>Conditional Styling</h2>
-      <p class="section-intro">
-        Apply dynamic styles to rows and cells based on data.
-      </p>
+      <coar-card [elevated]="true" class="grid-card">
+        <h3>Conditional Styling</h3>
+        <p class="example-description">Apply dynamic styles to rows and cells based on data.</p>
+        <div class="example-preview styled-grid">
+          <ag-grid-angular
+            class="ag-theme-cocoar"
+            [coarDataGrid]="styledGrid"
+            style="height: 300px; width: 100%;"
+          />
+        </div>
+        <coar-code-block [code]="styledCode" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block [code]="styledCss" language="css" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
 
-      <div class="example-preview styled-grid">
-        <ag-grid-angular
-          [coarDataGrid]="styledGrid"
-          style="height: 300px; width: 100%;"
-        />
+    <!-- ============================================ -->
+    <!-- API SECTION -->
+    <!-- ============================================ -->
+    <details class="api-section">
+      <summary>Data Grid API</summary>
+      <div class="api-content">
+        <h4>CoarGridBuilder Methods</h4>
+        <table class="api-table">
+          <thead>
+            <tr><th>Method</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>columns()</code></td><td>Define column configurations using column builder functions</td></tr>
+            <tr><td><code>rowData()</code></td><td>Set the data array to display in the grid</td></tr>
+            <tr><td><code>rowId()</code></td><td>Define how to extract unique row IDs</td></tr>
+            <tr><td><code>rowSelection()</code></td><td>Enable 'single' or 'multiple' row selection</td></tr>
+            <tr><td><code>rowClassRules()</code></td><td>Apply CSS classes conditionally to rows</td></tr>
+            <tr><td><code>onRowClicked()</code></td><td>Handle row click events</td></tr>
+          </tbody>
+        </table>
+        <h4>Column Builder Methods</h4>
+        <table class="api-table">
+          <thead>
+            <tr><th>Method</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><code>field()</code></td><td>Set the data field name</td></tr>
+            <tr><td><code>header()</code></td><td>Set the column header text</td></tr>
+            <tr><td><code>width() / flex()</code></td><td>Set fixed width or flex sizing</td></tr>
+            <tr><td><code>sortable()</code></td><td>Enable column sorting</td></tr>
+            <tr><td><code>cellClass()</code></td><td>Apply CSS classes to cells</td></tr>
+          </tbody>
+        </table>
       </div>
-
-      <coar-code-block [code]="styledCode" language="typescript" [collapsed]="true" />
-      <coar-code-block [code]="styledCss" language="css" [collapsed]="true" />
-    </section>
+    </details>
   </div>
-</ng-template>
+</div>

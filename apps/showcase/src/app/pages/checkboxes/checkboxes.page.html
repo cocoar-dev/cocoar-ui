@@ -1,86 +1,42 @@
 <div class="component-page">
   <header class="page-header">
     <h1 class="coar-title">Checkbox</h1>
-    <p class="description coar-body">
+    <p class="page-description">
       A checkbox component with three states: checked, unchecked, and indeterminate. Supports labels, hints, errors, and size variants.
     </p>
   </header>
 
-  <coar-tab-group [(activeTab)]="activeTab">
-    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
-    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
-  </coar-tab-group>
-</div>
-
-<ng-template #examplesTemplate>
   <div class="examples-content">
-    <!-- Basic Checkbox -->
-    <section class="example-section">
-      <h2 class="coar-heading">Basic Checkbox</h2>
-      <p class="section-intro coar-body-small">
-        A simple checkbox with a label. Starts as undefined (pristine), becomes 'checked' or 'unchecked' after first click.
-      </p>
-      <div class="example-demo">
-        <div class="example-preview">
+    <!-- ============================================ -->
+    <!-- BASIC EXAMPLES -->
+    <!-- ============================================ -->
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Basic Checkbox</h3>
+        <p class="example-description">
+          A simple checkbox with a label. Starts as undefined (pristine), becomes 'checked' or 'unchecked' after first click.
+        </p>
+        <div class="example-demo">
           <coar-checkbox label="I agree to the terms" [checked]="basicChecked()" (checkedChange)="basicChecked.set($event)" />
         </div>
-        <div class="value-display coar-body-small">
-          State: <code>{{ basicChecked() === undefined ? 'undefined (pristine)' : "'" + basicChecked() + "'" }}</code>
-        </div>
-      </div>
-      <coar-code-block [code]="codeExamples.basic" language="html" [collapsed]="true" />
-    </section>
+        <p class="demo-value">State: {{ basicChecked() === undefined ? 'undefined (pristine)' : "'" + basicChecked() + "'" }}</p>
+        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Pre-checked -->
-    <section class="example-section">
-      <h2 class="coar-heading">Pre-checked</h2>
-      <p class="section-intro coar-body-small">A checkbox that starts in checked state.</p>
-      <div class="example-demo">
-        <div class="example-preview">
+      <coar-card color="outlined">
+        <h3>Pre-checked</h3>
+        <p class="example-description">A checkbox that starts in checked state.</p>
+        <div class="example-demo">
           <coar-checkbox label="Subscribe to newsletter" [checked]="newsletterChecked()" (checkedChange)="newsletterChecked.set($event)" />
         </div>
-        <div class="value-display coar-body-small">
-          State: <code>'{{ newsletterChecked() }}'</code>
-        </div>
-      </div>
-      <coar-code-block [code]="codeExamples.checked" language="html" [collapsed]="true" />
-    </section>
+        <p class="demo-value">State: '{{ newsletterChecked() }}'</p>
+        <coar-code-block [code]="codeExamples.checked" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Indeterminate State -->
-    <section class="example-section">
-      <h2 class="coar-heading">Indeterminate State</h2>
-      <p class="section-intro coar-body-small">
-        Parent checkbox shows 'indeterminate' when some children are selected. The state is computed from children.
-      </p>
-      <div class="example-demo">
-        <div class="example-preview checkbox-group">
-          <coar-checkbox label="Select all fruits" [checked]="parentCheckboxState()" (checkedChange)="toggleAllFruits($event)" />
-          <div class="checkbox-group-children">
-            @for (fruit of fruits; track fruit) {
-            <coar-checkbox [label]="fruit | titlecase" [checked]="getFruitState(fruit)" (checkedChange)="toggleFruit(fruit, $event)" />
-            }
-          </div>
-        </div>
-        <div class="value-display coar-body-small">
-          Parent state: <code>'{{ parentCheckboxState() }}'</code> — Selected: <code>{{ selectedFruits().join(', ') || '(none)' }}</code>
-        </div>
-      </div>
-      <coar-code-block [code]="codeExamples.indeterminate" language="typescript" [collapsed]="true" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Required -->
-    <section class="example-section">
-      <h2 class="coar-heading">Required Field</h2>
-      <p class="section-intro coar-body-small">Required checkboxes show an asterisk next to the label.</p>
-      <div class="example-demo">
-        <div class="example-preview">
+      <coar-card color="outlined">
+        <h3>Required Field</h3>
+        <p class="example-description">Required checkboxes show an asterisk next to the label.</p>
+        <div class="example-demo">
           <coar-checkbox
             label="Accept terms and conditions"
             [required]="true"
@@ -88,18 +44,13 @@
             (checkedChange)="termsChecked.set($event)"
           />
         </div>
-      </div>
-      <coar-code-block [code]="codeExamples.required" language="html" [collapsed]="true" />
-    </section>
+        <coar-code-block [code]="codeExamples.required" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Error State -->
-    <section class="example-section">
-      <h2 class="coar-heading">Error State</h2>
-      <p class="section-intro coar-body-small">Display validation errors below the checkbox.</p>
-      <div class="example-demo">
-        <div class="example-preview">
+      <coar-card color="outlined">
+        <h3>Error State</h3>
+        <p class="example-description">Display validation errors below the checkbox.</p>
+        <div class="example-demo">
           <coar-checkbox
             label="Accept terms and conditions"
             [required]="true"
@@ -108,21 +59,14 @@
             error="You must accept the terms to continue"
           />
         </div>
-        <div class="value-display coar-body-small">
-          State: <code>{{ errorChecked() === undefined ? 'undefined' : "'" + errorChecked() + "'" }}</code>
-        </div>
-      </div>
-      <coar-code-block [code]="codeExamples.error" language="html" [collapsed]="true" />
-    </section>
+        <p class="demo-value">State: {{ errorChecked() === undefined ? 'undefined' : "'" + errorChecked() + "'" }}</p>
+        <coar-code-block [code]="codeExamples.error" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Hint Text -->
-    <section class="example-section">
-      <h2 class="coar-heading">With Hint</h2>
-      <p class="section-intro coar-body-small">Add helper text below the checkbox.</p>
-      <div class="example-demo">
-        <div class="example-preview">
+      <coar-card color="outlined">
+        <h3>With Hint</h3>
+        <p class="example-description">Add helper text below the checkbox.</p>
+        <div class="example-demo">
           <coar-checkbox
             label="Send me product updates"
             [checked]="hintChecked()"
@@ -130,94 +74,146 @@
             hint="We'll only send relevant information, no spam"
           />
         </div>
-        <div class="value-display coar-body-small">
-          State: <code>{{ hintChecked() === undefined ? 'undefined' : "'" + hintChecked() + "'" }}</code>
-        </div>
-      </div>
-      <coar-code-block [code]="codeExamples.hint" language="html" [collapsed]="true" />
-    </section>
+        <coar-code-block [code]="codeExamples.hint" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Disabled -->
-    <section class="example-section">
-      <h2 class="coar-heading">Disabled</h2>
-      <p class="section-intro coar-body-small">Disabled checkboxes cannot be interacted with and appear greyed out.</p>
-      <div class="example-demo">
-        <div class="checkbox-row">
+      <coar-card color="outlined">
+        <h3>Disabled & Readonly</h3>
+        <p class="example-description">Disabled checkboxes are greyed out. Readonly ones look normal but can't be changed.</p>
+        <div class="example-demo checkbox-row">
           <coar-checkbox label="Disabled unchecked" [disabled]="true" checked="unchecked" />
           <coar-checkbox label="Disabled checked" [disabled]="true" checked="checked" />
         </div>
-      </div>
-      <coar-code-block [code]="codeExamples.disabled" language="html" [collapsed]="true" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Readonly -->
-    <section class="example-section">
-      <h2 class="coar-heading">Readonly</h2>
-      <p class="section-intro coar-body-small">Readonly checkboxes look normal but cannot be changed. Unlike disabled, they remain focusable.</p>
-      <div class="example-demo">
-        <div class="checkbox-row">
+        <div class="example-demo checkbox-row">
           <coar-checkbox label="Readonly unchecked" [readonly]="true" checked="unchecked" />
           <coar-checkbox label="Readonly checked" [readonly]="true" checked="checked" />
         </div>
-      </div>
-      <coar-code-block [code]="codeExamples.readonly" language="html" [collapsed]="true" />
-    </section>
+        <coar-code-block [code]="codeExamples.disabled" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+    <!-- ============================================ -->
+    <!-- INDETERMINATE SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Indeterminate State</h2>
+    <p class="component-section-description">
+      Parent checkbox shows 'indeterminate' when some children are selected. The state is computed from children.
+    </p>
 
-    <!-- Sizes -->
-    <section class="example-section">
-      <h2 class="coar-heading">Sizes</h2>
-      <p class="section-intro coar-body-small">Checkboxes come in four sizes matching other form components (inputs, buttons).</p>
-      <div class="example-demo">
-        <div class="sizes-column">
-          <div class="size-row">
-            <coar-checkbox size="xs" label="Extra small (27px height)" [checked]="sizeXsChecked()" (checkedChange)="sizeXsChecked.set($event)" />
-          </div>
-          <div class="size-row">
-            <coar-checkbox size="sm" label="Small (32px height)" [checked]="sizeSmChecked()" (checkedChange)="sizeSmChecked.set($event)" />
-          </div>
-          <div class="size-row">
-            <coar-checkbox size="md" label="Medium (40px height) - default" [checked]="sizeMdChecked()" (checkedChange)="sizeMdChecked.set($event)" />
-          </div>
-          <div class="size-row">
-            <coar-checkbox size="lg" label="Large (48px height)" [checked]="sizeLgChecked()" (checkedChange)="sizeLgChecked.set($event)" />
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Parent-Child Selection</h3>
+        <p class="example-description">Click "Select all" to toggle all fruits. Individual clicks update the parent state.</p>
+        <div class="example-demo checkbox-group">
+          <coar-checkbox label="Select all fruits" [checked]="parentCheckboxState()" (checkedChange)="toggleAllFruits($event)" />
+          <div class="checkbox-group-children">
+            @for (fruit of fruits; track fruit) {
+              <coar-checkbox [label]="fruit | titlecase" [checked]="getFruitState(fruit)" (checkedChange)="toggleFruit(fruit, $event)" />
+            }
           </div>
         </div>
-      </div>
-      <coar-code-block [code]="codeExamples.sizes" language="html" [collapsed]="true" />
-    </section>
+        <p class="demo-value">Parent: '{{ parentCheckboxState() }}' — Selected: {{ selectedFruits().join(', ') || '(none)' }}</p>
+        <coar-code-block [code]="codeExamples.indeterminate" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+      <coar-card color="outlined">
+        <h3>Sizes</h3>
+        <p class="example-description">Checkboxes come in four sizes matching other form components.</p>
+        <div class="example-demo sizes-column">
+          <coar-checkbox size="xs" label="Extra small (27px height)" [checked]="sizeXsChecked()" (checkedChange)="sizeXsChecked.set($event)" />
+          <coar-checkbox size="sm" label="Small (32px height)" [checked]="sizeSmChecked()" (checkedChange)="sizeSmChecked.set($event)" />
+          <coar-checkbox size="md" label="Medium (40px height) - default" [checked]="sizeMdChecked()" (checkedChange)="sizeMdChecked.set($event)" />
+          <coar-checkbox size="lg" label="Large (48px height)" [checked]="sizeLgChecked()" (checkedChange)="sizeLgChecked.set($event)" />
+        </div>
+        <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
 
-    <!-- All States -->
-    <section class="example-section">
-      <h2 class="coar-heading">All States</h2>
-      <p class="section-intro coar-body-small">Overview of all checkbox states.</p>
-      <div class="states-grid">
-        <coar-card padding="md">
-          <coar-checkbox label="Unchecked" [readonly]="true" checked="unchecked" />
-        </coar-card>
-        <coar-card padding="md">
-          <coar-checkbox label="Checked" [readonly]="true" checked="checked" />
-        </coar-card>
-        <coar-card padding="md">
-          <coar-checkbox label="Indeterminate" [readonly]="true" checked="indeterminate" />
-        </coar-card>
-        <coar-card padding="md">
-          <coar-checkbox label="Disabled" [disabled]="true" checked="unchecked" />
-        </coar-card>
-        <coar-card padding="md">
-          <coar-checkbox label="Disabled checked" [disabled]="true" checked="checked" />
-        </coar-card>
-        <coar-card padding="md">
-          <coar-checkbox label="Error state" [readonly]="true" checked="unchecked" error="Required" />
-        </coar-card>
+    <!-- ============================================ -->
+    <!-- API SECTION -->
+    <!-- ============================================ -->
+    <details class="api-section">
+      <summary>Checkbox API</summary>
+      <div class="api-content">
+        <h4>Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>checked</code></td>
+              <td><code>CoarCheckboxState | undefined</code></td>
+              <td><code>undefined</code></td>
+              <td>Checkbox state: 'checked', 'unchecked', 'indeterminate', or undefined (pristine)</td>
+            </tr>
+            <tr>
+              <td><code>label</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Label text displayed next to the checkbox</td>
+            </tr>
+            <tr>
+              <td><code>hint</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Hint text below the checkbox</td>
+            </tr>
+            <tr>
+              <td><code>error</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Error message to display</td>
+            </tr>
+            <tr>
+              <td><code>size</code></td>
+              <td><code>'xs' | 'sm' | 'md' | 'lg'</code></td>
+              <td><code>'md'</code></td>
+              <td>Checkbox size</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Disable the checkbox</td>
+            </tr>
+            <tr>
+              <td><code>readonly</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Make the checkbox read-only</td>
+            </tr>
+            <tr>
+              <td><code>required</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Mark as required (shows asterisk)</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Outputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>checkedChange</code></td>
+              <td><code>CoarCheckboxState</code></td>
+              <td>Emits when the checked state changes</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </section>
+    </details>
   </div>
-</ng-template>
+</div>

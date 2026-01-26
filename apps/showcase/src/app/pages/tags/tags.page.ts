@@ -4,13 +4,8 @@ import {
   CoarTagComponent,
   CoarCardComponent,
   CoarCodeBlockComponent,
-  CoarDividerComponent,
-  CoarTabGroupComponent,
-  CoarTabComponent,
 } from '@cocoar/ui-components';
 import type { TagColor, TagSize } from '@cocoar/ui-components';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-tags',
@@ -20,20 +15,11 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarTagComponent,
     CoarCardComponent,
     CoarCodeBlockComponent,
-    CoarDividerComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
   ],
   templateUrl: './tags.page.html',
   styleUrl: './tags.page.css',
 })
 export class TagsPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  activeTab = 'examples';
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-tag.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-tag.api.md';
 
   /** Tag color variants */
   colors: TagColor[] = ['neutral', 'success', 'warning', 'error', 'info', 'accent'];

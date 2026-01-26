@@ -2,15 +2,11 @@ import { Component, signal } from '@angular/core';
 import {
   CoarButtonComponent,
   CoarCodeBlockComponent,
-  CoarDividerComponent,
   CoarNoteComponent,
   CoarPopoverComponent,
-  CoarTabComponent,
-  CoarTabGroupComponent,
   CoarTooltipDirective,
+  CoarCardComponent,
 } from '@cocoar/ui-components';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-tooltip',
@@ -20,21 +16,13 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
     CoarPopoverComponent,
     CoarButtonComponent,
     CoarCodeBlockComponent,
-    CoarDividerComponent,
     CoarNoteComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
+    CoarCardComponent,
   ],
   templateUrl: './tooltip.page.html',
   styleUrl: './tooltip.page.css',
 })
 export class TooltipPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  activeTab = 'examples';
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-tooltip.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-tooltip.api.md';
 
   protected readonly clicksThroughOverlay = signal(0);
 

@@ -6,125 +6,241 @@
     </p>
   </header>
 
-  <coar-tab-group [(activeTab)]="activeTab">
-    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
-    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
-  </coar-tab-group>
-</div>
-
-<ng-template #examplesTemplate>
   <div class="examples-content">
-    <section class="example-section">
-      <h3>Connected overlay (element anchor)</h3>
-      <p>Defines a template overlay and opens it anchored to an element.</p>
-
-      <div class="example-demo example-demo--row">
-        <span #connectedOrigin>
-          <coar-button variant="ghost" size="sm" (clicked)="openConnected()"> Open connected overlay </coar-button>
-        </span>
-
-        <coar-button variant="ghost" size="sm" (clicked)="close()" [disabled]="!isOpen()"> Close </coar-button>
-      </div>
-
-      <coar-code-block [code]="codeExamples.defineTemplate" language="ts" [showLineNumbers]="false" />
-      <coar-code-block [code]="codeExamples.openConnected" language="ts" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <section class="example-section">
-      <h3>Context menu (point anchor)</h3>
-      <p>Right-click inside the box to open an overlay at pointer coordinates.</p>
-
-      <div class="example-demo">
-        <div class="context-area" (contextmenu)="onContextMenu($event)">
-          Right-click me @if (lastContextMenuPosition(); as p) {
-          <div class="coar-caption context-hint">Last: {{ p.x }}, {{ p.y }}</div>
-          }
-        </div>
-      </div>
-
-      <coar-code-block [code]="codeExamples.openAtPoint" language="ts" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <section class="example-section">
-      <h3>Global center (modal-like)</h3>
-      <p>Centers the overlay in the viewport.</p>
-
-      <div class="example-demo example-demo--row">
-        <coar-button variant="ghost" size="sm" (clicked)="openCentered()">Open centered overlay</coar-button>
-        <coar-button variant="ghost" size="sm" (clicked)="close()" [disabled]="!isOpen()">Close</coar-button>
-      </div>
-
-      <coar-code-block [code]="codeExamples.globalCenter" language="ts" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <section class="example-section">
-      <h3>resolveSpec via DI (global policy)</h3>
-      <p>This page registers a DI resolver that defaults menu overlays to close-on-scroll when no scroll strategy is set.</p>
-
-      <div class="example-demo example-demo--row">
-        <span #resolvedMenuOrigin>
-          <coar-button variant="ghost" size="sm" (clicked)="openResolvedMenu()"> Open resolved menu </coar-button>
-        </span>
-        <coar-button variant="ghost" size="sm" (clicked)="close()" [disabled]="!isOpen()">Close</coar-button>
-      </div>
-
-      <coar-code-block [code]="codeExamples.resolveViaDi" language="ts" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <section class="example-section">
-      <h3>Parent-attached overlay (container boundaries)</h3>
-      <p>Overlay attached to a specific parent container instead of body. Clamp/fallback use container boundaries.</p>
-
-      <div class="example-demo">
-        <div #containerBox class="container-box">
-          <span #containerTrigger>
-            <coar-button variant="ghost" size="sm" (clicked)="openParentAttached()"> Open in container </coar-button>
+    <!-- ============================================ -->
+    <!-- BASIC ANCHOR TYPES -->
+    <!-- ============================================ -->
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Connected Overlay (Element)</h3>
+        <p class="example-description">Defines a template overlay and opens it anchored to an element.</p>
+        <div class="example-demo example-demo--row">
+          <span #connectedOrigin>
+            <coar-button variant="ghost" size="sm" (clicked)="openConnected()">Open connected overlay</coar-button>
           </span>
+          <coar-button variant="ghost" size="sm" (clicked)="close()" [disabled]="!isOpen()">Close</coar-button>
         </div>
-      </div>
+        <coar-code-block [code]="codeExamples.defineTemplate" language="ts" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block [code]="codeExamples.openConnected" language="ts" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-      <coar-code-block [code]="codeExamples.parentAttached" language="ts" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <section class="example-section">
-      <h3>Nested Overlays with Sibling Closure</h3>
-      <p>
-        Test parent-child overlay hierarchy with sibling closure. Click buttons to open child overlays. Opening a sibling should close the previous
-        one.
-      </p>
-
-      <div class="example-demo example-demo--column">
-        <coar-button variant="primary" size="sm" (clicked)="openNestedTest()"> Open Parent Overlay </coar-button>
-        <div class="coar-caption" style="color: var(--coar-text-neutral-secondary); margin-top: 8px">
-          Inside parent: Click Child A/B/C buttons → only one child open at a time<br />
-          Inside child: Click Grandchild buttons → only one grandchild open at a time
+      <coar-card color="outlined">
+        <h3>Context Menu (Point)</h3>
+        <p class="example-description">Right-click inside the box to open an overlay at pointer coordinates.</p>
+        <div class="example-demo">
+          <div class="context-area" (contextmenu)="onContextMenu($event)">
+            Right-click me
+            @if (lastContextMenuPosition(); as p) {
+              <div class="coar-caption context-hint">Last: {{ p.x }}, {{ p.y }}</div>
+            }
+          </div>
         </div>
-      </div>
-    </section>
+        <coar-code-block [code]="codeExamples.openAtPoint" language="ts" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <section>
-      <h3>Hover-Based Nested Overlays (Menu-like)</h3>
-      <p>Same test but with HOVER instead of click. Hover over items to open submenus. Only one sibling should be open at a time.</p>
-      <div style="display: flex; gap: var(--coar-spacing-sm); align-items: center">
-        <coar-button variant="primary" size="sm" (clicked)="openHoverTest()"> Open Hover Parent </coar-button>
-        <div class="coar-caption" style="color: var(--coar-text-neutral-secondary); margin-top: 8px">
-          HOVER over items to open submenus → behaves like real menu system
+      <coar-card color="outlined">
+        <h3>Global Center (Modal)</h3>
+        <p class="example-description">Centers the overlay in the viewport with a modal backdrop.</p>
+        <div class="example-demo example-demo--row">
+          <coar-button variant="ghost" size="sm" (clicked)="openCentered()">Open centered overlay</coar-button>
+          <coar-button variant="ghost" size="sm" (clicked)="close()" [disabled]="!isOpen()">Close</coar-button>
         </div>
+        <coar-code-block [code]="codeExamples.globalCenter" language="ts" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Parent-Attached (Container)</h3>
+        <p class="example-description">Overlay attached to a specific parent container instead of body. Clamp/fallback use container boundaries.</p>
+        <div class="example-demo">
+          <div #containerBox class="container-box">
+            <span #containerTrigger>
+              <coar-button variant="ghost" size="sm" (clicked)="openParentAttached()">Open in container</coar-button>
+            </span>
+          </div>
+        </div>
+        <coar-code-block [code]="codeExamples.parentAttached" language="ts" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- ADVANCED PATTERNS -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Advanced Patterns</h2>
+    <p class="component-section-description">DI resolution, nested overlays, and hover-based menus.</p>
+
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>ResolveSpec via DI</h3>
+        <p class="example-description">Register a DI resolver that defaults menu overlays to close-on-scroll when no scroll strategy is set.</p>
+        <div class="example-demo example-demo--row">
+          <span #resolvedMenuOrigin>
+            <coar-button variant="ghost" size="sm" (clicked)="openResolvedMenu()">Open resolved menu</coar-button>
+          </span>
+          <coar-button variant="ghost" size="sm" (clicked)="close()" [disabled]="!isOpen()">Close</coar-button>
+        </div>
+        <coar-code-block [code]="codeExamples.resolveViaDi" language="ts" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Nested Overlays (Click)</h3>
+        <p class="example-description">Test parent-child overlay hierarchy with sibling closure. Opening a sibling should close the previous one.</p>
+        <div class="example-demo example-demo--column">
+          <coar-button variant="primary" size="sm" (clicked)="openNestedTest()">Open Parent Overlay</coar-button>
+          <div class="coar-caption" style="color: var(--coar-text-neutral-secondary); margin-top: 8px">
+            Inside parent: Click Child A/B/C buttons. Only one child open at a time.<br />
+            Inside child: Click Grandchild buttons. Only one grandchild open at a time.
+          </div>
+        </div>
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Nested Overlays (Hover)</h3>
+        <p class="example-description">
+          Same test but with HOVER instead of click. Hover over items to open submenus. Behaves like real menu system.
+        </p>
+        <div class="example-demo example-demo--row">
+          <coar-button variant="primary" size="sm" (clicked)="openHoverTest()">Open Hover Parent</coar-button>
+        </div>
+        <coar-code-block [code]="codeExamples.submenu" language="ts" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- API SECTION -->
+    <!-- ============================================ -->
+    <details class="api-section">
+      <summary>Overlay API</summary>
+      <div class="api-content">
+        <h4>OverlayBuilder Methods</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>withPreset(preset)</code></td>
+              <td>Apply a preset configuration (coarMenuPreset, coarModalPreset, etc.)</td>
+            </tr>
+            <tr>
+              <td>
+                <code>anchor({{ '{' }} kind, ... {{ '}' }})</code>
+              </td>
+              <td>Set anchor: 'element', 'point', or 'virtual'</td>
+            </tr>
+            <tr>
+              <td>
+                <code>position({{ '{' }} placement, offset, flip, shift {{ '}' }})</code>
+              </td>
+              <td>Configure positioning behavior</td>
+            </tr>
+            <tr>
+              <td>
+                <code>backdrop({{ '{' }} kind, closeOnBackdropClick {{ '}' }})</code>
+              </td>
+              <td>Add backdrop: 'none', 'transparent', or 'modal'</td>
+            </tr>
+            <tr>
+              <td>
+                <code>dismiss({{ '{' }} outsideClick, escapeKey {{ '}' }})</code>
+              </td>
+              <td>Configure dismiss behavior</td>
+            </tr>
+            <tr>
+              <td>
+                <code>attachment({{ '{' }} strategy, container {{ '}' }})</code>
+              </td>
+              <td>Attach to 'body' or 'parent' container</td>
+            </tr>
+            <tr>
+              <td>
+                <code>scroll({{ '{' }} strategy {{ '}' }})</code>
+              </td>
+              <td>Set scroll strategy: 'reposition', 'close', or 'noop'</td>
+            </tr>
+            <tr>
+              <td>
+                <code>a11y({{ '{' }} role, label {{ '}' }})</code>
+              </td>
+              <td>Set accessibility attributes</td>
+            </tr>
+            <tr>
+              <td><code>fromTemplate(template)</code></td>
+              <td>Use TemplateRef as content</td>
+            </tr>
+            <tr>
+              <td><code>fromComponent(component)</code></td>
+              <td>Use Component as content</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>OverlayOpener Methods</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>open(context)</code></td>
+              <td>Open as root overlay, returns OverlayRef</td>
+            </tr>
+            <tr>
+              <td><code>openAsChild(parent, context, options)</code></td>
+              <td>Open as child of parent overlay</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>OverlayRef Methods</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>close()</code></td>
+              <td>Close the overlay (and all children)</td>
+            </tr>
+            <tr>
+              <td><code>updatePosition()</code></td>
+              <td>Recalculate position</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Available Presets</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Preset</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>coarMenuPreset</code></td>
+              <td>Click-based menu with outside click dismiss</td>
+            </tr>
+            <tr>
+              <td><code>coarHoverMenuPreset</code></td>
+              <td>Hover-based menu for submenus</td>
+            </tr>
+            <tr>
+              <td><code>coarModalPreset</code></td>
+              <td>Centered modal with backdrop and focus trap</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </section>
+    </details>
   </div>
-</ng-template>
+</div>
 
 <!-- ============================
      Overlay content templates

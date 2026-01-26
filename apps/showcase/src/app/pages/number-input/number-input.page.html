@@ -7,145 +7,117 @@
     </p>
   </header>
 
-  <coar-tab-group [(activeTab)]="activeTab">
-    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
-    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
-  </coar-tab-group>
-</div>
-
-<ng-template #examplesTemplate>
   <div class="examples-content">
-    <!-- Basic -->
-    <section class="example-section">
-      <h3>Basic Usage</h3>
-      <p>Simple number input with increment/decrement buttons using attribute pattern.</p>
-      <div class="example-row">
-        <coar-number-input stepperButtons label="Quantity" placeholder="Enter amount" [value]="basicValue()" (valueChange)="basicValue.set($event)" />
-      </div>
-      <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <!-- Min/Max -->
-    <section class="example-section">
-      <h3>Min & Max Constraints</h3>
-      <p>Limit the value range. Buttons disable at boundaries.</p>
-      <div class="example-row">
-        <coar-number-input
-          stepperButtons
-          label="Quantity"
-          [min]="1"
-          [max]="99"
-          [value]="quantityValue()"
-          (valueChange)="quantityValue.set($event)"
-          hint="Between 1 and 99"
-        />
-      </div>
-      <coar-code-block [code]="codeExamples.minMax" language="html" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <!-- Step -->
-    <section class="example-section">
-      <h3>Step Increments</h3>
-      <p>Control increment size with the step property.</p>
-      <div class="example-row example-row--three-col">
-        <coar-number-input stepperButtons label="Step: 1" [step]="1" [value]="10" hint="Default" />
-        <coar-number-input stepperButtons label="Step: 0.5" [step]="0.5" [decimals]="1" [value]="5.5" hint="Half steps" />
-        <coar-number-input stepperButtons label="Step: 10" [step]="10" [value]="100" hint="Tens" />
-      </div>
-      <coar-code-block [code]="codeExamples.step" language="html" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <!-- Decimals -->
-    <section class="example-section">
-      <h3>Decimal Precision</h3>
-      <p>Control decimal places for currency, percentages, etc.</p>
-      <div class="example-row">
-        <coar-number-input
-          stepperButtons
-          label="Price"
-          [decimals]="2"
-          [step]="0.01"
-          suffix="EUR"
-          [value]="priceValue()"
-          (valueChange)="priceValue.set($event)"
-        />
-      </div>
-      <coar-code-block [code]="codeExamples.decimals" language="html" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <!-- Form Simulation -->
-    <section class="example-section">
-      <h3>Form Simulation (Without ControlValueAccessor)</h3>
-      <p>Simulate programmatic value control like Angular Forms would do. Enter a number to update both locale fields below.</p>
-      <div style="margin-bottom: 24px; padding: 16px; background: var(--coar-background-neutral-secondary); border-radius: 8px">
-        <label
-          for="form-simulation-input"
-          style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 500; color: var(--coar-text-neutral-primary)"
-        >
-          Enter numeric value:
-        </label>
-        <input
-          id="form-simulation-input"
-          type="text"
-          (input)="onFormSimulationInput($event)"
-          placeholder="Enter a number (e.g., 1234.56)"
-          style="
-            width: 100%;
-            padding: 10px;
-            font-size: 14px;
-            border: 1px solid var(--coar-border-neutral-primary);
-            border-radius: 4px;
-            background: var(--coar-background-neutral-primary);
-            color: var(--coar-text-neutral-primary);
-          "
-        />
-        <div style="margin-top: 8px; font-size: 13px; color: var(--coar-text-neutral-secondary)">
-          This simulates how a form control would set the value programmatically.
-        </div>
-      </div>
-      <div class="example-row example-row--two-col">
-        <div>
+    <!-- ============================================ -->
+    <!-- BASIC EXAMPLES -->
+    <!-- ============================================ -->
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Basic Usage</h3>
+        <p class="example-description">Simple number input with increment/decrement buttons.</p>
+        <div class="example-demo">
           <coar-number-input
-            label="German Format"
+            stepperButtons
+            label="Quantity"
+            placeholder="Enter amount"
+            [value]="basicValue()"
+            (valueChange)="basicValue.set($event)"
+          />
+        </div>
+        <p class="demo-value">Value: {{ basicValue() ?? 'null' }}</p>
+        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Min & Max Constraints</h3>
+        <p class="example-description">Limit the value range. Buttons disable at boundaries.</p>
+        <div class="example-demo">
+          <coar-number-input
+            stepperButtons
+            label="Quantity"
+            [min]="1"
+            [max]="99"
+            [value]="quantityValue()"
+            (valueChange)="quantityValue.set($event)"
+            hint="Between 1 and 99"
+          />
+        </div>
+        <coar-code-block [code]="codeExamples.minMax" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Step Increments</h3>
+        <p class="example-description">Control increment size with the step property.</p>
+        <div class="example-demo example-demo--three-col">
+          <coar-number-input stepperButtons label="Step: 1" [step]="1" [value]="10" hint="Default" />
+          <coar-number-input stepperButtons label="Step: 0.5" [step]="0.5" [decimals]="1" [value]="5.5" hint="Half steps" />
+          <coar-number-input stepperButtons label="Step: 10" [step]="10" [value]="100" hint="Tens" />
+        </div>
+        <coar-code-block [code]="codeExamples.step" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Decimal Precision</h3>
+        <p class="example-description">Control decimal places for currency, percentages, etc.</p>
+        <div class="example-demo">
+          <coar-number-input
+            stepperButtons
+            label="Price"
             [decimals]="2"
-            [numberFormat]="germanNumberFormat"
+            [step]="0.01"
             suffix="EUR"
-            [value]="formSimulationValue()"
-            (valueChange)="onFormSimulationValueChange($event)"
-            hint="Controlled by text input above"
+            [value]="priceValue()"
+            (valueChange)="priceValue.set($event)"
           />
         </div>
-        <div>
+        <p class="demo-value">Value: {{ priceValue() ?? 'null' }}</p>
+        <coar-code-block [code]="codeExamples.decimals" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Prefix & Suffix</h3>
+        <p class="example-description">Add units or currency symbols.</p>
+        <div class="example-demo example-demo--three-col">
+          <coar-number-input label="Price" prefix="$" [decimals]="2" [value]="99.99" />
+          <coar-number-input label="Percentage" suffix="%" [min]="0" [max]="100" [value]="percentValue()" (valueChange)="percentValue.set($event)" />
           <coar-number-input
-            label="US Format"
-            [decimals]="2"
-            [numberFormat]="usNumberFormat"
-            prefix="$"
-            [value]="formSimulationValue()"
-            (valueChange)="onFormSimulationValueChange($event)"
-            hint="Controlled by text input above"
+            label="Temperature"
+            suffix="°C"
+            [min]="-40"
+            [max]="50"
+            [value]="temperatureValue()"
+            (valueChange)="temperatureValue.set($event)"
           />
         </div>
-      </div>
-    </section>
+        <coar-code-block [code]="codeExamples.prefixSuffix" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
+      <coar-card color="outlined">
+        <h3>Figma-style Drag</h3>
+        <p class="example-description">Click and drag the label horizontally to adjust the value.</p>
+        <div class="example-demo">
+          <coar-number-input
+            label="Drag me ↔"
+            hint="Click and drag the label to adjust"
+            [value]="basicValue()"
+            (valueChange)="basicValue.set($event)"
+          />
+        </div>
+        <coar-code-block [code]="codeExamples.dragLabel" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
 
-    <!-- Locale & Internationalization -->
-    <section class="example-section">
-      <h3>Locale & Internationalization</h3>
-      <p>Different number formats for German (comma decimal) vs US (period decimal).</p>
-      <div class="example-row example-row--two-col">
-        <div>
+    <!-- ============================================ -->
+    <!-- LOCALE SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Locale & Internationalization</h2>
+    <p class="component-section-description">Support different number formats for locales like German (comma decimal) vs US (period decimal).</p>
+
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>German Format</h3>
+        <p class="example-description">Comma as decimal separator, period as thousands.</p>
+        <div class="example-demo">
           <coar-number-input
             label="Preis (DE)"
             [decimals]="2"
@@ -155,21 +127,14 @@
             (valueChange)="germanPrice.set($event)"
             hint="1.234,56 format"
           />
-          <div
-            style="
-              margin-top: 8px;
-              padding: 8px;
-              background: var(--coar-background-neutral-secondary);
-              border-radius: 4px;
-              font-family: monospace;
-              font-size: 13px;
-              color: var(--coar-text-neutral-secondary);
-            "
-          >
-            Raw value: <strong style="color: var(--coar-text-neutral-primary)">{{ germanPrice() ?? 'null' }}</strong>
-          </div>
         </div>
-        <div>
+        <p class="demo-value">Raw value: {{ germanPrice() ?? 'null' }}</p>
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>US Format</h3>
+        <p class="example-description">Period as decimal separator, comma as thousands.</p>
+        <div class="example-demo">
           <coar-number-input
             label="Price (US)"
             [decimals]="2"
@@ -179,131 +144,211 @@
             (valueChange)="usPrice.set($event)"
             hint="1,234.56 format"
           />
-          <div
-            style="
-              margin-top: 8px;
-              padding: 8px;
-              background: var(--coar-background-neutral-secondary);
-              border-radius: 4px;
-              font-family: monospace;
-              font-size: 13px;
-              color: var(--coar-text-neutral-secondary);
-            "
-          >
-            Raw value: <strong style="color: var(--coar-text-neutral-primary)">{{ usPrice() ?? 'null' }}</strong>
-          </div>
         </div>
+        <p class="demo-value">Raw value: {{ usPrice() ?? 'null' }}</p>
+        <coar-code-block [code]="codeExamples.locale" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- STEPPER BUTTONS SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Stepper Buttons</h2>
+    <p class="component-section-description">
+      Control increment/decrement buttons with the <code>stepperButtons</code> attribute for granular control.
+    </p>
+
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Button Configurations</h3>
+        <p class="example-description">No buttons, both buttons, or single increment/decrement.</p>
+        <div class="example-demo example-demo--four-col">
+          <coar-number-input label="No Buttons" [value]="basicValue()" (valueChange)="basicValue.set($event)" hint="Default" />
+          <coar-number-input stepperButtons label="Both Buttons" [value]="basicValue()" (valueChange)="basicValue.set($event)" hint="Attribute" />
+          <coar-number-input
+            stepperButtons="increment"
+            label="Increment Only"
+            [value]="basicValue()"
+            (valueChange)="basicValue.set($event)"
+            hint="Counter"
+          />
+          <coar-number-input
+            stepperButtons="decrement"
+            label="Decrement Only"
+            [value]="basicValue()"
+            (valueChange)="basicValue.set($event)"
+            hint="Countdown"
+          />
+        </div>
+        <coar-code-block [code]="codeExamples.stepperButtons" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Sizes</h3>
+        <p class="example-description">Four size variants for different contexts.</p>
+        <div class="example-demo example-demo--sizes">
+          <coar-number-input stepperButtons size="xs" label="Extra Small" [value]="10" />
+          <coar-number-input stepperButtons size="sm" label="Small" [value]="20" />
+          <coar-number-input stepperButtons size="md" label="Medium" [value]="30" />
+          <coar-number-input stepperButtons size="lg" label="Large" [value]="40" />
+        </div>
+        <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Disabled & Readonly</h3>
+        <p class="example-description">Non-interactive states.</p>
+        <div class="example-demo example-demo--two-col">
+          <coar-number-input stepperButtons label="Disabled" [value]="100" [disabled]="true" />
+          <coar-number-input stepperButtons label="Readonly" [value]="200" [readonly]="true" />
+        </div>
+        <coar-code-block [code]="codeExamples.disabled" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- API SECTION -->
+    <!-- ============================================ -->
+    <details class="api-section">
+      <summary>Number Input API</summary>
+      <div class="api-content">
+        <h4>Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>value</code></td>
+              <td><code>number | null</code></td>
+              <td><code>null</code></td>
+              <td>Current numeric value (two-way bindable)</td>
+            </tr>
+            <tr>
+              <td><code>label</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Label text displayed above the input</td>
+            </tr>
+            <tr>
+              <td><code>placeholder</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Placeholder text when empty</td>
+            </tr>
+            <tr>
+              <td><code>hint</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Hint text below the input</td>
+            </tr>
+            <tr>
+              <td><code>error</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Error message to display</td>
+            </tr>
+            <tr>
+              <td><code>prefix</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Prefix text before the input (e.g., $)</td>
+            </tr>
+            <tr>
+              <td><code>suffix</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Suffix text after the input (e.g., EUR, %)</td>
+            </tr>
+            <tr>
+              <td><code>size</code></td>
+              <td><code>'xs' | 'sm' | 'md' | 'lg'</code></td>
+              <td><code>'md'</code></td>
+              <td>Input size</td>
+            </tr>
+            <tr>
+              <td><code>min</code></td>
+              <td><code>number</code></td>
+              <td><code>-Infinity</code></td>
+              <td>Minimum allowed value</td>
+            </tr>
+            <tr>
+              <td><code>max</code></td>
+              <td><code>number</code></td>
+              <td><code>Infinity</code></td>
+              <td>Maximum allowed value</td>
+            </tr>
+            <tr>
+              <td><code>step</code></td>
+              <td><code>number</code></td>
+              <td><code>1</code></td>
+              <td>Increment/decrement step value</td>
+            </tr>
+            <tr>
+              <td><code>decimals</code></td>
+              <td><code>number</code></td>
+              <td><code>0</code></td>
+              <td>Number of decimal places to display</td>
+            </tr>
+            <tr>
+              <td><code>stepperButtons</code></td>
+              <td><code>'' | 'increment' | 'decrement'</code></td>
+              <td><code>-</code></td>
+              <td>Show stepper buttons (attribute or specific)</td>
+            </tr>
+            <tr>
+              <td><code>numberFormat</code></td>
+              <td>
+                <code>{{ '{' }} decimal: string, thousand: string {{ '}' }}</code>
+              </td>
+              <td>
+                <code>{{ '{' }} decimal: '.', thousand: ',' {{ '}' }}</code>
+              </td>
+              <td>Locale-specific number formatting</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Disable the input</td>
+            </tr>
+            <tr>
+              <td><code>readonly</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Make the input read-only</td>
+            </tr>
+            <tr>
+              <td><code>required</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Mark as required (shows asterisk)</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Outputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>valueChange</code></td>
+              <td><code>number | null</code></td>
+              <td>Emits when the value changes</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <coar-code-block [code]="codeExamples.locale" language="html" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <!-- Prefix & Suffix -->
-    <section class="example-section">
-      <h3>Prefix & Suffix</h3>
-      <p>Add units or currency symbols.</p>
-      <div class="example-row example-row--three-col">
-        <coar-number-input label="Price" prefix="$" [decimals]="2" [value]="99.99" />
-        <coar-number-input label="Percentage" suffix="%" [min]="0" [max]="100" [value]="percentValue()" (valueChange)="percentValue.set($event)" />
-        <coar-number-input
-          label="Temperature"
-          suffix="°C"
-          [min]="-40"
-          [max]="50"
-          [value]="temperatureValue()"
-          (valueChange)="temperatureValue.set($event)"
-        />
-      </div>
-      <coar-code-block [code]="codeExamples.prefixSuffix" language="html" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <!-- Drag Label -->
-    <section class="example-section">
-      <h3>Figma-style Drag</h3>
-      <p>Click and drag the label horizontally to adjust the value - just like Figma!</p>
-      <div class="example-row">
-        <coar-number-input
-          label="Drag me ↔"
-          hint="Click and drag the label to adjust"
-          [value]="basicValue()"
-          (valueChange)="basicValue.set($event)"
-        />
-      </div>
-      <coar-code-block [code]="codeExamples.dragLabel" language="html" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <!-- Stepper Buttons -->
-    <section class="example-section">
-      <h3>Stepper Button Control</h3>
-      <p>Control increment/decrement buttons with attribute or string values for granular control.</p>
-      <div class="example-row example-row--four-col">
-        <coar-number-input label="No Buttons" [value]="basicValue()" (valueChange)="basicValue.set($event)" hint="Default" />
-        <coar-number-input stepperButtons label="Both Buttons" [value]="basicValue()" (valueChange)="basicValue.set($event)" hint="Attribute" />
-        <coar-number-input
-          stepperButtons="increment"
-          label="Increment Only"
-          [value]="basicValue()"
-          (valueChange)="basicValue.set($event)"
-          hint="Counter"
-        />
-        <coar-number-input
-          stepperButtons="decrement"
-          label="Decrement Only"
-          [value]="basicValue()"
-          (valueChange)="basicValue.set($event)"
-          hint="Countdown"
-        />
-      </div>
-      <coar-code-block [code]="codeExamples.stepperButtons" language="html" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <!-- Sizes -->
-    <section class="example-section">
-      <h3>Sizes</h3>
-      <p>Four size variants for different contexts.</p>
-      <div class="example-row example-row--four-col">
-        <coar-number-input stepperButtons size="xs" label="Extra Small" [value]="10" />
-        <coar-number-input stepperButtons size="sm" label="Small" [value]="20" />
-        <coar-number-input stepperButtons size="md" label="Medium" [value]="30" />
-        <coar-number-input stepperButtons size="lg" label="Large" [value]="40" />
-      </div>
-      <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <!-- Disabled/Readonly -->
-    <section class="example-section">
-      <h3>Disabled & Readonly</h3>
-      <p>Non-interactive states.</p>
-      <div class="example-row example-row--two-col">
-        <coar-number-input stepperButtons label="Disabled" [value]="100" [disabled]="true" />
-        <coar-number-input stepperButtons label="Readonly" [value]="200" [readonly]="true" />
-      </div>
-      <coar-code-block [code]="codeExamples.disabled" language="html" [showLineNumbers]="false" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="64" />
-
-    <!-- Uncontrolled -->
-    <section class="example-section">
-      <h3>Uncontrolled Input</h3>
-      <p>No <code>[value]</code> or <code>(valueChange)</code> bindings - fully editable standalone input.</p>
-      <div class="example-row">
-        <coar-number-input label="Standalone Number" placeholder="Type any number" hint="No value bindings - try typing!" />
-      </div>
-      <coar-code-block
-        code='<coar-number-input label="Standalone Number" placeholder="Type any number" />'
-        language="html"
-        [showLineNumbers]="false"
-      />
-    </section>
+    </details>
   </div>
-</ng-template>
+</div>

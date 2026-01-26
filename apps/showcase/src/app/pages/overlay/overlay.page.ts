@@ -13,12 +13,9 @@ import {
   CoarButtonComponent,
   CoarCodeBlockComponent,
   CoarDividerComponent,
-  CoarTabComponent,
-  CoarTabGroupComponent,
   CoarTextInputComponent,
+  CoarCardComponent,
 } from '@cocoar/ui-components';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 import {
   type OverlayRef,
@@ -32,28 +29,19 @@ import {
   selector: 'app-overlay',
   standalone: true,
   imports: [
-    CoarTabGroupComponent,
-    CoarTabComponent,
     CoarButtonComponent,
     CoarTextInputComponent,
     CoarCodeBlockComponent,
     CoarDividerComponent,
+    CoarCardComponent,
   ],
   templateUrl: './overlay.page.html',
   styleUrl: './overlay.page.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OverlayPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
   private readonly overlay = createOverlayBuilder();
   private readonly destroyRef = inject(DestroyRef);
-
-  activeTab = 'examples';
-
-  protected readonly docsPath = '/docs/libs/ui-overlay/overview.md';
-
-  protected readonly apiPath = '/docs/libs/ui-overlay/api.md';
 
   private overlayRef: OverlayRef | null = null;
 

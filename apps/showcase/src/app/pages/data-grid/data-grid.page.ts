@@ -4,15 +4,11 @@ import { AgGridAngular } from 'ag-grid-angular';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 
 import {
-  CoarTabGroupComponent,
-  CoarTabComponent,
   CoarCodeBlockComponent,
-  CoarDividerComponent,
+  CoarCardComponent,
 } from '@cocoar/ui-components';
 
 import { CoarGridBuilder, CoarDataGridDirective } from '@cocoar/data-grid';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 // Register all AG Grid community modules
 ModuleRegistry.registerModules([AllCommunityModule]);
@@ -30,10 +26,8 @@ interface User {
   selector: 'app-data-grid-page',
   standalone: true,
   imports: [
-    CoarTabGroupComponent,
-    CoarTabComponent,
     CoarCodeBlockComponent,
-    CoarDividerComponent,
+    CoarCardComponent,
     AgGridAngular,
     CoarDataGridDirective,
   ],
@@ -42,13 +36,6 @@ interface User {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataGridPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  activeTab = 'examples';
-
-  // Markdown documentation paths (will be generated when compodoc runs for data-grid)
-  protected readonly docsPath = '/docs/libs/data-grid/coar-data-grid.docs.md';
-  protected readonly apiPath = '/docs/libs/data-grid/coar-data-grid.api.md';
 
   // Sample user data
   readonly users: User[] = [

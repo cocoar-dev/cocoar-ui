@@ -1,317 +1,392 @@
 <div class="component-page">
   <header class="page-header">
     <h1 class="coar-title">Menu</h1>
-    <p class="description coar-body">Context menus, dropdown menus, and navigation menus with support for nested submenus.</p>
+    <p class="page-description">Context menus, dropdown menus, and navigation menus with support for nested submenus.</p>
   </header>
 
-  <coar-tab-group [(activeTab)]="activeTab">
-    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
-    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
-  </coar-tab-group>
-</div>
-
-<ng-template #examplesTemplate>
   <div class="examples-content">
-    <!-- Basic Menu -->
-    <section class="example-section">
-      <h2 class="coar-heading">Basic Menu</h2>
-      <p class="section-intro coar-body-small">A simple menu with items and dividers.</p>
+    <!-- ============================================ -->
+    <!-- BASIC EXAMPLES -->
+    <!-- ============================================ -->
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Basic Menu</h3>
+        <p class="example-description">A simple menu with items and dividers.</p>
+        <div class="menu-demo">
+          <coar-menu>
+            <coar-menu-item (itemClick)="handleMenuItemClick('new')">New File</coar-menu-item>
+            <coar-menu-item (itemClick)="handleMenuItemClick('open')">Open...</coar-menu-item>
+            <coar-menu-divider></coar-menu-divider>
+            <coar-menu-item (itemClick)="handleMenuItemClick('save')">Save</coar-menu-item>
+            <coar-menu-item (itemClick)="handleMenuItemClick('saveAs')">Save As...</coar-menu-item>
+          </coar-menu>
+        </div>
+        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-      <div class="menu-demo">
-        <coar-menu>
-          <coar-menu-item (itemClick)="handleMenuItemClick('new')">New File</coar-menu-item>
-          <coar-menu-item (itemClick)="handleMenuItemClick('open')">Open...</coar-menu-item>
-          <coar-menu-divider></coar-menu-divider>
-          <coar-menu-item (itemClick)="handleMenuItemClick('save')">Save</coar-menu-item>
-          <coar-menu-item (itemClick)="handleMenuItemClick('saveAs')">Save As...</coar-menu-item>
-        </coar-menu>
-      </div>
+      <coar-card color="outlined">
+        <h3>With Icons</h3>
+        <p class="example-description">Add icons to menu items for better visual recognition.</p>
+        <div class="menu-demo">
+          <coar-menu>
+            <coar-menu-item icon="plus" (itemClick)="handleMenuItemClick('create')">Create New</coar-menu-item>
+            <coar-menu-item icon="copy" (itemClick)="handleMenuItemClick('duplicate')">Duplicate</coar-menu-item>
+            <coar-menu-item icon="clipboard" (itemClick)="handleMenuItemClick('copy')">Copy</coar-menu-item>
+            <coar-menu-divider></coar-menu-divider>
+            <coar-menu-item icon="trash" (itemClick)="handleMenuItemClick('delete')">Delete</coar-menu-item>
+          </coar-menu>
+        </div>
+        <coar-code-block [code]="codeExamples.withIcons" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-      <coar-code-block [code]="codeExamples.basic" language="html" />
-    </section>
+      <coar-card color="outlined">
+        <h3>With Headings</h3>
+        <p class="example-description">Use non-interactive headings to group menu items into sections.</p>
+        <div class="menu-demo">
+          <coar-menu>
+            <coar-menu-heading>Foundations</coar-menu-heading>
+            <coar-menu-item icon="type" (itemClick)="handleMenuItemClick('typography')">Typography</coar-menu-item>
+            <coar-menu-item icon="palette" (itemClick)="handleMenuItemClick('colors')">Colors</coar-menu-item>
+            <coar-menu-item icon="grid" (itemClick)="handleMenuItemClick('spacing')">Spacing</coar-menu-item>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+            <coar-menu-heading>Form Controls</coar-menu-heading>
+            <coar-menu-item icon="input" (itemClick)="handleMenuItemClick('textInput')">Text Input</coar-menu-item>
+            <coar-menu-item icon="dropdown" (itemClick)="handleMenuItemClick('select')">Select</coar-menu-item>
+            <coar-menu-item icon="checkbox" (itemClick)="handleMenuItemClick('checkbox')">Checkbox</coar-menu-item>
+          </coar-menu>
+        </div>
+        <coar-code-block [code]="codeExamples.withHeadings" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <!-- With Icons -->
-    <section class="example-section">
-      <h2 class="coar-heading">With Icons</h2>
-      <p class="section-intro coar-body-small">Add icons to menu items for better visual recognition.</p>
+      <coar-card color="outlined">
+        <h3>Disabled Items</h3>
+        <p class="example-description">Prevent interaction with disabled menu items.</p>
+        <div class="menu-demo">
+          <coar-menu>
+            <coar-menu-item (itemClick)="handleMenuItemClick('cut')">Cut</coar-menu-item>
+            <coar-menu-item (itemClick)="handleMenuItemClick('copy')">Copy</coar-menu-item>
+            <coar-menu-item [disabled]="true" (itemClick)="handleMenuItemClick('paste')">Paste (disabled)</coar-menu-item>
+            <coar-menu-divider></coar-menu-divider>
+            <coar-menu-item [disabled]="true" icon="trash" (itemClick)="handleMenuItemClick('delete')">Delete (disabled)</coar-menu-item>
+          </coar-menu>
+        </div>
+        <coar-code-block [code]="codeExamples.disabled" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
 
-      <div class="menu-demo">
-        <coar-menu>
-          <coar-menu-item icon="plus" (itemClick)="handleMenuItemClick('create')">Create New</coar-menu-item>
-          <coar-menu-item icon="copy" (itemClick)="handleMenuItemClick('duplicate')">Duplicate</coar-menu-item>
-          <coar-menu-item icon="clipboard" (itemClick)="handleMenuItemClick('copy')">Copy</coar-menu-item>
-          <coar-menu-divider></coar-menu-divider>
-          <coar-menu-item icon="trash" (itemClick)="handleMenuItemClick('delete')">Delete</coar-menu-item>
-        </coar-menu>
-      </div>
+    <!-- ============================================ -->
+    <!-- SUBMENU PATTERNS -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Submenu Patterns</h2>
+    <p class="component-section-description">Nested menus with flyout and accordion behaviors.</p>
 
-      <coar-code-block [code]="codeExamples.withIcons" language="html" />
-    </section>
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Sibling Submenus (Flyout)</h3>
+        <p class="example-description">
+          Multiple submenu items at the same level. Only one submenu opens at a time - hovering over a new submenu closes the previous one
+          immediately.
+        </p>
+        <div class="menu-demo">
+          <coar-menu>
+            <coar-menu-item (itemClick)="handleMenuItemClick('file')">File</coar-menu-item>
+            <coar-sub-flyout label="Export" icon="download">
+              <ng-template>
+                <coar-menu>
+                  <coar-menu-item icon="file" (itemClick)="handleAction('exportPdf')">Export as PDF</coar-menu-item>
+                  <coar-menu-item icon="file" (itemClick)="handleAction('exportWord')">Export as Word</coar-menu-item>
+                  <coar-menu-item icon="file" (itemClick)="handleAction('exportExcel')">Export as Excel</coar-menu-item>
+                </coar-menu>
+              </ng-template>
+            </coar-sub-flyout>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+            <coar-sub-flyout label="Share" icon="users">
+              <ng-template>
+                <coar-menu>
+                  <coar-menu-item icon="chat" (itemClick)="handleAction('shareEmail')">Share via Email</coar-menu-item>
+                  <coar-menu-item icon="link" (itemClick)="handleAction('shareLink')">Copy Link</coar-menu-item>
+                  <coar-menu-item icon="slack" (itemClick)="handleAction('shareSlack')">Share to Slack</coar-menu-item>
+                </coar-menu>
+              </ng-template>
+            </coar-sub-flyout>
 
-    <!-- With Headings (Sidebar Navigation) -->
-    <section class="example-section">
-      <h2 class="coar-heading">With Headings (Sidebar Navigation)</h2>
-      <p class="section-intro coar-body-small">Use non-interactive headings to group menu items into sections.</p>
+            <coar-sub-flyout label="Settings" icon="settings">
+              <ng-template>
+                <coar-menu>
+                  <coar-menu-item icon="palette" (itemClick)="handleAction('theme')">Change Theme</coar-menu-item>
+                  <coar-menu-item icon="globe" (itemClick)="handleAction('language')">Language</coar-menu-item>
+                  <coar-menu-item icon="bell" (itemClick)="handleAction('notifications')">Notifications</coar-menu-item>
+                </coar-menu>
+              </ng-template>
+            </coar-sub-flyout>
+            <coar-menu-divider></coar-menu-divider>
+            <coar-menu-item icon="question" (itemClick)="handleMenuItemClick('help')">Help</coar-menu-item>
+          </coar-menu>
+        </div>
+        <coar-code-block [code]="codeExamples.siblings" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-      <div class="menu-demo">
-        <coar-menu>
-          <coar-menu-heading>Foundations</coar-menu-heading>
-          <coar-menu-item icon="type" (itemClick)="handleMenuItemClick('typography')">Typography</coar-menu-item>
-          <coar-menu-item icon="palette" (itemClick)="handleMenuItemClick('colors')">Colors</coar-menu-item>
-          <coar-menu-item icon="grid" (itemClick)="handleMenuItemClick('spacing')">Spacing</coar-menu-item>
+      <coar-card color="outlined">
+        <h3>Accordion Submenu (Inline)</h3>
+        <p class="example-description">Inline submenus are useful for sidebar-style option groups where nested items should remain visible.</p>
+        <div class="menu-demo">
+          <coar-menu>
+            <coar-sub-expand label="Filters" icon="settings">
+              <ng-template>
+                <coar-menu-item icon="plus" (itemClick)="handleAction('addFilter')">Add Filter</coar-menu-item>
+                <coar-menu-item icon="copy" (itemClick)="handleAction('duplicateFilter')">Duplicate Filter</coar-menu-item>
+                <coar-menu-item icon="trash" (itemClick)="handleAction('clearFilters')">Clear Filters</coar-menu-item>
 
-          <coar-menu-heading>Form Controls</coar-menu-heading>
-          <coar-menu-item icon="input" (itemClick)="handleMenuItemClick('textInput')">Text Input</coar-menu-item>
-          <coar-menu-item icon="dropdown" (itemClick)="handleMenuItemClick('select')">Select</coar-menu-item>
-          <coar-menu-item icon="checkbox" (itemClick)="handleMenuItemClick('checkbox')">Checkbox</coar-menu-item>
-        </coar-menu>
-      </div>
-
-      <coar-code-block [code]="codeExamples.withHeadings" language="html" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Disabled Items -->
-    <section class="example-section">
-      <h2 class="coar-heading">Disabled Items</h2>
-      <p class="section-intro coar-body-small">Prevent interaction with disabled menu items.</p>
-
-      <div class="menu-demo">
-        <coar-menu>
-          <coar-menu-item (itemClick)="handleMenuItemClick('cut')">Cut</coar-menu-item>
-          <coar-menu-item (itemClick)="handleMenuItemClick('copy')">Copy</coar-menu-item>
-          <coar-menu-item [disabled]="true" (itemClick)="handleMenuItemClick('paste')">Paste (disabled)</coar-menu-item>
-          <coar-menu-divider></coar-menu-divider>
-          <coar-menu-item [disabled]="true" icon="trash" (itemClick)="handleMenuItemClick('delete')">Delete (disabled)</coar-menu-item>
-        </coar-menu>
-      </div>
-
-      <coar-code-block [code]="codeExamples.disabled" language="html" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Sibling Submenus -->
-    <section class="example-section">
-      <h2 class="coar-heading">Sibling Submenus</h2>
-      <p class="section-intro coar-body-small">
-        Multiple submenu items at the same level. Only one submenu opens at a time - hovering over a new submenu closes the previous one immediately.
-      </p>
-
-      <div class="menu-demo">
-        <coar-menu>
-          <coar-menu-item (itemClick)="handleMenuItemClick('file')">File</coar-menu-item>
-          <coar-sub-flyout label="Export" icon="download">
-            <ng-template>
-              <coar-menu>
-                <coar-menu-item icon="file" (itemClick)="handleAction('exportPdf')">Export as PDF</coar-menu-item>
-                <coar-menu-item icon="file" (itemClick)="handleAction('exportWord')">Export as Word</coar-menu-item>
-                <coar-menu-item icon="file" (itemClick)="handleAction('exportExcel')">Export as Excel</coar-menu-item>
-              </coar-menu>
-            </ng-template>
-          </coar-sub-flyout>
-
-          <coar-sub-flyout label="Share" icon="users">
-            <ng-template>
-              <coar-menu>
-                <coar-menu-item icon="chat" (itemClick)="handleAction('shareEmail')">Share via Email</coar-menu-item>
-                <coar-menu-item icon="link" (itemClick)="handleAction('shareLink')">Copy Link</coar-menu-item>
-                <coar-menu-item icon="slack" (itemClick)="handleAction('shareSlack')">Share to Slack</coar-menu-item>
-              </coar-menu>
-            </ng-template>
-          </coar-sub-flyout>
-
-          <coar-sub-flyout label="Settings" icon="settings">
-            <ng-template>
-              <coar-menu>
-                <coar-menu-item icon="palette" (itemClick)="handleAction('theme')">Change Theme</coar-menu-item>
-                <coar-menu-item icon="globe" (itemClick)="handleAction('language')">Language</coar-menu-item>
-                <coar-menu-item icon="bell" (itemClick)="handleAction('notifications')">Notifications</coar-menu-item>
-              </coar-menu>
-            </ng-template>
-          </coar-sub-flyout>
-          <coar-menu-divider></coar-menu-divider>
-          <coar-menu-item icon="question" (itemClick)="handleMenuItemClick('help')">Help</coar-menu-item>
-        </coar-menu>
-      </div>
-
-      <coar-code-block [code]="codeExamples.siblings" language="html" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Accordion Submenu (Inline) -->
-    <section class="example-section">
-      <h2 class="coar-heading">Accordion Submenu (Inline)</h2>
-      <p class="section-intro coar-body-small">
-        Inline submenus are useful for sidebar-style option groups where nested items should remain visible.
-      </p>
-
-      <div class="menu-demo">
-        <coar-menu>
-          <coar-sub-expand label="Filters" icon="settings">
-            <ng-template>
-              <coar-menu-item icon="plus" (itemClick)="handleAction('addFilter')">Add Filter</coar-menu-item>
-              <coar-menu-item icon="copy" (itemClick)="handleAction('duplicateFilter')">Duplicate Filter</coar-menu-item>
-              <coar-menu-item icon="trash" (itemClick)="handleAction('clearFilters')">Clear Filters</coar-menu-item>
-
-              <coar-sub-expand label="Date Range" icon="date">
-                <ng-template>
-                  <coar-menu-item icon="calendar" (itemClick)="handleAction('dateToday')">Today</coar-menu-item>
-                  <coar-menu-item icon="calendar" (itemClick)="handleAction('dateLast7')">Last 7 days</coar-menu-item>
-                  <coar-menu-item icon="calendar" (itemClick)="handleAction('dateLast30')">Last 30 days</coar-menu-item>
-                </ng-template>
-              </coar-sub-expand>
-
-              <coar-sub-flyout label="Advanced" icon="settings">
-                <ng-template>
-                  <coar-menu>
-                    <coar-menu-item icon="link" (itemClick)="handleAction('manageSavedFilters')">Manage saved filters</coar-menu-item>
-                    <coar-menu-item icon="copy" (itemClick)="handleAction('copyFilters')">Copy filters</coar-menu-item>
-                    <coar-menu-item icon="trash" (itemClick)="handleAction('resetFilters')">Reset to defaults</coar-menu-item>
-
-                    <coar-sub-expand label="Quick Presets" icon="plus">
-                      <ng-template>
-                        <coar-menu-item icon="file" (itemClick)="handleAction('presetOpenItems')">Open items</coar-menu-item>
-                        <coar-menu-item icon="file" (itemClick)="handleAction('presetOverdue')">Overdue</coar-menu-item>
-                        <coar-menu-item icon="file" (itemClick)="handleAction('presetAssignedToMe')">Assigned to me</coar-menu-item>
-                      </ng-template>
-                    </coar-sub-expand>
-                  </coar-menu>
-                </ng-template>
-              </coar-sub-flyout>
-            </ng-template>
-          </coar-sub-expand>
-
-          <coar-sub-expand label="View" icon="file">
-            <ng-template>
-              <coar-menu-item icon="plus" (itemClick)="handleAction('saveView')">Save current view</coar-menu-item>
-              <coar-menu-item icon="copy" (itemClick)="handleAction('duplicateView')">Duplicate view</coar-menu-item>
-
-              <coar-sub-flyout label="Load View" icon="download">
-                <ng-template>
-                  <coar-menu>
-                    <coar-menu-item icon="file" (itemClick)="handleAction('loadViewDefault')">Default</coar-menu-item>
-                    <coar-menu-item icon="file" (itemClick)="handleAction('loadViewCompact')">Compact</coar-menu-item>
-                    <coar-menu-item icon="file" (itemClick)="handleAction('loadViewDetailed')">Detailed</coar-menu-item>
-                  </coar-menu>
-                </ng-template>
-              </coar-sub-flyout>
-            </ng-template>
-          </coar-sub-expand>
-
-          <coar-menu-item icon="refresh" (itemClick)="handleAction('refresh')">Refresh</coar-menu-item>
-        </coar-menu>
-      </div>
-
-      <coar-code-block [code]="codeExamples.accordion" language="html" />
-    </section>
-
-    <!-- Complete Example (Kitchen Sink) -->
-    <section class="example-section">
-      <h2 class="coar-heading">Complete Example (All Features)</h2>
-      <p class="section-intro coar-body-small">
-        A comprehensive example combining headings, dividers, icons, disabled items, flyout submenus, and accordion submenus at multiple nesting
-        levels.
-      </p>
-
-      <div class="menu-demo">
-        <coar-menu>
-          <coar-menu-heading>Quick Actions</coar-menu-heading>
-          <coar-menu-item icon="plus" (itemClick)="handleAction('newFile')">New File</coar-menu-item>
-          <coar-menu-item icon="folder" (itemClick)="handleAction('openFolder')">Open Folder...</coar-menu-item>
-
-          <coar-menu-heading>Edit</coar-menu-heading>
-          <coar-menu-item icon="minus" (itemClick)="handleAction('cut')">Cut</coar-menu-item>
-          <coar-menu-item icon="copy" (itemClick)="handleAction('copy')">Copy</coar-menu-item>
-          <coar-menu-item [disabled]="true" icon="clipboard" (itemClick)="handleAction('paste')">Paste (disabled)</coar-menu-item>
-
-          <coar-menu-divider></coar-menu-divider>
-
-          <coar-sub-expand label="View Options" icon="settings">
-            <ng-template>
-              <coar-menu-item icon="checkbox" (itemClick)="handleAction('showLineNumbers')">Show Line Numbers</coar-menu-item>
-              <coar-menu-item icon="checkbox" (itemClick)="handleAction('showMinimap')">Show Minimap</coar-menu-item>
-
-              <coar-sub-flyout label="Theme" icon="palette">
-                <ng-template>
-                  <coar-menu>
-                    <coar-menu-heading>Light Themes</coar-menu-heading>
-                    <coar-menu-item icon="sun" (itemClick)="handleAction('themeLight')">Light Default</coar-menu-item>
-                    <coar-menu-item icon="sun" (itemClick)="handleAction('themeLightPlus')">Light+</coar-menu-item>
-
-                    <coar-menu-heading>Dark Themes</coar-menu-heading>
-                    <coar-menu-item icon="moon" (itemClick)="handleAction('themeDark')">Dark Default</coar-menu-item>
-                    <coar-menu-item icon="moon" (itemClick)="handleAction('themeDarkPlus')">Dark+</coar-menu-item>
-                  </coar-menu>
-                </ng-template>
-              </coar-sub-flyout>
-
-              <coar-sub-expand label="Layout" icon="grid">
-                <ng-template>
-                  <coar-menu-item icon="file" (itemClick)="handleAction('layoutSingle')">Single Column</coar-menu-item>
-                  <coar-menu-item icon="file" (itemClick)="handleAction('layoutSplit')">Split View</coar-menu-item>
-                  <coar-menu-item icon="file" (itemClick)="handleAction('layoutGrid')">Grid View</coar-menu-item>
-                </ng-template>
-              </coar-sub-expand>
-            </ng-template>
-          </coar-sub-expand>
-
-          <coar-sub-flyout label="Share" icon="users">
-            <ng-template>
-              <coar-menu>
-                <coar-menu-item icon="chat" (itemClick)="handleAction('shareEmail')">Email</coar-menu-item>
-                <coar-menu-item icon="chat" (itemClick)="handleAction('shareSlack')">Slack</coar-menu-item>
-
-                <coar-menu-divider></coar-menu-divider>
-
-                <coar-sub-expand label="Copy Link" icon="copy">
+                <coar-sub-expand label="Date Range" icon="date">
                   <ng-template>
-                    <coar-menu-item icon="link" (itemClick)="handleAction('copyPlain')">Plain URL</coar-menu-item>
-                    <coar-menu-item icon="link" (itemClick)="handleAction('copyMarkdown')">Markdown</coar-menu-item>
-                    <coar-menu-item icon="link" (itemClick)="handleAction('copyHtml')">HTML</coar-menu-item>
+                    <coar-menu-item icon="calendar" (itemClick)="handleAction('dateToday')">Today</coar-menu-item>
+                    <coar-menu-item icon="calendar" (itemClick)="handleAction('dateLast7')">Last 7 days</coar-menu-item>
+                    <coar-menu-item icon="calendar" (itemClick)="handleAction('dateLast30')">Last 30 days</coar-menu-item>
                   </ng-template>
                 </coar-sub-expand>
-              </coar-menu>
-            </ng-template>
-          </coar-sub-flyout>
 
-          <coar-menu-divider></coar-menu-divider>
+                <coar-sub-flyout label="Advanced" icon="settings">
+                  <ng-template>
+                    <coar-menu>
+                      <coar-menu-item icon="link" (itemClick)="handleAction('manageSavedFilters')">Manage saved filters</coar-menu-item>
+                      <coar-menu-item icon="copy" (itemClick)="handleAction('copyFilters')">Copy filters</coar-menu-item>
+                      <coar-menu-item icon="trash" (itemClick)="handleAction('resetFilters')">Reset to defaults</coar-menu-item>
 
-          <coar-menu-item icon="trash" (itemClick)="handleAction('delete')">Delete</coar-menu-item>
-        </coar-menu>
+                      <coar-sub-expand label="Quick Presets" icon="plus">
+                        <ng-template>
+                          <coar-menu-item icon="file" (itemClick)="handleAction('presetOpenItems')">Open items</coar-menu-item>
+                          <coar-menu-item icon="file" (itemClick)="handleAction('presetOverdue')">Overdue</coar-menu-item>
+                          <coar-menu-item icon="file" (itemClick)="handleAction('presetAssignedToMe')">Assigned to me</coar-menu-item>
+                        </ng-template>
+                      </coar-sub-expand>
+                    </coar-menu>
+                  </ng-template>
+                </coar-sub-flyout>
+              </ng-template>
+            </coar-sub-expand>
+
+            <coar-sub-expand label="View" icon="file">
+              <ng-template>
+                <coar-menu-item icon="plus" (itemClick)="handleAction('saveView')">Save current view</coar-menu-item>
+                <coar-menu-item icon="copy" (itemClick)="handleAction('duplicateView')">Duplicate view</coar-menu-item>
+
+                <coar-sub-flyout label="Load View" icon="download">
+                  <ng-template>
+                    <coar-menu>
+                      <coar-menu-item icon="file" (itemClick)="handleAction('loadViewDefault')">Default</coar-menu-item>
+                      <coar-menu-item icon="file" (itemClick)="handleAction('loadViewCompact')">Compact</coar-menu-item>
+                      <coar-menu-item icon="file" (itemClick)="handleAction('loadViewDetailed')">Detailed</coar-menu-item>
+                    </coar-menu>
+                  </ng-template>
+                </coar-sub-flyout>
+              </ng-template>
+            </coar-sub-expand>
+
+            <coar-menu-item icon="refresh" (itemClick)="handleAction('refresh')">Refresh</coar-menu-item>
+          </coar-menu>
+        </div>
+        <coar-code-block [code]="codeExamples.accordion" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- ADVANCED EXAMPLES -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Advanced Examples</h2>
+    <p class="component-section-description">Complex menus and context menu integration.</p>
+
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Complete Example (All Features)</h3>
+        <p class="example-description">
+          A comprehensive example combining headings, dividers, icons, disabled items, flyout submenus, and accordion submenus at multiple nesting
+          levels.
+        </p>
+        <div class="menu-demo">
+          <coar-menu>
+            <coar-menu-heading>Quick Actions</coar-menu-heading>
+            <coar-menu-item icon="plus" (itemClick)="handleAction('newFile')">New File</coar-menu-item>
+            <coar-menu-item icon="folder" (itemClick)="handleAction('openFolder')">Open Folder...</coar-menu-item>
+
+            <coar-menu-heading>Edit</coar-menu-heading>
+            <coar-menu-item icon="minus" (itemClick)="handleAction('cut')">Cut</coar-menu-item>
+            <coar-menu-item icon="copy" (itemClick)="handleAction('copy')">Copy</coar-menu-item>
+            <coar-menu-item [disabled]="true" icon="clipboard" (itemClick)="handleAction('paste')">Paste (disabled)</coar-menu-item>
+
+            <coar-menu-divider></coar-menu-divider>
+
+            <coar-sub-expand label="View Options" icon="settings">
+              <ng-template>
+                <coar-menu-item icon="checkbox" (itemClick)="handleAction('showLineNumbers')">Show Line Numbers</coar-menu-item>
+                <coar-menu-item icon="checkbox" (itemClick)="handleAction('showMinimap')">Show Minimap</coar-menu-item>
+
+                <coar-sub-flyout label="Theme" icon="palette">
+                  <ng-template>
+                    <coar-menu>
+                      <coar-menu-heading>Light Themes</coar-menu-heading>
+                      <coar-menu-item icon="sun" (itemClick)="handleAction('themeLight')">Light Default</coar-menu-item>
+                      <coar-menu-item icon="sun" (itemClick)="handleAction('themeLightPlus')">Light+</coar-menu-item>
+
+                      <coar-menu-heading>Dark Themes</coar-menu-heading>
+                      <coar-menu-item icon="moon" (itemClick)="handleAction('themeDark')">Dark Default</coar-menu-item>
+                      <coar-menu-item icon="moon" (itemClick)="handleAction('themeDarkPlus')">Dark+</coar-menu-item>
+                    </coar-menu>
+                  </ng-template>
+                </coar-sub-flyout>
+
+                <coar-sub-expand label="Layout" icon="grid">
+                  <ng-template>
+                    <coar-menu-item icon="file" (itemClick)="handleAction('layoutSingle')">Single Column</coar-menu-item>
+                    <coar-menu-item icon="file" (itemClick)="handleAction('layoutSplit')">Split View</coar-menu-item>
+                    <coar-menu-item icon="file" (itemClick)="handleAction('layoutGrid')">Grid View</coar-menu-item>
+                  </ng-template>
+                </coar-sub-expand>
+              </ng-template>
+            </coar-sub-expand>
+
+            <coar-sub-flyout label="Share" icon="users">
+              <ng-template>
+                <coar-menu>
+                  <coar-menu-item icon="chat" (itemClick)="handleAction('shareEmail')">Email</coar-menu-item>
+                  <coar-menu-item icon="chat" (itemClick)="handleAction('shareSlack')">Slack</coar-menu-item>
+
+                  <coar-menu-divider></coar-menu-divider>
+
+                  <coar-sub-expand label="Copy Link" icon="copy">
+                    <ng-template>
+                      <coar-menu-item icon="link" (itemClick)="handleAction('copyPlain')">Plain URL</coar-menu-item>
+                      <coar-menu-item icon="link" (itemClick)="handleAction('copyMarkdown')">Markdown</coar-menu-item>
+                      <coar-menu-item icon="link" (itemClick)="handleAction('copyHtml')">HTML</coar-menu-item>
+                    </ng-template>
+                  </coar-sub-expand>
+                </coar-menu>
+              </ng-template>
+            </coar-sub-flyout>
+
+            <coar-menu-divider></coar-menu-divider>
+
+            <coar-menu-item icon="trash" (itemClick)="handleAction('delete')">Delete</coar-menu-item>
+          </coar-menu>
+        </div>
+        <coar-code-block [code]="codeExamples.kitchenSink" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Context Menu</h3>
+        <p class="example-description">
+          Right-click the demo area to open a context menu. Hover over "Share" to see a flyout submenu using the overlay system.
+        </p>
+        <div class="context-demo-area" (contextmenu)="onContextMenu($event)">
+          <p>Right-click anywhere in this area</p>
+          <p class="coar-body-small" style="color: var(--coar-text-neutral-tertiary)">Context menu with flyout submenu will appear</p>
+        </div>
+        <coar-code-block [code]="codeExamples.contextMenu" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-note type="info" style="margin-top: 1rem">
+          <strong>Note:</strong> Flyout submenus leverage the Cocoar Overlay System (via the overlay builder) for proper hierarchy management, z-index
+          stacking, and click-outside handling.
+        </coar-note>
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- API SECTION -->
+    <!-- ============================================ -->
+    <details class="api-section">
+      <summary>Menu API</summary>
+      <div class="api-content">
+        <h4>CoarMenuComponent Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>borderless</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Remove border for sidebar integration</td>
+            </tr>
+            <tr>
+              <td><code>aimEnabled</code></td>
+              <td><code>boolean</code></td>
+              <td><code>true</code></td>
+              <td>Enable menu-aim for easier submenu navigation</td>
+            </tr>
+            <tr>
+              <td><code>aimDebugEnabled</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Show aim triangle visualization for debugging</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>CoarMenuItemComponent</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>icon</code></td>
+              <td><code>string</code></td>
+              <td><code>-</code></td>
+              <td>Icon name to display</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Whether the item is disabled</td>
+            </tr>
+            <tr>
+              <td><code>itemClick</code></td>
+              <td><code>EventEmitter</code></td>
+              <td><code>-</code></td>
+              <td>Emits when item is clicked</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Submenu Components</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Component</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>coar-sub-flyout</code></td>
+              <td>Opens submenu as a floating panel on hover</td>
+            </tr>
+            <tr>
+              <td><code>coar-sub-expand</code></td>
+              <td>Expands submenu inline (accordion style)</td>
+            </tr>
+            <tr>
+              <td><code>coar-menu-heading</code></td>
+              <td>Non-interactive section heading</td>
+            </tr>
+            <tr>
+              <td><code>coar-menu-divider</code></td>
+              <td>Visual separator between groups</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-
-      <coar-code-block [code]="codeExamples.kitchenSink" language="html" />
-    </section>
-
-    <!-- Context Menu with Flyout Submenu -->
-    <section class="example-section">
-      <h2 class="coar-heading">Context Menu with Flyout Submenu</h2>
-      <p class="section-intro coar-body-small">
-        Right-click the demo area to open a context menu. Hover over "Share" to see a flyout submenu using the overlay system.
-      </p>
-
-      <div class="context-demo-area" (contextmenu)="onContextMenu($event)">
-        <p>Right-click anywhere in this area</p>
-        <p class="coar-body-small" style="color: #999">Context menu with flyout submenu will appear</p>
-      </div>
-
-      <coar-code-block [code]="codeExamples.contextMenu" language="typescript" />
-    </section>
-
-    <coar-note type="info" style="margin-top: 2rem">
-      <strong>Note:</strong> Flyout submenus leverage the Cocoar Overlay System (via the overlay builder) for proper hierarchy management, z-index
-      stacking, and click-outside handling.
-    </coar-note>
+    </details>
   </div>
-</ng-template>
+</div>
 
 <!-- Context Menu Template -->
 <ng-template #contextMenuTemplate>

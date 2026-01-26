@@ -92,22 +92,23 @@ export const appRoutes: Route[] = [
   },
   {
     path: 'selects',
-    redirectTo: 'single-select',
+    loadComponent: () => import('./pages/selects/selects.page').then((m) => m.SelectsPage),
+  },
+  // Redirect old routes to merged page with anchor
+  {
+    path: 'single-select',
+    redirectTo: 'selects',
     pathMatch: 'full',
   },
   {
-    path: 'single-select',
-    loadComponent: () =>
-      import('./pages/single-select/single-select.page').then((m) => m.SingleSelectPage),
-  },
-  {
     path: 'multi-select',
-    loadComponent: () =>
-      import('./pages/multi-select/multi-select.page').then((m) => m.MultiSelectPage),
+    redirectTo: 'selects',
+    pathMatch: 'full',
   },
   {
     path: 'tag-select',
-    loadComponent: () => import('./pages/tag-select/tag-select.page').then((m) => m.TagSelectPage),
+    redirectTo: 'selects',
+    pathMatch: 'full',
   },
   {
     path: 'checkboxes',

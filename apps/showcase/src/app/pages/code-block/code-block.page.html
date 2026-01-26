@@ -1,78 +1,149 @@
 <div class="component-page">
   <header class="page-header">
     <h1 class="coar-title">Code Block</h1>
-    <p class="coar-body">A versatile code display component with syntax hints, copy functionality, and collapsible sections.</p>
+    <p class="page-description">A versatile code display component with syntax hints, copy functionality, and collapsible sections.</p>
   </header>
 
-  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
-    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
-    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
-  </coar-tab-group>
-</div>
-
-<!-- ==================== EXAMPLES TAB ==================== -->
-<ng-template #examplesTemplate>
   <div class="examples-content">
-    <!-- Basic Example -->
-    <section class="example-section">
-      <h2 class="coar-heading">Basic Usage</h2>
-      <p class="section-intro coar-body-small">
-        The code block automatically adapts to the current theme. Toggle the theme in the sidebar to see it change.
-      </p>
-      <coar-code-block [code]="basicExample" language="html" />
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+    <!-- ============================================ -->
+    <!-- BASIC EXAMPLES -->
+    <!-- ============================================ -->
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Basic Usage</h3>
+        <p class="example-description">The code block automatically adapts to the current theme. Toggle the theme in the sidebar to see it change.</p>
+        <div class="example-demo">
+          <coar-code-block [code]="basicExample" language="html" />
+        </div>
+      </coar-card>
 
-    <!-- Languages -->
-    <section class="example-section">
-      <h2 class="coar-heading">Language Support</h2>
-      <p class="section-intro coar-body-small">Display code in various languages with appropriate labels.</p>
-      <div class="code-stack">
-        <coar-code-block [code]="tsExample" language="typescript" title="example.component.ts" />
-        <coar-code-block [code]="cssExample" language="css" title="styles.css" />
-        <coar-code-block [code]="jsonExample" language="json" title="package.json" />
+      <coar-card color="outlined">
+        <h3>Language Support</h3>
+        <p class="example-description">Display code in various languages with appropriate labels.</p>
+        <div class="example-demo code-stack">
+          <coar-code-block [code]="tsExample" language="typescript" title="example.component.ts" />
+          <coar-code-block [code]="cssExample" language="css" title="styles.css" />
+          <coar-code-block [code]="jsonExample" language="json" title="package.json" />
+        </div>
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Collapsible</h3>
+        <p class="example-description">Click the chevron to expand or collapse the code block.</p>
+        <div class="example-demo">
+          <coar-code-block [code]="basicExample" language="html" [collapsible]="true" [collapsed]="true" title="Collapsed by default" />
+        </div>
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Non-collapsible</h3>
+        <p class="example-description">Always visible with no toggle option.</p>
+        <div class="example-demo">
+          <coar-code-block [code]="basicExample" language="html" [collapsible]="false" />
+        </div>
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Without Copy Button</h3>
+        <p class="example-description">For read-only display where copying is not needed.</p>
+        <div class="example-demo">
+          <coar-code-block [code]="basicExample" language="html" [showCopy]="false" />
+        </div>
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Line Numbers</h3>
+        <p class="example-description">Enable line numbers for easier referencing in docs and reviews.</p>
+        <div class="example-demo">
+          <coar-code-block [code]="tsExample" language="typescript" title="example.component.ts" [showLineNumbers]="true" />
+        </div>
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- MAX HEIGHT SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Max Height</h2>
+    <p class="component-section-description">Limits the height with internal scrolling for long code snippets.</p>
+
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Scrollable Content</h3>
+        <p class="example-description">Set a max height to enable scrolling for long code.</p>
+        <div class="example-demo">
+          <coar-code-block [code]="longExample" language="typescript" [maxHeight]="200" />
+        </div>
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- API SECTION -->
+    <!-- ============================================ -->
+    <details class="api-section">
+      <summary>Code Block API</summary>
+      <div class="api-content">
+        <h4>Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>code</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>The code content to display</td>
+            </tr>
+            <tr>
+              <td><code>language</code></td>
+              <td><code>string</code></td>
+              <td><code>'text'</code></td>
+              <td>Programming language for label (html, typescript, css, json, etc.)</td>
+            </tr>
+            <tr>
+              <td><code>title</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Optional title/filename shown in header</td>
+            </tr>
+            <tr>
+              <td><code>showLineNumbers</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Show line numbers in the gutter</td>
+            </tr>
+            <tr>
+              <td><code>showCopy</code></td>
+              <td><code>boolean</code></td>
+              <td><code>true</code></td>
+              <td>Show the copy-to-clipboard button</td>
+            </tr>
+            <tr>
+              <td><code>collapsible</code></td>
+              <td><code>boolean</code></td>
+              <td><code>true</code></td>
+              <td>Allow expanding/collapsing the code</td>
+            </tr>
+            <tr>
+              <td><code>collapsed</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Initial collapsed state</td>
+            </tr>
+            <tr>
+              <td><code>maxHeight</code></td>
+              <td><code>number</code></td>
+              <td><code>-</code></td>
+              <td>Maximum height in pixels before scrolling</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Collapsible -->
-    <section class="example-section">
-      <h2 class="coar-heading">Collapsible</h2>
-      <p class="section-intro coar-body-small">Click the chevron to expand or collapse the code block.</p>
-      <coar-code-block [code]="basicExample" language="html" [collapsible]="true" [collapsed]="true" title="Collapsed by default" />
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Non-collapsible -->
-    <section class="example-section">
-      <h2 class="coar-heading">Non-collapsible</h2>
-      <p class="section-intro coar-body-small">Always visible with no toggle option.</p>
-      <coar-code-block [code]="basicExample" language="html" [collapsible]="false" />
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Without Copy Button -->
-    <section class="example-section">
-      <h2 class="coar-heading">Without Copy Button</h2>
-      <p class="section-intro coar-body-small">For read-only display where copying is not needed.</p>
-      <coar-code-block [code]="basicExample" language="html" [showCopy]="false" />
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Line numbers -->
-    <section class="example-section">
-      <h2 class="coar-heading">Line Numbers</h2>
-      <p class="section-intro coar-body-small">Enable line numbers for easier referencing in docs and reviews.</p>
-      <coar-code-block [code]="tsExample" language="typescript" title="example.component.ts" [showLineNumbers]="true" />
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Max Height -->
-    <section class="example-section">
-      <h2 class="coar-heading">Max Height (Scrollable)</h2>
-      <p class="section-intro coar-body-small">Limits the height with internal scrolling for long code snippets.</p>
-      <coar-code-block [code]="longExample" language="typescript" [maxHeight]="200" />
-    </section>
+    </details>
   </div>
-</ng-template>
+</div>

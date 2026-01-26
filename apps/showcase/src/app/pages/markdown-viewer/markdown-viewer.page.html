@@ -1,45 +1,103 @@
 <div class="component-page">
   <header class="page-header">
     <h1 class="coar-title">Markdown Viewer</h1>
-    <p class="coar-body">
+    <p class="page-description">
       Renders a pre-parsed <code>MarkdownDocument</code> via <code>&lt;coar-markdown [doc]&gt;</code>. External links open in a new tab with basic
       security attributes.
     </p>
   </header>
 
-  <!-- Tabs follow the standard showcase pattern -->
-
-  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
-    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }"> API </coar-tab>
-    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }"> Docs </coar-tab>
-  </coar-tab-group>
-</div>
-
-<ng-template #examplesTemplate>
   <div class="examples-content">
-    <section class="example-section">
-      <h2 class="coar-heading">Rendered Output</h2>
-      <p class="section-intro coar-body-small">
-        The markdown below is loaded from <code>{{ markdownPath }}</code
-        >, parsed with <code>parse()</code>, and rendered without HTML string injection.
-      </p>
+    <!-- ============================================ -->
+    <!-- BASIC EXAMPLES -->
+    <!-- ============================================ -->
+    <div class="examples-grid">
+      <coar-card [elevated]="true" class="markdown-card">
+        <h3>Rendered Output</h3>
+        <p class="example-description">
+          The markdown below is loaded from <code>{{ markdownPath }}</code
+          >, parsed with <code>parse()</code>, and rendered without HTML string injection.
+        </p>
+        <div class="example-demo markdown-host-container">
+          <coar-markdown class="markdown-host" [doc]="doc()" />
+        </div>
+      </coar-card>
 
-      <coar-markdown class="markdown-host" [doc]="doc()" />
-    </section>
+      <coar-card color="outlined">
+        <h3>Input Markdown</h3>
+        <p class="example-description">The raw markdown source that was parsed.</p>
+        <div class="example-demo">
+          <coar-code-block [code]="markdownSource()" language="markdown" [title]="markdownPath" [maxHeight]="260" />
+        </div>
+      </coar-card>
+    </div>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+    <!-- ============================================ -->
+    <!-- USAGE SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Usage</h2>
+    <p class="component-section-description">How to use the markdown viewer in your application.</p>
 
-    <section class="example-section">
-      <h2 class="coar-heading">Input Markdown</h2>
-      <coar-code-block [code]="markdownSource()" language="markdown" [title]="markdownPath" [maxHeight]="260" />
-    </section>
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Basic Usage</h3>
+        <p class="example-description">Parse markdown text and render with the component.</p>
+        <div class="example-demo">
+          <coar-code-block [code]="usageCode" language="typescript" />
+        </div>
+      </coar-card>
+    </div>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <section class="example-section">
-      <h2 class="coar-heading">Usage</h2>
-      <coar-code-block [code]="usageCode" language="typescript" title="Example usage" />
-    </section>
+    <!-- ============================================ -->
+    <!-- API SECTION -->
+    <!-- ============================================ -->
+    <details class="api-section">
+      <summary>Markdown Viewer API</summary>
+      <div class="api-content">
+        <h4>Component Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>doc</code></td>
+              <td><code>MarkdownDocument</code></td>
+              <td>Pre-parsed markdown document from <code>parse()</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Parser Function</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Function</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>parse(markdown: string)</code></td>
+              <td>Parses markdown text into a MarkdownDocument AST</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Supported Markdown Features</h4>
+        <ul class="coar-body-small">
+          <li>Headings (h1-h6)</li>
+          <li>Bold, italic, strikethrough</li>
+          <li>Inline code and code blocks</li>
+          <li>Ordered and unordered lists</li>
+          <li>Task lists (checkboxes)</li>
+          <li>Blockquotes</li>
+          <li>Links (external open in new tab)</li>
+          <li>Tables</li>
+        </ul>
+      </div>
+    </details>
   </div>
-</ng-template>
+</div>

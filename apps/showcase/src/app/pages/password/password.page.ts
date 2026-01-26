@@ -3,12 +3,8 @@ import { Component, signal } from '@angular/core';
 import {
   CoarPasswordInputComponent,
   CoarCodeBlockComponent,
-  CoarTabGroupComponent,
-  CoarTabComponent,
-  CoarDividerComponent,
+  CoarCardComponent,
 } from '@cocoar/ui-components';
-
-import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/showcase-markdown-tab-content/showcase-markdown-tab-content.component';
 
 @Component({
   selector: 'app-password',
@@ -16,21 +12,12 @@ import { ShowcaseMarkdownTabContentComponent } from '../../shared/components/sho
   imports: [
     CoarPasswordInputComponent,
     CoarCodeBlockComponent,
-    CoarTabGroupComponent,
-    CoarTabComponent,
-    CoarDividerComponent,
+    CoarCardComponent,
   ],
   templateUrl: './password.page.html',
   styleUrl: './password.page.css',
 })
 export class PasswordPage {
-  protected readonly ShowcaseMarkdownTabContentComponent = ShowcaseMarkdownTabContentComponent;
-
-  activeTab = 'examples';
-
-  protected readonly docsPath = '/docs/libs/ui-components/coar-password-input.docs.md';
-  protected readonly apiPath = '/docs/libs/ui-components/coar-password-input.api.md';
-
   // Demo values
   basicValue = signal('');
   withValuePassword = signal('SecurePass123!');
@@ -67,27 +54,15 @@ export class PasswordPage {
 />`,
 
     states: `<!-- Disabled -->
-<coar-password-input
-  label="Password"
-  [disabled]="true"
-  value="DisabledPassword"
-/>
+<coar-password-input label="Password" [disabled]="true" value="DisabledPassword" />
 
 <!-- Readonly -->
-<coar-password-input
-  label="Password"
-  [readonly]="true"
-  value="ReadonlyPassword"
-/>`,
+<coar-password-input label="Password" [readonly]="true" value="ReadonlyPassword" />`,
 
-    sizes: `<!-- Small - 32px height -->
-<coar-password-input size="sm" placeholder="Compact password" />
-
-<!-- Medium (default) - 40px height -->
-<coar-password-input size="md" placeholder="Standard password" />
-
-<!-- Large - 48px height -->
-<coar-password-input size="lg" placeholder="Prominent password" />`,
+    sizes: `<!-- Available sizes: sm, md, lg -->
+<coar-password-input size="sm" placeholder="32px height" />
+<coar-password-input size="md" placeholder="40px height" />
+<coar-password-input size="lg" placeholder="48px height" />`,
 
     changePassword: `<coar-password-input
   label="Current Password"

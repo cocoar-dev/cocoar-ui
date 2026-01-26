@@ -1,98 +1,79 @@
 <div class="component-page">
   <header class="page-header">
     <h1 class="coar-title">Radio Group</h1>
-    <p class="description coar-body">
+    <p class="page-description">
       Radio buttons allow users to select exactly one option from a set. Use radio groups when users need to see all available options and make a
       mutually exclusive choice.
     </p>
   </header>
 
-  <coar-tab-group [activeTab]="activeTab" (activeTabChange)="activeTab = $event">
-    <coar-tab id="examples" [content]="examplesTemplate">Examples</coar-tab>
-    <coar-tab id="api" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: apiPath }">API</coar-tab>
-    <coar-tab id="docs" [content]="ShowcaseMarkdownTabContentComponent" [contentInputs]="{ path: docsPath }">Docs</coar-tab>
-  </coar-tab-group>
-</div>
-
-<ng-template #examplesTemplate>
   <div class="examples-content">
-    <!-- Basic Usage -->
-    <section class="example-section">
-      <h2 class="coar-heading">Basic Usage</h2>
-      <p class="section-intro coar-body-small">A simple radio group with three options. Default layout is vertical.</p>
-      <div class="example-demo">
-        <div class="demo-row">
+    <!-- ============================================ -->
+    <!-- BASIC EXAMPLES -->
+    <!-- ============================================ -->
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Basic Usage</h3>
+        <p class="example-description">A simple radio group with three options. Default layout is vertical.</p>
+        <div class="example-demo">
           <coar-radio-group name="basic-options" [(ngModel)]="basicSelection" orientation="vertical">
             <coar-radio value="option1">Option 1</coar-radio>
             <coar-radio value="option2">Option 2</coar-radio>
             <coar-radio value="option3">Option 3</coar-radio>
           </coar-radio-group>
-          <div class="selection-display">
-            <span class="coar-body-small"
-              >Selected: <strong>{{ basicSelection() || 'None' }}</strong></span
-            >
-            <coar-button variant="ghost" size="sm" (clicked)="resetBasic()">Reset</coar-button>
-          </div>
         </div>
-      </div>
-      <coar-code-block [code]="codeExamples.basic" language="html" [collapsed]="true" />
-    </section>
+        <div class="demo-value">
+          Selected: <strong>{{ basicSelection() || 'None' }}</strong>
+          <coar-button variant="ghost" size="sm" (clicked)="resetBasic()">Reset</coar-button>
+        </div>
+        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+      <coar-card color="outlined">
+        <h3>Vertical Layout</h3>
+        <p class="example-description">Options stacked vertically with descriptive labels. Best for longer option text.</p>
+        <div class="example-demo">
+          <coar-radio-group name="color-options" [(ngModel)]="colorSelection" orientation="vertical">
+            @for (color of colors; track color.value) {
+              <coar-radio [value]="color.value">
+                <strong>{{ color.label }}</strong> — {{ color.description }}
+              </coar-radio>
+            }
+          </coar-radio-group>
+        </div>
+        <p class="demo-value">Selected: {{ colorSelection() }}</p>
+        <coar-code-block [code]="codeExamples.vertical" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <!-- Vertical Layout -->
-    <section class="example-section">
-      <h2 class="coar-heading">Vertical Layout</h2>
-      <p class="section-intro coar-body-small">Options stacked vertically with descriptive labels. Best for longer option text.</p>
-      <div class="example-demo">
-        <coar-radio-group name="color-options" [(ngModel)]="colorSelection" orientation="vertical">
-          @for (color of colors; track color.value) {
-            <coar-radio [value]="color.value">
-              <strong>{{ color.label }}</strong> — {{ color.description }}
-            </coar-radio>
-          }
-        </coar-radio-group>
-        <p class="selection-info coar-caption">You selected: {{ colorSelection() }}</p>
-      </div>
-      <coar-code-block [code]="codeExamples.vertical" language="html" [collapsed]="true" />
-    </section>
+      <coar-card color="outlined">
+        <h3>Horizontal Layout</h3>
+        <p class="example-description">Options displayed side by side. Best for short labels and limited options.</p>
+        <div class="example-demo">
+          <coar-radio-group name="plan-options" [(ngModel)]="planSelection" orientation="horizontal">
+            @for (plan of plans; track plan.value) {
+              <coar-radio [value]="plan.value">{{ plan.label }}</coar-radio>
+            }
+          </coar-radio-group>
+          <coar-card padding="sm" class="plan-details">
+            @if (planSelection() === 'free') {
+              <strong>Free Plan</strong>
+              <p class="coar-body-small">5 projects, 1GB storage - Perfect for getting started</p>
+            } @else if (planSelection() === 'pro') {
+              <strong>Pro Plan</strong>
+              <p class="coar-body-small">Unlimited projects, 100GB storage - For serious creators</p>
+            } @else {
+              <strong>Enterprise Plan</strong>
+              <p class="coar-body-small">Custom limits, priority support - For large teams</p>
+            }
+          </coar-card>
+        </div>
+        <coar-code-block [code]="codeExamples.horizontal" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Horizontal Layout -->
-    <section class="example-section">
-      <h2 class="coar-heading">Horizontal Layout</h2>
-      <p class="section-intro coar-body-small">Options displayed side by side. Best for short labels and limited options.</p>
-      <div class="example-demo">
-        <coar-radio-group name="plan-options" [(ngModel)]="planSelection" orientation="horizontal">
-          @for (plan of plans; track plan.value) {
-            <coar-radio [value]="plan.value">{{ plan.label }}</coar-radio>
-          }
-        </coar-radio-group>
-        <coar-card padding="sm" class="plan-details">
-          @if (planSelection() === 'free') {
-            <strong>Free Plan</strong>
-            <p class="coar-body-small">5 projects, 1GB storage - Perfect for getting started</p>
-          } @else if (planSelection() === 'pro') {
-            <strong>Pro Plan</strong>
-            <p class="coar-body-small">Unlimited projects, 100GB storage - For serious creators</p>
-          } @else {
-            <strong>Enterprise Plan</strong>
-            <p class="coar-body-small">Custom limits, priority support - For large teams</p>
-          }
-        </coar-card>
-      </div>
-      <coar-code-block [code]="codeExamples.horizontal" language="html" [collapsed]="true" />
-    </section>
-
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
-
-    <!-- Disabled States -->
-    <section class="example-section">
-      <h2 class="coar-heading">Disabled States</h2>
-      <p class="section-intro coar-body-small">Disable the entire group or individual options.</p>
-      <div class="example-demo">
-        <div class="disabled-examples">
+      <coar-card color="outlined">
+        <h3>Disabled States</h3>
+        <p class="example-description">Disable the entire group or individual options.</p>
+        <div class="example-demo disabled-examples">
           <div class="disabled-group">
             <span class="coar-body-small-bold">Entire group disabled:</span>
             <coar-radio-group name="disabled-group-demo" [ngModel]="disabledSelection()" [disabled]="true" orientation="vertical">
@@ -109,33 +90,127 @@
             </coar-radio-group>
           </div>
         </div>
-      </div>
-      <coar-code-block [code]="codeExamples.disabled" language="html" [collapsed]="true" />
-    </section>
+        <coar-code-block [code]="codeExamples.disabled" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
 
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+    <!-- ============================================ -->
+    <!-- ACCESSIBILITY SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Accessibility</h2>
+    <p class="component-section-description">Radio groups are fully accessible with keyboard navigation and screen reader support.</p>
 
-    <!-- Accessibility -->
-    <section class="example-section">
-      <h2 class="coar-heading">Accessibility</h2>
-      <p class="section-intro coar-body-small">Radio groups are fully accessible with keyboard navigation and screen reader support.</p>
-      <div class="accessibility-info">
-        <coar-card padding="sm">
-          <strong class="coar-body-small-bold">Keyboard Navigation</strong>
-          <ul class="coar-body-small">
-            <li><code>Tab</code> - Move focus to the radio group</li>
-            <li><code>↑</code> <code>↓</code> - Navigate between options (vertical layout)</li>
-            <li><code>←</code> <code>→</code> - Navigate between options (horizontal layout)</li>
-            <li><code>Space</code> - Select the focused option</li>
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Keyboard Navigation</h3>
+        <p class="example-description">Full keyboard support for navigation and selection.</p>
+        <div class="example-demo keyboard-grid">
+          <div class="keyboard-item"><kbd>Tab</kbd> <span>Move focus to the radio group</span></div>
+          <div class="keyboard-item"><kbd>↑</kbd> <kbd>↓</kbd> <span>Navigate between options (vertical)</span></div>
+          <div class="keyboard-item"><kbd>←</kbd> <kbd>→</kbd> <span>Navigate between options (horizontal)</span></div>
+          <div class="keyboard-item"><kbd>Space</kbd> <span>Select the focused option</span></div>
+        </div>
+      </coar-card>
+
+      <coar-card color="outlined">
+        <h3>Screen Readers</h3>
+        <p class="example-description">Each radio button is properly labeled and announces its state and position.</p>
+        <div class="example-demo a11y-list">
+          <ul>
+            <li>Announces "Option 1, radio button, 1 of 3, selected"</li>
+            <li>Group role with proper labeling</li>
+            <li>State changes announced automatically</li>
           </ul>
-        </coar-card>
-        <coar-card padding="sm">
-          <strong class="coar-body-small-bold">Screen Readers</strong>
-          <p class="coar-body-small">
-            Each radio button is properly labeled and announces its state (selected/unselected) and position within the group.
-          </p>
-        </coar-card>
+        </div>
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- API SECTION -->
+    <!-- ============================================ -->
+    <details class="api-section">
+      <summary>Radio Group API</summary>
+      <div class="api-content">
+        <h4>CoarRadioGroup Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>name</code></td>
+              <td><code>string</code></td>
+              <td><code>auto-generated</code></td>
+              <td>Form control name for the radio group</td>
+            </tr>
+            <tr>
+              <td><code>orientation</code></td>
+              <td><code>'vertical' | 'horizontal'</code></td>
+              <td><code>'vertical'</code></td>
+              <td>Layout direction of radio buttons</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Disable all radio buttons in the group</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>CoarRadio Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>value</code></td>
+              <td><code>any</code></td>
+              <td><code>-</code></td>
+              <td>Value of the radio button (required)</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Disable this specific radio button</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Angular Forms Support</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Directive</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>[(ngModel)]</code></td>
+              <td>Two-way binding with template-driven forms</td>
+            </tr>
+            <tr>
+              <td><code>[formControl]</code></td>
+              <td>Reactive form control binding</td>
+            </tr>
+            <tr>
+              <td><code>formControlName</code></td>
+              <td>Reactive form group binding</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </section>
+    </details>
   </div>
-</ng-template>
+</div>
