@@ -1,6 +1,6 @@
 {
   "name": "@cocoar/markdown-viewer",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Angular Markdown viewer for the Cocoar Design System",
   "author": "Cocoar",
   "license": "Apache-2.0",
@@ -22,8 +22,8 @@
   "peerDependencies": {
     "@angular/common": "^21.0.0",
     "@angular/core": "^21.0.0",
-    "@cocoar/markdown-core": "^0.0.2",
-    "@cocoar/ui-components": "^0.0.2"
+    "@cocoar/markdown-core": "^0.1.0",
+    "@cocoar/ui-components": "^0.1.0"
   },
   "sideEffects": false
 }

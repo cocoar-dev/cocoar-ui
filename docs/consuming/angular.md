@@ -11,7 +11,6 @@ This repo ships Angular libraries under the `@cocoar/*` scope.
 - **@cocoar/ui-tokens** - Design tokens (CSS variables) - required
 - **@cocoar/markdown-viewer** - Markdown rendering component
 - **@cocoar/logging** - Logging utilities
-- **@cocoar/ui-docs** - Documentation (dev dependency)
 
 ## Install
 
@@ -32,13 +31,6 @@ npm install @cocoar/ui-components @cocoar/ui-menu @cocoar/ui-tokens
 ```
 
 Note: `@cocoar/ui-tokens` is always required for styling to work.
-
-### Optional: Documentation
-
-```bash
-npm install -D @cocoar/ui-docs
-npx @cocoar/ui-docs init  # Sets up AI assistant integration
-```
 
 ## Setup CSS
 

@@ -90,9 +90,8 @@ export class CoarRadioGroupComponent<T = unknown> extends CoarControlValueAccess
   protected hasError = computed(() => this.error().length > 0);
   protected displayMessage = computed(() => this.error() || this.hint());
   protected hasMessage = computed(() => this.displayMessage().length > 0);
-  protected messageId = computed(
-    () => `coar-radio-group-${Math.random().toString(36).substr(2, 9)}-message`
-  );
+  private readonly autoId = `coar-radio-group-${cryptoRandomId()}`;
+  protected messageId = computed(() => `${this.autoId}-message`);
 
   /** Called by child radio when selected */
   selectValue(newValue: T): void {
@@ -117,4 +116,11 @@ export class CoarRadioGroupComponent<T = unknown> extends CoarControlValueAccess
   override writeValue(value: T): void {
     this.value.set(value);
   }
+}
+
+function cryptoRandomId(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+  return `${Date.now().toString(16)}-${Math.random().toString(16).slice(2)}`;
 }

@@ -1,6 +1,28 @@
 {
   "name": "@cocoar/data-grid",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "description": "AG Grid wrapper components for the Cocoar Design System",
+  "author": "Cocoar",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cocoar-dev/cocoar-ui.git",
+    "directory": "libs/data-grid"
+  },
+  "bugs": {
+    "url": "https://github.com/cocoar-dev/cocoar-ui/issues"
+  },
+  "homepage": "https://github.com/cocoar-dev/cocoar-ui",
+  "keywords": [
+    "angular",
+    "data-grid",
+    "ag-grid",
+    "table",
+    "cocoar"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "peerDependencies": {
     "@angular/common": "^21.0.0",
     "@angular/core": "^21.0.0",

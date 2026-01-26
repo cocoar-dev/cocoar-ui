@@ -59,9 +59,8 @@ export class CoarRadioComponent<T = unknown> {
     return this.group?.name() ?? '';
   });
 
-  protected inputId = computed(() => {
-    return `coar-radio-${Math.random().toString(36).substr(2, 9)}`;
-  });
+  private readonly autoId = `coar-radio-${cryptoRandomId()}`;
+  protected inputId = computed(() => this.autoId);
 
   protected onClick(event: Event): void {
     if (this.isDisabled()) {
@@ -89,4 +88,11 @@ export class CoarRadioComponent<T = unknown> {
       this.group.selectValue(this.value());
     }
   }
+}
+
+function cryptoRandomId(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+  return `${Date.now().toString(16)}-${Math.random().toString(16).slice(2)}`;
 }

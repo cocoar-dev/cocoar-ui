@@ -88,7 +88,7 @@ Use as boolean attribute: `<coar-card elevated>` or `[elevated]="true"` |
 | borderless | boolean | no | false | Removes the border from the card, leaving only background color.
 By default (false), cards have a visible border matching their color.
 Use as boolean attribute: `<coar-card borderless>` or `[borderless]="true"` |
-| color | 'neutral' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'accent' | no | 'neutral' | Card color scheme |
+| color | 'neutral' \| 'outlined' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'accent' | no | 'neutral' | Card color scheme |
 | padding | 'none' \| 'sm' \| 'md' \| 'lg' | no | 'md' | Card padding size |
 
 ### Outputs
@@ -103,6 +103,9 @@ None.
 | Name | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
 | label | string | no | '' | Label text displayed next to the checkbox |
+| indeterminate | boolean | no | false | Sets the checkbox to indeterminate state (visual only).
+Typically used for "select all" checkboxes when some children are selected.
+The indeterminate state is cleared when the user clicks the checkbox. |
 | disabled | boolean | no | false | Disables the checkbox (greyed out, not focusable) |
 | readonly | boolean | no | false | Prevents changes but keeps normal appearance and focus |
 | required | boolean | no | false | Marks as required, shows asterisk on label |
@@ -114,9 +117,7 @@ None.
 | value | string | no | '' | Value submitted with form when checked |
 
 ### Outputs
-| Name | Type | Description |
-| --- | --- | --- |
-| checkedChange | CoarCheckboxState | Emits when state changes: 'checked' or 'unchecked' |
+None.
 
 ## coar-code-block
 
@@ -362,37 +363,14 @@ If not provided, uses locale service default or falls back to { decimal: '.', th
 ### Inputs
 | Name | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
-| label | string | no | '' | Label text displayed above the input |
-| placeholder | string | no | '' | Placeholder text when no date is selected |
-| size | 'xs' \| 'sm' \| 'md' \| 'lg' | no | 'md' | Size variant |
-| readonly | boolean | no | false | Whether the picker is readonly |
-| disabled | boolean | no | false | Whether the picker is disabled |
-| required | boolean | no | false | Whether the field is required |
-| error | boolean | no | false | Error state |
-| message | string | no | '' | Helper or error message |
 | min | Temporal.PlainDate \| null | no | null | Minimum selectable date |
 | max | Temporal.PlainDate \| null | no | null | Maximum selectable date |
-| locale | string | no | '' | Locale identifier for date formatting (e.g., 'de-AT', 'en-US').
-Uses global locale service default if not specified. |
-| dateFormatConfig | DateFormatConfig | no | '' | Date format configuration (pattern and first day of week).
-If not provided, uses locale service default or falls back to European format. |
-| showTodayMonthButton | boolean | no | true | Whether to show the current month button (floating action button that scrolls to current month). |
-| showWeekNumbers | boolean | no | false | Whether to show week numbers |
-| highlightWeekends | boolean | no | false | Whether to highlight weekend days |
-| markers | CoarDateMarker[] | no | [] | Date markers for highlighting special dates |
-| clearable | boolean | no | true | Whether to show a clear button when a value is selected |
 | closeOnSelect | boolean | no | false | Whether to close the panel after selecting a date (default: false to allow viewing events) |
-| minYear | number | no | Temporal.Now.plainDateISO().year - 100 | Minimum year in the year stepper.
-Default: current year - 100 |
-| maxYear | number | no | Temporal.Now.plainDateISO().year + 50 | Maximum year in the year stepper.
-Default: current year + 50 |
 
 ### Outputs
 | Name | Type | Description |
 | --- | --- | --- |
 | valueChange | Temporal.PlainDate \| null | Emitted when the selected value changes |
-| opened | void | Emitted when the picker opens |
-| closed | void | Emitted when the picker closes |
 
 ## coar-plain-date-time-picker
 
@@ -402,42 +380,19 @@ Default: current year + 50 |
 ### Inputs
 | Name | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
-| label | string | no | '' | Label text displayed above the input |
-| placeholder | string | no | '' | Placeholder text when no date/time is selected |
-| size | 'xs' \| 'sm' \| 'md' \| 'lg' | no | 'md' | Size variant |
-| readonly | boolean | no | false | Whether the picker is readonly |
-| disabled | boolean | no | false | Whether the picker is disabled |
-| required | boolean | no | false | Whether the field is required |
-| error | boolean | no | false | Error state |
-| message | string | no | '' | Helper or error message |
 | min | Temporal.PlainDateTime \| null | no | null | Minimum selectable datetime |
 | max | Temporal.PlainDateTime \| null | no | null | Maximum selectable datetime |
-| locale | string | no | '' | Locale identifier for date/time formatting (e.g., 'de-AT', 'en-US').
-Uses global locale service default if not specified. |
-| dateFormatConfig | DateFormatConfig | no | '' | Date format configuration (pattern and first day of week).
-If not provided, uses locale service default or falls back to European format. |
-| showTodayMonthButton | boolean | no | true | Whether to show the current month button (floating action button that scrolls to current month). |
-| showWeekNumbers | boolean | no | false | Whether to show week numbers |
-| highlightWeekends | boolean | no | false | Whether to highlight weekend days |
-| markers | CoarDateMarker[] | no | [] | Date markers for highlighting special dates |
-| clearable | boolean | no | true | Whether to show a clear button when a value is selected |
 | use24Hour | boolean \| 'auto' | no | 'auto' | Whether to use 24-hour time format.
 - true: Always use 24h format
 - false: Always use 12h format with AM/PM
 - 'auto': Detect from locale (default) |
 | minuteStep | 1 \| 5 \| 10 \| 15 | no | 5 | Step interval for minute selection (1, 5, 10, or 15) |
 | defaultTime | CoarTimeValue | no | { hours: 9, minutes: 0 } | Default time to use when selecting a date without existing time. |
-| minYear | number | no | Temporal.Now.plainDateISO().year - 100 | Minimum year in the year stepper.
-Default: current year - 100 |
-| maxYear | number | no | Temporal.Now.plainDateISO().year + 50 | Maximum year in the year stepper.
-Default: current year + 50 |
 
 ### Outputs
 | Name | Type | Description |
 | --- | --- | --- |
 | valueChange | Temporal.PlainDateTime \| null | Emitted when the selected value changes |
-| opened | void | Emitted when the picker opens |
-| closed | void | Emitted when the picker closes |
 
 ## coar-popover
 
@@ -724,4 +679,39 @@ Used to constrain time selection when on a max date boundary. |
 
 ### Outputs
 None.
+
+## coar-zoned-date-time-picker
+
+- Class: CoarZonedDateTimePickerComponent
+- Selector: `coar-zoned-date-time-picker`
+
+### Inputs
+| Name | Type | Required | Default | Description |
+| --- | --- | --- | --- | --- |
+| timeZone | string \| null | no | null | The timezone for the value.
+
+This represents where the event "lives" - it's persisted with the value.
+If not provided, uses the timezone from CoarTimeZoneService.
+
+Examples: 'Europe/Vienna', 'America/New_York', 'UTC' |
+| min | Temporal.ZonedDateTime \| null | no | null | Minimum selectable datetime (in the value's timezone) |
+| max | Temporal.ZonedDateTime \| null | no | null | Maximum selectable datetime (in the value's timezone) |
+| use24Hour | boolean \| 'auto' | no | 'auto' | Whether to use 24-hour time format.
+- true: Always use 24h format
+- false: Always use 12h format with AM/PM
+- 'auto': Detect from locale (default) |
+| minuteStep | 1 \| 5 \| 10 \| 15 | no | 5 | Step interval for minute selection (1, 5, 10, or 15) |
+| defaultTime | CoarTimeValue | no | { hours: 9, minutes: 0 } | Default time to use when selecting a date without existing time. |
+| timezoneFilter | string[] | no | [] | Filter patterns for available timezone options.
+
+Supports wildcards:
+- `*` matches any characters
+- Patterns are case-insensitive
+
+If not provided or empty, all IANA timezones are available. |
+
+### Outputs
+| Name | Type | Description |
+| --- | --- | --- |
+| valueChange | Temporal.ZonedDateTime \| null | Emitted when the selected value changes |
 

@@ -5,7 +5,6 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import {
   CoarCheckboxComponent,
   CoarCheckboxSize,
-  CoarCheckboxState,
 } from './coar-checkbox.component';
 
 @Component({
@@ -15,7 +14,7 @@ import {
   template: ` <coar-checkbox [formControl]="control" /> `,
 })
 class TestReactiveFormsHostComponent {
-  control = new FormControl<CoarCheckboxState | undefined | null>(null);
+  control = new FormControl<boolean | undefined | null>(null);
 }
 
 describe('CoarCheckboxComponent', () => {
@@ -71,21 +70,21 @@ describe('CoarCheckboxComponent', () => {
 
   describe('checked state', () => {
     it('should support checked state', () => {
-      fixture.componentRef.setInput('checked', 'checked');
+      fixture.componentRef.setInput('checked', true);
       fixture.detectChanges();
-      expect(component.checked()).toBe('checked');
+      expect(component.checked()).toBe(true);
     });
 
     it('should support unchecked state', () => {
-      fixture.componentRef.setInput('checked', 'unchecked');
+      fixture.componentRef.setInput('checked', false);
       fixture.detectChanges();
-      expect(component.checked()).toBe('unchecked');
+      expect(component.checked()).toBe(false);
     });
 
-    it('should support indeterminate state', () => {
-      fixture.componentRef.setInput('checked', 'indeterminate');
+    it('should support indeterminate state via separate input', () => {
+      fixture.componentRef.setInput('indeterminate', true);
       fixture.detectChanges();
-      expect(component.checked()).toBe('indeterminate');
+      expect(component.indeterminate()).toBe(true);
     });
   });
 
@@ -131,44 +130,43 @@ describe('CoarCheckboxComponent', () => {
   });
 
   describe('toggle behavior', () => {
-    it('should emit checkedChange on click', () => {
-      fixture.componentRef.setInput('checked', 'unchecked');
+    it('should update checked state on click', () => {
+      fixture.componentRef.setInput('checked', false);
       fixture.detectChanges();
 
-      const spy = vi.fn();
-      component.checkedChange.subscribe(spy);
+      expect(component.checked()).toBe(false);
 
       const input = fixture.nativeElement.querySelector('input');
       input.click();
       fixture.detectChanges();
 
-      expect(spy).toHaveBeenCalled();
+      expect(component.checked()).toBe(true);
     });
 
     it('should toggle from unchecked to checked', () => {
-      fixture.componentRef.setInput('checked', 'unchecked');
+      fixture.componentRef.setInput('checked', false);
       fixture.detectChanges();
 
       const input = fixture.nativeElement.querySelector('input');
       input.click();
       fixture.detectChanges();
 
-      expect(component.checked()).toBe('checked');
+      expect(component.checked()).toBe(true);
     });
 
     it('should toggle from checked to unchecked', () => {
-      fixture.componentRef.setInput('checked', 'checked');
+      fixture.componentRef.setInput('checked', true);
       fixture.detectChanges();
 
       const input = fixture.nativeElement.querySelector('input');
       input.click();
       fixture.detectChanges();
 
-      expect(component.checked()).toBe('unchecked');
+      expect(component.checked()).toBe(false);
     });
 
     it('should not toggle when disabled', () => {
-      fixture.componentRef.setInput('checked', 'unchecked');
+      fixture.componentRef.setInput('checked', false);
       fixture.componentRef.setInput('disabled', true);
       fixture.detectChanges();
 
@@ -176,7 +174,7 @@ describe('CoarCheckboxComponent', () => {
       input.click();
       fixture.detectChanges();
 
-      expect(component.checked()).toBe('unchecked');
+      expect(component.checked()).toBe(false);
     });
   });
 
@@ -246,7 +244,7 @@ describe('CoarCheckboxComponent (Reactive Forms)', () => {
   }
 
   it('should write control value into the checkbox', () => {
-    host.control.setValue('checked');
+    host.control.setValue(true);
     fixture.detectChanges();
     expect(getInput().checked).toBe(true);
   });
@@ -254,7 +252,7 @@ describe('CoarCheckboxComponent (Reactive Forms)', () => {
   it('should propagate user toggle into the control', () => {
     getInput().click();
     fixture.detectChanges();
-    expect(host.control.value).toBe('checked');
+    expect(host.control.value).toBe(true);
   });
 
   it('should disable the input when the control is disabled', () => {
@@ -281,7 +279,7 @@ describe('CoarCheckboxComponent interaction', () => {
   describe('readonly onChange behavior', () => {
     it('should prevent change when readonly and restore checked state', () => {
       fixture.componentRef.setInput('readonly', true);
-      fixture.componentRef.setInput('checked', 'checked');
+      fixture.componentRef.setInput('checked', true);
       fixture.detectChanges();
 
       const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
@@ -296,7 +294,7 @@ describe('CoarCheckboxComponent interaction', () => {
 
     it('should prevent change when readonly and restore unchecked state', () => {
       fixture.componentRef.setInput('readonly', true);
-      fixture.componentRef.setInput('checked', 'unchecked');
+      fixture.componentRef.setInput('checked', false);
       fixture.detectChanges();
 
       const input = fixture.nativeElement.querySelector('input') as HTMLInputElement;
@@ -339,15 +337,15 @@ describe('CoarCheckboxComponent interaction', () => {
   describe('label click', () => {
     it('should toggle checkbox when label wrapper is clicked', () => {
       // Label wrapper is a <label> that contains the input, so clicking it toggles the checkbox
-      fixture.componentRef.setInput('checked', 'unchecked');
+      fixture.componentRef.setInput('checked', false);
       fixture.detectChanges();
 
       const label = fixture.nativeElement.querySelector('.coar-checkbox-wrapper');
       label.click();
       fixture.detectChanges();
 
-      // The checked state should now be 'checked'
-      expect(component.checked()).toBe('checked');
+      // The checked state should now be true
+      expect(component.checked()).toBe(true);
     });
 
     it('should not click input when label is clicked and disabled', () => {

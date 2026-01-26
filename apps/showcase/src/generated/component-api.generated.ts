@@ -25,6 +25,434 @@ export interface ComponentApi {
   outputs: ApiOutput[];
 }
 
+export const MiniCalendarApi: ComponentApi = {
+  "className": "CoarMiniCalendarComponent",
+  "selector": "coar-mini-calendar",
+  "inputs": [
+    {
+      "name": "min",
+      "type": "Temporal.PlainDate | null",
+      "default": "null",
+      "description": "Minimum selectable date",
+      "required": false
+    },
+    {
+      "name": "max",
+      "type": "Temporal.PlainDate | null",
+      "default": "null",
+      "description": "Maximum selectable date",
+      "required": false
+    },
+    {
+      "name": "locale",
+      "type": "string",
+      "default": "''",
+      "description": "Locale identifier for date formatting (e.g., 'de-AT', 'en-US').\nUses global locale service default if not specified.",
+      "required": false
+    },
+    {
+      "name": "dateFormatConfig",
+      "type": "DateFormatConfig",
+      "default": "''",
+      "description": "Date format configuration (pattern and first day of week)",
+      "required": false
+    },
+    {
+      "name": "showTodayButton",
+      "type": "boolean",
+      "default": "true",
+      "description": "Whether to show a \"Today\" button",
+      "required": false
+    },
+    {
+      "name": "showWeekNumbers",
+      "type": "boolean",
+      "default": "false",
+      "description": "Whether to show week numbers",
+      "required": false
+    },
+    {
+      "name": "highlightWeekends",
+      "type": "boolean",
+      "default": "false",
+      "description": "Whether to highlight weekend days (Saturday/Sunday) with a subtle background",
+      "required": false
+    },
+    {
+      "name": "markers",
+      "type": "CoarDateMarker[]",
+      "default": "[]",
+      "description": "Date markers for highlighting special dates (holidays, events, etc.)",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "valueChange",
+      "type": "Temporal.PlainDate | null",
+      "description": ""
+    }
+  ]
+};
+
+export const MonthListApi: ComponentApi = {
+  "className": "CoarMonthListComponent",
+  "selector": "coar-month-list",
+  "inputs": [
+    {
+      "name": "locale",
+      "type": "string",
+      "default": "''",
+      "description": "Locale identifier for month name formatting.\nUses global locale service default if not specified.",
+      "required": false
+    },
+    {
+      "name": "minYear",
+      "type": "number",
+      "default": "Temporal.Now.plainDateISO().year - 100",
+      "description": "Minimum year that can be selected.\nDefault: current year - 100",
+      "required": false
+    },
+    {
+      "name": "maxYear",
+      "type": "number",
+      "default": "Temporal.Now.plainDateISO().year + 50",
+      "description": "Maximum year that can be selected.\nDefault: current year + 50",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "monthSelected",
+      "type": "Temporal.PlainYearMonth",
+      "description": "Emitted when a month is selected from the list"
+    },
+    {
+      "name": "yearChanged",
+      "type": "number",
+      "description": "Emitted when the year changes via stepper"
+    }
+  ]
+};
+
+export const PlainDatePickerApi: ComponentApi = {
+  "className": "CoarPlainDatePickerComponent",
+  "selector": "coar-plain-date-picker",
+  "inputs": [
+    {
+      "name": "min",
+      "type": "Temporal.PlainDate | null",
+      "default": "null",
+      "description": "Minimum selectable date",
+      "required": false
+    },
+    {
+      "name": "max",
+      "type": "Temporal.PlainDate | null",
+      "default": "null",
+      "description": "Maximum selectable date",
+      "required": false
+    },
+    {
+      "name": "closeOnSelect",
+      "type": "boolean",
+      "default": "false",
+      "description": "Whether to close the panel after selecting a date (default: false to allow viewing events)",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "valueChange",
+      "type": "Temporal.PlainDate | null",
+      "description": "Emitted when the selected value changes"
+    }
+  ]
+};
+
+export const PlainDateTimePickerApi: ComponentApi = {
+  "className": "CoarPlainDateTimePickerComponent",
+  "selector": "coar-plain-date-time-picker",
+  "inputs": [
+    {
+      "name": "min",
+      "type": "Temporal.PlainDateTime | null",
+      "default": "null",
+      "description": "Minimum selectable datetime",
+      "required": false
+    },
+    {
+      "name": "max",
+      "type": "Temporal.PlainDateTime | null",
+      "default": "null",
+      "description": "Maximum selectable datetime",
+      "required": false
+    },
+    {
+      "name": "use24Hour",
+      "type": "boolean | 'auto'",
+      "default": "'auto'",
+      "description": "Whether to use 24-hour time format.\n- true: Always use 24h format\n- false: Always use 12h format with AM/PM\n- 'auto': Detect from locale (default)",
+      "required": false
+    },
+    {
+      "name": "minuteStep",
+      "type": "1 | 5 | 10 | 15",
+      "default": "5",
+      "description": "Step interval for minute selection (1, 5, 10, or 15)",
+      "required": false
+    },
+    {
+      "name": "defaultTime",
+      "type": "CoarTimeValue",
+      "default": "{ hours: 9, minutes: 0 }",
+      "description": "Default time to use when selecting a date without existing time.",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "valueChange",
+      "type": "Temporal.PlainDateTime | null",
+      "description": "Emitted when the selected value changes"
+    }
+  ]
+};
+
+export const ScrollableCalendarApi: ComponentApi = {
+  "className": "CoarScrollableCalendarComponent",
+  "selector": "coar-scrollable-calendar",
+  "inputs": [
+    {
+      "name": "min",
+      "type": "Temporal.PlainDate | null",
+      "default": "null",
+      "description": "Minimum selectable date",
+      "required": false
+    },
+    {
+      "name": "max",
+      "type": "Temporal.PlainDate | null",
+      "default": "null",
+      "description": "Maximum selectable date",
+      "required": false
+    },
+    {
+      "name": "locale",
+      "type": "string",
+      "default": "''",
+      "description": "Locale identifier for date formatting (e.g., 'de-AT', 'en-US').\nUses global locale service default if not specified.",
+      "required": false
+    },
+    {
+      "name": "dateFormatConfig",
+      "type": "DateFormatConfig",
+      "default": "''",
+      "description": "Date format configuration (pattern and first day of week)",
+      "required": false
+    },
+    {
+      "name": "showWeekNumbers",
+      "type": "boolean",
+      "default": "false",
+      "description": "Whether to show week numbers",
+      "required": false
+    },
+    {
+      "name": "highlightWeekends",
+      "type": "boolean",
+      "default": "false",
+      "description": "Whether to highlight weekend days (Saturday/Sunday) with a subtle background",
+      "required": false
+    },
+    {
+      "name": "markers",
+      "type": "CoarDateMarker[]",
+      "default": "[]",
+      "description": "Date markers for highlighting special dates (holidays, events, etc.)",
+      "required": false
+    },
+    {
+      "name": "monthRange",
+      "type": "{ before: number; after: number }",
+      "default": "{ before: 12, after: 12 }",
+      "description": "Number of months to display before and after the current year.\nDefault: 12 months before, 12 months after (2 years total + current year).",
+      "required": false
+    },
+    {
+      "name": "maxMonthsInDom",
+      "type": "number",
+      "default": "25",
+      "description": "Maximum number of months to keep in the DOM at once.\nDefault: 25 (roughly 2 years). Lower values improve performance but may cause\nmore frequent loading when scrolling quickly.",
+      "required": false
+    },
+    {
+      "name": "monthsToLoad",
+      "type": "number",
+      "default": "6",
+      "description": "Number of months to load when reaching the edge of the current range.\nDefault: 6 (half a year at a time).",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "valueChange",
+      "type": "Temporal.PlainDate | null",
+      "description": "Emitted when the selected date changes"
+    },
+    {
+      "name": "activeMonthChange",
+      "type": "Temporal.PlainYearMonth",
+      "description": "Emitted when the visible/active month changes due to scrolling"
+    },
+    {
+      "name": "dateSelected",
+      "type": "Temporal.PlainDate",
+      "description": "Emitted when a date is clicked"
+    }
+  ]
+};
+
+export const TimePickerApi: ComponentApi = {
+  "className": "CoarTimePickerComponent",
+  "selector": "coar-time-picker",
+  "inputs": [
+    {
+      "name": "size",
+      "type": "'xs' | 'sm' | 'md' | 'lg'",
+      "default": "'md'",
+      "description": "Size variant",
+      "required": false
+    },
+    {
+      "name": "readonly",
+      "type": "boolean",
+      "default": "false",
+      "description": "Whether the picker is readonly",
+      "required": false
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Whether the picker is disabled",
+      "required": false
+    },
+    {
+      "name": "use24Hour",
+      "type": "boolean | 'auto'",
+      "default": "'auto'",
+      "description": "Whether to use 24-hour format.\n- true: Always use 24h format (00-23)\n- false: Always use 12h format with AM/PM\n- 'auto': Detect from locale (default)",
+      "required": false
+    },
+    {
+      "name": "minuteStep",
+      "type": "1 | 5 | 10 | 15",
+      "default": "5",
+      "description": "Step interval for minute selection.\nMinutes will snap to multiples of this value.",
+      "required": false
+    },
+    {
+      "name": "locale",
+      "type": "string",
+      "default": "''",
+      "description": "Locale identifier for 12h/24h format detection.\nUses global locale service default if not specified.",
+      "required": false
+    },
+    {
+      "name": "ariaLabel",
+      "type": "string",
+      "default": "'Time'",
+      "description": "Label for screen readers (visually hidden).",
+      "required": false
+    },
+    {
+      "name": "minTime",
+      "type": "CoarTimeValue | null",
+      "default": "null",
+      "description": "Minimum allowed time (hours and minutes in 24h format).\nUsed to constrain time selection when on a min date boundary.",
+      "required": false
+    },
+    {
+      "name": "maxTime",
+      "type": "CoarTimeValue | null",
+      "default": "null",
+      "description": "Maximum allowed time (hours and minutes in 24h format).\nUsed to constrain time selection when on a max date boundary.",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "valueChange",
+      "type": "CoarTimeValue | null",
+      "description": "Emitted when the time value changes"
+    }
+  ]
+};
+
+export const ZonedDateTimePickerApi: ComponentApi = {
+  "className": "CoarZonedDateTimePickerComponent",
+  "selector": "coar-zoned-date-time-picker",
+  "inputs": [
+    {
+      "name": "timeZone",
+      "type": "string | null",
+      "default": "null",
+      "description": "The timezone for the value.\n\nThis represents where the event \"lives\" - it's persisted with the value.\nIf not provided, uses the timezone from CoarTimeZoneService.\n\nExamples: 'Europe/Vienna', 'America/New_York', 'UTC'",
+      "required": false
+    },
+    {
+      "name": "min",
+      "type": "Temporal.ZonedDateTime | null",
+      "default": "null",
+      "description": "Minimum selectable datetime (in the value's timezone)",
+      "required": false
+    },
+    {
+      "name": "max",
+      "type": "Temporal.ZonedDateTime | null",
+      "default": "null",
+      "description": "Maximum selectable datetime (in the value's timezone)",
+      "required": false
+    },
+    {
+      "name": "use24Hour",
+      "type": "boolean | 'auto'",
+      "default": "'auto'",
+      "description": "Whether to use 24-hour time format.\n- true: Always use 24h format\n- false: Always use 12h format with AM/PM\n- 'auto': Detect from locale (default)",
+      "required": false
+    },
+    {
+      "name": "minuteStep",
+      "type": "1 | 5 | 10 | 15",
+      "default": "5",
+      "description": "Step interval for minute selection (1, 5, 10, or 15)",
+      "required": false
+    },
+    {
+      "name": "defaultTime",
+      "type": "CoarTimeValue",
+      "default": "{ hours: 9, minutes: 0 }",
+      "description": "Default time to use when selecting a date without existing time.",
+      "required": false
+    },
+    {
+      "name": "timezoneFilter",
+      "type": "string[]",
+      "default": "[]",
+      "description": "Filter patterns for available timezone options.\n\nSupports wildcards:\n- `*` matches any characters\n- Patterns are case-insensitive\n\nIf not provided or empty, all IANA timezones are available.",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "valueChange",
+      "type": "Temporal.ZonedDateTime | null",
+      "description": "Emitted when the selected value changes"
+    }
+  ]
+};
+
 export const AvatarApi: ComponentApi = {
   "className": "CoarAvatarComponent",
   "selector": "coar-avatar",
@@ -236,7 +664,7 @@ export const CardApi: ComponentApi = {
     },
     {
       "name": "color",
-      "type": "'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent'",
+      "type": "'neutral' | 'outlined' | 'success' | 'warning' | 'error' | 'info' | 'accent'",
       "default": "'neutral'",
       "description": "Card color scheme",
       "required": false
@@ -250,90 +678,6 @@ export const CardApi: ComponentApi = {
     }
   ],
   "outputs": []
-};
-
-export const CheckboxApi: ComponentApi = {
-  "className": "CoarCheckboxComponent",
-  "selector": "coar-checkbox",
-  "inputs": [
-    {
-      "name": "label",
-      "type": "string",
-      "default": "''",
-      "description": "Label text displayed next to the checkbox",
-      "required": false
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "description": "Disables the checkbox (greyed out, not focusable)",
-      "required": false
-    },
-    {
-      "name": "readonly",
-      "type": "boolean",
-      "default": "false",
-      "description": "Prevents changes but keeps normal appearance and focus",
-      "required": false
-    },
-    {
-      "name": "required",
-      "type": "boolean",
-      "default": "false",
-      "description": "Marks as required, shows asterisk on label",
-      "required": false
-    },
-    {
-      "name": "error",
-      "type": "string",
-      "default": "''",
-      "description": "Error message to display below the checkbox",
-      "required": false
-    },
-    {
-      "name": "hint",
-      "type": "string",
-      "default": "''",
-      "description": "Hint text displayed below the checkbox",
-      "required": false
-    },
-    {
-      "name": "size",
-      "type": "'xs' | 'sm' | 'md' | 'lg'",
-      "default": "'md'",
-      "description": "Checkbox size - matches input/button heights for consistent layouts",
-      "required": false
-    },
-    {
-      "name": "id",
-      "type": "string",
-      "default": "''",
-      "description": "HTML id attribute for the checkbox element",
-      "required": false
-    },
-    {
-      "name": "name",
-      "type": "string",
-      "default": "''",
-      "description": "HTML name attribute for form submission",
-      "required": false
-    },
-    {
-      "name": "value",
-      "type": "string",
-      "default": "''",
-      "description": "Value submitted with form when checked",
-      "required": false
-    }
-  ],
-  "outputs": [
-    {
-      "name": "checkedChange",
-      "type": "CoarCheckboxState",
-      "description": "Emits when state changes: 'checked' or 'unchecked'"
-    }
-  ]
 };
 
 export const CodeBlockApi: ComponentApi = {
@@ -543,116 +887,6 @@ export const LabelApi: ComponentApi = {
   "outputs": []
 };
 
-export const MiniCalendarApi: ComponentApi = {
-  "className": "CoarMiniCalendarComponent",
-  "selector": "coar-mini-calendar",
-  "inputs": [
-    {
-      "name": "min",
-      "type": "Temporal.PlainDate | null",
-      "default": "null",
-      "description": "Minimum selectable date",
-      "required": false
-    },
-    {
-      "name": "max",
-      "type": "Temporal.PlainDate | null",
-      "default": "null",
-      "description": "Maximum selectable date",
-      "required": false
-    },
-    {
-      "name": "locale",
-      "type": "string",
-      "default": "''",
-      "description": "Locale identifier for date formatting (e.g., 'de-AT', 'en-US').\nUses global locale service default if not specified.",
-      "required": false
-    },
-    {
-      "name": "dateFormatConfig",
-      "type": "DateFormatConfig",
-      "default": "''",
-      "description": "Date format configuration (pattern and first day of week)",
-      "required": false
-    },
-    {
-      "name": "showTodayButton",
-      "type": "boolean",
-      "default": "true",
-      "description": "Whether to show a \"Today\" button",
-      "required": false
-    },
-    {
-      "name": "showWeekNumbers",
-      "type": "boolean",
-      "default": "false",
-      "description": "Whether to show week numbers",
-      "required": false
-    },
-    {
-      "name": "highlightWeekends",
-      "type": "boolean",
-      "default": "false",
-      "description": "Whether to highlight weekend days (Saturday/Sunday) with a subtle background",
-      "required": false
-    },
-    {
-      "name": "markers",
-      "type": "CoarDateMarker[]",
-      "default": "[]",
-      "description": "Date markers for highlighting special dates (holidays, events, etc.)",
-      "required": false
-    }
-  ],
-  "outputs": [
-    {
-      "name": "valueChange",
-      "type": "Temporal.PlainDate | null",
-      "description": ""
-    }
-  ]
-};
-
-export const MonthListApi: ComponentApi = {
-  "className": "CoarMonthListComponent",
-  "selector": "coar-month-list",
-  "inputs": [
-    {
-      "name": "locale",
-      "type": "string",
-      "default": "''",
-      "description": "Locale identifier for month name formatting.\nUses global locale service default if not specified.",
-      "required": false
-    },
-    {
-      "name": "minYear",
-      "type": "number",
-      "default": "Temporal.Now.plainDateISO().year - 100",
-      "description": "Minimum year that can be selected.\nDefault: current year - 100",
-      "required": false
-    },
-    {
-      "name": "maxYear",
-      "type": "number",
-      "default": "Temporal.Now.plainDateISO().year + 50",
-      "description": "Maximum year that can be selected.\nDefault: current year + 50",
-      "required": false
-    }
-  ],
-  "outputs": [
-    {
-      "name": "monthSelected",
-      "type": "Temporal.PlainYearMonth",
-      "description": "Emitted when a month is selected from the list"
-    },
-    {
-      "name": "yearChanged",
-      "type": "number",
-      "description": "Emitted when the year changes via stepper"
-    }
-  ]
-};
-
 export const NoteApi: ComponentApi = {
   "className": "CoarNoteComponent",
   "selector": "coar-note",
@@ -669,6 +903,169 @@ export const NoteApi: ComponentApi = {
       "type": "'sm' | 'md' | 'lg'",
       "default": "'md'",
       "description": "Note padding size.",
+      "required": false
+    }
+  ],
+  "outputs": []
+};
+
+export const TableApi: ComponentApi = {
+  "className": "CoarTableComponent",
+  "selector": "coar-table",
+  "inputs": [
+    {
+      "name": "variant",
+      "type": "'default' | 'plain' | 'bordered'",
+      "default": "'default'",
+      "description": "Visual variant of the table: default (zebra stripes), plain (no stripes), bordered (cell borders)",
+      "required": false
+    },
+    {
+      "name": "compact",
+      "type": "boolean",
+      "default": "false",
+      "description": "Whether to use compact padding",
+      "required": false
+    },
+    {
+      "name": "hover",
+      "type": "boolean",
+      "default": "true",
+      "description": "Whether rows should highlight on hover",
+      "required": false
+    }
+  ],
+  "outputs": []
+};
+
+export const TagApi: ComponentApi = {
+  "className": "CoarTagComponent",
+  "selector": "coar-tag",
+  "inputs": [
+    {
+      "name": "elevated",
+      "type": "boolean",
+      "default": "false",
+      "description": "Adds a box-shadow for elevation/depth.\nUse as boolean attribute: `<coar-tag elevated>` or `[elevated]=\"true\"`",
+      "required": false
+    },
+    {
+      "name": "borderless",
+      "type": "boolean",
+      "default": "false",
+      "description": "Removes the border from the tag, leaving only background color.\nBy default (false), tags have a visible border matching their color.\nUse as boolean attribute: `<coar-tag borderless>` or `[borderless]=\"true\"`",
+      "required": false
+    },
+    {
+      "name": "color",
+      "type": "'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent'",
+      "default": "'neutral'",
+      "description": "Tag color scheme - matches Card colors",
+      "required": false
+    },
+    {
+      "name": "size",
+      "type": "'sm' | 'md' | 'lg'",
+      "default": "'md'",
+      "description": "Tag size",
+      "required": false
+    },
+    {
+      "name": "closable",
+      "type": "boolean",
+      "default": "false",
+      "description": "Whether the tag can be closed/removed",
+      "required": false
+    }
+  ],
+  "outputs": [
+    {
+      "name": "closed",
+      "type": "void",
+      "description": "Emitted when the close button is clicked"
+    }
+  ]
+};
+
+export const CheckboxApi: ComponentApi = {
+  "className": "CoarCheckboxComponent",
+  "selector": "coar-checkbox",
+  "inputs": [
+    {
+      "name": "label",
+      "type": "string",
+      "default": "''",
+      "description": "Label text displayed next to the checkbox",
+      "required": false
+    },
+    {
+      "name": "indeterminate",
+      "type": "boolean",
+      "default": "false",
+      "description": "Sets the checkbox to indeterminate state (visual only).\nTypically used for \"select all\" checkboxes when some children are selected.\nThe indeterminate state is cleared when the user clicks the checkbox.",
+      "required": false
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Disables the checkbox (greyed out, not focusable)",
+      "required": false
+    },
+    {
+      "name": "readonly",
+      "type": "boolean",
+      "default": "false",
+      "description": "Prevents changes but keeps normal appearance and focus",
+      "required": false
+    },
+    {
+      "name": "required",
+      "type": "boolean",
+      "default": "false",
+      "description": "Marks as required, shows asterisk on label",
+      "required": false
+    },
+    {
+      "name": "error",
+      "type": "string",
+      "default": "''",
+      "description": "Error message to display below the checkbox",
+      "required": false
+    },
+    {
+      "name": "hint",
+      "type": "string",
+      "default": "''",
+      "description": "Hint text displayed below the checkbox",
+      "required": false
+    },
+    {
+      "name": "size",
+      "type": "'xs' | 'sm' | 'md' | 'lg'",
+      "default": "'md'",
+      "description": "Checkbox size - matches input/button heights for consistent layouts",
+      "required": false
+    },
+    {
+      "name": "id",
+      "type": "string",
+      "default": "''",
+      "description": "HTML id attribute for the checkbox element",
+      "required": false
+    },
+    {
+      "name": "name",
+      "type": "string",
+      "default": "''",
+      "description": "HTML name attribute for form submission",
+      "required": false
+    },
+    {
+      "name": "value",
+      "type": "string",
+      "default": "''",
+      "description": "Value submitted with form when checked",
       "required": false
     }
   ],
@@ -964,398 +1361,6 @@ export const PasswordInputApi: ComponentApi = {
   ]
 };
 
-export const PlainDatePickerApi: ComponentApi = {
-  "className": "CoarPlainDatePickerComponent",
-  "selector": "coar-plain-date-picker",
-  "inputs": [
-    {
-      "name": "label",
-      "type": "string",
-      "default": "''",
-      "description": "Label text displayed above the input",
-      "required": false
-    },
-    {
-      "name": "placeholder",
-      "type": "string",
-      "default": "''",
-      "description": "Placeholder text when no date is selected",
-      "required": false
-    },
-    {
-      "name": "size",
-      "type": "'xs' | 'sm' | 'md' | 'lg'",
-      "default": "'md'",
-      "description": "Size variant",
-      "required": false
-    },
-    {
-      "name": "readonly",
-      "type": "boolean",
-      "default": "false",
-      "description": "Whether the picker is readonly",
-      "required": false
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "description": "Whether the picker is disabled",
-      "required": false
-    },
-    {
-      "name": "required",
-      "type": "boolean",
-      "default": "false",
-      "description": "Whether the field is required",
-      "required": false
-    },
-    {
-      "name": "error",
-      "type": "boolean",
-      "default": "false",
-      "description": "Error state",
-      "required": false
-    },
-    {
-      "name": "message",
-      "type": "string",
-      "default": "''",
-      "description": "Helper or error message",
-      "required": false
-    },
-    {
-      "name": "min",
-      "type": "Temporal.PlainDate | null",
-      "default": "null",
-      "description": "Minimum selectable date",
-      "required": false
-    },
-    {
-      "name": "max",
-      "type": "Temporal.PlainDate | null",
-      "default": "null",
-      "description": "Maximum selectable date",
-      "required": false
-    },
-    {
-      "name": "locale",
-      "type": "string",
-      "default": "''",
-      "description": "Locale identifier for date formatting (e.g., 'de-AT', 'en-US').\nUses global locale service default if not specified.",
-      "required": false
-    },
-    {
-      "name": "dateFormatConfig",
-      "type": "DateFormatConfig",
-      "default": "''",
-      "description": "Date format configuration (pattern and first day of week).\nIf not provided, uses locale service default or falls back to European format.",
-      "required": false
-    },
-    {
-      "name": "showTodayMonthButton",
-      "type": "boolean",
-      "default": "true",
-      "description": "Whether to show the current month button (floating action button that scrolls to current month).",
-      "required": false
-    },
-    {
-      "name": "showWeekNumbers",
-      "type": "boolean",
-      "default": "false",
-      "description": "Whether to show week numbers",
-      "required": false
-    },
-    {
-      "name": "highlightWeekends",
-      "type": "boolean",
-      "default": "false",
-      "description": "Whether to highlight weekend days",
-      "required": false
-    },
-    {
-      "name": "markers",
-      "type": "CoarDateMarker[]",
-      "default": "[]",
-      "description": "Date markers for highlighting special dates",
-      "required": false
-    },
-    {
-      "name": "clearable",
-      "type": "boolean",
-      "default": "true",
-      "description": "Whether to show a clear button when a value is selected",
-      "required": false
-    },
-    {
-      "name": "closeOnSelect",
-      "type": "boolean",
-      "default": "false",
-      "description": "Whether to close the panel after selecting a date (default: false to allow viewing events)",
-      "required": false
-    },
-    {
-      "name": "minYear",
-      "type": "number",
-      "default": "Temporal.Now.plainDateISO().year - 100",
-      "description": "Minimum year in the year stepper.\nDefault: current year - 100",
-      "required": false
-    },
-    {
-      "name": "maxYear",
-      "type": "number",
-      "default": "Temporal.Now.plainDateISO().year + 50",
-      "description": "Maximum year in the year stepper.\nDefault: current year + 50",
-      "required": false
-    }
-  ],
-  "outputs": [
-    {
-      "name": "valueChange",
-      "type": "Temporal.PlainDate | null",
-      "description": "Emitted when the selected value changes"
-    },
-    {
-      "name": "opened",
-      "type": "void",
-      "description": "Emitted when the picker opens"
-    },
-    {
-      "name": "closed",
-      "type": "void",
-      "description": "Emitted when the picker closes"
-    }
-  ]
-};
-
-export const PlainDateTimePickerApi: ComponentApi = {
-  "className": "CoarPlainDateTimePickerComponent",
-  "selector": "coar-plain-date-time-picker",
-  "inputs": [
-    {
-      "name": "label",
-      "type": "string",
-      "default": "''",
-      "description": "Label text displayed above the input",
-      "required": false
-    },
-    {
-      "name": "placeholder",
-      "type": "string",
-      "default": "''",
-      "description": "Placeholder text when no date/time is selected",
-      "required": false
-    },
-    {
-      "name": "size",
-      "type": "'xs' | 'sm' | 'md' | 'lg'",
-      "default": "'md'",
-      "description": "Size variant",
-      "required": false
-    },
-    {
-      "name": "readonly",
-      "type": "boolean",
-      "default": "false",
-      "description": "Whether the picker is readonly",
-      "required": false
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "description": "Whether the picker is disabled",
-      "required": false
-    },
-    {
-      "name": "required",
-      "type": "boolean",
-      "default": "false",
-      "description": "Whether the field is required",
-      "required": false
-    },
-    {
-      "name": "error",
-      "type": "boolean",
-      "default": "false",
-      "description": "Error state",
-      "required": false
-    },
-    {
-      "name": "message",
-      "type": "string",
-      "default": "''",
-      "description": "Helper or error message",
-      "required": false
-    },
-    {
-      "name": "min",
-      "type": "Temporal.PlainDateTime | null",
-      "default": "null",
-      "description": "Minimum selectable datetime",
-      "required": false
-    },
-    {
-      "name": "max",
-      "type": "Temporal.PlainDateTime | null",
-      "default": "null",
-      "description": "Maximum selectable datetime",
-      "required": false
-    },
-    {
-      "name": "locale",
-      "type": "string",
-      "default": "''",
-      "description": "Locale identifier for date/time formatting (e.g., 'de-AT', 'en-US').\nUses global locale service default if not specified.",
-      "required": false
-    },
-    {
-      "name": "dateFormatConfig",
-      "type": "DateFormatConfig",
-      "default": "''",
-      "description": "Date format configuration (pattern and first day of week).\nIf not provided, uses locale service default or falls back to European format.",
-      "required": false
-    },
-    {
-      "name": "showTodayMonthButton",
-      "type": "boolean",
-      "default": "true",
-      "description": "Whether to show the current month button (floating action button that scrolls to current month).",
-      "required": false
-    },
-    {
-      "name": "showWeekNumbers",
-      "type": "boolean",
-      "default": "false",
-      "description": "Whether to show week numbers",
-      "required": false
-    },
-    {
-      "name": "highlightWeekends",
-      "type": "boolean",
-      "default": "false",
-      "description": "Whether to highlight weekend days",
-      "required": false
-    },
-    {
-      "name": "markers",
-      "type": "CoarDateMarker[]",
-      "default": "[]",
-      "description": "Date markers for highlighting special dates",
-      "required": false
-    },
-    {
-      "name": "clearable",
-      "type": "boolean",
-      "default": "true",
-      "description": "Whether to show a clear button when a value is selected",
-      "required": false
-    },
-    {
-      "name": "use24Hour",
-      "type": "boolean | 'auto'",
-      "default": "'auto'",
-      "description": "Whether to use 24-hour time format.\n- true: Always use 24h format\n- false: Always use 12h format with AM/PM\n- 'auto': Detect from locale (default)",
-      "required": false
-    },
-    {
-      "name": "minuteStep",
-      "type": "1 | 5 | 10 | 15",
-      "default": "5",
-      "description": "Step interval for minute selection (1, 5, 10, or 15)",
-      "required": false
-    },
-    {
-      "name": "defaultTime",
-      "type": "CoarTimeValue",
-      "default": "{ hours: 9, minutes: 0 }",
-      "description": "Default time to use when selecting a date without existing time.",
-      "required": false
-    },
-    {
-      "name": "minYear",
-      "type": "number",
-      "default": "Temporal.Now.plainDateISO().year - 100",
-      "description": "Minimum year in the year stepper.\nDefault: current year - 100",
-      "required": false
-    },
-    {
-      "name": "maxYear",
-      "type": "number",
-      "default": "Temporal.Now.plainDateISO().year + 50",
-      "description": "Maximum year in the year stepper.\nDefault: current year + 50",
-      "required": false
-    }
-  ],
-  "outputs": [
-    {
-      "name": "valueChange",
-      "type": "Temporal.PlainDateTime | null",
-      "description": "Emitted when the selected value changes"
-    },
-    {
-      "name": "opened",
-      "type": "void",
-      "description": "Emitted when the picker opens"
-    },
-    {
-      "name": "closed",
-      "type": "void",
-      "description": "Emitted when the picker closes"
-    }
-  ]
-};
-
-export const PopoverApi: ComponentApi = {
-  "className": "CoarPopoverComponent",
-  "selector": "coar-popover",
-  "inputs": [
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "description": "Disable popover behavior (still renders trigger content).",
-      "required": false
-    },
-    {
-      "name": "openOnHover",
-      "type": "boolean",
-      "default": "false",
-      "description": "Enable hover/focus behavior (desktop-friendly). Default: false",
-      "required": false
-    },
-    {
-      "name": "openOnClick",
-      "type": "boolean",
-      "default": "false",
-      "description": "Enable click/tap behavior (touch-friendly). Default: false",
-      "required": false
-    },
-    {
-      "name": "interactive",
-      "type": "boolean",
-      "default": "true",
-      "description": "Whether the panel should receive pointer events. Default: true",
-      "required": false
-    },
-    {
-      "name": "fallbackToBestFit",
-      "type": "boolean",
-      "default": "false",
-      "description": "When a concrete placement is set, fall back to best-fit when it doesn't fit. Default: false",
-      "required": false
-    },
-    {
-      "name": "clampToViewport",
-      "type": "boolean",
-      "default": "true",
-      "description": "Whether the panel should be clamped into the viewport. Default: true",
-      "required": false
-    }
-  ],
-  "outputs": []
-};
-
 export const RadioGroupApi: ComponentApi = {
   "className": "CoarRadioGroupComponent",
   "selector": "coar-radio-group",
@@ -1446,100 +1451,6 @@ export const RadioApi: ComponentApi = {
     }
   ],
   "outputs": []
-};
-
-export const ScrollableCalendarApi: ComponentApi = {
-  "className": "CoarScrollableCalendarComponent",
-  "selector": "coar-scrollable-calendar",
-  "inputs": [
-    {
-      "name": "min",
-      "type": "Temporal.PlainDate | null",
-      "default": "null",
-      "description": "Minimum selectable date",
-      "required": false
-    },
-    {
-      "name": "max",
-      "type": "Temporal.PlainDate | null",
-      "default": "null",
-      "description": "Maximum selectable date",
-      "required": false
-    },
-    {
-      "name": "locale",
-      "type": "string",
-      "default": "''",
-      "description": "Locale identifier for date formatting (e.g., 'de-AT', 'en-US').\nUses global locale service default if not specified.",
-      "required": false
-    },
-    {
-      "name": "dateFormatConfig",
-      "type": "DateFormatConfig",
-      "default": "''",
-      "description": "Date format configuration (pattern and first day of week)",
-      "required": false
-    },
-    {
-      "name": "showWeekNumbers",
-      "type": "boolean",
-      "default": "false",
-      "description": "Whether to show week numbers",
-      "required": false
-    },
-    {
-      "name": "highlightWeekends",
-      "type": "boolean",
-      "default": "false",
-      "description": "Whether to highlight weekend days (Saturday/Sunday) with a subtle background",
-      "required": false
-    },
-    {
-      "name": "markers",
-      "type": "CoarDateMarker[]",
-      "default": "[]",
-      "description": "Date markers for highlighting special dates (holidays, events, etc.)",
-      "required": false
-    },
-    {
-      "name": "monthRange",
-      "type": "{ before: number; after: number }",
-      "default": "{ before: 12, after: 12 }",
-      "description": "Number of months to display before and after the current year.\nDefault: 12 months before, 12 months after (2 years total + current year).",
-      "required": false
-    },
-    {
-      "name": "maxMonthsInDom",
-      "type": "number",
-      "default": "25",
-      "description": "Maximum number of months to keep in the DOM at once.\nDefault: 25 (roughly 2 years). Lower values improve performance but may cause\nmore frequent loading when scrolling quickly.",
-      "required": false
-    },
-    {
-      "name": "monthsToLoad",
-      "type": "number",
-      "default": "6",
-      "description": "Number of months to load when reaching the edge of the current range.\nDefault: 6 (half a year at a time).",
-      "required": false
-    }
-  ],
-  "outputs": [
-    {
-      "name": "valueChange",
-      "type": "Temporal.PlainDate | null",
-      "description": "Emitted when the selected date changes"
-    },
-    {
-      "name": "activeMonthChange",
-      "type": "Temporal.PlainYearMonth",
-      "description": "Emitted when the visible/active month changes due to scrolling"
-    },
-    {
-      "name": "dateSelected",
-      "type": "Temporal.PlainDate",
-      "description": "Emitted when a date is clicked"
-    }
-  ]
 };
 
 export const MultiSelectApi: ComponentApi = {
@@ -1634,170 +1545,6 @@ export const TagSelectApi: ComponentApi = {
       "name": "tagCreated",
       "type": "T",
       "description": "Emits when a new tag is created"
-    }
-  ]
-};
-
-export const SidebarApi: ComponentApi = {
-  "className": "CoarSidebarComponent",
-  "selector": "coar-sidebar",
-  "inputs": [
-    {
-      "name": "position",
-      "type": "'left' | 'right'",
-      "default": "'left'",
-      "description": "Sidebar position: left or right side of screen.\nDefault is 'left'.",
-      "required": false
-    },
-    {
-      "name": "collapsed",
-      "type": "boolean",
-      "default": "false",
-      "description": "Collapsed state for narrow/icon-only sidebar.\nUse as boolean attribute: `<coar-sidebar collapsed>` or `[collapsed]=\"true\"`",
-      "required": false
-    }
-  ],
-  "outputs": []
-};
-
-export const TableApi: ComponentApi = {
-  "className": "CoarTableComponent",
-  "selector": "coar-table",
-  "inputs": [
-    {
-      "name": "variant",
-      "type": "'default' | 'plain' | 'bordered'",
-      "default": "'default'",
-      "description": "Visual variant of the table: default (zebra stripes), plain (no stripes), bordered (cell borders)",
-      "required": false
-    },
-    {
-      "name": "compact",
-      "type": "boolean",
-      "default": "false",
-      "description": "Whether to use compact padding",
-      "required": false
-    },
-    {
-      "name": "hover",
-      "type": "boolean",
-      "default": "true",
-      "description": "Whether rows should highlight on hover",
-      "required": false
-    }
-  ],
-  "outputs": []
-};
-
-export const TabGroupApi: ComponentApi = {
-  "className": "CoarTabGroupComponent",
-  "selector": "coar-tab-group",
-  "inputs": [
-    {
-      "name": "activeTab",
-      "type": "string",
-      "default": "''",
-      "description": "The currently active tab id",
-      "required": false
-    }
-  ],
-  "outputs": [
-    {
-      "name": "activeTabChange",
-      "type": "string",
-      "description": "Emits when the active tab changes"
-    }
-  ]
-};
-
-export const TabApi: ComponentApi = {
-  "className": "CoarTabComponent",
-  "selector": "coar-tab",
-  "inputs": [
-    {
-      "name": "id",
-      "type": "string",
-      "default": "required",
-      "description": "Unique identifier for the tab",
-      "required": true
-    },
-    {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "description": "Whether the tab is disabled",
-      "required": false
-    },
-    {
-      "name": "content",
-      "type": "TemplateRef<unknown> | Type<unknown>",
-      "default": "required",
-      "description": "The content to display in the tab panel.\nCan be either a TemplateRef (from ng-template) or a Component class.",
-      "required": true
-    },
-    {
-      "name": "contentInputs",
-      "type": "Record<string, unknown>",
-      "default": "{}",
-      "description": "Inputs to pass when content is a Component.\nIgnored when content is a TemplateRef.",
-      "required": false
-    },
-    {
-      "name": "loadingStrategy",
-      "type": "'eager' | 'lazy'",
-      "default": "'lazy'",
-      "description": "Loading strategy for the tab content.\n- 'lazy' (default): Content is only rendered when tab becomes active\n- 'eager': Content is always rendered, just hidden when inactive",
-      "required": false
-    }
-  ],
-  "outputs": []
-};
-
-export const TagApi: ComponentApi = {
-  "className": "CoarTagComponent",
-  "selector": "coar-tag",
-  "inputs": [
-    {
-      "name": "elevated",
-      "type": "boolean",
-      "default": "false",
-      "description": "Adds a box-shadow for elevation/depth.\nUse as boolean attribute: `<coar-tag elevated>` or `[elevated]=\"true\"`",
-      "required": false
-    },
-    {
-      "name": "borderless",
-      "type": "boolean",
-      "default": "false",
-      "description": "Removes the border from the tag, leaving only background color.\nBy default (false), tags have a visible border matching their color.\nUse as boolean attribute: `<coar-tag borderless>` or `[borderless]=\"true\"`",
-      "required": false
-    },
-    {
-      "name": "color",
-      "type": "'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent'",
-      "default": "'neutral'",
-      "description": "Tag color scheme - matches Card colors",
-      "required": false
-    },
-    {
-      "name": "size",
-      "type": "'sm' | 'md' | 'lg'",
-      "default": "'md'",
-      "description": "Tag size",
-      "required": false
-    },
-    {
-      "name": "closable",
-      "type": "boolean",
-      "default": "false",
-      "description": "Whether the tag can be closed/removed",
-      "required": false
-    }
-  ],
-  "outputs": [
-    {
-      "name": "closed",
-      "type": "void",
-      "description": "Emitted when the close button is clicked"
     }
   ]
 };
@@ -1943,81 +1690,140 @@ export const TextInputApi: ComponentApi = {
   ]
 };
 
-export const TimePickerApi: ComponentApi = {
-  "className": "CoarTimePickerComponent",
-  "selector": "coar-time-picker",
+export const SidebarApi: ComponentApi = {
+  "className": "CoarSidebarComponent",
+  "selector": "coar-sidebar",
   "inputs": [
     {
-      "name": "size",
-      "type": "'xs' | 'sm' | 'md' | 'lg'",
-      "default": "'md'",
-      "description": "Size variant",
+      "name": "position",
+      "type": "'left' | 'right'",
+      "default": "'left'",
+      "description": "Sidebar position: left or right side of screen.\nDefault is 'left'.",
       "required": false
     },
     {
-      "name": "readonly",
+      "name": "collapsed",
       "type": "boolean",
       "default": "false",
-      "description": "Whether the picker is readonly",
+      "description": "Collapsed state for narrow/icon-only sidebar.\nUse as boolean attribute: `<coar-sidebar collapsed>` or `[collapsed]=\"true\"`",
       "required": false
-    },
+    }
+  ],
+  "outputs": []
+};
+
+export const TabGroupApi: ComponentApi = {
+  "className": "CoarTabGroupComponent",
+  "selector": "coar-tab-group",
+  "inputs": [
     {
-      "name": "disabled",
-      "type": "boolean",
-      "default": "false",
-      "description": "Whether the picker is disabled",
-      "required": false
-    },
-    {
-      "name": "use24Hour",
-      "type": "boolean | 'auto'",
-      "default": "'auto'",
-      "description": "Whether to use 24-hour format.\n- true: Always use 24h format (00-23)\n- false: Always use 12h format with AM/PM\n- 'auto': Detect from locale (default)",
-      "required": false
-    },
-    {
-      "name": "minuteStep",
-      "type": "1 | 5 | 10 | 15",
-      "default": "5",
-      "description": "Step interval for minute selection.\nMinutes will snap to multiples of this value.",
-      "required": false
-    },
-    {
-      "name": "locale",
+      "name": "activeTab",
       "type": "string",
       "default": "''",
-      "description": "Locale identifier for 12h/24h format detection.\nUses global locale service default if not specified.",
-      "required": false
-    },
-    {
-      "name": "ariaLabel",
-      "type": "string",
-      "default": "'Time'",
-      "description": "Label for screen readers (visually hidden).",
-      "required": false
-    },
-    {
-      "name": "minTime",
-      "type": "CoarTimeValue | null",
-      "default": "null",
-      "description": "Minimum allowed time (hours and minutes in 24h format).\nUsed to constrain time selection when on a min date boundary.",
-      "required": false
-    },
-    {
-      "name": "maxTime",
-      "type": "CoarTimeValue | null",
-      "default": "null",
-      "description": "Maximum allowed time (hours and minutes in 24h format).\nUsed to constrain time selection when on a max date boundary.",
+      "description": "The currently active tab id",
       "required": false
     }
   ],
   "outputs": [
     {
-      "name": "valueChange",
-      "type": "CoarTimeValue | null",
-      "description": "Emitted when the time value changes"
+      "name": "activeTabChange",
+      "type": "string",
+      "description": "Emits when the active tab changes"
     }
   ]
+};
+
+export const TabApi: ComponentApi = {
+  "className": "CoarTabComponent",
+  "selector": "coar-tab",
+  "inputs": [
+    {
+      "name": "id",
+      "type": "string",
+      "default": "required",
+      "description": "Unique identifier for the tab",
+      "required": true
+    },
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Whether the tab is disabled",
+      "required": false
+    },
+    {
+      "name": "content",
+      "type": "TemplateRef<unknown> | Type<unknown>",
+      "default": "required",
+      "description": "The content to display in the tab panel.\nCan be either a TemplateRef (from ng-template) or a Component class.",
+      "required": true
+    },
+    {
+      "name": "contentInputs",
+      "type": "Record<string, unknown>",
+      "default": "{}",
+      "description": "Inputs to pass when content is a Component.\nIgnored when content is a TemplateRef.",
+      "required": false
+    },
+    {
+      "name": "loadingStrategy",
+      "type": "'eager' | 'lazy'",
+      "default": "'lazy'",
+      "description": "Loading strategy for the tab content.\n- 'lazy' (default): Content is only rendered when tab becomes active\n- 'eager': Content is always rendered, just hidden when inactive",
+      "required": false
+    }
+  ],
+  "outputs": []
+};
+
+export const PopoverApi: ComponentApi = {
+  "className": "CoarPopoverComponent",
+  "selector": "coar-popover",
+  "inputs": [
+    {
+      "name": "disabled",
+      "type": "boolean",
+      "default": "false",
+      "description": "Disable popover behavior (still renders trigger content).",
+      "required": false
+    },
+    {
+      "name": "openOnHover",
+      "type": "boolean",
+      "default": "false",
+      "description": "Enable hover/focus behavior (desktop-friendly). Default: false",
+      "required": false
+    },
+    {
+      "name": "openOnClick",
+      "type": "boolean",
+      "default": "false",
+      "description": "Enable click/tap behavior (touch-friendly). Default: false",
+      "required": false
+    },
+    {
+      "name": "interactive",
+      "type": "boolean",
+      "default": "true",
+      "description": "Whether the panel should receive pointer events. Default: true",
+      "required": false
+    },
+    {
+      "name": "fallbackToBestFit",
+      "type": "boolean",
+      "default": "false",
+      "description": "When a concrete placement is set, fall back to best-fit when it doesn't fit. Default: false",
+      "required": false
+    },
+    {
+      "name": "clampToViewport",
+      "type": "boolean",
+      "default": "true",
+      "description": "Whether the panel should be clamped into the viewport. Default: true",
+      "required": false
+    }
+  ],
+  "outputs": []
 };
 
 export const TooltipOverlayApi: ComponentApi = {

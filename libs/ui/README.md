@@ -56,12 +56,7 @@ npm install @cocoar/ui-menu        # Just the menu
 
 ## Documentation
 
-For complete documentation, install the docs package:
-
-```bash
-npm install -D @cocoar/ui-docs
-npx @cocoar/ui-docs init
-```
+See the [Cocoar Design System documentation](../../docs/) for complete API reference and usage guides.
 
 ## License
 

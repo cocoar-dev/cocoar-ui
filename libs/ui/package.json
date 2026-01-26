@@ -1,6 +1,6 @@
 {
   "name": "@cocoar/ui",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Complete Cocoar Design System - all UI components, overlays, and menus in one package",
   "author": "Cocoar",
   "license": "Apache-2.0",
@@ -34,10 +34,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@cocoar/ui-components": "0.0.1",
-    "@cocoar/ui-menu": "0.0.1",
-    "@cocoar/ui-overlay": "0.0.1",
-    "@cocoar/ui-tokens": "0.0.1"
+    "@cocoar/ui-components": "0.1.0",
+    "@cocoar/ui-menu": "0.1.0",
+    "@cocoar/ui-overlay": "0.1.0",
+    "@cocoar/ui-tokens": "0.1.0"
   },
   "peerDependencies": {
     "@angular/core": "^20.3.0"

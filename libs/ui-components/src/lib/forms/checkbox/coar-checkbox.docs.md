@@ -4,48 +4,45 @@ Checkboxes allow users to make one or more selections.
 
 `CoarCheckboxComponent` supports **three visual states**:
 
-- `checked`
-- `unchecked`
-- `indeterminate`
+- checked (`true`)
+- unchecked (`false`)
+- indeterminate (via separate `[indeterminate]` input)
 
-Additionally, the component supports a **pristine state** via `checked = undefined` (useful when you want to distinguish “not interacted yet” from an explicit `unchecked`).
+Additionally, the component supports a **pristine state** via `checked = undefined` (useful when you want to distinguish "not interacted yet" from an explicit unchecked).
 
 ## Basic usage
 
 ```html
 <coar-checkbox
   label="I agree"
-  [checked]="state()"
-  (checkedChange)="state.set($event)"
+  [checked]="accepted()"
+  (checkedChange)="accepted.set($event)"
 />
 ```
 
 ## State model
 
-Type: `CoarCheckboxState = 'checked' | 'unchecked' | 'indeterminate'`
-
-- `checked` input accepts `CoarCheckboxState | undefined`.
-- `checkedChange` emits **only** `'checked' | 'unchecked'`.
-  - This matches the native checkbox interaction: a user click toggles the checkbox on/off.
-  - `indeterminate` is a *display state* you set from outside (commonly for “Select all” parents).
+- `checked` input accepts `boolean | undefined`.
+- `checkedChange` emits `boolean` (true/false).
+- `indeterminate` is a separate boolean input for the visual indeterminate state.
 
 ## Indeterminate ("select all") pattern
 
-Indeterminate is usually computed from child selections.
+Indeterminate is usually computed from child selections and set via a separate input.
 
 ```ts
-parentState = computed<CoarCheckboxState>(() => {
+parentChecked = computed(() => selected().length === allItems.length);
+parentIndeterminate = computed(() => {
   const count = selected().length;
-  if (count === 0) return 'unchecked';
-  if (count === allItems.length) return 'checked';
-  return 'indeterminate';
+  return count > 0 && count < allItems.length;
 });
 ```
 
 ```html
 <coar-checkbox
   label="Select all"
-  [checked]="parentState()"
+  [checked]="parentChecked()"
+  [indeterminate]="parentIndeterminate()"
   (checkedChange)="toggleAll($event)"
 />
 ```

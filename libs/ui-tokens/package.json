@@ -1,6 +1,6 @@
 {
   "name": "@cocoar/ui-tokens",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "CSS variables (design tokens) for the Cocoar Design System",
   "author": "Cocoar",
   "license": "Apache-2.0",

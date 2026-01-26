@@ -2,7 +2,6 @@ import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   CoarCheckboxComponent,
-  CoarCheckboxState,
   CoarCardComponent,
   CoarCodeBlockComponent,
 } from '@cocoar/ui-components';
@@ -20,25 +19,28 @@ import {
   styleUrl: './checkboxes.page.css',
 })
 export class CheckboxesPage {
-  // Demo values - using CoarCheckboxState
-  basicChecked = signal<CoarCheckboxState | undefined>(undefined);
-  termsChecked = signal<CoarCheckboxState | undefined>(undefined);
-  newsletterChecked = signal<CoarCheckboxState | undefined>('checked');
-  errorChecked = signal<CoarCheckboxState | undefined>(undefined);
-  hintChecked = signal<CoarCheckboxState | undefined>(undefined);
-  sizeXsChecked = signal<CoarCheckboxState | undefined>('checked');
-  sizeSmChecked = signal<CoarCheckboxState | undefined>('checked');
-  sizeMdChecked = signal<CoarCheckboxState | undefined>('checked');
-  sizeLgChecked = signal<CoarCheckboxState | undefined>('checked');
+  // Demo values - using boolean
+  basicChecked = signal<boolean | undefined>(undefined);
+  termsChecked = signal<boolean | undefined>(undefined);
+  newsletterChecked = signal<boolean | undefined>(true);
+  errorChecked = signal<boolean | undefined>(undefined);
+  hintChecked = signal<boolean | undefined>(undefined);
+  sizeXsChecked = signal<boolean | undefined>(true);
+  sizeSmChecked = signal<boolean | undefined>(true);
+  sizeMdChecked = signal<boolean | undefined>(true);
+  sizeLgChecked = signal<boolean | undefined>(true);
 
   // Group demo
   selectedFruits = signal<string[]>(['apple']);
 
-  parentCheckboxState = computed<CoarCheckboxState>(() => {
+  parentChecked = computed<boolean>(() => {
     const count = this.selectedFruits().length;
-    if (count === 0) return 'unchecked';
-    if (count === this.fruits.length) return 'checked';
-    return 'indeterminate';
+    return count === this.fruits.length;
+  });
+
+  parentIndeterminate = computed<boolean>(() => {
+    const count = this.selectedFruits().length;
+    return count > 0 && count < this.fruits.length;
   });
 
   // Code examples
@@ -51,19 +53,20 @@ export class CheckboxesPage {
 
     checked: `<coar-checkbox
   label="Subscribe to newsletter"
-  checked="checked"
+  [checked]="true"
 />`,
 
-    indeterminate: `// Compute parent state based on children
-parentState = computed(() => {
-  if (allSelected()) return 'checked';
-  if (someSelected()) return 'indeterminate';
-  return 'unchecked';
+    indeterminate: `// Compute parent checked and indeterminate states
+parentChecked = computed(() => selectedFruits().length === fruits.length);
+parentIndeterminate = computed(() => {
+  const count = selectedFruits().length;
+  return count > 0 && count < fruits.length;
 });
 
 <coar-checkbox
   label="Select all"
-  [checked]="parentState()"
+  [checked]="parentChecked()"
+  [indeterminate]="parentIndeterminate()"
   (checkedChange)="toggleAll($event)"
 />`,
 
@@ -81,10 +84,10 @@ parentState = computed(() => {
 />`,
 
     disabled: `<coar-checkbox label="Disabled unchecked" [disabled]="true" />
-<coar-checkbox label="Disabled checked" [disabled]="true" checked="checked" />`,
+<coar-checkbox label="Disabled checked" [disabled]="true" [checked]="true" />`,
 
-    readonly: `<coar-checkbox label="Readonly unchecked" [readonly]="true" checked="unchecked" />
-<coar-checkbox label="Readonly checked" [readonly]="true" checked="checked" />`,
+    readonly: `<coar-checkbox label="Readonly unchecked" [readonly]="true" [checked]="false" />
+<coar-checkbox label="Readonly checked" [readonly]="true" [checked]="true" />`,
 
     hint: `<coar-checkbox
   label="Send me product updates"
@@ -97,22 +100,22 @@ parentState = computed(() => {
 <coar-checkbox size="lg" label="Large checkbox" />`,
 
     group: `// Parent state computed from children
-parentState = computed<CoarCheckboxState>(() => {
+parentChecked = computed(() => selectedFruits().length === fruits.length);
+parentIndeterminate = computed(() => {
   const count = selectedFruits().length;
-  if (count === 0) return 'unchecked';
-  if (count === fruits.length) return 'checked';
-  return 'indeterminate';
+  return count > 0 && count < fruits.length;
 });
 
 <coar-checkbox
   label="Select all fruits"
-  [checked]="parentState()"
+  [checked]="parentChecked()"
+  [indeterminate]="parentIndeterminate()"
   (checkedChange)="toggleAll($event)"
 />
 
 <coar-checkbox
   label="Apple"
-  [checked]="isFruitSelected('apple') ? 'checked' : 'unchecked'"
+  [checked]="isFruitSelected('apple')"
   (checkedChange)="toggleFruit('apple', $event)"
 />`,
   };
@@ -120,21 +123,21 @@ parentState = computed<CoarCheckboxState>(() => {
   // Group logic
   fruits = ['apple', 'banana', 'orange'];
 
-  getFruitState(fruit: string): CoarCheckboxState {
-    return this.selectedFruits().includes(fruit) ? 'checked' : 'unchecked';
+  isFruitSelected(fruit: string): boolean {
+    return this.selectedFruits().includes(fruit);
   }
 
-  toggleFruit(fruit: string, state: CoarCheckboxState | undefined): void {
+  toggleFruit(fruit: string, checked: boolean | undefined): void {
     const current = this.selectedFruits();
-    if (state === 'checked') {
+    if (checked) {
       this.selectedFruits.set([...current, fruit]);
     } else {
       this.selectedFruits.set(current.filter((f) => f !== fruit));
     }
   }
 
-  toggleAllFruits(state: CoarCheckboxState | undefined): void {
-    if (state === 'checked') {
+  toggleAllFruits(checked: boolean | undefined): void {
+    if (checked) {
       this.selectedFruits.set([...this.fruits]);
     } else {
       this.selectedFruits.set([]);

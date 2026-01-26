@@ -1,6 +1,6 @@
 {
   "name": "@cocoar/ui-components",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Angular UI components for the Cocoar Design System",
   "author": "Cocoar",
   "license": "Apache-2.0",
@@ -24,8 +24,8 @@
   },
   "peerDependencies": {
     "@angular/core": "^20.3.0",
-    "@cocoar/localization": "^0.0.1",
-    "@cocoar/ui-overlay": "^0.0.1",
+    "@cocoar/localization": "^0.1.0",
+    "@cocoar/ui-overlay": "^0.1.0",
     "@maskito/core": "^4.0.0",
     "@maskito/kit": "^4.0.0",
     "overlayscrollbars": "^2.0.0",

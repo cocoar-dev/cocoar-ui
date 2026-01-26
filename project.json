@@ -2,26 +2,6 @@
   "name": "@cocoar-ui/source",
   "$schema": "node_modules/nx/schemas/project-schema.json",
   "targets": {
-    "docs:all": {
-      "executor": "nx:run-commands",
-      "cache": true,
-      "inputs": [
-        "{projectRoot}/scripts/docs/**/*",
-        "{workspaceRoot}/libs/*/src/**/*.ts",
-        "{workspaceRoot}/libs/**/*.component.md",
-        "{workspaceRoot}/libs/**/*.directive.md",
-        "{workspaceRoot}/libs/**/*.service.md",
-        "{workspaceRoot}/libs/**/*.pipe.md",
-        "{workspaceRoot}/libs/**/*.overview.md"
-      ],
-      "outputs": [
-        "{workspaceRoot}/docs/libs",
-        "{workspaceRoot}/libs/ui-docs/api"
-      ],
-      "options": {
-        "command": "pnpm docs:all"
-      }
-    },
     "local-registry": {
       "executor": "@nx/js:verdaccio",
       "options": {

@@ -4,12 +4,6 @@
 apps/scenar-backstage/src/app/registry.generated.ts
 apps/scenar-backstage/public/registry.metadata.json
 
-# Auto-generated documentation
-# Keep tracked: libs/ui-docs/src/, *.md, project.json (source files)
-# Ignore generated: API JSON and markdown docs (auto-generated on build)
-/docs/libs/
-/libs/ui-docs/api/
-
 # Compiled output
 /dist
 /tmp
@@ -99,3 +93,4 @@ lerna-debug.log*
 .angular
 
 __screenshots__/
+nul

@@ -1,6 +1,6 @@
 {
   "name": "@cocoar/markdown-core",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Core markdown processing utilities for Cocoar Design System",
   "author": "Cocoar",
   "license": "Apache-2.0",

@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+### Changed
+- Standardized ID generation to use `crypto.randomUUID()` across all form components
+- Bumped all library versions to 0.1.0 (beta readiness milestone)
+- Updated internal dependency versions for consistency
+
+### Fixed
+- Removed conflicting `"private": true` from logging libraries that have `publishConfig`
+- Added missing package metadata (description, author, license, repository) to `@cocoar/data-grid` and `@cocoar/ui-menu`
+
 ## [0.0.1] - 2025-12-12
 
 ### Added

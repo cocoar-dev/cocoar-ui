@@ -14,7 +14,12 @@
       "Bash(git mv:*)",
       "mcp__chrome-devtools__new_page",
       "mcp__chrome-devtools__hover",
-      "mcp__chrome-devtools__evaluate_script"
+      "mcp__chrome-devtools__evaluate_script",
+      "Bash(nx dep-graph:*)",
+      "Bash(pnpm lint:*)",
+      "Bash(pnpm test:*)",
+      "Bash(nx reset)",
+      "Bash(pnpm nx reset:*)"
     ]
   }
 }

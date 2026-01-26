@@ -3,7 +3,6 @@ import {
   Component,
   input,
   model,
-  output,
   signal,
   computed,
   effect,
@@ -18,7 +17,6 @@ import {
 } from '../_base/coar-control-value-accessor';
 
 export type CoarCheckboxSize = 'xs' | 'sm' | 'md' | 'lg';
-export type CoarCheckboxState = 'checked' | 'unchecked' | 'indeterminate';
 
 @Component({
   selector: 'coar-checkbox',
@@ -38,15 +36,22 @@ export type CoarCheckboxState = 'checked' | 'unchecked' | 'indeterminate';
     '[class.coar-checkbox--error]': 'hasError()',
   },
 })
-export class CoarCheckboxComponent extends CoarControlValueAccessor<CoarCheckboxState | undefined> {
+export class CoarCheckboxComponent extends CoarControlValueAccessor<boolean | undefined> {
   /** Label text displayed next to the checkbox */
   label = input<string>('');
 
   /**
-   * Checkbox state: 'checked', 'unchecked', 'indeterminate', or undefined (pristine).
+   * Checkbox checked state: true for checked, false for unchecked, undefined for pristine.
    * Using model() for two-way binding support.
    */
-  checked = model<CoarCheckboxState | undefined>(undefined);
+  checked = model<boolean | undefined>(undefined);
+
+  /**
+   * Sets the checkbox to indeterminate state (visual only).
+   * Typically used for "select all" checkboxes when some children are selected.
+   * The indeterminate state is cleared when the user clicks the checkbox.
+   */
+  indeterminate = input<boolean, unknown>(false, { transform: booleanAttribute });
 
   /** Disables the checkbox (greyed out, not focusable) */
   disabled = input<boolean, unknown>(false, { transform: booleanAttribute });
@@ -75,21 +80,20 @@ export class CoarCheckboxComponent extends CoarControlValueAccessor<CoarCheckbox
   /** Value submitted with form when checked */
   value = input<string>('');
 
-  /** Emits when state changes: 'checked' or 'unchecked' */
-  checkedChange = output<CoarCheckboxState>();
+  // Note: checkedChange output is implicitly provided by the model() declaration above.
+  // Use [(checked)] for two-way binding or (checkedChange) to listen for changes.
 
   protected isFocused = signal(false);
   protected inputRef = viewChild<ElementRef<HTMLInputElement>>('checkboxElement');
 
   protected isDisabled = computed(() => this.disabled() || this.cvaDisabled());
 
-  protected isChecked = computed(() => this.checked() === 'checked');
-  protected isIndeterminate = computed(() => this.checked() === 'indeterminate');
+  protected isChecked = computed(() => this.checked() === true);
+  protected isIndeterminate = computed(() => this.indeterminate());
   protected hasError = computed(() => this.error().length > 0);
   protected displayMessage = computed(() => this.error() || this.hint());
-  protected inputId = computed(
-    () => this.id() || `coar-checkbox-${Math.random().toString(36).substr(2, 9)}`
-  );
+  private readonly autoId = `coar-checkbox-${cryptoRandomId()}`;
+  protected inputId = computed(() => this.id() || this.autoId);
   protected messageId = computed(() => `${this.inputId()}-message`);
 
   constructor() {
@@ -103,7 +107,7 @@ export class CoarCheckboxComponent extends CoarControlValueAccessor<CoarCheckbox
     });
   }
 
-  public writeValue(value: CoarCheckboxState | undefined | null): void {
+  public writeValue(value: boolean | undefined | null): void {
     this.checked.set(value ?? undefined);
   }
 
@@ -116,10 +120,9 @@ export class CoarCheckboxComponent extends CoarControlValueAccessor<CoarCheckbox
     }
 
     const target = event.target as HTMLInputElement;
-    const newState: CoarCheckboxState = target.checked ? 'checked' : 'unchecked';
+    const newState = target.checked;
 
-    this.checked.set(newState);
-    this.checkedChange.emit(newState);
+    this.checked.set(newState); // This also emits through the implicit checkedChange output
     this.cvaOnChange(newState);
   }
 
@@ -137,4 +140,11 @@ export class CoarCheckboxComponent extends CoarControlValueAccessor<CoarCheckbox
       this.inputRef()?.nativeElement.click();
     }
   }
+}
+
+function cryptoRandomId(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+  return `${Date.now().toString(16)}-${Math.random().toString(16).slice(2)}`;
 }

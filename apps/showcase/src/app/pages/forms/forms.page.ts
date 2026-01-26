@@ -9,7 +9,6 @@ import {
   CoarNoteComponent,
   CoarCodeBlockComponent,
   CoarCheckboxComponent,
-  CoarCheckboxState,
 } from '@cocoar/ui-components';
 
 @Component({
@@ -35,7 +34,7 @@ export class FormsPage {
   readonly loginForm = new FormGroup({
     email: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
     password: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
-    rememberMe: new FormControl<CoarCheckboxState>('unchecked', { nonNullable: true }),
+    rememberMe: new FormControl<boolean>(false, { nonNullable: true }),
   });
 
   readonly inlineForm = new FormGroup({
@@ -50,8 +49,8 @@ export class FormsPage {
       nonNullable: true,
       validators: [Validators.required],
     }),
-    acceptTerms: new FormControl<CoarCheckboxState>('unchecked', { nonNullable: true }),
-    subscribeNewsletter: new FormControl<CoarCheckboxState>('unchecked', { nonNullable: true }),
+    acceptTerms: new FormControl<boolean>(false, { nonNullable: true }),
+    subscribeNewsletter: new FormControl<boolean>(false, { nonNullable: true }),
   });
 
   readonly searchForm = new FormGroup({

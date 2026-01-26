@@ -9,7 +9,7 @@
     "build": {
       "executor": "@angular/build:application",
       "outputs": ["{options.outputPath}"],
-      "dependsOn": ["^build", "@cocoar-ui/source:docs:all"],
+      "dependsOn": ["^build"],
       "options": {
         "outputPath": "dist/apps/showcase",
         "browser": "apps/showcase/src/main.ts",
@@ -19,11 +19,6 @@
           {
             "glob": "**/*",
             "input": "apps/showcase/public"
-          },
-          {
-            "glob": "**/*",
-            "input": "docs",
-            "output": "docs"
           }
         ],
         "styles": ["apps/showcase/src/styles.css"]
@@ -55,8 +50,7 @@
     "serve": {
       "continuous": true,
       "executor": "@angular/build:dev-server",
-      "dependsOn": ["@cocoar-ui/source:docs:all"],
-      "configurations": {
+            "configurations": {
         "production": {
           "buildTarget": "showcase:build:production"
         },

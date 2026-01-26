@@ -142,9 +142,8 @@ export abstract class CoarSelectBase<T> extends CoarControlValueAccessor<T> {
   protected displayMessage = computed(() => this.error() || this.hint());
 
   /** Generated unique ID for the select element */
-  protected inputId = computed(
-    () => this.id() || `coar-select-${Math.random().toString(36).substr(2, 9)}`
-  );
+  private readonly autoId = `coar-select-${cryptoRandomId()}`;
+  protected inputId = computed(() => this.id() || this.autoId);
 
   /** ID for the message element (for aria-describedby) */
   protected messageId = computed(() => `${this.inputId()}-message`);
@@ -482,4 +481,11 @@ export abstract class CoarSelectBase<T> extends CoarControlValueAccessor<T> {
 
   /** Abstract method to get the display text for the current selection */
   abstract getDisplayText(): string;
+}
+
+function cryptoRandomId(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+  return `${Date.now().toString(16)}-${Math.random().toString(16).slice(2)}`;
 }

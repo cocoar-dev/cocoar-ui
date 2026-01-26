@@ -1,6 +1,6 @@
 {
   "name": "@cocoar/localization",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Localization and language management for the Cocoar Design System",
   "author": "Cocoar",
   "license": "Apache-2.0",
