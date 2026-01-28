@@ -1,0 +1,39 @@
+{
+  "name": "@cocoar/ui-routing",
+  "version": "0.1.0",
+  "description": "Fragment-based routing utilities for Angular applications",
+  "author": "Cocoar",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cocoar-dev/cocoar-ui.git",
+    "directory": "libs/ui-routing"
+  },
+  "bugs": {
+    "url": "https://github.com/cocoar-dev/cocoar-ui/issues"
+  },
+  "homepage": "https://github.com/cocoar-dev/cocoar-ui",
+  "keywords": [
+    "angular",
+    "routing",
+    "fragments",
+    "url-fragments",
+    "modal-routing",
+    "deep-linking",
+    "cocoar"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@angular/common": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "@angular/router": "^21.0.0",
+    "rxjs": "^7.8.0"
+  },
+  "dependencies": {
+    "path-to-regexp": "^8.3.0",
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false
+}

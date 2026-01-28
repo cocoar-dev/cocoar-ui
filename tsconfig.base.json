@@ -29,7 +29,8 @@
       "@cocoar/scenar-testing-playwright": ["tools/scenar/scenar-testing-playwright/src/index.ts"],
       "@cocoar/ts-utils": ["shared/ts-utils/src/index.ts"],
       "@cocoar/localization": ["libs/localization/src/index.ts"],
-      "@cocoar/data-grid": ["libs/data-grid/src/index.ts"]
+      "@cocoar/data-grid": ["libs/data-grid/src/index.ts"],
+      "@cocoar/ui-routing": ["libs/ui-routing/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
