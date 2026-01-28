@@ -9,7 +9,19 @@ export default [
       '@nx/dependency-checks': [
         'error',
         {
-          ignoredFiles: ['{projectRoot}/eslint.config.{js,cjs,mjs,ts,cts,mts}'],
+          ignoredFiles: [
+            '{projectRoot}/eslint.config.{js,cjs,mjs,ts,cts,mts}',
+            '{projectRoot}/**/*.spec.ts',
+            '{projectRoot}/**/*.scenario.ts',
+          ],
+          ignoredDependencies: [
+            '@cocoar/scenar-abstractions',
+            '@angular/compiler',
+            '@analogjs/vitest-angular',
+            '@analogjs/vite-plugin-angular',
+            '@nx/vite',
+            'vite',
+          ],
         },
       ],
     },

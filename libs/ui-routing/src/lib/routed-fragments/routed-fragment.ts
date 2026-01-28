@@ -84,6 +84,6 @@ export interface ComponentRoutedFragment<TOptions = unknown> extends RoutedFragm
  */
 export interface ActionRoutedFragment extends RoutedFragmentBase<never> {
   type: 'action';
-  handler: (params: any) => void;
+  handler: (params: Record<string, unknown>) => void;
   options?: never; // Actions don't have options
 }

@@ -5,7 +5,7 @@ import { RoutedFragmentBase } from './routed-fragment';
  * Parsed fragment with extracted parameters and matched route.
  */
 export interface ParsedRoute<T extends RoutedFragmentBase = RoutedFragmentBase> {
-  params: { [key: string]: any };
+  params: Record<string, unknown>;
   route: T;
   fragment: string;
 }
@@ -45,7 +45,7 @@ export function parseFragment<T extends RoutedFragmentBase>(
   return routeGroups
     .map((routeGroup) => {
       const [routePath, queryParamsString] = routeGroup.split('?'); // Separate query params
-      const parsedParams: any = {};
+      const parsedParams: Record<string, unknown> = {};
 
       // Find the registered route that matches the full routePath
       const registeredRoute = normalizedRoutes.find((route) => {
@@ -66,7 +66,7 @@ export function parseFragment<T extends RoutedFragmentBase>(
         if (queryParamsString) {
           const queryParams = new URLSearchParams(queryParamsString);
           queryParams.forEach((value, key) => {
-            let parsedValue: any;
+            let parsedValue: unknown;
 
             // Try to parse as JSON (for booleans, numbers, etc.)
             try {

@@ -2,23 +2,25 @@ import { describe, it, expect } from 'vitest';
 import { ParsedRoute, parseFragment } from './fragment-parser';
 import { RoutedFragmentBase } from './routed-fragment';
 
+import type { ComponentRoutedFragment, ActionRoutedFragment } from './routed-fragment';
+
 // Mock route registration
 const mockRegisteredRoutes: RoutedFragmentBase[] = [
   {
     type: 'component',
     path: 'details/:id/:customer',
     loadComponent: () => Promise.resolve(class TestComponent {}),
-  } as any,
+  } as ComponentRoutedFragment,
   {
     type: 'action',
     path: 'confirm',
-    handler: (params: any) => console.log('confirm', params),
-  } as any,
+    handler: (params: Record<string, unknown>) => console.log('confirm', params),
+  } as ActionRoutedFragment,
   {
     type: 'component',
     path: ':id/:customer',
     loadComponent: () => Promise.resolve(class DefaultComponent {}),
-  } as any,
+  } as ComponentRoutedFragment,
 ];
 
 describe('parseFragment', () => {
@@ -121,7 +123,7 @@ describe('parseFragment', () => {
       {
         type: 'tab',
         path: ['overview', 'usage', 'palette'],
-      } as any,
+      } as RoutedFragmentBase,
     ];
 
     const overviewResult = parseFragment('overview', routes);
@@ -140,8 +142,14 @@ describe('parseFragment', () => {
 
   it('should work with array paths in combination with other routes', () => {
     const routes: RoutedFragmentBase[] = [
-      { type: 'tab', path: ['overview', 'usage'] } as any,
-      { type: 'action', path: 'close', handler: () => {} } as any,
+      { type: 'tab', path: ['overview', 'usage'] } as RoutedFragmentBase,
+      {
+        type: 'action',
+        path: 'close',
+        handler: () => {
+          /* test handler */
+        },
+      } as ActionRoutedFragment,
     ];
 
     const result = parseFragment('overview#close', routes);
