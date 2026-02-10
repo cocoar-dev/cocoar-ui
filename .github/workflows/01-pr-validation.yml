@@ -87,6 +87,7 @@ jobs:
         run: pnpm e2e
         env:
           COAR_E2E_BROWSERS: chromium
+          SCENARIO_SERVER_COMMAND: "pnpm exec nx serve scenar-backstage"
 
       - name: Upload Playwright report
         if: ${{ !cancelled() }}
