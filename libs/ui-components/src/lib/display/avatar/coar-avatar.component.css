@@ -59,7 +59,7 @@
   height: 100%;
   font-family: var(--coar-body-base-family);
   font-weight: 600;
-  color: white;
+  color: var(--coar-text-on-bold);
   text-transform: uppercase;
   user-select: none;
 }
