@@ -7,6 +7,7 @@
     "build:icons": "node scripts/icons/build-frontend-icons.mjs",
     "build:scenar-registry": "node scripts/scenar/generate-registry.mjs",
     "test": "nx run-many -t test",
+    "test:coverage": "nx run-many -t test -- --coverage",
     "test:ci": "nx run-many -t test --ci",
     "lint": "nx run-many -t lint",
     "e2e": "nx run showcase-e2e:e2e",

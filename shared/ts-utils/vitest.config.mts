@@ -16,6 +16,12 @@ export default defineConfig(() => ({
     coverage: {
       reportsDirectory: '../../coverage/shared/ts-utils',
       provider: 'v8' as const,
+      thresholds: {
+        statements: 50,
+        branches: 40,
+        functions: 50,
+        lines: 50,
+      },
     },
   },
 }));

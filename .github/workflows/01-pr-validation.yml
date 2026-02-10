@@ -54,7 +54,44 @@ jobs:
         run: pnpm nx generate-registry scenar-backstage
 
       - name: Test
-        run: pnpm test
+        run: pnpm test -- --coverage
 
       - name: Build
         run: pnpm build
+
+      - name: Check undeclared CSS variables
+        if: ${{ !cancelled() }}
+        shell: pwsh
+        run: |
+          $output = & ./scripts/css/find-undeclared-css-vars.ps1 -OutputFormat list 2>&1 | Out-String
+          Write-Host $output
+          $summary = "### CSS Variable Check`n`````n$output`n`````n"
+          $summary | Out-File -Append $env:GITHUB_STEP_SUMMARY
+
+      - name: Check unused CSS (showcase)
+        if: ${{ !cancelled() }}
+        run: |
+          output=$(node scripts/css/find-unused-css.mjs 2>&1) || true
+          echo "$output"
+          {
+            echo "### Unused CSS Check"
+            echo '```'
+            echo "$output"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Install Playwright (Chromium)
+        run: npx playwright install --with-deps chromium
+
+      - name: E2E tests
+        run: pnpm e2e
+        env:
+          COAR_E2E_BROWSERS: chromium
+
+      - name: Upload Playwright report
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: apps/showcase-e2e/playwright-report/
+          retention-days: 7
