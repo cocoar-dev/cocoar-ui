@@ -102,14 +102,8 @@ export class CoarMenuItemComponent {
 
     this.itemClick.emit(clickEvent);
 
-    // Close root overlay after Angular's change detection and OUTSIDE the hover area
-    const parentOverlay = this.parentOverlay;
-    if (shouldClose && parentOverlay) {
-      setTimeout(() => {
-        // Close the ROOT overlay to ensure the entire menu tree closes
-        const root = parentOverlay.getRoot();
-        root.close();
-      }, 10);
+    if (shouldClose) {
+      this.closeMenuTree();
     }
   }
 
@@ -138,13 +132,17 @@ export class CoarMenuItemComponent {
 
     this.itemClick.emit(clickEvent);
 
+    if (shouldClose) {
+      this.closeMenuTree();
+    }
+  }
+
+  private closeMenuTree(): void {
     const parentOverlay = this.parentOverlay;
-    if (shouldClose && parentOverlay) {
-      setTimeout(() => {
-        // Close the ROOT overlay to ensure the entire menu tree closes
-        const root = parentOverlay.getRoot();
-        root.close();
-      }, 10);
+    if (parentOverlay) {
+      queueMicrotask(() => {
+        parentOverlay.getRoot().close();
+      });
     }
   }
 }

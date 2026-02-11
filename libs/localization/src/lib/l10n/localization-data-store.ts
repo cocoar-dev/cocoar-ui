@@ -1,10 +1,11 @@
-import { computed, signal, Signal, WritableSignal } from '@angular/core';
+import { computed, Injectable, signal, Signal, WritableSignal } from '@angular/core';
 import type { CoarLocalizationData } from './localization-data';
 
 /**
  * Signal-based storage for locale data.
  * Provides reactive access to loaded locale formatting rules.
  */
+@Injectable({ providedIn: 'root' })
 export class CoarLocalizationDataStore {
   private readonly store: WritableSignal<Map<string, CoarLocalizationData>> = signal(new Map());
 

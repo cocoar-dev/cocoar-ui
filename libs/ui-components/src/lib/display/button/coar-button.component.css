@@ -267,5 +267,5 @@
 
 :host-context(.dark-mode) .coar-button--primary,
 :host-context(:root.dark-mode) .coar-button--primary {
-  color: var(--coar-color-black);
+  color: var(--coar-text-on-bold);
 }

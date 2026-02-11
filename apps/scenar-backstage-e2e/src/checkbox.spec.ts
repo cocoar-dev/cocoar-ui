@@ -70,7 +70,7 @@ test.describe('Checkbox (isolated) @checkboxes', () => {
   test('indeterminate checkbox is displayed correctly', async ({ page }) => {
     await openScenario(page, 'checkbox', {
       label: 'Indeterminate',
-      checked: 'indeterminate',
+      indeterminate: true,
     });
 
     const input = page.locator('coar-checkbox input[aria-checked="mixed"]');
@@ -90,7 +90,7 @@ test.describe('Checkbox (isolated) @checkboxes', () => {
   test('readonly checkbox cannot be changed', async ({ page }) => {
     await openScenario(page, 'checkbox', {
       label: 'Readonly',
-      checked: 'checked',
+      checked: true,
       readonly: true,
     });
 
@@ -135,7 +135,7 @@ test.describe('Checkbox (isolated) @checkboxes', () => {
   test('indeterminate checkbox has aria-checked="mixed" @a11y', async ({ page }) => {
     await openScenario(page, 'checkbox', {
       label: 'Indeterminate',
-      checked: 'indeterminate',
+      indeterminate: true,
     });
 
     const input = page.locator('coar-checkbox input[type="checkbox"]');

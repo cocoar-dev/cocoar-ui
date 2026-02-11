@@ -23,6 +23,12 @@ export default defineConfig(() => ({
     coverage: {
       reportsDirectory: '../../coverage/libs/localization',
       provider: 'v8' as const,
+      thresholds: {
+        statements: 50,
+        branches: 40,
+        functions: 45,
+        lines: 50,
+      },
     },
   },
 }));

@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Pipe, PipeTransform, inject, OnDestroy } from '@angular/core';
 import { CoarI18n } from './coar-i18n';
+import { coarInterpolate } from './coar-interpolate';
 import { BehaviorSubjectProxy } from '@cocoar/ts-utils';
 
 @Pipe({
@@ -8,7 +9,7 @@ import { BehaviorSubjectProxy } from '@cocoar/ts-utils';
   pure: false, // Required because translations can change at runtime
 })
 export class CoarI18nPipe implements PipeTransform, OnDestroy {
-  private readonly i18n = inject(CoarI18n);
+  private readonly i18n = inject(CoarI18n, { optional: true });
   private readonly cdr = inject(ChangeDetectorRef);
 
   private readonly subject = new BehaviorSubjectProxy<string>('');
@@ -49,6 +50,11 @@ export class CoarI18nPipe implements PipeTransform, OnDestroy {
       if (typeof maybeFallbackOrParams === 'string') {
         fallback = maybeFallbackOrParams;
       }
+    }
+
+    // No i18n service available — return fallback or key
+    if (!this.i18n) {
+      return coarInterpolate(fallback ?? key, params);
     }
 
     // Compare inputs to determine if a new subscription is needed

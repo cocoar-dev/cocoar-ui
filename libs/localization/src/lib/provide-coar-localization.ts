@@ -9,6 +9,7 @@ import { CoarLocalizationService } from './coar-localization.service';
 import { CoarLocalizationDataLoader } from './l10n/localization-data-loader';
 import { CoarLocalizationDataStore } from './l10n/localization-data-store';
 import { CoarIntlLocaleDataLoader } from './l10n/intl-localization-data-loader';
+import { CoarI18n } from './i18n/coar-i18n';
 import { COAR_I18N_PROVIDER } from './i18n/coar-i18n-provider';
 import { CoarI18nService } from './i18n/coar-i18n.service';
 import { COAR_TRANSLATION_LOADERS } from './i18n/coar-translation-loader';
@@ -130,6 +131,9 @@ export function provideCoarLocalization(config: CoarLocalizationConfig): Environ
       provide: COAR_I18N_PROVIDER,
       useClass: CoarI18nService,
     },
+
+    // i18n: Convenience service used by CoarI18nPipe and consumers
+    CoarI18n,
 
     // i18n: Auto-include Intl source as first translation loader (provides common defaults)
     {

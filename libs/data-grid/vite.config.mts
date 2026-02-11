@@ -23,6 +23,12 @@ export default defineConfig(() => ({
     coverage: {
       reportsDirectory: '../../coverage/libs/data-grid',
       provider: 'v8' as const,
+      thresholds: {
+        statements: 45,
+        branches: 40,
+        functions: 50,
+        lines: 50,
+      },
     },
   },
 }));

@@ -21,7 +21,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 9999px;
+  border-radius: var(--coar-radius-full);
   font-family: var(--coar-body-small-bold-family);
   font-weight: var(--coar-body-small-bold-weight);
   white-space: nowrap;
