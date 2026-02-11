@@ -2,14 +2,14 @@ import { Injectable, Signal, inject } from '@angular/core';
 import { COAR_I18N_PROVIDER } from './coar-i18n-provider';
 import { coarIsMissingTranslation } from './coar-is-missing-translation';
 import { coarInterpolate } from './coar-interpolate';
-import { distinctUntilChanged, map, Observable } from 'rxjs';
+import { distinctUntilChanged, map, Observable, of } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { CoarLocalizationService } from '../coar-localization.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class CoarI18n {
-  private readonly provider = inject(COAR_I18N_PROVIDER);
-  private readonly locale = inject(CoarLocalizationService);
+  private readonly provider = inject(COAR_I18N_PROVIDER, { optional: true });
+  private readonly locale = inject(CoarLocalizationService, { optional: true });
 
   /**
    * Translate a key into a localized string.
@@ -38,6 +38,10 @@ export class CoarI18n {
       fallback = undefined;
     }
 
+    if (!this.provider) {
+      return coarInterpolate(fallback ?? key, params);
+    }
+
     const raw = this.provider.t(key, params);
 
     const base = coarIsMissingTranslation(key, raw) ? (fallback ?? key) : (raw ?? '');
@@ -51,6 +55,10 @@ export class CoarI18n {
    * Uses CoarLocalizationService to detect language changes.
    */
   t$(key: string, params?: Record<string, unknown>, fallback?: string): Observable<string> {
+    if (!this.locale) {
+      return of(this.callT(key, params, fallback));
+    }
+
     // Re-evaluate on every language change from CoarLocalizationService
     return this.locale.languageState.value$.pipe(
       map(() => this.callT(key, params, fallback)),

@@ -83,7 +83,7 @@ test.describe('Text Input (isolated) @text-input', () => {
     await expect(message).toBeVisible();
     await expect(message).toContainText('Oops');
     await expect(message).not.toContainText('Helpful hint');
-    await expect(message).toHaveClass(/coar-text-input-message-error/);
+    await expect(message).toHaveClass(/coar-form-field-message--error/);
   });
 
   test('multiline renders textarea and sets multiline host class', async ({ page }) => {
