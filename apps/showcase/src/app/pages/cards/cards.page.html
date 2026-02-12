@@ -18,46 +18,46 @@
             <p class="coar-body">This is a basic card with default settings. Cards help organize content into distinct sections.</p>
           </coar-card>
         </div>
-        <coar-code-block [code]="basicExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="basicExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Variants</h3>
         <p class="example-description">Use <code>borderless</code> to remove the border, <code>elevated</code> to add depth.</p>
         <div class="example-demo variants-grid">
           <div class="variant-demo">
-            <coar-card>
+            <coar-card color="outlined">
               <h4 class="coar-body-large">Default</h4>
               <p class="coar-body-small">With border (default).</p>
             </coar-card>
             <span class="variant-label coar-caption">(default)</span>
           </div>
           <div class="variant-demo">
-            <coar-card borderless>
+            <coar-card color="outlined" borderless>
               <h4 class="coar-body-large">Borderless</h4>
               <p class="coar-body-small">No border.</p>
             </coar-card>
             <span class="variant-label coar-caption">borderless</span>
           </div>
           <div class="variant-demo">
-            <coar-card elevated>
+            <coar-card color="outlined" elevated>
               <h4 class="coar-body-large">Elevated</h4>
               <p class="coar-body-small">Raised with box-shadow.</p>
             </coar-card>
             <span class="variant-label coar-caption">elevated</span>
           </div>
           <div class="variant-demo">
-            <coar-card elevated borderless>
+            <coar-card color="outlined" elevated borderless>
               <h4 class="coar-body-large">Elevated + Borderless</h4>
               <p class="coar-body-small">Raised, no border.</p>
             </coar-card>
             <span class="variant-label coar-caption">elevated borderless</span>
           </div>
         </div>
-        <coar-code-block [code]="variantsExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="variantsExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Padding Options</h3>
         <p class="example-description">Control the internal spacing with four padding options.</p>
         <div class="example-demo padding-grid">
@@ -82,10 +82,10 @@
             </coar-card>
           </div>
         </div>
-        <coar-code-block [code]="paddingExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="paddingExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Card Sections</h3>
         <p class="example-description">Use header and footer slots to structure card content.</p>
         <div class="example-demo">
@@ -101,7 +101,32 @@
             </div>
           </coar-card>
         </div>
-        <coar-code-block [code]="sectionsExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="sectionsExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- INSET FOOTER SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Inset Footer</h2>
+    <p class="component-section-description">Use <code>coar-card-inset</code> on a footer element to make it flush with the card edges. Combine with <code>borderless</code> on code-block to avoid duplicate borders.</p>
+
+    <div class="examples-grid">
+      <coar-card color="outlined">
+        <h3>Card with Code Block</h3>
+        <p class="example-description">A code block as inset footer, flush with the card edges.</p>
+        <div class="example-demo">
+          <coar-card color="outlined">
+            <h3 class="coar-body-large">Component Example</h3>
+            <p class="coar-body">This card has a collapsible code block at the bottom, sitting flush against the card edges.</p>
+            <coar-code-block coar-card-footer coar-card-inset borderless
+              [code]="insetExample"
+              language="html"
+              [collapsed]="true"
+            />
+          </coar-card>
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="insetUsageExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -112,7 +137,7 @@
     <p class="component-section-description">Use semantic color variants for status messages, alerts, and contextual information.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Color Variants</h3>
         <p class="example-description">Semantic colors for different contexts.</p>
         <div class="example-demo colors-grid">
@@ -141,10 +166,10 @@
             <p class="coar-body-small">Here's some helpful information.</p>
           </coar-card>
         </div>
-        <coar-code-block [code]="colorsExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="colorsExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Colors + Elevation</h3>
         <p class="example-description">Combine elevation with semantic colors for maximum visual impact.</p>
         <div class="example-demo colors-grid">
@@ -173,7 +198,7 @@
             <p class="coar-body-small">Elevated.</p>
           </coar-card>
         </div>
-        <coar-code-block [code]="colorsElevatedExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="colorsElevatedExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -236,6 +261,10 @@
             <tr>
               <td><code>coar-card-footer</code></td>
               <td>Footer section with top border</td>
+            </tr>
+            <tr>
+              <td><code>coar-card-inset</code></td>
+              <td>Makes a footer flush with the card edges (no padding). Combine with <code>coar-card-footer</code>.</td>
             </tr>
           </tbody>
         </table>

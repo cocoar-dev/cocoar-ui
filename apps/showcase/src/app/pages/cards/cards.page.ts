@@ -10,17 +10,11 @@ import {
 @Component({
   selector: 'app-cards-page',
   standalone: true,
-  imports: [
-    CoarCodeBlockComponent,
-    CoarCardComponent,
-    CoarButtonComponent,
-    CoarTagComponent,
-  ],
+  imports: [CoarCodeBlockComponent, CoarCardComponent, CoarButtonComponent],
   templateUrl: './cards.page.html',
   styleUrl: './cards.page.css',
 })
 export class CardsPage {
-
   // Code examples
   basicExample = `<coar-card>
   <h3>Card Title</h3>
@@ -67,6 +61,21 @@ export class CardsPage {
   <div coar-card-footer>
     <button>Action</button>
   </div>
+</coar-card>`;
+
+  insetExample = `<coar-card color="outlined">
+  <h3>Component Example</h3>
+  <p>Content goes here...</p>
+</coar-card>`;
+
+  insetUsageExample = `<coar-card color="outlined">
+  <h3>Component Example</h3>
+  <p>Content goes here...</p>
+  <coar-code-block coar-card-footer coar-card-inset borderless
+    [code]="myCode"
+    language="html"
+    [collapsed]="true"
+  />
 </coar-card>`;
 
   colorsExample = `<!-- Neutral (default) -->

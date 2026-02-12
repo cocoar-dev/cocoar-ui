@@ -12,7 +12,7 @@
     <!-- COLOR VARIANTS -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Color Variants</h3>
         <p class="example-description">Six semantic color variants for different contexts and meanings.</p>
         <div class="example-demo notes-stack">
@@ -23,10 +23,10 @@
           <coar-note color="error"><strong>Error:</strong> Please fix the following issues before continuing.</coar-note>
           <coar-note color="accent"><strong>Featured:</strong> Check out our new feature!</coar-note>
         </div>
-        <coar-code-block [code]="codeExamples.colors" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.colors" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Padding Sizes</h3>
         <p class="example-description">Three padding options for different content densities.</p>
         <div class="example-demo notes-stack">
@@ -34,10 +34,10 @@
           <coar-note color="info" padding="md"><strong>Medium:</strong> Standard note with balanced padding (default).</coar-note>
           <coar-note color="info" padding="lg"><strong>Large:</strong> Spacious note with generous padding for emphasis.</coar-note>
         </div>
-        <coar-code-block [code]="codeExamples.padding" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.padding" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Rich Content</h3>
         <p class="example-description">Notes can contain headings, paragraphs, lists, and other HTML content.</p>
         <div class="example-demo">
@@ -51,10 +51,10 @@
             </ul>
           </coar-note>
         </div>
-        <coar-code-block [code]="codeExamples.richContent" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.richContent" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Common Use Cases</h3>
         <p class="example-description">Typical patterns for using notes in documentation and applications.</p>
         <div class="use-cases-grid">
@@ -77,7 +77,7 @@
             <coar-note color="success"><strong>Complete:</strong> All tests passed. Ready for deployment.</coar-note>
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.useCases" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.useCases" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -88,7 +88,7 @@
     <p class="component-section-description">When to use each component.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Card</h3>
         <ul class="comparison-list">
           <li>General content containers</li>
@@ -99,7 +99,7 @@
         </ul>
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Note</h3>
         <ul class="comparison-list">
           <li>Callouts and highlighted info</li>

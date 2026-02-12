@@ -12,7 +12,7 @@
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Basic Usage</h3>
         <p class="example-description">Avatars display user images with automatic initials fallback.</p>
         <div class="example-demo">
@@ -25,10 +25,10 @@
             }
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Sizes</h3>
         <p class="example-description">Six preset sizes from extra-small (24px) to extra-extra-large (96px).</p>
         <div class="example-demo">
@@ -41,10 +41,10 @@
             }
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Shapes</h3>
         <p class="example-description">Choose between circular avatars (default) or square with rounded corners.</p>
         <div class="example-demo">
@@ -57,10 +57,10 @@
             }
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.shapes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.shapes" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Initials Fallback</h3>
         <p class="example-description">
           When no image is available, the avatar shows initials. Use the <code>coarInitials</code> pipe to extract first letters from full names.
@@ -82,7 +82,7 @@
             <code>[name]="'Alice Johnson' | coarInitials"</code> to extract first letters.
           </p>
         </coar-card>
-        <coar-code-block [code]="codeExamples.fallback" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.fallback" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -93,7 +93,7 @@
     <p class="component-section-description">Combine with a badge component to show online/offline status.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Status Badges</h3>
         <p class="example-description">Position a dot badge to indicate user availability.</p>
         <div class="example-demo">
@@ -128,7 +128,7 @@
             </div>
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.withStatus" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.withStatus" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 

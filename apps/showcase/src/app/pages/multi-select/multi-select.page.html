@@ -11,7 +11,7 @@
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Basic Usage</h3>
         <p class="example-description">Select multiple options. The trigger shows selected labels.</p>
         <div class="example-demo">
@@ -24,10 +24,10 @@
           />
         </div>
         <p class="demo-value">Selected: {{ selectedSkills().join(', ') || 'none' }}</p>
-        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Select All & Searchable</h3>
         <p class="example-description">Enable "Select All" and filter the list. Select All only appears when the search box is empty.</p>
         <div class="example-demo">
@@ -41,10 +41,10 @@
             searchPlaceholder="Filter skills..."
           />
         </div>
-        <coar-code-block [code]="codeExamples.selectAllSearchable" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.selectAllSearchable" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>maxDisplayItems</h3>
         <p class="example-description">Limit how many selected labels are shown before switching to "N selected".</p>
         <div class="example-demo">
@@ -57,10 +57,10 @@
             placeholder="Select skills..."
           />
         </div>
-        <coar-code-block [code]="codeExamples.maxDisplayItems" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.maxDisplayItems" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Sizes</h3>
         <p class="example-description">Available in xs, sm, md, and lg sizes.</p>
         <div class="example-demo example-demo--sizes">
@@ -69,16 +69,16 @@
           <coar-multi-select label="Medium" [options]="skillOptions" size="md" placeholder="md" />
           <coar-multi-select label="Large" [options]="skillOptions" size="lg" placeholder="lg" />
         </div>
-        <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Dropdown Position (Top)</h3>
         <p class="example-description">Prefer opening upwards with <code>dropdownPositionPreference</code>.</p>
         <div class="example-demo">
           <coar-multi-select label="Skills" [options]="skillOptions" dropdownPositionPreference="top" placeholder="Select skills..." />
         </div>
-        <coar-code-block [code]="codeExamples.dropdownPositionTop" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.dropdownPositionTop" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 

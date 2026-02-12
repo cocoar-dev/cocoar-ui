@@ -12,7 +12,7 @@
     <p class="component-section-description">Choose the appropriate variant based on the action's importance and context.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>All Variants</h3>
         <p class="example-description">Five variants for different levels of emphasis.</p>
         <div class="example-demo demo-row">
@@ -22,10 +22,10 @@
           <coar-button variant="danger">Danger</coar-button>
           <coar-button variant="ghost">Ghost</coar-button>
         </div>
-        <coar-code-block [code]="codeExamples.variants" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.variants" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Variant Usage</h3>
         <p class="example-description">When to use each variant.</p>
         <div class="example-demo variant-list">
@@ -45,7 +45,7 @@
     <p class="component-section-description">Four sizes to fit different contexts and layouts.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Size Comparison</h3>
         <p class="example-description">Buttons aligned at baseline to show height differences.</p>
         <div class="example-demo demo-row demo-row--align-end">
@@ -55,10 +55,10 @@
           <coar-button size="lg">Large</coar-button>
         </div>
         <div class="demo-value size-specs"><code>xs</code> 27px | <code>sm</code> 32px | <code>md</code> 40px | <code>lg</code> 48px</div>
-        <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>With Icons</h3>
         <p class="example-description">Add icons before or after the label to enhance meaning.</p>
         <div class="example-demo demo-row">
@@ -67,7 +67,7 @@
           <coar-button variant="tertiary" iconStart="clipboard" iconEnd="check">Download</coar-button>
           <coar-button variant="danger" iconStart="bin">Delete</coar-button>
         </div>
-        <coar-code-block [code]="codeExamples.icons" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.icons" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -78,7 +78,7 @@
     <p class="component-section-description">Loading and disabled states for different scenarios.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Loading State</h3>
         <p class="example-description">Show a spinner while an async action is in progress. Click to test.</p>
         <div class="example-demo">
@@ -98,10 +98,10 @@
         <coar-note variant="info">
           <strong>Loading Behavior:</strong> With icon, spinner replaces the icon. Without icon, spinner overlays the center.
         </coar-note>
-        <coar-code-block [code]="codeExamples.loading" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.loading" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Disabled State</h3>
         <p class="example-description">Disable buttons when actions are not available.</p>
         <div class="example-demo demo-row">
@@ -111,17 +111,17 @@
           <coar-button variant="danger" [disabled]="true">Danger</coar-button>
           <coar-button variant="ghost" [disabled]="true">Ghost</coar-button>
         </div>
-        <coar-code-block [code]="codeExamples.disabled" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.disabled" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Full Width</h3>
         <p class="example-description">Buttons can expand to fill their container.</p>
         <div class="example-demo full-width-demo">
           <coar-button [fullWidth]="true">Full Width Primary</coar-button>
           <coar-button variant="secondary" [fullWidth]="true">Full Width Secondary</coar-button>
         </div>
-        <coar-code-block [code]="codeExamples.fullWidth" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.fullWidth" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 

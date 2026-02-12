@@ -14,7 +14,7 @@
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Section Headings</h3>
         <p class="example-description">Use labels as section titles within forms or content areas.</p>
         <div class="example-demo section-demo">
@@ -27,10 +27,10 @@
           <coar-label size="sm">Notification Settings</coar-label>
           <p class="coar-body-small muted">Configure your email preferences.</p>
         </div>
-        <coar-code-block [code]="codeExamples.sections" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.sections" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Sizes</h3>
         <p class="example-description">Four sizes that match the component size system.</p>
         <div class="example-demo standalone-sizes">
@@ -55,20 +55,20 @@
             <span class="size-spec coar-caption">15px</span>
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Required Indicator</h3>
         <p class="example-description">Show an asterisk for required fields or sections.</p>
         <div class="example-demo required-demos">
           <coar-label [required]="true">Required Section</coar-label>
           <coar-label>Optional Section</coar-label>
         </div>
-        <coar-code-block [code]="codeExamples.required" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.required" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Field Groups</h3>
         <p class="example-description">Label a group of related elements like radio buttons or checkboxes.</p>
         <div class="example-demo field-group-demo">
@@ -88,7 +88,7 @@
             </label>
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.fieldGroup" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.fieldGroup" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 

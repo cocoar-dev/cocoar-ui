@@ -24,9 +24,9 @@
 
   /* Background */
   --coar-background-neutral-primary: var(--coar-color-white);
-  --coar-background-neutral-secondary: var(--coar-color-gray-100);
-  --coar-background-neutral-tertiary: var(--coar-color-gray-200);
-  --coar-background-neutral-disabled: var(--coar-color-gray-300);
+  --coar-background-neutral-secondary: var(--coar-color-gray-50);
+  --coar-background-neutral-tertiary: var(--coar-color-gray-100);
+  --coar-background-neutral-disabled: var(--coar-color-gray-200);
 
   /* Text */
   --coar-text-neutral-primary: var(--coar-color-gray-900);

@@ -9,7 +9,7 @@
     <!-- FORM PATTERNS SECTION -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Login Form</h3>
         <p class="example-description">A simple authentication form with email and password fields.</p>
         <div class="example-demo">
@@ -27,10 +27,10 @@
           <strong>Form values:</strong>
           <pre>{{ loginForm.getRawValue() | json }}</pre>
         </div>
-        <coar-code-block [code]="codeExamples.loginForm" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.loginForm" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Inline Form</h3>
         <p class="example-description">Horizontal layout for simple single-field forms like newsletter signup.</p>
         <div class="example-demo">
@@ -40,10 +40,10 @@
           </form>
         </div>
         <coar-note variant="info">Use matching sizes for inputs and buttons to ensure perfect vertical alignment.</coar-note>
-        <coar-code-block [code]="codeExamples.inlineForm" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.inlineForm" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Search Form</h3>
         <p class="example-description">Search input with button using default md size (40px).</p>
         <div class="example-demo">
@@ -52,7 +52,7 @@
             <coar-button variant="primary" type="button">Search</coar-button>
           </form>
         </div>
-        <coar-code-block [code]="codeExamples.searchForm" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.searchForm" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -63,7 +63,7 @@
     <p class="component-section-description">Complex forms with validation, hints, and multi-column layouts.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Registration Form</h3>
         <p class="example-description">Multi-field form with two-column password fields and checkboxes.</p>
         <div class="example-demo">
@@ -92,7 +92,7 @@
           <strong>Form values:</strong>
           <pre>{{ registrationForm.getRawValue() | json }}</pre>
         </div>
-        <coar-code-block [code]="codeExamples.registrationForm" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.registrationForm" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -103,7 +103,7 @@
     <p class="component-section-description">Input sizes match button sizes for consistent form layouts.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Component Height Comparison</h3>
         <p class="example-description">All form components aligned at the same size.</p>
         <div class="example-demo sizing-grid">
@@ -146,7 +146,7 @@
         </div>
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Best Practices</h3>
         <p class="example-description">Guidelines for consistent form layouts.</p>
         <div class="example-demo a11y-list">

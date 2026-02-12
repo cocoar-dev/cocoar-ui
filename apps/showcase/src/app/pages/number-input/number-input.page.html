@@ -12,7 +12,7 @@
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Basic Usage</h3>
         <p class="example-description">Simple number input with increment/decrement buttons.</p>
         <div class="example-demo">
@@ -25,10 +25,10 @@
           />
         </div>
         <p class="demo-value">Value: {{ basicValue() ?? 'null' }}</p>
-        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Min & Max Constraints</h3>
         <p class="example-description">Limit the value range. Buttons disable at boundaries.</p>
         <div class="example-demo">
@@ -42,10 +42,10 @@
             hint="Between 1 and 99"
           />
         </div>
-        <coar-code-block [code]="codeExamples.minMax" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.minMax" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Step Increments</h3>
         <p class="example-description">Control increment size with the step property.</p>
         <div class="example-demo example-demo--three-col">
@@ -53,10 +53,10 @@
           <coar-number-input stepperButtons label="Step: 0.5" [step]="0.5" [decimals]="1" [value]="5.5" hint="Half steps" />
           <coar-number-input stepperButtons label="Step: 10" [step]="10" [value]="100" hint="Tens" />
         </div>
-        <coar-code-block [code]="codeExamples.step" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.step" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Decimal Precision</h3>
         <p class="example-description">Control decimal places for currency, percentages, etc.</p>
         <div class="example-demo">
@@ -71,10 +71,10 @@
           />
         </div>
         <p class="demo-value">Value: {{ priceValue() ?? 'null' }}</p>
-        <coar-code-block [code]="codeExamples.decimals" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.decimals" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Prefix & Suffix</h3>
         <p class="example-description">Add units or currency symbols.</p>
         <div class="example-demo example-demo--three-col">
@@ -89,10 +89,10 @@
             (valueChange)="temperatureValue.set($event)"
           />
         </div>
-        <coar-code-block [code]="codeExamples.prefixSuffix" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.prefixSuffix" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Figma-style Drag</h3>
         <p class="example-description">Click and drag the label horizontally to adjust the value.</p>
         <div class="example-demo">
@@ -103,7 +103,7 @@
             (valueChange)="basicValue.set($event)"
           />
         </div>
-        <coar-code-block [code]="codeExamples.dragLabel" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.dragLabel" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -114,7 +114,7 @@
     <p class="component-section-description">Support different number formats for locales like German (comma decimal) vs US (period decimal).</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>German Format</h3>
         <p class="example-description">Comma as decimal separator, period as thousands.</p>
         <div class="example-demo">
@@ -131,7 +131,7 @@
         <p class="demo-value">Raw value: {{ germanPrice() ?? 'null' }}</p>
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>US Format</h3>
         <p class="example-description">Period as decimal separator, comma as thousands.</p>
         <div class="example-demo">
@@ -146,7 +146,7 @@
           />
         </div>
         <p class="demo-value">Raw value: {{ usPrice() ?? 'null' }}</p>
-        <coar-code-block [code]="codeExamples.locale" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.locale" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -159,7 +159,7 @@
     </p>
 
     <div class="examples-grid">
-      <coar-card color="outlined" class="examples-grid__span">
+      <coar-card class="examples-grid__span">
         <h3>Button Configurations</h3>
         <p class="example-description">No buttons, both buttons, or single increment/decrement.</p>
         <div class="example-demo example-demo--four-col">
@@ -180,10 +180,10 @@
             hint="Countdown"
           />
         </div>
-        <coar-code-block [code]="codeExamples.stepperButtons" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.stepperButtons" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Sizes</h3>
         <p class="example-description">Four size variants for different contexts.</p>
         <div class="example-demo example-demo--sizes">
@@ -192,17 +192,17 @@
           <coar-number-input stepperButtons size="md" label="Medium" [value]="30" />
           <coar-number-input stepperButtons size="lg" label="Large" [value]="40" />
         </div>
-        <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Disabled & Readonly</h3>
         <p class="example-description">Non-interactive states.</p>
         <div class="example-demo example-demo--two-col">
           <coar-number-input stepperButtons label="Disabled" [value]="100" [disabled]="true" />
           <coar-number-input stepperButtons label="Readonly" [value]="200" [readonly]="true" />
         </div>
-        <coar-code-block [code]="codeExamples.disabled" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.disabled" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 

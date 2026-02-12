@@ -12,7 +12,7 @@
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Color Variants</h3>
         <p class="example-description">Six semantic color variants for different contexts and meanings.</p>
         <div class="example-demo tag-row">
@@ -22,10 +22,10 @@
             </div>
           }
         </div>
-        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Sizes</h3>
         <p class="example-description">Three size options for different contexts.</p>
         <div class="example-demo tag-row tag-row--align-center">
@@ -36,10 +36,10 @@
             </div>
           }
         </div>
-        <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Elevated</h3>
         <p class="example-description">Add elevation with box-shadow for emphasis.</p>
         <div class="example-demo tag-row">
@@ -47,10 +47,10 @@
             <coar-tag [color]="color" elevated>{{ color | titlecase }}</coar-tag>
           }
         </div>
-        <coar-code-block [code]="codeExamples.elevated" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.elevated" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Borderless</h3>
         <p class="example-description">Remove the border for a softer look.</p>
         <div class="example-demo tag-row">
@@ -58,7 +58,7 @@
             <coar-tag [color]="color" borderless>{{ color | titlecase }}</coar-tag>
           }
         </div>
-        <coar-code-block [code]="codeExamples.borderless" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.borderless" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -69,7 +69,7 @@
     <p class="component-section-description">Tags can be removed by users and used for filtering or categorization.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Closable Tags</h3>
         <p class="example-description">Tags can be removed by users. Click the x to remove a tag.</p>
         <div class="example-demo tag-row">
@@ -81,10 +81,10 @@
             <button class="reset-link coar-body-small" (click)="resetTags()">Reset tags</button>
           }
         </div>
-        <coar-code-block [code]="codeExamples.closable" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.closable" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Use Cases</h3>
         <p class="example-description">Common patterns for using tags in your application.</p>
         <div class="use-case-grid">
@@ -121,7 +121,7 @@
             </div>
           </coar-card>
         </div>
-        <coar-code-block [code]="codeExamples.categories" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.categories" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -132,7 +132,7 @@
     <p class="component-section-description">When to use each component.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Badge</h3>
         <ul class="comparison-list coar-body-small">
           <li>Notification counts (5, 99+)</li>
@@ -143,7 +143,7 @@
         </ul>
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Tag</h3>
         <ul class="comparison-list coar-body-small">
           <li>Labels and categories</li>

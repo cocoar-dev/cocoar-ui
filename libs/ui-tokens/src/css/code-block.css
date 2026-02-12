@@ -13,7 +13,7 @@
 
   /* Layout */
   --coar-code-block-bg: #f8f9fa;
-  --coar-code-block-header-bg: #f0f1f2;
+  --coar-code-block-header-bg: var(--coar-color-gray-50);
   --coar-code-block-border: #e1e4e8;
 
   /* Text */

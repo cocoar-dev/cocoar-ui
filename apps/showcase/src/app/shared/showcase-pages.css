@@ -732,6 +732,7 @@ coar-table.api-table td:nth-child(3):last-child {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--coar-spacing-l);
   margin-bottom: var(--coar-spacing-l);
+  align-items: start;
 }
 
 /* Full-width card spanning both columns (use for dense content like 4-col demos) */

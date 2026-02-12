@@ -132,6 +132,12 @@
   display: block;
 }
 
+/* Borderless */
+.coar-code-block.borderless {
+  border: none;
+  border-radius: 0;
+}
+
 /* Collapsed state */
 .coar-code-block.collapsed .coar-code-header {
   border-bottom: none;

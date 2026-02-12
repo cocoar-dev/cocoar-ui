@@ -11,7 +11,7 @@
     <!-- BASIC ANCHOR TYPES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Connected Overlay (Element)</h3>
         <p class="example-description">Defines a template overlay and opens it anchored to an element.</p>
         <div class="example-demo example-demo--row">
@@ -20,11 +20,11 @@
           </span>
           <coar-button variant="ghost" size="sm" (clicked)="close()" [disabled]="!isOpen()">Close</coar-button>
         </div>
-        <coar-code-block [code]="codeExamples.defineTemplate" language="ts" [showLineNumbers]="false" [collapsed]="true" />
-        <coar-code-block [code]="codeExamples.openConnected" language="ts" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.defineTemplate" language="ts" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.openConnected" language="ts" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Context Menu (Point)</h3>
         <p class="example-description">Right-click inside the box to open an overlay at pointer coordinates.</p>
         <div class="example-demo">
@@ -35,20 +35,20 @@
             }
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.openAtPoint" language="ts" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.openAtPoint" language="ts" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Global Center (Modal)</h3>
         <p class="example-description">Centers the overlay in the viewport with a modal backdrop.</p>
         <div class="example-demo example-demo--row">
           <coar-button variant="ghost" size="sm" (clicked)="openCentered()">Open centered overlay</coar-button>
           <coar-button variant="ghost" size="sm" (clicked)="close()" [disabled]="!isOpen()">Close</coar-button>
         </div>
-        <coar-code-block [code]="codeExamples.globalCenter" language="ts" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.globalCenter" language="ts" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Parent-Attached (Container)</h3>
         <p class="example-description">Overlay attached to a specific parent container instead of body. Clamp/fallback use container boundaries.</p>
         <div class="example-demo">
@@ -58,7 +58,7 @@
             </span>
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.parentAttached" language="ts" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.parentAttached" language="ts" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -69,7 +69,7 @@
     <p class="component-section-description">DI resolution, nested overlays, and hover-based menus.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>ResolveSpec via DI</h3>
         <p class="example-description">Register a DI resolver that defaults menu overlays to close-on-scroll when no scroll strategy is set.</p>
         <div class="example-demo example-demo--row">
@@ -78,10 +78,10 @@
           </span>
           <coar-button variant="ghost" size="sm" (clicked)="close()" [disabled]="!isOpen()">Close</coar-button>
         </div>
-        <coar-code-block [code]="codeExamples.resolveViaDi" language="ts" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.resolveViaDi" language="ts" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Nested Overlays (Click)</h3>
         <p class="example-description">Test parent-child overlay hierarchy with sibling closure. Opening a sibling should close the previous one.</p>
         <div class="example-demo example-demo--column">
@@ -93,7 +93,7 @@
         </div>
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Nested Overlays (Hover)</h3>
         <p class="example-description">
           Same test but with HOVER instead of click. Hover over items to open submenus. Behaves like real menu system.
@@ -101,7 +101,7 @@
         <div class="example-demo example-demo--row">
           <coar-button variant="primary" size="sm" (clicked)="openHoverTest()">Open Hover Parent</coar-button>
         </div>
-        <coar-code-block [code]="codeExamples.submenu" language="ts" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.submenu" language="ts" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 

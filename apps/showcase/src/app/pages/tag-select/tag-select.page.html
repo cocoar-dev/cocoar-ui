@@ -9,17 +9,17 @@
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Basic Usage</h3>
         <p class="example-description">Selected values are shown as removable tags.</p>
         <div class="example-demo">
           <coar-tag-select label="Tags" [options]="tagOptions" [value]="tags()" (valueChange)="tags.set($event)" placeholder="Add tags..." />
         </div>
         <p class="demo-value">Selected: {{ tags().join(', ') || 'none' }}</p>
-        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Allow Create</h3>
         <p class="example-description">Create new tags that don't exist in the options.</p>
         <div class="example-demo">
@@ -34,10 +34,10 @@
           />
         </div>
         <coar-note color="info">Type a new tag name and press Enter, comma, or Tab to create it.</coar-note>
-        <coar-code-block [code]="codeExamples.allowCreate" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.allowCreate" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>maxTags</h3>
         <p class="example-description">Limit how many tags can be selected. When reached, the inline input is hidden.</p>
         <div class="example-demo">
@@ -51,10 +51,10 @@
             placeholder="Max 3 tags"
           />
         </div>
-        <coar-code-block [code]="codeExamples.maxTags" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.maxTags" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Sizes</h3>
         <p class="example-description">Available in xs, sm, md, and lg sizes.</p>
         <div class="example-demo example-demo--sizes">
@@ -63,16 +63,16 @@
           <coar-tag-select label="Medium" [options]="tagOptions" size="md" placeholder="md" />
           <coar-tag-select label="Large" [options]="tagOptions" size="lg" placeholder="lg" />
         </div>
-        <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Dropdown Position (Top)</h3>
         <p class="example-description">Prefer opening upwards with <code>dropdownPositionPreference</code>.</p>
         <div class="example-demo">
           <coar-tag-select label="Tags" [options]="tagOptions" dropdownPositionPreference="top" placeholder="Add tags..." />
         </div>
-        <coar-code-block [code]="codeExamples.dropdownPositionTop" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.dropdownPositionTop" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 

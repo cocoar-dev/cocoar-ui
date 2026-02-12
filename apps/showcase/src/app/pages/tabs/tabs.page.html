@@ -9,7 +9,7 @@
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Basic Usage</h3>
         <p class="example-description">Define tabs with a clean configuration. Content is referenced via <code>[content]</code> input.</p>
         <div class="example-demo">
@@ -19,10 +19,10 @@
             <coar-tab id="basic-api" [content]="basicApi">API</coar-tab>
           </coar-tab-group>
         </div>
-        <coar-code-block [code]="basicExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="basicExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>With Icons</h3>
         <p class="example-description">Add icons to make tabs more visually distinctive.</p>
         <div class="example-demo">
@@ -32,10 +32,10 @@
             <coar-tab id="icon-profile" [content]="iconProfile">👤 Profile</coar-tab>
           </coar-tab-group>
         </div>
-        <coar-code-block [code]="withIconsExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="withIconsExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Disabled Tabs</h3>
         <p class="example-description">Disable tabs that shouldn't be accessible.</p>
         <div class="example-demo">
@@ -45,10 +45,10 @@
             <coar-tab id="disabled-also" [content]="disabledAlso">Also Available</coar-tab>
           </coar-tab-group>
         </div>
-        <coar-code-block [code]="disabledExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="disabledExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Rich Labels</h3>
         <p class="example-description">Use inline content for rich labels with badges, icons, or custom styling.</p>
         <div class="example-demo">
@@ -58,7 +58,7 @@
             <coar-tab id="rich-settings" [content]="richSettings">Settings</coar-tab>
           </coar-tab-group>
         </div>
-        <coar-code-block [code]="richLabelExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="richLabelExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -69,7 +69,7 @@
     <p class="component-section-description">Control tabs programmatically and understand content loading strategies.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Controlled State</h3>
         <p class="example-description">Control the active tab programmatically and respond to changes.</p>
         <div class="example-demo">
@@ -87,10 +87,10 @@
             <coar-tab id="demo-features" [content]="demoFeatures">Features</coar-tab>
           </coar-tab-group>
         </div>
-        <coar-code-block [code]="controlledExample" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="controlledExample" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Lazy Loading</h3>
         <p class="example-description">
           All tab content is <strong>lazy by default</strong> — it's only rendered when the tab becomes active. Open the browser console to see
@@ -104,11 +104,11 @@
             >
           </coar-tab-group>
         </div>
-        <coar-code-block [code]="lazyLoadingExample" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="lazyLoadingExample" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
         <p class="coar-body-small" style="margin-top: 1rem">
           Use <code>loadingStrategy="eager"</code> to keep content in DOM (just hidden when inactive).
         </p>
-        <coar-code-block [code]="loadingStrategyExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="loadingStrategyExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -119,7 +119,7 @@
     <p class="component-section-description">The tabs component supports full keyboard navigation for accessibility.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Keyboard Shortcuts</h3>
         <p class="example-description">Navigate tabs using standard keyboard patterns.</p>
         <div class="keyboard-grid">

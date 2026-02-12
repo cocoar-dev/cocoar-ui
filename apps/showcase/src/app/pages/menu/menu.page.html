@@ -9,7 +9,7 @@
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Basic Menu</h3>
         <p class="example-description">A simple menu with items and dividers.</p>
         <div class="menu-demo">
@@ -21,10 +21,10 @@
             <coar-menu-item (itemClick)="handleMenuItemClick('saveAs')">Save As...</coar-menu-item>
           </coar-menu>
         </div>
-        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>With Icons</h3>
         <p class="example-description">Add icons to menu items for better visual recognition.</p>
         <div class="menu-demo">
@@ -36,10 +36,10 @@
             <coar-menu-item icon="trash" (itemClick)="handleMenuItemClick('delete')">Delete</coar-menu-item>
           </coar-menu>
         </div>
-        <coar-code-block [code]="codeExamples.withIcons" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.withIcons" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>With Headings</h3>
         <p class="example-description">Use non-interactive headings to group menu items into sections.</p>
         <div class="menu-demo">
@@ -55,10 +55,10 @@
             <coar-menu-item icon="checkbox" (itemClick)="handleMenuItemClick('checkbox')">Checkbox</coar-menu-item>
           </coar-menu>
         </div>
-        <coar-code-block [code]="codeExamples.withHeadings" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.withHeadings" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Disabled Items</h3>
         <p class="example-description">Prevent interaction with disabled menu items.</p>
         <div class="menu-demo">
@@ -70,7 +70,7 @@
             <coar-menu-item [disabled]="true" icon="trash" (itemClick)="handleMenuItemClick('delete')">Delete (disabled)</coar-menu-item>
           </coar-menu>
         </div>
-        <coar-code-block [code]="codeExamples.disabled" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.disabled" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -81,7 +81,7 @@
     <p class="component-section-description">Nested menus with flyout and accordion behaviors.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Sibling Submenus (Flyout)</h3>
         <p class="example-description">
           Multiple submenu items at the same level. Only one submenu opens at a time - hovering over a new submenu closes the previous one
@@ -123,10 +123,10 @@
             <coar-menu-item icon="question" (itemClick)="handleMenuItemClick('help')">Help</coar-menu-item>
           </coar-menu>
         </div>
-        <coar-code-block [code]="codeExamples.siblings" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.siblings" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Accordion Submenu (Inline)</h3>
         <p class="example-description">Inline submenus are useful for sidebar-style option groups where nested items should remain visible.</p>
         <div class="menu-demo">
@@ -185,7 +185,7 @@
             <coar-menu-item icon="refresh" (itemClick)="handleAction('refresh')">Refresh</coar-menu-item>
           </coar-menu>
         </div>
-        <coar-code-block [code]="codeExamples.accordion" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.accordion" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -196,7 +196,7 @@
     <p class="component-section-description">Complex menus and context menu integration.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Complete Example (All Features)</h3>
         <p class="example-description">
           A comprehensive example combining headings, dividers, icons, disabled items, flyout submenus, and accordion submenus at multiple nesting
@@ -268,10 +268,10 @@
             <coar-menu-item icon="trash" (itemClick)="handleAction('delete')">Delete</coar-menu-item>
           </coar-menu>
         </div>
-        <coar-code-block [code]="codeExamples.kitchenSink" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.kitchenSink" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Context Menu</h3>
         <p class="example-description">
           Right-click the demo area to open a context menu. Hover over "Share" to see a flyout submenu using the overlay system.
@@ -280,7 +280,7 @@
           <p>Right-click anywhere in this area</p>
           <p class="coar-body-small" style="color: var(--coar-text-neutral-tertiary)">Context menu with flyout submenu will appear</p>
         </div>
-        <coar-code-block [code]="codeExamples.contextMenu" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.contextMenu" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
         <coar-note type="info" style="margin-top: 1rem">
           <strong>Note:</strong> Flyout submenus leverage the Cocoar Overlay System (via the overlay builder) for proper hierarchy management, z-index
           stacking, and click-outside handling.

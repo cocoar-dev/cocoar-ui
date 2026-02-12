@@ -11,7 +11,7 @@
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Variants</h3>
         <p class="example-description">Six semantic variants to communicate different meanings.</p>
         <div class="example-demo">
@@ -24,10 +24,10 @@
             }
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.variants" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.variants" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Sizes</h3>
         <p class="example-description">Five preset sizes matching the icon size scale.</p>
         <div class="example-demo">
@@ -40,10 +40,10 @@
             }
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Text Content</h3>
         <p class="example-description">Badges can display short text labels, not just numbers.</p>
         <div class="example-demo">
@@ -55,10 +55,10 @@
             <coar-badge content="v2" variant="info" />
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.text" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.text" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Max Value</h3>
         <p class="example-description">Cap displayed numbers using the <code>max</code> input. Useful for notification counts.</p>
         <div class="example-demo">
@@ -81,7 +81,7 @@
             </div>
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.max" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.max" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -92,7 +92,7 @@
     <p class="component-section-description">Use dots for status indicators and pulse animations for attention.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Dot Mode</h3>
         <p class="example-description">Use <code>dot</code> mode for simple status indicators without content.</p>
         <div class="example-demo">
@@ -109,10 +109,10 @@
             }
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.dot" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.dot" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Pulse Animation</h3>
         <p class="example-description">Add a subtle pulse animation to draw attention to new notifications or status changes.</p>
         <div class="example-demo">
@@ -131,10 +131,10 @@
             </div>
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.pulse" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.pulse" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Bordered</h3>
         <p class="example-description">Add a white border using <code>bordered</code>. Useful when badges overlap other elements.</p>
         <div class="example-demo">
@@ -160,10 +160,10 @@
             </div>
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.bordered" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.bordered" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Interactive Demo</h3>
         <p class="example-description">Try incrementing the notification count to see how the badge updates.</p>
         <div class="example-demo">
@@ -192,7 +192,7 @@
             <p class="demo-hint coar-body-small">Current count: {{ notificationCount() }}</p>
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.interactive" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.interactive" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 

@@ -83,18 +83,22 @@
    ======================================== */
 
 :host(.coar-card--padding-none) {
+  --coar-card-padding: 0px;
   padding: 0;
 }
 
 :host(.coar-card--padding-sm) {
+  --coar-card-padding: var(--coar-spacing-s);
   padding: var(--coar-spacing-s);
 }
 
 :host(.coar-card--padding-md) {
+  --coar-card-padding: var(--coar-spacing-m);
   padding: var(--coar-spacing-m);
 }
 
 :host(.coar-card--padding-lg) {
+  --coar-card-padding: var(--coar-spacing-l);
   padding: var(--coar-spacing-l);
 }
 
@@ -108,4 +112,16 @@
 
 ::ng-deep [coar-card-footer] {
   margin-top: var(--coar-spacing-m);
+}
+
+/* ========================================
+   INSET (flush content, no padding)
+   Use [coar-card-inset] on a footer element
+   to make it flush with the card edges.
+   ======================================== */
+
+::ng-deep [coar-card-inset] {
+  margin-left: calc(-1 * var(--coar-card-padding));
+  margin-right: calc(-1 * var(--coar-card-padding));
+  margin-bottom: calc(-1 * var(--coar-card-padding));
 }

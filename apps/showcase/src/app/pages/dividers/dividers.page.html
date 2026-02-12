@@ -11,7 +11,7 @@
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Basic Divider</h3>
         <p class="example-description">A simple horizontal line to separate content sections.</p>
         <div class="demo-box demo-box--outlined">
@@ -19,10 +19,10 @@
           <coar-divider />
           <p>Content below the divider</p>
         </div>
-        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Width Variants</h3>
         <p class="example-description">Control the width of the divider line.</p>
         <div class="demo-box demo-box--outlined">
@@ -37,10 +37,10 @@
           <p class="demo-label">60% width</p>
           <coar-divider [width]="60" />
         </div>
-        <coar-code-block [code]="codeExamples.width" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.width" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Style Variants</h3>
         <p class="example-description">Choose between subtle (lighter) and strong (full opacity) styles.</p>
         <div class="demo-box demo-box--outlined">
@@ -51,10 +51,10 @@
           <p class="demo-label">Strong</p>
           <coar-divider variant="strong" />
         </div>
-        <coar-code-block [code]="codeExamples.variants" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.variants" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Spacing</h3>
         <p class="example-description">Add vertical spacing above and/or below the divider.</p>
         <div class="demo-box demo-box--outlined">
@@ -62,7 +62,7 @@
           <coar-divider [spacingTop]="16" [spacingBottom]="32" />
           <p>After (16px top, 32px bottom)</p>
         </div>
-        <coar-code-block [code]="codeExamples.spacing" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.spacing" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -73,7 +73,7 @@
     <p class="component-section-description">Add text content that appears with lines on both sides.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Centered Text</h3>
         <p class="example-description">Text appears centered with lines on both sides (default).</p>
         <div class="demo-box demo-box--outlined">
@@ -85,10 +85,10 @@
         <div class="demo-box demo-box--outlined">
           <coar-divider>Section Break</coar-divider>
         </div>
-        <coar-code-block [code]="codeExamples.withText" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.withText" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Left Aligned</h3>
         <p class="example-description">Content aligned to the left with the line extending to the right.</p>
         <div class="demo-box demo-box--outlined">
@@ -97,10 +97,10 @@
         <div class="demo-box demo-box--outlined">
           <coar-divider align="left">Step 1</coar-divider>
         </div>
-        <coar-code-block [code]="codeExamples.alignLeft" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.alignLeft" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Right Aligned</h3>
         <p class="example-description">Content aligned to the right with the line extending to the left.</p>
         <div class="demo-box demo-box--outlined">
@@ -109,10 +109,10 @@
         <div class="demo-box demo-box--outlined">
           <coar-divider align="right">v1.0.0</coar-divider>
         </div>
-        <coar-code-block [code]="codeExamples.alignRight" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.alignRight" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Real-world Examples</h3>
         <p class="example-description">Common use cases combining multiple properties.</p>
         <div class="demo-box demo-box--form">
@@ -127,7 +127,7 @@
           <coar-divider align="left" variant="strong" [spacingBottom]="16">Advanced Options</coar-divider>
           <p class="demo-text">Configuration options for power users...</p>
         </div>
-        <coar-code-block [code]="codeExamples.combinations" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.combinations" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 

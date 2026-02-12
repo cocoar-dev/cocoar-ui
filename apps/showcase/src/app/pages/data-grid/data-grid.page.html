@@ -21,8 +21,8 @@
             style="height: 400px; width: 100%;"
           />
         </div>
-        <coar-code-block [code]="basicCode" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
-        <coar-code-block [code]="basicHtml" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="basicCode" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="basicHtml" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -48,7 +48,7 @@
             Selected: <strong>{{ selectedUser.name }}</strong> ({{ selectedUser.email }})
           </div>
         }
-        <coar-code-block [code]="selectionCode" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="selectionCode" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
       <coar-card [elevated]="true" class="grid-card">
@@ -61,8 +61,8 @@
             style="height: 300px; width: 100%;"
           />
         </div>
-        <coar-code-block [code]="styledCode" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
-        <coar-code-block [code]="styledCss" language="css" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="styledCode" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="styledCss" language="css" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 

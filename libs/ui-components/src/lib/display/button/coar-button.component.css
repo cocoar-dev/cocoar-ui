@@ -87,7 +87,7 @@
 .coar-button--secondary {
   background: var(--coar-background-neutral-secondary);
   color: var(--coar-text-neutral-secondary);
-  border: 1px solid var(--coar-border-neutral-tertiary);
+  /* border: 1px solid var(--coar-border-neutral-tertiary); */
 }
 
 .coar-button--secondary:hover:not(:disabled) {
@@ -189,16 +189,12 @@
 }
 
 /* Remove icon margins in icon-only mode */
-.coar-button:has(.coar-button__icon, .coar-button__spinner--inline):has(
-    .coar-button__content:empty
-  )
+.coar-button:has(.coar-button__icon, .coar-button__spinner--inline):has(.coar-button__content:empty)
   .coar-button__icon {
   margin: 0;
 }
 
-.coar-button:has(.coar-button__icon, .coar-button__spinner--inline):has(
-    .coar-button__content:empty
-  )
+.coar-button:has(.coar-button__icon, .coar-button__spinner--inline):has(.coar-button__content:empty)
   .coar-button__spinner--inline {
   margin: 0;
 }

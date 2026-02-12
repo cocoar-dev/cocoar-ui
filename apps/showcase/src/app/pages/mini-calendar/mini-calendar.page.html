@@ -12,44 +12,44 @@
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Basic Usage</h3>
         <p class="example-description">A standalone calendar that is always visible.</p>
         <div class="example-demo">
           <coar-mini-calendar [(value)]="selectedDate" />
         </div>
         <p class="demo-value">Selected: {{ formatDate(selectedDate()) }}</p>
-        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Week Numbers</h3>
         <p class="example-description">Enable ISO week numbers for business/planning contexts.</p>
         <div class="example-demo">
           <coar-mini-calendar [(value)]="weekNumberDate" [showWeekNumbers]="true" />
         </div>
         <p class="demo-value">Selected: {{ formatDate(weekNumberDate()) }}</p>
-        <coar-code-block [code]="codeExamples.weekNumbers" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.weekNumbers" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Min/Max Constraints</h3>
         <p class="example-description">Disable dates outside of a range.</p>
         <div class="example-demo">
           <coar-mini-calendar [(value)]="constrainedDate" [min]="minDate" [max]="maxDate" />
         </div>
         <p class="demo-value">Range: {{ formatDate(minDate) }} to {{ formatDate(maxDate) }}</p>
-        <coar-code-block [code]="codeExamples.constraints" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.constraints" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Date Markers</h3>
         <p class="example-description">Highlight single dates or ranges with popover details.</p>
         <div class="example-demo">
           <coar-mini-calendar [(value)]="markerDate" [markers]="holidayMarkers" [highlightWeekends]="true" />
         </div>
         <coar-note variant="info">Markers are useful for holidays, events, or availability windows.</coar-note>
-        <coar-code-block [code]="codeExamples.markers" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.markers" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -63,7 +63,7 @@
     </p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>German (Monday First)</h3>
         <p class="example-description">European locale with week starting on Monday.</p>
         <div class="example-demo">
@@ -80,7 +80,7 @@
         <p class="demo-value">Selected: {{ formatDate(localizedDate()) }}</p>
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>US (Sunday First)</h3>
         <p class="example-description">US locale with week starting on Sunday.</p>
         <div class="example-demo">
@@ -94,7 +94,7 @@
             [showTodayButton]="true"
           />
         </div>
-        <coar-code-block [code]="codeExamples.locale" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.locale" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 

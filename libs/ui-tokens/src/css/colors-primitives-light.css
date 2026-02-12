@@ -7,10 +7,10 @@
 :root,
 .light-mode {
   --coar-color-black: #000000;
-  --coar-color-gray-100: #ededed;
-  --coar-color-gray-200: #d9d9d9;
-  --coar-color-gray-300: #c8c8c8;
-  --coar-color-gray-400: #adadad;
+  --coar-color-gray-100: #f0f0f0;
+  --coar-color-gray-200: #e5e5e5;
+  --coar-color-gray-300: #d6d6d6;
+  --coar-color-gray-400: #c0c0c0;
   --coar-color-gray-50: #f7f7f7;
   --coar-color-gray-500: #999999;
   --coar-color-gray-600: #888888;

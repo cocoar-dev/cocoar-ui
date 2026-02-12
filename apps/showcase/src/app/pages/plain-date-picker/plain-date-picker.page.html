@@ -12,17 +12,17 @@
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Basic Usage</h3>
         <p class="example-description">A simple date picker with label and placeholder.</p>
         <div class="example-demo">
           <coar-plain-date-picker label="Select a Date" [(value)]="basicDate" placeholder="Pick a date..." />
         </div>
         <p class="demo-value">Selected: {{ formatDate(basicDate()) }} (Temporal.PlainDate | null)</p>
-        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Pre-selected Value</h3>
         <p class="example-description">Date picker with an initial value set.</p>
         <div class="example-demo">
@@ -31,23 +31,23 @@
         <p class="demo-value">Selected: {{ formatDate(preselectedDate()) }}</p>
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Min/Max Constraints</h3>
         <p class="example-description">Restrict the selectable date range.</p>
         <div class="example-demo">
           <coar-plain-date-picker label="Booking Date" [(value)]="minMaxDate" [min]="minDate" [max]="maxDate" placeholder="Select within range..." />
         </div>
         <p class="demo-value">Range: {{ formatDate(minDate) }} to {{ formatDate(maxDate) }}</p>
-        <coar-code-block [code]="codeExamples.minMax" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.minMax" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Week Numbers</h3>
         <p class="example-description">Display ISO week numbers on the left side of the calendar.</p>
         <div class="example-demo">
           <coar-plain-date-picker label="With Week Numbers" [(value)]="weekNumberDate" [showWeekNumbers]="true" />
         </div>
-        <coar-code-block [code]="codeExamples.weekNumbers" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.weekNumbers" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -58,7 +58,7 @@
     <p class="component-section-description">Available in four sizes: extra-small, small, medium (default), and large.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Size Comparison</h3>
         <p class="example-description">All four size variants aligned for comparison.</p>
         <div class="example-demo example-demo--sizes">
@@ -67,10 +67,10 @@
           <coar-plain-date-picker size="md" label="Medium" [(value)]="mdDate" />
           <coar-plain-date-picker size="lg" label="Large" [(value)]="lgDate" />
         </div>
-        <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>States</h3>
         <p class="example-description">Disabled, readonly, error, and required states.</p>
         <div class="example-demo example-demo--grid">
@@ -79,7 +79,7 @@
           <coar-plain-date-picker label="Error State" [(value)]="errorDate" error="Please select a valid date" />
           <coar-plain-date-picker label="Required" [(value)]="requiredDate" required />
         </div>
-        <coar-code-block [code]="codeExamples.states" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.states" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -90,7 +90,7 @@
     <p class="component-section-description">Support for different date formats and special date highlighting.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Date Formats</h3>
         <p class="example-description">Different date format configurations for locales.</p>
         <div class="example-demo example-demo--three-col">
@@ -101,7 +101,7 @@
         <p class="demo-value">All three show December 25, 2025 in different formats</p>
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Date Markers</h3>
         <p class="example-description">Highlight special dates like holidays with markers.</p>
         <div class="example-demo">
@@ -114,10 +114,10 @@
           />
         </div>
         <p class="demo-value">Selected: {{ formatDate(markerDate()) }}</p>
-        <coar-code-block [code]="codeExamples.markers" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.markers" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Full Featured</h3>
         <p class="example-description">Week numbers, weekend highlighting, and markers combined.</p>
         <div class="example-demo">

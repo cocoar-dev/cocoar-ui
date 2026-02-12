@@ -12,7 +12,7 @@
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Basic Usage</h3>
         <p class="example-description">A simple radio group with three options. Default layout is vertical.</p>
         <div class="example-demo">
@@ -26,10 +26,10 @@
           Selected: <strong>{{ basicSelection() || 'None' }}</strong>
           <coar-button variant="ghost" size="sm" (clicked)="resetBasic()">Reset</coar-button>
         </div>
-        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Vertical Layout</h3>
         <p class="example-description">Options stacked vertically with descriptive labels. Best for longer option text.</p>
         <div class="example-demo">
@@ -42,10 +42,10 @@
           </coar-radio-group>
         </div>
         <p class="demo-value">Selected: {{ colorSelection() }}</p>
-        <coar-code-block [code]="codeExamples.vertical" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.vertical" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Horizontal Layout</h3>
         <p class="example-description">Options displayed side by side. Best for short labels and limited options.</p>
         <div class="example-demo">
@@ -67,10 +67,10 @@
             }
           </coar-card>
         </div>
-        <coar-code-block [code]="codeExamples.horizontal" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.horizontal" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Disabled States</h3>
         <p class="example-description">Disable the entire group or individual options.</p>
         <div class="example-demo disabled-examples">
@@ -90,7 +90,7 @@
             </coar-radio-group>
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.disabled" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.disabled" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -101,7 +101,7 @@
     <p class="component-section-description">Radio groups are fully accessible with keyboard navigation and screen reader support.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Keyboard Navigation</h3>
         <p class="example-description">Full keyboard support for navigation and selection.</p>
         <div class="example-demo keyboard-grid">
@@ -112,7 +112,7 @@
         </div>
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Screen Readers</h3>
         <p class="example-description">Each radio button is properly labeled and announces its state and position.</p>
         <div class="example-demo a11y-list">

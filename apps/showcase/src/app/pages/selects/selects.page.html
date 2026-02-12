@@ -18,7 +18,7 @@
     </p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Basic Usage</h3>
         <p class="example-description">Simple dropdown for selecting one option.</p>
         <div class="example-demo">
@@ -31,10 +31,10 @@
           />
         </div>
         <p class="demo-value">Selected: {{ singleValue() || 'none' }}</p>
-        <coar-code-block [code]="codeExamples.singleBasic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.singleBasic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Searchable</h3>
         <p class="example-description">Enable search/filter functionality for longer lists.</p>
         <div class="example-demo">
@@ -47,10 +47,10 @@
             searchPlaceholder="Search countries..."
           />
         </div>
-        <coar-code-block [code]="codeExamples.singleSearchable" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.singleSearchable" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Object Values with compareWith</h3>
         <p class="example-description">If option values are objects, provide <code>compareWith</code> to match by a stable key.</p>
         <div class="example-demo">
@@ -67,10 +67,10 @@
           <strong>Selected value (full object):</strong>
           <pre>{{ selectedCountryObject() | json }}</pre>
         </div>
-        <coar-code-block [code]="codeExamples.singleCompareWith" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.singleCompareWith" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>States</h3>
         <p class="example-description">Disabled, readonly, required, and error states.</p>
         <div class="example-demo example-demo--grid">
@@ -79,7 +79,7 @@
           <coar-single-select label="Required" [options]="basicOptions" [required]="true" hint="This field is required" />
           <coar-single-select label="Error" [options]="basicOptions" error="Please select an option" />
         </div>
-        <coar-code-block [code]="codeExamples.singleStates" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.singleStates" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -212,7 +212,7 @@
     </p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Basic Usage</h3>
         <p class="example-description">Select multiple options. The trigger shows selected labels.</p>
         <div class="example-demo">
@@ -225,10 +225,10 @@
           />
         </div>
         <p class="demo-value">Selected: {{ selectedSkills().join(', ') || 'none' }}</p>
-        <coar-code-block [code]="codeExamples.multiBasic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.multiBasic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Select All & Searchable</h3>
         <p class="example-description">Enable "Select All" and filter the list.</p>
         <div class="example-demo">
@@ -242,10 +242,10 @@
             searchPlaceholder="Filter skills..."
           />
         </div>
-        <coar-code-block [code]="codeExamples.multiSelectAllSearchable" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.multiSelectAllSearchable" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>maxDisplayItems</h3>
         <p class="example-description">Limit how many selected labels are shown before switching to "N selected".</p>
         <div class="example-demo">
@@ -258,7 +258,7 @@
             placeholder="Select skills..."
           />
         </div>
-        <coar-code-block [code]="codeExamples.multiMaxDisplayItems" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.multiMaxDisplayItems" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -401,17 +401,17 @@
     <p class="component-section-description">Select multiple values and display them as removable tags. Optionally allows creating new tags.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Basic Usage</h3>
         <p class="example-description">Selected values are shown as removable tags.</p>
         <div class="example-demo">
           <coar-tag-select label="Tags" [options]="tagOptions" [value]="tags()" (valueChange)="tags.set($event)" placeholder="Add tags..." />
         </div>
         <p class="demo-value">Selected: {{ tags().join(', ') || 'none' }}</p>
-        <coar-code-block [code]="codeExamples.tagBasic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.tagBasic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Allow Create</h3>
         <p class="example-description">Create new tags that don't exist in the options.</p>
         <div class="example-demo">
@@ -426,10 +426,10 @@
           />
         </div>
         <coar-note variant="info">Type a new tag name and press Enter, comma, or Tab to create it.</coar-note>
-        <coar-code-block [code]="codeExamples.tagAllowCreate" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.tagAllowCreate" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>maxTags</h3>
         <p class="example-description">Limit how many tags can be selected.</p>
         <div class="example-demo">
@@ -443,7 +443,7 @@
             placeholder="Max 3 tags"
           />
         </div>
-        <coar-code-block [code]="codeExamples.tagMaxTags" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.tagMaxTags" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -579,7 +579,7 @@
     <p class="component-section-description">All select components are available in xs, sm, md, and lg sizes.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Single Select Sizes</h3>
         <div class="example-demo example-demo--sizes">
           <coar-single-select label="Extra Small" [options]="basicOptions" size="xs" placeholder="xs" />
@@ -589,7 +589,7 @@
         </div>
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Multi Select Sizes</h3>
         <div class="example-demo example-demo--sizes">
           <coar-multi-select label="Extra Small" [options]="skillOptions" size="xs" placeholder="xs" />
@@ -607,7 +607,7 @@
           <coar-tag-select label="Medium" [options]="tagOptions" size="md" placeholder="md" />
           <coar-tag-select label="Large" [options]="tagOptions" size="lg" placeholder="lg" />
         </div>
-        <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
   </div>

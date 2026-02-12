@@ -12,7 +12,7 @@
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Basic Usage</h3>
         <p class="example-description">Add the <code>coarPopconfirm</code> directive to any button to require confirmation before an action.</p>
         <div class="example-demo">
@@ -42,10 +42,10 @@
             }
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>With Title</h3>
         <p class="example-description">Add a title and customize button text for clearer communication.</p>
         <div class="example-demo">
@@ -62,10 +62,10 @@
             Delete Forever
           </coar-button>
         </div>
-        <coar-code-block [code]="codeExamples.withTitle" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.withTitle" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Placements</h3>
         <p class="example-description">Position the popconfirm relative to the trigger element.</p>
         <div class="example-demo">
@@ -84,10 +84,10 @@
           </div>
         </div>
         <coar-note variant="info">The popconfirm automatically repositions if there isn't enough space in the preferred direction.</coar-note>
-        <coar-code-block [code]="codeExamples.placements" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.placements" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Custom Button Text</h3>
         <p class="example-description">Customize confirm and cancel button text to match the action context.</p>
         <div class="example-demo">
@@ -118,7 +118,7 @@
             </coar-button>
           </div>
         </div>
-        <coar-code-block [code]="codeExamples.customButtons" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.customButtons" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
@@ -129,7 +129,7 @@
     <p class="component-section-description">Guidelines for effective popconfirm usage.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Keyboard Navigation</h3>
         <p class="example-description">Popconfirm is fully accessible with keyboard and screen reader support.</p>
         <div class="accessibility-info">
@@ -145,7 +145,7 @@
         </p>
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Best Practices</h3>
         <p class="example-description">Do's and don'ts for effective confirmation dialogs.</p>
         <div class="best-practices-content">

@@ -12,17 +12,17 @@
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Basic Usage</h3>
         <p class="example-description">A datetime picker with label and placeholder.</p>
         <div class="example-demo">
           <coar-plain-date-time-picker label="Select Date & Time" [(value)]="basicDateTime" placeholder="Pick a date and time..." />
         </div>
         <p class="demo-value">Selected: {{ formatDateTime(basicDateTime()) }}</p>
-        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Pre-selected Value</h3>
         <p class="example-description">DateTime picker with an initial value set.</p>
         <div class="example-demo">
@@ -31,17 +31,17 @@
         <p class="demo-value">Selected: {{ formatDateTime(preselectedDateTime()) }}</p>
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Time Format</h3>
         <p class="example-description">Control the time format: 24-hour or 12-hour with AM/PM.</p>
         <div class="example-demo example-demo--two-col">
           <coar-plain-date-time-picker label="24-Hour Format" [(value)]="time24h" [use24Hour]="true" />
           <coar-plain-date-time-picker label="12-Hour Format" [(value)]="time12h" [use24Hour]="false" />
         </div>
-        <coar-code-block [code]="codeExamples.timeFormat" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.timeFormat" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Minute Step</h3>
         <p class="example-description">Control the granularity of minute selection.</p>
         <div class="example-demo example-demo--three-col">
@@ -49,10 +49,10 @@
           <coar-plain-date-time-picker label="5 Min Step" [(value)]="step5DateTime" [minuteStep]="5" />
           <coar-plain-date-time-picker label="15 Min Step" [(value)]="step15DateTime" [minuteStep]="15" />
         </div>
-        <coar-code-block [code]="codeExamples.minuteStep" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.minuteStep" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Min/Max Constraints</h3>
         <p class="example-description">Restrict selectable datetime range. Time picker is also constrained on boundary dates.</p>
         <div class="example-demo">
@@ -65,10 +65,10 @@
           />
         </div>
         <p class="demo-value">Range: {{ formatDateTime(minDateTime) }} to {{ formatDateTime(maxDateTime) }}</p>
-        <coar-code-block [code]="codeExamples.minMax" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.minMax" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Week Numbers & Markers</h3>
         <p class="example-description">Display week numbers and highlight special dates.</p>
         <div class="example-demo">
@@ -91,7 +91,7 @@
     <p class="component-section-description">Available in four sizes and various states.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Size Variants</h3>
         <p class="example-description">Extra-small, small, medium (default), and large.</p>
         <div class="example-demo example-demo--sizes">
@@ -100,10 +100,10 @@
           <coar-plain-date-time-picker size="md" label="Medium" [(value)]="mdDateTime" />
           <coar-plain-date-time-picker size="lg" label="Large" [(value)]="lgDateTime" />
         </div>
-        <coar-code-block [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>States</h3>
         <p class="example-description">Disabled, readonly, error, and required states.</p>
         <div class="example-demo example-demo--grid">
@@ -112,10 +112,10 @@
           <coar-plain-date-time-picker label="Error State" [(value)]="errorDateTime" error="Please select a valid date/time" />
           <coar-plain-date-time-picker label="Required" [(value)]="requiredDateTime" required />
         </div>
-        <coar-code-block [code]="codeExamples.states" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.states" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Full Featured</h3>
         <p class="example-description">All features combined: week numbers, weekend highlighting, markers, and 15-minute intervals.</p>
         <div class="example-demo">

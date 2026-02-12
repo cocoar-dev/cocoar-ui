@@ -49,6 +49,9 @@ export class CoarCodeBlockComponent {
   /** Whether to show the copy button */
   showCopy = input<boolean, unknown>(true, { transform: booleanAttribute });
 
+  /** Whether to hide the border and border-radius */
+  borderless = input<boolean, unknown>(false, { transform: booleanAttribute });
+
   /** Whether to show line numbers */
   showLineNumbers = input<boolean, unknown>(false, {
     transform: booleanAttribute,

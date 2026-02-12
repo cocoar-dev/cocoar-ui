@@ -11,7 +11,7 @@
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Basic (Hover / Focus)</h3>
         <p class="example-description">Default behavior: opens on hover and focus. Use for non-critical, informational content.</p>
         <div class="example-demo example-demo--row">
@@ -24,10 +24,10 @@
             </div>
           </coar-popover>
         </div>
-        <coar-code-block [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Click / Tap (Pinned)</h3>
         <p class="example-description">
           Touch-friendly behavior: click opens and pins the popover. Click outside (or click the trigger again) to close.
@@ -44,10 +44,10 @@
             </div>
           </coar-popover>
         </div>
-        <coar-code-block [code]="codeExamples.clickOnly" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.clickOnly" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card color="outlined">
+      <coar-card>
         <h3>Non-Interactive Overlay</h3>
         <p class="example-description">
           When <code>interactive</code> is false, the panel does not capture pointer events. This is useful when the overlay must not block
@@ -69,7 +69,7 @@
           <coar-button variant="ghost" size="sm" (clicked)="onClickThroughOverlay()">Button below</coar-button>
         </div>
         <p class="demo-value">Clicks through overlay: {{ clicksThroughOverlay() }}</p>
-        <coar-code-block [code]="codeExamples.nonInteractive" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.nonInteractive" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
 
