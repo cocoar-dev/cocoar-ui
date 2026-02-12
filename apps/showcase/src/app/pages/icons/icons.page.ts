@@ -27,6 +27,8 @@ type IconsPageSourceGroup = Readonly<{
   styleUrl: './icons.page.css',
 })
 export class IconsPage {
+  importCode = `import { CoarIconComponent } from '@cocoar/ui-components';`;
+
   private readonly iconService = inject(CoarIconService);
 
   /** All available icon names grouped by icon source */

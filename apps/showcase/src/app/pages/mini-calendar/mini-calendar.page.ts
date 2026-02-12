@@ -23,6 +23,8 @@ import {
   styleUrl: './mini-calendar.page.css',
 })
 export class MiniCalendarPage {
+  importCode = `import { CoarMiniCalendarComponent } from '@cocoar/ui-components';`;
+
   selectedDate = signal<Temporal.PlainDate | null>(Temporal.Now.plainDateISO());
   weekNumberDate = signal<Temporal.PlainDate | null>(Temporal.Now.plainDateISO());
   constrainedDate = signal<Temporal.PlainDate | null>(null);

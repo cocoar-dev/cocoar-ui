@@ -36,6 +36,8 @@ interface User {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DataGridPage {
+  installCode = `pnpm add @cocoar/data-grid`;
+  importCode = `import { CoarDataGridDirective, CoarGridBuilder } from '@cocoar/data-grid';`;
 
   // Sample user data
   readonly users: User[] = [

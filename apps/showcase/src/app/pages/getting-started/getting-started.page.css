@@ -1,0 +1,92 @@
+/* ========================================
+   GETTING STARTED PAGE STYLES
+   ========================================
+   RULE: No font-size, font-weight, font-family here!
+   Typography is handled by .coar-* classes in HTML.
+   ======================================== */
+
+.steps-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.steps-content > coar-card h3 {
+  margin-bottom: 0.5rem;
+}
+
+.steps-content > coar-card p {
+  margin: 0;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.package-list,
+.token-list {
+  margin: 0.75rem 0 0;
+  padding-left: 1.25rem;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.package-list li,
+.token-list li {
+  margin-bottom: 0.25rem;
+}
+
+.package-list code,
+.token-list code {
+  color: var(--coar-text-neutral-primary);
+}
+
+/* ========================================
+   WHAT'S NEXT SECTION
+   ======================================== */
+
+.whats-next {
+  margin-top: 1.5rem;
+}
+
+.whats-next h2 {
+  margin-bottom: 1rem;
+}
+
+.next-links {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.next-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.next-link-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: all 0.2s ease;
+}
+
+.next-link:hover .next-link-card {
+  transform: scale(1.02);
+  box-shadow: var(--coar-shadow-l);
+}
+
+.next-link-card h3 {
+  margin-bottom: 0.25rem;
+}
+
+.next-link-card p {
+  margin: 0;
+  color: var(--coar-text-neutral-secondary);
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .next-links {
+    grid-template-columns: 1fr;
+  }
+}

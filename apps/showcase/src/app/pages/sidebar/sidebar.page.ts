@@ -30,6 +30,8 @@ import {
   styleUrl: './sidebar.page.css',
 })
 export class SidebarPage {
+  importCode = `import { CoarSidebarComponent } from '@cocoar/ui-components';
+import { CoarMenuComponent, CoarMenuItemComponent } from '@cocoar/ui-menu';`;
 
   basicExample = `<coar-sidebar>
   <coar-menu borderless>

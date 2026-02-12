@@ -33,6 +33,8 @@ interface Country {
   styleUrl: './selects.page.css',
 })
 export class SelectsPage {
+  importCode = `import { CoarSingleSelectComponent, CoarMultiSelectComponent, CoarTagSelectComponent } from '@cocoar/ui-components';`;
+
   // ============================================
   // SINGLE SELECT STATE
   // ============================================

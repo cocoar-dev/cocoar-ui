@@ -40,6 +40,8 @@ import {
   styleUrl: './menu.page.css',
 })
 export class MenuPage {
+  importCode = `import { CoarMenuComponent, CoarMenuItemComponent } from '@cocoar/ui-menu';`;
+
   private readonly overlay = createOverlayBuilder();
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly destroyRef = inject(DestroyRef);

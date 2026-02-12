@@ -12,7 +12,7 @@
      ======================================== */
 
   /* Layout */
-  --coar-code-block-bg: #f8f9fa;
+  --coar-code-block-bg: var(--coar-color-white);
   --coar-code-block-header-bg: var(--coar-color-gray-50);
   --coar-code-block-border: #e1e4e8;
 

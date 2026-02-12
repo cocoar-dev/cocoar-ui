@@ -18,6 +18,7 @@ import {
   styleUrl: './notes.page.css',
 })
 export class NotesPage {
+  importCode = `import { CoarNoteComponent } from '@cocoar/ui-components';`;
 
   /** Code examples */
   codeExamples = {

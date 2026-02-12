@@ -23,6 +23,7 @@ import {
   styleUrl: './tooltip.page.css',
 })
 export class TooltipPage {
+  importCode = `import { CoarTooltipDirective, CoarPopoverComponent } from '@cocoar/ui-components';`;
 
   protected readonly clicksThroughOverlay = signal(0);
 

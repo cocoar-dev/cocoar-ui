@@ -19,6 +19,8 @@ import {
   styleUrl: './checkboxes.page.css',
 })
 export class CheckboxesPage {
+  importCode = `import { CoarCheckboxComponent } from '@cocoar/ui-components';`;
+
   // Demo values - using boolean
   basicChecked = signal<boolean | undefined>(undefined);
   termsChecked = signal<boolean | undefined>(undefined);

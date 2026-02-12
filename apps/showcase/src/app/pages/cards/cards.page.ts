@@ -4,7 +4,6 @@ import {
   CoarCodeBlockComponent,
   CoarCardComponent,
   CoarButtonComponent,
-  CoarTagComponent,
 } from '@cocoar/ui-components';
 
 @Component({
@@ -15,6 +14,8 @@ import {
   styleUrl: './cards.page.css',
 })
 export class CardsPage {
+  importCode = `import { CoarCardComponent } from '@cocoar/ui-components';`;
+
   // Code examples
   basicExample = `<coar-card>
   <h3>Card Title</h3>

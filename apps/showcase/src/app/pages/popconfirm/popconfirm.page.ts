@@ -24,6 +24,7 @@ import {
   styleUrl: './popconfirm.page.css',
 })
 export class PopconfirmPage {
+  importCode = `import { CoarPopconfirmDirective } from '@cocoar/ui-components';`;
 
   /** Demo state */
   itemDeleted = signal(false);

@@ -18,6 +18,8 @@ import {
   styleUrl: './plain-date-picker.page.css',
 })
 export class PlainDatePickerPage {
+  importCode = `import { CoarPlainDatePickerComponent } from '@cocoar/ui-components';`;
+
   // Demo values - All using Temporal.PlainDate (the ONLY type this picker returns)
   basicDate = signal<Temporal.PlainDate | null>(null);
   preselectedDate = signal<Temporal.PlainDate | null>(Temporal.PlainDate.from('2025-06-15'));

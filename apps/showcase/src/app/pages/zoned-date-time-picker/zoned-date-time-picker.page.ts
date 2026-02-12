@@ -24,6 +24,7 @@ import {
   styleUrl: './zoned-date-time-picker.page.css',
 })
 export class ZonedDateTimePickerPage {
+  importCode = `import { CoarZonedDateTimePickerComponent } from '@cocoar/ui-components';`;
 
   // Demo values - All using Temporal.ZonedDateTime
   basicZonedDateTime = signal<Temporal.ZonedDateTime | null>(null);

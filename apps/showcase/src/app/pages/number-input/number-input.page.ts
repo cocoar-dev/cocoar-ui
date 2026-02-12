@@ -18,6 +18,8 @@ import {
   styleUrl: './number-input.page.css',
 })
 export class NumberInputPage {
+  importCode = `import { CoarNumberInputComponent } from '@cocoar/ui-components';`;
+
   protected readonly germanNumberFormat = { decimal: ',', thousand: '.' } as const;
   protected readonly usNumberFormat = { decimal: '.', thousand: ',' } as const;
 

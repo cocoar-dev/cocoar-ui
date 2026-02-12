@@ -40,6 +40,8 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OverlayPage {
+  importCode = `import { createOverlayBuilder } from '@cocoar/ui-overlay';`;
+
   private readonly overlay = createOverlayBuilder();
   private readonly destroyRef = inject(DestroyRef);
 

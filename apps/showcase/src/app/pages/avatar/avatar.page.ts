@@ -24,6 +24,7 @@ import {
   styleUrl: './avatar.page.css',
 })
 export class AvatarPage {
+  importCode = `import { CoarAvatarComponent } from '@cocoar/ui-components';`;
 
   /** Avatar sizes */
   sizes: AvatarSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];

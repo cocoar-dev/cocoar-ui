@@ -24,6 +24,8 @@ import {
   styleUrl: './radio.page.css',
 })
 export class RadioPage {
+  importCode = `import { CoarRadioGroupComponent, CoarRadioComponent } from '@cocoar/ui-components';`;
+
   /** Demo values */
   basicSelection = signal<string | null>(null);
   colorSelection = signal<string>('blue');

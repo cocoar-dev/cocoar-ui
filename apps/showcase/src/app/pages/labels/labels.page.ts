@@ -20,6 +20,8 @@ import {
   styleUrl: './labels.page.css',
 })
 export class LabelsPage {
+  importCode = `import { CoarLabelComponent } from '@cocoar/ui-components';`;
+
   // Code examples
   codeExamples = {
     sections: `<coar-label size="lg">Account Information</coar-label>

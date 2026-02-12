@@ -20,6 +20,8 @@ import {
   styleUrl: './buttons.page.css',
 })
 export class ButtonsPage {
+  importCode = `import { CoarButtonComponent } from '@cocoar/ui-components';`;
+
   // Loading demos
   isLoading = signal(false);
   isLoadingEnd = signal(false);

@@ -6,7 +6,6 @@ import {
   CoarPlainDateTimePickerComponent,
   CoarCodeBlockComponent,
   CoarCardComponent,
-  CoarNoteComponent,
   type CoarDateMarker,
 } from '@cocoar/ui-components';
 
@@ -23,6 +22,8 @@ import {
   styleUrl: './plain-date-time-picker.page.css',
 })
 export class PlainDateTimePickerPage {
+  importCode = `import { CoarPlainDateTimePickerComponent } from '@cocoar/ui-components';`;
+
   // Demo values - All using Temporal.PlainDateTime
   basicDateTime = signal<Temporal.PlainDateTime | null>(null);
   preselectedDateTime = signal<Temporal.PlainDateTime | null>(

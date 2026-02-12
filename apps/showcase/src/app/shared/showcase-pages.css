@@ -62,6 +62,18 @@
 }
 
 /* ========================================
+   PAGE IMPORT INFO
+   ========================================
+   Shows the import statement / install command
+   at the top of each component page.
+   ======================================== */
+
+.page-import {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/* ========================================
    CODE BLOCKS
    ========================================
    Ensure code blocks have proper spacing from

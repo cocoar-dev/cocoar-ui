@@ -24,6 +24,7 @@ import { LazyDemoComponent } from './lazy-demo.component';
   styleUrl: './tabs.page.css',
 })
 export class TabsPage {
+  importCode = `import { CoarTabGroupComponent, CoarTabComponent } from '@cocoar/ui-components';`;
 
   // Demo controlled state
   demoActiveTab = 'demo-overview';

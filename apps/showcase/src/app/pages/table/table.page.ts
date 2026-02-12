@@ -14,6 +14,7 @@ import {
   styleUrl: './table.page.css',
 })
 export class TablePage {
+  importCode = `import { CoarTableComponent } from '@cocoar/ui-components';`;
 
   // Sample data for demos
   sampleData = [

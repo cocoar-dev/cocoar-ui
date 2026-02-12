@@ -20,6 +20,10 @@ import { parse, type MarkdownDocument } from '@cocoar/markdown-core';
   styleUrl: './markdown-viewer.page.css',
 })
 export class MarkdownViewerPage {
+  installCode = `pnpm add @cocoar/markdown-viewer`;
+  importCode = `import { CoarMarkdownComponent } from '@cocoar/markdown-viewer';
+import { parse } from '@cocoar/markdown-core';`;
+
   private readonly http = inject(HttpClient);
   private readonly document = inject(DOCUMENT);
 

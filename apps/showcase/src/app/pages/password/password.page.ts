@@ -18,6 +18,8 @@ import {
   styleUrl: './password.page.css',
 })
 export class PasswordPage {
+  importCode = `import { CoarPasswordInputComponent } from '@cocoar/ui-components';`;
+
   // Demo values
   basicValue = signal('');
   withValuePassword = signal('SecurePass123!');

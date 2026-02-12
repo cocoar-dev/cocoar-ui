@@ -18,6 +18,7 @@ import {
   styleUrl: './dividers.page.css',
 })
 export class DividersPage {
+  importCode = `import { CoarDividerComponent } from '@cocoar/ui-components';`;
 
   /** Code examples */
   codeExamples = {

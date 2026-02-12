@@ -18,6 +18,8 @@ import {
   styleUrl: './text-input.page.css',
 })
 export class TextInputPage {
+  importCode = `import { CoarTextInputComponent } from '@cocoar/ui-components';`;
+
   // Demo values
   basicValue = signal('');
   emailValue = signal('');

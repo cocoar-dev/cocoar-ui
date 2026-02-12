@@ -11,6 +11,13 @@ export const appRoutes: Route[] = [
     loadComponent: () => import('./pages/home/home.page').then((m) => m.HomePage),
   },
   {
+    path: 'getting-started',
+    loadComponent: () =>
+      import('./pages/getting-started/getting-started.page').then(
+        (m) => m.GettingStartedPage
+      ),
+  },
+  {
     path: 'design-principles',
     loadComponent: () =>
       import('./pages/design-principles/design-principles.page').then(

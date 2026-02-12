@@ -22,6 +22,7 @@ import {
   styleUrl: './badges.page.css',
 })
 export class BadgesPage {
+  importCode = `import { CoarBadgeComponent } from '@cocoar/ui-components';`;
 
   /** Badge variants */
   variants: BadgeVariant[] = ['primary', 'secondary', 'success', 'warning', 'error', 'info'];

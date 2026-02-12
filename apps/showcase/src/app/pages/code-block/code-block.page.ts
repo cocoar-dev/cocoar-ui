@@ -13,6 +13,7 @@ import {
   styleUrl: './code-block.page.css',
 })
 export class CodeBlockPage {
+  importCode = `import { CoarCodeBlockComponent } from '@cocoar/ui-components';`;
 
   // Example code snippets
   basicExample = `<coar-button variant="primary">
