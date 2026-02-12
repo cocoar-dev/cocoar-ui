@@ -5,19 +5,6 @@
    Only add styles specific to this page here
    ======================================== */
 
-/* Button Row - using shared .demo-row pattern */
-.button-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.button-row--align-end {
-  align-items: flex-end;
-}
-
 /* Loading Demos */
 .loading-demos {
   display: flex;

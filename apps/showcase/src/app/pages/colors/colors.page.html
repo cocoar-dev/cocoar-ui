@@ -21,7 +21,7 @@
         @for (palette of primitives; track palette.name) {
         <div class="palette">
           <h3 class="coar-subheading">{{ palette.name }}</h3>
-          <code class="coar-caption token-pattern">{{ palette.variable }}-[50-900]</code>
+          <code class="coar-caption token-display">{{ palette.variable }}-[50-900]</code>
           <div class="shades">
             @for (shade of palette.shades; track shade.shade) {
             <div class="shade-item">

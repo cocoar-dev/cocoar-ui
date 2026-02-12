@@ -109,12 +109,12 @@ We use **subtle, small radii**. This is not Bootstrap. No "pill buttons" or over
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--coar-radius-xxs` | 2px | Badges, tags, small elements |
-| `--coar-radius-xs` | 4px | **Default for most components** |
-| `--coar-radius-s` | 6px | Cards, panels |
-| `--coar-radius-m` | 8px | Dialogs, modals |
-| `--coar-radius-l` | 12px | Large containers (rare) |
-| `--coar-radius-xl` | 16px | Hero sections (rare) |
+| `--coar-radius-xxs` | 1px | Badges, tags, small elements |
+| `--coar-radius-xs` | 2px | **Default for most components** |
+| `--coar-radius-s` | 3px | Cards, panels |
+| `--coar-radius-m` | 4px | Dialogs, modals |
+| `--coar-radius-l` | 5px | Large containers (rare) |
+| `--coar-radius-xl` | 6px | Hero sections (rare) |
 | `--coar-radius-full` | 999px | **Avoid** — only for avatars, floating action buttons |
 
 **Default radius: 4px (`--coar-radius-xs`)**

@@ -18,12 +18,12 @@ interface SizeToken {
 export class SpacingPage {
   // Border Radius tokens (sorted by size)
   radiusTokens: SizeToken[] = [
-    { name: 'XXS', variable: '--coar-radius-xxs', value: '2px' },
-    { name: 'XS', variable: '--coar-radius-xs', value: '4px' },
-    { name: 'S', variable: '--coar-radius-s', value: '6px' },
-    { name: 'M', variable: '--coar-radius-m', value: '8px' },
-    { name: 'L', variable: '--coar-radius-l', value: '12px' },
-    { name: 'XL', variable: '--coar-radius-xl', value: '16px' },
+    { name: 'XXS', variable: '--coar-radius-xxs', value: '1px' },
+    { name: 'XS', variable: '--coar-radius-xs', value: '2px' },
+    { name: 'S', variable: '--coar-radius-s', value: '3px' },
+    { name: 'M', variable: '--coar-radius-m', value: '4px' },
+    { name: 'L', variable: '--coar-radius-l', value: '5px' },
+    { name: 'XL', variable: '--coar-radius-xl', value: '6px' },
     { name: 'Full', variable: '--coar-radius-full', value: '999px' },
   ];
 

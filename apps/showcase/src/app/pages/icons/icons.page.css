@@ -65,30 +65,6 @@
   color: var(--coar-text-neutral-tertiary);
 }
 
-/* Sizes Row - using shared .demo-row pattern */
-.sizes-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  align-items: flex-end;
-}
-
-/* Colors Row */
-.colors-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  align-items: center;
-}
-
-/* Rotation Row */
-.rotation-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  align-items: center;
-}
-
 /* Spin Row */
 .spin-row {
   display: flex;
@@ -105,14 +81,6 @@
 
 .spin-label {
   color: var(--coar-text-neutral-secondary);
-}
-
-/* Eye Icons Row */
-.eye-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-  align-items: center;
 }
 
 /* Usage Notes */

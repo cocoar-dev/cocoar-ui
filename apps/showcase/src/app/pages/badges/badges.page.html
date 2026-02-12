@@ -15,11 +15,11 @@
         <h3>Variants</h3>
         <p class="example-description">Six semantic variants to communicate different meanings.</p>
         <div class="example-demo">
-          <div class="badge-row">
+          <div class="demo-row demo-row--large-gap">
             @for (variant of variants; track variant) {
-              <div class="badge-item">
+              <div class="demo-item">
                 <coar-badge [content]="42" [variant]="variant" />
-                <span class="badge-label coar-caption">{{ variant }}</span>
+                <span class="demo-item__label coar-caption">{{ variant }}</span>
               </div>
             }
           </div>
@@ -31,11 +31,11 @@
         <h3>Sizes</h3>
         <p class="example-description">Five preset sizes matching the icon size scale.</p>
         <div class="example-demo">
-          <div class="badge-row badge-row--align-end">
+          <div class="demo-row demo-row--large-gap demo-row--align-end">
             @for (size of sizes; track size) {
-              <div class="badge-item">
+              <div class="demo-item">
                 <coar-badge [content]="7" variant="primary" [size]="size" />
-                <span class="badge-label coar-caption">{{ size }} ({{ sizeLabels[size] }})</span>
+                <span class="demo-item__label coar-caption">{{ size }} ({{ sizeLabels[size] }})</span>
               </div>
             }
           </div>
@@ -47,7 +47,7 @@
         <h3>Text Content</h3>
         <p class="example-description">Badges can display short text labels, not just numbers.</p>
         <div class="example-demo">
-          <div class="badge-row">
+          <div class="demo-row demo-row--large-gap">
             <coar-badge content="New" variant="success" />
             <coar-badge content="Beta" variant="warning" />
             <coar-badge content="Pro" variant="primary" />
@@ -62,22 +62,22 @@
         <h3>Max Value</h3>
         <p class="example-description">Cap displayed numbers using the <code>max</code> input. Useful for notification counts.</p>
         <div class="example-demo">
-          <div class="badge-row">
-            <div class="badge-item">
+          <div class="demo-row demo-row--large-gap">
+            <div class="demo-item">
               <coar-badge [content]="5" [max]="99" variant="error" />
-              <span class="badge-label coar-caption">5 (max 99)</span>
+              <span class="demo-item__label coar-caption">5 (max 99)</span>
             </div>
-            <div class="badge-item">
+            <div class="demo-item">
               <coar-badge [content]="99" [max]="99" variant="error" />
-              <span class="badge-label coar-caption">99 (max 99)</span>
+              <span class="demo-item__label coar-caption">99 (max 99)</span>
             </div>
-            <div class="badge-item">
+            <div class="demo-item">
               <coar-badge [content]="100" [max]="99" variant="error" />
-              <span class="badge-label coar-caption">100 → "99+"</span>
+              <span class="demo-item__label coar-caption">100 → "99+"</span>
             </div>
-            <div class="badge-item">
+            <div class="demo-item">
               <coar-badge [content]="999" [max]="99" variant="error" />
-              <span class="badge-label coar-caption">999 → "99+"</span>
+              <span class="demo-item__label coar-caption">999 → "99+"</span>
             </div>
           </div>
         </div>
@@ -104,7 +104,7 @@
                     <coar-badge [dot]="true" [variant]="variant" [size]="size" />
                   }
                 </div>
-                <span class="badge-label coar-caption">{{ size }}</span>
+                <span class="demo-item__label coar-caption">{{ size }}</span>
               </div>
             }
           </div>
@@ -116,18 +116,18 @@
         <h3>Pulse Animation</h3>
         <p class="example-description">Add a subtle pulse animation to draw attention to new notifications or status changes.</p>
         <div class="example-demo">
-          <div class="badge-row">
-            <div class="badge-item">
+          <div class="demo-row demo-row--large-gap">
+            <div class="demo-item">
               <coar-badge [content]="3" variant="error" [pulse]="true" size="lg" />
-              <span class="badge-label coar-caption">Pulsing Badge</span>
+              <span class="demo-item__label coar-caption">Pulsing Badge</span>
             </div>
-            <div class="badge-item">
+            <div class="demo-item">
               <coar-badge [dot]="true" variant="success" [pulse]="true" size="lg" />
-              <span class="badge-label coar-caption">Pulsing Dot</span>
+              <span class="demo-item__label coar-caption">Pulsing Dot</span>
             </div>
-            <div class="badge-item">
+            <div class="demo-item">
               <coar-badge content="Live" variant="error" [pulse]="true" size="lg" />
-              <span class="badge-label coar-caption">Live Indicator</span>
+              <span class="demo-item__label coar-caption">Live Indicator</span>
             </div>
           </div>
         </div>
@@ -138,25 +138,25 @@
         <h3>Bordered</h3>
         <p class="example-description">Add a white border using <code>bordered</code>. Useful when badges overlap other elements.</p>
         <div class="example-demo">
-          <div class="badge-row">
-            <div class="badge-item">
+          <div class="demo-row demo-row--large-gap">
+            <div class="demo-item">
               <div class="bordered-demo-bg">
                 <coar-badge [content]="5" variant="error" size="sm" [bordered]="true" />
               </div>
-              <span class="badge-label coar-caption">With border</span>
+              <span class="demo-item__label coar-caption">With border</span>
             </div>
-            <div class="badge-item">
+            <div class="demo-item">
               <div class="bordered-demo-bg">
                 <coar-badge [content]="5" variant="error" size="sm" />
               </div>
-              <span class="badge-label coar-caption">Without border</span>
+              <span class="demo-item__label coar-caption">Without border</span>
             </div>
-            <div class="badge-item">
+            <div class="demo-item">
               <div class="avatar-wrapper">
                 <span class="avatar-placeholder">👤</span>
                 <coar-badge [content]="3" variant="error" size="xs" [bordered]="true" class="avatar-badge" />
               </div>
-              <span class="badge-label coar-caption">On avatar</span>
+              <span class="demo-item__label coar-caption">On avatar</span>
             </div>
           </div>
         </div>

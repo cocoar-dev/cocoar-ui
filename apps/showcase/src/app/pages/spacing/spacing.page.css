@@ -19,13 +19,6 @@
   color: var(--coar-text-neutral-secondary);
 }
 
-.token-pattern {
-  display: block;
-  color: var(--coar-text-neutral-tertiary);
-  margin-bottom: 1.5rem;
-  font-family: monospace;
-}
-
 /* ========================================
    BORDER RADIUS
    ======================================== */

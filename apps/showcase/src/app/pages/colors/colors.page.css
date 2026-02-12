@@ -9,20 +9,6 @@
   max-width: 1000px;
 }
 
-/* Sections */
-.section {
-  margin-bottom: 3rem;
-}
-
-.section > h2 {
-  margin-bottom: 0.25rem;
-}
-
-.section > p {
-  margin-bottom: 1.5rem;
-  color: var(--coar-text-neutral-secondary);
-}
-
 /* ========================================
    COLOR PRIMITIVES
    ======================================== */
@@ -35,13 +21,6 @@
 
 .palette h3 {
   margin-bottom: 0.25rem;
-}
-
-.token-pattern {
-  display: block;
-  color: var(--coar-text-neutral-tertiary);
-  margin-bottom: 0.75rem;
-  font-family: monospace;
 }
 
 .shades {

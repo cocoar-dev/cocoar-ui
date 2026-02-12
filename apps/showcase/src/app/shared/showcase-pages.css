@@ -20,8 +20,12 @@
    ======================================== */
 
 .component-page {
-  margin: 0 auto;
+  max-width: 1400px;
   padding: var(--coar-spacing-xl);
+}
+
+.component-page--wide {
+  max-width: none;
 }
 
 /* ========================================
@@ -175,62 +179,35 @@ coar-code-block:first-child {
 
 .example-demo--two-col {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 24px;
   max-width: 100%;
 }
 
 .example-demo--three-col {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 24px;
   max-width: 100%;
 }
 
-.example-demo--four-col {
+.example-demo--four-col,
+.example-demo--sizes {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
   max-width: 100%;
 }
 
-/* Legacy row-based layouts */
-.example-row {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-bottom: 16px;
-  max-width: 300px;
-}
-
-.example-row--two-col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 24px;
-  max-width: 100%;
-}
-
-.example-row--three-col {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
-  max-width: 100%;
-}
-
-.example-row--four-col {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-  max-width: 100%;
+.example-demo--sizes {
+  align-items: end;
 }
 
 @media (max-width: 768px) {
   .example-demo--two-col,
   .example-demo--three-col,
   .example-demo--four-col,
-  .example-row--two-col,
-  .example-row--three-col,
-  .example-row--four-col {
+  .example-demo--sizes {
     grid-template-columns: 1fr;
   }
 }
@@ -337,14 +314,106 @@ coar-code-block:first-child {
 }
 
 /* ========================================
-   SIZE ROWS (for size demos)
+   INTERACTIVE DEMO CONTROLS
    ======================================== */
 
-.sizes-grid {
+/* Container for interactive demos with controls + preview */
+.interactive-demo {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--coar-spacing-m);
+  align-items: flex-start;
 }
+
+/* Panel variant: adds background, border, padding */
+.interactive-demo--panel {
+  padding: var(--coar-spacing-m);
+  background: var(--coar-background-neutral-tertiary);
+  border: 1px solid var(--coar-border-neutral);
+  border-radius: var(--coar-radius-m);
+}
+
+/* Horizontal row of controls */
+.demo-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--coar-spacing-s);
+  align-items: center;
+}
+
+/* Grid variant: 2-column grid for labeled controls */
+.demo-controls--grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--coar-spacing-s);
+  align-items: end;
+}
+
+/* Checkbox with label */
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--coar-spacing-xs);
+  cursor: pointer;
+  color: var(--coar-text-neutral-secondary);
+}
+
+.checkbox-label input {
+  cursor: pointer;
+}
+
+/* Labeled control field (select, input) */
+.control-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--coar-spacing-2xs);
+  color: var(--coar-text-neutral-secondary);
+}
+
+.control-label {
+  font-size: var(--coar-body-caption-size);
+}
+
+.control-input {
+  height: 36px;
+  padding: 0 var(--coar-spacing-xs);
+  border-radius: var(--coar-radius-s);
+  border: 1px solid var(--coar-border-neutral);
+  background: var(--coar-background-neutral-primary);
+  color: var(--coar-text-neutral-primary);
+}
+
+/* Preview area with dashed border */
+.demo-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+  padding: var(--coar-spacing-l);
+  border: 1px dashed var(--coar-border-neutral);
+}
+
+@media (max-width: 768px) {
+  .demo-controls--grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ========================================
+   TOKEN DISPLAY
+   ======================================== */
+
+/* Monospace token name display (used by colors, spacing, motion pages) */
+.token-display {
+  display: block;
+  color: var(--coar-text-neutral-tertiary);
+  font-family: monospace;
+  margin-bottom: 1rem;
+}
+
+/* ========================================
+   SIZE ROWS (for size demos)
+   ======================================== */
 
 .size-row {
   display: grid;
@@ -391,115 +460,6 @@ coar-code-block:first-child {
     grid-template-columns: 1fr;
     gap: 0.5rem;
   }
-}
-
-/* ========================================
-   VARIANT DESCRIPTIONS
-   ======================================== */
-
-.variant-descriptions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 1rem;
-}
-
-.variant-descriptions > * {
-  flex: 0 1 auto;
-  min-width: 160px;
-  max-width: 220px;
-}
-
-.variant-descriptions strong {
-  display: block;
-  margin-bottom: 0.25rem;
-  color: var(--coar-text-neutral-primary);
-}
-
-.variant-descriptions p {
-  margin: 0;
-  color: var(--coar-text-neutral-tertiary);
-  line-height: 1.4;
-}
-
-/* ========================================
-   BEHAVIOR NOTE / INFO CALLOUT
-   ======================================== */
-
-/* .behavior-note {
-  background: var(--coar-background-accent-tertiary);
-  border-left: 4px solid var(--coar-border-accent-primary);
-  padding: 1rem 1.25rem;
-  margin: 0 0 1rem;
-  border-radius: 0 4px 4px 0;
-} */
-
-.behavior-note h4 {
-  margin: 0 0 0.5rem;
-}
-
-.behavior-note ul {
-  margin: 0 0 0.5rem;
-  padding-left: 1.25rem;
-}
-
-.behavior-note li {
-  margin: 0.25rem 0;
-}
-
-.behavior-note p {
-  color: var(--coar-text-neutral-secondary);
-  margin: 0;
-}
-
-.info-callout {
-  padding: var(--coar-spacing-m);
-  margin-bottom: var(--coar-spacing-xl);
-  background: var(--coar-background-accent-tertiary);
-  border-radius: var(--coar-radius-xs);
-  font-size: 0.875rem;
-  color: var(--coar-text-neutral-primary);
-}
-
-.info-callout code {
-  background: rgba(0, 0, 0, 0.08);
-  padding: 2px 6px;
-  border-radius: var(--coar-radius-xs);
-  font-size: 0.8125rem;
-}
-
-/* ========================================
-   STATES GRID
-   ======================================== */
-
-.states-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-}
-
-.state-item {
-  padding: 1rem;
-  border: 1px solid var(--coar-background-neutral-tertiary);
-  border-radius: var(--coar-radius-xs);
-  background: var(--coar-background-neutral-primary);
-}
-
-.state-item h3 {
-  margin-bottom: 0.25rem;
-}
-
-.state-item p {
-  margin: 0;
-  color: var(--coar-text-neutral-secondary);
-}
-
-.state-item code {
-  font-family: 'Consolas', 'Monaco', monospace;
-  font-size: 0.75rem;
-  padding: 0.125rem 0.25rem;
-  background: var(--coar-background-neutral-tertiary);
-  border-radius: var(--coar-radius-xs);
 }
 
 /* ========================================
@@ -604,98 +564,6 @@ coar-table.api-table td:nth-child(3) code {
 coar-table.api-table td:nth-child(4),
 coar-table.api-table td:nth-child(3):last-child {
   width: 45%;
-}
-
-/* Card-based API property layout (preferred for long types/defaults) */
-.api-properties {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.api-property {
-  padding: 1rem;
-  background: var(--coar-background-neutral-secondary);
-  border: 1px solid var(--coar-border-neutral-secondary);
-  border-radius: var(--coar-radius-xs);
-  transition: border-color 0.2s;
-}
-
-.api-property:hover {
-  border-color: var(--coar-border-accent-secondary);
-}
-
-.api-property__header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.api-property__name {
-  font-family: 'Consolas', 'Monaco', monospace;
-  font-size: 0.9375rem;
-  font-weight: 600;
-  color: var(--coar-text-accent-primary);
-  background: transparent;
-  padding: 0;
-}
-
-.api-property__required {
-  font-size: 0.6875rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  color: var(--coar-text-semantic-error-bold);
-  background: var(--coar-background-semantic-error-subtle);
-  padding: 0.125rem 0.375rem;
-  border-radius: var(--coar-radius-xxs);
-}
-
-.api-property__meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-bottom: 0.75rem;
-  font-size: 0.8125rem;
-}
-
-.api-property__type,
-.api-property__default {
-  display: flex;
-  align-items: baseline;
-  gap: 0.5rem;
-}
-
-.api-property__label {
-  font-weight: 500;
-  color: var(--coar-text-neutral-tertiary);
-  white-space: nowrap;
-}
-
-.api-property__type code,
-.api-property__default code {
-  font-family: 'Consolas', 'Monaco', monospace;
-  font-size: 0.8125rem;
-  color: var(--coar-text-neutral-primary);
-  background: var(--coar-background-neutral-tertiary);
-  padding: 0.125rem 0.375rem;
-  border-radius: var(--coar-radius-xxs);
-  word-break: break-word;
-}
-
-.api-property__description {
-  margin: 0;
-  font-size: 0.875rem;
-  line-height: 1.6;
-  color: var(--coar-text-neutral-secondary);
-  white-space: pre-line;
-}
-
-/* Legacy table-based API layout */
-.api-table-wrapper {
-  overflow-x: auto;
-  border: 1px solid var(--coar-border-neutral-secondary);
-  border-radius: var(--coar-radius-xs);
 }
 
 .api-table {
@@ -849,18 +717,6 @@ coar-table.api-table td:nth-child(3):last-child {
   margin-bottom: 1rem;
 }
 
-/* Input row layout */
-.input-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-  align-items: flex-start;
-}
-
-.input-row .example-preview {
-  flex: 1;
-  min-width: 200px;
-}
 
 /* ========================================
    EXAMPLES-FIRST LAYOUT (new pattern)
@@ -873,9 +729,14 @@ coar-table.api-table td:nth-child(3):last-child {
 /* Two-column grid for example cards */
 .examples-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--coar-spacing-l);
   margin-bottom: var(--coar-spacing-l);
+}
+
+/* Full-width card spanning both columns (use for dense content like 4-col demos) */
+.examples-grid__span {
+  grid-column: 1 / -1;
 }
 
 /* Section titles within examples (e.g., "Single Select", "Multi Select") */
