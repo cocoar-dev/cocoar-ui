@@ -68,8 +68,6 @@ nx release publish
 ## 🔗 Related Packages
 
 - `@cocoar/ui-components` - Angular UI components that use these tokens
-- `@cocoar/logging` - Structured logging (no dependency on tokens)
-
 ---
 
 **Version:** 0.0.1

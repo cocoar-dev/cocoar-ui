@@ -13,6 +13,6 @@
 - [ ] CSS uses only design tokens (`var(--coar-*)`) — no hardcoded colors/spacing
 - [ ] Tests cover changes and pass (`pnpm test`)
 - [ ] Showcase page updated/added if user-facing
-- [ ] No `console.log` — use `@cocoar/logging-abstractions`
+- [ ] No `console.log` — use logging packages from [`cocoar-logging`](https://github.com/cocoar-dev/cocoar-logging)
 - [ ] Breaking changes documented with migration guide (if applicable)
 - [ ] Accessibility tested (keyboard navigation, ARIA attributes)

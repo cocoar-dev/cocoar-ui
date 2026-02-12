@@ -19,7 +19,8 @@
       "Bash(pnpm lint:*)",
       "Bash(pnpm test:*)",
       "Bash(nx reset)",
-      "Bash(pnpm nx reset:*)"
+      "Bash(pnpm nx reset:*)",
+      "Bash(xcopy:*)"
     ]
   }
 }

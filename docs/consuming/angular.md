@@ -10,8 +10,6 @@ This repo ships Angular libraries under the `@cocoar/*` scope.
 - **@cocoar/ui-overlay** - Overlay service (tooltips, popovers, dialogs)
 - **@cocoar/ui-tokens** - Design tokens (CSS variables) - required
 - **@cocoar/markdown-viewer** - Markdown rendering component
-- **@cocoar/logging** - Logging utilities
-
 ## Install
 
 ### Option 1: Complete Package (Recommended)

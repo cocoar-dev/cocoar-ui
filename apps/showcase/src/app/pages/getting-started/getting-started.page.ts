@@ -14,8 +14,7 @@ export class GettingStartedPage {
 
   installExtraCode = `pnpm add @cocoar/data-grid        # AG Grid wrapper
 pnpm add @cocoar/markdown-viewer  # Markdown rendering
-pnpm add @cocoar/localization     # i18n & language management
-pnpm add @cocoar/logging          # Structured logging for apps`;
+pnpm add @cocoar/localization     # i18n & language management`;
 
   importTokensCode = `/* styles.css */
 @import '@cocoar/ui-tokens/styles.css';`;

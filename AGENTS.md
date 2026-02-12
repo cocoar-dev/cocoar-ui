@@ -38,7 +38,7 @@ When creating documentation for components:
 
 This document defines how AI assistants (GitHub Copilot, Claude, ChatGPT, etc.) work with the **Cocoar Design System** repository.
 
-The goal: build Angular-based UI component libraries with design tokens (CSS variables) and structured logging.
+The goal: build Angular-based UI component libraries with design tokens (CSS variables).
 
 ---
 
@@ -68,7 +68,7 @@ When in doubt, **stay compatible with Angular 21**.
 - For Angular **publishable libraries** (e.g. `@cocoar/ui-forms`, `@cocoar/ui-grid`):
   - ALWAYS use `@nx/angular:package` as the packaging executor (APF via ng-packagr).
   - Do NOT introduce alternative packaging executors (`ng-packagr-lite`, custom builders, etc.) unless ARCHITECTURE.md is updated.
-- For **non-Angular / pure TypeScript** libraries (e.g. `@cocoar/logging`):
+- For **non-Angular / pure TypeScript** libraries (e.g. `@cocoar/ts-utils`):
   - Use simple TS builds (e.g. `@nx/js:tsc` or equivalent) – never ng-packagr.
 
 If any blog, doc, or example uses a different builder/executor:
@@ -162,7 +162,7 @@ When working in this repository, AI assistants must:
 
 - [ ] Use CSS variables only (no Tailwind, no hardcoded colors)
 - [ ] Follow framework-pure patterns (no global CSS)
-- [ ] Use `@cocoar/logging` (no `console.log`)
+- [ ] No `console.log` (use logging packages from `cocoar-logging`)
 - [ ] Respect Nx monorepo structure
 - [ ] Keep libraries isolated (minimal cross-dependencies)
 
@@ -247,7 +247,7 @@ If uncertain about a decision, AI assistants should:
 - **Create scenarios by default** — For components, directives, services; prefer Playwright over heavily-mocked Vitest
 - **Create `{kebab-name}.docs.md`** — Usage docs next to component source
 - **Use CSS variables only** — All styling from Figma tokens
-- **Use `@cocoar/logging`** — No `console.log` in libraries
+- **No `console.log`** — Use logging packages from `cocoar-logging` in libraries
 - **Test accessibility** — Keyboard navigation, ARIA, screen readers
 - **Keep docs in sync** — Update README, showcase, and migration guides
 - **Follow Definition of Done** — See CONTRIBUTING.md for the complete checklist

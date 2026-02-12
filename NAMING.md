@@ -51,10 +51,7 @@ All UI libraries use the prefix **`ui-`**:
 
 ## 2.4 Infrastructure package names
 
-```
-@cocoar/logging
-@cocoar/logging-angular   (optional)
-```
+Infrastructure packages like `@cocoar/logging` and `@cocoar/logging-angular` live in the separate [`cocoar-logging`](https://github.com/cocoar-dev/cocoar-logging) repository.
 
 ---
 
@@ -146,8 +143,6 @@ Libraries inside `libs/` MUST use kebab-case:
 ```
 libs/ui-tokens/
 libs/ui-components/
-libs/logging-abstractions/
-libs/logging/
 ```
 
 **Note:** The Nx workspace is located at the repository root.
@@ -227,36 +222,7 @@ Figma → token definitions → CSS variables
 
 ---
 
-# 7. Logging Library Naming
-
-Logging uses shorter, unprefixed TypeScript names (because the package already provides branding).
-
-## 7.1 Types
-
-Inside **`@cocoar/logging`**, types MUST be clean and generic:
-
-```
-Logger
-LoggerConfiguration
-LogEvent
-LogEventLevel
-Sink
-```
-
-No `Coar*` prefix required here.
-
-## 7.2 Angular wrapper types
-
-Inside **`@cocoar/logging-angular`**, Angular-specific types SHOULD use the `Coar` prefix:
-
-```
-CoarLoggingService
-CoarLoggingModule
-```
-
----
-
-# 8. Testing Naming
+# 7. Testing Naming
 
 ## 8.1 Test file names
 
@@ -303,22 +269,13 @@ export class CoarButtonComponent {}
 <coar-button variant="primary">Save</coar-button>
 ```
 
-### Logging
-
-```ts
-import { Logger } from '@cocoar/logging';
-logger.debug('Value changed {Value}', { Value: 42 });
-```
-
----
-
-# 10. Summary Checklist
+# 9. Summary Checklist
 
 * Prefix for Angular components/directives: **`coar`**
 * Component classes: **`CoarNameComponent`**
 * CSS variables: **`--coar-*`**
 * CSS classes: **`.coar-*`**
-* npm packages: **`@cocoar/ui-*`** and **`@cocoar/logging-*`**
+* npm packages: **`@cocoar/ui-*`**
 * Repo name: **`cocoar-ui`**
 
 This file defines the authoritative naming standard for the entire `cocoar-ui` codebase.

@@ -5,7 +5,7 @@ This repo ships Angular libraries under the `@cocoar/*` scope.
 ## Install
 
 ```bash
-npm i @cocoar/ui-components @cocoar/ui-tokens @cocoar/logging @cocoar/logging-abstractions
+npm i @cocoar/ui-components @cocoar/ui-tokens
 ```
 
 ## Enable design tokens (required)

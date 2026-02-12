@@ -9,8 +9,6 @@ From the GitHub Actions run, download the artifact that contains the `.tgz` pack
 You should have files like:
 - `cocoar-ui-components-<version>.tgz`
 - `cocoar-ui-tokens-<version>.tgz`
-- `cocoar-logging-<version>.tgz`
-- `cocoar-logging-abstractions-<version>.tgz`
 
 ## 2) Create a throwaway Angular app
 
@@ -22,9 +20,7 @@ From the app folder:
 
 ```bash
 npm i /path/to/cocoar-ui-components-<version>.tgz \
-      /path/to/cocoar-ui-tokens-<version>.tgz \
-      /path/to/cocoar-logging-<version>.tgz \
-      /path/to/cocoar-logging-abstractions-<version>.tgz
+      /path/to/cocoar-ui-tokens-<version>.tgz
 ```
 
 ## 4) Import tokens

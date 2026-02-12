@@ -15,8 +15,6 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@cocoar/logging-abstractions": ["libs/logging-abstractions/src/index.ts"],
-      "@cocoar/logging": ["libs/logging/src/index.ts"],
       "@cocoar/testing-angular": ["tools/testing-angular/src/index.ts"],
       "@cocoar/ui-tokens": ["libs/ui-tokens/src/index.ts"],
       "@cocoar/ui": ["libs/ui/src/index.ts"],

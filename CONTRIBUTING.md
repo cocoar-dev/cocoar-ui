@@ -55,9 +55,8 @@ All technical architecture details are in **[ARCHITECTURE.md](ARCHITECTURE.md)**
 - Scoped component styles only
 
 ### Logging
-- Use `@cocoar/logging` for all logging
 - No `console.log` in UI libraries
-- Use structured logging: `logger.debug('Row selected {RowId}', { RowId: row.id })`
+- Logging packages live in the separate [`cocoar-logging`](https://github.com/cocoar-dev/cocoar-logging) repository
 
 See **[ARCHITECTURE.md](ARCHITECTURE.md)** for complete details on design tokens, performance patterns, and security guidelines.
 
@@ -184,7 +183,7 @@ throw new TypeError(
 ❌ **Inconsistent naming** — Not following NAMING.md conventions
 ❌ **Hardcoded values** — Colors, spacing not using design tokens
 ❌ **Missing accessibility** — Components without keyboard support or ARIA
-❌ **Console.log debugging** — Use `@cocoar/logging` instead
+❌ **Console.log debugging** — Use the logging packages from `cocoar-logging` instead
 ❌ **Global styles** — CSS that leaks outside component scope
 ❌ **Breaking changes unmarked** — Changed APIs without migration guide
 ❌ **Orphaned tests** — Tests for removed features still present
@@ -221,7 +220,7 @@ A change is complete when:
 
 ❌ Don't add Tailwind or global CSS
 ❌ Don't hardcode colors or spacing
-❌ Don't use `console.log` - use `@cocoar/logging`
+❌ Don't use `console.log` - use the logging packages from `cocoar-logging`
 ❌ Don't bypass the design token system
 ❌ Don't introduce cross-library dependencies without discussion
 

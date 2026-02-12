@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-The Coar Design System is an Nx monorepo providing Angular-based UI component libraries with design tokens (CSS variables) and structured logging. All commands must be run from the repository root.
+The Coar Design System is an Nx monorepo providing Angular-based UI component libraries with design tokens (CSS variables). All commands must be run from the repository root.
 
 **Tech stack:** Angular 21.x, Nx 22.x, Node.js 22.x (pnpm 10.x)
 
@@ -44,8 +44,6 @@ libs/
 ├── ui-components/          # Core Angular UI components
 ├── ui-menu/                # Menu components
 ├── ui-overlay/             # Overlay/popover system
-├── logging-abstractions/   # Lightweight logging interfaces (for libraries)
-├── logging/                # Full Serilog-style logging (for apps)
 ├── testing-angular/        # Shared Vitest setup + test helpers
 └── scenar/                 # Scenario testing infrastructure
 apps/
@@ -67,18 +65,11 @@ UI libraries must be framework-pure:
 - **Class names:** `Coar` prefix, PascalCase (`CoarButtonComponent`)
 - **CSS variables:** `--coar-*` prefix (`--coar-color-primary`)
 - **CSS classes:** `.coar-*` prefix with BEM-like structure
-- **npm packages:** `@cocoar/ui-*` for UI, `@cocoar/logging` for infra
+- **npm packages:** `@cocoar/ui-*` for UI
 
 ### Logging
 
-Libraries use `@cocoar/logging-abstractions` (zero-op when unconfigured):
-```typescript
-import { getLoggerFor } from '@cocoar/logging-abstractions';
-private logger = getLoggerFor(this);
-this.logger.info('Row selected {RowId}', { RowId: row.id });
-```
-
-Apps configure the full logger from `@cocoar/logging`. Never use `console.log`.
+Logging packages (`@cocoar/logging`, `@cocoar/logging-abstractions`) have been extracted to the separate [`cocoar-logging`](https://github.com/cocoar-dev/cocoar-logging) repository. Never use `console.log` in libraries.
 
 ### Nx Usage
 

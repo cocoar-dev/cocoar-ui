@@ -21,13 +21,5 @@
 - Repository documentation (README, CONTRIBUTING, ARCHITECTURE, NAMING, AGENTS)
 - `@cocoar/ui-tokens` for design tokens as CSS variables (CSS-only consumption)
 - `@cocoar/ui-components` for Angular UI components
-- `@cocoar/logging-abstractions` - Lightweight logging abstractions
-  - `ILogger` interface with structured logging methods
-  - `getLogger()`, `getLoggerFor()`, `hasLogger()` functions
-  - `NullLogger` implementation
-- `@cocoar/logging` - Serilog-style structured logging library
-  - `Logger` with fluent pipeline configuration API
-  - Pipeline stages: MinimumLevel, Enrich, Filter, Transform
-  - Built-in sinks: ConsoleSink, ObservableSink
-  - Message templates with property capture and destructuring
-  - Contextual logging, scope management, batch processing
+- `@cocoar/logging-abstractions` - Lightweight logging abstractions (now in [`cocoar-logging`](https://github.com/cocoar-dev/cocoar-logging))
+- `@cocoar/logging` - Serilog-style structured logging library (now in [`cocoar-logging`](https://github.com/cocoar-dev/cocoar-logging))

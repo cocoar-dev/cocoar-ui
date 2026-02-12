@@ -15,7 +15,6 @@ The **Coar Design System** is an Nx monorepo providing:
 
 * **Angular-based UI component libraries** (`@cocoar/ui-*`)
 * **Design tokens** delivered as CSS variables (`@cocoar/ui-tokens`)
-* **Shared logging infrastructure** (`@cocoar/logging`)
 * **A showcase app** for interactive component previews
 * High-quality, brand-consistent UI components
 
@@ -64,7 +63,7 @@ We standardise on the following:
    - We do NOT introduce other package/build executors (e.g. `ng-packagr-lite`, custom builders) unless explicitly documented here.
 
 3. **Non-Angular / pure TypeScript libraries**
-   (e.g. `@cocoar/logging`)
+   (e.g. `@cocoar/ts-utils`)
    - Built using simple TypeScript builds, e.g. `@nx/js:tsc` (or equivalent).
    - These libraries do **not** use ng-packagr.
 
@@ -103,8 +102,6 @@ cocoar-ui/                  # Nx workspace root
 ├── libs/
 │   ├── ui-tokens/            # Design tokens as CSS variables
 │   ├── ui-components/        # Angular UI components
-│   ├── logging-abstractions/ # Lightweight logging interfaces
-│   └── logging/              # Structured logging implementation
 ├── apps/
 │   ├── showcase/             # Component showcase app
 │   └── showcase-e2e/          # Playwright E2E tests
@@ -247,39 +244,9 @@ export class CoarButtonComponent {
 
 ---
 
-## 📝 Logging Architecture
+## 📝 Logging
 
-### Logging Core Library
-
-**All logging must use `@cocoar/logging`:**
-
-```typescript
-import { Logger } from '@cocoar/logging';
-
-// ✅ GOOD - Structured logging
-logger.debug('Row selected {RowId}', { RowId: row.id });
-
-// ❌ BAD - Direct console
-console.log('Row selected:', row.id);
-```
-
-### Logging Rules
-
-**Libraries:**
-- Use `@cocoar/logging`
-- Do not configure sinks
-- Do not set log levels
-- Use structured logging format
-
-**Applications (showcase app, etc.):**
-- Configure sinks
-- Set minimum log levels
-- Add Playwright sinks for testing
-
-**Security:**
-- Never log secrets, tokens, passwords, or PII
-- Sanitize user input before logging
-- Use log redaction for sensitive fields
+Logging packages (`@cocoar/logging`, `@cocoar/logging-abstractions`) have been extracted to the separate [`cocoar-logging`](https://github.com/cocoar-dev/cocoar-logging) repository. No `console.log` in libraries — use the logging packages from `cocoar-logging` instead.
 
 ---
 
@@ -450,8 +417,6 @@ A repository-scoped **`.local/`** folder may exist and is **git-ignored**.
 
 ```
 ui-tokens ← ui-components         ✅ GOOD
-logging-abstractions ← logging    ✅ GOOD
-
 ui-forms ← ui-grid                ❌ BAD - Creates coupling
 ```
 

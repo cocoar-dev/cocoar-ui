@@ -34,7 +34,7 @@ pnpm exec prettier --write .
   - Nx module boundary enforcement
   - TypeScript best practices
   - Angular-specific rules (components, templates)
-  - No `console.log` (use `@cocoar/logging`)
+  - No `console.log` (use logging packages from `cocoar-logging`)
   - Prefer `const` over `let`
   - Relaxed rules for test files (`*.spec.ts`, `*.test.ts`)
 
