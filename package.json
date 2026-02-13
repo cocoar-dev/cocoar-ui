@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "license": "Apache-2.0",
   "scripts": {
+    "start": "nx serve showcase",
+    "start:backstage": "nx serve scenar-backstage",
     "build": "nx run-many -t build",
     "build:icons": "node scripts/icons/build-frontend-icons.mjs",
     "build:scenar-registry": "node scripts/scenar/generate-registry.mjs",
@@ -10,9 +12,8 @@
     "test:coverage": "nx run-many -t test -- --coverage",
     "test:ci": "nx run-many -t test --ci",
     "lint": "nx run-many -t lint",
-    "e2e": "nx run showcase-e2e:e2e",
-    "e2e:ui": "nx run showcase-e2e:e2e-ui",
-    "start": "nx serve showcase"
+    "e2e": "nx run scenar-backstage-e2e:e2e",
+    "e2e:ui": "nx run scenar-backstage-e2e:e2e-ui"
   },
   "private": true,
   "dependencies": {
