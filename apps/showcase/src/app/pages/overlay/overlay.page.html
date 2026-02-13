@@ -17,9 +17,9 @@
         <p class="example-description">Defines a template overlay and opens it anchored to an element.</p>
         <div class="example-demo example-demo--row">
           <span #connectedOrigin>
-            <coar-button variant="ghost" size="sm" (clicked)="openConnected()">Open connected overlay</coar-button>
+            <coar-button variant="ghost" size="s" (clicked)="openConnected()">Open connected overlay</coar-button>
           </span>
-          <coar-button variant="ghost" size="sm" (clicked)="close()" [disabled]="!isOpen()">Close</coar-button>
+          <coar-button variant="ghost" size="s" (clicked)="close()" [disabled]="!isOpen()">Close</coar-button>
         </div>
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.defineTemplate" language="ts" [showLineNumbers]="false" [collapsed]="true" />
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.openConnected" language="ts" [showLineNumbers]="false" [collapsed]="true" />
@@ -43,8 +43,8 @@
         <h3>Global Center (Modal)</h3>
         <p class="example-description">Centers the overlay in the viewport with a modal backdrop.</p>
         <div class="example-demo example-demo--row">
-          <coar-button variant="ghost" size="sm" (clicked)="openCentered()">Open centered overlay</coar-button>
-          <coar-button variant="ghost" size="sm" (clicked)="close()" [disabled]="!isOpen()">Close</coar-button>
+          <coar-button variant="ghost" size="s" (clicked)="openCentered()">Open centered overlay</coar-button>
+          <coar-button variant="ghost" size="s" (clicked)="close()" [disabled]="!isOpen()">Close</coar-button>
         </div>
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.globalCenter" language="ts" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
@@ -55,7 +55,7 @@
         <div class="example-demo">
           <div #containerBox class="container-box">
             <span #containerTrigger>
-              <coar-button variant="ghost" size="sm" (clicked)="openParentAttached()">Open in container</coar-button>
+              <coar-button variant="ghost" size="s" (clicked)="openParentAttached()">Open in container</coar-button>
             </span>
           </div>
         </div>
@@ -75,9 +75,9 @@
         <p class="example-description">Register a DI resolver that defaults menu overlays to close-on-scroll when no scroll strategy is set.</p>
         <div class="example-demo example-demo--row">
           <span #resolvedMenuOrigin>
-            <coar-button variant="ghost" size="sm" (clicked)="openResolvedMenu()">Open resolved menu</coar-button>
+            <coar-button variant="ghost" size="s" (clicked)="openResolvedMenu()">Open resolved menu</coar-button>
           </span>
-          <coar-button variant="ghost" size="sm" (clicked)="close()" [disabled]="!isOpen()">Close</coar-button>
+          <coar-button variant="ghost" size="s" (clicked)="close()" [disabled]="!isOpen()">Close</coar-button>
         </div>
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.resolveViaDi" language="ts" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
@@ -86,7 +86,7 @@
         <h3>Nested Overlays (Click)</h3>
         <p class="example-description">Test parent-child overlay hierarchy with sibling closure. Opening a sibling should close the previous one.</p>
         <div class="example-demo example-demo--column">
-          <coar-button variant="primary" size="sm" (clicked)="openNestedTest()">Open Parent Overlay</coar-button>
+          <coar-button variant="primary" size="s" (clicked)="openNestedTest()">Open Parent Overlay</coar-button>
           <div class="coar-caption overlay-panel__hint">
             Inside parent: Click Child A/B/C buttons. Only one child open at a time.<br />
             Inside child: Click Grandchild buttons. Only one grandchild open at a time.
@@ -100,7 +100,7 @@
           Same test but with HOVER instead of click. Hover over items to open submenus. Behaves like real menu system.
         </p>
         <div class="example-demo example-demo--row">
-          <coar-button variant="primary" size="sm" (clicked)="openHoverTest()">Open Hover Parent</coar-button>
+          <coar-button variant="primary" size="s" (clicked)="openHoverTest()">Open Hover Parent</coar-button>
         </div>
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.submenu" language="ts" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
@@ -287,7 +287,7 @@
     <div class="coar-body">Connected Overlay</div>
     <div class="coar-caption">Positioned relative to an element.</div>
     <coar-divider [spacingTop]="12" [spacingBottom]="12" />
-    <coar-button variant="ghost" size="sm" (clicked)="close()">Close</coar-button>
+    <coar-button variant="ghost" size="s" (clicked)="close()">Close</coar-button>
   </div>
 </ng-template>
 
@@ -318,11 +318,11 @@
     </div>
     <coar-divider [spacingTop]="12" [spacingBottom]="12" />
 
-    <coar-text-input size="sm" label="Name" placeholder="Type here and press Tab" />
+    <coar-text-input size="s" label="Name" placeholder="Type here and press Tab" />
 
     <div class="overlay-panel__actions">
-      <coar-button variant="ghost" size="sm">Secondary action</coar-button>
-      <coar-button variant="ghost" size="sm" (clicked)="close()">Close</coar-button>
+      <coar-button variant="ghost" size="s">Secondary action</coar-button>
+      <coar-button variant="ghost" size="s" (clicked)="close()">Close</coar-button>
     </div>
   </div>
 </ng-template>
@@ -353,17 +353,17 @@
     </div>
     <div class="overlay-panel__buttons">
       <span #childABtn>
-        <coar-button variant="ghost" size="sm" (clicked)="openChildA(childABtn)">Open Child A</coar-button>
+        <coar-button variant="ghost" size="s" (clicked)="openChildA(childABtn)">Open Child A</coar-button>
       </span>
       <span #childBBtn>
-        <coar-button variant="ghost" size="sm" (clicked)="openChildB(childBBtn)">Open Child B</coar-button>
+        <coar-button variant="ghost" size="s" (clicked)="openChildB(childBBtn)">Open Child B</coar-button>
       </span>
       <span #childCBtn>
-        <coar-button variant="ghost" size="sm" (clicked)="openChildC(childCBtn)">Open Child C</coar-button>
+        <coar-button variant="ghost" size="s" (clicked)="openChildC(childCBtn)">Open Child C</coar-button>
       </span>
     </div>
     <coar-divider [spacingTop]="12" [spacingBottom]="12" />
-    <coar-button variant="ghost" size="sm" (clicked)="close()">Close All</coar-button>
+    <coar-button variant="ghost" size="s" (clicked)="close()">Close All</coar-button>
   </div>
 </ng-template>
 
@@ -375,10 +375,10 @@
     </div>
     <div class="overlay-panel__buttons">
       <span #grandchildA1Btn>
-        <coar-button variant="ghost" size="sm" (clicked)="openGrandchildA1(grandchildA1Btn)">Grandchild A1</coar-button>
+        <coar-button variant="ghost" size="s" (clicked)="openGrandchildA1(grandchildA1Btn)">Grandchild A1</coar-button>
       </span>
       <span #grandchildA2Btn>
-        <coar-button variant="ghost" size="sm" (clicked)="openGrandchildA2(grandchildA2Btn)">Grandchild A2</coar-button>
+        <coar-button variant="ghost" size="s" (clicked)="openGrandchildA2(grandchildA2Btn)">Grandchild A2</coar-button>
       </span>
     </div>
   </div>
@@ -392,10 +392,10 @@
     </div>
     <div class="overlay-panel__buttons">
       <span #grandchildB1Btn>
-        <coar-button variant="ghost" size="sm" (clicked)="openGrandchildB1(grandchildB1Btn)">Grandchild B1</coar-button>
+        <coar-button variant="ghost" size="s" (clicked)="openGrandchildB1(grandchildB1Btn)">Grandchild B1</coar-button>
       </span>
       <span #grandchildB2Btn>
-        <coar-button variant="ghost" size="sm" (clicked)="openGrandchildB2(grandchildB2Btn)">Grandchild B2</coar-button>
+        <coar-button variant="ghost" size="s" (clicked)="openGrandchildB2(grandchildB2Btn)">Grandchild B2</coar-button>
       </span>
     </div>
   </div>

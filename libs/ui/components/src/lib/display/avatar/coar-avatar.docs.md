@@ -16,11 +16,11 @@ Six preset sizes from extra-small (24px) to extra-extra-large (96px).
 
 ```html
 <coar-avatar name="AB" size="xs" />  <!-- 24px -->
-<coar-avatar name="AB" size="sm" />  <!-- 32px -->
-<coar-avatar name="AB" size="md" />  <!-- 40px (default) -->
-<coar-avatar name="AB" size="lg" />  <!-- 48px -->
+<coar-avatar name="AB" size="s" />   <!-- 32px -->
+<coar-avatar name="AB" size="m" />   <!-- 40px (default) -->
+<coar-avatar name="AB" size="l" />   <!-- 48px -->
 <coar-avatar name="AB" size="xl" />  <!-- 64px -->
-<coar-avatar name="AB" size="2xl" /> <!-- 96px -->
+<coar-avatar name="AB" size="xxl" /> <!-- 96px -->
 ```
 
 ## Shapes

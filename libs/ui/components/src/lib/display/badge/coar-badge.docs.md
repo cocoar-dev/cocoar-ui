@@ -29,9 +29,9 @@ Use `size` to match the icon size scale.
 
 ```html
 <coar-badge [content]="7" size="xs" />
-<coar-badge [content]="7" size="sm" />
-<coar-badge [content]="7" size="md" />
-<coar-badge [content]="7" size="lg" />
+<coar-badge [content]="7" size="s" />
+<coar-badge [content]="7" size="m" />
+<coar-badge [content]="7" size="l" />
 <coar-badge [content]="7" size="xl" />
 ```
 
@@ -42,7 +42,7 @@ Use `size="auto"` to make the badge fill its parent.
 Set `dot` to render a dot-only status indicator.
 
 ```html
-<coar-badge [dot]="true" variant="success" size="sm" />
+<coar-badge [dot]="true" variant="success" size="s" />
 ```
 
 ## Max value for counts

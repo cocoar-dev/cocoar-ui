@@ -17,7 +17,7 @@ import {
 import { CoarRadioComponent } from './coar-radio.component';
 
 export type RadioGroupOrientation = 'horizontal' | 'vertical';
-export type RadioGroupSize = 'sm' | 'md' | 'lg';
+export type RadioGroupSize = 's' | 'm' | 'l';
 
 /**
  * Radio group component for single-choice selection.
@@ -43,9 +43,9 @@ export type RadioGroupSize = 'sm' | 'md' | 'lg';
     role: 'radiogroup',
     '[class.coar-radio-group--horizontal]': 'orientation() === "horizontal"',
     '[class.coar-radio-group--vertical]': 'orientation() === "vertical"',
-    '[class.coar-radio-group--sm]': 'size() === "sm"',
-    '[class.coar-radio-group--md]': 'size() === "md"',
-    '[class.coar-radio-group--lg]': 'size() === "lg"',
+    '[class.coar-radio-group--s]': 'size() === "s"',
+    '[class.coar-radio-group--m]': 'size() === "m"',
+    '[class.coar-radio-group--l]': 'size() === "l"',
     '[class.coar-radio-group--disabled]': 'isDisabled()',
     '[class.coar-radio-group--error]': 'hasError()',
     '[attr.aria-label]': 'label()',
@@ -66,7 +66,7 @@ export class CoarRadioGroupComponent<T = unknown> extends CoarControlValueAccess
   orientation = input<RadioGroupOrientation>('vertical');
 
   /** Size of radio buttons */
-  size = input<RadioGroupSize>('md');
+  size = input<RadioGroupSize>('m');
 
   /** Disables all radio buttons in the group */
   disabled = input<boolean, unknown>(false, { transform: booleanAttribute });

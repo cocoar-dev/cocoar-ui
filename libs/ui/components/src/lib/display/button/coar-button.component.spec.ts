@@ -27,8 +27,8 @@ describe('CoarButtonComponent', () => {
       expect(component.variant()).toBe('primary');
     });
 
-    it('should have md size by default', () => {
-      expect(component.size()).toBe('md');
+    it('should have m size by default', () => {
+      expect(component.size()).toBe('m');
     });
 
     it('should not be disabled by default', () => {
@@ -61,7 +61,7 @@ describe('CoarButtonComponent', () => {
   });
 
   describe('sizes', () => {
-    it.each(['xs', 'sm', 'md', 'lg'] as ButtonSize[])('should apply %s size class', (size) => {
+    it.each(['xs', 's', 'm', 'l'] as ButtonSize[])('should apply %s size class', (size) => {
       fixture.componentRef.setInput('size', size);
       fixture.detectChanges();
       const button = fixture.nativeElement.querySelector('button');

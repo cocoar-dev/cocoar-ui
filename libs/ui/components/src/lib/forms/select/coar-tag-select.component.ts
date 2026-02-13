@@ -49,9 +49,9 @@ export type { CoarSelectSize };
   providers: [coarProvideValueAccessor(() => CoarTagSelectComponent)],
   host: {
     '[class.coar-tag-select--xs]': 'size() === "xs"',
-    '[class.coar-tag-select--sm]': 'size() === "sm"',
-    '[class.coar-tag-select--md]': 'size() === "md"',
-    '[class.coar-tag-select--lg]': 'size() === "lg"',
+    '[class.coar-tag-select--s]': 'size() === "s"',
+    '[class.coar-tag-select--m]': 'size() === "m"',
+    '[class.coar-tag-select--l]': 'size() === "l"',
     '[class.coar-tag-select--disabled]': 'isDisabled()',
     '[class.coar-tag-select--readonly]': 'readonly()',
     '[class.coar-tag-select--error]': 'hasError()',

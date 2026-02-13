@@ -34,8 +34,8 @@ import { CoarSubmenuTemplateDirective } from './coar-submenu-template.directive'
  * ```html
  * <coar-submenu-item label="Share" icon="🔗">
  *   <ng-template>
- *     <coar-menu-item icon="✉️" (itemClick)="sendEmail()">Email</coar-menu-item>
- *     <coar-menu-item icon="🔗" (itemClick)="copyLink()">Copy Link</coar-menu-item>
+ *     <coar-menu-item icon="✉️" (clicked)="sendEmail()">Email</coar-menu-item>
+ *     <coar-menu-item icon="🔗" (clicked)="copyLink()">Copy Link</coar-menu-item>
  *   </ng-template>
  * </coar-submenu-item>
  *
@@ -70,7 +70,7 @@ import { CoarSubmenuTemplateDirective } from './coar-submenu-template.directive'
       (keydown.space)="onKeyboardActivate($event)"
     >
       <span class="coar-submenu-item__icon" aria-hidden="true">
-        <coar-icon [name]="icon() || 'square-rounded-dashed'" size="sm" aria-hidden="true" />
+        <coar-icon [name]="icon() || 'square-rounded-dashed'" size="s" aria-hidden="true" />
       </span>
       <span class="coar-submenu-item__label">{{ label() }}</span>
       <coar-icon

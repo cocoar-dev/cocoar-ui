@@ -11,15 +11,15 @@ import {
  * Available sizes for the label component.
  * Matches the component size system used by buttons and inputs.
  */
-export type CoarLabelSize = 'xs' | 'sm' | 'md' | 'lg';
+export type CoarLabelSize = 'xs' | 's' | 'm' | 'l';
 
 /**
  * Standalone label component for consistent form labeling across the design system.
  *
  * @example
  * ```html
- * <coar-label size="sm" [required]="true">Email Address</coar-label>
- * <coar-text-input size="sm" placeholder="your@email.com" />
+ * <coar-label size="s" [required]="true">Email Address</coar-label>
+ * <coar-text-input size="s" placeholder="your@email.com" />
  * ```
  */
 @Component({
@@ -44,9 +44,9 @@ export type CoarLabelSize = 'xs' | 'sm' | 'md' | 'lg';
 export class CoarLabelComponent {
   /**
    * Size of the label. Should match the size of the associated input/form element.
-   * @default 'md'
+   * @default 'm'
    */
-  readonly size = input<CoarLabelSize>('md');
+  readonly size = input<CoarLabelSize>('m');
 
   /**
    * Whether to show a required indicator (*) after the label text.
@@ -67,19 +67,19 @@ export class CoarLabelComponent {
     return this.size() === 'xs';
   }
 
-  @HostBinding('class.coar-label--sm')
+  @HostBinding('class.coar-label--s')
   get isSm(): boolean {
-    return this.size() === 'sm';
+    return this.size() === 's';
   }
 
-  @HostBinding('class.coar-label--md')
+  @HostBinding('class.coar-label--m')
   get isMd(): boolean {
-    return this.size() === 'md';
+    return this.size() === 'm';
   }
 
-  @HostBinding('class.coar-label--lg')
+  @HostBinding('class.coar-label--l')
   get isLg(): boolean {
-    return this.size() === 'lg';
+    return this.size() === 'l';
   }
 
   @HostBinding('attr.for')

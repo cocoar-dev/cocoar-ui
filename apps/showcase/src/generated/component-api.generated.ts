@@ -319,8 +319,8 @@ export const TimePickerApi: ComponentApi = {
   "inputs": [
     {
       "name": "size",
-      "type": "'xs' | 'sm' | 'md' | 'lg'",
-      "default": "'md'",
+      "type": "'xs' | 's' | 'm' | 'l'",
+      "default": "'m'",
       "description": "Size variant",
       "required": false
     },
@@ -473,8 +473,8 @@ export const AvatarApi: ComponentApi = {
     },
     {
       "name": "size",
-      "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'",
-      "default": "'md'",
+      "type": "'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl'",
+      "default": "'m'",
       "description": "Avatar size",
       "required": false
     },
@@ -530,8 +530,8 @@ export const BadgeApi: ComponentApi = {
     },
     {
       "name": "size",
-      "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'auto'",
-      "default": "'md'",
+      "type": "'xs' | 's' | 'm' | 'l' | 'xl' | 'auto'",
+      "default": "'m'",
       "description": "Badge size",
       "required": false
     },
@@ -580,8 +580,8 @@ export const ButtonApi: ComponentApi = {
     },
     {
       "name": "size",
-      "type": "'xs' | 'sm' | 'md' | 'lg'",
-      "default": "'md'",
+      "type": "'xs' | 's' | 'm' | 'l'",
+      "default": "'m'",
       "description": "Button size",
       "required": false
     },
@@ -671,8 +671,8 @@ export const CardApi: ComponentApi = {
     },
     {
       "name": "padding",
-      "type": "'none' | 'sm' | 'md' | 'lg'",
-      "default": "'md'",
+      "type": "'none' | 's' | 'm' | 'l'",
+      "default": "'m'",
       "description": "Card padding size",
       "required": false
     }
@@ -808,8 +808,8 @@ export const IconApi: ComponentApi = {
     {
       "name": "size",
       "type": "CoarIconSize | string",
-      "default": "'md'",
-      "description": "Icon size. Defaults to 'md' (20px).\nCan be a preset token (xs, sm, md, lg, xl, auto) or a custom CSS value (e.g., '42px', '3rem').",
+      "default": "'m'",
+      "description": "Icon size. Defaults to 'm' (20px).\nCan be a preset token (xs, s, m, l, xl, auto) or a custom CSS value (e.g., '42px', '3rem').",
       "required": false
     },
     {
@@ -857,8 +857,8 @@ export const LabelApi: ComponentApi = {
   "inputs": [
     {
       "name": "size",
-      "type": "'xs' | 'sm' | 'md' | 'lg'",
-      "default": "'md'",
+      "type": "'xs' | 's' | 'm' | 'l'",
+      "default": "'m'",
       "description": "Size of the label. Should match the size of the associated input/form element.",
       "required": false
     },
@@ -900,8 +900,8 @@ export const NoteApi: ComponentApi = {
     },
     {
       "name": "padding",
-      "type": "'sm' | 'md' | 'lg'",
-      "default": "'md'",
+      "type": "'s' | 'm' | 'l'",
+      "default": "'m'",
       "description": "Note padding size.",
       "required": false
     }
@@ -965,8 +965,8 @@ export const TagApi: ComponentApi = {
     },
     {
       "name": "size",
-      "type": "'sm' | 'md' | 'lg'",
-      "default": "'md'",
+      "type": "'s' | 'm' | 'l'",
+      "default": "'m'",
       "description": "Tag size",
       "required": false
     },
@@ -1042,8 +1042,8 @@ export const CheckboxApi: ComponentApi = {
     },
     {
       "name": "size",
-      "type": "'xs' | 'sm' | 'md' | 'lg'",
-      "default": "'md'",
+      "type": "'xs' | 's' | 'm' | 'l'",
+      "default": "'m'",
       "description": "Checkbox size - matches input/button heights for consistent layouts",
       "required": false
     },
@@ -1092,8 +1092,8 @@ export const NumberInputApi: ComponentApi = {
     },
     {
       "name": "size",
-      "type": "'xs' | 'sm' | 'md' | 'lg'",
-      "default": "'md'",
+      "type": "'xs' | 's' | 'm' | 'l'",
+      "default": "'m'",
       "description": "Input size - matches button/checkbox sizes for consistent layouts",
       "required": false
     },
@@ -1261,8 +1261,8 @@ export const PasswordInputApi: ComponentApi = {
     },
     {
       "name": "size",
-      "type": "'xs' | 'sm' | 'md' | 'lg'",
-      "default": "'md'",
+      "type": "'xs' | 's' | 'm' | 'l'",
+      "default": "'m'",
       "description": "Input size - matches other form elements for consistent layouts",
       "required": false
     },
@@ -1388,8 +1388,8 @@ export const RadioGroupApi: ComponentApi = {
     },
     {
       "name": "size",
-      "type": "'sm' | 'md' | 'lg'",
-      "default": "'md'",
+      "type": "'s' | 'm' | 'l'",
+      "default": "'m'",
       "description": "Size of radio buttons",
       "required": false
     },
@@ -1569,8 +1569,8 @@ export const TextInputApi: ComponentApi = {
     },
     {
       "name": "size",
-      "type": "'xs' | 'sm' | 'md' | 'lg'",
-      "default": "'md'",
+      "type": "'xs' | 's' | 'm' | 'l'",
+      "default": "'m'",
       "description": "Input size - matches button/checkbox sizes for consistent layouts",
       "required": false
     },

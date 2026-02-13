@@ -33,8 +33,8 @@ describe('CoarRadioGroupComponent', () => {
       expect(component.isGroupDisabled()).toBe(false);
     });
 
-    it('should have md size by default', () => {
-      expect(component.size()).toBe('md');
+    it('should have m size by default', () => {
+      expect(component.size()).toBe('m');
     });
   });
 

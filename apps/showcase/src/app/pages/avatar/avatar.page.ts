@@ -27,16 +27,16 @@ export class AvatarPage {
   importCode = `import { CoarAvatarComponent } from '@cocoar/ui/components';`;
 
   /** Avatar sizes */
-  sizes: AvatarSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
+  sizes: AvatarSize[] = ['xs', 's', 'm', 'l', 'xl', 'xxl'];
 
   /** Size labels for display */
   sizeLabels: Record<AvatarSize, string> = {
     xs: '24px',
-    sm: '32px',
-    md: '40px',
-    lg: '48px',
+    s: '32px',
+    m: '40px',
+    l: '48px',
     xl: '64px',
-    '2xl': '96px',
+    xxl: '96px',
   };
 
   /** Avatar shapes */
@@ -63,16 +63,16 @@ export class AvatarPage {
     basic: `<coar-avatar
   [src]="user.avatarUrl"
   [name]="user.name"
-  size="md"
+  size="m"
 />`,
 
-    sizes: `<!-- Avatar sizes from xs (24px) to 2xl (96px) -->
+    sizes: `<!-- Avatar sizes from xs (24px) to xxl (96px) -->
 <coar-avatar [name]="user.name" size="xs" />
-<coar-avatar [name]="user.name" size="sm" />
-<coar-avatar [name]="user.name" size="md" />
-<coar-avatar [name]="user.name" size="lg" />
+<coar-avatar [name]="user.name" size="s" />
+<coar-avatar [name]="user.name" size="m" />
+<coar-avatar [name]="user.name" size="l" />
 <coar-avatar [name]="user.name" size="xl" />
-<coar-avatar [name]="user.name" size="2xl" />`,
+<coar-avatar [name]="user.name" size="xxl" />`,
 
     shapes: `<!-- Circle (default) and square shapes -->
 <coar-avatar [name]="user.name" shape="circle" />

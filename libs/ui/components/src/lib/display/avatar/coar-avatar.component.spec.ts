@@ -20,8 +20,8 @@ describe('CoarAvatarComponent', () => {
   });
 
   describe('defaults', () => {
-    it('should have md size by default', () => {
-      expect(component.size()).toBe('md');
+    it('should have m size by default', () => {
+      expect(component.size()).toBe('m');
     });
 
     it('should have circle shape by default', () => {
@@ -38,7 +38,7 @@ describe('CoarAvatarComponent', () => {
   });
 
   describe('sizes', () => {
-    it.each(['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as AvatarSize[])(
+    it.each(['xs', 's', 'm', 'l', 'xl', 'xxl'] as AvatarSize[])(
       'should apply %s size class to host',
       (size) => {
         fixture.componentRef.setInput('size', size);

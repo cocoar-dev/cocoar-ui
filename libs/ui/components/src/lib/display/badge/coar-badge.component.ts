@@ -8,7 +8,7 @@ import {
 
 
 export type BadgeVariant = 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info';
-export type BadgeSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'auto';
+export type BadgeSize = 'xs' | 's' | 'm' | 'l' | 'xl' | 'auto';
 
 @Component({
   selector: 'coar-badge',
@@ -31,7 +31,7 @@ export class CoarBadgeComponent {
   variant = input<BadgeVariant>('primary');
 
   /** Badge size */
-  size = input<BadgeSize>('md');
+  size = input<BadgeSize>('m');
 
   /** Whether the badge should pulse/animate (for notifications) */
   pulse = input<boolean, unknown>(false, { transform: booleanAttribute });

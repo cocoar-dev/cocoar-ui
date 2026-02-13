@@ -47,9 +47,9 @@ export class CardsPage {
 </coar-card>`;
 
   paddingExample = `<coar-card padding="none">No padding</coar-card>
-<coar-card padding="sm">Small padding</coar-card>
-<coar-card padding="md">Medium padding (default)</coar-card>
-<coar-card padding="lg">Large padding</coar-card>`;
+<coar-card padding="s">Small padding</coar-card>
+<coar-card padding="m">Medium padding (default)</coar-card>
+<coar-card padding="l">Large padding</coar-card>`;
 
   sectionsExample = `<coar-card>
   <div coar-card-header>
@@ -137,7 +137,7 @@ export class CardsPage {
   Elevated, no border, warning
 </coar-card>`;
 
-  compositionExample = `<coar-card elevated padding="lg">
+  compositionExample = `<coar-card elevated padding="l">
   <div coar-card-header>
     <div class="avatar">👤</div>
     <div class="user-info">

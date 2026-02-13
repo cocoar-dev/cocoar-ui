@@ -4,7 +4,7 @@
     @switch (state.status) {
       @case ('loading') {
         <div class="docs-loading" aria-busy="true">
-          <coar-icon name="load" size="md" [spin]="true" />
+          <coar-icon name="load" size="m" [spin]="true" />
           <span class="coar-body-small">Loading...</span>
         </div>
       }
@@ -30,7 +30,7 @@
         (click)="toggleSection(i)">
         <coar-icon
           [name]="collapsedStates()[i] ? 'chevron-right' : 'chevron-down'"
-          size="sm" />
+          size="s" />
         <span class="section-title">{{ config.header }}</span>
       </button>
       <a
@@ -45,7 +45,7 @@
             @switch (state.status) {
               @case ('loading') {
                 <div class="docs-loading" aria-busy="true">
-                  <coar-icon name="load" size="md" [spin]="true" />
+                  <coar-icon name="load" size="m" [spin]="true" />
                   <span class="coar-body-small">Loading...</span>
                 </div>
               }

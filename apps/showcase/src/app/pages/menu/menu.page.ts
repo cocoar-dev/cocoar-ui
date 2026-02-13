@@ -164,49 +164,49 @@ export class MenuPage {
   // Code examples
   codeExamples = {
     basic: `<coar-menu>
-  <coar-menu-item (itemClick)="handleMenuItemClick('new')">New File</coar-menu-item>
-  <coar-menu-item (itemClick)="handleMenuItemClick('open')">Open...</coar-menu-item>
+  <coar-menu-item (clicked)="handleMenuItemClick('new')">New File</coar-menu-item>
+  <coar-menu-item (clicked)="handleMenuItemClick('open')">Open...</coar-menu-item>
   <coar-menu-divider></coar-menu-divider>
-  <coar-menu-item (itemClick)="handleMenuItemClick('save')">Save</coar-menu-item>
-  <coar-menu-item (itemClick)="handleMenuItemClick('saveAs')">Save As...</coar-menu-item>
+  <coar-menu-item (clicked)="handleMenuItemClick('save')">Save</coar-menu-item>
+  <coar-menu-item (clicked)="handleMenuItemClick('saveAs')">Save As...</coar-menu-item>
 </coar-menu>`,
 
     withIcons: `<coar-menu>
-  <coar-menu-item icon="plus" (itemClick)="handleMenuItemClick('create')">Create New</coar-menu-item>
-  <coar-menu-item icon="copy" (itemClick)="handleMenuItemClick('duplicate')">Duplicate</coar-menu-item>
-  <coar-menu-item icon="clipboard" (itemClick)="handleMenuItemClick('copy')">Copy</coar-menu-item>
+  <coar-menu-item icon="plus" (clicked)="handleMenuItemClick('create')">Create New</coar-menu-item>
+  <coar-menu-item icon="copy" (clicked)="handleMenuItemClick('duplicate')">Duplicate</coar-menu-item>
+  <coar-menu-item icon="clipboard" (clicked)="handleMenuItemClick('copy')">Copy</coar-menu-item>
   <coar-menu-divider></coar-menu-divider>
-  <coar-menu-item icon="trash" (itemClick)="handleMenuItemClick('delete')">Delete</coar-menu-item>
+  <coar-menu-item icon="trash" (clicked)="handleMenuItemClick('delete')">Delete</coar-menu-item>
 </coar-menu>`,
 
     withHeadings: `<coar-menu>
   <coar-menu-heading>Foundations</coar-menu-heading>
-  <coar-menu-item icon="type" (itemClick)="handleMenuItemClick('typography')">Typography</coar-menu-item>
-  <coar-menu-item icon="palette" (itemClick)="handleMenuItemClick('colors')">Colors</coar-menu-item>
-  <coar-menu-item icon="grid" (itemClick)="handleMenuItemClick('spacing')">Spacing</coar-menu-item>
+  <coar-menu-item icon="type" (clicked)="handleMenuItemClick('typography')">Typography</coar-menu-item>
+  <coar-menu-item icon="palette" (clicked)="handleMenuItemClick('colors')">Colors</coar-menu-item>
+  <coar-menu-item icon="grid" (clicked)="handleMenuItemClick('spacing')">Spacing</coar-menu-item>
 
   <coar-menu-heading>Form Controls</coar-menu-heading>
-  <coar-menu-item icon="input" (itemClick)="handleMenuItemClick('textInput')">Text Input</coar-menu-item>
-  <coar-menu-item icon="dropdown" (itemClick)="handleMenuItemClick('select')">Select</coar-menu-item>
-  <coar-menu-item icon="checkbox" (itemClick)="handleMenuItemClick('checkbox')">Checkbox</coar-menu-item>
+  <coar-menu-item icon="input" (clicked)="handleMenuItemClick('textInput')">Text Input</coar-menu-item>
+  <coar-menu-item icon="dropdown" (clicked)="handleMenuItemClick('select')">Select</coar-menu-item>
+  <coar-menu-item icon="checkbox" (clicked)="handleMenuItemClick('checkbox')">Checkbox</coar-menu-item>
 </coar-menu>`,
 
     disabled: `<coar-menu>
-  <coar-menu-item (itemClick)="handleMenuItemClick('cut')">Cut</coar-menu-item>
-  <coar-menu-item (itemClick)="handleMenuItemClick('copy')">Copy</coar-menu-item>
-  <coar-menu-item [disabled]="true" (itemClick)="handleMenuItemClick('paste')">Paste (disabled)</coar-menu-item>
+  <coar-menu-item (clicked)="handleMenuItemClick('cut')">Cut</coar-menu-item>
+  <coar-menu-item (clicked)="handleMenuItemClick('copy')">Copy</coar-menu-item>
+  <coar-menu-item [disabled]="true" (clicked)="handleMenuItemClick('paste')">Paste (disabled)</coar-menu-item>
   <coar-menu-divider></coar-menu-divider>
-  <coar-menu-item [disabled]="true" icon="trash" (itemClick)="handleMenuItemClick('delete')">Delete (disabled)</coar-menu-item>
+  <coar-menu-item [disabled]="true" icon="trash" (clicked)="handleMenuItemClick('delete')">Delete (disabled)</coar-menu-item>
 </coar-menu>`,
 
     siblings: `<coar-menu>
-  <coar-menu-item icon="file" (itemClick)="handleMenuItemClick('file')">File</coar-menu-item>
+  <coar-menu-item icon="file" (clicked)="handleMenuItemClick('file')">File</coar-menu-item>
   <coar-sub-flyout label="Export" icon="download">
     <ng-template>
       <coar-menu>
-        <coar-menu-item icon="file" (itemClick)="handleAction('exportPdf')">Export as PDF</coar-menu-item>
-        <coar-menu-item icon="file" (itemClick)="handleAction('exportWord')">Export as Word</coar-menu-item>
-        <coar-menu-item icon="file" (itemClick)="handleAction('exportExcel')">Export as Excel</coar-menu-item>
+        <coar-menu-item icon="file" (clicked)="handleAction('exportPdf')">Export as PDF</coar-menu-item>
+        <coar-menu-item icon="file" (clicked)="handleAction('exportWord')">Export as Word</coar-menu-item>
+        <coar-menu-item icon="file" (clicked)="handleAction('exportExcel')">Export as Excel</coar-menu-item>
       </coar-menu>
     </ng-template>
   </coar-sub-flyout>
@@ -214,9 +214,9 @@ export class MenuPage {
   <coar-sub-flyout label="Share" icon="users">
     <ng-template>
       <coar-menu>
-        <coar-menu-item icon="chat" (itemClick)="handleAction('shareEmail')">Share via Email</coar-menu-item>
-        <coar-menu-item icon="link" (itemClick)="handleAction('shareLink')">Copy Link</coar-menu-item>
-        <coar-menu-item icon="slack" (itemClick)="handleAction('shareSlack')">Share to Slack</coar-menu-item>
+        <coar-menu-item icon="chat" (clicked)="handleAction('shareEmail')">Share via Email</coar-menu-item>
+        <coar-menu-item icon="link" (clicked)="handleAction('shareLink')">Copy Link</coar-menu-item>
+        <coar-menu-item icon="slack" (clicked)="handleAction('shareSlack')">Share to Slack</coar-menu-item>
       </coar-menu>
     </ng-template>
   </coar-sub-flyout>
@@ -224,44 +224,44 @@ export class MenuPage {
   <coar-sub-flyout label="Settings" icon="settings">
     <ng-template>
       <coar-menu>
-        <coar-menu-item icon="palette" (itemClick)="handleAction('theme')">Change Theme</coar-menu-item>
-        <coar-menu-item icon="globe" (itemClick)="handleAction('language')">Language</coar-menu-item>
-        <coar-menu-item icon="bell" (itemClick)="handleAction('notifications')">Notifications</coar-menu-item>
+        <coar-menu-item icon="palette" (clicked)="handleAction('theme')">Change Theme</coar-menu-item>
+        <coar-menu-item icon="globe" (clicked)="handleAction('language')">Language</coar-menu-item>
+        <coar-menu-item icon="bell" (clicked)="handleAction('notifications')">Notifications</coar-menu-item>
       </coar-menu>
     </ng-template>
   </coar-sub-flyout>
   <coar-menu-divider></coar-menu-divider>
-  <coar-menu-item icon="question" (itemClick)="handleMenuItemClick('help')">Help</coar-menu-item>
+  <coar-menu-item icon="question" (clicked)="handleMenuItemClick('help')">Help</coar-menu-item>
 </coar-menu>
 `,
 
     accordion: `<coar-menu>
   <coar-sub-expand label="Filters" icon="settings">
     <ng-template>
-      <coar-menu-item icon="plus" (itemClick)="handleAction('addFilter')">Add Filter</coar-menu-item>
-      <coar-menu-item icon="copy" (itemClick)="handleAction('duplicateFilter')">Duplicate Filter</coar-menu-item>
-      <coar-menu-item icon="trash" (itemClick)="handleAction('clearFilters')">Clear Filters</coar-menu-item>
+      <coar-menu-item icon="plus" (clicked)="handleAction('addFilter')">Add Filter</coar-menu-item>
+      <coar-menu-item icon="copy" (clicked)="handleAction('duplicateFilter')">Duplicate Filter</coar-menu-item>
+      <coar-menu-item icon="trash" (clicked)="handleAction('clearFilters')">Clear Filters</coar-menu-item>
 
       <coar-sub-expand label="Date Range" icon="date">
         <ng-template>
-          <coar-menu-item icon="calendar" (itemClick)="handleAction('dateToday')">Today</coar-menu-item>
-          <coar-menu-item icon="calendar" (itemClick)="handleAction('dateLast7')">Last 7 days</coar-menu-item>
-          <coar-menu-item icon="calendar" (itemClick)="handleAction('dateLast30')">Last 30 days</coar-menu-item>
+          <coar-menu-item icon="calendar" (clicked)="handleAction('dateToday')">Today</coar-menu-item>
+          <coar-menu-item icon="calendar" (clicked)="handleAction('dateLast7')">Last 7 days</coar-menu-item>
+          <coar-menu-item icon="calendar" (clicked)="handleAction('dateLast30')">Last 30 days</coar-menu-item>
         </ng-template>
       </coar-sub-expand>
 
       <coar-sub-flyout label="Advanced" icon="settings">
         <ng-template>
           <coar-menu>
-            <coar-menu-item icon="link" (itemClick)="handleAction('manageSavedFilters')">Manage saved filters</coar-menu-item>
-            <coar-menu-item icon="copy" (itemClick)="handleAction('copyFilters')">Copy filters</coar-menu-item>
-            <coar-menu-item icon="trash" (itemClick)="handleAction('resetFilters')">Reset to defaults</coar-menu-item>
+            <coar-menu-item icon="link" (clicked)="handleAction('manageSavedFilters')">Manage saved filters</coar-menu-item>
+            <coar-menu-item icon="copy" (clicked)="handleAction('copyFilters')">Copy filters</coar-menu-item>
+            <coar-menu-item icon="trash" (clicked)="handleAction('resetFilters')">Reset to defaults</coar-menu-item>
 
             <coar-sub-expand label="Quick Presets" icon="plus">
               <ng-template>
-                <coar-menu-item icon="file" (itemClick)="handleAction('presetOpenItems')">Open items</coar-menu-item>
-                <coar-menu-item icon="file" (itemClick)="handleAction('presetOverdue')">Overdue</coar-menu-item>
-                <coar-menu-item icon="file" (itemClick)="handleAction('presetAssignedToMe')">Assigned to me</coar-menu-item>
+                <coar-menu-item icon="file" (clicked)="handleAction('presetOpenItems')">Open items</coar-menu-item>
+                <coar-menu-item icon="file" (clicked)="handleAction('presetOverdue')">Overdue</coar-menu-item>
+                <coar-menu-item icon="file" (clicked)="handleAction('presetAssignedToMe')">Assigned to me</coar-menu-item>
               </ng-template>
             </coar-sub-expand>
           </coar-menu>
@@ -272,22 +272,22 @@ export class MenuPage {
 
   <coar-sub-expand label="View" icon="file">
     <ng-template>
-      <coar-menu-item icon="plus" (itemClick)="handleAction('saveView')">Save current view</coar-menu-item>
-      <coar-menu-item icon="copy" (itemClick)="handleAction('duplicateView')">Duplicate view</coar-menu-item>
+      <coar-menu-item icon="plus" (clicked)="handleAction('saveView')">Save current view</coar-menu-item>
+      <coar-menu-item icon="copy" (clicked)="handleAction('duplicateView')">Duplicate view</coar-menu-item>
 
       <coar-sub-flyout label="Load View" icon="download">
         <ng-template>
           <coar-menu>
-            <coar-menu-item icon="file" (itemClick)="handleAction('loadViewDefault')">Default</coar-menu-item>
-            <coar-menu-item icon="file" (itemClick)="handleAction('loadViewCompact')">Compact</coar-menu-item>
-            <coar-menu-item icon="file" (itemClick)="handleAction('loadViewDetailed')">Detailed</coar-menu-item>
+            <coar-menu-item icon="file" (clicked)="handleAction('loadViewDefault')">Default</coar-menu-item>
+            <coar-menu-item icon="file" (clicked)="handleAction('loadViewCompact')">Compact</coar-menu-item>
+            <coar-menu-item icon="file" (clicked)="handleAction('loadViewDetailed')">Detailed</coar-menu-item>
           </coar-menu>
         </ng-template>
       </coar-sub-flyout>
     </ng-template>
   </coar-sub-expand>
 
-  <coar-menu-item icon="refresh" (itemClick)="handleAction('refresh')">Refresh</coar-menu-item>
+  <coar-menu-item icon="refresh" (clicked)="handleAction('refresh')">Refresh</coar-menu-item>
 </coar-menu>`,
 
     kitchenSink: `<coar-menu>

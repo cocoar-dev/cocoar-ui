@@ -51,9 +51,9 @@ export class ButtonsPage {
 <coar-button variant="ghost">Ghost</coar-button>`,
 
     sizes: `<coar-button size="xs">Extra Small</coar-button>
-<coar-button size="sm">Small</coar-button>
-<coar-button size="md">Medium</coar-button>
-<coar-button size="lg">Large</coar-button>`,
+<coar-button size="s">Small</coar-button>
+<coar-button size="m">Medium</coar-button>
+<coar-button size="l">Large</coar-button>`,
 
     icons: `<coar-button iconStart="add">Add Item</coar-button>
 <coar-button iconEnd="caret-right">Next</coar-button>

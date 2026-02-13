@@ -36,7 +36,7 @@
     <span class="coar-select-value" [class.coar-select-placeholder]="!selectedOption()">
       @if (selectedOption(); as option) {
         @if (option.icon) {
-          <coar-icon [name]="option.icon" size="sm" class="coar-select-value-icon" />
+          <coar-icon [name]="option.icon" size="s" class="coar-select-value-icon" />
         }
         {{ option.label }}
       } @else {
@@ -110,11 +110,11 @@
             (mouseenter)="setHighlightFromDisplay(i)"
           >
             @if (option.icon) {
-              <coar-icon [name]="option.icon" size="sm" class="coar-select-option-icon" />
+              <coar-icon [name]="option.icon" size="s" class="coar-select-option-icon" />
             }
             <span class="coar-select-option-label">{{ option.label }}</span>
             @if (isSelected(option)) {
-              <coar-icon name="check" source="coar-builtin" size="sm" class="coar-select-option-check" />
+              <coar-icon name="check" source="coar-builtin" size="s" class="coar-select-option-check" />
             }
           </div>
         } @empty {

@@ -2,7 +2,7 @@ import { booleanAttribute, ChangeDetectionStrategy, Component, input } from '@an
 
 
 export type CardColor = 'neutral' | 'outlined' | 'success' | 'warning' | 'error' | 'info' | 'accent';
-export type CardPadding = 'none' | 'sm' | 'md' | 'lg';
+export type CardPadding = 'none' | 's' | 'm' | 'l';
 
 @Component({
   selector: 'coar-card',
@@ -27,9 +27,9 @@ export type CardPadding = 'none' | 'sm' | 'md' | 'lg';
     '[class.coar-card--accent]': 'color() === "accent"',
     // Padding
     '[class.coar-card--padding-none]': 'padding() === "none"',
-    '[class.coar-card--padding-sm]': 'padding() === "sm"',
-    '[class.coar-card--padding-md]': 'padding() === "md"',
-    '[class.coar-card--padding-lg]': 'padding() === "lg"',
+    '[class.coar-card--padding-s]': 'padding() === "s"',
+    '[class.coar-card--padding-m]': 'padding() === "m"',
+    '[class.coar-card--padding-l]': 'padding() === "l"',
   },
 })
 export class CoarCardComponent {
@@ -50,5 +50,5 @@ export class CoarCardComponent {
   color = input<CardColor>('neutral');
 
   /** Card padding size */
-  padding = input<CardPadding>('md');
+  padding = input<CardPadding>('m');
 }

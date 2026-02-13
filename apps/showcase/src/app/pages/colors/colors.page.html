@@ -16,7 +16,7 @@
 
     <div class="examples-grid examples-grid__span">
       @for (palette of primitives; track palette.name) {
-      <coar-card padding="md">
+      <coar-card padding="m">
         <h3>{{ palette.name }}</h3>
         <code class="token-display">{{ palette.variable }}-[50-900]</code>
         <div class="shades">
@@ -37,7 +37,7 @@
 
     <div class="examples-grid examples-grid__span">
       @for (group of semanticColors; track group.category) {
-      <coar-card padding="md" class="semantic-card">
+      <coar-card padding="m" class="semantic-card">
         <h3>{{ group.category }}</h3>
         <div class="semantic-grid">
           @for (color of group.colors; track color.name) {
@@ -70,7 +70,7 @@
     <p class="component-section-description">How semantic colors create consistent UI across themes.</p>
 
     <div class="examples-grid">
-      <coar-card padding="md">
+      <coar-card padding="m">
         <div class="example-header">
           <span class="coar-body-bold">Card Title</span>
           <span class="coar-body-small" style="color: var(--coar-text-neutral-secondary)">Subtitle text</span>

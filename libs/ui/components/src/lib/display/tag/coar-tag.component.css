@@ -37,15 +37,15 @@
    Only font-size changes, padding is uniform
    ======================================== */
 
-:host(.coar-tag--sm) {
+:host(.coar-tag--s) {
   font-size: var(--coar-body-footnote-size);
 }
 
-:host(.coar-tag--md) {
+:host(.coar-tag--m) {
   font-size: var(--coar-body-caption-size);
 }
 
-:host(.coar-tag--lg) {
+:host(.coar-tag--l) {
   font-size: var(--coar-body-small-base-size);
 }
 
@@ -146,17 +146,17 @@
 }
 
 /* Icon sizes match font sizes */
-:host(.coar-tag--sm) .coar-tag__close-icon {
+:host(.coar-tag--s) .coar-tag__close-icon {
   width: 10px;
   height: 10px;
 }
 
-:host(.coar-tag--md) .coar-tag__close-icon {
+:host(.coar-tag--m) .coar-tag__close-icon {
   width: 12px;
   height: 12px;
 }
 
-:host(.coar-tag--lg) .coar-tag__close-icon {
+:host(.coar-tag--l) .coar-tag__close-icon {
   width: 14px;
   height: 14px;
 }

@@ -78,9 +78,9 @@ export type CoarPlainDateTimePickerSize = CoarDatePickerSize;
   providers: [coarProvideValueAccessor(() => CoarPlainDateTimePickerComponent)],
   host: {
     '[class.coar-plain-date-time-picker--xs]': 'size() === "xs"',
-    '[class.coar-plain-date-time-picker--sm]': 'size() === "sm"',
-    '[class.coar-plain-date-time-picker--md]': 'size() === "md"',
-    '[class.coar-plain-date-time-picker--lg]': 'size() === "lg"',
+    '[class.coar-plain-date-time-picker--s]': 'size() === "s"',
+    '[class.coar-plain-date-time-picker--m]': 'size() === "m"',
+    '[class.coar-plain-date-time-picker--l]': 'size() === "l"',
     '[class.coar-plain-date-time-picker--disabled]': 'isDisabled()',
     '[class.coar-plain-date-time-picker--readonly]': 'readonly()',
     '[class.coar-plain-date-time-picker--error]': 'hasError()',

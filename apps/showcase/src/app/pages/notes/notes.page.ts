@@ -53,17 +53,17 @@ export class NotesPage {
 </coar-note>`,
 
     padding: `<!-- Small padding -->
-<coar-note color="info" padding="sm">
+<coar-note color="info" padding="s">
   Compact note with small padding.
 </coar-note>
 
 <!-- Medium padding (default) -->
-<coar-note color="info" padding="md">
+<coar-note color="info" padding="m">
   Standard note with medium padding.
 </coar-note>
 
 <!-- Large padding -->
-<coar-note color="info" padding="lg">
+<coar-note color="info" padding="l">
   Spacious note with large padding.
 </coar-note>`,
 

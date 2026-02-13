@@ -21,7 +21,7 @@
           <div class="avatar-row">
             @for (user of users; track user.name) {
               <div class="avatar-item">
-                <coar-avatar [src]="user.src" [name]="user.name" size="lg" />
+                <coar-avatar [src]="user.src" [name]="user.name" size="l" />
                 <span class="avatar-label coar-caption">{{ user.name }}</span>
               </div>
             }
@@ -71,13 +71,13 @@
           <div class="avatar-row">
             @for (user of fallbackUsers; track user.name) {
               <div class="avatar-item">
-                <coar-avatar [name]="user.name | coarInitials" size="lg" />
+                <coar-avatar [name]="user.name | coarInitials" size="l" />
                 <span class="avatar-label coar-caption">{{ user.name }} → {{ user.name | coarInitials }}</span>
               </div>
             }
           </div>
         </div>
-        <coar-card padding="sm" class="info-card">
+        <coar-card padding="s" class="info-card">
           <strong class="coar-body-small-bold">Two Approaches</strong>
           <p class="coar-body-small">
             Pass raw text like <code>name="ABC"</code> to show exact characters, or use the <code>coarInitials</code> pipe like
@@ -102,28 +102,28 @@
           <div class="avatar-row">
             <div class="avatar-item">
               <div class="avatar-with-status">
-                <coar-avatar [name]="users[0].name" [src]="users[0].src" size="lg" />
+                <coar-avatar [name]="users[0].name" [src]="users[0].src" size="l" />
                 <coar-badge variant="success" [dot]="true" size="xs" class="status-indicator" />
               </div>
               <span class="avatar-label coar-caption">Online</span>
             </div>
             <div class="avatar-item">
               <div class="avatar-with-status">
-                <coar-avatar [name]="users[1].name" [src]="users[1].src" size="lg" />
+                <coar-avatar [name]="users[1].name" [src]="users[1].src" size="l" />
                 <coar-badge variant="secondary" [dot]="true" size="xs" class="status-indicator" />
               </div>
               <span class="avatar-label coar-caption">Offline</span>
             </div>
             <div class="avatar-item">
               <div class="avatar-with-status">
-                <coar-avatar [name]="users[2].name" [src]="users[2].src" size="lg" />
+                <coar-avatar [name]="users[2].name" [src]="users[2].src" size="l" />
                 <coar-badge variant="warning" [dot]="true" size="xs" class="status-indicator" />
               </div>
               <span class="avatar-label coar-caption">Away</span>
             </div>
             <div class="avatar-item">
               <div class="avatar-with-status">
-                <coar-avatar [name]="users[3].name" [src]="users[3].src" size="lg" />
+                <coar-avatar [name]="users[3].name" [src]="users[3].src" size="l" />
                 <coar-badge variant="error" [dot]="true" size="xs" class="status-indicator" />
               </div>
               <span class="avatar-label coar-caption">Busy</span>

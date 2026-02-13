@@ -110,9 +110,9 @@ maxDateTime = Temporal.Now.plainDateISO().add({ months: 3 }).toPlainDateTime({ h
 <coar-plain-date-time-picker label="Business Hours" [(value)]="dateTime" [min]="minDateTime" [max]="maxDateTime" />`,
 
     sizes: `<coar-plain-date-time-picker size="xs" label="Extra Small" [(value)]="dateTime" />
-<coar-plain-date-time-picker size="sm" label="Small" [(value)]="dateTime" />
-<coar-plain-date-time-picker size="md" label="Medium" [(value)]="dateTime" />
-<coar-plain-date-time-picker size="lg" label="Large" [(value)]="dateTime" />`,
+<coar-plain-date-time-picker size="s" label="Small" [(value)]="dateTime" />
+<coar-plain-date-time-picker size="m" label="Medium" [(value)]="dateTime" />
+<coar-plain-date-time-picker size="l" label="Large" [(value)]="dateTime" />`,
 
     states: `<coar-plain-date-time-picker label="Disabled" [(value)]="dateTime" disabled />
 <coar-plain-date-time-picker label="Readonly" [(value)]="dateTime" readonly />

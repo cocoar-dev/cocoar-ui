@@ -115,9 +115,9 @@ interface TimezoneGroup {
   providers: [coarProvideValueAccessor(() => CoarZonedDateTimePickerComponent)],
   host: {
     '[class.coar-zoned-date-time-picker--xs]': 'size() === "xs"',
-    '[class.coar-zoned-date-time-picker--sm]': 'size() === "sm"',
-    '[class.coar-zoned-date-time-picker--md]': 'size() === "md"',
-    '[class.coar-zoned-date-time-picker--lg]': 'size() === "lg"',
+    '[class.coar-zoned-date-time-picker--s]': 'size() === "s"',
+    '[class.coar-zoned-date-time-picker--m]': 'size() === "m"',
+    '[class.coar-zoned-date-time-picker--l]': 'size() === "l"',
     '[class.coar-zoned-date-time-picker--disabled]': 'isDisabled()',
     '[class.coar-zoned-date-time-picker--readonly]': 'readonly()',
     '[class.coar-zoned-date-time-picker--error]': 'hasError()',

@@ -83,7 +83,7 @@ pnpm nx lint ui-components --fix
 ### Spell Checking
 - **Config:** `.vscode/cspell.json`
 - **Purpose:** Avoid warnings for project-specific terms
-- **Custom words:** cocoar, coar, nx, vitest, figma, etc.
+- **Custom words:** cocoar, coar, nx, vitest, etc.
 
 ---
 

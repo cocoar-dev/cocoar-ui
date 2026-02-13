@@ -81,7 +81,7 @@
 
 /* ========================================
    SIZES
-   xs: 24px, sm: 32px, md: 40px, lg: 48px, xl: 64px, 2xl: 96px
+   xs: 24px, s: 32px, m: 40px, l: 48px, xl: 64px, xxl: 96px
    ======================================== */
 
 :host(.coar-avatar--xs) .coar-avatar {
@@ -93,30 +93,30 @@
   font-size: 10px;
 }
 
-:host(.coar-avatar--sm) .coar-avatar {
+:host(.coar-avatar--s) .coar-avatar {
   width: 32px;
   height: 32px;
 }
 
-:host(.coar-avatar--sm) .coar-avatar__initials {
+:host(.coar-avatar--s) .coar-avatar__initials {
   font-size: 12px;
 }
 
-:host(.coar-avatar--md) .coar-avatar {
+:host(.coar-avatar--m) .coar-avatar {
   width: 40px;
   height: 40px;
 }
 
-:host(.coar-avatar--md) .coar-avatar__initials {
+:host(.coar-avatar--m) .coar-avatar__initials {
   font-size: 14px;
 }
 
-:host(.coar-avatar--lg) .coar-avatar {
+:host(.coar-avatar--l) .coar-avatar {
   width: 48px;
   height: 48px;
 }
 
-:host(.coar-avatar--lg) .coar-avatar__initials {
+:host(.coar-avatar--l) .coar-avatar__initials {
   font-size: 16px;
 }
 
@@ -129,12 +129,12 @@
   font-size: 20px;
 }
 
-:host(.coar-avatar--2xl) .coar-avatar {
+:host(.coar-avatar--xxl) .coar-avatar {
   width: 96px;
   height: 96px;
 }
 
-:host(.coar-avatar--2xl) .coar-avatar__initials {
+:host(.coar-avatar--xxl) .coar-avatar__initials {
   font-size: 28px;
 }
 
@@ -146,16 +146,16 @@
   transform: translate(15%, 15%);
 }
 
-:host(.coar-avatar--sm) .coar-avatar__status {
+:host(.coar-avatar--s) .coar-avatar__status {
   transform: translate(20%, 20%);
 }
 
-:host(.coar-avatar--md) .coar-avatar__status,
-:host(.coar-avatar--lg) .coar-avatar__status {
+:host(.coar-avatar--m) .coar-avatar__status,
+:host(.coar-avatar--l) .coar-avatar__status {
   transform: translate(25%, 25%);
 }
 
 :host(.coar-avatar--xl) .coar-avatar__status,
-:host(.coar-avatar--2xl) .coar-avatar__status {
+:host(.coar-avatar--xxl) .coar-avatar__status {
   transform: translate(30%, 30%);
 }

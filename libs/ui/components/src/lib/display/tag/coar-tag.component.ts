@@ -8,11 +8,11 @@ export type TagColor = 'neutral' | 'success' | 'warning' | 'error' | 'info' | 'a
 
 /**
  * Tag size variants.
- * - sm: Compact tags for dense UIs (10px font)
- * - md: Default size (12px font)
- * - lg: Larger tags for emphasis (14px font)
+ * - s: Compact tags for dense UIs (10px font)
+ * - m: Default size (12px font)
+ * - l: Larger tags for emphasis (14px font)
  */
-export type TagSize = 'sm' | 'md' | 'lg';
+export type TagSize = 's' | 'm' | 'l';
 
 /**
  * CoarTagComponent
@@ -39,9 +39,9 @@ export type TagSize = 'sm' | 'md' | 'lg';
   host: {
     class: 'coar-tag',
     // Size
-    '[class.coar-tag--sm]': 'size() === "sm"',
-    '[class.coar-tag--md]': 'size() === "md"',
-    '[class.coar-tag--lg]': 'size() === "lg"',
+    '[class.coar-tag--s]': 'size() === "s"',
+    '[class.coar-tag--m]': 'size() === "m"',
+    '[class.coar-tag--l]': 'size() === "l"',
     // Elevated (box-shadow for depth)
     '[class.coar-tag--elevated]': 'elevated()',
     // Borderless (no border)
@@ -73,7 +73,7 @@ export class CoarTagComponent {
   color = input<TagColor>('neutral');
 
   /** Tag size */
-  size = input<TagSize>('md');
+  size = input<TagSize>('m');
 
   /** Whether the tag can be closed/removed */
   closable = input<boolean, unknown>(false, { transform: booleanAttribute });

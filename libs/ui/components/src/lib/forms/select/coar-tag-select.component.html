@@ -103,7 +103,7 @@
             (mouseenter)="setAvailableHighlightFromDisplay(i)"
           >
             @if (option.icon) {
-              <coar-icon [name]="option.icon" size="sm" class="coar-tag-option-icon" />
+              <coar-icon [name]="option.icon" size="s" class="coar-tag-option-icon" />
             }
             <span class="coar-tag-option-label">{{ option.label }}</span>
           </div>
@@ -121,7 +121,7 @@
             (keydown.enter)="createTag()"
             (mouseenter)="highlightedIndex.set(availableOptions().length)"
           >
-            <coar-icon name="plus" source="coar-builtin" size="sm" class="coar-tag-option-icon" />
+            <coar-icon name="plus" source="coar-builtin" size="s" class="coar-tag-option-icon" />
             <span class="coar-tag-option-label">{{ createPrefix() }}{{ searchQuery() }}</span>
           </div>
         }

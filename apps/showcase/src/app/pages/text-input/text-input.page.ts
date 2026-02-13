@@ -72,9 +72,9 @@ export class TextInputPage {
 
     sizes: `<!-- Available sizes: xs, sm, md, lg -->
 <coar-text-input size="xs" label="Extra Small" placeholder="27px height" />
-<coar-text-input size="sm" label="Small" placeholder="32px height" />
-<coar-text-input size="md" label="Medium" placeholder="40px height" />
-<coar-text-input size="lg" label="Large" placeholder="48px height" />`,
+<coar-text-input size="s" label="Small" placeholder="32px height" />
+<coar-text-input size="m" label="Medium" placeholder="40px height" />
+<coar-text-input size="l" label="Large" placeholder="48px height" />`,
 
     multiline: `<coar-text-input
   label="Bio"

@@ -18,25 +18,25 @@
 
   /* Component Heights */
   --coar-component-xs-height: 27px;
-  --coar-component-sm-height: 32px;
-  --coar-component-md-height: 40px;
-  --coar-component-lg-height: 48px;
+  --coar-component-s-height: 32px;
+  --coar-component-m-height: 40px;
+  --coar-component-l-height: 48px;
 
   /* Component Font Sizes */
   --coar-component-xs-font-size: 11px;
-  --coar-component-sm-font-size: 13px;
-  --coar-component-md-font-size: 14px;
-  --coar-component-lg-font-size: 16px;
+  --coar-component-s-font-size: 13px;
+  --coar-component-m-font-size: 14px;
+  --coar-component-l-font-size: 16px;
 
   /* Component Label Font Sizes (slightly smaller for labels) */
   --coar-component-xs-label-font-size: 11px;
-  --coar-component-sm-label-font-size: 13px;
-  --coar-component-md-label-font-size: 14px;
-  --coar-component-lg-label-font-size: 15px;
+  --coar-component-s-label-font-size: 13px;
+  --coar-component-m-label-font-size: 14px;
+  --coar-component-l-label-font-size: 15px;
 
   /* Component Label Margins */
   --coar-component-xs-label-margin: 4px;
-  --coar-component-sm-label-margin: 6px;
-  --coar-component-md-label-margin: 8px;
-  --coar-component-lg-label-margin: 10px;
+  --coar-component-s-label-margin: 6px;
+  --coar-component-m-label-margin: 8px;
+  --coar-component-l-label-margin: 10px;
 }

@@ -98,7 +98,7 @@ Represents a single actionable menu item. Supports icons, disabled state, and cl
 <coar-menu-item
   icon="copy"
   [disabled]="false"
-  (itemClick)="onCopy()"
+  (clicked)="onCopy()"
 >Copy Item</coar-menu-item>
 ```
 
@@ -114,8 +114,8 @@ Represents a single actionable menu item. Supports icons, disabled state, and cl
 
 | Name | Type | Description |
 | --- | --- | --- |
-| `itemClick` | `CoarMenuItemClickEvent` | Emitted when user clicks/selects the item (not fired when disabled). Call `$event.keepMenuOpen()` to prevent auto-close when used inside an overlay. |
-| `itemHover` | `Event` | Emitted when user hovers over item (used internally for flyout trigger) |
+| `clicked` | `CoarMenuItemClickEvent` | Emitted when user clicks/selects the item (not fired when disabled). Call `$event.keepMenuOpen()` to prevent auto-close when used inside an overlay. |
+| `hovered` | `Event` | Emitted when user hovers over item (used internally for flyout trigger) |
 
 ### Host Attributes
 
@@ -130,13 +130,13 @@ Represents a single actionable menu item. Supports icons, disabled state, and cl
 #### Basic Item
 
 ```html
-<coar-menu-item label="Save" (itemClick)="onSave()" />
+<coar-menu-item label="Save" (clicked)="onSave()" />
 ```
 
 #### Keep menu open on click
 
 ```html
-<coar-menu-item label="Toggle" (itemClick)="toggleSetting($event)" />
+<coar-menu-item label="Toggle" (clicked)="toggleSetting($event)" />
 ```
 
 ```ts
@@ -154,7 +154,7 @@ toggleSetting(event: CoarMenuItemClickEvent): void {
 <coar-menu-item
   icon="trash"
   label="Delete"
-  (itemClick)="onDelete()"
+  (clicked)="onDelete()"
 />
 ```
 
@@ -165,7 +165,7 @@ toggleSetting(event: CoarMenuItemClickEvent): void {
   icon="clipboard"
   label="Paste"
   [disabled]="!hasClipboard"
-  (itemClick)="onPaste()"
+  (clicked)="onPaste()"
 />
 ```
 
@@ -177,7 +177,7 @@ All styles use design tokens:
 - `--coar-menu-item-background-hover` — Hover background
 - `--coar-menu-item-background-focus` — Focus background
 - `--coar-spacing-xs`, `--coar-spacing-s` — Padding
-- Icons use `size="sm"` (16px)
+- Icons use `size="s"` (16px)
 
 ### Accessibility
 
@@ -286,8 +286,8 @@ A special menu item that triggers a flyout submenu when hovered. Uses the Cocoar
 <coar-sub-flyout icon="users" label="Share">
   <ng-template>
     <coar-menu>
-      <coar-menu-item icon="chat" (itemClick)="shareEmail()">Email</coar-menu-item>
-      <coar-menu-item icon="copy" (itemClick)="shareCopyLink()">Copy Link</coar-menu-item>
+      <coar-menu-item icon="chat" (clicked)="shareEmail()">Email</coar-menu-item>
+      <coar-menu-item icon="copy" (clicked)="shareCopyLink()">Copy Link</coar-menu-item>
     </coar-menu>
   </ng-template>
 </coar-sub-flyout>
@@ -405,7 +405,7 @@ All styles use design tokens:
 - `--coar-menu-item-background-focus` — Focus background
 - `--coar-menu-item-background-open` — Open/active background
 - `--coar-spacing-xs`, `--coar-spacing-s` — Padding
-- Leading icon: `size="sm"` (16px)
+- Leading icon: `size="s"` (16px)
 - Chevron arrow: `size="xs"` (12px), `name="chevron-right"`
 
 ### Accessibility
@@ -448,8 +448,8 @@ This variant renders its submenu content inline, which is useful for sidebar-sty
 ```html
 <coar-sub-expand icon="settings" label="Options" [(open)]="optionsOpen">
   <ng-template>
-    <coar-menu-item icon="plus" (itemClick)="onAdd()">Add</coar-menu-item>
-    <coar-menu-item icon="trash" (itemClick)="onClear()">Clear</coar-menu-item>
+    <coar-menu-item icon="plus" (clicked)="onAdd()">Add</coar-menu-item>
+    <coar-menu-item icon="trash" (clicked)="onClear()">Clear</coar-menu-item>
   </ng-template>
 </coar-sub-expand>
 ```

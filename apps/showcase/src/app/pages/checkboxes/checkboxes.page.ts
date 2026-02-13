@@ -97,9 +97,9 @@ parentIndeterminate = computed(() => {
 />`,
 
     sizes: `<coar-checkbox size="xs" label="Extra small checkbox" />
-<coar-checkbox size="sm" label="Small checkbox" />
-<coar-checkbox size="md" label="Medium checkbox (default)" />
-<coar-checkbox size="lg" label="Large checkbox" />`,
+<coar-checkbox size="s" label="Small checkbox" />
+<coar-checkbox size="m" label="Medium checkbox (default)" />
+<coar-checkbox size="l" label="Large checkbox" />`,
 
     group: `// Parent state computed from children
 parentChecked = computed(() => selectedFruits().length === fruits.length);

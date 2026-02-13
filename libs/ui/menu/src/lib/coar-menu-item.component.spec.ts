@@ -88,10 +88,10 @@ describe('CoarMenuItemComponent', () => {
   });
 
   describe('Interaction', () => {
-    it('should emit itemClick on click', () => {
+    it('should emit clicked on click', () => {
       fixture.detectChanges();
       let emitted: CoarMenuItemClickEvent | undefined;
-      component.itemClick.subscribe((e) => (emitted = e));
+      component.clicked.subscribe((e) => (emitted = e));
 
       fixture.nativeElement.click();
 
@@ -99,52 +99,52 @@ describe('CoarMenuItemComponent', () => {
       expect(emitted!.event).toBeInstanceOf(MouseEvent);
     });
 
-    it('should emit itemClick on Enter key', () => {
+    it('should emit clicked on Enter key', () => {
       fixture.detectChanges();
       let emitted = false;
-      component.itemClick.subscribe(() => (emitted = true));
+      component.clicked.subscribe(() => (emitted = true));
 
       fixture.nativeElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
 
       expect(emitted).toBe(true);
     });
 
-    it('should emit itemClick on Space key', () => {
+    it('should emit clicked on Space key', () => {
       fixture.detectChanges();
       let emitted = false;
-      component.itemClick.subscribe(() => (emitted = true));
+      component.clicked.subscribe(() => (emitted = true));
 
       fixture.nativeElement.dispatchEvent(new KeyboardEvent('keydown', { key: ' ' }));
 
       expect(emitted).toBe(true);
     });
 
-    it('should emit itemHover on mouseenter', () => {
+    it('should emit hovered on mouseenter', () => {
       fixture.detectChanges();
       let emitted = false;
-      component.itemHover.subscribe(() => (emitted = true));
+      component.hovered.subscribe(() => (emitted = true));
 
       fixture.nativeElement.dispatchEvent(new MouseEvent('mouseenter'));
 
       expect(emitted).toBe(true);
     });
 
-    it('should not emit itemClick when disabled', () => {
+    it('should not emit clicked when disabled', () => {
       fixture.componentRef.setInput('disabled', true);
       fixture.detectChanges();
       let emitted = false;
-      component.itemClick.subscribe(() => (emitted = true));
+      component.clicked.subscribe(() => (emitted = true));
 
       fixture.nativeElement.click();
 
       expect(emitted).toBe(false);
     });
 
-    it('should not emit itemHover when disabled', () => {
+    it('should not emit hovered when disabled', () => {
       fixture.componentRef.setInput('disabled', true);
       fixture.detectChanges();
       let emitted = false;
-      component.itemHover.subscribe(() => (emitted = true));
+      component.hovered.subscribe(() => (emitted = true));
 
       fixture.nativeElement.dispatchEvent(new MouseEvent('mouseenter'));
 
@@ -176,7 +176,7 @@ describe('CoarMenuItemComponent', () => {
       component = fixture.componentInstance;
       fixture.detectChanges();
 
-      component.itemClick.subscribe((e: CoarMenuItemClickEvent) => {
+      component.clicked.subscribe((e: CoarMenuItemClickEvent) => {
         e.keepMenuOpen();
       });
 

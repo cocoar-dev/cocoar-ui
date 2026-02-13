@@ -2,13 +2,13 @@
   <!-- Year Stepper -->
   <div class="coar-month-list__year-stepper">
     <button type="button" class="coar-month-list__year-btn" [disabled]="isPrevYearDisabled()" (click)="previousYear()" aria-label="Previous year">
-      <coar-icon name="left" size="sm" />
+      <coar-icon name="left" size="s" />
     </button>
 
     <span class="coar-month-list__year">{{ currentYear() }}</span>
 
     <button type="button" class="coar-month-list__year-btn" [disabled]="isNextYearDisabled()" (click)="nextYear()" aria-label="Next year">
-      <coar-icon name="right" size="sm" />
+      <coar-icon name="right" size="s" />
     </button>
   </div>
 

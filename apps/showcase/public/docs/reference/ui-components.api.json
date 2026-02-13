@@ -23,8 +23,8 @@
         },
         {
           "name": "size",
-          "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'",
-          "default": "'md'",
+          "type": "'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl'",
+          "default": "'m'",
           "description": "Avatar size",
           "required": false
         },
@@ -79,8 +79,8 @@
         },
         {
           "name": "size",
-          "type": "'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'auto'",
-          "default": "'md'",
+          "type": "'xs' | 's' | 'm' | 'l' | 'xl' | 'auto'",
+          "default": "'m'",
           "description": "Badge size",
           "required": false
         },
@@ -128,8 +128,8 @@
         },
         {
           "name": "size",
-          "type": "'xs' | 'sm' | 'md' | 'lg'",
-          "default": "'md'",
+          "type": "'xs' | 's' | 'm' | 'l'",
+          "default": "'m'",
           "description": "Button size",
           "required": false
         },
@@ -218,8 +218,8 @@
         },
         {
           "name": "padding",
-          "type": "'none' | 'sm' | 'md' | 'lg'",
-          "default": "'md'",
+          "type": "'none' | 's' | 'm' | 'l'",
+          "default": "'m'",
           "description": "Card padding size",
           "required": false
         }
@@ -281,8 +281,8 @@
         },
         {
           "name": "size",
-          "type": "'xs' | 'sm' | 'md' | 'lg'",
-          "default": "'md'",
+          "type": "'xs' | 's' | 'm' | 'l'",
+          "default": "'m'",
           "description": "Checkbox size - matches input/button heights for consistent layouts",
           "required": false
         },
@@ -436,8 +436,8 @@
         {
           "name": "size",
           "type": "CoarIconSize | string",
-          "default": "'md'",
-          "description": "Icon size. Defaults to 'md' (20px).\nCan be a preset token (xs, sm, md, lg, xl, auto) or a custom CSS value (e.g., '42px', '3rem').",
+          "default": "'m'",
+          "description": "Icon size. Defaults to 'm' (20px).\nCan be a preset token (xs, s, m, l, xl, auto) or a custom CSS value (e.g., '42px', '3rem').",
           "required": false
         },
         {
@@ -484,8 +484,8 @@
       "inputs": [
         {
           "name": "size",
-          "type": "'xs' | 'sm' | 'md' | 'lg'",
-          "default": "'md'",
+          "type": "'xs' | 's' | 'm' | 'l'",
+          "default": "'m'",
           "description": "Size of the label. Should match the size of the associated input/form element.",
           "required": false
         },
@@ -668,8 +668,8 @@
         },
         {
           "name": "padding",
-          "type": "'sm' | 'md' | 'lg'",
-          "default": "'md'",
+          "type": "'s' | 'm' | 'l'",
+          "default": "'m'",
           "description": "Note padding size.",
           "required": false
         }
@@ -696,8 +696,8 @@
         },
         {
           "name": "size",
-          "type": "'xs' | 'sm' | 'md' | 'lg'",
-          "default": "'md'",
+          "type": "'xs' | 's' | 'm' | 'l'",
+          "default": "'m'",
           "description": "Input size - matches button/checkbox sizes for consistent layouts",
           "required": false
         },
@@ -864,8 +864,8 @@
         },
         {
           "name": "size",
-          "type": "'xs' | 'sm' | 'md' | 'lg'",
-          "default": "'md'",
+          "type": "'xs' | 's' | 'm' | 'l'",
+          "default": "'m'",
           "description": "Input size - matches other form elements for consistent layouts",
           "required": false
         },
@@ -1142,8 +1142,8 @@
         },
         {
           "name": "size",
-          "type": "'sm' | 'md' | 'lg'",
-          "default": "'md'",
+          "type": "'s' | 'm' | 'l'",
+          "default": "'m'",
           "description": "Size of radio buttons",
           "required": false
         },
@@ -1435,8 +1435,8 @@
         },
         {
           "name": "size",
-          "type": "'sm' | 'md' | 'lg'",
-          "default": "'md'",
+          "type": "'s' | 'm' | 'l'",
+          "default": "'m'",
           "description": "Tag size",
           "required": false
         },
@@ -1515,8 +1515,8 @@
         },
         {
           "name": "size",
-          "type": "'xs' | 'sm' | 'md' | 'lg'",
-          "default": "'md'",
+          "type": "'xs' | 's' | 'm' | 'l'",
+          "default": "'m'",
           "description": "Input size - matches button/checkbox sizes for consistent layouts",
           "required": false
         },
@@ -1641,8 +1641,8 @@
       "inputs": [
         {
           "name": "size",
-          "type": "'xs' | 'sm' | 'md' | 'lg'",
-          "default": "'md'",
+          "type": "'xs' | 's' | 'm' | 'l'",
+          "default": "'m'",
           "description": "Size variant",
           "required": false
         },

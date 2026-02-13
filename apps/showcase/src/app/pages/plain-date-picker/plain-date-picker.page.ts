@@ -103,9 +103,9 @@ maxDate = Temporal.Now.plainDateISO().add({ months: 3 });
 />`,
 
     sizes: `<coar-plain-date-picker size="xs" label="Extra Small" [(value)]="date" />
-<coar-plain-date-picker size="sm" label="Small" [(value)]="date" />
-<coar-plain-date-picker size="md" label="Medium (default)" [(value)]="date" />
-<coar-plain-date-picker size="lg" label="Large" [(value)]="date" />`,
+<coar-plain-date-picker size="s" label="Small" [(value)]="date" />
+<coar-plain-date-picker size="m" label="Medium (default)" [(value)]="date" />
+<coar-plain-date-picker size="l" label="Large" [(value)]="date" />`,
 
     states: `<coar-plain-date-picker label="Disabled" [(value)]="date" disabled />
 <coar-plain-date-picker label="Readonly" [(value)]="date" readonly />

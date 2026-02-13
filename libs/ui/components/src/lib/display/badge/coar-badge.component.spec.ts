@@ -24,8 +24,8 @@ describe('CoarBadgeComponent', () => {
       expect(component.variant()).toBe('primary');
     });
 
-    it('should have md size by default', () => {
-      expect(component.size()).toBe('md');
+    it('should have m size by default', () => {
+      expect(component.size()).toBe('m');
     });
 
     it('should not pulse by default', () => {
@@ -58,7 +58,7 @@ describe('CoarBadgeComponent', () => {
   });
 
   describe('sizes', () => {
-    it.each(['xs', 'sm', 'md', 'lg', 'xl'] as BadgeSize[])('should apply %s size class', (size) => {
+    it.each(['xs', 's', 'm', 'l', 'xl'] as BadgeSize[])('should apply %s size class', (size) => {
       fixture.componentRef.setInput('size', size);
       fixture.detectChanges();
       const badge = fixture.nativeElement.querySelector('.coar-badge');

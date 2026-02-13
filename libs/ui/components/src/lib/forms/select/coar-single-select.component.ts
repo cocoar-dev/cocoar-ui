@@ -48,9 +48,9 @@ export type { CoarSelectSize };
   providers: [coarProvideValueAccessor(() => CoarSingleSelectComponent)],
   host: {
     '[class.coar-single-select--xs]': 'size() === "xs"',
-    '[class.coar-single-select--sm]': 'size() === "sm"',
-    '[class.coar-single-select--md]': 'size() === "md"',
-    '[class.coar-single-select--lg]': 'size() === "lg"',
+    '[class.coar-single-select--s]': 'size() === "s"',
+    '[class.coar-single-select--m]': 'size() === "m"',
+    '[class.coar-single-select--l]': 'size() === "l"',
     '[class.coar-single-select--inline]': 'appearance() === "inline"',
     '[class.coar-single-select--disabled]': 'isDisabled()',
     '[class.coar-single-select--readonly]': 'readonly()',

@@ -26,7 +26,7 @@ export class TagsPage {
   colors: TagColor[] = ['neutral', 'success', 'warning', 'error', 'info', 'accent'];
 
   /** Tag sizes */
-  sizes: TagSize[] = ['sm', 'md', 'lg'];
+  sizes: TagSize[] = ['s', 'm', 'l'];
 
   /** Demo tags for closable example */
   tags = signal<string[]>(['Angular', 'TypeScript', 'Design System', 'UI Components']);
@@ -50,9 +50,9 @@ export class TagsPage {
 <coar-tag color="info">Review</coar-tag>
 <coar-tag color="accent">Featured</coar-tag>`,
 
-    sizes: `<coar-tag size="sm">Small</coar-tag>
-<coar-tag size="md">Medium</coar-tag>
-<coar-tag size="lg">Large</coar-tag>`,
+    sizes: `<coar-tag size="s">Small</coar-tag>
+<coar-tag size="m">Medium</coar-tag>
+<coar-tag size="l">Large</coar-tag>`,
 
     elevated: `<!-- With elevation (box-shadow) -->
 <coar-tag elevated>Default</coar-tag>

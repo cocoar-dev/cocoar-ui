@@ -31,7 +31,7 @@ import { CoarControlValueAccessor } from '../../forms/_base/coar-control-value-a
 /**
  * Shared size type for date/datetime pickers.
  */
-export type CoarDatePickerSize = 'xs' | 'sm' | 'md' | 'lg';
+export type CoarDatePickerSize = 'xs' | 's' | 'm' | 'l';
 
 /**
  * Month item structure for the month list.
@@ -112,7 +112,7 @@ export abstract class CoarDatePickerBase<T> extends CoarControlValueAccessor<T |
   placeholder = input<string>('');
 
   /** Size variant */
-  size = input<CoarDatePickerSize>('md');
+  size = input<CoarDatePickerSize>('m');
 
   /** Whether the picker is readonly */
   readonly = input<boolean, unknown>(false, { transform: booleanAttribute });

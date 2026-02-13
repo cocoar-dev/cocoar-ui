@@ -18,7 +18,7 @@ import {
   coarProvideValueAccessor,
 } from '../_base/coar-control-value-accessor';
 
-export type CoarPasswordInputSize = 'xs' | 'sm' | 'md' | 'lg';
+export type CoarPasswordInputSize = 'xs' | 's' | 'm' | 'l';
 
 @Component({
   selector: 'coar-password-input',
@@ -30,9 +30,9 @@ export type CoarPasswordInputSize = 'xs' | 'sm' | 'md' | 'lg';
   providers: [coarProvideValueAccessor(() => CoarPasswordInputComponent)],
   host: {
     '[class.coar-password-input--xs]': 'size() === "xs"',
-    '[class.coar-password-input--sm]': 'size() === "sm"',
-    '[class.coar-password-input--md]': 'size() === "md"',
-    '[class.coar-password-input--lg]': 'size() === "lg"',
+    '[class.coar-password-input--s]': 'size() === "s"',
+    '[class.coar-password-input--m]': 'size() === "m"',
+    '[class.coar-password-input--l]': 'size() === "l"',
   },
 })
 export class CoarPasswordInputComponent extends CoarControlValueAccessor<string> {
@@ -49,7 +49,7 @@ export class CoarPasswordInputComponent extends CoarControlValueAccessor<string>
   value = model<string>('');
 
   /** Input size - matches other form elements for consistent layouts */
-  size = input<CoarPasswordInputSize>('md');
+  size = input<CoarPasswordInputSize>('m');
 
   /** Disables the input (greyed out, not focusable) */
   disabled = input<boolean, unknown>(false, { transform: booleanAttribute });

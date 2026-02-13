@@ -20,9 +20,9 @@
 
 .coar-plain-date-time-picker-label {
   display: block;
-  margin-bottom: var(--coar-component-md-label-margin);
+  margin-bottom: var(--coar-component-m-label-margin);
   font-family: var(--coar-body-small-bold-family);
-  font-size: var(--coar-component-md-label-font-size);
+  font-size: var(--coar-component-m-label-font-size);
   font-weight: var(--coar-body-small-bold-weight);
   color: var(--coar-text-neutral-primary);
   cursor: pointer;
@@ -40,14 +40,14 @@
   margin-bottom: var(--coar-component-xs-label-margin);
 }
 
-:host(.coar-plain-date-time-picker--sm) .coar-plain-date-time-picker-label {
-  font-size: var(--coar-component-sm-label-font-size);
-  margin-bottom: var(--coar-component-sm-label-margin);
+:host(.coar-plain-date-time-picker--s) .coar-plain-date-time-picker-label {
+  font-size: var(--coar-component-s-label-font-size);
+  margin-bottom: var(--coar-component-s-label-margin);
 }
 
-:host(.coar-plain-date-time-picker--lg) .coar-plain-date-time-picker-label {
-  font-size: var(--coar-component-lg-label-font-size);
-  margin-bottom: var(--coar-component-lg-label-margin);
+:host(.coar-plain-date-time-picker--l) .coar-plain-date-time-picker-label {
+  font-size: var(--coar-component-l-label-font-size);
+  margin-bottom: var(--coar-component-l-label-margin);
 }
 
 /* ========================================
@@ -58,7 +58,7 @@
   display: flex;
   align-items: center;
   gap: var(--coar-spacing-s);
-  height: var(--coar-component-md-height);
+  height: var(--coar-component-m-height);
   padding: 0;
   border: 1px solid var(--coar-border-input);
   border-radius: var(--coar-radius-xs);
@@ -113,13 +113,13 @@
   gap: var(--coar-spacing-xs);
 }
 
-:host(.coar-plain-date-time-picker--sm) .coar-plain-date-time-picker-trigger {
-  height: var(--coar-component-sm-height);
+:host(.coar-plain-date-time-picker--s) .coar-plain-date-time-picker-trigger {
+  height: var(--coar-component-s-height);
   padding: 0 var(--coar-spacing-s);
 }
 
-:host(.coar-plain-date-time-picker--lg) .coar-plain-date-time-picker-trigger {
-  height: var(--coar-component-lg-height);
+:host(.coar-plain-date-time-picker--l) .coar-plain-date-time-picker-trigger {
+  height: var(--coar-component-l-height);
   padding: 0 var(--coar-spacing-l);
 }
 
@@ -160,12 +160,12 @@
   font-size: var(--coar-component-xs-font-size);
 }
 
-:host(.coar-plain-date-time-picker--sm) .coar-plain-date-time-picker-input {
-  font-size: var(--coar-component-sm-font-size);
+:host(.coar-plain-date-time-picker--s) .coar-plain-date-time-picker-input {
+  font-size: var(--coar-component-s-font-size);
 }
 
-:host(.coar-plain-date-time-picker--lg) .coar-plain-date-time-picker-input {
-  font-size: var(--coar-component-lg-font-size);
+:host(.coar-plain-date-time-picker--l) .coar-plain-date-time-picker-input {
+  font-size: var(--coar-component-l-font-size);
 }
 
 /* ========================================
@@ -210,7 +210,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: var(--coar-component-md-height);
+  width: var(--coar-component-m-height);
   height: 100%;
   padding: 0;
   margin: 0;
@@ -240,12 +240,12 @@
   width: var(--coar-component-xs-height);
 }
 
-:host(.coar-plain-date-time-picker--sm) .coar-plain-date-time-picker-btn {
-  width: var(--coar-component-sm-height);
+:host(.coar-plain-date-time-picker--s) .coar-plain-date-time-picker-btn {
+  width: var(--coar-component-s-height);
 }
 
-:host(.coar-plain-date-time-picker--lg) .coar-plain-date-time-picker-btn {
-  width: var(--coar-component-lg-height);
+:host(.coar-plain-date-time-picker--l) .coar-plain-date-time-picker-btn {
+  width: var(--coar-component-l-height);
 }
 
 /* ========================================

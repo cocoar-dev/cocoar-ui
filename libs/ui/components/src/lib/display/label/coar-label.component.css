@@ -28,16 +28,16 @@
   font-size: var(--coar-component-xs-label-font-size);
 }
 
-.coar-label--sm {
-  font-size: var(--coar-component-sm-label-font-size);
+.coar-label--s {
+  font-size: var(--coar-component-s-label-font-size);
 }
 
-.coar-label--md {
-  font-size: var(--coar-component-md-label-font-size);
+.coar-label--m {
+  font-size: var(--coar-component-m-label-font-size);
 }
 
-.coar-label--lg {
-  font-size: var(--coar-component-lg-label-font-size);
+.coar-label--l {
+  font-size: var(--coar-component-l-label-font-size);
 }
 
 /* ========================================

@@ -135,7 +135,7 @@ import { CoarMenuComponent, CoarMenuItemComponent } from '@cocoar/ui/menu';`;
   </div>
 
   <div coar-sidebar-footer>
-    <coar-button variant="primary" size="sm">Apply</coar-button>
+    <coar-button variant="primary" size="s">Apply</coar-button>
   </div>
 </coar-sidebar>`;
 }

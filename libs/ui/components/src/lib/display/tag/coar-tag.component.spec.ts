@@ -25,8 +25,8 @@ describe('CoarTagComponent', () => {
       expect(component.color()).toBe('neutral');
     });
 
-    it('should have md size by default', () => {
-      expect(component.size()).toBe('md');
+    it('should have m size by default', () => {
+      expect(component.size()).toBe('m');
     });
 
     it('should not be closable by default', () => {
@@ -46,7 +46,7 @@ describe('CoarTagComponent', () => {
   });
 
   describe('size variants', () => {
-    it.each(['sm', 'md', 'lg'] as const)('should apply %s size class', (size) => {
+    it.each(['s', 'm', 'l'] as const)('should apply %s size class', (size) => {
       fixture.componentRef.setInput('size', size);
       fixture.detectChanges();
       expect(fixture.nativeElement.classList).toContain(`coar-tag--${size}`);

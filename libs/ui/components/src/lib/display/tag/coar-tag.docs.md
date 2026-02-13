@@ -28,9 +28,9 @@ Tags support semantic color variants.
 ## Sizes
 
 ```html
-<coar-tag size="sm">Small</coar-tag>
-<coar-tag size="md">Medium</coar-tag>
-<coar-tag size="lg">Large</coar-tag>
+<coar-tag size="s">Small</coar-tag>
+<coar-tag size="m">Medium</coar-tag>
+<coar-tag size="l">Large</coar-tag>
 ```
 
 ## Elevated and borderless

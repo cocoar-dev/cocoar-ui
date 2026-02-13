@@ -34,12 +34,12 @@ export interface CoarMenuItemClickEvent {
  *
  * @example
  * ```html
- * <coar-menu-item (itemClick)="onSave()">Save</coar-menu-item>
+ * <coar-menu-item (clicked)="onSave()">Save</coar-menu-item>
  * <coar-menu-item icon="copy">Copy</coar-menu-item>
  * <coar-menu-item [disabled]="true">Unavailable</coar-menu-item>
  *
  * <!-- Prevent menu from closing on click: -->
- * <coar-menu-item (itemClick)="toggle($event)">Toggle Setting</coar-menu-item>
+ * <coar-menu-item (clicked)="toggle($event)">Toggle Setting</coar-menu-item>
  *
  * toggle(event: CoarMenuItemClickEvent) {
  *   event.keepMenuOpen(); // Keep menu open
@@ -75,10 +75,10 @@ export class CoarMenuItemComponent {
   readonly disabled = input(false);
 
   /** Emitted when user clicks/selects the item. Menu closes by default unless preventDefault() is called. */
-  readonly itemClick = output<CoarMenuItemClickEvent>();
+  readonly clicked = output<CoarMenuItemClickEvent>();
 
   /** Emitted when user hovers over item (for flyout trigger) */
-  readonly itemHover = output<Event>();
+  readonly hovered = output<Event>();
 
   @HostListener('click', ['$event'])
   onClick(event: MouseEvent): void {
@@ -100,7 +100,7 @@ export class CoarMenuItemComponent {
       },
     };
 
-    this.itemClick.emit(clickEvent);
+    this.clicked.emit(clickEvent);
 
     if (shouldClose) {
       this.closeMenuTree();
@@ -110,7 +110,7 @@ export class CoarMenuItemComponent {
   @HostListener('mouseenter', ['$event'])
   onMouseEnter(event: MouseEvent): void {
     if (!this.disabled()) {
-      this.itemHover.emit(event);
+      this.hovered.emit(event);
     }
   }
 
@@ -130,7 +130,7 @@ export class CoarMenuItemComponent {
       },
     };
 
-    this.itemClick.emit(clickEvent);
+    this.clicked.emit(clickEvent);
 
     if (shouldClose) {
       this.closeMenuTree();

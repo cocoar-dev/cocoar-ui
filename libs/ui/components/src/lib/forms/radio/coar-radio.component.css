@@ -102,31 +102,31 @@
    SIZES (inherited from group)
    ======================================== */
 
-:host-context(.coar-radio-group--sm) .coar-radio__control {
+:host-context(.coar-radio-group--s) .coar-radio__control {
   width: 16px;
   height: 16px;
 }
 
-:host-context(.coar-radio-group--sm) .coar-radio__dot {
+:host-context(.coar-radio-group--s) .coar-radio__dot {
   width: 6px;
   height: 6px;
 }
 
-:host-context(.coar-radio-group--sm) .coar-radio__label {
+:host-context(.coar-radio-group--s) .coar-radio__label {
   font-size: var(--coar-body-small-size);
 }
 
-:host-context(.coar-radio-group--lg) .coar-radio__control {
+:host-context(.coar-radio-group--l) .coar-radio__control {
   width: 22px;
   height: 22px;
 }
 
-:host-context(.coar-radio-group--lg) .coar-radio__dot {
+:host-context(.coar-radio-group--l) .coar-radio__dot {
   width: 10px;
   height: 10px;
 }
 
-:host-context(.coar-radio-group--lg) .coar-radio__label {
+:host-context(.coar-radio-group--l) .coar-radio__label {
   font-size: var(--coar-body-large-size);
 }
 

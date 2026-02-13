@@ -126,29 +126,29 @@ describe('CoarIconComponent', () => {
       expect(element).toBeTruthy();
     });
 
-    it('should apply sm size class', () => {
+    it('should apply s size class', () => {
       fixture.componentRef.setInput('name', 'settings');
-      fixture.componentRef.setInput('size', 'sm');
+      fixture.componentRef.setInput('size', 's');
       fixture.detectChanges();
 
-      const element = fixture.nativeElement.querySelector('.coar-icon--sm');
+      const element = fixture.nativeElement.querySelector('.coar-icon--s');
       expect(element).toBeTruthy();
     });
 
-    it('should apply md size class (default)', () => {
+    it('should apply m size class (default)', () => {
       fixture.componentRef.setInput('name', 'settings');
       fixture.detectChanges();
 
-      const element = fixture.nativeElement.querySelector('.coar-icon--md');
+      const element = fixture.nativeElement.querySelector('.coar-icon--m');
       expect(element).toBeTruthy();
     });
 
-    it('should apply lg size class', () => {
+    it('should apply l size class', () => {
       fixture.componentRef.setInput('name', 'settings');
-      fixture.componentRef.setInput('size', 'lg');
+      fixture.componentRef.setInput('size', 'l');
       fixture.detectChanges();
 
-      const element = fixture.nativeElement.querySelector('.coar-icon--lg');
+      const element = fixture.nativeElement.querySelector('.coar-icon--l');
       expect(element).toBeTruthy();
     });
 

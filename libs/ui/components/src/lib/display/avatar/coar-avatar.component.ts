@@ -7,7 +7,7 @@ import {
   booleanAttribute,
 } from '@angular/core';
 
-export type AvatarSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+export type AvatarSize = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl';
 export type AvatarShape = 'circle' | 'square';
 
 /**
@@ -36,11 +36,11 @@ export type AvatarShape = 'circle' | 'square';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.coar-avatar--xs]': 'size() === "xs"',
-    '[class.coar-avatar--sm]': 'size() === "sm"',
-    '[class.coar-avatar--md]': 'size() === "md"',
-    '[class.coar-avatar--lg]': 'size() === "lg"',
+    '[class.coar-avatar--s]': 'size() === "s"',
+    '[class.coar-avatar--m]': 'size() === "m"',
+    '[class.coar-avatar--l]': 'size() === "l"',
     '[class.coar-avatar--xl]': 'size() === "xl"',
-    '[class.coar-avatar--2xl]': 'size() === "2xl"',
+    '[class.coar-avatar--xxl]': 'size() === "xxl"',
     '[class.coar-avatar--square]': 'shape() === "square"',
     '[class.coar-avatar--clickable]': 'clickable()',
     '[attr.role]': 'clickable() ? "button" : null',
@@ -55,7 +55,7 @@ export class CoarAvatarComponent {
   name = input<string>('');
 
   /** Avatar size */
-  size = input<AvatarSize>('md');
+  size = input<AvatarSize>('m');
 
   /** Avatar shape */
   shape = input<AvatarShape>('circle');

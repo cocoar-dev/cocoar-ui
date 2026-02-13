@@ -241,8 +241,8 @@ compareById = (a: Country | null, b: Country | null) => a?.id === b?.id;
     // Shared
     sizes: `<!-- Available sizes: xs, sm, md, lg -->
 <coar-single-select label="Extra Small" [options]="options" size="xs" />
-<coar-single-select label="Small" [options]="options" size="sm" />
-<coar-single-select label="Medium" [options]="options" size="md" />
-<coar-single-select label="Large" [options]="options" size="lg" />`,
+<coar-single-select label="Small" [options]="options" size="s" />
+<coar-single-select label="Medium" [options]="options" size="m" />
+<coar-single-select label="Large" [options]="options" size="l" />`,
   };
 }

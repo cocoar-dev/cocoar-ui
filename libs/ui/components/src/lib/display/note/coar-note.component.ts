@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 
 export type NoteColor = 'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent';
-export type NotePadding = 'sm' | 'md' | 'lg';
+export type NotePadding = 's' | 'm' | 'l';
 
 /**
  * A callout/note component for highlighting information.
@@ -16,7 +16,7 @@ export type NotePadding = 'sm' | 'md' | 'lg';
  *   <strong>Note:</strong> This is important information.
  * </coar-note>
  *
- * <coar-note color="warning" padding="lg">
+ * <coar-note color="warning" padding="l">
  *   <h4>Warning</h4>
  *   <p>Be careful with this action.</p>
  * </coar-note>
@@ -39,9 +39,9 @@ export type NotePadding = 'sm' | 'md' | 'lg';
     '[class.coar-note--info]': 'color() === "info"',
     '[class.coar-note--accent]': 'color() === "accent"',
     // Padding
-    '[class.coar-note--padding-sm]': 'padding() === "sm"',
-    '[class.coar-note--padding-md]': 'padding() === "md"',
-    '[class.coar-note--padding-lg]': 'padding() === "lg"',
+    '[class.coar-note--padding-s]': 'padding() === "s"',
+    '[class.coar-note--padding-m]': 'padding() === "m"',
+    '[class.coar-note--padding-l]': 'padding() === "l"',
   },
 })
 export class CoarNoteComponent {
@@ -54,7 +54,7 @@ export class CoarNoteComponent {
 
   /**
    * Note padding size.
-   * @default 'md'
+   * @default 'm'
    */
-  padding = input<NotePadding>('md');
+  padding = input<NotePadding>('m');
 }

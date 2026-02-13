@@ -87,17 +87,17 @@
   padding: 0;
 }
 
-:host(.coar-card--padding-sm) {
+:host(.coar-card--padding-s) {
   --coar-card-padding: var(--coar-spacing-s);
   padding: var(--coar-spacing-s);
 }
 
-:host(.coar-card--padding-md) {
+:host(.coar-card--padding-m) {
   --coar-card-padding: var(--coar-spacing-m);
   padding: var(--coar-spacing-m);
 }
 
-:host(.coar-card--padding-lg) {
+:host(.coar-card--padding-l) {
   --coar-card-padding: var(--coar-spacing-l);
   padding: var(--coar-spacing-l);
 }

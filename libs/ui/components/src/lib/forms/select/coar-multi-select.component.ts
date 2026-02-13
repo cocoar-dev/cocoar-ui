@@ -46,9 +46,9 @@ export type { CoarSelectSize };
   providers: [coarProvideValueAccessor(() => CoarMultiSelectComponent)],
   host: {
     '[class.coar-multi-select--xs]': 'size() === "xs"',
-    '[class.coar-multi-select--sm]': 'size() === "sm"',
-    '[class.coar-multi-select--md]': 'size() === "md"',
-    '[class.coar-multi-select--lg]': 'size() === "lg"',
+    '[class.coar-multi-select--s]': 'size() === "s"',
+    '[class.coar-multi-select--m]': 'size() === "m"',
+    '[class.coar-multi-select--l]': 'size() === "l"',
     '[class.coar-multi-select--disabled]': 'isDisabled()',
     '[class.coar-multi-select--readonly]': 'readonly()',
     '[class.coar-multi-select--error]': 'hasError()',

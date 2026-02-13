@@ -185,11 +185,11 @@ export class CoarPopconfirmDirective {
       }
       <div class="coar-popconfirm-panel__message">{{ message() }}</div>
       <div class="coar-popconfirm-panel__actions">
-        <coar-button size="sm" variant="secondary" (clicked)="onCancel()?.()">
+        <coar-button size="s" variant="secondary" (clicked)="onCancel()?.()">
           {{ cancelText() }}
         </coar-button>
         <coar-button
-          size="sm"
+          size="s"
           [variant]="confirmVariant() === 'danger' ? 'danger' : 'primary'"
           (clicked)="onConfirm()?.()"
         >

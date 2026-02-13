@@ -69,7 +69,7 @@ export class TooltipPage {
   codeExamples = {
     basic: `<coar-button
   variant="ghost"
-  size="sm"
+  size="s"
   coarTooltip="This is a tooltip."
   [coarTooltipPlacement]="'top'"
 >
@@ -77,7 +77,7 @@ export class TooltipPage {
 </coar-button>`,
     auto: `<coar-button
   variant="ghost"
-  size="sm"
+  size="s"
   coarTooltip="Uses best-fit placement."
   [coarTooltipPlacement]="'auto'"
 >
@@ -85,7 +85,7 @@ export class TooltipPage {
 </coar-button>`,
 
     popoverBasic: `<coar-popover [openOnHover]="true">
-  <coar-button coarPopoverTrigger variant="ghost" size="sm">
+  <coar-button coarPopoverTrigger variant="ghost" size="s">
     Hover me
   </coar-button>
 
@@ -98,7 +98,7 @@ export class TooltipPage {
 </coar-popover>`,
 
     popoverClickOnly: `<coar-popover [openOnHover]="false" [openOnClick]="true">
-  <coar-button coarPopoverTrigger variant="ghost" size="sm">
+  <coar-button coarPopoverTrigger variant="ghost" size="s">
     Click to pin
   </coar-button>
 
@@ -111,7 +111,7 @@ export class TooltipPage {
 </coar-popover>`,
 
     popoverNonInteractive: `<coar-popover [openOnClick]="true" [interactive]="false">
-  <coar-button coarPopoverTrigger variant="ghost" size="sm">
+  <coar-button coarPopoverTrigger variant="ghost" size="s">
     Open non-interactive popover
   </coar-button>
 

@@ -17,7 +17,7 @@ import {
   coarProvideValueAccessor,
 } from '../_base/coar-control-value-accessor';
 
-export type CoarTextInputSize = 'xs' | 'sm' | 'md' | 'lg';
+export type CoarTextInputSize = 'xs' | 's' | 'm' | 'l';
 
 @Component({
   selector: 'coar-text-input',
@@ -29,9 +29,9 @@ export type CoarTextInputSize = 'xs' | 'sm' | 'md' | 'lg';
   providers: [coarProvideValueAccessor(() => CoarTextInputComponent)],
   host: {
     '[class.coar-text-input--xs]': 'size() === "xs"',
-    '[class.coar-text-input--sm]': 'size() === "sm"',
-    '[class.coar-text-input--md]': 'size() === "md"',
-    '[class.coar-text-input--lg]': 'size() === "lg"',
+    '[class.coar-text-input--s]': 'size() === "s"',
+    '[class.coar-text-input--m]': 'size() === "m"',
+    '[class.coar-text-input--l]': 'size() === "l"',
     '[class.coar-text-input--multiline]': 'isMultiline()',
   },
 })
@@ -46,7 +46,7 @@ export class CoarTextInputComponent extends CoarControlValueAccessor<string> {
   value = model<string>('');
 
   /** Input size - matches button/checkbox sizes for consistent layouts */
-  size = input<CoarTextInputSize>('md');
+  size = input<CoarTextInputSize>('m');
 
   /** Number of visible text rows (1 = single-line input, 2+ = textarea) */
   rows = input<number>(1);

@@ -12,9 +12,9 @@
 /* Label */
 .coar-text-input-label {
   display: block;
-  margin-bottom: var(--coar-component-md-label-margin);
+  margin-bottom: var(--coar-component-m-label-margin);
   font-family: var(--coar-body-small-bold-family);
-  font-size: var(--coar-component-md-label-font-size);
+  font-size: var(--coar-component-m-label-font-size);
   font-weight: var(--coar-body-small-bold-weight);
   color: var(--coar-text-neutral-primary);
   cursor: pointer;
@@ -31,7 +31,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  height: var(--coar-component-md-height);
+  height: var(--coar-component-m-height);
   border: 1px solid var(--coar-border-input);
   border-radius: var(--coar-radius-xs);
   background: var(--coar-surface-input);
@@ -44,7 +44,7 @@
 /* Multiline container adjustments */
 :host(.coar-text-input--multiline) .coar-text-input-container {
   height: auto;
-  min-height: var(--coar-component-md-height);
+  min-height: var(--coar-component-m-height);
   align-items: flex-start;
 }
 
@@ -53,23 +53,23 @@
   height: var(--coar-component-xs-height);
 }
 
-:host(.coar-text-input--sm) .coar-text-input-container {
-  height: var(--coar-component-sm-height);
+:host(.coar-text-input--s) .coar-text-input-container {
+  height: var(--coar-component-s-height);
 }
 
-:host(.coar-text-input--md) .coar-text-input-container {
-  height: var(--coar-component-md-height);
+:host(.coar-text-input--m) .coar-text-input-container {
+  height: var(--coar-component-m-height);
 }
 
-:host(.coar-text-input--lg) .coar-text-input-container {
-  height: var(--coar-component-lg-height);
+:host(.coar-text-input--l) .coar-text-input-container {
+  height: var(--coar-component-l-height);
 }
 
 /* Multiline overrides for sizes */
 :host(.coar-text-input--multiline.coar-text-input--xs) .coar-text-input-container,
-:host(.coar-text-input--multiline.coar-text-input--sm) .coar-text-input-container,
-:host(.coar-text-input--multiline.coar-text-input--md) .coar-text-input-container,
-:host(.coar-text-input--multiline.coar-text-input--lg) .coar-text-input-container {
+:host(.coar-text-input--multiline.coar-text-input--s) .coar-text-input-container,
+:host(.coar-text-input--multiline.coar-text-input--m) .coar-text-input-container,
+:host(.coar-text-input--multiline.coar-text-input--l) .coar-text-input-container {
   height: auto;
 }
 
@@ -83,22 +83,22 @@
   margin-bottom: var(--coar-component-xs-label-margin);
 }
 
-:host(.coar-text-input--sm) .coar-text-input-field {
-  font-size: var(--coar-component-sm-font-size);
+:host(.coar-text-input--s) .coar-text-input-field {
+  font-size: var(--coar-component-s-font-size);
 }
 
-:host(.coar-text-input--sm) .coar-text-input-label {
-  font-size: var(--coar-component-sm-label-font-size);
-  margin-bottom: var(--coar-component-sm-label-margin);
+:host(.coar-text-input--s) .coar-text-input-label {
+  font-size: var(--coar-component-s-label-font-size);
+  margin-bottom: var(--coar-component-s-label-margin);
 }
 
-:host(.coar-text-input--lg) .coar-text-input-field {
-  font-size: var(--coar-component-lg-font-size);
+:host(.coar-text-input--l) .coar-text-input-field {
+  font-size: var(--coar-component-l-font-size);
 }
 
-:host(.coar-text-input--lg) .coar-text-input-label {
-  font-size: var(--coar-component-lg-label-font-size);
-  margin-bottom: var(--coar-component-lg-label-margin);
+:host(.coar-text-input--l) .coar-text-input-label {
+  font-size: var(--coar-component-l-label-font-size);
+  margin-bottom: var(--coar-component-l-label-margin);
 }
 
 .coar-text-input-container:hover:not(.coar-text-input-disabled):not(.coar-text-input-readonly):not(
@@ -163,19 +163,19 @@
 .coar-text-input-textarea {
   padding: var(--coar-spacing-s);
   resize: vertical;
-  min-height: calc(var(--coar-component-md-height) + var(--coar-component-md-height));
+  min-height: calc(var(--coar-component-m-height) + var(--coar-component-m-height));
 }
 
 :host(.coar-text-input--xs) .coar-text-input-textarea {
   min-height: calc(var(--coar-component-xs-height) + var(--coar-component-xs-height));
 }
 
-:host(.coar-text-input--sm) .coar-text-input-textarea {
-  min-height: calc(var(--coar-component-sm-height) + var(--coar-component-sm-height));
+:host(.coar-text-input--s) .coar-text-input-textarea {
+  min-height: calc(var(--coar-component-s-height) + var(--coar-component-s-height));
 }
 
-:host(.coar-text-input--lg) .coar-text-input-textarea {
-  min-height: calc(var(--coar-component-lg-height) + var(--coar-component-lg-height));
+:host(.coar-text-input--l) .coar-text-input-textarea {
+  min-height: calc(var(--coar-component-l-height) + var(--coar-component-l-height));
 }
 
 .coar-text-input-field::placeholder {
@@ -273,12 +273,12 @@
   font-size: var(--coar-component-xs-font-size);
 }
 
-:host(.coar-text-input--sm) .coar-text-input-clear {
-  font-size: var(--coar-component-sm-font-size);
+:host(.coar-text-input--s) .coar-text-input-clear {
+  font-size: var(--coar-component-s-font-size);
 }
 
-:host(.coar-text-input--lg) .coar-text-input-clear {
-  font-size: var(--coar-component-lg-font-size);
+:host(.coar-text-input--l) .coar-text-input-clear {
+  font-size: var(--coar-component-l-font-size);
 }
 
 /* Clear button positioned at top-right for multiline */

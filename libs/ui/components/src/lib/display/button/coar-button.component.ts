@@ -10,7 +10,7 @@ import {
 import { CoarIconComponent, CoarIconSize } from '../icon/coar-icon.component';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'danger' | 'ghost';
-export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
+export type ButtonSize = 'xs' | 's' | 'm' | 'l';
 
 @Component({
   selector: 'coar-button',
@@ -29,7 +29,7 @@ export class CoarButtonComponent {
   variant = input<ButtonVariant>('primary');
 
   /** Button size */
-  size = input<ButtonSize>('md');
+  size = input<ButtonSize>('m');
 
   /** Whether the button is disabled */
   disabled = input<boolean, unknown>(false, { transform: booleanAttribute });
@@ -59,9 +59,9 @@ export class CoarButtonComponent {
   protected readonly iconSize = computed<CoarIconSize>(() => {
     const sizeMap: Record<ButtonSize, CoarIconSize> = {
       xs: 'xs',
-      sm: 'sm',
-      md: 'md',
-      lg: 'lg',
+      s: 's',
+      m: 'm',
+      l: 'l',
     };
     return sizeMap[this.size()];
   });

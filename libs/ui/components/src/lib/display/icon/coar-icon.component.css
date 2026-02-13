@@ -2,7 +2,7 @@
  * COAR Icon Component Styles
  *
  * Size tokens:
- * xs = 12px, sm = 16px, md = 20px, lg = 24px, xl = 32px, auto = fills parent
+ * xs = 12px, s = 16px, m = 20px, l = 24px, xl = 32px, auto = fills parent
  */
 
 :host {
@@ -55,17 +55,17 @@
   height: 12px;
 }
 
-.coar-icon--sm {
+.coar-icon--s {
   width: 16px;
   height: 16px;
 }
 
-.coar-icon--md {
+.coar-icon--m {
   width: 20px;
   height: 20px;
 }
 
-.coar-icon--lg {
+.coar-icon--l {
   width: 24px;
   height: 24px;
 }

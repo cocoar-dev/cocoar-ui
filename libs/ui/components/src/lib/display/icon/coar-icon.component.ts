@@ -12,7 +12,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, finalize } from 'rxjs/operators';
 import { CoarIconService } from './coar-icon.service';
 
-export type CoarIconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'auto';
+export type CoarIconSize = 'xs' | 's' | 'm' | 'l' | 'xl' | 'auto';
 
 /**
  * COAR Icon Component
@@ -21,14 +21,14 @@ export type CoarIconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'auto';
  *
  * Usage:
  * ```html
- * <coar-icon name="settings" size="md"></coar-icon>
+ * <coar-icon name="settings" size="m"></coar-icon>
  * ```
  *
  * Size tokens:
  * - xs = 12px
- * - sm = 16px
- * - md = 20px (default)
- * - lg = 24px
+ * - s = 16px
+ * - m = 20px (default)
+ * - l = 24px
  * - xl = 32px
  * - auto = fills parent container (use padding on parent to control)
  */
@@ -94,10 +94,10 @@ export class CoarIconComponent {
   source = input<string | undefined>();
 
   /**
-   * Icon size. Defaults to 'md' (20px).
-   * Can be a preset token (xs, sm, md, lg, xl, auto) or a custom CSS value (e.g., '42px', '3rem').
+   * Icon size. Defaults to 'm' (20px).
+   * Can be a preset token (xs, s, m, l, xl, auto) or a custom CSS value (e.g., '42px', '3rem').
    */
-  size = input<CoarIconSize | string>('md');
+  size = input<CoarIconSize | string>('m');
 
   /**
    * Rotation angle in degrees (0, 90, 180, 270, or any number).
@@ -140,10 +140,10 @@ export class CoarIconComponent {
   protected isLoading = signal(false);
 
   /**
-   * Check if the size is a preset token (xs, sm, md, lg, xl, auto).
+   * Check if the size is a preset token (xs, s, m, l, xl, auto).
    */
   protected isPresetSize(size: string): boolean {
-    return ['xs', 'sm', 'md', 'lg', 'xl', 'auto'].includes(size);
+    return ['xs', 's', 'm', 'l', 'xl', 'auto'].includes(size);
   }
 
   /**

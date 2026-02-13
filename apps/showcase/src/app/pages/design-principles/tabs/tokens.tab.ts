@@ -37,8 +37,8 @@ export class DesignPrinciplesTokensTab {
 
   readonly sizingTokens = [
     { size: 'xs', height: '27px', usage: 'Dense data tables, compact toolbars' },
-    { size: 'sm', height: '32px', usage: 'Compact UI, secondary actions' },
-    { size: 'md', height: '40px', usage: 'Default — forms, dialogs' },
-    { size: 'lg', height: '48px', usage: 'Prominent actions, hero sections' },
+    { size: 's', height: '32px', usage: 'Compact UI, secondary actions' },
+    { size: 'm', height: '40px', usage: 'Default — forms, dialogs' },
+    { size: 'l', height: '48px', usage: 'Prominent actions, hero sections' },
   ];
 }

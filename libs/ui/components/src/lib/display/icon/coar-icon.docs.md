@@ -40,15 +40,15 @@ To override the built-in icons, register your own source using the same key (`co
 Preset sizes are:
 
 - `xs` (12px)
-- `sm` (16px)
-- `md` (20px, default)
-- `lg` (24px)
+- `s` (16px)
+- `m` (20px, default)
+- `l` (24px)
 - `xl` (32px)
 - `auto` (fills the parent; typically sized by the parent’s font-size / box)
 
 ```html
 <coar-icon name="settings" size="xs" />
-<coar-icon name="settings" size="lg" />
+<coar-icon name="settings" size="l" />
 
 <!-- Custom CSS size -->
 <coar-icon name="settings" size="48px" />

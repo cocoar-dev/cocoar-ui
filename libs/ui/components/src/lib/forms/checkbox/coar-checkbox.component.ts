@@ -16,7 +16,7 @@ import {
   coarProvideValueAccessor,
 } from '../_base/coar-control-value-accessor';
 
-export type CoarCheckboxSize = 'xs' | 'sm' | 'md' | 'lg';
+export type CoarCheckboxSize = 'xs' | 's' | 'm' | 'l';
 
 @Component({
   selector: 'coar-checkbox',
@@ -28,9 +28,9 @@ export type CoarCheckboxSize = 'xs' | 'sm' | 'md' | 'lg';
   providers: [coarProvideValueAccessor(() => CoarCheckboxComponent)],
   host: {
     '[class.coar-checkbox--xs]': 'size() === "xs"',
-    '[class.coar-checkbox--sm]': 'size() === "sm"',
-    '[class.coar-checkbox--md]': 'size() === "md"',
-    '[class.coar-checkbox--lg]': 'size() === "lg"',
+    '[class.coar-checkbox--s]': 'size() === "s"',
+    '[class.coar-checkbox--m]': 'size() === "m"',
+    '[class.coar-checkbox--l]': 'size() === "l"',
     '[class.coar-checkbox--disabled]': 'isDisabled()',
     '[class.coar-checkbox--readonly]': 'readonly()',
     '[class.coar-checkbox--error]': 'hasError()',
@@ -69,7 +69,7 @@ export class CoarCheckboxComponent extends CoarControlValueAccessor<boolean | un
   hint = input<string>('');
 
   /** Checkbox size - matches input/button heights for consistent layouts */
-  size = input<CoarCheckboxSize>('md');
+  size = input<CoarCheckboxSize>('m');
 
   /** HTML id attribute for the checkbox element */
   id = input<string>('');

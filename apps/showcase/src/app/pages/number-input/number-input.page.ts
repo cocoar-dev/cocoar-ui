@@ -108,9 +108,9 @@ export class NumberInputPage {
 
     sizes: `<!-- Available sizes: xs, sm, md, lg -->
 <coar-number-input stepperButtons size="xs" label="Extra Small" [value]="10" />
-<coar-number-input stepperButtons size="sm" label="Small" [value]="20" />
-<coar-number-input stepperButtons size="md" label="Medium" [value]="30" />
-<coar-number-input stepperButtons size="lg" label="Large" [value]="40" />`,
+<coar-number-input stepperButtons size="s" label="Small" [value]="20" />
+<coar-number-input stepperButtons size="m" label="Medium" [value]="30" />
+<coar-number-input stepperButtons size="l" label="Large" [value]="40" />`,
 
     dragLabel: `<!-- Drag the label left/right to change value! -->
 <coar-number-input

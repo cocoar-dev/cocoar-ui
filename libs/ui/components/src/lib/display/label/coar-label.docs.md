@@ -16,9 +16,9 @@ Use `size` to match the size system used across the design system.
 
 ```html
 <coar-label size="xs">Extra small</coar-label>
-<coar-label size="sm">Small</coar-label>
-<coar-label size="md">Medium (default)</coar-label>
-<coar-label size="lg">Large</coar-label>
+<coar-label size="s">Small</coar-label>
+<coar-label size="m">Medium (default)</coar-label>
+<coar-label size="l">Large</coar-label>
 ```
 
 ## Required Indicator
@@ -34,7 +34,7 @@ Use `required` to display an asterisk after the label text.
 Use `coar-label` to label groups of related controls (for example a set of radio buttons or checkboxes).
 
 ```html
-<coar-label size="sm" [required]="true">Preferred contact method</coar-label>
+<coar-label size="s" [required]="true">Preferred contact method</coar-label>
 <div class="radio-group">
   <label><input type="radio" name="contact" value="email" /> Email</label>
   <label><input type="radio" name="contact" value="phone" /> Phone</label>
@@ -47,7 +47,7 @@ Use `coar-label` to label groups of related controls (for example a set of radio
 
 ```html
 <coar-label for="email">Email address</coar-label>
-<coar-text-input id="email" size="sm" />
+<coar-text-input id="email" size="s" />
 ```
 
 If you need native browser label behavior (clicking the label focuses the control), prefer using the built-in `label` capability of the corresponding form component.

@@ -128,8 +128,8 @@ describe('CoarPasswordInputComponent', () => {
   });
 
   describe('sizes', () => {
-    it('should apply md size class by default', () => {
-      expect(fixture.nativeElement.classList.contains('coar-password-input--md')).toBe(true);
+    it('should apply m size class by default', () => {
+      expect(fixture.nativeElement.classList.contains('coar-password-input--m')).toBe(true);
     });
 
     it('should apply xs size class', () => {
@@ -138,16 +138,16 @@ describe('CoarPasswordInputComponent', () => {
       expect(fixture.nativeElement.classList.contains('coar-password-input--xs')).toBe(true);
     });
 
-    it('should apply sm size class', () => {
-      fixture.componentRef.setInput('size', 'sm');
+    it('should apply s size class', () => {
+      fixture.componentRef.setInput('size', 's');
       fixture.detectChanges();
-      expect(fixture.nativeElement.classList.contains('coar-password-input--sm')).toBe(true);
+      expect(fixture.nativeElement.classList.contains('coar-password-input--s')).toBe(true);
     });
 
-    it('should apply lg size class', () => {
-      fixture.componentRef.setInput('size', 'lg');
+    it('should apply l size class', () => {
+      fixture.componentRef.setInput('size', 'l');
       fixture.detectChanges();
-      expect(fixture.nativeElement.classList.contains('coar-password-input--lg')).toBe(true);
+      expect(fixture.nativeElement.classList.contains('coar-password-input--l')).toBe(true);
     });
   });
 

@@ -25,8 +25,8 @@ describe('CoarCardComponent', () => {
       expect(component.color()).toBe('neutral');
     });
 
-    it('should have md padding by default', () => {
-      expect(component.padding()).toBe('md');
+    it('should have m padding by default', () => {
+      expect(component.padding()).toBe('m');
     });
 
     it('should not be elevated by default', () => {
@@ -54,7 +54,7 @@ describe('CoarCardComponent', () => {
   });
 
   describe('padding variants', () => {
-    it.each(['none', 'sm', 'md', 'lg'] as CardPadding[])(
+    it.each(['none', 's', 'm', 'l'] as CardPadding[])(
       'should apply %s padding class',
       (padding) => {
         fixture.componentRef.setInput('padding', padding);

@@ -9,7 +9,7 @@ A hybrid icon system supporting built-in icons and customer-uploaded SVGs.
 - **Inline SVG**: Full CSS styling support (`fill`, `stroke`, animations)
 - **Automatic caching**: Each icon is only downloaded once
 - **Type-safe**: TypeScript support for built-in icon names
-- **Configurable sizes**: xs, sm, md, lg, xl
+- **Configurable sizes**: xs, s, m, l, xl
 
 ## Usage
 
@@ -17,10 +17,10 @@ A hybrid icon system supporting built-in icons and customer-uploaded SVGs.
 
 ```html
 <!-- Built-in icon -->
-<cocoar-icon name="settings" size="md"></cocoar-icon>
+<cocoar-icon name="settings" size="m"></cocoar-icon>
 
 <!-- Customer-uploaded icon -->
-<cocoar-icon name="customer:invoicePaid" size="lg"></cocoar-icon>
+<cocoar-icon name="customer:invoicePaid" size="l"></cocoar-icon>
 
 <!-- With fallback -->
 <cocoar-icon name="customer:brandLogo" [fallback]="'question'"></cocoar-icon>
@@ -52,12 +52,12 @@ export class MyComponent {}
 | Size | Pixels |
 |------|--------|
 | xs   | 12px   |
-| sm   | 16px   |
-| md   | 20px   |
-| lg   | 24px   |
+| s    | 16px   |
+| m    | 20px   |
+| l    | 24px   |
 | xl   | 32px   |
 
-Default size is `md` (20px).
+Default size is `m` (20px).
 
 ## API
 
@@ -66,7 +66,7 @@ Default size is `md` (20px).
 | Input | Type | Default | Description |
 |-------|------|---------|-------------|
 | `name` | `string` | required | Icon identifier |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl'` | `'md'` | Icon size |
+| `size` | `'xs' \| 's' \| 'm' \| 'l' \| 'xl'` | `'m'` | Icon size |
 | `fallback` | `string` | - | Fallback icon if main icon fails to load |
 
 ## Service API

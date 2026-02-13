@@ -38,7 +38,7 @@
         <h3>Basic Tooltip</h3>
         <p class="example-description">Opens on hover and focus. Only one tooltip can be open globally at a time.</p>
         <div class="example-demo example-demo--row">
-          <coar-button variant="ghost" size="sm" coarTooltip="This is a tooltip." [coarTooltipPlacement]="'top'">Hover me</coar-button>
+          <coar-button variant="ghost" size="s" coarTooltip="This is a tooltip." [coarTooltipPlacement]="'top'">Hover me</coar-button>
         </div>
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
@@ -47,7 +47,7 @@
         <h3>Best-Fit (Auto)</h3>
         <p class="example-description">Uses the floating system's best-fit algorithm to choose a placement.</p>
         <div class="example-demo example-demo--row">
-          <coar-button variant="ghost" size="sm" coarTooltip="Uses best-fit placement." [coarTooltipPlacement]="'auto'">Best-fit</coar-button>
+          <coar-button variant="ghost" size="s" coarTooltip="Uses best-fit placement." [coarTooltipPlacement]="'auto'">Best-fit</coar-button>
         </div>
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.auto" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
@@ -113,7 +113,7 @@
             <div class="demo-preview">
               <coar-button
                 variant="ghost"
-                size="sm"
+                size="s"
                 [coarTooltipDisabled]="demoDisabled()"
                 [coarTooltipPlacement]="demoPlacement()"
                 [coarTooltipOpenDelay]="demoOpenDelay()"
@@ -142,7 +142,7 @@
         <p class="example-description">Desktop-friendly behavior: opens on hover and focus. Use for non-critical, informational content.</p>
         <div class="example-demo example-demo--row">
           <coar-popover [openOnHover]="true">
-            <coar-button coarPopoverTrigger variant="ghost" size="sm">Hover me</coar-button>
+            <coar-button coarPopoverTrigger variant="ghost" size="s">Hover me</coar-button>
 
             <div coarPopoverContent>
               <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Popover</div>
@@ -160,7 +160,7 @@
         </p>
         <div class="example-demo example-demo--row">
           <coar-popover [openOnHover]="false" [openOnClick]="true">
-            <coar-button coarPopoverTrigger variant="ghost" size="sm">Click to pin</coar-button>
+            <coar-button coarPopoverTrigger variant="ghost" size="s">Click to pin</coar-button>
 
             <div coarPopoverContent>
               <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Pinned</div>
@@ -181,7 +181,7 @@
         </p>
         <div class="example-demo example-demo--stack">
           <coar-popover [openOnClick]="true" [interactive]="false">
-            <coar-button coarPopoverTrigger variant="ghost" size="sm">Open overlay</coar-button>
+            <coar-button coarPopoverTrigger variant="ghost" size="s">Open overlay</coar-button>
 
             <div coarPopoverContent>
               <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Overlay</div>
@@ -191,7 +191,7 @@
             </div>
           </coar-popover>
 
-          <coar-button variant="ghost" size="sm" (clicked)="onClickThroughOverlay()">Button below</coar-button>
+          <coar-button variant="ghost" size="s" (clicked)="onClickThroughOverlay()">Button below</coar-button>
         </div>
         <p class="demo-value">Clicks through overlay: {{ clicksThroughOverlay() }}</p>
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.popoverNonInteractive" language="html" [showLineNumbers]="false" [collapsed]="true" />

@@ -44,9 +44,9 @@ Use `padding` to control the internal spacing.
 
 ```html
 <coar-card padding="none">No padding</coar-card>
-<coar-card padding="sm">Small padding</coar-card>
-<coar-card padding="md">Medium padding (default)</coar-card>
-<coar-card padding="lg">Large padding</coar-card>
+<coar-card padding="s">Small padding</coar-card>
+<coar-card padding="m">Medium padding (default)</coar-card>
+<coar-card padding="l">Large padding</coar-card>
 ```
 
 ## Card sections (header / footer)
@@ -66,8 +66,8 @@ Cards support named content slots via attribute selectors.
   <p>Main content</p>
 
   <div coar-card-footer>
-    <coar-button variant="primary" size="sm">Primary</coar-button>
-    <coar-button variant="secondary" size="sm">Secondary</coar-button>
+    <coar-button variant="primary" size="s">Primary</coar-button>
+    <coar-button variant="secondary" size="s">Secondary</coar-button>
   </div>
 </coar-card>
 ```

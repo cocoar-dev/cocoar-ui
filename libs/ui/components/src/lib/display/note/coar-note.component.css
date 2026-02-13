@@ -50,15 +50,15 @@
    PADDING VARIANTS
    ======================================== */
 
-:host(.coar-note--padding-sm) {
+:host(.coar-note--padding-s) {
   padding: var(--coar-spacing-s) var(--coar-spacing-m);
 }
 
-:host(.coar-note--padding-md) {
+:host(.coar-note--padding-m) {
   padding: var(--coar-spacing-m) var(--coar-spacing-l);
 }
 
-:host(.coar-note--padding-lg) {
+:host(.coar-note--padding-l) {
   padding: var(--coar-spacing-l) var(--coar-spacing-xl);
 }
 

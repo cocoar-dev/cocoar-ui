@@ -87,8 +87,8 @@ export class FormsPage {
 
     inlineForm: `<!-- Use matching sizes for input + button alignment -->
 <form class="inline-form" [formGroup]="inlineForm">
-  <coar-text-input placeholder="Enter your email" size="sm" formControlName="email" />
-  <coar-button variant="primary" size="sm" type="button">Subscribe</coar-button>
+  <coar-text-input placeholder="Enter your email" size="s" formControlName="email" />
+  <coar-button variant="primary" size="s" type="button">Subscribe</coar-button>
 </form>`,
 
     registrationForm: `<form [formGroup]="registrationForm">

@@ -31,7 +31,7 @@ export interface NumberFormatConfig {
   readonly thousand: string;
 }
 
-export type CoarNumberInputSize = 'xs' | 'sm' | 'md' | 'lg';
+export type CoarNumberInputSize = 'xs' | 's' | 'm' | 'l';
 export type CoarNumberInputStepperButtons = 'none' | 'increment' | 'decrement' | 'both';
 
 /**
@@ -67,9 +67,9 @@ function transformStepperButtons(value: boolean | string): CoarNumberInputSteppe
   providers: [coarProvideValueAccessor(() => CoarNumberInputComponent)],
   host: {
     '[class.coar-number-input--xs]': 'size() === "xs"',
-    '[class.coar-number-input--sm]': 'size() === "sm"',
-    '[class.coar-number-input--md]': 'size() === "md"',
-    '[class.coar-number-input--lg]': 'size() === "lg"',
+    '[class.coar-number-input--s]': 'size() === "s"',
+    '[class.coar-number-input--m]': 'size() === "m"',
+    '[class.coar-number-input--l]': 'size() === "l"',
   },
 })
 export class CoarNumberInputComponent extends CoarControlValueAccessor<number | null> {
@@ -96,7 +96,7 @@ export class CoarNumberInputComponent extends CoarControlValueAccessor<number | 
   value = model<number | null>(null);
 
   /** Input size - matches button/checkbox sizes for consistent layouts */
-  size = input<CoarNumberInputSize>('md');
+  size = input<CoarNumberInputSize>('m');
 
   /** Minimum allowed value */
   min = input<number | undefined>(undefined);
@@ -201,9 +201,9 @@ export class CoarNumberInputComponent extends CoarControlValueAccessor<number | 
   protected iconSize = computed<CoarIconSize>(() => {
     const sizeMap: Record<CoarNumberInputSize, CoarIconSize> = {
       xs: 'xs',
-      sm: 'xs',
-      md: 'sm',
-      lg: 'md',
+      s: 'xs',
+      m: 's',
+      l: 'm',
     };
     return sizeMap[this.size()];
   });

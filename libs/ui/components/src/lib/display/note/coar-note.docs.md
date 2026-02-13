@@ -43,14 +43,14 @@ Use `color` to select a semantic style:
 
 Use `padding` to change the internal spacing:
 
-- `sm`
-- `md` (default)
-- `lg`
+- `s`
+- `m` (default)
+- `l`
 
 ```html
-<coar-note color="info" padding="sm">Compact note.</coar-note>
-<coar-note color="info" padding="md">Standard note.</coar-note>
-<coar-note color="info" padding="lg">Spacious note.</coar-note>
+<coar-note color="info" padding="s">Compact note.</coar-note>
+<coar-note color="info" padding="m">Standard note.</coar-note>
+<coar-note color="info" padding="l">Spacious note.</coar-note>
 ```
 
 ## Rich content

@@ -57,14 +57,14 @@ export class IconsPage {
   }
 
   /** Available sizes */
-  sizes: Array<'xs' | 'sm' | 'md' | 'lg' | 'xl'> = ['xs', 'sm', 'md', 'lg', 'xl'];
+  sizes: Array<'xs' | 's' | 'm' | 'l' | 'xl'> = ['xs', 's', 'm', 'l', 'xl'];
 
   /** Size labels for display */
   sizeLabels: Record<string, string> = {
     xs: '12px',
-    sm: '16px',
-    md: '20px',
-    lg: '24px',
+    s: '16px',
+    m: '20px',
+    l: '24px',
     xl: '32px',
     auto: 'fills parent',
   };
@@ -79,9 +79,9 @@ export class IconsPage {
 <coar-icon name="check" />`,
 
     sizes: `<coar-icon name="settings" size="xs" />  <!-- 12px -->
-<coar-icon name="settings" size="sm" />  <!-- 16px -->
-<coar-icon name="settings" size="md" />  <!-- 20px (default) -->
-<coar-icon name="settings" size="lg" />  <!-- 24px -->
+<coar-icon name="settings" size="s" />  <!-- 16px -->
+<coar-icon name="settings" size="m" />  <!-- 20px (default) -->
+<coar-icon name="settings" size="l" />  <!-- 24px -->
 <coar-icon name="settings" size="xl" />  <!-- 32px -->
 
 <!-- Custom size -->

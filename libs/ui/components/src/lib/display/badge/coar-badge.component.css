@@ -40,7 +40,7 @@
 
 /* ========================================
    SIZES (matching icon sizes)
-   xs: 12px, sm: 16px, md: 20px, lg: 24px, xl: 32px
+   xs: 12px, s: 16px, m: 20px, l: 24px, xl: 32px
    ======================================== */
 
 .coar-badge--xs {
@@ -50,21 +50,21 @@
   font-size: 8px;
 }
 
-.coar-badge--sm {
+.coar-badge--s {
   min-width: 16px;
   height: 16px;
   padding: 0 4px;
   font-size: 10px;
 }
 
-.coar-badge--md {
+.coar-badge--m {
   min-width: 20px;
   height: 20px;
   padding: 0 6px;
   font-size: 11px;
 }
 
-.coar-badge--lg {
+.coar-badge--l {
   min-width: 24px;
   height: 24px;
   padding: 0 8px;
@@ -134,19 +134,19 @@
   height: 4px;
 }
 
-.coar-badge--dot.coar-badge--sm {
+.coar-badge--dot.coar-badge--s {
   min-width: 6px;
   width: 6px;
   height: 6px;
 }
 
-.coar-badge--dot.coar-badge--md {
+.coar-badge--dot.coar-badge--m {
   min-width: 8px;
   width: 8px;
   height: 8px;
 }
 
-.coar-badge--dot.coar-badge--lg {
+.coar-badge--dot.coar-badge--l {
   min-width: 10px;
   width: 10px;
   height: 10px;

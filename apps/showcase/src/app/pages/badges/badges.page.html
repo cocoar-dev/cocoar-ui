@@ -120,15 +120,15 @@
         <div class="example-demo">
           <div class="demo-row demo-row--large-gap">
             <div class="demo-item">
-              <coar-badge [content]="3" variant="error" [pulse]="true" size="lg" />
+              <coar-badge [content]="3" variant="error" [pulse]="true" size="l" />
               <span class="demo-item__label coar-caption">Pulsing Badge</span>
             </div>
             <div class="demo-item">
-              <coar-badge [dot]="true" variant="success" [pulse]="true" size="lg" />
+              <coar-badge [dot]="true" variant="success" [pulse]="true" size="l" />
               <span class="demo-item__label coar-caption">Pulsing Dot</span>
             </div>
             <div class="demo-item">
-              <coar-badge content="Live" variant="error" [pulse]="true" size="lg" />
+              <coar-badge content="Live" variant="error" [pulse]="true" size="l" />
               <span class="demo-item__label coar-caption">Live Indicator</span>
             </div>
           </div>
@@ -143,13 +143,13 @@
           <div class="demo-row demo-row--large-gap">
             <div class="demo-item">
               <div class="bordered-demo-bg">
-                <coar-badge [content]="5" variant="error" size="sm" [bordered]="true" />
+                <coar-badge [content]="5" variant="error" size="s" [bordered]="true" />
               </div>
               <span class="demo-item__label coar-caption">With border</span>
             </div>
             <div class="demo-item">
               <div class="bordered-demo-bg">
-                <coar-badge [content]="5" variant="error" size="sm" />
+                <coar-badge [content]="5" variant="error" size="s" />
               </div>
               <span class="demo-item__label coar-caption">Without border</span>
             </div>
@@ -178,14 +178,14 @@
                   [max]="99"
                   variant="error"
                   [pulse]="pulseEnabled()"
-                  size="sm"
+                  size="s"
                   class="notification-badge"
                 />
               }
             </div>
             <div class="demo-controls">
-              <coar-button variant="primary" size="sm" (clicked)="incrementCount()">Add Notification</coar-button>
-              <coar-button variant="secondary" size="sm" (clicked)="resetCount()">Clear All</coar-button>
+              <coar-button variant="primary" size="s" (clicked)="incrementCount()">Add Notification</coar-button>
+              <coar-button variant="secondary" size="s" (clicked)="resetCount()">Clear All</coar-button>
               <label class="checkbox-label coar-body-small">
                 <input type="checkbox" [checked]="pulseEnabled()" (change)="pulseEnabled.set(!pulseEnabled())" />
                 Pulse Animation

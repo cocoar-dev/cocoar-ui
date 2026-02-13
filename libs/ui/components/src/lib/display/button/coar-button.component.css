@@ -45,23 +45,23 @@
   gap: 0.375rem;
 }
 
-.coar-button--sm {
-  height: var(--coar-component-sm-height);
+.coar-button--s {
+  height: var(--coar-component-s-height);
   padding: 0 12px;
-  font-size: var(--coar-component-sm-font-size);
+  font-size: var(--coar-component-s-font-size);
   gap: 0.375rem;
 }
 
-.coar-button--md {
-  height: var(--coar-component-md-height);
+.coar-button--m {
+  height: var(--coar-component-m-height);
   padding: 0 16px;
-  font-size: var(--coar-component-md-font-size);
+  font-size: var(--coar-component-m-font-size);
 }
 
-.coar-button--lg {
-  height: var(--coar-component-lg-height);
+.coar-button--l {
+  height: var(--coar-component-l-height);
   padding: 0 24px;
-  font-size: var(--coar-component-lg-font-size);
+  font-size: var(--coar-component-l-font-size);
   gap: 0.625rem;
 }
 

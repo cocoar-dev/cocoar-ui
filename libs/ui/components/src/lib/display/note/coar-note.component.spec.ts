@@ -23,8 +23,8 @@ describe('CoarNoteComponent', () => {
     expect(component.color()).toBe('neutral');
   });
 
-  it('should have default padding of md', () => {
-    expect(component.padding()).toBe('md');
+  it('should have default padding of m', () => {
+    expect(component.padding()).toBe('m');
   });
 
   it('should apply color class', () => {
@@ -34,9 +34,9 @@ describe('CoarNoteComponent', () => {
   });
 
   it('should apply padding class', () => {
-    fixture.componentRef.setInput('padding', 'lg');
+    fixture.componentRef.setInput('padding', 'l');
     fixture.detectChanges();
-    expect(fixture.nativeElement.classList.contains('coar-note--padding-lg')).toBe(true);
+    expect(fixture.nativeElement.classList.contains('coar-note--padding-l')).toBe(true);
   });
 
   it('should render projected content', () => {

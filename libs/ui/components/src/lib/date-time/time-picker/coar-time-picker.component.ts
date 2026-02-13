@@ -31,7 +31,7 @@ import {
   coarRoundMinutesToStep,
 } from '../_shared/coar-time-helpers';
 
-export type CoarTimePickerSize = 'xs' | 'sm' | 'md' | 'lg';
+export type CoarTimePickerSize = 'xs' | 's' | 'm' | 'l';
 
 /**
  * Time picker component with hours, minutes, and optional AM/PM selection.
@@ -62,9 +62,9 @@ export type CoarTimePickerSize = 'xs' | 'sm' | 'md' | 'lg';
   providers: [coarProvideValueAccessor(() => CoarTimePickerComponent)],
   host: {
     '[class.coar-time-picker--xs]': 'size() === "xs"',
-    '[class.coar-time-picker--sm]': 'size() === "sm"',
-    '[class.coar-time-picker--md]': 'size() === "md"',
-    '[class.coar-time-picker--lg]': 'size() === "lg"',
+    '[class.coar-time-picker--s]': 'size() === "s"',
+    '[class.coar-time-picker--m]': 'size() === "m"',
+    '[class.coar-time-picker--l]': 'size() === "l"',
     '[class.coar-time-picker--disabled]': 'isDisabled()',
     '[class.coar-time-picker--readonly]': 'readonly()',
   },
@@ -85,7 +85,7 @@ export class CoarTimePickerComponent extends CoarControlValueAccessor<CoarTimeVa
   // ============================================================
 
   /** Size variant */
-  size = input<CoarTimePickerSize>('md');
+  size = input<CoarTimePickerSize>('m');
 
   /** Whether the picker is readonly */
   readonly = input<boolean, unknown>(false, { transform: booleanAttribute });

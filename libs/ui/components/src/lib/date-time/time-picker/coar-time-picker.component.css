@@ -28,8 +28,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: var(--coar-component-md-height);
-  height: calc(var(--coar-component-md-height) * 0.6);
+  width: var(--coar-component-m-height);
+  height: calc(var(--coar-component-m-height) * 0.6);
   padding: 0;
   border: none;
   border-radius: var(--coar-radius-xs);
@@ -63,8 +63,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: var(--coar-component-md-height);
-  height: var(--coar-component-md-height);
+  min-width: var(--coar-component-m-height);
+  height: var(--coar-component-m-height);
   padding: 0 var(--coar-spacing-s);
   border: 1px solid var(--coar-border-input);
   border-radius: var(--coar-radius-xs);
@@ -108,7 +108,7 @@
 }
 
 .coar-time-picker__period-value {
-  min-width: calc(var(--coar-component-md-height) * 1.1);
+  min-width: calc(var(--coar-component-m-height) * 1.1);
   font-weight: var(--coar-body-bold-weight);
 }
 
@@ -140,52 +140,52 @@
   font-size: var(--coar-component-xs-font-size);
 }
 
-/* SM Size */
-:host(.coar-time-picker--sm) .coar-time-picker__btn {
-  width: var(--coar-component-sm-height);
-  height: calc(var(--coar-component-sm-height) * 0.6);
+/* S Size */
+:host(.coar-time-picker--s) .coar-time-picker__btn {
+  width: var(--coar-component-s-height);
+  height: calc(var(--coar-component-s-height) * 0.6);
 }
 
-:host(.coar-time-picker--sm) .coar-time-picker__value {
-  min-width: var(--coar-component-sm-height);
-  height: var(--coar-component-sm-height);
+:host(.coar-time-picker--s) .coar-time-picker__value {
+  min-width: var(--coar-component-s-height);
+  height: var(--coar-component-s-height);
   padding: 0 var(--coar-spacing-s);
-  font-size: var(--coar-component-sm-font-size);
+  font-size: var(--coar-component-s-font-size);
 }
 
-:host(.coar-time-picker--sm) .coar-time-picker__separator {
+:host(.coar-time-picker--s) .coar-time-picker__separator {
   font-size: var(--coar-body-base-size);
 }
 
-:host(.coar-time-picker--sm) .coar-time-picker__period-btn {
-  min-width: calc(var(--coar-component-sm-height) * 0.9);
-  height: calc(var(--coar-component-sm-height) * 0.7);
+:host(.coar-time-picker--s) .coar-time-picker__period-btn {
+  min-width: calc(var(--coar-component-s-height) * 0.9);
+  height: calc(var(--coar-component-s-height) * 0.7);
   padding: 0 var(--coar-spacing-s);
-  font-size: var(--coar-component-sm-font-size);
+  font-size: var(--coar-component-s-font-size);
 }
 
-/* LG Size */
-:host(.coar-time-picker--lg) .coar-time-picker__btn {
-  width: var(--coar-component-lg-height);
-  height: calc(var(--coar-component-lg-height) * 0.6);
+/* L Size */
+:host(.coar-time-picker--l) .coar-time-picker__btn {
+  width: var(--coar-component-l-height);
+  height: calc(var(--coar-component-l-height) * 0.6);
 }
 
-:host(.coar-time-picker--lg) .coar-time-picker__value {
-  min-width: var(--coar-component-lg-height);
-  height: var(--coar-component-lg-height);
+:host(.coar-time-picker--l) .coar-time-picker__value {
+  min-width: var(--coar-component-l-height);
+  height: var(--coar-component-l-height);
   padding: 0 var(--coar-spacing-m);
-  font-size: var(--coar-component-lg-font-size);
+  font-size: var(--coar-component-l-font-size);
 }
 
-:host(.coar-time-picker--lg) .coar-time-picker__separator {
+:host(.coar-time-picker--l) .coar-time-picker__separator {
   font-size: var(--coar-body-large-size);
 }
 
-:host(.coar-time-picker--lg) .coar-time-picker__period-btn {
-  min-width: calc(var(--coar-component-lg-height) * 0.9);
-  height: calc(var(--coar-component-lg-height) * 0.7);
+:host(.coar-time-picker--l) .coar-time-picker__period-btn {
+  min-width: calc(var(--coar-component-l-height) * 0.9);
+  height: calc(var(--coar-component-l-height) * 0.7);
   padding: 0 var(--coar-spacing-m);
-  font-size: var(--coar-component-lg-font-size);
+  font-size: var(--coar-component-l-font-size);
 }
 
 /* ========================================

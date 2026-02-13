@@ -24,7 +24,7 @@ Tokens (global stylesheet):
 | --- | --- | --- | --- | --- |
 | src | string | no | '' | Image URL for the avatar |
 | name | string | no | '' | User's full name (used for initials fallback and alt text) |
-| size | 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| '2xl' | no | 'md' | Avatar size |
+| size | 'xs' \| 's' \| 'm' \| 'l' \| 'xl' \| 'xxl' | no | 'm' | Avatar size |
 | shape | 'circle' \| 'square' | no | 'circle' | Avatar shape |
 | clickable | boolean | no | false | Whether the avatar is interactive (clickable) |
 | initials | string | no | '' | Custom initials override (otherwise computed from name) |
@@ -43,7 +43,7 @@ None.
 | --- | --- | --- | --- | --- |
 | content | string \| number | no | '' | Content to display in the badge (number, text, or icon) |
 | variant | 'primary' \| 'secondary' \| 'success' \| 'warning' \| 'error' \| 'info' | no | 'primary' | Badge visual variant |
-| size | 'xs' \| 'sm' \| 'md' \| 'lg' \| 'xl' \| 'auto' | no | 'md' | Badge size |
+| size | 'xs' \| 's' \| 'm' \| 'l' \| 'xl' \| 'auto' | no | 'm' | Badge size |
 | pulse | boolean | no | false | Whether the badge should pulse/animate (for notifications) |
 | dot | boolean | no | false | Whether to show as a dot without content |
 | max | number \| null | no | null | Maximum number to display (shows "99+" if exceeded) |
@@ -61,7 +61,7 @@ None.
 | Name | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
 | variant | 'primary' \| 'secondary' \| 'tertiary' \| 'danger' \| 'ghost' | no | 'primary' | Button visual variant |
-| size | 'xs' \| 'sm' \| 'md' \| 'lg' | no | 'md' | Button size |
+| size | 'xs' \| 's' \| 'm' \| 'l' | no | 'm' | Button size |
 | disabled | boolean | no | false | Whether the button is disabled |
 | loading | boolean | no | false | Whether the button is in loading state |
 | type | 'button' \| 'submit' \| 'reset' | no | 'button' | Button type attribute |
@@ -89,7 +89,7 @@ Use as boolean attribute: `<coar-card elevated>` or `[elevated]="true"` |
 By default (false), cards have a visible border matching their color.
 Use as boolean attribute: `<coar-card borderless>` or `[borderless]="true"` |
 | color | 'neutral' \| 'outlined' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'accent' | no | 'neutral' | Card color scheme |
-| padding | 'none' \| 'sm' \| 'md' \| 'lg' | no | 'md' | Card padding size |
+| padding | 'none' \| 's' \| 'm' \| 'l' | no | 'm' | Card padding size |
 
 ### Outputs
 None.
@@ -111,7 +111,7 @@ The indeterminate state is cleared when the user clicks the checkbox. |
 | required | boolean | no | false | Marks as required, shows asterisk on label |
 | error | string | no | '' | Error message to display below the checkbox |
 | hint | string | no | '' | Hint text displayed below the checkbox |
-| size | 'xs' \| 'sm' \| 'md' \| 'lg' | no | 'md' | Checkbox size - matches input/button heights for consistent layouts |
+| size | 'xs' \| 's' \| 'm' \| 'l' | no | 'm' | Checkbox size - matches input/button heights for consistent layouts |
 | id | string | no | '' | HTML id attribute for the checkbox element |
 | name | string | no | '' | HTML name attribute for form submission |
 | value | string | no | '' | Value submitted with form when checked |
@@ -170,8 +170,8 @@ Examples: "settings", "user" |
 
 - If omitted, the default source is used.
 - If multiple sources are registered, this can be used to target a specific one. |
-| size | CoarIconSize \| string | no | 'md' | Icon size. Defaults to 'md' (20px).
-Can be a preset token (xs, sm, md, lg, xl, auto) or a custom CSS value (e.g., '42px', '3rem'). |
+| size | CoarIconSize \| string | no | 'm' | Icon size. Defaults to 'm' (20px).
+Can be a preset token (xs, s, m, l, xl, auto) or a custom CSS value (e.g., '42px', '3rem'). |
 | rotate | number | no | 0 | Rotation angle in degrees (0, 90, 180, 270, or any number). |
 | rotateTransition | number \| string | no | '' | Rotation transition animation.
 - Empty/undefined: No animation
@@ -194,7 +194,7 @@ None.
 ### Inputs
 | Name | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
-| size | 'xs' \| 'sm' \| 'md' \| 'lg' | no | 'md' | Size of the label. Should match the size of the associated input/form element. |
+| size | 'xs' \| 's' \| 'm' \| 'l' | no | 'm' | Size of the label. Should match the size of the associated input/form element. |
 | required | boolean | no | false | Whether to show a required indicator (*) after the label text. |
 | for | string \| undefined | no | undefined | The ID of the form element this label is associated with.
 Sets the 'for' attribute for accessibility. |
@@ -274,7 +274,7 @@ Default: current year + 50 |
 | --- | --- | --- | --- | --- |
 | color | 'neutral' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'accent' | no | 'neutral' | Note color scheme.
 Determines the left border color and background tint. |
-| padding | 'sm' \| 'md' \| 'lg' | no | 'md' | Note padding size. |
+| padding | 's' \| 'm' \| 'l' | no | 'm' | Note padding size. |
 
 ### Outputs
 None.
@@ -289,7 +289,7 @@ None.
 | --- | --- | --- | --- | --- |
 | label | string | no | '' | Label text displayed above the input |
 | placeholder | string | no | '' | Placeholder text shown when input is empty |
-| size | 'xs' \| 'sm' \| 'md' \| 'lg' | no | 'md' | Input size - matches button/checkbox sizes for consistent layouts |
+| size | 'xs' \| 's' \| 'm' \| 'l' | no | 'm' | Input size - matches button/checkbox sizes for consistent layouts |
 | min | number \| undefined | no | undefined | Minimum allowed value |
 | max | number \| undefined | no | undefined | Maximum allowed value |
 | step | number | no | 1 | Step increment for arrows and keyboard |
@@ -335,7 +335,7 @@ If not provided, uses locale service default or falls back to { decimal: '.', th
 | --- | --- | --- | --- | --- |
 | label | string | no | '' | Label text displayed above the input |
 | placeholder | string | no | '' | Placeholder text shown when input is empty |
-| size | 'xs' \| 'sm' \| 'md' \| 'lg' | no | 'md' | Input size - matches other form elements for consistent layouts |
+| size | 'xs' \| 's' \| 'm' \| 'l' | no | 'm' | Input size - matches other form elements for consistent layouts |
 | disabled | boolean | no | false | Disables the input (greyed out, not focusable) |
 | readonly | boolean | no | false | Makes the input read-only (focusable but not editable) |
 | required | boolean | no | false | Marks the input as required, shows asterisk on label |
@@ -437,7 +437,7 @@ None.
 | name | string | yes | required | Group name for radio inputs |
 | label | string | no | '' | Accessible label for the group |
 | orientation | 'horizontal' \| 'vertical' | no | 'vertical' | Layout orientation |
-| size | 'sm' \| 'md' \| 'lg' | no | 'md' | Size of radio buttons |
+| size | 's' \| 'm' \| 'l' | no | 'm' | Size of radio buttons |
 | disabled | boolean | no | false | Disables all radio buttons in the group |
 | required | boolean | no | false | Marks the group as required |
 | error | string | no | '' | Error message to display |
@@ -575,7 +575,7 @@ Use as boolean attribute: `<coar-tag elevated>` or `[elevated]="true"` |
 By default (false), tags have a visible border matching their color.
 Use as boolean attribute: `<coar-tag borderless>` or `[borderless]="true"` |
 | color | 'neutral' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'accent' | no | 'neutral' | Tag color scheme - matches Card colors |
-| size | 'sm' \| 'md' \| 'lg' | no | 'md' | Tag size |
+| size | 's' \| 'm' \| 'l' | no | 'm' | Tag size |
 | closable | boolean | no | false | Whether the tag can be closed/removed |
 
 ### Outputs
@@ -611,7 +611,7 @@ Use as boolean attribute: `<coar-tag borderless>` or `[borderless]="true"` |
 | --- | --- | --- | --- | --- |
 | label | string | no | '' | Label text displayed above the input |
 | placeholder | string | no | '' | Placeholder text shown when input is empty |
-| size | 'xs' \| 'sm' \| 'md' \| 'lg' | no | 'md' | Input size - matches button/checkbox sizes for consistent layouts |
+| size | 'xs' \| 's' \| 'm' \| 'l' | no | 'm' | Input size - matches button/checkbox sizes for consistent layouts |
 | rows | number | no | 1 | Number of visible text rows (1 = single-line input, 2+ = textarea) |
 | disabled | boolean | no | false | Disables the input (greyed out, not focusable) |
 | readonly | boolean | no | false | Makes the input read-only (focusable but not editable) |
@@ -642,7 +642,7 @@ Use as boolean attribute: `<coar-tag borderless>` or `[borderless]="true"` |
 ### Inputs
 | Name | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
-| size | 'xs' \| 'sm' \| 'md' \| 'lg' | no | 'md' | Size variant |
+| size | 'xs' \| 's' \| 'm' \| 'l' | no | 'm' | Size variant |
 | readonly | boolean | no | false | Whether the picker is readonly |
 | disabled | boolean | no | false | Whether the picker is disabled |
 | use24Hour | boolean \| 'auto' | no | 'auto' | Whether to use 24-hour format.

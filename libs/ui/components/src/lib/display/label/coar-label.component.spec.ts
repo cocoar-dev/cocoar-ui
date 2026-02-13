@@ -40,30 +40,30 @@ describe('CoarLabelComponent', () => {
       expect(labelElement.classList.contains('coar-label--xs')).toBe(true);
     });
 
-    it('should apply sm size class', () => {
-      fixture.componentRef.setInput('size', 'sm');
+    it('should apply s size class', () => {
+      fixture.componentRef.setInput('size', 's');
       fixture.detectChanges();
-      expect(labelElement.classList.contains('coar-label--sm')).toBe(true);
+      expect(labelElement.classList.contains('coar-label--s')).toBe(true);
     });
 
-    it('should apply md size class by default', () => {
-      expect(labelElement.classList.contains('coar-label--md')).toBe(true);
+    it('should apply m size class by default', () => {
+      expect(labelElement.classList.contains('coar-label--m')).toBe(true);
     });
 
-    it('should apply lg size class', () => {
-      fixture.componentRef.setInput('size', 'lg');
+    it('should apply l size class', () => {
+      fixture.componentRef.setInput('size', 'l');
       fixture.detectChanges();
-      expect(labelElement.classList.contains('coar-label--lg')).toBe(true);
+      expect(labelElement.classList.contains('coar-label--l')).toBe(true);
     });
 
     it('should only have one size class at a time', () => {
-      fixture.componentRef.setInput('size', 'lg');
+      fixture.componentRef.setInput('size', 'l');
       fixture.detectChanges();
 
-      const sizeClasses = ['coar-label--xs', 'coar-label--sm', 'coar-label--md', 'coar-label--lg'];
+      const sizeClasses = ['coar-label--xs', 'coar-label--s', 'coar-label--m', 'coar-label--l'];
       const activeClasses = sizeClasses.filter((cls) => labelElement.classList.contains(cls));
       expect(activeClasses.length).toBe(1);
-      expect(activeClasses[0]).toBe('coar-label--lg');
+      expect(activeClasses[0]).toBe('coar-label--l');
     });
   });
 
@@ -142,8 +142,8 @@ describe('CoarLabelComponent', () => {
   });
 
   describe('default values', () => {
-    it('should have default size of md', () => {
-      expect(component.size()).toBe('md');
+    it('should have default size of m', () => {
+      expect(component.size()).toBe('m');
     });
 
     it('should have default required of false', () => {

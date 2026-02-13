@@ -104,7 +104,7 @@ This visual cue helps users understand at a glance whether an event is local or 
 | `readonly` | `boolean` | `false` | Whether the picker is read-only |
 | `required` | `boolean` | `false` | Whether a value is required |
 | `clearable` | `boolean` | `true` | Whether to show the clear button |
-| `size` | `'xs' \| 'sm' \| 'md' \| 'lg'` | `'md'` | Component size |
+| `size` | `'xs' \| 's' \| 'm' \| 'l'` | `'m'` | Component size |
 
 ## Outputs
 

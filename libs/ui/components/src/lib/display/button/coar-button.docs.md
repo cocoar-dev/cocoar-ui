@@ -20,9 +20,9 @@ Use `size` to match the common component size system.
 
 ```html
 <coar-button size="xs">Extra Small</coar-button>
-<coar-button size="sm">Small</coar-button>
-<coar-button size="md">Medium (default)</coar-button>
-<coar-button size="lg">Large</coar-button>
+<coar-button size="s">Small</coar-button>
+<coar-button size="m">Medium (default)</coar-button>
+<coar-button size="l">Large</coar-button>
 ```
 
 ## Icons

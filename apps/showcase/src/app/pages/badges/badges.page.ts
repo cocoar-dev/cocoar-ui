@@ -28,14 +28,14 @@ export class BadgesPage {
   variants: BadgeVariant[] = ['primary', 'secondary', 'success', 'warning', 'error', 'info'];
 
   /** Badge sizes (excluding auto for demos) */
-  sizes: BadgeSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
+  sizes: BadgeSize[] = ['xs', 's', 'm', 'l', 'xl'];
 
   /** Size labels for display */
   sizeLabels: Record<BadgeSize, string> = {
     xs: '12px',
-    sm: '16px',
-    md: '20px',
-    lg: '24px',
+    s: '16px',
+    m: '20px',
+    l: '24px',
     xl: '32px',
     auto: '100%',
   };
@@ -66,9 +66,9 @@ export class BadgesPage {
 <coar-badge [content]="42" variant="info" />`,
 
     sizes: `<coar-badge [content]="7" size="xs" />  <!-- 12px -->
-<coar-badge [content]="7" size="sm" />  <!-- 16px -->
-<coar-badge [content]="7" size="md" />  <!-- 20px (default) -->
-<coar-badge [content]="7" size="lg" />  <!-- 24px -->
+<coar-badge [content]="7" size="s" />  <!-- 16px -->
+<coar-badge [content]="7" size="m" />  <!-- 20px (default) -->
+<coar-badge [content]="7" size="l" />  <!-- 24px -->
 <coar-badge [content]="7" size="xl" />  <!-- 32px -->`,
 
     text: `<coar-badge content="New" variant="success" />

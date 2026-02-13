@@ -14,7 +14,7 @@ import { CoarControlValueAccessor } from '../_base/coar-control-value-accessor';
 import { CoarScrollbarDirective } from '../../display/scrollbar/coar-scrollbar.directive';
 import { CoarSelectOption } from './coar-select-option.interface';
 
-export type CoarSelectSize = 'xs' | 'sm' | 'md' | 'lg';
+export type CoarSelectSize = 'xs' | 's' | 'm' | 'l';
 
 /**
  * Visual appearance of the select trigger.
@@ -46,7 +46,7 @@ export abstract class CoarSelectBase<T> extends CoarControlValueAccessor<T> {
   options = input<CoarSelectOption[]>([]);
 
   /** Select size - matches button/input heights for consistent layouts */
-  size = input<CoarSelectSize>('md');
+  size = input<CoarSelectSize>('m');
 
   /**
    * Visual appearance of the select trigger.

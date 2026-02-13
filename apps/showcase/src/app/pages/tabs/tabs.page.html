@@ -80,8 +80,8 @@
               >Current tab: <strong>{{ demoActiveTab }}</strong></span
             >
             <div class="button-group">
-              <coar-button variant="secondary" size="sm" (clicked)="demoActiveTab = 'demo-overview'">Go to Overview</coar-button>
-              <coar-button variant="secondary" size="sm" (clicked)="demoActiveTab = 'demo-features'">Go to Features</coar-button>
+              <coar-button variant="secondary" size="s" (clicked)="demoActiveTab = 'demo-overview'">Go to Overview</coar-button>
+              <coar-button variant="secondary" size="s" (clicked)="demoActiveTab = 'demo-features'">Go to Features</coar-button>
             </div>
           </div>
           <coar-tab-group [activeTab]="demoActiveTab" (activeTabChange)="demoActiveTab = $event">

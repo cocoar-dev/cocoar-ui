@@ -26,7 +26,7 @@ Action item.
 - `disabled?: boolean` (default `false`)
 
 **Outputs:**
-- `itemClick: CoarMenuItemClickEvent`
+- `clicked: CoarMenuItemClickEvent`
 
 **Behavior (when used inside `@cocoar/ui/overlay`):**
 
@@ -70,10 +70,10 @@ Visual separator.
 
 ```html
 <coar-menu>
-  <coar-menu-item icon="plus" (itemClick)="onCreate()">Create</coar-menu-item>
-  <coar-menu-item icon="copy" (itemClick)="onDuplicate()">Duplicate</coar-menu-item>
+  <coar-menu-item icon="plus" (clicked)="onCreate()">Create</coar-menu-item>
+  <coar-menu-item icon="copy" (clicked)="onDuplicate()">Duplicate</coar-menu-item>
   <coar-menu-divider />
-  <coar-menu-item icon="trash" (itemClick)="onDelete()">Delete</coar-menu-item>
+  <coar-menu-item icon="trash" (clicked)="onDelete()">Delete</coar-menu-item>
 </coar-menu>
 ```
 
@@ -84,8 +84,8 @@ Visual separator.
   <coar-sub-flyout label="Share" icon="users">
     <ng-template>
       <coar-menu>
-        <coar-menu-item (itemClick)="shareEmail()">Email</coar-menu-item>
-        <coar-menu-item (itemClick)="shareCopyLink()">Copy link</coar-menu-item>
+        <coar-menu-item (clicked)="shareEmail()">Email</coar-menu-item>
+        <coar-menu-item (clicked)="shareCopyLink()">Copy link</coar-menu-item>
 
         <coar-sub-flyout label="Social" icon="share">
           <ng-template>
@@ -122,8 +122,8 @@ Visual separator.
 <coar-menu>
   <coar-sub-expand label="Options" icon="settings" [(open)]="optionsOpen">
     <ng-template>
-      <coar-menu-item icon="plus" (itemClick)="onAdd()">Add</coar-menu-item>
-      <coar-menu-item icon="trash" (itemClick)="onClear()">Clear</coar-menu-item>
+      <coar-menu-item icon="plus" (clicked)="onAdd()">Add</coar-menu-item>
+      <coar-menu-item icon="trash" (clicked)="onClear()">Clear</coar-menu-item>
     </ng-template>
   </coar-sub-expand>
 </coar-menu>
@@ -141,10 +141,10 @@ import { createOverlayBuilder, coarMenuPreset, type OverlayRef } from '@cocoar/u
 
     <ng-template #contextMenuTemplate>
       <coar-menu>
-        <coar-menu-item icon="copy" (itemClick)="onCopy()">Copy</coar-menu-item>
-        <coar-menu-item icon="clipboard" (itemClick)="onPaste()">Paste</coar-menu-item>
+        <coar-menu-item icon="copy" (clicked)="onCopy()">Copy</coar-menu-item>
+        <coar-menu-item icon="clipboard" (clicked)="onPaste()">Paste</coar-menu-item>
         <coar-menu-divider />
-        <coar-menu-item icon="trash" (itemClick)="onDelete()">Delete</coar-menu-item>
+        <coar-menu-item icon="trash" (clicked)="onDelete()">Delete</coar-menu-item>
       </coar-menu>
     </ng-template>
   `,
