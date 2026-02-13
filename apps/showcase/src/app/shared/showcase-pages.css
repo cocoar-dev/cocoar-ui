@@ -42,7 +42,7 @@
 }
 
 .page-header h1 {
-  margin: 0 0 0.5rem;
+  margin: 0 0 var(--coar-spacing-s);
   color: var(--coar-text-neutral-primary);
 }
 
@@ -81,7 +81,7 @@
 
 coar-code-block {
   display: block;
-  margin-top: 1rem;
+  margin-top: var(--coar-spacing-m);
 }
 
 /* Remove top margin when code block is first child */
@@ -123,12 +123,12 @@ coar-code-block:first-child {
 
 .example-section:first-child,
 .api-section:first-child {
-  padding-top: 0.5rem;
+  padding-top: var(--coar-spacing-s);
 }
 
 .example-section h2,
 .api-section h2 {
-  margin: 0 0 0.5rem;
+  margin: 0 0 var(--coar-spacing-s);
   color: var(--coar-text-neutral-primary);
 }
 
@@ -148,7 +148,7 @@ coar-code-block:first-child {
 }
 
 .section-intro {
-  margin: 0 0 1rem;
+  margin: 0 0 var(--coar-spacing-m);
   color: var(--coar-text-neutral-secondary);
 }
 
@@ -164,7 +164,7 @@ coar-code-block:first-child {
    ======================================== */
 
 .example-card {
-  margin-bottom: 1rem;
+  margin-bottom: var(--coar-spacing-m);
 }
 
 .example-preview {
@@ -172,7 +172,7 @@ coar-code-block:first-child {
 }
 
 .example-content {
-  margin-bottom: 1rem;
+  margin-bottom: var(--coar-spacing-m);
 }
 
 /* Example demo layouts */
@@ -239,13 +239,13 @@ coar-code-block:first-child {
 }
 
 .demo-box p {
-  margin: 8px 0;
+  margin: var(--coar-spacing-s) 0;
   font-size: 14px;
   color: var(--coar-text-neutral-secondary);
 }
 
 .demo-label {
-  margin: 0 0 12px 0 !important;
+  margin: 0 0 var(--coar-spacing-s) 0 !important;
   font-size: 12px !important;
   font-weight: 500;
   color: var(--coar-text-neutral-tertiary) !important;
@@ -254,7 +254,7 @@ coar-code-block:first-child {
 }
 
 .demo-hint {
-  margin: 1rem 0 0;
+  margin: var(--coar-spacing-m) 0 0;
   color: var(--coar-text-neutral-tertiary);
   font-style: italic;
 }
@@ -264,8 +264,8 @@ coar-code-block:first-child {
    ======================================== */
 
 .value-display {
-  margin-top: 1rem;
-  padding-top: 1rem;
+  margin-top: var(--coar-spacing-m);
+  padding-top: var(--coar-spacing-m);
   border-top: 1px dashed var(--coar-border-neutral-secondary);
   color: var(--coar-text-neutral-tertiary);
 }
@@ -279,7 +279,7 @@ coar-code-block:first-child {
 }
 
 .value-display div {
-  margin: 0.25rem 0;
+  margin: var(--coar-spacing-xs) 0;
 }
 
 /* ========================================
@@ -290,9 +290,9 @@ coar-code-block:first-child {
 .demo-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: var(--coar-spacing-s);
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: var(--coar-spacing-m);
 }
 
 .demo-row--align-end {
@@ -300,11 +300,11 @@ coar-code-block:first-child {
 }
 
 .demo-row--large-gap {
-  gap: 1.5rem;
+  gap: var(--coar-spacing-l);
 }
 
 .demo-row--extra-large-gap {
-  gap: 2rem;
+  gap: var(--coar-spacing-xl);
 }
 
 /* ========================================
@@ -316,7 +316,7 @@ coar-code-block:first-child {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--coar-spacing-s);
 }
 
 .demo-item__label {
@@ -419,7 +419,7 @@ coar-code-block:first-child {
   display: block;
   color: var(--coar-text-neutral-tertiary);
   font-family: monospace;
-  margin-bottom: 1rem;
+  margin-bottom: var(--coar-spacing-m);
 }
 
 /* ========================================
@@ -429,7 +429,7 @@ coar-code-block:first-child {
 .size-row {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 2rem;
+  gap: var(--coar-spacing-xl);
   align-items: center;
 }
 
@@ -453,8 +453,8 @@ coar-code-block:first-child {
 .size-specs {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  margin-top: 1rem;
+  gap: var(--coar-spacing-l);
+  margin-top: var(--coar-spacing-m);
   color: var(--coar-text-neutral-secondary);
 }
 
@@ -469,7 +469,7 @@ coar-code-block:first-child {
 @media (max-width: 600px) {
   .size-row {
     grid-template-columns: 1fr;
-    gap: 0.5rem;
+    gap: var(--coar-spacing-s);
   }
 }
 
@@ -480,7 +480,7 @@ coar-code-block:first-child {
 /* Base responsive grid - use these instead of repeating grid CSS */
 .responsive-grid {
   display: grid;
-  gap: 1rem;
+  gap: var(--coar-spacing-m);
 }
 
 /* Card grid variants - different minimum widths for different content types */
@@ -503,12 +503,12 @@ coar-code-block:first-child {
 /* Standard content list - use with typography classes on <li> elements */
 .content-list {
   margin: 0;
-  padding-left: 1.5rem;
+  padding-left: var(--coar-spacing-l);
   list-style: disc;
 }
 
 .content-list li {
-  margin: 0.5rem 0;
+  margin: var(--coar-spacing-s) 0;
 }
 
 /* ========================================
@@ -661,8 +661,8 @@ coar-table.api-table td:nth-child(3):last-child {
 }
 
 .a11y-list li {
-  padding: 0.5rem 0;
-  padding-left: 1.5rem;
+  padding: var(--coar-spacing-s) 0;
+  padding-left: var(--coar-spacing-l);
   position: relative;
   font-size: 14px;
   color: var(--coar-text-neutral-secondary);
@@ -689,14 +689,14 @@ coar-table.api-table td:nth-child(3):last-child {
 .keyboard-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 1rem;
+  gap: var(--coar-spacing-m);
 }
 
 .keyboard-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem;
+  gap: var(--coar-spacing-s);
+  padding: var(--coar-spacing-s);
   background: var(--coar-background-neutral-secondary);
   border-radius: var(--coar-radius-s);
 }
@@ -723,9 +723,9 @@ coar-table.api-table td:nth-child(3):last-child {
 .form-container {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--coar-spacing-m);
   max-width: 500px;
-  margin-bottom: 1rem;
+  margin-bottom: var(--coar-spacing-m);
 }
 
 

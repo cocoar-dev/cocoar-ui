@@ -316,7 +316,7 @@
    3. FLOATING CARD LOGIN
    ---------------------------------------- */
 .login-card-bg {
-  background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 50%, #f5f0ff 100%);
+  background: var(--coar-background-neutral-secondary);
   padding: 3rem 2rem;
   border-radius: var(--coar-radius-s);
   display: flex;
