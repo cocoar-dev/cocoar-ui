@@ -160,3 +160,62 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ========================================
+   Sidebar variant
+   When used inside a <coar-sidebar>, the sub-expand header
+   looks like a section heading instead of a clickable menu item.
+   ======================================== */
+
+:host-context(coar-sidebar) {
+  /* Spacing above each section (except first) */
+  margin-top: var(--coar-sub-expand-sidebar-spacing-top, var(--coar-spacing-m, 12px));
+}
+
+:host-context(coar-sidebar):first-child {
+  margin-top: 0;
+}
+
+:host-context(coar-sidebar) .coar-sub-expand {
+  /* Heading-like typography */
+  font-size: var(--coar-menu-heading-font-size, var(--coar-font-size-xs, 12px));
+  font-weight: var(--coar-font-weight-semi-bold, 600);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--coar-menu-heading-color, var(--coar-text-neutral-secondary));
+
+  /* Tighter padding matching menu-heading */
+  padding: 0.5rem 0.75rem 0.25rem;
+
+  /* No hover background for heading-style */
+  background: transparent;
+}
+
+:host-context(coar-sidebar) .coar-sub-expand:hover:not(.coar-sub-expand--disabled) {
+  background: transparent;
+  color: var(--coar-text-neutral-primary);
+}
+
+:host-context(coar-sidebar) .coar-sub-expand__icon {
+  /* Hide the icon slot — sidebar headings are text-only */
+  display: none;
+}
+
+:host-context(coar-sidebar) .coar-sub-expand__arrow {
+  /* Subtle, smaller toggle indicator */
+  opacity: 0.4;
+}
+
+:host-context(coar-sidebar) .coar-sub-expand:hover:not(.coar-sub-expand--disabled) .coar-sub-expand__arrow {
+  opacity: 0.8;
+}
+
+:host-context(coar-sidebar) .coar-sub-expand__panel {
+  /* No indentation in sidebar — items should be full-width */
+  margin-left: 0;
+}
+
+:host-context(coar-sidebar) .coar-sub-expand__panel::before {
+  /* No guide line in sidebar context */
+  display: none;
+}

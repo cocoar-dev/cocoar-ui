@@ -90,8 +90,8 @@ These tokens are referenced but never defined — causing invisible borders/back
 
 ### 2.4 Sidebar Navigation
 
-- [ ] **Add collapsible groups**: Use `coar-sub-expand` to make menu heading groups collapsible. Consider grouping "Date Picker", "DateTime Picker", "Zoned DateTime" under "Date/Time" parent, and merging overlay-related items.
-  - File: `apps/showcase/src/app/app.html:8-62`
+- [x] **Add collapsible groups**: Replaced `coar-menu-heading` with `coar-sub-expand` for all 5 sections (Foundations, Form Controls, Display, Navigation, Overlay). Added sidebar-context CSS to `coar-sub-expand.component.css` so the header renders as a section heading (uppercase, smaller font, muted color, no icon slot, no indentation, no guide line). All sections default to open.
+  - Files: `apps/showcase/src/app/app.html`, `apps/showcase/src/app/app.ts`, `libs/ui/menu/src/lib/coar-sub-expand.component.css`
 
 ### 2.5 Move Inline Styles to CSS
 

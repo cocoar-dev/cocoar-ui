@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterModule } from '@angular/router';
 
@@ -8,7 +8,7 @@ import {
   CoarSidebarComponent,
   CoarSingleSelectComponent,
 } from '@cocoar/ui/components';
-import { CoarMenuComponent, CoarMenuItemComponent, CoarMenuHeadingComponent } from '@cocoar/ui/menu';
+import { CoarMenuComponent, CoarMenuItemComponent, CoarSubExpandComponent } from '@cocoar/ui/menu';
 import { CoarLocalizationService } from '@cocoar/localization';
 
 @Component({
@@ -20,7 +20,7 @@ import { CoarLocalizationService } from '@cocoar/localization';
     CoarSingleSelectComponent,
     CoarMenuComponent,
     CoarMenuItemComponent,
-    CoarMenuHeadingComponent,
+    CoarSubExpandComponent,
   ],
   selector: 'app-root',
   templateUrl: './app.html',
@@ -30,6 +30,15 @@ export class App {
   private readonly localization = inject(CoarLocalizationService);
 
   isDarkMode = false;
+
+  // Sidebar section states (all open by default)
+  readonly sidebarSections = {
+    foundations: signal(true),
+    formControls: signal(false),
+    display: signal(false),
+    navigation: signal(false),
+    overlay: signal(false),
+  };
 
   readonly languages = [
     { value: 'en', label: '🇬🇧 English' },

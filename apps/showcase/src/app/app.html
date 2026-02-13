@@ -9,56 +9,71 @@
       <coar-menu-item routerLink="/getting-started" routerLinkActive="active">Getting Started</coar-menu-item>
 
       <!-- Foundations -->
-      <coar-menu-heading>Foundations</coar-menu-heading>
-      <coar-menu-item routerLink="/design-principles" routerLinkActive="active">Design Principles</coar-menu-item>
-      <coar-menu-item routerLink="/typography" routerLinkActive="active">Typography</coar-menu-item>
-      <coar-menu-item routerLink="/colors" routerLinkActive="active">Colors</coar-menu-item>
-      <coar-menu-item routerLink="/spacing" routerLinkActive="active">Spacing</coar-menu-item>
-      <coar-menu-item routerLink="/motion" routerLinkActive="active">Motion</coar-menu-item>
-      <coar-menu-item routerLink="/localization" routerLinkActive="active">Localization</coar-menu-item>
-      <coar-menu-item routerLink="/timezone" routerLinkActive="active">Timezone Demo</coar-menu-item>
+      <coar-sub-expand label="Foundations" [(open)]="sidebarSections.foundations">
+        <ng-template>
+          <coar-menu-item routerLink="/design-principles" routerLinkActive="active">Design Principles</coar-menu-item>
+          <coar-menu-item routerLink="/typography" routerLinkActive="active">Typography</coar-menu-item>
+          <coar-menu-item routerLink="/colors" routerLinkActive="active">Colors</coar-menu-item>
+          <coar-menu-item routerLink="/spacing" routerLinkActive="active">Spacing</coar-menu-item>
+          <coar-menu-item routerLink="/motion" routerLinkActive="active">Motion</coar-menu-item>
+          <coar-menu-item routerLink="/localization" routerLinkActive="active">Localization</coar-menu-item>
+          <coar-menu-item routerLink="/timezone" routerLinkActive="active">Timezone Demo</coar-menu-item>
+        </ng-template>
+      </coar-sub-expand>
 
       <!-- Form Controls -->
-      <coar-menu-heading>Form Controls</coar-menu-heading>
-      <coar-menu-item routerLink="/text-input" routerLinkActive="active">Text Input</coar-menu-item>
-      <coar-menu-item routerLink="/number-input" routerLinkActive="active">Number Input</coar-menu-item>
-      <coar-menu-item routerLink="/password-input" routerLinkActive="active">Password Input</coar-menu-item>
-      <coar-menu-item routerLink="/checkboxes" routerLinkActive="active">Checkboxes</coar-menu-item>
-      <coar-menu-item routerLink="/radio" routerLinkActive="active">Radio Group</coar-menu-item>
-      <coar-menu-item routerLink="/labels" routerLinkActive="active">Labels</coar-menu-item>
-      <coar-menu-item routerLink="/selects" routerLinkActive="active">Selects</coar-menu-item>
-      <coar-menu-item routerLink="/plain-date-picker" routerLinkActive="active">Date Picker</coar-menu-item>
-      <coar-menu-item routerLink="/plain-date-time-picker" routerLinkActive="active">DateTime Picker</coar-menu-item>
-      <coar-menu-item routerLink="/zoned-date-time-picker" routerLinkActive="active">Zoned DateTime</coar-menu-item>
-      <coar-menu-item routerLink="/mini-calendar" routerLinkActive="active">Mini Calendar</coar-menu-item>
-      <coar-menu-item routerLink="/buttons" routerLinkActive="active">Buttons</coar-menu-item>
-      <coar-menu-item routerLink="/forms" routerLinkActive="active">Form Patterns</coar-menu-item>
+      <coar-sub-expand label="Form Controls" [(open)]="sidebarSections.formControls">
+        <ng-template>
+          <coar-menu-item routerLink="/text-input" routerLinkActive="active">Text Input</coar-menu-item>
+          <coar-menu-item routerLink="/number-input" routerLinkActive="active">Number Input</coar-menu-item>
+          <coar-menu-item routerLink="/password-input" routerLinkActive="active">Password Input</coar-menu-item>
+          <coar-menu-item routerLink="/checkboxes" routerLinkActive="active">Checkboxes</coar-menu-item>
+          <coar-menu-item routerLink="/radio" routerLinkActive="active">Radio Group</coar-menu-item>
+          <coar-menu-item routerLink="/labels" routerLinkActive="active">Labels</coar-menu-item>
+          <coar-menu-item routerLink="/selects" routerLinkActive="active">Selects</coar-menu-item>
+          <coar-menu-item routerLink="/plain-date-picker" routerLinkActive="active">Date Picker</coar-menu-item>
+          <coar-menu-item routerLink="/plain-date-time-picker" routerLinkActive="active">DateTime Picker</coar-menu-item>
+          <coar-menu-item routerLink="/zoned-date-time-picker" routerLinkActive="active">Zoned DateTime</coar-menu-item>
+          <coar-menu-item routerLink="/mini-calendar" routerLinkActive="active">Mini Calendar</coar-menu-item>
+          <coar-menu-item routerLink="/buttons" routerLinkActive="active">Buttons</coar-menu-item>
+          <coar-menu-item routerLink="/forms" routerLinkActive="active">Form Patterns</coar-menu-item>
+        </ng-template>
+      </coar-sub-expand>
 
       <!-- Display -->
-      <coar-menu-heading>Display</coar-menu-heading>
-      <coar-menu-item routerLink="/cards" routerLinkActive="active">Cards</coar-menu-item>
-      <coar-menu-item routerLink="/notes" routerLinkActive="active">Notes</coar-menu-item>
-      <coar-menu-item routerLink="/code-block" routerLinkActive="active">Code Block</coar-menu-item>
-      <coar-menu-item routerLink="/markdown-viewer" routerLinkActive="active">Markdown Viewer</coar-menu-item>
-      <coar-menu-item routerLink="/badges" routerLinkActive="active">Badges</coar-menu-item>
-      <coar-menu-item routerLink="/tags" routerLinkActive="active">Tags</coar-menu-item>
-      <coar-menu-item routerLink="/avatar" routerLinkActive="active">Avatar</coar-menu-item>
-      <coar-menu-item routerLink="/icons" routerLinkActive="active">Icons</coar-menu-item>
-      <coar-menu-item routerLink="/table" routerLinkActive="active">Table</coar-menu-item>
-      <coar-menu-item routerLink="/data-grid" routerLinkActive="active">Data Grid</coar-menu-item>
-      <coar-menu-item routerLink="/dividers" routerLinkActive="active">Dividers</coar-menu-item>
+      <coar-sub-expand label="Display" [(open)]="sidebarSections.display">
+        <ng-template>
+          <coar-menu-item routerLink="/cards" routerLinkActive="active">Cards</coar-menu-item>
+          <coar-menu-item routerLink="/notes" routerLinkActive="active">Notes</coar-menu-item>
+          <coar-menu-item routerLink="/code-block" routerLinkActive="active">Code Block</coar-menu-item>
+          <coar-menu-item routerLink="/markdown-viewer" routerLinkActive="active">Markdown Viewer</coar-menu-item>
+          <coar-menu-item routerLink="/badges" routerLinkActive="active">Badges</coar-menu-item>
+          <coar-menu-item routerLink="/tags" routerLinkActive="active">Tags</coar-menu-item>
+          <coar-menu-item routerLink="/avatar" routerLinkActive="active">Avatar</coar-menu-item>
+          <coar-menu-item routerLink="/icons" routerLinkActive="active">Icons</coar-menu-item>
+          <coar-menu-item routerLink="/table" routerLinkActive="active">Table</coar-menu-item>
+          <coar-menu-item routerLink="/data-grid" routerLinkActive="active">Data Grid</coar-menu-item>
+          <coar-menu-item routerLink="/dividers" routerLinkActive="active">Dividers</coar-menu-item>
+        </ng-template>
+      </coar-sub-expand>
 
       <!-- Navigation -->
-      <coar-menu-heading>Navigation</coar-menu-heading>
-      <coar-menu-item routerLink="/sidebar" routerLinkActive="active">Sidebar</coar-menu-item>
-      <coar-menu-item routerLink="/tabs" routerLinkActive="active">Tabs</coar-menu-item>
-      <coar-menu-item routerLink="/menu" routerLinkActive="active">Menu</coar-menu-item>
+      <coar-sub-expand label="Navigation" [(open)]="sidebarSections.navigation">
+        <ng-template>
+          <coar-menu-item routerLink="/sidebar" routerLinkActive="active">Sidebar</coar-menu-item>
+          <coar-menu-item routerLink="/tabs" routerLinkActive="active">Tabs</coar-menu-item>
+          <coar-menu-item routerLink="/menu" routerLinkActive="active">Menu</coar-menu-item>
+        </ng-template>
+      </coar-sub-expand>
 
       <!-- Overlay -->
-      <coar-menu-heading>Overlay</coar-menu-heading>
-      <coar-menu-item routerLink="/tooltip" routerLinkActive="active">Tooltip & Popover</coar-menu-item>
-      <coar-menu-item routerLink="/popconfirm" routerLinkActive="active">Popconfirm</coar-menu-item>
-      <coar-menu-item routerLink="/overlay" routerLinkActive="active">Overlay</coar-menu-item>
+      <coar-sub-expand label="Overlay" [(open)]="sidebarSections.overlay">
+        <ng-template>
+          <coar-menu-item routerLink="/tooltip" routerLinkActive="active">Tooltip & Popover</coar-menu-item>
+          <coar-menu-item routerLink="/popconfirm" routerLinkActive="active">Popconfirm</coar-menu-item>
+          <coar-menu-item routerLink="/overlay" routerLinkActive="active">Overlay</coar-menu-item>
+        </ng-template>
+      </coar-sub-expand>
     </coar-menu>
 
     <div coar-sidebar-footer class="sidebar-footer">
