@@ -154,7 +154,7 @@
   padding: 0 var(--coar-spacing-xs);
   background: var(--coar-surface-accent-primary);
   color: var(--coar-text-on-bold);
-  font-size: 11px;
+  font-size: var(--coar-body-caption-size);
   font-weight: 600;
   border-radius: var(--coar-radius-full);
 }
@@ -454,4 +454,19 @@
 
 .coar-form-field-message--error {
   color: var(--coar-text-semantic-error-bold);
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .coar-select-trigger,
+  .coar-select-clear,
+  .coar-select-arrow,
+  .coar-select-search-input,
+  .coar-multi-option,
+  .coar-multi-checkbox {
+    transition: none;
+  }
 }

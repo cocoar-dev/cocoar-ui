@@ -22,6 +22,7 @@
     [attr.aria-expanded]="isOpen()"
     [attr.aria-haspopup]="'listbox'"
     [attr.aria-controls]="listboxId()"
+    [attr.aria-activedescendant]="activeDescendantId()"
     [attr.aria-describedby]="displayMessage() ? messageId() : null"
     [attr.aria-invalid]="hasError() ? 'true' : null"
     [attr.aria-disabled]="isDisabled() ? 'true' : null"
@@ -87,8 +88,8 @@
       @if (showSelectAll() && !searchQuery()) {
         <div
           class="coar-multi-option coar-multi-option--select-all"
+          tabindex="-1"
           role="option"
-          tabindex="0"
           [attr.aria-selected]="allSelected()"
           (click)="toggleAll($event)"
           (keydown.enter)="toggleAll($event)"
@@ -132,7 +133,7 @@
             [id]="inputId() + '-option-' + i"
             [attr.aria-selected]="isSelected(option)"
             [attr.aria-disabled]="option.disabled ? 'true' : null"
-            [tabindex]="option.disabled ? -1 : 0"
+            tabindex="-1"
             role="option"
             (click)="toggleOption($any(option), $event)"
             (keydown.enter)="toggleOption($any(option), $event)"

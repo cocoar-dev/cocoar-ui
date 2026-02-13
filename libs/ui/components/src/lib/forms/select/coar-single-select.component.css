@@ -439,3 +439,17 @@
 .coar-form-field-message--error {
   color: var(--coar-text-semantic-error-bold);
 }
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .coar-select-trigger,
+  .coar-select-clear,
+  .coar-select-arrow,
+  .coar-select-search-input,
+  .coar-select-option {
+    transition: none;
+  }
+}

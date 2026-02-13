@@ -123,12 +123,12 @@
 :host(.coar-tag-select--xs) .coar-tag {
   height: 18px;
   padding: 0 var(--coar-spacing-xs);
-  font-size: 10px;
+  font-size: var(--coar-component-xs-font-size);
 }
 
 :host(.coar-tag-select--s) .coar-tag {
   height: 20px;
-  font-size: 11px;
+  font-size: var(--coar-component-s-font-size);
 }
 
 :host(.coar-tag-select--l) .coar-tag {
@@ -383,4 +383,16 @@
 
 .coar-form-field-message--error {
   color: var(--coar-text-semantic-error-bold);
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .coar-tag-container,
+  .coar-tag-remove,
+  .coar-tag-option {
+    transition: none;
+  }
 }

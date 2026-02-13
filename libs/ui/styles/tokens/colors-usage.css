@@ -27,6 +27,7 @@
   --coar-background-neutral-secondary: var(--coar-color-gray-50);
   --coar-background-neutral-tertiary: var(--coar-color-gray-100);
   --coar-background-neutral-disabled: var(--coar-color-gray-200);
+  --coar-background-neutral-active: var(--coar-color-gray-200);
 
   /* Text */
   --coar-text-neutral-primary: var(--coar-color-gray-900);
@@ -76,6 +77,7 @@
   --coar-background-accent-tertiary: var(--coar-color-accent-50);
   --coar-background-accent-hover: var(--coar-color-accent-800);
   --coar-background-accent-active: var(--coar-color-accent-900);
+  --coar-background-accent-tertiary-active: var(--coar-color-accent-300);
 
   /* Text */
   --coar-text-accent-primary: var(--coar-color-accent-700);
@@ -106,6 +108,8 @@
 
   /* Error (red) */
   --coar-background-semantic-error-bold: var(--coar-color-red-600);
+  --coar-background-semantic-error-hover: var(--coar-color-red-700);
+  --coar-background-semantic-error-active: var(--coar-color-red-800);
   --coar-background-semantic-error-subtle: var(--coar-color-red-100);
   --coar-text-semantic-error-bold: var(--coar-color-red-800);
   --coar-text-semantic-error-subtle: var(--coar-color-red-700);
@@ -172,6 +176,7 @@
   --coar-background-neutral-primary: var(--coar-color-gray-200);
   --coar-background-neutral-secondary: var(--coar-color-gray-100);
   --coar-background-neutral-tertiary: var(--coar-color-gray-50);
+  --coar-background-neutral-active: var(--coar-color-gray-300);
 
   /* Text */
   --coar-text-neutral-primary: var(--coar-color-gray-900);
@@ -198,6 +203,7 @@
   --coar-background-accent-tertiary: var(--coar-color-accent-100);
   --coar-background-accent-hover: var(--coar-color-accent-400);
   --coar-background-accent-active: var(--coar-color-accent-300);
+  --coar-background-accent-tertiary-active: var(--coar-color-accent-400);
 
   /* Text */
   --coar-text-accent-primary: var(--coar-color-accent-500);
@@ -220,6 +226,8 @@
 
   /* Error */
   --coar-background-semantic-error-bold: var(--coar-color-red-500);
+  --coar-background-semantic-error-hover: var(--coar-color-red-400);
+  --coar-background-semantic-error-active: var(--coar-color-red-300);
   --coar-background-semantic-error-subtle: var(--coar-color-red-200);
   --coar-text-semantic-error-bold: var(--coar-color-red-900);
   --coar-text-semantic-error-subtle: var(--coar-color-red-700);

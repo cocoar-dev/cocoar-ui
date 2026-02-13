@@ -16,7 +16,7 @@ import { CoarScrollbarDirective } from '../../display/scrollbar/coar-scrollbar.d
 import { coarProvideValueAccessor } from '../_base/coar-control-value-accessor';
 import { CoarSelectBase, CoarSelectSize } from './coar-select-base';
 import { CoarSelectOption } from './coar-select-option.interface';
-import { createOverlayBuilder, type OverlayRef, type Placement } from '@cocoar/ui/overlay';
+import { createOverlayBuilder, type OverlayRef } from '@cocoar/ui/overlay';
 
 export type { CoarSelectSize };
 
@@ -291,21 +291,6 @@ export class CoarMultiSelectComponent<T = unknown> extends CoarSelectBase<T[]> {
     this.isOpen.set(false);
     this.searchQuery.set('');
     this.highlightedIndex.set(-1);
-  }
-
-  private resolvePlacement(trigger: HTMLElement, estimatedPanelHeight: number): Placement {
-    const preference = this.dropdownPositionPreference();
-    if (preference === 'top') return 'top';
-    if (preference === 'bottom') return 'bottom';
-
-    const viewportHeight = document.documentElement?.clientHeight || window.innerHeight;
-    const rect = trigger.getBoundingClientRect();
-
-    const spaceBelow = Math.max(0, viewportHeight - rect.bottom);
-    const spaceAbove = Math.max(0, rect.top);
-
-    if (spaceBelow < estimatedPanelHeight && spaceAbove > spaceBelow) return 'top';
-    return 'bottom';
   }
 
   private estimatePanelHeight(): number {

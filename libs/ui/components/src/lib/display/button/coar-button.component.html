@@ -15,7 +15,7 @@
   [class.coar-button--full-width]="fullWidth()"
   [type]="type()"
   [disabled]="disabled() || loading()"
-  [attr.aria-disabled]="disabled() || loading()"
+  [attr.aria-disabled]="disabled() || loading() ? 'true' : null"
   [attr.aria-busy]="loading()"
   [attr.aria-label]="ariaLabel() || null"
   (click)="onClick($event)"

@@ -1,13 +1,11 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  DestroyRef,
   ElementRef,
   input,
   model,
   output,
   computed,
-  inject,
   viewChild,
   TemplateRef,
 } from '@angular/core';
@@ -18,7 +16,7 @@ import { CoarScrollbarDirective } from '../../display/scrollbar/coar-scrollbar.d
 import { coarProvideValueAccessor } from '../_base/coar-control-value-accessor';
 import { CoarSelectBase, CoarSelectSize } from './coar-select-base';
 import { CoarSelectOption } from './coar-select-option.interface';
-import { createOverlayBuilder, type OverlayRef, type Placement } from '@cocoar/ui/overlay';
+import { createOverlayBuilder, type OverlayRef } from '@cocoar/ui/overlay';
 
 export type { CoarSelectSize };
 
@@ -60,7 +58,6 @@ export type { CoarSelectSize };
 })
 export class CoarSingleSelectComponent<T = unknown> extends CoarSelectBase<T | null> {
   private readonly overlayBuilder = createOverlayBuilder();
-  private readonly destroyRefLocal = inject(DestroyRef);
 
   private readonly triggerRef = viewChild<ElementRef<HTMLElement>>('trigger');
   private readonly dropdownTemplateRef = viewChild<TemplateRef<unknown>>('dropdownTemplate');
@@ -188,7 +185,7 @@ export class CoarSingleSelectComponent<T = unknown> extends CoarSelectBase<T | n
       this.highlightedIndex.set(-1);
     });
 
-    this.destroyRefLocal.onDestroy(() => {
+    this.destroyRef.onDestroy(() => {
       ref.close();
     });
 
@@ -212,21 +209,6 @@ export class CoarSingleSelectComponent<T = unknown> extends CoarSelectBase<T | n
     this.isOpen.set(false);
     this.searchQuery.set('');
     this.highlightedIndex.set(-1);
-  }
-
-  private resolvePlacement(trigger: HTMLElement, estimatedPanelHeight: number): Placement {
-    const preference = this.dropdownPositionPreference();
-    if (preference === 'top') return 'top';
-    if (preference === 'bottom') return 'bottom';
-
-    const viewportHeight = document.documentElement?.clientHeight || window.innerHeight;
-    const rect = trigger.getBoundingClientRect();
-
-    const spaceBelow = Math.max(0, viewportHeight - rect.bottom);
-    const spaceAbove = Math.max(0, rect.top);
-
-    if (spaceBelow < estimatedPanelHeight && spaceAbove > spaceBelow) return 'top';
-    return 'bottom';
   }
 
   private estimatePanelHeight(): number {

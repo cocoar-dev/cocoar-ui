@@ -16,13 +16,15 @@
   width: 100%; /* Inherit width from host */
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: var(--coar-spacing-s);
   border: none;
   border-radius: var(--coar-radius-xs);
   font-family: var(--coar-body-base-family);
   font-weight: var(--coar-body-base-weight);
   cursor: pointer;
-  transition: all 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
   white-space: nowrap;
   text-decoration: none;
   position: relative;
@@ -54,13 +56,13 @@
 
 .coar-button--m {
   height: var(--coar-component-m-height);
-  padding: 0 16px;
+  padding: 0 var(--coar-spacing-m);
   font-size: var(--coar-component-m-font-size);
 }
 
 .coar-button--l {
   height: var(--coar-component-l-height);
-  padding: 0 24px;
+  padding: 0 var(--coar-spacing-l);
   font-size: var(--coar-component-l-font-size);
   gap: 0.625rem;
 }
@@ -72,7 +74,7 @@
 /* Primary */
 .coar-button--primary {
   background: var(--coar-background-accent-primary);
-  color: var(--coar-color-white);
+  color: var(--coar-text-on-bold);
 }
 
 .coar-button--primary:hover:not(:disabled) {
@@ -96,7 +98,7 @@
 }
 
 .coar-button--secondary:active:not(:disabled) {
-  background: var(--coar-color-gray-500);
+  background: var(--coar-background-neutral-active);
 }
 
 /* Tertiary - Soft accent style */
@@ -110,7 +112,7 @@
 }
 
 .coar-button--tertiary:active:not(:disabled) {
-  background: var(--coar-color-accent-300);
+  background: var(--coar-background-accent-tertiary-active);
 }
 
 /* Danger */
@@ -120,11 +122,11 @@
 }
 
 .coar-button--danger:hover:not(:disabled) {
-  background: var(--coar-color-red-700);
+  background: var(--coar-background-semantic-error-hover);
 }
 
 .coar-button--danger:active:not(:disabled) {
-  background: var(--coar-color-red-800);
+  background: var(--coar-background-semantic-error-active);
 }
 
 /* Ghost */
@@ -258,10 +260,11 @@
 }
 
 /* ========================================
-   DARK MODE OVERRIDES
+   REDUCED MOTION
    ======================================== */
 
-:host-context(.dark-mode) .coar-button--primary,
-:host-context(:root.dark-mode) .coar-button--primary {
-  color: var(--coar-text-on-bold);
+@media (prefers-reduced-motion: reduce) {
+  .coar-button {
+    transition: none;
+  }
 }

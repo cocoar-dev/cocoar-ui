@@ -13,6 +13,7 @@ import {
 import { CoarControlValueAccessor } from '../_base/coar-control-value-accessor';
 import { CoarScrollbarDirective } from '../../display/scrollbar/coar-scrollbar.directive';
 import { CoarSelectOption } from './coar-select-option.interface';
+import type { Placement } from '@cocoar/ui/overlay';
 
 export type CoarSelectSize = 'xs' | 's' | 'm' | 'l';
 
@@ -475,6 +476,41 @@ export abstract class CoarSelectBase<T> extends CoarControlValueAccessor<T> {
       });
     });
   }
+
+  /**
+   * Resolve dropdown placement based on available viewport space.
+   * Shared across all select subclasses that use the overlay system.
+   */
+  protected resolvePlacement(trigger: HTMLElement, estimatedPanelHeight: number): Placement {
+    const preference = this.dropdownPositionPreference();
+    if (preference === 'top') return 'top';
+    if (preference === 'bottom') return 'bottom';
+
+    const viewportHeight = document.documentElement?.clientHeight || window.innerHeight;
+    const rect = trigger.getBoundingClientRect();
+
+    const spaceBelow = Math.max(0, viewportHeight - rect.bottom);
+    const spaceAbove = Math.max(0, rect.top);
+
+    if (spaceBelow < estimatedPanelHeight && spaceAbove > spaceBelow) return 'top';
+    return 'bottom';
+  }
+
+  /**
+   * ID of the currently highlighted option element, for `aria-activedescendant`.
+   * Converts the data-level highlightedIndex to the display-level DOM id.
+   * Subclasses that use a different options list (e.g. tag-select) override this.
+   */
+  protected activeDescendantId = computed(() => {
+    const index = this.highlightedIndex();
+    const options = this.filteredOptions();
+    if (index < 0 || index >= options.length) return null;
+
+    const displayIndex =
+      this.dropdownPosition() === 'top' ? options.length - 1 - index : index;
+
+    return `${this.inputId()}-option-${displayIndex}`;
+  });
 
   /** Abstract method to select the currently highlighted option */
   protected abstract selectHighlightedOption(): void;
