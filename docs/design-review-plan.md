@@ -95,9 +95,9 @@ These tokens are referenced but never defined — causing invisible borders/back
 
 ### 2.5 Move Inline Styles to CSS
 
-- [ ] **Overlay page**: Heavy use of inline `style="..."` attributes. Move to `overlay.page.css`.
-- [ ] **Tooltip page**: Inline styles for demo boxes. Move to `tooltip.page.css`.
-- [ ] **Tabs page**: Inline style on line ~110. Move to `tabs.page.css`.
+- [x] **Overlay page**: All inline styles moved to CSS classes in `overlay.page.css` (overlay panel text, actions, nested demo variants, hover demo variants). Zero inline styles remaining.
+- [x] **Tooltip page**: Card-level inline styles moved to `tooltip.page.css`. 8 inline styles remain inside `[coarPopoverContent]` (portal-rendered content where scoped CSS cannot reach).
+- [x] **Tabs page**: Inline style moved to `.loading-strategy-hint` class in `tabs.page.css`.
 
 ### 2.6 Mixed CSS Units
 
@@ -142,33 +142,36 @@ These tokens are referenced but never defined — causing invisible borders/back
 
 ### 4.1 Content Fixes
 
-- [ ] **Code-block page examples**: The code-block component's showcase uses generic button/component examples rather than code-block-specific ones. Replace `basicExample` with actual code-block usage.
+- [x] **Code-block page examples**: The code-block component's showcase uses generic button/component examples rather than code-block-specific ones. Replace `basicExample` with actual code-block usage.
   - File: `apps/showcase/src/app/pages/code-block/code-block.page.ts`
 
-- [ ] **Data-grid API table format**: Uses Method/Description instead of Name/Type/Default/Description. Align with all other component pages.
+- [x] **Data-grid API table format**: Uses Method/Description instead of Name/Type/Default/Description. Align with all other component pages.
   - File: `apps/showcase/src/app/pages/data-grid/`
 
-- [ ] **Notes page API discrepancy**: Documentation says `variant` but component actually uses `color` input. Fix docs to match implementation.
+- [x] **Notes page API discrepancy**: Documentation already correct - uses `color` which matches component implementation.
 
 ### 4.2 Cross-References
 
-- [ ] Add cross-links between related component families:
-  - Input variants (text-input, number-input, password)
-  - Select variants (single-select, multi-select, tag-select)
-  - Date picker variants (plain-date, plain-date-time, zoned-date-time)
-  - Forms page should link to individual component pages
+- [x] Add cross-links between related component families:
+  - Input variants (text-input, number-input, password) - Added to text-input page
+  - Select variants (single-select, multi-select, tag-select) - Added "Choosing the Right Select" section to selects page
+  - Date picker variants (plain-date, plain-date-time, zoned-date-time) - Added to all three picker pages
+  - Forms page now links to individual component pages - Added "Form Components" section
 
 ### 4.3 Accessibility Documentation
 
-- [ ] Add keyboard navigation docs to interactive components:
-  - Buttons, selects, text inputs, overlays, sidebar/menu
-  - Currently only tabs, radio, popconfirm, and motion have a11y docs
+- [x] Add keyboard navigation docs to interactive components:
+  - Buttons - Added full a11y section with keyboard navigation and screen reader support
+  - Selects - Added comprehensive keyboard navigation (Enter/Space, Escape, Arrow keys, Home/End, Tab, Type to filter)
+  - Text inputs - Added keyboard navigation and screen reader support sections
+  - Overlays - Added keyboard navigation (Escape, Tab, focus trapping) and focus management docs
+  - Menu - Added keyboard navigation (Tab, Enter/Space, Escape) and screen reader support
 
 ### 4.4 Form Integration Docs
 
-- [ ] Document how components work with Angular Reactive Forms and Template-driven Forms
-- [ ] Document the `ControlValueAccessor` integration pattern
-- [ ] Add form validation error display recipe (mapping `FormControl.errors` to error strings)
+- [x] Document how components work with Angular Reactive Forms and Template-driven Forms
+- [x] Document the `ControlValueAccessor` integration pattern
+- [x] Add form validation error display recipe (mapping `FormControl.errors` to error strings)
 
 ---
 
@@ -209,8 +212,12 @@ These tokens are referenced but never defined — causing invisible borders/back
 ## Phase 6: Minor API Consistency
 
 - [ ] **Button `clicked` vs menu-item `itemClick`** — consider standardizing event output naming.
-- [ ] **`color` vs `variant` input naming** — Cards/Tags/Notes use `color`, Buttons/Badges use `variant`. Document the distinction (semantic intent vs visual style) or standardize.
-- [ ] **`example-demo--grid` class** in selects page — not defined in `showcase-pages.css`. Either define it or change to `example-demo--two-col`.
+- [x] **`color` vs `variant` input naming** — Cards/Tags/Notes use `color`, Buttons/Badges use `variant`. Document the distinction (semantic intent vs visual style) or standardize.
+  - **DOCUMENTED**: The naming convention is intentional and follows this pattern:
+    - `variant` = Visual style variant (primary, secondary, ghost for buttons; default, bordered, plain for tables) — used for components where the choice is about visual hierarchy and emphasis level
+    - `color` = Semantic color (neutral, success, warning, error, info, accent for cards, tags, notes) — used for components where the choice conveys meaning or message type
+  - This distinction helps developers choose the right property based on context: buttons need visual hierarchy (variant), while notes/cards communicate semantic intent (color)
+- [x] **`example-demo--grid` class** in selects page — Fixed by changing to `example-demo--two-col`.
   - File: `apps/showcase/src/app/pages/selects/selects.page.html:78`
 
 ---

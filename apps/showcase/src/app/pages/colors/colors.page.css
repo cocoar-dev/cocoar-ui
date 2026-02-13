@@ -5,28 +5,29 @@
    Typography is handled by .coar-* classes in HTML.
    ======================================== */
 
-.colors-page {
-  max-width: 1000px;
-}
-
 /* ========================================
    COLOR PRIMITIVES
    ======================================== */
 
-.primitives-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+.token-display {
+  display: block;
+  color: var(--coar-text-neutral-tertiary);
+  font-family: monospace;
+  margin-bottom: var(--coar-spacing-m);
+  font-size: var(--coar-body-caption-size);
 }
 
-.palette h3 {
-  margin-bottom: 0.25rem;
+.examples-grid coar-card h3 {
+  margin-bottom: var(--coar-spacing-xs);
+  font-size: var(--coar-body-base-size);
+  font-weight: var(--coar-font-weight-semi-bold);
 }
 
 .shades {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--coar-spacing-s);
   flex-wrap: wrap;
+  margin-top: var(--coar-spacing-s);
 }
 
 .shade-item {
@@ -44,35 +45,32 @@
 }
 
 .shade-label {
-  margin-top: 0.25rem;
+  margin-top: var(--coar-spacing-xs);
   color: var(--coar-text-neutral-secondary);
+  font-size: var(--coar-body-small-base-size);
 }
 
 /* ========================================
    SEMANTIC COLORS
    ======================================== */
 
-.semantic-group {
-  margin-bottom: 2rem;
-}
-
-.semantic-group h3 {
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
+.semantic-card h3 {
+  margin-bottom: var(--coar-spacing-m);
+  padding-bottom: var(--coar-spacing-s);
   border-bottom: 1px solid var(--coar-border-neutral-tertiary);
 }
 
 .semantic-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
+  gap: var(--coar-spacing-m);
 }
 
 .semantic-item {
   display: flex;
-  gap: 0.75rem;
-  padding: 0.75rem;
-  background: var(--coar-background-neutral-secondary);
+  gap: var(--coar-spacing-s);
+  padding: var(--coar-spacing-s);
+  background: var(--coar-background-neutral-tertiary);
   border-radius: var(--coar-radius-s);
 }
 
@@ -110,7 +108,7 @@
 .semantic-info {
   display: flex;
   flex-direction: column;
-  gap: 0.125rem;
+  gap: var(--coar-spacing-xxs);
   min-width: 0;
 }
 
@@ -118,6 +116,7 @@
   color: var(--coar-text-accent-primary);
   font-family: monospace;
   word-break: break-all;
+  font-size: var(--coar-body-caption-size);
 }
 
 .semantic-info code {
@@ -129,25 +128,21 @@
    USAGE EXAMPLE
    ======================================== */
 
-.example-card {
-  max-width: 400px;
-}
-
 .example-header {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
-  margin-bottom: 1rem;
+  gap: var(--coar-spacing-xs);
+  margin-bottom: var(--coar-spacing-m);
 }
 
-.example-card > p {
-  margin-bottom: 1rem;
+.example-header + p {
+  margin-bottom: var(--coar-spacing-m);
   color: var(--coar-text-neutral-secondary);
 }
 
 .example-footer {
   display: flex;
-  gap: 0.5rem;
+  gap: var(--coar-spacing-s);
   flex-wrap: wrap;
 }
 
@@ -157,7 +152,7 @@
 
 @media (max-width: 768px) {
   .shades {
-    gap: 0.25rem;
+    gap: var(--coar-spacing-xs);
   }
 
   .shade-item {

@@ -77,28 +77,36 @@
         <h4>CoarGridBuilder Methods</h4>
         <table class="api-table">
           <thead>
-            <tr><th>Method</th><th>Description</th></tr>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
           </thead>
           <tbody>
-            <tr><td><code>columns()</code></td><td>Define column configurations using column builder functions</td></tr>
-            <tr><td><code>rowData()</code></td><td>Set the data array to display in the grid</td></tr>
-            <tr><td><code>rowId()</code></td><td>Define how to extract unique row IDs</td></tr>
-            <tr><td><code>rowSelection()</code></td><td>Enable 'single' or 'multiple' row selection</td></tr>
-            <tr><td><code>rowClassRules()</code></td><td>Apply CSS classes conditionally to rows</td></tr>
-            <tr><td><code>onRowClicked()</code></td><td>Handle row click events</td></tr>
+            <tr><td><code>columns()</code></td><td><code>function</code></td><td>Define column configurations using column builder functions</td></tr>
+            <tr><td><code>rowData()</code></td><td><code>function</code></td><td>Set the data array to display in the grid</td></tr>
+            <tr><td><code>rowId()</code></td><td><code>function</code></td><td>Define how to extract unique row IDs from data objects</td></tr>
+            <tr><td><code>rowSelection()</code></td><td><code>function</code></td><td>Enable 'single' or 'multiple' row selection mode</td></tr>
+            <tr><td><code>rowClassRules()</code></td><td><code>function</code></td><td>Apply CSS classes conditionally to rows based on data</td></tr>
+            <tr><td><code>onRowClicked()</code></td><td><code>function</code></td><td>Handle row click events with callback</td></tr>
           </tbody>
         </table>
         <h4>Column Builder Methods</h4>
         <table class="api-table">
           <thead>
-            <tr><th>Method</th><th>Description</th></tr>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
           </thead>
           <tbody>
-            <tr><td><code>field()</code></td><td>Set the data field name</td></tr>
-            <tr><td><code>header()</code></td><td>Set the column header text</td></tr>
-            <tr><td><code>width() / flex()</code></td><td>Set fixed width or flex sizing</td></tr>
-            <tr><td><code>sortable()</code></td><td>Enable column sorting</td></tr>
-            <tr><td><code>cellClass()</code></td><td>Apply CSS classes to cells</td></tr>
+            <tr><td><code>field()</code></td><td><code>function</code></td><td>Set the data field name to bind to this column</td></tr>
+            <tr><td><code>header()</code></td><td><code>function</code></td><td>Set the column header text displayed to users</td></tr>
+            <tr><td><code>width() / flex()</code></td><td><code>function</code></td><td>Set fixed width (pixels) or flex sizing (proportion)</td></tr>
+            <tr><td><code>sortable()</code></td><td><code>function</code></td><td>Enable column sorting by clicking header</td></tr>
+            <tr><td><code>cellClass()</code></td><td><code>function</code></td><td>Apply CSS classes to cells in this column</td></tr>
           </tbody>
         </table>
       </div>

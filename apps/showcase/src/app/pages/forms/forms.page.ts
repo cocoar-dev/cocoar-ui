@@ -106,5 +106,50 @@ export class FormsPage {
   <coar-text-input placeholder="Search..." formControlName="query" />
   <coar-button variant="primary" type="button">Search</coar-button>
 </form>`,
+
+    reactiveFormsExample: `import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+// Define your form structure with validators
+readonly myForm = new FormGroup({
+  email: new FormControl('', [Validators.required, Validators.email]),
+  password: new FormControl('', [Validators.required, Validators.minLength(8)]),
+  rememberMe: new FormControl(false),
+});
+
+// Access form values
+onSubmit() {
+  if (this.myForm.invalid) {
+    this.myForm.markAllAsTouched();
+    return;
+  }
+
+  const values = this.myForm.getRawValue();
+  console.log(values); // { email: '...', password: '...', rememberMe: false }
+}`,
+
+    validationErrorsExample: `<!-- Display validation errors using the error input -->
+<coar-text-input
+  label="Email"
+  placeholder="your@email.com"
+  [required]="true"
+  formControlName="email"
+  [error]="getEmailError()"
+/>
+
+<!-- Component code -->
+getEmailError(): string {
+  const control = this.myForm.get('email');
+  if (!control || !control.invalid || !control.touched) {
+    return '';
+  }
+
+  if (control.hasError('required')) {
+    return 'Email is required';
+  }
+  if (control.hasError('email')) {
+    return 'Please enter a valid email address';
+  }
+  return '';
+}`,
   };
 }

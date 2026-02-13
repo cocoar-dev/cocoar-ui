@@ -35,6 +35,11 @@
   gap: 0.5rem;
 }
 
+/* Loading strategy hint text */
+.loading-strategy-hint {
+  margin-top: var(--coar-spacing-m);
+}
+
 /* Demo Badge for Rich Labels example */
 .demo-badge {
   display: inline-flex;

@@ -8,3 +8,12 @@
    .checkbox-label, .control-field, .control-label,
    .control-input, .demo-preview
    ======================================== */
+
+.tooltip-usage-list {
+  margin: 0;
+  padding-left: var(--coar-spacing-m);
+}
+
+.tooltip-note {
+  margin-top: var(--coar-spacing-m);
+}

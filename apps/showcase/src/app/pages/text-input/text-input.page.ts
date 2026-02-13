@@ -4,6 +4,7 @@ import {
   CoarTextInputComponent,
   CoarCodeBlockComponent,
   CoarCardComponent,
+  CoarNoteComponent,
 } from '@cocoar/ui/components';
 
 @Component({
@@ -13,6 +14,7 @@ import {
     CoarTextInputComponent,
     CoarCodeBlockComponent,
     CoarCardComponent,
+    CoarNoteComponent,
   ],
   templateUrl: './text-input.page.html',
   styleUrl: './text-input.page.css',

@@ -2,48 +2,43 @@
   <!-- Page Header -->
   <header class="page-header">
     <h1 class="coar-title">Colors</h1>
-    <p class="coar-body">
+    <p class="page-description">
       Our color system provides consistent, accessible colors across light and dark modes. Toggle the theme to see how colors adapt.
     </p>
   </header>
 
-  <coar-divider variant="strong" [width]="100" [spacingTop]="24" [spacingBottom]="8"></coar-divider>
-
   <div class="examples-content">
-    <!-- Color Primitives -->
-    <section class="example-section">
-      <h2 class="coar-heading">Color Primitives</h2>
-      <p class="section-intro coar-body-small">
-        The raw color palette. These are referenced by semantic tokens and shouldn't be used directly in components.
-      </p>
+    <!-- Color Primitives Section -->
+    <h2 class="component-section-title">Color Primitives</h2>
+    <p class="component-section-description">
+      The raw color palette. These are referenced by semantic tokens and shouldn't be used directly in components.
+    </p>
 
-      <div class="primitives-grid">
-        @for (palette of primitives; track palette.name) {
-        <div class="palette">
-          <h3 class="coar-subheading">{{ palette.name }}</h3>
-          <code class="coar-caption token-display">{{ palette.variable }}-[50-900]</code>
-          <div class="shades">
-            @for (shade of palette.shades; track shade.shade) {
-            <div class="shade-item">
-              <div class="shade-swatch" [style.background-color]="'var(' + shade.variable + ')'"></div>
-              <span class="coar-body-small shade-label">{{ shade.shade }}</span>
-            </div>
-            }
+    <div class="examples-grid examples-grid__span">
+      @for (palette of primitives; track palette.name) {
+      <coar-card padding="md">
+        <h3>{{ palette.name }}</h3>
+        <code class="token-display">{{ palette.variable }}-[50-900]</code>
+        <div class="shades">
+          @for (shade of palette.shades; track shade.shade) {
+          <div class="shade-item">
+            <div class="shade-swatch" [style.background-color]="'var(' + shade.variable + ')'"></div>
+            <span class="shade-label">{{ shade.shade }}</span>
           </div>
+          }
         </div>
-        }
-      </div>
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+      </coar-card>
+      }
+    </div>
 
-    <!-- Semantic Colors -->
-    <section class="example-section">
-      <h2 class="coar-heading">Semantic Colors</h2>
-      <p class="section-intro coar-body-small">Use semantic tokens in your components. They automatically adapt to light/dark mode.</p>
+    <!-- Semantic Colors Section -->
+    <h2 class="component-section-title">Semantic Colors</h2>
+    <p class="component-section-description">Use semantic tokens in your components. They automatically adapt to light/dark mode.</p>
 
+    <div class="examples-grid examples-grid__span">
       @for (group of semanticColors; track group.category) {
-      <div class="semantic-group">
-        <h3 class="coar-subheading">{{ group.category }}</h3>
+      <coar-card padding="md" class="semantic-card">
+        <h3>{{ group.category }}</h3>
         <div class="semantic-grid">
           @for (color of group.colors; track color.name) {
           <div class="semantic-item">
@@ -61,38 +56,35 @@
             </div>
             <div class="semantic-info">
               <span class="coar-body-small">{{ color.name }}</span>
-              <code class="coar-caption token-name">{{ color.variable }}</code>
+              <code class="token-name">{{ color.variable }}</code>
             </div>
           </div>
           }
         </div>
-      </div>
+      </coar-card>
       }
-    </section>
-    <coar-divider [spacingTop]="16" [spacingBottom]="48" />
+    </div>
 
-    <!-- Usage Example -->
-    <section class="example-section">
-      <h2 class="coar-heading">Usage Example</h2>
-      <p class="section-intro coar-body-small">How semantic colors create consistent UI across themes.</p>
+    <!-- Usage Example Section -->
+    <h2 class="component-section-title">Usage Example</h2>
+    <p class="component-section-description">How semantic colors create consistent UI across themes.</p>
 
-      <div class="example-demo">
-        <coar-card padding="md">
-          <div class="example-header">
-            <span class="coar-body-bold">Card Title</span>
-            <span class="coar-body-small" style="color: var(--coar-text-neutral-secondary)">Subtitle text</span>
-          </div>
-          <p class="coar-body-small">
-            This card uses semantic color tokens for background, text, and border colors. It automatically adapts to light and dark modes.
-          </p>
-          <div class="example-footer">
-            <coar-tag color="success">Success</coar-tag>
-            <coar-tag color="error">Error</coar-tag>
-            <coar-tag color="warning">Warning</coar-tag>
-            <coar-tag color="info">Info</coar-tag>
-          </div>
-        </coar-card>
-      </div>
-    </section>
+    <div class="examples-grid">
+      <coar-card padding="md">
+        <div class="example-header">
+          <span class="coar-body-bold">Card Title</span>
+          <span class="coar-body-small" style="color: var(--coar-text-neutral-secondary)">Subtitle text</span>
+        </div>
+        <p class="coar-body-small">
+          This card uses semantic color tokens for background, text, and border colors. It automatically adapts to light and dark modes.
+        </p>
+        <div class="example-footer">
+          <coar-tag color="success">Success</coar-tag>
+          <coar-tag color="error">Error</coar-tag>
+          <coar-tag color="warning">Warning</coar-tag>
+          <coar-tag color="info">Info</coar-tag>
+        </div>
+      </coar-card>
+    </div>
   </div>
 </div>

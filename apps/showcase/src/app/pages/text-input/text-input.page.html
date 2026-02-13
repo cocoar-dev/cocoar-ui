@@ -172,6 +172,60 @@
     </div>
 
     <!-- ============================================ -->
+    <!-- ACCESSIBILITY SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Accessibility</h2>
+    <p class="component-section-description">Text inputs are fully accessible with native keyboard support and screen reader compatibility.</p>
+
+    <div class="examples-grid">
+      <coar-card>
+        <h3>Keyboard Navigation</h3>
+        <p class="example-description">Standard input keyboard support for text entry and navigation.</p>
+        <div class="keyboard-grid">
+          <div class="keyboard-item"><kbd>Tab</kbd> <span>Move focus to/from input</span></div>
+          <div class="keyboard-item"><kbd>Shift</kbd> + <kbd>Tab</kbd> <span>Move focus backward</span></div>
+          <div class="keyboard-item"><kbd>←</kbd> <kbd>→</kbd> <span>Move cursor within text</span></div>
+          <div class="keyboard-item"><kbd>Home</kbd> / <kbd>End</kbd> <span>Jump to start/end of text</span></div>
+          <div class="keyboard-item"><kbd>Ctrl</kbd> + <kbd>A</kbd> <span>Select all text</span></div>
+        </div>
+      </coar-card>
+
+      <coar-card>
+        <h3>Screen Reader Support</h3>
+        <p class="example-description">Labels, hints, and errors are properly associated with inputs.</p>
+        <div class="a11y-list">
+          <ul>
+            <li>Label text announces with input focus</li>
+            <li>Required state indicated with asterisk and aria-required</li>
+            <li>Error messages linked via aria-describedby</li>
+            <li>Hint text provides additional context</li>
+            <li>Disabled and readonly states properly announced</li>
+          </ul>
+        </div>
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- RELATED COMPONENTS -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Related Components</h2>
+    <p class="component-section-description">Explore other input variants for different use cases.</p>
+
+    <div class="examples-grid">
+      <coar-card>
+        <h3>Number Input</h3>
+        <p class="example-description">Numeric input with increment/decrement controls and validation.</p>
+        <coar-note color="info"><strong>See:</strong> <a href="/components/number-input">Number Input</a> for numeric values with step controls.</coar-note>
+      </coar-card>
+
+      <coar-card>
+        <h3>Password Input</h3>
+        <p class="example-description">Secure password entry with show/hide toggle.</p>
+        <coar-note color="info"><strong>See:</strong> <a href="/components/password">Password Input</a> for masked password fields.</coar-note>
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
     <!-- API SECTION -->
     <!-- ============================================ -->
     <details class="api-section">

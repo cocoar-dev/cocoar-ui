@@ -24,13 +24,13 @@
 .dark-mode,
 [data-theme='dark'] {
   /* Menu container background - dark, subtle for context menus */
-  --coar-menu-background: #1e1e1e;
+  --coar-menu-background: var(--coar-color-gray-100, #27272a);
 
   /* Item interactive states - subtle hover/active for context menus */
-  --coar-menu-item-background-hover: #2d2d2d;
-  --coar-menu-item-background-focus: #2d2d2d;
-  --coar-menu-item-background-open: #2d2d2d;
-  --coar-menu-item-background-active: #2d2d2d;
+  --coar-menu-item-background-hover: var(--coar-color-gray-200, #3f3f46);
+  --coar-menu-item-background-focus: var(--coar-color-gray-200, #3f3f46);
+  --coar-menu-item-background-open: var(--coar-color-gray-200, #3f3f46);
+  --coar-menu-item-background-active: var(--coar-color-gray-200, #3f3f46);
 }
 
 /* Sidebar variant - darker, more grounded colors for permanent navigation */

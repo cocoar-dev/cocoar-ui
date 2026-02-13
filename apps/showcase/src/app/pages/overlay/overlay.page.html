@@ -87,7 +87,7 @@
         <p class="example-description">Test parent-child overlay hierarchy with sibling closure. Opening a sibling should close the previous one.</p>
         <div class="example-demo example-demo--column">
           <coar-button variant="primary" size="sm" (clicked)="openNestedTest()">Open Parent Overlay</coar-button>
-          <div class="coar-caption" style="color: var(--coar-text-neutral-secondary); margin-top: 8px">
+          <div class="coar-caption overlay-panel__hint">
             Inside parent: Click Child A/B/C buttons. Only one child open at a time.<br />
             Inside child: Click Grandchild buttons. Only one grandchild open at a time.
           </div>
@@ -103,6 +103,41 @@
           <coar-button variant="primary" size="sm" (clicked)="openHoverTest()">Open Hover Parent</coar-button>
         </div>
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.submenu" language="ts" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- ACCESSIBILITY SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Accessibility</h2>
+    <p class="component-section-description">Overlays implement focus trapping, keyboard navigation, and proper ARIA attributes for accessibility.</p>
+
+    <div class="examples-grid">
+      <coar-card>
+        <h3>Keyboard Navigation</h3>
+        <p class="example-description">Overlays support standard keyboard interactions for dismissal and focus management.</p>
+        <div class="keyboard-grid">
+          <div class="keyboard-item"><kbd>Escape</kbd> <span>Close overlay (when enabled)</span></div>
+          <div class="keyboard-item"><kbd>Tab</kbd> <span>Cycle through focusable elements</span></div>
+          <div class="keyboard-item"><kbd>Shift</kbd> + <kbd>Tab</kbd> <span>Cycle backward (trapped within modal)</span></div>
+        </div>
+        <coar-note color="info" class="overlay-note">
+          <strong>Focus Trapping:</strong> Modal overlays (with <code>focusTrap</code>) keep keyboard focus within the overlay until closed.
+        </coar-note>
+      </coar-card>
+
+      <coar-card>
+        <h3>Focus Management</h3>
+        <p class="example-description">Overlays automatically manage focus for a better user experience.</p>
+        <div class="a11y-list">
+          <ul>
+            <li>Focus moves to overlay on open (when focusTrap enabled)</li>
+            <li>Focus restored to trigger element on close</li>
+            <li>Tab cycles through interactive elements</li>
+            <li>Backdrop clicks close overlay (when configured)</li>
+            <li>ARIA roles and labels for screen readers</li>
+          </ul>
+        </div>
       </coar-card>
     </div>
 
@@ -249,8 +284,8 @@
 
 <ng-template #connectedTemplate>
   <div class="overlay-panel">
-    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Connected Overlay</div>
-    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">Positioned relative to an element.</div>
+    <div class="coar-body">Connected Overlay</div>
+    <div class="coar-caption">Positioned relative to an element.</div>
     <coar-divider [spacingTop]="12" [spacingBottom]="12" />
     <coar-button variant="ghost" size="sm" (clicked)="close()">Close</coar-button>
   </div>
@@ -258,8 +293,8 @@
 
 <ng-template #contextMenuTemplate let-x="x" let-y="y">
   <div class="overlay-panel overlay-panel--menu">
-    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Context Menu</div>
-    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">Opened at {{ x }}, {{ y }}</div>
+    <div class="coar-body">Context Menu</div>
+    <div class="coar-caption">Opened at {{ x }}, {{ y }}</div>
     <coar-divider [spacingTop]="12" [spacingBottom]="12" />
     <button type="button" class="menu-item" (click)="openSubmenu($event)">More…</button>
     <button type="button" class="menu-item" (click)="close()">Close</button>
@@ -268,8 +303,8 @@
 
 <ng-template #submenuTemplate>
   <div class="overlay-panel overlay-panel--menu">
-    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Submenu</div>
-    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">This is a child overlay.</div>
+    <div class="coar-body">Submenu</div>
+    <div class="coar-caption">This is a child overlay.</div>
     <coar-divider [spacingTop]="12" [spacingBottom]="12" />
     <button type="button" class="menu-item" (click)="close()">Close all</button>
   </div>
@@ -277,15 +312,15 @@
 
 <ng-template #centeredTemplate>
   <div class="overlay-panel overlay-panel--modal">
-    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Centered Overlay</div>
-    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">
+    <div class="coar-body">Centered Overlay</div>
+    <div class="coar-caption">
       This uses a virtual center anchor and a modal backdrop. Focus is trapped while open.
     </div>
     <coar-divider [spacingTop]="12" [spacingBottom]="12" />
 
     <coar-text-input size="sm" label="Name" placeholder="Type here and press Tab" />
 
-    <div style="display: flex; gap: var(--coar-spacing-sm); margin-top: var(--coar-spacing-md)">
+    <div class="overlay-panel__actions">
       <coar-button variant="ghost" size="sm">Secondary action</coar-button>
       <coar-button variant="ghost" size="sm" (clicked)="close()">Close</coar-button>
     </div>
@@ -294,8 +329,8 @@
 
 <ng-template #resolvedMenuTemplate>
   <div class="overlay-panel overlay-panel--menu">
-    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Resolved Menu</div>
-    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">Scroll the page to see it close (DI default).</div>
+    <div class="coar-body">Resolved Menu</div>
+    <div class="coar-caption">Scroll the page to see it close (DI default).</div>
     <coar-divider [spacingTop]="12" [spacingBottom]="12" />
     <button type="button" class="menu-item" (click)="close()">Close</button>
   </div>
@@ -303,20 +338,20 @@
 
 <ng-template #parentAttachedTemplate>
   <div class="overlay-panel">
-    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Container-attached</div>
-    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">
+    <div class="coar-body">Container-attached</div>
+    <div class="coar-caption">
       This overlay is attached to the grey container, not the body. It clamps to container edges.
     </div>
   </div>
 </ng-template>
 
 <ng-template #nestedTestParent>
-  <div class="overlay-panel" style="min-width: 250px">
-    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Parent Overlay</div>
-    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary); margin-bottom: 12px">
+  <div class="overlay-panel overlay-panel--parent">
+    <div class="coar-body">Parent Overlay</div>
+    <div class="coar-caption overlay-panel__description">
       Click buttons to open child overlays. Only one child should be open at a time.
     </div>
-    <div style="display: flex; flex-direction: column; gap: 8px">
+    <div class="overlay-panel__buttons">
       <span #childABtn>
         <coar-button variant="ghost" size="sm" (clicked)="openChildA(childABtn)">Open Child A</coar-button>
       </span>
@@ -333,12 +368,12 @@
 </ng-template>
 
 <ng-template #nestedTestChildA>
-  <div class="overlay-panel" style="min-width: 200px; background: var(--coar-color-success-subtle)">
-    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Child A</div>
-    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary); margin-bottom: 12px">
+  <div class="overlay-panel overlay-panel--child-a">
+    <div class="coar-body">Child A</div>
+    <div class="coar-caption overlay-panel__description">
       Open grandchildren. Only one should be open at a time.
     </div>
-    <div style="display: flex; flex-direction: column; gap: 8px">
+    <div class="overlay-panel__buttons">
       <span #grandchildA1Btn>
         <coar-button variant="ghost" size="sm" (clicked)="openGrandchildA1(grandchildA1Btn)">Grandchild A1</coar-button>
       </span>
@@ -350,12 +385,12 @@
 </ng-template>
 
 <ng-template #nestedTestChildB>
-  <div class="overlay-panel" style="min-width: 200px; background: var(--coar-color-info-subtle)">
-    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Child B</div>
-    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary); margin-bottom: 12px">
+  <div class="overlay-panel overlay-panel--child-b">
+    <div class="coar-body">Child B</div>
+    <div class="coar-caption overlay-panel__description">
       Open grandchildren. Only one should be open at a time.
     </div>
-    <div style="display: flex; flex-direction: column; gap: 8px">
+    <div class="overlay-panel__buttons">
       <span #grandchildB1Btn>
         <coar-button variant="ghost" size="sm" (clicked)="openGrandchildB1(grandchildB1Btn)">Grandchild B1</coar-button>
       </span>
@@ -367,24 +402,24 @@
 </ng-template>
 
 <ng-template #nestedTestChildC>
-  <div class="overlay-panel" style="min-width: 200px; background: var(--coar-color-warning-subtle)">
+  <div class="overlay-panel overlay-panel--child-c">
     <div class="coar-body">Child C</div>
-    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">No grandchildren here</div>
+    <div class="coar-caption">No grandchildren here</div>
   </div>
 </ng-template>
 
 <ng-template #nestedTestGrandchild let-name="name">
-  <div class="overlay-panel" style="min-width: 150px; background: var(--coar-color-neutral-subtle)">
+  <div class="overlay-panel overlay-panel--grandchild">
     <div class="coar-body">{{ name }}</div>
-    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">3rd level overlay</div>
+    <div class="coar-caption">3rd level overlay</div>
   </div>
 </ng-template>
 
 <!-- Hover-based test templates -->
 <ng-template #hoverTestParent>
-  <div class="overlay-panel" style="min-width: 200px">
-    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Hover Parent</div>
-    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary); margin-bottom: 8px">Hover over items to open submenus</div>
+  <div class="overlay-panel overlay-panel--hover-parent">
+    <div class="coar-body">Hover Parent</div>
+    <div class="coar-caption overlay-panel__description">Hover over items to open submenus</div>
     <div #hoverItemA class="hover-menu-item" (mouseenter)="openHoverChildA(hoverItemA)" (mouseleave)="scheduleClose()">Item A →</div>
     <div #hoverItemB class="hover-menu-item" (mouseenter)="openHoverChildB(hoverItemB)" (mouseleave)="scheduleClose()">Item B →</div>
     <div #hoverItemC class="hover-menu-item" (mouseenter)="openHoverChildC(hoverItemC)" (mouseleave)="scheduleClose()">Item C →</div>
@@ -392,31 +427,31 @@
 </ng-template>
 
 <ng-template #hoverTestChildA>
-  <div class="overlay-panel" style="min-width: 180px; border-left: 3px solid var(--coar-color-success)">
-    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Child A</div>
+  <div class="overlay-panel overlay-panel--hover-child-a">
+    <div class="coar-body">Child A</div>
     <div #hoverSubA1 class="hover-menu-item" (mouseenter)="openHoverGrandchildA1(hoverSubA1)" (mouseleave)="scheduleClose()">Subitem A1 →</div>
     <div #hoverSubA2 class="hover-menu-item" (mouseenter)="openHoverGrandchildA2(hoverSubA2)" (mouseleave)="scheduleClose()">Subitem A2 →</div>
   </div>
 </ng-template>
 
 <ng-template #hoverTestChildB>
-  <div class="overlay-panel" style="min-width: 180px; border-left: 3px solid var(--coar-color-info)">
-    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Child B</div>
+  <div class="overlay-panel overlay-panel--hover-child-b">
+    <div class="coar-body">Child B</div>
     <div #hoverSubB1 class="hover-menu-item" (mouseenter)="openHoverGrandchildB1(hoverSubB1)" (mouseleave)="scheduleClose()">Subitem B1 →</div>
     <div #hoverSubB2 class="hover-menu-item" (mouseenter)="openHoverGrandchildB2(hoverSubB2)" (mouseleave)="scheduleClose()">Subitem B2 →</div>
   </div>
 </ng-template>
 
 <ng-template #hoverTestChildC>
-  <div class="overlay-panel" style="min-width: 180px; border-left: 3px solid var(--coar-color-warning)">
-    <div class="coar-body" style="margin-bottom: var(--coar-spacing-xs)">Child C</div>
-    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">No subitems</div>
+  <div class="overlay-panel overlay-panel--hover-child-c">
+    <div class="coar-body">Child C</div>
+    <div class="coar-caption">No subitems</div>
   </div>
 </ng-template>
 
 <ng-template #hoverTestGrandchild let-name="name">
-  <div class="overlay-panel" style="min-width: 150px; background: var(--coar-color-neutral-subtle)">
+  <div class="overlay-panel overlay-panel--grandchild">
     <div class="coar-body">{{ name }}</div>
-    <div class="coar-caption" style="color: var(--coar-text-neutral-secondary)">3rd level</div>
+    <div class="coar-caption">3rd level</div>
   </div>
 </ng-template>

@@ -15,6 +15,7 @@ import {
   CoarDividerComponent,
   CoarTextInputComponent,
   CoarCardComponent,
+  CoarNoteComponent,
 } from '@cocoar/ui/components';
 
 import {
@@ -34,6 +35,7 @@ import {
     CoarCodeBlockComponent,
     CoarDividerComponent,
     CoarCardComponent,
+    CoarNoteComponent,
   ],
   templateUrl: './overlay.page.html',
   styleUrl: './overlay.page.css',

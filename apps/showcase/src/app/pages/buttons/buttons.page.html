@@ -128,6 +128,42 @@
     </div>
 
     <!-- ============================================ -->
+    <!-- ACCESSIBILITY SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Accessibility</h2>
+    <p class="component-section-description">Buttons have full keyboard support and follow WCAG accessibility guidelines.</p>
+
+    <div class="examples-grid">
+      <coar-card>
+        <h3>Keyboard Navigation</h3>
+        <p class="example-description">Standard button keyboard interactions for activation and focus.</p>
+        <div class="keyboard-grid">
+          <div class="keyboard-item"><kbd>Tab</kbd> <span>Move focus to button</span></div>
+          <div class="keyboard-item"><kbd>Shift</kbd> + <kbd>Tab</kbd> <span>Move focus backward</span></div>
+          <div class="keyboard-item"><kbd>Enter</kbd> <span>Activate button</span></div>
+          <div class="keyboard-item"><kbd>Space</kbd> <span>Activate button</span></div>
+        </div>
+        <coar-note color="info" style="margin-top: var(--coar-spacing-m);">
+          <strong>Note:</strong> Disabled and loading buttons cannot be activated via keyboard.
+        </coar-note>
+      </coar-card>
+
+      <coar-card>
+        <h3>Screen Reader Support</h3>
+        <p class="example-description">Buttons announce their state and purpose to assistive technologies.</p>
+        <div class="a11y-list">
+          <ul>
+            <li>Button text or aria-label announces on focus</li>
+            <li>Disabled state properly communicated</li>
+            <li>Loading state indicates button is busy</li>
+            <li>Icon-only buttons should include aria-label</li>
+            <li>Type attribute ensures correct form behavior</li>
+          </ul>
+        </div>
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
     <!-- API SECTION -->
     <!-- ============================================ -->
     <details class="api-section">

@@ -62,6 +62,6 @@ coar-sidebar {
   overflow: hidden;
 }
 
-/* .app-main {
-  padding: 2rem 3rem;
-} */
+.app-main {
+  padding: 0 var(--coar-spacing-xl);
+}

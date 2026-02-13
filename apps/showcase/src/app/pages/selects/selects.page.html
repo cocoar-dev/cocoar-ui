@@ -75,7 +75,7 @@
       <coar-card>
         <h3>States</h3>
         <p class="example-description">Disabled, readonly, required, and error states.</p>
-        <div class="example-demo example-demo--grid">
+        <div class="example-demo example-demo--two-col">
           <coar-single-select label="Disabled" [options]="basicOptions" value="option-1" [disabled]="true" />
           <coar-single-select label="Readonly" [options]="basicOptions" value="option-2" [readonly]="true" />
           <coar-single-select label="Required" [options]="basicOptions" [required]="true" hint="This field is required" />
@@ -575,6 +575,41 @@
     </details>
 
     <!-- ============================================ -->
+    <!-- ACCESSIBILITY SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Accessibility</h2>
+    <p class="component-section-description">All select components support full keyboard navigation and screen reader compatibility.</p>
+
+    <div class="examples-grid">
+      <coar-card>
+        <h3>Keyboard Navigation</h3>
+        <p class="example-description">Comprehensive keyboard support for dropdown navigation and selection.</p>
+        <div class="keyboard-grid">
+          <div class="keyboard-item"><kbd>Enter</kbd> / <kbd>Space</kbd> <span>Open dropdown or select option</span></div>
+          <div class="keyboard-item"><kbd>Escape</kbd> <span>Close dropdown</span></div>
+          <div class="keyboard-item"><kbd>↓</kbd> / <kbd>↑</kbd> <span>Navigate through options</span></div>
+          <div class="keyboard-item"><kbd>Home</kbd> / <kbd>End</kbd> <span>Jump to first/last option</span></div>
+          <div class="keyboard-item"><kbd>Tab</kbd> <span>Close dropdown and move focus</span></div>
+          <div class="keyboard-item"><kbd>Type</kbd> <span>Filter options (when searchable)</span></div>
+        </div>
+      </coar-card>
+
+      <coar-card>
+        <h3>Screen Reader Support</h3>
+        <p class="example-description">Proper ARIA attributes ensure selects work seamlessly with assistive technologies.</p>
+        <div class="a11y-list">
+          <ul>
+            <li>Label announces with select focus</li>
+            <li>Selected value communicated to screen readers</li>
+            <li>Dropdown state (open/closed) properly indicated</li>
+            <li>Option count and position announced during navigation</li>
+            <li>Required, disabled, and error states clearly communicated</li>
+          </ul>
+        </div>
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
     <!-- SHARED: SIZES -->
     <!-- ============================================ -->
     <h2 class="component-section-title">Sizes</h2>
@@ -610,6 +645,47 @@
           <coar-tag-select label="Large" [options]="tagOptions" size="lg" placeholder="lg" />
         </div>
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- RELATED COMPONENTS -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Choosing the Right Select</h2>
+    <p class="component-section-description">Each select variant is optimized for different use cases.</p>
+
+    <div class="examples-grid">
+      <coar-card>
+        <h3>Single Select</h3>
+        <p class="example-description">For selecting <strong>one option</strong> from a list.</p>
+        <ul class="comparison-list">
+          <li>Choose a country, category, or status</li>
+          <li>Dropdown with search for long lists</li>
+          <li>Supports object values with compareWith</li>
+          <li>Optional clear button</li>
+        </ul>
+      </coar-card>
+
+      <coar-card>
+        <h3>Multi Select</h3>
+        <p class="example-description">For selecting <strong>multiple options</strong> from a list.</p>
+        <ul class="comparison-list">
+          <li>Choose skills, tags, or permissions</li>
+          <li>Checkboxes within dropdown</li>
+          <li>Selected count badge on trigger</li>
+          <li>Clear all button</li>
+        </ul>
+      </coar-card>
+
+      <coar-card class="examples-grid__span">
+        <h3>Tag Select</h3>
+        <p class="example-description">For selecting <strong>multiple options</strong> with <strong>inline tag display</strong>.</p>
+        <ul class="comparison-list">
+          <li>Visual tag chips show all selections inline</li>
+          <li>Remove tags individually with × button</li>
+          <li>Best for 1-5 selections (more uses Multi Select)</li>
+          <li>Great for filters, labels, and categories</li>
+        </ul>
       </coar-card>
     </div>
   </div>

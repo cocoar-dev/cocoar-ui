@@ -38,6 +38,7 @@
   --coar-border-neutral-primary: var(--coar-color-gray-900);
   --coar-border-neutral-secondary: var(--coar-color-gray-800);
   --coar-border-neutral-tertiary: var(--coar-color-gray-200);
+  --coar-border-neutral: var(--coar-color-gray-200); /* Alias for tertiary - used in dropdowns */
 
   /* Icon */
   --coar-icon-neutral-primary: var(--coar-color-gray-900);
@@ -97,41 +98,41 @@
   --coar-background-semantic-success-bold: var(--coar-color-green-600);
   --coar-background-semantic-success-subtle: var(--coar-color-green-100);
   --coar-text-semantic-success-bold: var(--coar-color-green-800);
-  --coar-text-semantic-success-subtle: var(--coar-color-green-100);
+  --coar-text-semantic-success-subtle: var(--coar-color-green-700);
   --coar-border-semantic-success-bold: var(--coar-color-green-800);
   --coar-border-semantic-success-subtle: var(--coar-color-green-200);
   --coar-icon-semantic-success-bold: var(--coar-color-green-800);
-  --coar-icon-semantic-success-subtle: var(--coar-color-green-100);
+  --coar-icon-semantic-success-subtle: var(--coar-color-green-700);
 
   /* Error (red) */
   --coar-background-semantic-error-bold: var(--coar-color-red-600);
   --coar-background-semantic-error-subtle: var(--coar-color-red-100);
   --coar-text-semantic-error-bold: var(--coar-color-red-800);
-  --coar-text-semantic-error-subtle: var(--coar-color-red-100);
+  --coar-text-semantic-error-subtle: var(--coar-color-red-700);
   --coar-border-semantic-error-bold: var(--coar-color-red-800);
   --coar-border-semantic-error-subtle: var(--coar-color-red-200);
   --coar-icon-semantic-error-bold: var(--coar-color-red-800);
-  --coar-icon-semantic-error-subtle: var(--coar-color-red-100);
+  --coar-icon-semantic-error-subtle: var(--coar-color-red-700);
 
   /* Warning (amber) */
   --coar-background-semantic-warning-bold: var(--coar-color-amber-600);
   --coar-background-semantic-warning-subtle: var(--coar-color-amber-100);
-  --coar-text-semantic-warning-bold: var(--coar-color-amber-800);
-  --coar-text-semantic-warning-subtle: var(--coar-color-amber-100);
-  --coar-border-semantic-warning-bold: var(--coar-color-amber-800);
+  --coar-text-semantic-warning-bold: var(--coar-color-amber-900);
+  --coar-text-semantic-warning-subtle: var(--coar-color-amber-800);
+  --coar-border-semantic-warning-bold: var(--coar-color-amber-900);
   --coar-border-semantic-warning-subtle: var(--coar-color-amber-200);
-  --coar-icon-semantic-warning-bold: var(--coar-color-amber-800);
-  --coar-icon-semantic-warning-subtle: var(--coar-color-amber-100);
+  --coar-icon-semantic-warning-bold: var(--coar-color-amber-900);
+  --coar-icon-semantic-warning-subtle: var(--coar-color-amber-800);
 
   /* Info (slate blue) */
-  --coar-background-semantic-info-bold: var(--coar-color-slate-200);
+  --coar-background-semantic-info-bold: var(--coar-color-slate-700);
   --coar-background-semantic-info-subtle: var(--coar-color-slate-100);
-  --coar-text-semantic-info-bold: var(--coar-color-slate-800);
-  --coar-text-semantic-info-subtle: var(--coar-color-slate-100);
-  --coar-border-semantic-info-bold: var(--coar-color-slate-800);
+  --coar-text-semantic-info-bold: var(--coar-color-white);
+  --coar-text-semantic-info-subtle: var(--coar-color-slate-700);
+  --coar-border-semantic-info-bold: var(--coar-color-slate-900);
   --coar-border-semantic-info-subtle: var(--coar-color-slate-200);
-  --coar-icon-semantic-info-bold: var(--coar-color-slate-800);
-  --coar-icon-semantic-info-subtle: var(--coar-color-slate-100);
+  --coar-icon-semantic-info-bold: var(--coar-color-white);
+  --coar-icon-semantic-info-subtle: var(--coar-color-slate-700);
 
   /* ==========================================================================
      SPECIAL PURPOSE
@@ -210,36 +211,52 @@
   /* Success */
   --coar-background-semantic-success-bold: var(--coar-color-green-500);
   --coar-background-semantic-success-subtle: var(--coar-color-green-200);
+  --coar-text-semantic-success-bold: var(--coar-color-green-900);
+  --coar-text-semantic-success-subtle: var(--coar-color-green-700);
   --coar-border-semantic-success-bold: var(--coar-color-green-600);
   --coar-border-semantic-success-subtle: var(--coar-color-green-300);
+  --coar-icon-semantic-success-bold: var(--coar-color-green-900);
+  --coar-icon-semantic-success-subtle: var(--coar-color-green-700);
 
   /* Error */
   --coar-background-semantic-error-bold: var(--coar-color-red-500);
   --coar-background-semantic-error-subtle: var(--coar-color-red-200);
+  --coar-text-semantic-error-bold: var(--coar-color-red-900);
+  --coar-text-semantic-error-subtle: var(--coar-color-red-700);
   --coar-border-semantic-error-bold: var(--coar-color-red-600);
   --coar-border-semantic-error-subtle: var(--coar-color-red-300);
+  --coar-icon-semantic-error-bold: var(--coar-color-red-900);
+  --coar-icon-semantic-error-subtle: var(--coar-color-red-700);
 
   /* Warning */
   --coar-background-semantic-warning-bold: var(--coar-color-amber-400);
   --coar-background-semantic-warning-subtle: var(--coar-color-amber-200);
+  --coar-text-semantic-warning-bold: var(--coar-color-amber-900);
+  --coar-text-semantic-warning-subtle: var(--coar-color-amber-800);
   --coar-border-semantic-warning-bold: var(--coar-color-amber-500);
   --coar-border-semantic-warning-subtle: var(--coar-color-amber-300);
+  --coar-icon-semantic-warning-bold: var(--coar-color-amber-900);
+  --coar-icon-semantic-warning-subtle: var(--coar-color-amber-800);
 
   /* Info */
   --coar-background-semantic-info-bold: var(--coar-color-slate-400);
   --coar-background-semantic-info-subtle: var(--coar-color-slate-300);
+  --coar-text-semantic-info-bold: var(--coar-color-slate-50);
+  --coar-text-semantic-info-subtle: var(--coar-color-slate-700);
   --coar-border-semantic-info-bold: var(--coar-color-slate-600);
   --coar-border-semantic-info-subtle: var(--coar-color-slate-400);
+  --coar-icon-semantic-info-bold: var(--coar-color-slate-50);
+  --coar-icon-semantic-info-subtle: var(--coar-color-slate-700);
 
   /* ==========================================================================
-     SURFACE - Input surfaces in dark mode are darker than cards
-     Creates visual depth hierarchy: card (gray-100) → input (gray-50)
-     This mirrors light mode: card (gray-100) → input (white)
+     SURFACE - Input surfaces in dark mode are slightly elevated from page bg
+     Creates visual depth hierarchy: page bg (gray-200) → card (gray-100) → input (gray-50)
+     Note: In dark mode primitives, gray-50 is #18181b which is darker than page bg
      ========================================================================== */
 
-  /* Input surfaces - darker than cards for inset appearance */
-  --coar-surface-input: var(--coar-color-gray-50);
-  --coar-surface-input-disabled: var(--coar-color-gray-100);
+  /* Input surfaces - slightly lighter than page background for visibility */
+  --coar-surface-input: var(--coar-color-gray-100);
+  --coar-surface-input-disabled: var(--coar-color-gray-50);
 
   /* Input borders - visible on dark backgrounds */
   --coar-border-input: var(--coar-color-gray-400);

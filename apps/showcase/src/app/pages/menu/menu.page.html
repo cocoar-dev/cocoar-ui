@@ -290,6 +290,42 @@
     </div>
 
     <!-- ============================================ -->
+    <!-- ACCESSIBILITY SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Accessibility</h2>
+    <p class="component-section-description">Menu components are fully keyboard accessible with proper focus management.</p>
+
+    <div class="examples-grid">
+      <coar-card>
+        <h3>Keyboard Navigation</h3>
+        <p class="example-description">Navigate and interact with menus using standard keyboard patterns.</p>
+        <div class="keyboard-grid">
+          <div class="keyboard-item"><kbd>Tab</kbd> <span>Move focus to next menu item</span></div>
+          <div class="keyboard-item"><kbd>Shift</kbd> + <kbd>Tab</kbd> <span>Move focus to previous item</span></div>
+          <div class="keyboard-item"><kbd>Enter</kbd> / <kbd>Space</kbd> <span>Activate focused item</span></div>
+          <div class="keyboard-item"><kbd>Escape</kbd> <span>Close submenu (when applicable)</span></div>
+        </div>
+        <coar-note color="info" style="margin-top: var(--coar-spacing-m);">
+          <strong>Submenus:</strong> Expandable menu items can be toggled with Enter or Space, revealing nested menu options.
+        </coar-note>
+      </coar-card>
+
+      <coar-card>
+        <h3>Screen Reader Support</h3>
+        <p class="example-description">Menus announce their structure and state to assistive technologies.</p>
+        <div class="a11y-list">
+          <ul>
+            <li>Menu items announce their label on focus</li>
+            <li>Disabled items communicate non-interactive state</li>
+            <li>Icons provide visual cues (text labels required)</li>
+            <li>Dividers separate logical groups visually</li>
+            <li>Headings provide non-interactive section labels</li>
+          </ul>
+        </div>
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
     <!-- API SECTION -->
     <!-- ============================================ -->
     <details class="api-section">

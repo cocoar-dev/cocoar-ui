@@ -15,86 +15,75 @@ import {
 export class CodeBlockPage {
   importCode = `import { CoarCodeBlockComponent } from '@cocoar/ui/components';`;
 
-  // Example code snippets
-  basicExample = `<coar-button variant="primary">
-  Click me
-</coar-button>`;
+  // Example code snippets demonstrating code-block usage
+  basicExample = `<coar-code-block
+  [code]="myCode"
+  language="typescript"
+/>`;
 
-  cssExample = `.coar-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--coar-spacing-s) var(--coar-spacing-m);
+  cssExample = `/* Styling with design tokens */
+coar-code-block {
+  margin-bottom: var(--coar-spacing-l);
   border-radius: var(--coar-radius-m);
-  transition: var(--coar-transition-default);
 }`;
 
   tsExample = `import { Component } from '@angular/core';
-import { CoarButtonComponent } from '@cocoar/ui/components';
+import { CoarCodeBlockComponent } from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-example',
   standalone: true,
-  imports: [CoarButtonComponent],
+  imports: [CoarCodeBlockComponent],
   template: \`
-    <coar-button
-      variant="primary"
-      (click)="handleClick()">
-      Submit
-    </coar-button>
+    <coar-code-block
+      [code]="snippetCode"
+      language="typescript"
+      [collapsible]="true"
+      [collapsed]="true"
+    />
   \`
 })
 export class ExampleComponent {
-  handleClick() {
-    console.log('Button clicked!');
-  }
+  snippetCode = \`console.log('Hello, World!');\`;
 }`;
 
   jsonExample = `{
-  "name": "@cocoar/ui",
-  "version": "1.0.0",
-  "dependencies": {
-    "@angular/core": "^21.0.0",
-    "@cocoar/ui": "^0.1.0"
-  }
+  "code": "const value = 42;",
+  "language": "typescript",
+  "title": "example.ts",
+  "showLineNumbers": true,
+  "collapsible": true,
+  "collapsed": false,
+  "maxHeight": 400
 }`;
 
-  longExample = `// A longer code example to demonstrate scrolling
+  longExample = `// Full configuration example with all available properties
+<coar-code-block
+  [code]="longSnippet"
+  language="typescript"
+  title="api.service.ts"
+  [showLineNumbers]="true"
+  [showCopy]="true"
+  [collapsible]="true"
+  [collapsed]="false"
+  [maxHeight]="300"
+/>
+
+// Component code
+export class MyComponent {
+  longSnippet = \`
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, catchError, map, retry } from 'rxjs';
+import { Observable } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class ApiService {
-  private readonly baseUrl = 'https://api.example.com';
-
   constructor(private http: HttpClient) {}
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(\`\${this.baseUrl}/users\`).pipe(
-      retry(3),
-      map(users => users.filter(u => u.active)),
-      catchError(this.handleError)
-    );
+  getData(): Observable<any> {
+    return this.http.get('/api/data');
   }
-
-  getUserById(id: string): Observable<User> {
-    return this.http.get<User>(\`\${this.baseUrl}/users/\${id}\`).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  createUser(user: CreateUserDto): Observable<User> {
-    return this.http.post<User>(\`\${this.baseUrl}/users\`, user).pipe(
-      catchError(this.handleError)
-    );
-  }
-
-  private handleError(error: any): Observable<never> {
-    console.error('API Error:', error);
-    throw error;
-  }
+}
+  \`.trim();
 }`;
 }

@@ -1,220 +1,239 @@
-<div class="page">
-  <h1>Localization</h1>
-  <p class="lead">Complete localization system covering translations (i18n) and locale formatting (L10n) for Angular applications.</p>
+<div class="component-page">
+  <!-- Page Header -->
+  <header class="page-header">
+    <h1 class="coar-title">Localization</h1>
+    <p class="page-description">Complete localization system covering translations (i18n) and locale formatting (L10n) for Angular applications.</p>
+  </header>
 
-  <div class="controls">
-    <coar-button (click)="toggleLang()"> Switch to {{ locale.languageState.value === 'en' ? 'German' : 'English' }} </coar-button>
-    <p>
-      Current language: <strong>{{ locale.languageState.value }}</strong>
-    </p>
-  </div>
+  <div class="examples-content">
+    <!-- Language Toggle -->
+    <div class="language-controls">
+      <coar-button (clicked)="toggleLang()">
+        Switch to {{ locale.languageState.value === 'en' ? 'German' : 'English' }}
+      </coar-button>
+      <span class="current-lang">Current language: <strong>{{ locale.languageState.value }}</strong></span>
+    </div>
 
-  <coar-divider></coar-divider>
+    <!-- Setup Section -->
+    <h2 class="component-section-title">Setup</h2>
+    <p class="component-section-description">Configure the locale system in your application config.</p>
 
-  <!-- Setup -->
-  <section>
-    <h2>Setup</h2>
-    <p>Configure the locale system in your application config:</p>
-    <coar-code-block [code]="setupExample" language="typescript"></coar-code-block>
-  </section>
+    <div class="examples-grid examples-grid__span">
+      <coar-card>
+        <coar-code-block [code]="setupExample" language="typescript" [collapsed]="true" />
+      </coar-card>
+    </div>
 
-  <coar-divider></coar-divider>
+    <!-- Localization (L10n) Section -->
+    <h2 class="component-section-title">Localization (L10n) - Formatting Pipes</h2>
+    <p class="component-section-description">Format dates, numbers, currency, and percentages using locale-specific rules.</p>
 
-  <!-- Localization (L10n) - Formatting -->
-  <section>
-    <h2>Localization (L10n) - Formatting Pipes</h2>
-    <p>Format dates, numbers, currency, and percentages using locale-specific rules.</p>
-    <p class="info">
-      <strong>Multi-source architecture:</strong> Intl API provides complete defaults, HTTP source merges business overrides. All pipes are reactive
-      and update automatically when language changes.
-    </p>
+    <div class="examples-grid examples-grid__span">
+      <coar-card>
+        <coar-note variant="info">
+          <strong>Multi-source architecture:</strong> Intl API provides complete defaults, HTTP source merges business overrides. All pipes are reactive
+          and update automatically when language changes.
+        </coar-note>
+      </coar-card>
+    </div>
 
     <!-- Date Formatting -->
-    <div class="subsection">
-      <h3>Date Formatting</h3>
-      <div class="examples">
-        <div class="example">
-          <code>&#123;&#123; now | coarDate &#125;&#125;</code>
-          <output>{{ now | coarDate }}</output>
+    <div class="examples-grid">
+      <coar-card>
+        <h3>Date Formatting</h3>
+        <p class="example-description">Format dates according to locale conventions.</p>
+        <div class="format-examples">
+          <div class="format-example">
+            <code>&#123;&#123; now | coarDate &#125;&#125;</code>
+            <output>{{ now | coarDate }}</output>
+          </div>
+          <div class="format-example">
+            <code>&#123;&#123; tomorrow | coarDate &#125;&#125;</code>
+            <output>{{ tomorrow | coarDate }}</output>
+          </div>
+          <div class="format-example">
+            <code>&#123;&#123; yesterday | coarDate &#125;&#125;</code>
+            <output>{{ yesterday | coarDate }}</output>
+          </div>
         </div>
-        <div class="example">
-          <code>&#123;&#123; tomorrow | coarDate &#125;&#125;</code>
-          <output>{{ tomorrow | coarDate }}</output>
+      </coar-card>
+
+      <coar-card>
+        <h3>Number Formatting</h3>
+        <p class="example-description">Format numbers with locale-specific separators and precision.</p>
+        <div class="format-examples">
+          <div class="format-example">
+            <code>&#123;&#123; largeNumber | coarNumber &#125;&#125;</code>
+            <output>{{ largeNumber | coarNumber }}</output>
+          </div>
+          <div class="format-example">
+            <code>&#123;&#123; decimal | coarNumber:undefined:2 &#125;&#125;</code>
+            <output>{{ decimal | coarNumber: undefined : 2 }}</output>
+          </div>
+          <div class="format-example">
+            <code>&#123;&#123; decimal | coarNumber:undefined:0 &#125;&#125;</code>
+            <output>{{ decimal | coarNumber: undefined : 0 }}</output>
+          </div>
         </div>
-        <div class="example">
-          <code>&#123;&#123; yesterday | coarDate &#125;&#125;</code>
-          <output>{{ yesterday | coarDate }}</output>
+      </coar-card>
+
+      <coar-card>
+        <h3>Currency Formatting</h3>
+        <p class="example-description">Format currency with locale-specific symbols and positioning.</p>
+        <div class="format-examples">
+          <div class="format-example">
+            <code>&#123;&#123; price | coarCurrency &#125;&#125;</code>
+            <output>{{ price | coarCurrency }}</output>
+          </div>
+          <div class="format-example">
+            <code>&#123;&#123; price | coarCurrency:undefined:'USD' &#125;&#125;</code>
+            <output>{{ price | coarCurrency: undefined : 'USD' }}</output>
+          </div>
+          <div class="format-example">
+            <code>&#123;&#123; price | coarCurrency:undefined:'EUR' &#125;&#125;</code>
+            <output>{{ price | coarCurrency: undefined : 'EUR' }}</output>
+          </div>
         </div>
-      </div>
+      </coar-card>
+
+      <coar-card>
+        <h3>Percent Formatting</h3>
+        <p class="example-description">Format percentages with locale-specific symbols and spacing.</p>
+        <div class="format-examples">
+          <div class="format-example">
+            <code>&#123;&#123; percent | coarPercent &#125;&#125;</code>
+            <output>{{ percent | coarPercent }}</output>
+          </div>
+          <div class="format-example">
+            <code>&#123;&#123; percent | coarPercent:undefined:1 &#125;&#125;</code>
+            <output>{{ percent | coarPercent: undefined : 1 }}</output>
+          </div>
+          <div class="format-example">
+            <code>&#123;&#123; 1.5 | coarPercent &#125;&#125;</code>
+            <output>{{ 1.5 | coarPercent }}</output>
+          </div>
+        </div>
+      </coar-card>
     </div>
 
-    <!-- Number Formatting -->
-    <div class="subsection">
-      <h3>Number Formatting</h3>
-      <div class="examples">
-        <div class="example">
-          <code>&#123;&#123; largeNumber | coarNumber &#125;&#125;</code>
-          <output>{{ largeNumber | coarNumber }}</output>
-        </div>
-        <div class="example">
-          <code>&#123;&#123; decimal | coarNumber:undefined:2 &#125;&#125;</code>
-          <output>{{ decimal | coarNumber: undefined : 2 }}</output>
-        </div>
-        <div class="example">
-          <code>&#123;&#123; decimal | coarNumber:undefined:0 &#125;&#125;</code>
-          <output>{{ decimal | coarNumber: undefined : 0 }}</output>
-        </div>
-        <div class="example">
-          <code>&#123;&#123; decimal | coarNumber:undefined:4 &#125;&#125;</code>
-          <output>{{ decimal | coarNumber: undefined : 4 }}</output>
-        </div>
-      </div>
-    </div>
-
-    <!-- Currency Formatting -->
-    <div class="subsection">
-      <h3>Currency Formatting</h3>
-      <div class="examples">
-        <div class="example">
-          <code>&#123;&#123; price | coarCurrency &#125;&#125;</code>
-          <output>{{ price | coarCurrency }}</output>
-        </div>
-        <div class="example">
-          <code>&#123;&#123; price | coarCurrency:undefined:'USD' &#125;&#125;</code>
-          <output>{{ price | coarCurrency: undefined : 'USD' }}</output>
-        </div>
-        <div class="example">
-          <code>&#123;&#123; price | coarCurrency:undefined:'EUR' &#125;&#125;</code>
-          <output>{{ price | coarCurrency: undefined : 'EUR' }}</output>
-        </div>
-        <div class="example">
-          <code>&#123;&#123; price | coarCurrency:undefined:'GBP' &#125;&#125;</code>
-          <output>{{ price | coarCurrency: undefined : 'GBP' }}</output>
-        </div>
-      </div>
-    </div>
-
-    <!-- Percent Formatting -->
-    <div class="subsection">
-      <h3>Percent Formatting</h3>
-      <div class="examples">
-        <div class="example">
-          <code>&#123;&#123; percent | coarPercent &#125;&#125;</code>
-          <output>{{ percent | coarPercent }}</output>
-        </div>
-        <div class="example">
-          <code>&#123;&#123; percent | coarPercent:undefined:1 &#125;&#125;</code>
-          <output>{{ percent | coarPercent: undefined : 1 }}</output>
-        </div>
-        <div class="example">
-          <code>&#123;&#123; percent | coarPercent:undefined:2 &#125;&#125;</code>
-          <output>{{ percent | coarPercent: undefined : 2 }}</output>
-        </div>
-        <div class="example">
-          <code>&#123;&#123; 1.5 | coarPercent &#125;&#125;</code>
-          <output>{{ 1.5 | coarPercent }}</output>
-        </div>
-      </div>
-    </div>
-
-    <!-- Pipe API -->
-    <div class="subsection">
-      <h3>Pipe API Reference</h3>
-      <coar-code-block [code]="formattingPipeExamples" language="html"></coar-code-block>
+    <!-- Pipe API Reference -->
+    <div class="examples-grid examples-grid__span">
+      <coar-card>
+        <h3>Pipe API Reference</h3>
+        <coar-code-block [code]="formattingPipeExamples" language="html" [collapsed]="true" />
+      </coar-card>
     </div>
 
     <!-- Combined Example -->
-    <div class="subsection">
-      <h3>Combined Example</h3>
-      <div class="card">
-        <h4>Order Summary</h4>
-        <p><strong>Date:</strong> {{ now | coarDate }}</p>
-        <p><strong>Items:</strong> {{ itemCount | coarNumber: undefined : 2 }}</p>
-        <p><strong>Subtotal:</strong> {{ subtotal | coarCurrency: undefined : 'USD' }}</p>
-        <p><strong>Tax:</strong> {{ tax | coarPercent: undefined : 2 }}</p>
-        <p><strong>Total:</strong> {{ total | coarCurrency: undefined : 'USD' }}</p>
-      </div>
+    <div class="examples-grid">
+      <coar-card>
+        <h3>Combined Example</h3>
+        <p class="example-description">Real-world usage combining multiple formatting pipes.</p>
+        <div class="order-summary">
+          <div class="order-row">
+            <span>Date:</span>
+            <strong>{{ now | coarDate }}</strong>
+          </div>
+          <div class="order-row">
+            <span>Items:</span>
+            <strong>{{ itemCount | coarNumber: undefined : 0 }}</strong>
+          </div>
+          <div class="order-row">
+            <span>Subtotal:</span>
+            <strong>{{ subtotal | coarCurrency: undefined : 'USD' }}</strong>
+          </div>
+          <div class="order-row">
+            <span>Tax:</span>
+            <strong>{{ tax | coarPercent: undefined : 2 }}</strong>
+          </div>
+          <div class="order-row total">
+            <span>Total:</span>
+            <strong>{{ total | coarCurrency: undefined : 'USD' }}</strong>
+          </div>
+        </div>
+      </coar-card>
     </div>
 
     <!-- Locale Data Structure -->
-    <div class="subsection">
-      <h3>Locale Data Structure (HTTP Source)</h3>
-      <p>Optional JSON files that override Intl defaults with business-specific formatting rules:</p>
-      <coar-code-block [code]="localeDataExample" language="json"></coar-code-block>
+    <div class="examples-grid">
+      <coar-card>
+        <h3>Locale Data Structure (HTTP Source)</h3>
+        <p class="example-description">Optional JSON files that override Intl defaults with business-specific formatting rules.</p>
+        <coar-code-block [code]="localeDataExample" language="json" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card>
+        <h3>Custom HTTP Source Configuration</h3>
+        <p class="example-description">Configure custom URL patterns and headers for HTTP sources.</p>
+        <coar-code-block [code]="customHttpSourceExample" language="typescript" [collapsed]="true" />
+      </coar-card>
     </div>
 
-    <!-- Custom HTTP Source -->
-    <div class="subsection">
-      <h3>Custom HTTP Source Configuration</h3>
-      <coar-code-block [code]="customHttpSourceExample" language="typescript"></coar-code-block>
-    </div>
-  </section>
+    <!-- Internationalization (i18n) Section -->
+    <h2 class="component-section-title">Internationalization (i18n) - Translation Pipe</h2>
+    <p class="component-section-description">Translate text content using the <code>coarI18n</code> pipe.</p>
 
-  <coar-divider></coar-divider>
-
-  <!-- Internationalization (i18n) - Translations -->
-  <section>
-    <h2>Internationalization (i18n) - Translation Pipe</h2>
-    <p>Translate text content using the <code>coarI18n</code> pipe.</p>
-
-    <div class="subsection">
-      <h3>Live Translation Examples</h3>
-      <div class="examples">
-        <div class="example">
-          <code>&#123;&#123; 'showcase.i18nPipe.demo.simpleKey.value' | coarI18n &#125;&#125;</code>
-          <output>{{ 'showcase.i18nPipe.demo.simpleKey.value' | coarI18n }}</output>
+    <div class="examples-grid">
+      <coar-card>
+        <h3>Live Translation Examples</h3>
+        <p class="example-description">Dynamic translations that update when language changes.</p>
+        <div class="format-examples">
+          <div class="format-example">
+            <code>&#123;&#123; 'showcase.i18nPipe.demo.simpleKey.value' | coarI18n &#125;&#125;</code>
+            <output>{{ 'showcase.i18nPipe.demo.simpleKey.value' | coarI18n }}</output>
+          </div>
+          <div class="format-example">
+            <code>&#123;&#123; 'missing.key' | coarI18n:'Fallback text' &#125;&#125;</code>
+            <output>{{ 'missing.key' | coarI18n: 'Fallback text' }}</output>
+          </div>
+          <div class="format-example">
+            <code>&#123;&#123; 'showcase.i18nPipe.demo.params.value' | coarI18n:&#123; count: 3 &#125; &#125;&#125;</code>
+            <output>{{ 'showcase.i18nPipe.demo.params.value' | coarI18n: { count: 3 } }}</output>
+          </div>
         </div>
-        <div class="example">
-          <code>&#123;&#123; 'missing.key' | coarI18n:'Fallback text' &#125;&#125;</code>
-          <output>{{ 'missing.key' | coarI18n: 'Fallback text' }}</output>
-        </div>
-        <div class="example">
-          <code>&#123;&#123; 'showcase.i18nPipe.demo.params.value' | coarI18n:&#123; count: 3 &#125; &#125;&#125;</code>
-          <output>{{ 'showcase.i18nPipe.demo.params.value' | coarI18n: { count: 3 } }}</output>
-        </div>
-      </div>
-    </div>
+      </coar-card>
 
-    <!-- i18n Pipe API -->
-    <div class="subsection">
-      <h3>Pipe API Reference</h3>
-      <coar-code-block [code]="i18nPipeExamples" language="html"></coar-code-block>
+      <coar-card>
+        <h3>Pipe API Reference</h3>
+        <coar-code-block [code]="i18nPipeExamples" language="html" [collapsed]="true" />
+      </coar-card>
     </div>
 
     <!-- Translation Files -->
-    <div class="subsection">
-      <h3>Translation Files Structure</h3>
-      <p>JSON files with nested keys and parameter interpolation:</p>
-      <coar-code-block [code]="translationsExample" language="json"></coar-code-block>
-    </div>
-  </section>
-
-  <coar-divider></coar-divider>
-
-  <!-- Architecture -->
-  <section>
-    <h2>Architecture</h2>
-
-    <div class="subsection">
-      <h3>Localization (L10n) - Multi-Source Cascade</h3>
-      <ol>
-        <li><strong>Intl Source</strong> - Browser Intl API (always first, provides complete defaults)</li>
-        <li><strong>HTTP Source</strong> - Optional JSON overrides for business rules</li>
-        <li><strong>Custom Sources</strong> - Extensible via multi-provider (SignalR, WebSocket, etc.)</li>
-      </ol>
-      <p>Sources are loaded in parallel and deep-merged. Later sources override earlier ones at field level.</p>
-      <p class="info">
-        <strong>Graceful degradation:</strong> If HTTP fails (404, timeout, invalid JSON), the system falls back to Intl defaults and logs a warning.
-      </p>
+    <div class="examples-grid examples-grid__span">
+      <coar-card>
+        <h3>Translation Files Structure</h3>
+        <p class="example-description">JSON files with nested keys and parameter interpolation.</p>
+        <coar-code-block [code]="translationsExample" language="json" [collapsed]="true" />
+      </coar-card>
     </div>
 
-    <div class="subsection">
-      <h3>Internationalization (i18n) - Translation Loading</h3>
-      <ol>
-        <li><strong>HTTP Loader (default)</strong> - Loads from <code>/i18n/&#123;lang&#125;.json</code></li>
-        <li><strong>Custom Loaders</strong> - Implement <code>CoarTranslationLoader</code> for SignalR, static, IndexedDB, etc.</li>
-      </ol>
-      <p>Translations are cached after first load. Switching back to a previous language is instant.</p>
+    <!-- Architecture Section -->
+    <h2 class="component-section-title">Architecture</h2>
+    <p class="component-section-description">Understanding the multi-source cascade and loading strategies.</p>
+
+    <div class="examples-grid">
+      <coar-card>
+        <h3>Localization (L10n) - Multi-Source Cascade</h3>
+        <ol class="architecture-list">
+          <li><strong>Intl Source</strong> - Browser Intl API (always first, provides complete defaults)</li>
+          <li><strong>HTTP Source</strong> - Optional JSON overrides for business rules</li>
+          <li><strong>Custom Sources</strong> - Extensible via multi-provider (SignalR, WebSocket, etc.)</li>
+        </ol>
+        <p>Sources are loaded in parallel and deep-merged. Later sources override earlier ones at field level.</p>
+        <coar-note variant="info">
+          <strong>Graceful degradation:</strong> If HTTP fails (404, timeout, invalid JSON), the system falls back to Intl defaults and logs a warning.
+        </coar-note>
+      </coar-card>
+
+      <coar-card>
+        <h3>Internationalization (i18n) - Translation Loading</h3>
+        <ol class="architecture-list">
+          <li><strong>HTTP Loader (default)</strong> - Loads from <code>/i18n/&#123;lang&#125;.json</code></li>
+          <li><strong>Custom Loaders</strong> - Implement <code>CoarTranslationLoader</code> for SignalR, static, IndexedDB, etc.</li>
+        </ol>
+        <p>Translations are cached after first load. Switching back to a previous language is instant.</p>
+      </coar-card>
     </div>
-  </section>
+  </div>
 </div>

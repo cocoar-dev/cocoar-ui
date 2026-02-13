@@ -135,9 +135,9 @@
    ======================================== */
 
 :host-context(.coar-radio-group--error) .coar-radio__control {
-  border-color: var(--coar-border-error-primary);
+  border-color: var(--coar-border-semantic-error-bold);
 }
 
 :host-context(.coar-radio-group--error):host(.coar-radio--checked) .coar-radio__dot {
-  background: var(--coar-background-error-primary);
+  background: var(--coar-background-semantic-error-bold);
 }

@@ -5,23 +5,29 @@
    Typography is handled by .coar-* classes in HTML.
    ======================================== */
 
-/* Sections */
-.section {
-  margin-bottom: 3rem;
-}
-
-.section > h2 {
-  margin-bottom: 0.25rem;
-}
-
-.section > p {
-  margin-bottom: 0.5rem;
-  color: var(--coar-text-neutral-secondary);
+.token-display {
+  display: block;
+  color: var(--coar-text-neutral-tertiary);
+  font-family: monospace;
+  margin-bottom: var(--coar-spacing-m);
+  font-size: var(--coar-body-caption-size);
 }
 
 .token-value {
   color: var(--coar-text-neutral-tertiary);
   font-family: monospace;
+}
+
+.examples-grid coar-card h3 {
+  margin-bottom: var(--coar-spacing-xs);
+  font-size: var(--coar-body-base-size);
+  font-weight: var(--coar-font-weight-semi-bold);
+}
+
+.example-description {
+  color: var(--coar-text-neutral-secondary);
+  font-size: var(--coar-body-small-base-size);
+  margin-bottom: var(--coar-spacing-m);
 }
 
 /* ========================================

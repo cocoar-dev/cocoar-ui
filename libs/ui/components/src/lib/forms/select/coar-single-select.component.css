@@ -376,13 +376,13 @@
 }
 
 .coar-select-option--selected {
-  background: var(--coar-surface-accent-secondary);
+  background: var(--coar-background-accent-secondary);
   color: var(--coar-text-accent-primary);
 }
 
 .coar-select-option--selected:hover,
 .coar-select-option--selected.coar-select-option--highlighted {
-  background: var(--coar-surface-accent-secondary);
+  background: var(--coar-background-accent-secondary);
 }
 
 .coar-select-option--disabled {

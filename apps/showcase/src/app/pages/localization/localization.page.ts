@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
 import {
   CoarButtonComponent,
+  CoarCardComponent,
   CoarCodeBlockComponent,
-  CoarDividerComponent,
+  CoarNoteComponent,
 } from '@cocoar/ui/components';
 import {
   CoarCurrencyPipe,
@@ -26,8 +27,9 @@ import {
   standalone: true,
   imports: [
     CoarButtonComponent,
+    CoarCardComponent,
     CoarCodeBlockComponent,
-    CoarDividerComponent,
+    CoarNoteComponent,
     CoarDatePipe,
     CoarNumberPipe,
     CoarCurrencyPipe,

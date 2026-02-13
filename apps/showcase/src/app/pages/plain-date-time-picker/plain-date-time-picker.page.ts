@@ -6,6 +6,7 @@ import {
   CoarPlainDateTimePickerComponent,
   CoarCodeBlockComponent,
   CoarCardComponent,
+  CoarNoteComponent,
   type CoarDateMarker,
 } from '@cocoar/ui/components';
 
@@ -17,6 +18,7 @@ import {
     CoarPlainDateTimePickerComponent,
     CoarCodeBlockComponent,
     CoarCardComponent,
+    CoarNoteComponent,
   ],
   templateUrl: './plain-date-time-picker.page.html',
   styleUrl: './plain-date-time-picker.page.css',

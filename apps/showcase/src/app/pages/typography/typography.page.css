@@ -5,39 +5,16 @@
    Typography is handled by .coar-* classes in HTML.
    ======================================== */
 
-/* Sections */
-.section {
-  margin-bottom: 3rem;
-}
-
-.section h2 {
-  margin-bottom: 0.25rem;
-}
-
-.section > p {
-  margin-bottom: 1.5rem;
-}
-
-/* Type Scale */
-.type-scale {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.type-item .coar-caption {
+/* Type scale card styling */
+.examples-grid coar-card .coar-caption:first-child {
   display: block;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--coar-spacing-s);
 }
 
-.type-item > p:not(.coar-caption) {
-  margin-bottom: 0.5rem;
+.examples-grid coar-card > p:not(.coar-caption):not(:last-child) {
+  margin-bottom: var(--coar-spacing-s);
 }
 
-.usage-example > * {
-  margin-bottom: 1rem;
-}
-
-.usage-example > *:last-child {
+.examples-grid coar-card > *:last-child {
   margin-bottom: 0;
 }

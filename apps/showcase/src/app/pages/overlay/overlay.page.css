@@ -112,6 +112,85 @@
   background: var(--coar-background-neutral-secondary);
 }
 
+/* Overlay panel text styling */
+.overlay-panel .coar-body {
+  margin-bottom: var(--coar-spacing-xs);
+}
+
+.overlay-panel .coar-caption {
+  color: var(--coar-text-neutral-secondary);
+}
+
+.overlay-panel__hint {
+  margin-top: var(--coar-spacing-xs);
+}
+
+.overlay-panel__description {
+  margin-bottom: var(--coar-spacing-s);
+}
+
+/* Action button rows inside overlay panels */
+.overlay-panel__actions {
+  display: flex;
+  gap: var(--coar-spacing-sm);
+  margin-top: var(--coar-spacing-md);
+}
+
+.overlay-panel__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--coar-spacing-xs);
+}
+
+/* Nested overlay demo variants */
+.overlay-panel--parent {
+  min-width: 250px;
+}
+
+.overlay-panel--child-a {
+  min-width: 200px;
+  background: var(--coar-color-success-subtle);
+}
+
+.overlay-panel--child-b {
+  min-width: 200px;
+  background: var(--coar-color-info-subtle);
+}
+
+.overlay-panel--child-c {
+  min-width: 200px;
+  background: var(--coar-color-warning-subtle);
+}
+
+.overlay-panel--grandchild {
+  min-width: 150px;
+  background: var(--coar-color-neutral-subtle);
+}
+
+/* Hover menu demo variants */
+.overlay-panel--hover-child-a {
+  min-width: 180px;
+  border-left: 3px solid var(--coar-color-success);
+}
+
+.overlay-panel--hover-child-b {
+  min-width: 180px;
+  border-left: 3px solid var(--coar-color-info);
+}
+
+.overlay-panel--hover-child-c {
+  min-width: 180px;
+  border-left: 3px solid var(--coar-color-warning);
+}
+
+.overlay-panel--hover-parent {
+  min-width: 200px;
+}
+
+.overlay-note {
+  margin-top: var(--coar-spacing-m);
+}
+
 .docs-loading {
   display: inline-flex;
   align-items: center;
