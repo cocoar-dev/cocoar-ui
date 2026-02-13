@@ -163,7 +163,7 @@ Consolidated findings from a full design system audit (Feb 2026) covering UI/UX,
 
 ### 5.1 Must-Have (blocks login/consent/profile)
 
-- [ ] **`CoarDialogService` / `CoarDialogComponent`** — leverage existing `coarModalPreset`. Needs: title, body content projection, footer actions, close button, size variants (sm/md/lg), `role="dialog"`, focus trapping, escape to close.
+- [ ] **`CoarDialogService` / `CoarDialogComponent`** — leverage existing `coarModalPreset`. Needs: title, body content projection, footer actions, close button, size variants (s/m/l), `role="dialog"`, focus trapping, escape to close.
 
 - [ ] **`CoarToastService` / toast notification system** — needs: success/error/warning/info variants, auto-dismiss with configurable duration, stack positioning (top-right), manual dismiss, `aria-live` region.
 
@@ -193,11 +193,13 @@ Consolidated findings from a full design system audit (Feb 2026) covering UI/UX,
 
 ---
 
-## Phase 6: Minor API Consistency
+## Phase 6: Naming Consistency — COMPLETE
 
-- [ ] **Button `clicked` vs menu-item `itemClick`** — consider standardizing event output naming.
+- [x] **Size naming standardized**: `sm` → `s`, `md` → `m`, `lg` → `l` across all components, tokens, CSS, templates, tests, showcase, and docs. Avatar `2xl` → `xxl`.
+- [x] **Event output naming standardized**: Menu-item `itemClick` → `clicked`, `itemHover` → `hovered` (Angular past-tense convention).
 - [x] **`color` vs `variant` input naming** — Documented: `variant` = visual hierarchy (buttons), `color` = semantic meaning (cards, tags, notes).
 - [x] **`example-demo--grid` class** in selects page — Fixed by changing to `example-demo--two-col`.
+- [x] **Stale Figma references** — Removed from development-environment docs custom words list.
 
 ---
 
@@ -205,7 +207,6 @@ Consolidated findings from a full design system audit (Feb 2026) covering UI/UX,
 
 | Item | Phase | Effort |
 |------|-------|--------|
-| Button `clicked` vs `itemClick` naming | 6 | Small (breaking change) |
 | **New components for IDP Server** | **5** | **Large** |
 
 ---
