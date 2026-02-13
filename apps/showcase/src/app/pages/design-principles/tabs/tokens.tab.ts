@@ -27,10 +27,12 @@ export class DesignPrinciplesTokensTab {
   ];
 
   readonly radiusTokens = [
-    { token: '--coar-radius-xxs', value: '2px', usage: 'Badges, small elements' },
-    { token: '--coar-radius-xs', value: '4px', usage: 'Default (buttons, inputs, cards)' },
-    { token: '--coar-radius-s', value: '6px', usage: 'Larger cards' },
-    { token: '--coar-radius-m', value: '8px', usage: 'Dialogs, panels' },
+    { token: '--coar-radius-xxs', value: '1px', usage: 'Badges, small elements' },
+    { token: '--coar-radius-xs', value: '2px', usage: 'Default (buttons, inputs, cards)' },
+    { token: '--coar-radius-s', value: '3px', usage: 'Larger cards' },
+    { token: '--coar-radius-m', value: '4px', usage: 'Dialogs, panels' },
+    { token: '--coar-radius-l', value: '5px', usage: 'Large panels' },
+    { token: '--coar-radius-xl', value: '6px', usage: 'Dialogs, modals' },
   ];
 
   readonly sizingTokens = [

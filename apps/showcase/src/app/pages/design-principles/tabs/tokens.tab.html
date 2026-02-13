@@ -36,7 +36,7 @@
   </p>
   <div class="token-table">
     @for (radius of radiusTokens; track radius.token) {
-    <coar-card [color]="radius.value === '4px' ? 'info' : 'neutral'" elevated class="token-row">
+    <coar-card [color]="radius.token === '--coar-radius-xs' ? 'info' : 'neutral'" elevated class="token-row">
       <code class="token-name coar-body-small">{{ radius.token }}</code>
       <span class="token-value coar-body-small">{{ radius.value }}</span>
       <span class="token-usage coar-caption">{{ radius.usage }}</span>

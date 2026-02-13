@@ -54,6 +54,5 @@ export class SpacingPage {
     { name: 'M', variable: '--coar-shadow-m', description: 'Dropdowns and popovers' },
     { name: 'L', variable: '--coar-shadow-l', description: 'Modals and dialogs' },
     { name: 'XL', variable: '--coar-shadow-xl', description: 'Elevated overlays' },
-    { name: 'Focus', variable: '--coar-shadow-focus', description: 'Focus ring for accessibility' },
   ];
 }
