@@ -468,6 +468,18 @@ describe('CoarNumberInputComponent', () => {
       expect(clearSpy).toHaveBeenCalledTimes(1);
     });
 
+    it('should render clear button as a <button> element with aria-label', () => {
+      fixture.componentRef.setInput('value', 50);
+      fixture.componentRef.setInput('clearable', true);
+      fixture.detectChanges();
+
+      const clearBtn = fixture.nativeElement.querySelector('.coar-number-input-clear');
+      expect(clearBtn).toBeTruthy();
+      expect(clearBtn?.tagName).toBe('BUTTON');
+      expect(clearBtn?.getAttribute('aria-label')).toBe('Clear');
+      expect(clearBtn?.hasAttribute('aria-hidden')).toBe(false);
+    });
+
     it('should focus input after clearing', () => {
       fixture.componentRef.setInput('value', 50);
       fixture.componentRef.setInput('clearable', true);

@@ -294,8 +294,21 @@
   color: var(--coar-icon-neutral-primary);
 }
 
+.coar-text-input-clear:focus {
+  outline: none;
+}
+
 .coar-text-input-clear:focus-visible {
   color: var(--coar-icon-neutral-primary);
+}
+
+/* Browser autofill styling */
+.coar-text-input-field:-webkit-autofill,
+.coar-text-input-field:-webkit-autofill:hover,
+.coar-text-input-field:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--coar-text-neutral-primary);
+  -webkit-box-shadow: 0 0 0px 1000px var(--coar-surface-input) inset;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 /* Message (always reserves 1 line of space) */

@@ -24,15 +24,9 @@
     [class.coar-number-input-dragging]="isDragging()"
   >
     <!-- Clear indicator (left side for number input) - always present to prevent CLS -->
-    <coar-icon
-      name="x"
-      source="coar-builtin"
-      size="auto"
-      class="coar-number-input-clear"
-      [class.coar-number-input-clear--hidden]="!showClearButton()"
-      aria-hidden="true"
-      (click)="onClear()"
-    />
+    <button type="button" class="coar-number-input-clear" [class.coar-number-input-clear--hidden]="!showClearButton()" tabindex="-1" aria-label="Clear" (click)="onClear()">
+      <coar-icon name="x" source="coar-builtin" size="auto" />
+    </button>
 
     <!-- Prefix -->
     <span class="coar-number-input-prefix">

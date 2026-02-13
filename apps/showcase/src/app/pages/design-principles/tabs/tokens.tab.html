@@ -56,7 +56,7 @@
   <p class="section-intro coar-body-small">All interactive components follow a consistent 3-tier sizing system.</p>
   <div class="sizing-demo">
     @for (size of sizingTokens; track size.size) {
-    <coar-card [color]="size.size === 'md' ? 'info' : 'neutral'" elevated class="sizing-row">
+    <coar-card [color]="size.size === 'm' ? 'info' : 'neutral'" elevated class="sizing-row">
       <code class="size-name coar-body-small">{{ size.size }}</code>
       <span class="size-height coar-body-small">{{ size.height }}</span>
       <span class="size-usage coar-caption">{{ size.usage }}</span>

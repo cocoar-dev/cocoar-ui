@@ -256,12 +256,12 @@ export class CoarNumberInputComponent extends CoarControlValueAccessor<number | 
   }
 
   /**
-   * Resolve number format configuration with priority chain:
+   * Cached number format configuration with priority chain:
    * 1. numberFormat input (explicit config object)
    * 2. Browser Intl.NumberFormat detection with locale
    * 3. Hardcoded fallback { decimal: '.', thousand: '' }
    */
-  private resolveNumberFormat(): NumberFormatConfig {
+  private readonly resolvedNumberFormat = computed<NumberFormatConfig>(() => {
     // Priority 1: Explicit config object
     const format = this.numberFormat();
     if (format) {
@@ -285,10 +285,10 @@ export class CoarNumberInputComponent extends CoarControlValueAccessor<number | 
 
     // Priority 3: Fallback
     return { decimal: '.', thousand: '' };
-  }
+  });
 
   private initializeMaskito(inputElement: HTMLInputElement): void {
-    const format = this.resolveNumberFormat();
+    const format = this.resolvedNumberFormat();
 
     const maskOptions = maskitoNumberOptionsGenerator({
       decimalSeparator: format.decimal,
@@ -303,7 +303,7 @@ export class CoarNumberInputComponent extends CoarControlValueAccessor<number | 
 
   protected formatValue(value: number | null): string {
     if (value === null) return '';
-    const format = this.resolveNumberFormat();
+    const format = this.resolvedNumberFormat();
     // Format with locale-specific decimal separator
     const formatted = value.toFixed(this.decimals());
     // Replace period with the configured decimal separator
@@ -316,7 +316,7 @@ export class CoarNumberInputComponent extends CoarControlValueAccessor<number | 
    */
   protected parseValue(str: string): number | null {
     if (str.trim() === '') return null;
-    const format = this.resolveNumberFormat();
+    const format = this.resolvedNumberFormat();
     // Remove thousand separators first (before converting decimal)
     const withoutThousands = format.thousand ? str.replace(new RegExp(`\\${format.thousand}`, 'g'), '') : str;
     // Replace locale-specific decimal separator with period for parseFloat

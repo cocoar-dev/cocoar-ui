@@ -61,7 +61,8 @@ export class PasswordPage {
 <!-- Readonly -->
 <coar-password-input label="Password" [readonly]="true" value="ReadonlyPassword" />`,
 
-    sizes: `<!-- Available sizes: sm, md, lg -->
+    sizes: `<!-- Available sizes: xs, s, m, l -->
+<coar-password-input size="xs" placeholder="24px height" />
 <coar-password-input size="s" placeholder="32px height" />
 <coar-password-input size="m" placeholder="40px height" />
 <coar-password-input size="l" placeholder="48px height" />`,

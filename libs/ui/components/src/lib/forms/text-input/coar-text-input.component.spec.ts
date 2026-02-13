@@ -307,6 +307,16 @@ describe('CoarTextInputComponent', () => {
       fixture.detectChanges();
       expect(getClearButton()).toBeNull();
     });
+
+    it('should render clear button as a <button> element with aria-label', () => {
+      fixture.componentRef.setInput('value', 'some text');
+      fixture.detectChanges();
+      const clearBtn = getClearButton();
+      expect(clearBtn).toBeTruthy();
+      expect(clearBtn?.tagName).toBe('BUTTON');
+      expect(clearBtn?.getAttribute('aria-label')).toBe('Clear');
+      expect(clearBtn?.hasAttribute('aria-hidden')).toBe(false);
+    });
   });
 
   describe('focus events', () => {

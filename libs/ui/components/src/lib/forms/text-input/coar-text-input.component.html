@@ -84,15 +84,9 @@
 
     <!-- Clear indicator -->
     @if (showClearButton()) {
-      <coar-icon
-        name="x"
-        source="coar-builtin"
-        size="auto"
-        class="coar-text-input-clear"
-        [class.coar-text-input-clear--multiline]="isMultiline()"
-        aria-hidden="true"
-        (click)="onClear()"
-      />
+      <button type="button" class="coar-text-input-clear" [class.coar-text-input-clear--multiline]="isMultiline()" tabindex="-1" aria-label="Clear" (click)="onClear()">
+        <coar-icon name="x" source="coar-builtin" size="auto" />
+      </button>
     }
 
     <!-- Suffix Actions (always visible, e.g., action buttons) -->

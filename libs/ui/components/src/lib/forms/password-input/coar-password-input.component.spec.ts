@@ -176,6 +176,14 @@ describe('CoarPasswordInputComponent', () => {
       expect(getInputElement()?.type).toBe('password');
     });
 
+    it('should render toggle as a <button> element with aria-label', () => {
+      const toggle = getToggleButton();
+      expect(toggle).toBeTruthy();
+      expect(toggle?.tagName).toBe('BUTTON');
+      expect(toggle?.getAttribute('aria-label')).toBeTruthy();
+      expect(toggle?.hasAttribute('aria-hidden')).toBe(false);
+    });
+
     it('should have accessible label for toggle button', () => {
       const toggle = getToggleButton();
       expect(toggle?.getAttribute('aria-label')).toBe('Show password');
@@ -315,6 +323,16 @@ describe('CoarPasswordInputComponent', () => {
       fixture.componentRef.setInput('readonly', true);
       fixture.detectChanges();
       expect(getClearButton()).toBeNull();
+    });
+
+    it('should render clear button as a <button> element with aria-label', () => {
+      fixture.componentRef.setInput('value', 'password123');
+      fixture.detectChanges();
+      const clearBtn = getClearButton();
+      expect(clearBtn).toBeTruthy();
+      expect(clearBtn?.tagName).toBe('BUTTON');
+      expect(clearBtn?.getAttribute('aria-label')).toBe('Clear');
+      expect(clearBtn?.hasAttribute('aria-hidden')).toBe(false);
     });
   });
 
