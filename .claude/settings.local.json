@@ -1,4 +1,7 @@
 {
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
+  },
   "permissions": {
     "allow": [
       "Bash(pnpm build:*)",
@@ -20,7 +23,12 @@
       "Bash(pnpm test:*)",
       "Bash(nx reset)",
       "Bash(pnpm nx reset:*)",
-      "Bash(xcopy:*)"
+      "Bash(xcopy:*)",
+      "Bash(xargs -I {} sh -c 'echo \"\"=== {} ===\"\" && cat {}')",
+      "Bash(for dir in display forms date-time navigation overlay)",
+      "Bash(do git mv \"libs/ui-components/src/lib/$dir\" \"libs/ui/components/src/lib/$dir\")",
+      "Bash(done)",
+      "Bash(pnpm nx build:*)"
     ]
   }
 }

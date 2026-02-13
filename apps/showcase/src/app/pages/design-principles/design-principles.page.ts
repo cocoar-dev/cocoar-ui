@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CoarTabGroupComponent, CoarTabComponent } from '@cocoar/ui-components';
+import { CoarTabGroupComponent, CoarTabComponent } from '@cocoar/ui/components';
 
 import {
   DesignPrinciplesOverviewTab,

@@ -1,0 +1,9 @@
+/**
+ * Cocoar Design System - All Styles
+ *
+ * Import this file to get all design tokens and component global styles:
+ * @import '@cocoar/ui/styles/all.css';
+ */
+
+@import './tokens/all.css';
+@import './components.css';

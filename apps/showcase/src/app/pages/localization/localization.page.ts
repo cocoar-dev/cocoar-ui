@@ -3,7 +3,7 @@ import {
   CoarButtonComponent,
   CoarCodeBlockComponent,
   CoarDividerComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 import {
   CoarCurrencyPipe,
   CoarDatePipe,

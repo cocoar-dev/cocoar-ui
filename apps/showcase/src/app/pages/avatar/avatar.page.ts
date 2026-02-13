@@ -8,7 +8,7 @@ import {
   CoarInitialsPipe,
   AvatarSize,
   AvatarShape,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-avatar',
@@ -24,7 +24,7 @@ import {
   styleUrl: './avatar.page.css',
 })
 export class AvatarPage {
-  importCode = `import { CoarAvatarComponent } from '@cocoar/ui-components';`;
+  importCode = `import { CoarAvatarComponent } from '@cocoar/ui/components';`;
 
   /** Avatar sizes */
   sizes: AvatarSize[] = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];

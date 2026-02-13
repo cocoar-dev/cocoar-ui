@@ -9,7 +9,7 @@ import {
   CoarNoteComponent,
   CoarCodeBlockComponent,
   CoarCheckboxComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-forms',

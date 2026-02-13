@@ -4,7 +4,7 @@ import {
   CoarDividerComponent,
   CoarCodeBlockComponent,
   CoarCardComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-dividers',
@@ -18,7 +18,7 @@ import {
   styleUrl: './dividers.page.css',
 })
 export class DividersPage {
-  importCode = `import { CoarDividerComponent } from '@cocoar/ui-components';`;
+  importCode = `import { CoarDividerComponent } from '@cocoar/ui/components';`;
 
   /** Code examples */
   codeExamples = {

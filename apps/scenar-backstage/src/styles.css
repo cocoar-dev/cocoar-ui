@@ -4,7 +4,7 @@
 	real values, making Playwright “isolated component tests” representative.
 */
 
-@import '../../../libs/ui-tokens/src/css/all.css';
+@import '../../../libs/ui/styles/tokens/all.css';
 @import 'overlayscrollbars/overlayscrollbars.css';
 
 *,

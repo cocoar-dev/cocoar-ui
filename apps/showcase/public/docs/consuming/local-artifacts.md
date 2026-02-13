@@ -28,7 +28,7 @@ npm i /path/to/cocoar-ui-components-<version>.tgz \
 In the app global stylesheet:
 
 ```css
-@import '@cocoar/ui-tokens/css/all.css';
+@import '@cocoar/ui/styles/tokens/all.css';
 ```
 
 ## 5) Smoke test

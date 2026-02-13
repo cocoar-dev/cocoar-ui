@@ -36,7 +36,7 @@ Concise templates and workflow for creating scenarios and Playwright tests. This
 
 **Example:**
 ```typescript
-// libs/ui-components/src/lib/coar-button/button.scenario.ts
+// libs/ui/components/src/lib/coar-button/button.scenario.ts
 import { defineScenario } from '@cocoar/scenar-abstractions';
 import { CoarButtonComponent } from './coar-button.component';
 
@@ -154,7 +154,7 @@ npx playwright show-trace test-results/.../trace.zip
 ```
 1. SCENARIO DEFINITION
    ↓ (Co-located with component)
-   libs/ui-components/src/lib/coar-button/button.scenario.ts
+   libs/ui/components/src/lib/coar-button/button.scenario.ts
 
 2. REGISTRY GENERATION
    ↓ (Scripts scan workspace for *.scenario.ts)
@@ -273,6 +273,6 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) for complete guidelines.
 - Backstage app: `apps/scenar-backstage/`
 
 **Questions?**
-- Check existing scenarios in `libs/ui-components/src/lib/*/`
+- Check existing scenarios in `libs/ui/components/src/lib/*/`
 - Review [ARCHITECTURE.md](../../ARCHITECTURE.md) for system design
 - See [AGENTS.md](../../AGENTS.md) for AI assistant guidelines

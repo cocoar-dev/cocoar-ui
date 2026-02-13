@@ -29,9 +29,9 @@ This ensures that all Cocoar packages and their dependencies are properly hoiste
 ## What's Included
 
 This meta-package includes:
-- **@cocoar/ui-components** - Core UI components (buttons, inputs, cards, etc.)
-- **@cocoar/ui-menu** - Menu and navigation components
-- **@cocoar/ui-overlay** - Overlay service for tooltips, popovers, dialogs
+- **@cocoar/ui/components** - Core UI components (buttons, inputs, cards, etc.)
+- **@cocoar/ui/menu** - Menu and navigation components
+- **@cocoar/ui/overlay** - Overlay service for tooltips, popovers, dialogs
 
 ## Usage
 
@@ -50,8 +50,7 @@ import {
 If you need granular control or want to minimize bundle size, you can install individual packages:
 
 ```bash
-npm install @cocoar/ui-components  # Just the core components
-npm install @cocoar/ui-menu        # Just the menu
+npm install @cocoar/ui  # Includes components, menu, and overlay
 ```
 
 ## Documentation

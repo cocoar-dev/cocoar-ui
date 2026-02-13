@@ -1,6 +1,6 @@
 # Overlay API
 
-This is the public API surface of `@cocoar/ui-overlay`.
+This is the public API surface of `@cocoar/ui/overlay`.
 
 ## Exports overview
 
@@ -21,7 +21,7 @@ This is the public API surface of `@cocoar/ui-overlay`.
 ## Typical usage
 
 ```ts
-import { createOverlayBuilder, coarMenuPreset } from '@cocoar/ui-overlay';
+import { createOverlayBuilder, coarMenuPreset } from '@cocoar/ui/overlay';
 
 const overlay = createOverlayBuilder(coarMenuPreset);
 
@@ -47,7 +47,7 @@ Injection token that resolves to the current `OverlayRef` inside overlay content
 
 ```ts
 import { inject } from '@angular/core';
-import { COAR_OVERLAY_REF } from '@cocoar/ui-overlay';
+import { COAR_OVERLAY_REF } from '@cocoar/ui/overlay';
 
 const overlayRef = inject(COAR_OVERLAY_REF, { optional: true });
 ```

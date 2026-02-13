@@ -1,0 +1,457 @@
+:host {
+  display: block;
+  position: relative;
+}
+
+/* Wrapper */
+.coar-select-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+/* Label */
+.coar-select-label {
+  display: block;
+  margin-bottom: var(--coar-component-md-label-margin);
+  font-family: var(--coar-body-small-bold-family);
+  font-size: var(--coar-component-md-label-font-size);
+  font-weight: var(--coar-body-small-bold-weight);
+  color: var(--coar-text-neutral-primary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.coar-select-required {
+  color: var(--coar-text-semantic-error-bold);
+  margin-left: var(--coar-spacing-xs);
+}
+
+/* Trigger */
+.coar-select-trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--coar-component-md-height);
+  padding: 0 var(--coar-spacing-s);
+  border: 1px solid var(--coar-border-input);
+  border-radius: var(--coar-radius-xs);
+  background: var(--coar-surface-input);
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  outline: none;
+}
+
+.coar-select-trigger:hover:not(.coar-select-trigger--disabled):not(.coar-select-trigger--readonly):not(
+    .coar-select-trigger--error
+  ):not(.coar-select-trigger--focused) {
+  border-color: var(--coar-border-input-hover);
+}
+
+.coar-select-trigger--focused:not(.coar-select-trigger--error) {
+  border-color: var(--coar-border-accent-primary);
+  box-shadow: inset 0 0 0 1px var(--coar-border-accent-primary);
+}
+
+.coar-select-trigger--disabled {
+  background: var(--coar-surface-input-disabled);
+  border-color: var(--coar-border-input);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.coar-select-trigger--readonly {
+  background: var(--coar-surface-input);
+  border-color: var(--coar-border-input);
+  cursor: default;
+}
+
+.coar-select-trigger--error {
+  border-color: var(--coar-border-semantic-error-bold);
+}
+
+.coar-select-trigger--error.coar-select-trigger--focused {
+  box-shadow: inset 0 0 0 1px var(--coar-border-semantic-error-bold);
+}
+
+/* Size variants */
+:host(.coar-multi-select--xs) .coar-select-trigger {
+  height: var(--coar-component-xs-height);
+}
+
+:host(.coar-multi-select--sm) .coar-select-trigger {
+  height: var(--coar-component-sm-height);
+}
+
+:host(.coar-multi-select--lg) .coar-select-trigger {
+  height: var(--coar-component-lg-height);
+}
+
+:host(.coar-multi-select--xs) .coar-select-label {
+  font-size: var(--coar-component-xs-label-font-size);
+  margin-bottom: var(--coar-component-xs-label-margin);
+}
+
+:host(.coar-multi-select--sm) .coar-select-label {
+  font-size: var(--coar-component-sm-label-font-size);
+  margin-bottom: var(--coar-component-sm-label-margin);
+}
+
+:host(.coar-multi-select--lg) .coar-select-label {
+  font-size: var(--coar-component-lg-label-font-size);
+  margin-bottom: var(--coar-component-lg-label-margin);
+}
+
+/* Value */
+.coar-select-value {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--coar-spacing-xs);
+  min-width: 0;
+  font-family: var(--coar-body-small-base-family);
+  font-size: var(--coar-body-small-base-size);
+  font-weight: var(--coar-body-small-base-weight);
+  color: var(--coar-text-neutral-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.coar-select-placeholder {
+  color: var(--coar-text-neutral-tertiary);
+}
+
+:host(.coar-multi-select--xs) .coar-select-value {
+  font-size: var(--coar-component-xs-font-size);
+}
+
+:host(.coar-multi-select--sm) .coar-select-value {
+  font-size: var(--coar-component-sm-font-size);
+}
+
+:host(.coar-multi-select--lg) .coar-select-value {
+  font-size: var(--coar-component-lg-font-size);
+}
+
+/* Actions */
+.coar-select-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--coar-spacing-xs);
+  margin-left: var(--coar-spacing-xs);
+  flex-shrink: 0;
+}
+
+/* Count Badge */
+.coar-multi-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 var(--coar-spacing-xs);
+  background: var(--coar-surface-accent-primary);
+  color: var(--coar-text-on-bold);
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: var(--coar-radius-full);
+}
+
+/* Clear Button */
+.coar-select-clear {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--coar-icon-neutral-disabled);
+  cursor: pointer;
+  border-radius: var(--coar-radius-xs);
+  transition: color 0.15s ease, background-color 0.15s ease, opacity 0.15s ease;
+  opacity: 0.4; /* Dimmed by default, matches text-input behavior */
+}
+
+/* More visible when trigger is hovered */
+.coar-select-trigger:hover .coar-select-clear {
+  opacity: 1;
+  color: var(--coar-icon-neutral-tertiary);
+}
+
+/* More visible when dropdown is open (focused state) */
+:host(.coar-multi-select--open) .coar-select-clear {
+  opacity: 1;
+  color: var(--coar-icon-neutral-tertiary);
+}
+
+/* Even more prominent when hovering the clear button itself */
+.coar-select-clear:hover {
+  opacity: 1;
+  color: var(--coar-icon-neutral-primary);
+}
+
+/* Arrow */
+.coar-select-arrow {
+  width: 16px;
+  height: 16px;
+  color: var(--coar-icon-neutral-secondary);
+  transform: rotate(90deg);
+  transition: transform 0.15s ease;
+}
+
+.coar-select-arrow--open {
+  transform: rotate(-90deg);
+}
+
+/**
+ * Dropdown panel positioning supports two modes:
+ * 1. Inline (default): Uses position:absolute relative to trigger
+ * 2. Portal: Uses position:fixed via inline styles to escape stacking contexts
+ */
+.coar-select-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  margin-top: var(--coar-spacing-xs);
+  background: var(--coar-background-neutral-primary);
+  border: 1px solid var(--coar-border-neutral);
+  border-radius: var(--coar-radius-s);
+  box-shadow: var(--coar-shadow-m);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/*
+ * Overlay mode: dropdown is rendered inside @cocoar/ui/overlay host (attached to document.body).
+ * The overlay host is already positioned and layered, so the dropdown panel must not position itself.
+ */
+.coar-select-dropdown--overlay {
+  position: static;
+  top: auto;
+  bottom: auto;
+  left: auto;
+  right: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  z-index: auto;
+  width: 100%;
+}
+
+/**
+ * Portal mode: position:fixed is set via inline styles.
+ * Remove margins since offset is already in the calculated position.
+ */
+.coar-select-dropdown--portal {
+  margin-top: 0;
+  margin-bottom: 0;
+  right: auto; /* Don't stretch to right edge in portal mode */
+}
+
+/**
+ * CSS Anchor Positioning mode (modern browsers).
+ * Uses native browser positioning for zero-lag scroll tracking.
+ * position-anchor is set via inline style to use the unique anchor name.
+ */
+.coar-select-dropdown--css-anchor {
+  /* Position below anchor by default */
+  top: anchor(bottom);
+  left: anchor(left);
+  right: anchor(right);
+  bottom: auto;
+
+  /* Offset from trigger */
+  margin-top: var(--coar-spacing-xs);
+}
+
+.coar-select-dropdown--css-anchor.coar-select-dropdown--top {
+  /* Position above anchor */
+  top: auto;
+  bottom: anchor(top);
+
+  /* Offset from trigger */
+  margin-top: 0;
+  margin-bottom: var(--coar-spacing-xs);
+  flex-direction: column-reverse;
+}
+
+/* Top position - opens above the trigger (JS fallback) */
+.coar-select-dropdown--top:not(.coar-select-dropdown--overlay):not(.coar-select-dropdown--portal):not(
+    .coar-select-dropdown--css-anchor
+  ) {
+  top: auto;
+  bottom: 100%;
+  margin-top: 0;
+  margin-bottom: var(--coar-spacing-xs);
+  flex-direction: column-reverse;
+}
+
+.coar-select-dropdown--overlay.coar-select-dropdown--top {
+  flex-direction: column-reverse;
+}
+
+/* When dropdown opens to top, search and select-all borders move to top */
+.coar-select-dropdown--top .coar-select-search {
+  border-bottom: none;
+  border-top: 1px solid var(--coar-border-neutral);
+}
+
+.coar-select-dropdown--top .coar-multi-divider {
+  order: -1;
+}
+
+.coar-select-dropdown--top .coar-multi-option--select-all {
+  border-bottom: none;
+}
+
+/* Search */
+.coar-select-search {
+  padding: var(--coar-spacing-s);
+  border-bottom: 1px solid var(--coar-border-neutral);
+}
+
+.coar-select-search-input {
+  width: 100%;
+  height: 32px;
+  padding: 0 var(--coar-spacing-s);
+  border: 1px solid var(--coar-border-input);
+  border-radius: var(--coar-radius-xs);
+  background: var(--coar-surface-input);
+  font-family: var(--coar-body-small-base-family);
+  font-size: var(--coar-body-small-base-size);
+  color: var(--coar-text-neutral-primary);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.coar-select-search-input::placeholder {
+  color: var(--coar-text-neutral-tertiary);
+}
+
+.coar-select-search-input:focus {
+  border-color: var(--coar-border-accent-primary);
+  box-shadow: inset 0 0 0 1px var(--coar-border-accent-primary);
+}
+
+/* Options */
+.coar-select-options {
+  max-height: 240px;
+  overflow-y: auto;
+  padding: var(--coar-spacing-xs) 0;
+}
+
+/* Multi Option */
+.coar-multi-option {
+  display: flex;
+  align-items: center;
+  gap: var(--coar-spacing-s);
+  padding: var(--coar-spacing-s) var(--coar-spacing-m);
+  font-family: var(--coar-body-small-base-family);
+  font-size: var(--coar-body-small-base-size);
+  color: var(--coar-text-neutral-primary);
+  cursor: pointer;
+  transition: background-color 0.1s ease;
+}
+
+.coar-multi-option:hover:not(.coar-multi-option--disabled),
+.coar-multi-option--highlighted:not(.coar-multi-option--disabled) {
+  background: var(--coar-background-neutral-tertiary);
+}
+
+.coar-multi-option--disabled {
+  color: var(--coar-text-neutral-disabled);
+  cursor: not-allowed;
+}
+
+.coar-multi-option--select-all {
+  font-weight: 600;
+}
+
+/* Checkbox */
+.coar-multi-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--coar-border-input);
+  border-radius: var(--coar-radius-xs);
+  background: var(--coar-surface-input);
+  flex-shrink: 0;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.coar-multi-checkbox--checked {
+  background: var(--coar-surface-accent-primary);
+  border-color: var(--coar-border-accent-primary);
+  color: var(--coar-icon-on-bold);
+}
+
+.coar-multi-checkbox--indeterminate {
+  background: var(--coar-surface-accent-primary);
+  border-color: var(--coar-border-accent-primary);
+  color: var(--coar-icon-on-bold);
+}
+
+.coar-multi-checkbox coar-icon {
+  width: 10px;
+  height: 10px;
+}
+
+.coar-multi-option-icon {
+  flex-shrink: 0;
+  color: inherit;
+}
+
+.coar-multi-option-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Divider */
+.coar-multi-divider {
+  height: 1px;
+  margin: var(--coar-spacing-xs) 0;
+  background: var(--coar-border-neutral);
+}
+
+/* Empty State */
+.coar-select-empty {
+  padding: var(--coar-spacing-m);
+  text-align: center;
+  font-family: var(--coar-body-small-base-family);
+  font-size: var(--coar-body-small-base-size);
+  color: var(--coar-text-neutral-tertiary);
+}
+
+/* Message (always reserves 1 line of space) */
+.coar-form-field-message {
+  display: block;
+  margin-top: var(--coar-spacing-xs);
+  height: calc(var(--coar-body-caption-size) * 1.4);
+  font-family: var(--coar-body-caption-family);
+  font-size: var(--coar-body-caption-size);
+  font-weight: var(--coar-body-caption-weight);
+  line-height: 1.4;
+  color: var(--coar-text-neutral-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.coar-form-field-message:empty {
+  visibility: hidden;
+}
+
+.coar-form-field-message--error {
+  color: var(--coar-text-semantic-error-bold);
+}

@@ -2,6 +2,7 @@
   "name": "ui",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/ui/src",
+  "prefix": "coar",
   "projectType": "library",
   "release": {
     "version": {
@@ -10,28 +11,34 @@
       "fallbackCurrentVersionResolver": "disk"
     }
   },
-  "tags": ["type:library"],
+  "tags": ["type:ui", "scope:shared"],
   "targets": {
     "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
-      "dependsOn": ["^build"],
+      "executor": "@nx/angular:package",
       "options": {
-        "outputPath": "dist/libs/ui",
-        "main": "libs/ui/src/index.ts",
-        "tsConfig": "libs/ui/tsconfig.lib.json",
-        "assets": [
-          {
-            "input": "libs/ui",
-            "glob": "*.md",
-            "output": "."
-          },
-          {
-            "input": "libs/ui",
-            "glob": "package.json",
-            "output": "."
-          }
-        ]
+        "project": "libs/ui/ng-package.json",
+        "tsConfig": "libs/ui/tsconfig.lib.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/ui/tsconfig.lib.prod.json"
+        },
+        "development": {}
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nx/vitest:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../coverage/libs/ui"
+      }
+    },
+    "generate-docs": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node scripts/docs/extract-component-api.mjs",
+        "cwd": "{workspaceRoot}"
       }
     },
     "lint": {

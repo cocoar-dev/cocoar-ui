@@ -4,7 +4,7 @@ import {
   CoarCheckboxComponent,
   CoarCardComponent,
   CoarCodeBlockComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-checkboxes',
@@ -19,7 +19,7 @@ import {
   styleUrl: './checkboxes.page.css',
 })
 export class CheckboxesPage {
-  importCode = `import { CoarCheckboxComponent } from '@cocoar/ui-components';`;
+  importCode = `import { CoarCheckboxComponent } from '@cocoar/ui/components';`;
 
   // Demo values - using boolean
   basicChecked = signal<boolean | undefined>(undefined);

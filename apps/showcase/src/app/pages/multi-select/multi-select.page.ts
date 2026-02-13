@@ -4,7 +4,7 @@ import {
   CoarCodeBlockComponent,
   CoarMultiSelectComponent,
   type CoarSelectOption,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-multi-select',

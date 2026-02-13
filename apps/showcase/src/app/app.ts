@@ -7,8 +7,8 @@ import {
   CoarScrollbarDirective,
   CoarSidebarComponent,
   CoarSingleSelectComponent,
-} from '@cocoar/ui-components';
-import { CoarMenuComponent, CoarMenuItemComponent, CoarMenuHeadingComponent } from '@cocoar/ui-menu';
+} from '@cocoar/ui/components';
+import { CoarMenuComponent, CoarMenuItemComponent, CoarMenuHeadingComponent } from '@cocoar/ui/menu';
 import { CoarLocalizationService } from '@cocoar/localization';
 
 @Component({

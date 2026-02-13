@@ -12,7 +12,7 @@ import {
   CoarCardComponent,
   CoarPasswordInputComponent,
   CoarTextInputComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   standalone: true,
@@ -59,4 +59,4 @@ export class LoginFormSkeletonComponent {
 ```
 
 Notes:
-- Add tokens in global styles: `@import '@cocoar/ui-tokens/css/all.css';`
+- Add tokens in global styles: `@import '@cocoar/ui/styles/tokens/all.css';`

@@ -63,7 +63,7 @@ Scenarios are defined using `defineScenario<T>()` from `@cocoar/scenar-abstracti
 **1. Create a scenario file:**
 
 ```typescript
-// libs/ui-components/src/lib/coar-button/button.scenario.ts
+// libs/ui/components/src/lib/coar-button/button.scenario.ts
 import { defineScenario } from '@cocoar/scenar-abstractions';
 import { CoarButtonComponent } from './coar-button.component';
 
@@ -93,7 +93,7 @@ export const scenario = defineScenario<CoarButtonComponent>({
 ### Option 1: Separate Scenario Files (Recommended for Libraries)
 
 ```
-libs/ui-components/src/lib/
+libs/ui/components/src/lib/
 ├── coar-button/
 │   ├── coar-button.component.ts
 │   ├── coar-button.component.spec.ts
@@ -110,7 +110,7 @@ libs/ui-components/src/lib/
 ### Option 2: Co-located Scenarios (For Complex Components)
 
 ```
-libs/ui-components/src/lib/
+libs/ui/components/src/lib/
 ├── coar-table/
 │   ├── coar-table.component.ts
 │   └── coar-table.component.scenario.ts    ← Co-located scenario
@@ -319,7 +319,7 @@ export const loadingButton = defineScenario<CoarButtonComponent>({
 ✅ You want clean separation of concerns
 
 ```typescript
-// libs/ui-components/src/lib/coar-badge/badge.scenario.ts
+// libs/ui/components/src/lib/coar-badge/badge.scenario.ts
 import { defineScenario } from '@cocoar/scenar-abstractions';
 import { CoarBadgeComponent } from './coar-badge.component';
 
@@ -389,13 +389,13 @@ Registry generation runs automatically as a build dependency.
 
 **`apps/scenar-backstage/src/app/registry.generated.ts`**
 ```typescript
-import { scenario as scenario_base } from '../../../../libs/ui-components/src/lib/coar-icon/icon.scenario';
-import { scenario as scenario_base_1 } from '../../../../libs/ui-components/src/lib/coar-label/label.scenario';
+import { scenario as scenario_base } from '../../../../libs/ui/components/src/lib/coar-icon/icon.scenario';
+import { scenario as scenario_base_1 } from '../../../../libs/ui/components/src/lib/coar-label/label.scenario';
 
 export const SCENARIO_REGISTRY: Record<string, ScenarioDefinition> = {
   [scenario_base.id]: {
     ...scenario_base,
-    component: async () => (await import('../../../../libs/ui-components/src/lib/coar-icon/coar-icon.component')).CoarIconComponent,
+    component: async () => (await import('../../../../libs/ui/components/src/lib/coar-icon/coar-icon.component')).CoarIconComponent,
     inputs: { size: 'md', rotate: 0, spin: false, color: 'inherit' }
   },
   // ... more scenarios
@@ -414,7 +414,7 @@ export const SCENARIO_REGISTRY: Record<string, ScenarioDefinition> = {
       "title": "Icon Component",
       "description": "Icon with default settings",
       "component": {
-        "path": "libs/ui-components/src/lib/coar-icon/coar-icon.component.ts",
+        "path": "libs/ui/components/src/lib/coar-icon/coar-icon.component.ts",
         "className": "CoarIconComponent"
       },
       "inputs": {
@@ -625,7 +625,7 @@ Concise guide with copy-paste templates for components, directives, and services
 
 ```typescript
 // 1. Read component
-// libs/ui-components/src/lib/coar-badge/coar-badge.component.ts
+// libs/ui/components/src/lib/coar-badge/coar-badge.component.ts
 export class CoarBadgeComponent {
   variant = input<'info' | 'success' | 'warning' | 'error'>('info');
   label = input.required<string>();
@@ -633,7 +633,7 @@ export class CoarBadgeComponent {
 }
 
 // 2. Create scenario file
-// libs/ui-components/src/lib/coar-badge/badge.scenario.ts
+// libs/ui/components/src/lib/coar-badge/badge.scenario.ts
 import { defineScenario } from '@cocoar/scenar-abstractions';
 import { CoarBadgeComponent } from './coar-badge.component';
 
@@ -681,7 +681,7 @@ export const errorScenario = defineScenario<CoarBadgeComponent>({
 
 ```bash
 # 1. Find all components
-find libs/ui-components/src/lib -name "*.component.ts" -not -name "*.spec.ts" -not -name "*.scenario.ts"
+find libs/ui/components/src/lib -name "*.component.ts" -not -name "*.spec.ts" -not -name "*.scenario.ts"
 
 # 2. For each component, create {name}.scenario.ts with at least:
 #    - Default scenario
@@ -745,5 +745,5 @@ If you're testing the scenario host directly, run `nx run scenar-backstage-e2e:e
 **Questions? Issues?**
 
 - Check [scripts/scenar/README.md](../scripts/scenar/README.md) for generator details
-- See existing scenarios in `libs/ui-components/src/lib/*/` for examples
+- See existing scenarios in `libs/ui/components/src/lib/*/` for examples
 - Review ARCHITECTURE.md for system design decisions

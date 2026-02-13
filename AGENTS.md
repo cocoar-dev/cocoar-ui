@@ -201,12 +201,12 @@ When working in this repository, AI assistants must:
 
 **Documentation file naming:**
 ```
-libs/ui-components/src/lib/coar-button/
+libs/ui/components/src/lib/coar-button/
 ├── coar-button.component.ts    # Source
 └── coar-button.docs.md         # Usage docs (hand-written)
 
 → Generates:
-docs/libs/ui-components/
+docs/libs/ui/components/
 ├── coar-button.api.md          # API (auto-generated from JSDoc)
 └── coar-button.docs.md         # Usage (copied from source)
 ```

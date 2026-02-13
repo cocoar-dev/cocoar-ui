@@ -100,10 +100,10 @@ ESLint enforces strict dependency rules:
 **Example:**
 ```typescript
 // ✅ ALLOWED: UI component importing design tokens
-import { tokens } from '@cocoar/ui-tokens';
+import { tokens } from '@cocoar/ui';
 
 // ❌ BLOCKED: Utility library importing UI component
-import { Button } from '@cocoar/ui-components'; // ERROR!
+import { Button } from '@cocoar/ui/components'; // ERROR!
 ```
 
 ---

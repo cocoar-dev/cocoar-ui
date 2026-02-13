@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
-import { CoarDividerComponent } from '@cocoar/ui-components';
+import { CoarDividerComponent } from '@cocoar/ui/components';
 
 /**
  * A reusable section component for showcase pages.

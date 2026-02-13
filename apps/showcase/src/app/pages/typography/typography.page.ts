@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { CoarCardComponent, CoarDividerComponent } from '@cocoar/ui-components';
+import { CoarCardComponent, CoarDividerComponent } from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-typography',

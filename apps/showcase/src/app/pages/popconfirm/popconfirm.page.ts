@@ -7,7 +7,7 @@ import {
   CoarCardComponent,
   CoarCodeBlockComponent,
   CoarNoteComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-popconfirm',
@@ -24,7 +24,7 @@ import {
   styleUrl: './popconfirm.page.css',
 })
 export class PopconfirmPage {
-  importCode = `import { CoarPopconfirmDirective } from '@cocoar/ui-components';`;
+  importCode = `import { CoarPopconfirmDirective } from '@cocoar/ui/components';`;
 
   /** Demo state */
   itemDeleted = signal(false);

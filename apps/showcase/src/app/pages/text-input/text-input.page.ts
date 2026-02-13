@@ -4,7 +4,7 @@ import {
   CoarTextInputComponent,
   CoarCodeBlockComponent,
   CoarCardComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-text-input',
@@ -18,7 +18,7 @@ import {
   styleUrl: './text-input.page.css',
 })
 export class TextInputPage {
-  importCode = `import { CoarTextInputComponent } from '@cocoar/ui-components';`;
+  importCode = `import { CoarTextInputComponent } from '@cocoar/ui/components';`;
 
   // Demo values
   basicValue = signal('');

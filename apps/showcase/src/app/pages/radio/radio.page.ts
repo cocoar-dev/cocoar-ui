@@ -7,7 +7,7 @@ import {
   CoarCardComponent,
   CoarCodeBlockComponent,
   CoarButtonComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-radio',
@@ -24,7 +24,7 @@ import {
   styleUrl: './radio.page.css',
 })
 export class RadioPage {
-  importCode = `import { CoarRadioGroupComponent, CoarRadioComponent } from '@cocoar/ui-components';`;
+  importCode = `import { CoarRadioGroupComponent, CoarRadioComponent } from '@cocoar/ui/components';`;
 
   /** Demo values */
   basicSelection = signal<string | null>(null);

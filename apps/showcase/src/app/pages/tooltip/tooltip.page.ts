@@ -6,7 +6,7 @@ import {
   CoarPopoverComponent,
   CoarTooltipDirective,
   CoarCardComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-tooltip',
@@ -23,7 +23,7 @@ import {
   styleUrl: './tooltip.page.css',
 })
 export class TooltipPage {
-  importCode = `import { CoarTooltipDirective, CoarPopoverComponent } from '@cocoar/ui-components';`;
+  importCode = `import { CoarTooltipDirective, CoarPopoverComponent } from '@cocoar/ui/components';`;
 
   protected readonly clicksThroughOverlay = signal(0);
 

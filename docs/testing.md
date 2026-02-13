@@ -134,7 +134,7 @@ This repo’s component libraries currently use locale *formatting* (numbers/dat
 If a component injects `COAR_LOCALIZATION_SERVICE`, you can stub it like this:
 
 ```ts
-import { COAR_LOCALIZATION_SERVICE } from '@cocoar/ui-components';
+import { COAR_LOCALIZATION_SERVICE } from '@cocoar/ui/components';
 import { createCoarLocalizationServiceStub } from '@cocoar/testing-angular';
 
 providers: [{ provide: COAR_LOCALIZATION_SERVICE, useValue: createCoarLocalizationServiceStub() }]
@@ -142,12 +142,12 @@ providers: [{ provide: COAR_LOCALIZATION_SERVICE, useValue: createCoarLocalizati
 
 ### Overlays in unit tests
 
-`@cocoar/ui-overlay` attaches overlays to `document.body` by default.
+`@cocoar/ui/overlay` attaches overlays to `document.body` by default.
 For unit tests, it’s often easier to route overlays into a dedicated container and clean them up after each test.
 
 ```ts
 import { afterEach } from 'vitest';
-import { COAR_OVERLAY_SPEC_RESOLVERS } from '@cocoar/ui-overlay';
+import { COAR_OVERLAY_SPEC_RESOLVERS } from '@cocoar/ui/overlay';
 import {
   cleanupCoarOverlays,
   createCoarOverlayAttachmentResolver,

@@ -6,7 +6,7 @@ import {
   CoarNoteComponent,
   CoarSingleSelectComponent,
   type CoarSelectOption,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 interface Country {
   id: number;

@@ -5,13 +5,13 @@ import {
   CoarSidebarComponent,
   CoarButtonComponent,
   CoarCardComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 import {
   CoarMenuComponent,
   CoarMenuItemComponent,
   CoarMenuDividerComponent,
   CoarMenuHeadingComponent,
-} from '@cocoar/ui-menu';
+} from '@cocoar/ui/menu';
 
 @Component({
   selector: 'app-sidebar-page',
@@ -30,8 +30,8 @@ import {
   styleUrl: './sidebar.page.css',
 })
 export class SidebarPage {
-  importCode = `import { CoarSidebarComponent } from '@cocoar/ui-components';
-import { CoarMenuComponent, CoarMenuItemComponent } from '@cocoar/ui-menu';`;
+  importCode = `import { CoarSidebarComponent } from '@cocoar/ui/components';
+import { CoarMenuComponent, CoarMenuItemComponent } from '@cocoar/ui/menu';`;
 
   basicExample = `<coar-sidebar>
   <coar-menu borderless>

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "generatedAt": "2026-01-26T10:24:47.771Z",
-  "package": "@cocoar/ui-components",
+  "package": "@cocoar/ui/components",
   "components": [
     {
       "className": "CoarAvatarComponent",

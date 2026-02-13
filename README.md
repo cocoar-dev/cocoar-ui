@@ -26,8 +26,8 @@
 
 The **Coar Design System** is an Nx monorepo providing:
 
-* **Angular UI component libraries** (`@cocoar/ui-*`)
-* **Design tokens** delivered as CSS variables (`@cocoar/ui-tokens`)
+* **Angular UI component libraries** (`@cocoar/ui/*`)
+* **Design tokens** delivered as CSS variables (`@cocoar/ui`)
 * **A showcase app** for interactive component previews
 * High-quality, brand-consistent UI components
 
@@ -45,7 +45,7 @@ The **Coar Design System** is an Nx monorepo providing:
 ## Install
 
 ```bash
-npm install @cocoar/ui-components @cocoar/ui-tokens
+npm install @cocoar/ui
 ```
 
 ---
@@ -53,7 +53,7 @@ npm install @cocoar/ui-components @cocoar/ui-tokens
 ## Usage
 
 ```typescript
-import { CoarButtonComponent } from '@cocoar/ui-components';
+import { CoarButtonComponent } from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-root',

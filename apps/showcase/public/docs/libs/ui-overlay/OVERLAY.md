@@ -15,7 +15,7 @@ import {
   createOverlayBuilder,
   coarMenuPreset,
   type OverlayRef,
-} from '@cocoar/ui-overlay';
+} from '@cocoar/ui/overlay';
 
 const overlay = createOverlayBuilder(coarMenuPreset);
 

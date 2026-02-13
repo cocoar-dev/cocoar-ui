@@ -23,8 +23,8 @@ pnpm test
 pnpm build
 
 # Run a single project's tests
-pnpm nx test ui-menu
-pnpm nx test ui-menu --skip-nx-cache  # skip cache while iterating
+pnpm nx test ui
+pnpm nx test ui --skip-nx-cache  # skip cache while iterating
 
 # E2E tests (Playwright, default: Chromium)
 pnpm e2e
@@ -40,10 +40,11 @@ pnpm e2e -- --grep "@smoke|@a11y"     # combine tags
 
 ```
 libs/
-├── ui-tokens/              # Design tokens as CSS variables
-├── ui-components/          # Core Angular UI components
-├── ui-menu/                # Menu components
-├── ui-overlay/             # Overlay/popover system
+├── ui/                     # @cocoar/ui package with secondary entry points
+│   ├── styles/tokens/        # Design tokens as CSS variables
+│   ├── components/           # Core Angular UI components
+│   ├── menu/                 # Menu components
+│   └── overlay/              # Overlay/popover system
 ├── testing-angular/        # Shared Vitest setup + test helpers
 └── scenar/                 # Scenario testing infrastructure
 apps/
@@ -57,7 +58,7 @@ apps/
 UI libraries must be framework-pure:
 - **Only CSS variables** for styling (`var(--coar-color-primary)`)
 - **No Tailwind**, no global CSS, no hardcoded colors/spacing
-- Design tokens come from Figma via `@cocoar/ui-tokens`
+- Design tokens come from Figma via `@cocoar/ui`
 
 ### Naming Conventions (from NAMING.md)
 
@@ -65,7 +66,7 @@ UI libraries must be framework-pure:
 - **Class names:** `Coar` prefix, PascalCase (`CoarButtonComponent`)
 - **CSS variables:** `--coar-*` prefix (`--coar-color-primary`)
 - **CSS classes:** `.coar-*` prefix with BEM-like structure
-- **npm packages:** `@cocoar/ui-*` for UI
+- **npm packages:** `@cocoar/ui/*` for UI
 
 ### Logging
 

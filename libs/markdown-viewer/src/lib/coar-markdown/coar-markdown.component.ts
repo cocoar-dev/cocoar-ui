@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import type { MarkdownDocument, MarkdownNode } from '@cocoar/markdown-core';
-import { CoarCodeBlockComponent, CoarTableComponent } from '@cocoar/ui-components';
+import { CoarCodeBlockComponent, CoarTableComponent } from '@cocoar/ui/components';
 
 @Component({
   selector: 'coar-markdown',

@@ -9,7 +9,7 @@
 
 ### Fixed
 - Removed conflicting `"private": true` from logging libraries that have `publishConfig`
-- Added missing package metadata (description, author, license, repository) to `@cocoar/data-grid` and `@cocoar/ui-menu`
+- Added missing package metadata (description, author, license, repository) to `@cocoar/data-grid` and `@cocoar/ui/menu`
 
 ## [0.0.1] - 2025-12-12
 
@@ -19,7 +19,7 @@
 - Playwright E2E tests (`pnpm -s e2e`) with a Windows-friendly runner that starts/stops the dev server
 - GitHub Actions workflows (Option C: build + pack artifacts; npm publish steps are present but commented out)
 - Repository documentation (README, CONTRIBUTING, ARCHITECTURE, NAMING, AGENTS)
-- `@cocoar/ui-tokens` for design tokens as CSS variables (CSS-only consumption)
-- `@cocoar/ui-components` for Angular UI components
+- `@cocoar/ui` for design tokens as CSS variables (CSS-only consumption)
+- `@cocoar/ui/components` for Angular UI components
 - `@cocoar/logging-abstractions` - Lightweight logging abstractions (now in [`cocoar-logging`](https://github.com/cocoar-dev/cocoar-logging))
 - `@cocoar/logging` - Serilog-style structured logging library (now in [`cocoar-logging`](https://github.com/cocoar-dev/cocoar-logging))

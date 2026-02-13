@@ -5,7 +5,7 @@ import {
   CoarCodeBlockComponent,
   CoarNoteComponent,
   CoarPopoverComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-popover',

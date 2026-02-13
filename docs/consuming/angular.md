@@ -4,11 +4,10 @@ This repo ships Angular libraries under the `@cocoar/*` scope.
 
 ## Available Packages
 
-- **@cocoar/ui** - Complete UI package (recommended for most projects) - includes tokens
-- **@cocoar/ui-components** - Core components (buttons, inputs, cards, etc.)
-- **@cocoar/ui-menu** - Menu and navigation components
-- **@cocoar/ui-overlay** - Overlay service (tooltips, popovers, dialogs)
-- **@cocoar/ui-tokens** - Design tokens (CSS variables) - required
+- **@cocoar/ui** - Complete UI package (recommended for most projects) - includes tokens, components, menu, and overlay
+- **@cocoar/ui/components** - Core components (buttons, inputs, cards, etc.)
+- **@cocoar/ui/menu** - Menu and navigation components
+- **@cocoar/ui/overlay** - Overlay service (tooltips, popovers, dialogs)
 - **@cocoar/markdown-viewer** - Markdown rendering component
 ## Install
 
@@ -20,15 +19,16 @@ npm install @cocoar/ui
 
 This installs all UI components, menus, overlay service, and design tokens.
 
-### Option 2: Individual Packages
+### Option 2: Individual Entry Points
 
-For more control or smaller bundles:
+For more control or smaller bundles, import from specific entry points:
 
-```bash
-npm install @cocoar/ui-components @cocoar/ui-menu @cocoar/ui-tokens
+```ts
+import { CoarButtonComponent } from '@cocoar/ui/components';
+import { CoarMenuComponent } from '@cocoar/ui/menu';
 ```
 
-Note: `@cocoar/ui-tokens` is always required for styling to work.
+All entry points are included in the `@cocoar/ui` package.
 
 ## Setup CSS
 
@@ -37,7 +37,7 @@ Note: `@cocoar/ui-tokens` is always required for styling to work.
 Add this to your global stylesheet (e.g. `src/styles.css`):
 
 ```css
-@import '@cocoar/ui-tokens/css/all.css';
+@import '@cocoar/ui/styles/tokens/all.css';
 ```
 
 This imports all CSS variables for colors, typography, spacing, shadows, etc.
@@ -69,7 +69,7 @@ Add the `dark-mode` class to a parent element (commonly `html`):
 
 ```ts
 import { Component } from '@angular/core';
-import { CoarButtonComponent, CoarCardComponent } from '@cocoar/ui-components';
+import { CoarButtonComponent, CoarCardComponent } from '@cocoar/ui/components';
 
 @Component({
   standalone: true,

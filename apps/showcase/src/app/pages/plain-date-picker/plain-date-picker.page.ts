@@ -8,7 +8,7 @@ import {
   CoarCardComponent,
   type DateFormatConfig,
   type CoarDateMarker,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-plain-date-picker',
@@ -18,7 +18,7 @@ import {
   styleUrl: './plain-date-picker.page.css',
 })
 export class PlainDatePickerPage {
-  importCode = `import { CoarPlainDatePickerComponent } from '@cocoar/ui-components';`;
+  importCode = `import { CoarPlainDatePickerComponent } from '@cocoar/ui/components';`;
 
   // Demo values - All using Temporal.PlainDate (the ONLY type this picker returns)
   basicDate = signal<Temporal.PlainDate | null>(null);

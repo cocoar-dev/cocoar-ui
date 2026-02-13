@@ -6,9 +6,8 @@ This is the fastest way to validate the **published package output** without pub
 
 From the GitHub Actions run, download the artifact that contains the `.tgz` packages.
 
-You should have files like:
-- `cocoar-ui-components-<version>.tgz`
-- `cocoar-ui-tokens-<version>.tgz`
+You should have a file like:
+- `cocoar-ui-<version>.tgz`
 
 ## 2) Create a throwaway Angular app
 
@@ -19,8 +18,7 @@ Recommended: create it **outside** this monorepo.
 From the app folder:
 
 ```bash
-npm i /path/to/cocoar-ui-components-<version>.tgz \
-      /path/to/cocoar-ui-tokens-<version>.tgz
+npm i /path/to/cocoar-ui-<version>.tgz
 ```
 
 ## 4) Import tokens
@@ -28,7 +26,7 @@ npm i /path/to/cocoar-ui-components-<version>.tgz \
 In the app global stylesheet:
 
 ```css
-@import '@cocoar/ui-tokens/css/all.css';
+@import '@cocoar/ui/styles/tokens/all.css';
 ```
 
 ## 5) Smoke test

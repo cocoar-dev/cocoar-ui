@@ -5,7 +5,7 @@ import {
   CoarCardComponent,
   CoarCodeBlockComponent,
   CoarNoteComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-labels',
@@ -20,7 +20,7 @@ import {
   styleUrl: './labels.page.css',
 })
 export class LabelsPage {
-  importCode = `import { CoarLabelComponent } from '@cocoar/ui-components';`;
+  importCode = `import { CoarLabelComponent } from '@cocoar/ui/components';`;
 
   // Code examples
   codeExamples = {

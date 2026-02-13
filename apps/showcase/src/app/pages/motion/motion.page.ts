@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { CoarCodeBlockComponent, CoarDividerComponent } from '@cocoar/ui-components';
+import { CoarCodeBlockComponent, CoarDividerComponent } from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-motion',

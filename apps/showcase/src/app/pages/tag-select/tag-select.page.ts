@@ -5,7 +5,7 @@ import {
   CoarNoteComponent,
   CoarTagSelectComponent,
   type CoarSelectOption,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-tag-select',

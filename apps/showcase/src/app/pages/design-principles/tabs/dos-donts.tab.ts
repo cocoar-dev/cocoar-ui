@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CoarCardComponent } from '@cocoar/ui-components';
+import { CoarCardComponent } from '@cocoar/ui/components';
 
 /**
  * Do's & Don'ts tab content for the Design Principles page.

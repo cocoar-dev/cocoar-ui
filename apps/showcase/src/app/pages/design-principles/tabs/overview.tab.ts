@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CoarCardComponent, CoarDividerComponent } from '@cocoar/ui-components';
+import { CoarCardComponent, CoarDividerComponent } from '@cocoar/ui/components';
 
 /**
  * Overview tab content for the Design Principles page.

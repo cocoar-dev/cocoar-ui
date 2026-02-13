@@ -4,7 +4,7 @@ import {
   CoarNumberInputComponent,
   CoarCodeBlockComponent,
   CoarCardComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-number-input',
@@ -18,7 +18,7 @@ import {
   styleUrl: './number-input.page.css',
 })
 export class NumberInputPage {
-  importCode = `import { CoarNumberInputComponent } from '@cocoar/ui-components';`;
+  importCode = `import { CoarNumberInputComponent } from '@cocoar/ui/components';`;
 
   protected readonly germanNumberFormat = { decimal: ',', thousand: '.' } as const;
   protected readonly usNumberFormat = { decimal: '.', thousand: ',' } as const;

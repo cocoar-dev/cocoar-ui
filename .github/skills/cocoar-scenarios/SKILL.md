@@ -20,7 +20,7 @@
 ### Component (Simple)
 
 ```typescript
-// libs/ui-components/src/lib/coar-button/button.scenario.ts
+// libs/ui/components/src/lib/coar-button/button.scenario.ts
 import { defineScenario } from '@cocoar/scenar-abstractions';
 import { CoarButtonComponent } from './coar-button.component';
 
@@ -36,7 +36,7 @@ export const scenario = defineScenario<CoarButtonComponent>({
 ### Component with Providers
 
 ```typescript
-// libs/ui-components/src/lib/coar-icon/icon.scenario.ts
+// libs/ui/components/src/lib/coar-icon/icon.scenario.ts
 import { defineScenario } from '@cocoar/scenar-abstractions';
 import { provideHttpClient } from '@angular/common/http';
 import { CoarIconComponent } from './coar-icon.component';
@@ -52,7 +52,7 @@ export const scenario = defineScenario<CoarIconComponent>({
 ### Directive (Host Component)
 
 ```typescript
-// libs/ui-components/src/lib/coar-tooltip/tooltip.scenario.ts
+// libs/ui/components/src/lib/coar-tooltip/tooltip.scenario.ts
 import { Component, input } from '@angular/core';
 import { defineScenario } from '@cocoar/scenar-abstractions';
 import { CoarTooltipDirective } from './coar-tooltip.directive';

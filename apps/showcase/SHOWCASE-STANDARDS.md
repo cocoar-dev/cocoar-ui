@@ -177,7 +177,7 @@ These patterns are **defined in `showcase-pages.css`** and available globally:
 
 ## 🎯 Typography Standards
 
-Use design system typography classes from `@cocoar/ui-tokens`:
+Use design system typography classes from `@cocoar/ui`:
 
 | Element | Class | Usage |
 |---------|-------|-------|

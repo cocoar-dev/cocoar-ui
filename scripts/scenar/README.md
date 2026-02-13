@@ -41,7 +41,7 @@ The registry is automatically regenerated when:
 Scenarios live next to their components, not in the backstage app:
 
 ```
-libs/ui-components/
+libs/ui/components/
   src/lib/coar-button/
     button.component.ts
     button.scenario.ts      ← Scenarios live here!

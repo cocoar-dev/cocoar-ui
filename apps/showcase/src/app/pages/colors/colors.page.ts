@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { CoarCardComponent, CoarDividerComponent, CoarTagComponent } from '@cocoar/ui-components';
+import { CoarCardComponent, CoarDividerComponent, CoarTagComponent } from '@cocoar/ui/components';
 
 interface ColorSwatch {
   name: string;

@@ -4,7 +4,7 @@ import {
   CoarCodeBlockComponent,
   CoarCardComponent,
   CoarTableComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-table-page',
@@ -14,7 +14,7 @@ import {
   styleUrl: './table.page.css',
 })
 export class TablePage {
-  importCode = `import { CoarTableComponent } from '@cocoar/ui-components';`;
+  importCode = `import { CoarTableComponent } from '@cocoar/ui/components';`;
 
   // Sample data for demos
   sampleData = [

@@ -1,4 +1,4 @@
-# Consuming `@cocoar/ui-overlay`
+# Consuming `@cocoar/ui/overlay`
 
 This document describes how to use the overlay primitives in consuming Angular applications.
 
@@ -14,7 +14,7 @@ This document describes how to use the overlay primitives in consuming Angular a
 Build once, pick content last:
 
 ```ts
-import { createOverlayBuilder, coarMenuPreset, type OverlayRef } from '@cocoar/ui-overlay';
+import { createOverlayBuilder, coarMenuPreset, type OverlayRef } from '@cocoar/ui/overlay';
 
 // Create a baseline builder once (e.g. as a field in a component).
 const overlay = createOverlayBuilder(coarMenuPreset);

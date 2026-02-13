@@ -80,7 +80,7 @@ providers: [{ provide: CoarLocalizationService, useValue: mockLocale }]
 
 ```ts
 import { afterEach } from 'vitest';
-import { COAR_OVERLAY_SPEC_RESOLVERS } from '@cocoar/ui-overlay';
+import { COAR_OVERLAY_SPEC_RESOLVERS } from '@cocoar/ui/overlay';
 import {
   cleanupCoarOverlays,
   createCoarOverlayAttachmentResolver,

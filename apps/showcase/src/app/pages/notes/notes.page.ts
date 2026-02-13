@@ -4,7 +4,7 @@ import {
   CoarNoteComponent,
   CoarCardComponent,
   CoarCodeBlockComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-notes',
@@ -18,7 +18,7 @@ import {
   styleUrl: './notes.page.css',
 })
 export class NotesPage {
-  importCode = `import { CoarNoteComponent } from '@cocoar/ui-components';`;
+  importCode = `import { CoarNoteComponent } from '@cocoar/ui/components';`;
 
   /** Code examples */
   codeExamples = {

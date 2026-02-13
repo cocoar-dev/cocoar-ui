@@ -5,7 +5,7 @@ This repo ships Angular libraries under the `@cocoar/*` scope.
 ## Install
 
 ```bash
-npm i @cocoar/ui-components @cocoar/ui-tokens
+npm i @cocoar/ui
 ```
 
 ## Enable design tokens (required)
@@ -13,7 +13,7 @@ npm i @cocoar/ui-components @cocoar/ui-tokens
 Import tokens once in your global stylesheet (e.g. `styles.css`):
 
 ```css
-@import '@cocoar/ui-tokens/css/all.css';
+@import '@cocoar/ui/styles/tokens/all.css';
 ```
 
 ## Dark mode
@@ -28,7 +28,7 @@ Add the `dark-mode` class to a parent element (commonly `html`):
 
 ```ts
 import { Component } from '@angular/core';
-import { CoarButtonComponent, CoarCardComponent } from '@cocoar/ui-components';
+import { CoarButtonComponent, CoarCardComponent } from '@cocoar/ui/components';
 
 @Component({
   standalone: true,

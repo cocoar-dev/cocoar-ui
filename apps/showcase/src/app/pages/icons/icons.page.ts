@@ -7,7 +7,7 @@ import {
   CoarCodeBlockComponent,
   CoarCardComponent,
   CoarTextInputComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 type IconsPageSourceGroup = Readonly<{
   key: string;
@@ -27,7 +27,7 @@ type IconsPageSourceGroup = Readonly<{
   styleUrl: './icons.page.css',
 })
 export class IconsPage {
-  importCode = `import { CoarIconComponent } from '@cocoar/ui-components';`;
+  importCode = `import { CoarIconComponent } from '@cocoar/ui/components';`;
 
   private readonly iconService = inject(CoarIconService);
 

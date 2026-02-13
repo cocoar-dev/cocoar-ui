@@ -7,12 +7,12 @@ import {
   DestroyRef,
 } from '@angular/core';
 
-import { coarMenuPreset, createOverlayBuilder, type OverlayRef } from '@cocoar/ui-overlay';
+import { coarMenuPreset, createOverlayBuilder, type OverlayRef } from '@cocoar/ui/overlay';
 import {
   CoarCodeBlockComponent,
   CoarNoteComponent,
   CoarCardComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 import {
   CoarMenuComponent,
   CoarMenuItemComponent,
@@ -20,7 +20,7 @@ import {
   CoarMenuHeadingComponent,
   CoarSubmenuItemComponent,
   CoarSubExpandComponent,
-} from '@cocoar/ui-menu';
+} from '@cocoar/ui/menu';
 
 @Component({
   selector: 'app-menu',
@@ -40,7 +40,7 @@ import {
   styleUrl: './menu.page.css',
 })
 export class MenuPage {
-  importCode = `import { CoarMenuComponent, CoarMenuItemComponent } from '@cocoar/ui-menu';`;
+  importCode = `import { CoarMenuComponent, CoarMenuItemComponent } from '@cocoar/ui/menu';`;
 
   private readonly overlay = createOverlayBuilder();
   private readonly cdr = inject(ChangeDetectorRef);

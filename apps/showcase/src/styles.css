@@ -7,11 +7,8 @@
 /* Tailwind CSS v4 with 'tw' prefix - use classes like tw:mt-4, tw:flex, tw:gap-2 */
 @import 'tailwindcss' prefix(tw);
 
-/* Import Design Tokens from ui-tokens */
-@import '../../../libs/ui-tokens/src/css/all.css';
-
-/* Import UI Components tokens */
-@import '../../../libs/ui-components/src/styles.css';
+/* Import Design Tokens and Component Global Styles */
+@import '../../../libs/ui/styles/all.css';
 
 /* Import OverlayScrollbars styles */
 @import 'overlayscrollbars/overlayscrollbars.css';

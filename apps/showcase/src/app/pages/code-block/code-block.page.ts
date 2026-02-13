@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import {
   CoarCodeBlockComponent,
   CoarCardComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-code-block',
@@ -13,7 +13,7 @@ import {
   styleUrl: './code-block.page.css',
 })
 export class CodeBlockPage {
-  importCode = `import { CoarCodeBlockComponent } from '@cocoar/ui-components';`;
+  importCode = `import { CoarCodeBlockComponent } from '@cocoar/ui/components';`;
 
   // Example code snippets
   basicExample = `<coar-button variant="primary">
@@ -30,7 +30,7 @@ export class CodeBlockPage {
 }`;
 
   tsExample = `import { Component } from '@angular/core';
-import { CoarButtonComponent } from '@aspect/ui-components';
+import { CoarButtonComponent } from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-example',
@@ -51,11 +51,11 @@ export class ExampleComponent {
 }`;
 
   jsonExample = `{
-  "name": "@cocoar/ui-components",
+  "name": "@cocoar/ui",
   "version": "1.0.0",
   "dependencies": {
-    "@angular/core": "^20.0.0",
-    "@cocoar/ui-tokens": "^1.0.0"
+    "@angular/core": "^21.0.0",
+    "@cocoar/ui": "^0.1.0"
   }
 }`;
 

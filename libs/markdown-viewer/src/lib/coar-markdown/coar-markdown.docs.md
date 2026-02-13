@@ -40,8 +40,8 @@ export class ExampleComponent {
 - Tables
 - Fenced code blocks
 
-Code blocks are rendered using `coar-code-block` from `@cocoar/ui-components`.
-Tables are rendered using `coar-table` from `@cocoar/ui-components`.
+Code blocks are rendered using `coar-code-block` from `@cocoar/ui/components`.
+Tables are rendered using `coar-table` from `@cocoar/ui/components`.
 
 ## Link behavior
 

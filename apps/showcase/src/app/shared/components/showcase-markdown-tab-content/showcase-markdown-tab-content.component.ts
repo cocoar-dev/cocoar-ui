@@ -8,7 +8,7 @@ import {
   signal,
 } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { CoarIconComponent, CoarNoteComponent } from '@cocoar/ui-components';
+import { CoarIconComponent, CoarNoteComponent } from '@cocoar/ui/components';
 import { CoarMarkdownComponent } from '@cocoar/markdown-viewer';
 import { combineLatest, map, of, switchMap } from 'rxjs';
 

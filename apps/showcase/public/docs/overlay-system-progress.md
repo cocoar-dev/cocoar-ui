@@ -27,12 +27,12 @@ The overlay system is a reusable primitive intended to support:
 
 ### Library + tooling
 
-`@cocoar/ui-overlay` publishable library scaffolded with ng-packagr, vitest, and eslint.
+`@cocoar/ui/overlay` publishable library scaffolded with ng-packagr, vitest, and eslint.
 
 Key files:
 
-- [libs/ui-overlay/project.json](../libs/ui-overlay/project.json)
-- [libs/ui-overlay/ng-package.json](../libs/ui-overlay/ng-package.json)
+- [libs/ui/overlay/project.json](../libs/ui/overlay/project.json)
+- [libs/ui/overlay/ng-package.json](../libs/ui/overlay/ng-package.json)
 
 ### Public API (builder-only)
 
@@ -43,9 +43,9 @@ Key files:
 
 Key files:
 
-- [libs/ui-overlay/src/lib/overlay/create-overlay-builder.ts](../libs/ui-overlay/src/lib/overlay/create-overlay-builder.ts)
-- [libs/ui-overlay/src/lib/overlay/overlay-settings.ts](../libs/ui-overlay/src/lib/overlay/overlay-settings.ts)
-- [libs/ui-overlay/src/lib/overlay/index.ts](../libs/ui-overlay/src/lib/overlay/index.ts)
+- [libs/ui/overlay/src/lib/create-overlay-builder.ts](../libs/ui/overlay/src/lib/create-overlay-builder.ts)
+- [libs/ui/overlay/src/lib/overlay-settings.ts](../libs/ui/overlay/src/lib/overlay-settings.ts)
+- [libs/ui/overlay/src/lib/index.ts](../libs/ui/overlay/src/lib/index.ts)
 
 ### Overlay runtime
 
@@ -54,8 +54,8 @@ Key files:
 
 Key files:
 
-- [libs/ui-overlay/src/lib/overlay/overlay-service.ts](../libs/ui-overlay/src/lib/overlay/overlay-service.ts)
-- [libs/ui-overlay/src/lib/overlay/overlay-ref.ts](../libs/ui-overlay/src/lib/overlay/overlay-ref.ts)
+- [libs/ui/overlay/src/lib/overlay-service.ts](../libs/ui/overlay/src/lib/overlay-service.ts)
+- [libs/ui/overlay/src/lib/overlay-ref.ts](../libs/ui/overlay/src/lib/overlay-ref.ts)
 
 ### Positioning
 
@@ -65,7 +65,7 @@ Key files:
 
 Key files:
 
-- [libs/ui-overlay/src/lib/overlay/overlay-position.ts](../libs/ui-overlay/src/lib/overlay/overlay-position.ts)
+- [libs/ui/overlay/src/lib/overlay-position.ts](../libs/ui/overlay/src/lib/overlay-position.ts)
 
 ## Notes
 

@@ -8,7 +8,7 @@ import {
   CoarMultiSelectComponent,
   CoarTagSelectComponent,
   type CoarSelectOption,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 interface Country {
   id: number;
@@ -33,7 +33,7 @@ interface Country {
   styleUrl: './selects.page.css',
 })
 export class SelectsPage {
-  importCode = `import { CoarSingleSelectComponent, CoarMultiSelectComponent, CoarTagSelectComponent } from '@cocoar/ui-components';`;
+  importCode = `import { CoarSingleSelectComponent, CoarMultiSelectComponent, CoarTagSelectComponent } from '@cocoar/ui/components';`;
 
   // ============================================
   // SINGLE SELECT STATE

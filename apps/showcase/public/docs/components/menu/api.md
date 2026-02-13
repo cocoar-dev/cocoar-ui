@@ -140,7 +140,7 @@ Represents a single actionable menu item. Supports icons, disabled state, and cl
 ```
 
 ```ts
-import type { CoarMenuItemClickEvent } from '@cocoar/ui-menu';
+import type { CoarMenuItemClickEvent } from '@cocoar/ui/menu';
 
 toggleSetting(event: CoarMenuItemClickEvent): void {
   event.keepMenuOpen();
@@ -429,7 +429,7 @@ const opener = createOverlayBuilder()
   .fromTemplate(submenuTemplate);
 ```
 
-See [Overlay API](../../libs/ui-overlay/api.md) for more details.
+See the Overlay API (`@cocoar/ui/overlay`) for more details.
 
 ---
 
@@ -531,7 +531,7 @@ type CoreIconName =
   | 'chat' | 'users' | 'settings' | 'chevron-right' | 'chevron-left'
   | 'chevron-down' | 'chevron-up' | 'check' | 'load' | 'key'
   | 'padlock' | 'lock' | 'user'
-  // ... and more (see @cocoar/ui-components/coar-icon/core-icons)
+  // ... and more (see @cocoar/ui/components/coar-icon/core-icons)
   | (string & {}); // allows custom icons
 ```
 
@@ -579,7 +579,7 @@ import {
   CoarMenuItemComponent,
   CoarSubmenuItemComponent,
   CoarMenuDividerComponent
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 // Overlay System (for context menus)
 import {
@@ -587,17 +587,17 @@ import {
   coarMenuPreset,
   coarHoverMenuPreset,
   type OverlayRef
-} from '@cocoar/ui-overlay';
+} from '@cocoar/ui/overlay';
 
 // Types
-import type { CoreIconName } from '@cocoar/ui-components';
+import type { CoreIconName } from '@cocoar/ui/components';
 ```
 
 ---
 
 ## Related APIs
 
-- [Cocoar Overlay System API](../../libs/ui-overlay/api.md)
+- Cocoar Overlay System API (`@cocoar/ui/overlay`)
 - [CoarIconComponent API](../icon/api.md)
 - [Design Tokens Reference](../../foundations/design-tokens.md)
 

@@ -7,7 +7,7 @@ import {
   CoarButtonComponent,
   BadgeVariant,
   BadgeSize,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-badges',
@@ -22,7 +22,7 @@ import {
   styleUrl: './badges.page.css',
 })
 export class BadgesPage {
-  importCode = `import { CoarBadgeComponent } from '@cocoar/ui-components';`;
+  importCode = `import { CoarBadgeComponent } from '@cocoar/ui/components';`;
 
   /** Badge variants */
   variants: BadgeVariant[] = ['primary', 'secondary', 'success', 'warning', 'error', 'info'];

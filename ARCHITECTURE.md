@@ -13,8 +13,8 @@ This document defines the technical architecture, patterns, and constraints for 
 
 The **Coar Design System** is an Nx monorepo providing:
 
-* **Angular-based UI component libraries** (`@cocoar/ui-*`)
-* **Design tokens** delivered as CSS variables (`@cocoar/ui-tokens`)
+* **Angular-based UI component libraries** (`@cocoar/ui/*`)
+* **Design tokens** delivered as CSS variables (`@cocoar/ui`)
 * **A showcase app** for interactive component previews
 * High-quality, brand-consistent UI components
 
@@ -56,7 +56,7 @@ We standardise on the following:
    - Nx may wrap these, but we do not introduce multiple competing "ways" to build apps without updating this document.
 
 2. **Angular publishable libraries**
-   (e.g. `@cocoar/ui-tokens`, `@cocoar/ui-forms`, `@cocoar/ui-grid`, `@cocoar/ui-icons`)
+   (e.g. `@cocoar/ui`, `@cocoar/ui/forms`, `@cocoar/ui/grid`, `@cocoar/ui/icons`)
    - MUST use: `@nx/angular:package`
    - This executor wraps **ng-packagr** and produces Angular Package Format (APF) libraries.
    - We treat `@nx/angular:package` as the **single source of truth** for packaging Angular libraries.
@@ -100,8 +100,11 @@ cocoar-ui/                  # Nx workspace root
 ├── CONTRIBUTING.md         # Contribution guidelines
 ├── README.md               # Repository overview
 ├── libs/
-│   ├── ui-tokens/            # Design tokens as CSS variables
-│   ├── ui-components/        # Angular UI components
+│   ├── ui/
+│   │   ├── styles/tokens/      # Design tokens as CSS variables
+│   │   ├── components/         # Angular UI components
+│   │   ├── menu/               # Menu components
+│   │   └── overlay/            # Overlay/popover system
 ├── apps/
 │   ├── showcase/             # Component showcase app
 │   └── showcase-e2e/          # Playwright E2E tests
@@ -256,7 +259,7 @@ The repository includes an Angular showcase app under `apps/showcase/`.
 
 - The showcase app may use Tailwind (scoped to the app) for layout/spacing.
 - Libraries must remain framework-pure (no Tailwind in publishable libs).
-- Design tokens should be consumed via CSS imports from `@cocoar/ui-tokens/css/*`.
+- Design tokens should be consumed via CSS imports from `@cocoar/ui/styles/tokens/*`.
 
 ---
 
@@ -416,7 +419,7 @@ A repository-scoped **`.local/`** folder may exist and is **git-ignored**.
 **Avoid cross-library dependencies unless intentional:**
 
 ```
-ui-tokens ← ui-components         ✅ GOOD
+ui/styles/tokens ← ui/components   ✅ GOOD
 ui-forms ← ui-grid                ❌ BAD - Creates coupling
 ```
 

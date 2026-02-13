@@ -15,7 +15,7 @@ import {
   CoarDividerComponent,
   CoarTextInputComponent,
   CoarCardComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 import {
   type OverlayRef,
@@ -23,7 +23,7 @@ import {
   coarMenuPreset,
   coarModalPreset,
   createOverlayBuilder,
-} from '@cocoar/ui-overlay';
+} from '@cocoar/ui/overlay';
 
 @Component({
   selector: 'app-overlay',
@@ -40,7 +40,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OverlayPage {
-  importCode = `import { createOverlayBuilder } from '@cocoar/ui-overlay';`;
+  importCode = `import { createOverlayBuilder } from '@cocoar/ui/overlay';`;
 
   private readonly overlay = createOverlayBuilder();
   private readonly destroyRef = inject(DestroyRef);
@@ -418,7 +418,7 @@ const ref = overlay
   .open({});`,
 
     resolveViaDi: `// app.config.ts
-import { COAR_OVERLAY_SPEC_RESOLVERS, type OverlaySpec } from '@cocoar/ui-overlay';
+import { COAR_OVERLAY_SPEC_RESOLVERS, type OverlaySpec } from '@cocoar/ui/overlay';
 
 {
   provide: COAR_OVERLAY_SPEC_RESOLVERS,

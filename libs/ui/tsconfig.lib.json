@@ -5,14 +5,29 @@
     "declaration": true,
     "declarationMap": true,
     "inlineSources": true,
-    "types": [],
-    "paths": {
-      "@cocoar/ui-components": ["../../dist/libs/ui-components/index.d.ts"],
-      "@cocoar/ui-menu": ["../../dist/libs/ui-menu/index.d.ts"],
-      "@cocoar/ui-overlay": ["../../dist/libs/ui-overlay/index.d.ts"],
-      "@cocoar/ui-tokens": ["../../dist/libs/ui-tokens/index.d.ts"]
-    }
+    "types": []
   },
-  "exclude": ["**/*.spec.ts", "**/*.test.ts", "**/*.scenario.ts"],
-  "include": ["src/**/*.ts"]
+  "exclude": [
+    "**/*.spec.ts",
+    "**/*.scenario.ts",
+    "src/test-setup.ts",
+    "jest.config.ts",
+    "**/*.test.ts",
+    "vite.config.ts",
+    "vite.config.mts",
+    "vitest.config.ts",
+    "vitest.config.mts",
+    "**/*.test.tsx",
+    "**/*.spec.tsx",
+    "**/*.test.js",
+    "**/*.spec.js",
+    "**/*.test.jsx",
+    "**/*.spec.jsx"
+  ],
+  "include": [
+    "src/**/*.ts",
+    "overlay/src/**/*.ts",
+    "components/src/**/*.ts",
+    "menu/src/**/*.ts"
+  ]
 }

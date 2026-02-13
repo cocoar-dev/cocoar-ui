@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CoarCardComponent, CoarCodeBlockComponent } from '@cocoar/ui-components';
+import { CoarCardComponent, CoarCodeBlockComponent } from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-getting-started',
@@ -17,16 +17,16 @@ pnpm add @cocoar/markdown-viewer  # Markdown rendering
 pnpm add @cocoar/localization     # i18n & language management`;
 
   importTokensCode = `/* styles.css */
-@import '@cocoar/ui-tokens/styles.css';`;
+@import '@cocoar/ui/styles/all.css';`;
 
   componentImportsCode = `// Core components (buttons, cards, inputs, ...)
-import { CoarButtonComponent } from '@cocoar/ui-components';
+import { CoarButtonComponent } from '@cocoar/ui/components';
 
 // Menu components
-import { CoarMenuComponent } from '@cocoar/ui-menu';
+import { CoarMenuComponent } from '@cocoar/ui/menu';
 
 // Overlay components (tooltip, popover, ...)
-import { CoarTooltipDirective } from '@cocoar/ui-overlay';`;
+import { CoarTooltipDirective } from '@cocoar/ui/overlay';`;
 
   darkModeCode = `<!-- Add the .dark-mode class to the root element -->
 <html class="dark-mode">

@@ -4,7 +4,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import {
   CoarCodeBlockComponent,
   CoarCardComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 import { CoarMarkdownComponent } from '@cocoar/markdown-viewer';
 import { parse, type MarkdownDocument } from '@cocoar/markdown-core';
 

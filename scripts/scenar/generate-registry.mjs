@@ -543,8 +543,8 @@ function hasExportModifier(node) {
 /**
  * Converts a file path to an import path.
  * Examples:
- *   libs/ui-components/src/lib/button/button.scenario.ts
- *     -> ../../../libs/ui-components/src/lib/button/button.scenario
+ *   libs/ui/components/src/lib/button/button.scenario.ts
+ *     -> ../../../libs/ui/components/src/lib/button/button.scenario
  *
  *   apps/scenar-backstage/src/scenarios/hello-demo.scenario.ts
  *     -> ../scenarios/hello-demo.scenario

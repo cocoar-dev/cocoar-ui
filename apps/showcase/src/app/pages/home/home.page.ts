@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CoarCardComponent } from '@cocoar/ui-components';
+import { CoarCardComponent } from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-home',

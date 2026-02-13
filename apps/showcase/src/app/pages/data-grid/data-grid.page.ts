@@ -6,7 +6,7 @@ import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import {
   CoarCodeBlockComponent,
   CoarCardComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 import { CoarGridBuilder, CoarDataGridDirective } from '@cocoar/data-grid';
 

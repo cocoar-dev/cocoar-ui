@@ -71,7 +71,7 @@ documentation completeness, developer experience, CI/CD maturity, and operationa
 
 | Issue | Detail | Action |
 |-------|--------|--------|
-| **`libs/ui/` is ambiguous** | A base UI library exists at `libs/ui/` alongside `libs/ui-components/`. Its purpose and relationship to ui-components is unclear from structure alone. | Clarify purpose in its README or consider merging into ui-components if it's just shared types/utilities. |
+| ~~**`libs/ui/` is ambiguous**~~ | ~~A base UI library existed at `libs/ui/` alongside the separate per-package libraries.~~ **RESOLVED** - The old per-package libraries have been merged into a single `@cocoar/ui` package at `libs/ui/` with secondary entry points (`@cocoar/ui/components`, `@cocoar/ui/menu`, `@cocoar/ui/overlay`, `@cocoar/ui/styles`). | No action needed. |
 | **No `libs/` README** | No overview document explaining the library taxonomy, dependency graph, or "which lib do I use for X?" | Create `libs/README.md` with a dependency diagram and decision guide. |
 | **Nx project tags incomplete** | `libs/ui/` has `type:library` instead of `type:ui` or `type:util`, which bypasses boundary enforcement. | Align tag to correct type. |
 | **`shared/` vs `tools/` distinction** | `shared/ts-utils` lives under `shared/` while `testing-angular` lives under `tools/`. The split criteria is undocumented. | Document the convention or consolidate under one directory. |
@@ -97,13 +97,13 @@ documentation completeness, developer experience, CI/CD maturity, and operationa
 
 | Issue | File(s) | Action |
 |-------|---------|--------|
-| ~~**Hardcoded color in button dark mode**~~ | `libs/ui-components/.../button/coar-button.component.css` | ~~Replace `var(--coar-color-black)` with appropriate semantic token.~~ **DONE** - replaced with `--coar-text-on-bold`. |
-| ~~**Badge uses `border-radius: 9999px`**~~ | `libs/ui-components/.../badge/coar-badge.component.css` | ~~Replace with `var(--coar-radius-full)`.~~ **DONE** |
-| ~~**Avatar uses `color: white` for initials**~~ | `libs/ui-components/.../avatar/coar-avatar.component.css` | ~~Replace with equivalent token.~~ **DONE** - replaced with `--coar-text-on-bold`. |
+| ~~**Hardcoded color in button dark mode**~~ | `libs/ui/components/.../button/coar-button.component.css` | ~~Replace `var(--coar-color-black)` with appropriate semantic token.~~ **DONE** - replaced with `--coar-text-on-bold`. |
+| ~~**Badge uses `border-radius: 9999px`**~~ | `libs/ui/components/.../badge/coar-badge.component.css` | ~~Replace with `var(--coar-radius-full)`.~~ **DONE** |
+| ~~**Avatar uses `color: white` for initials**~~ | `libs/ui/components/.../avatar/coar-avatar.component.css` | ~~Replace with equivalent token.~~ **DONE** - replaced with `--coar-text-on-bold`. |
 | ~~**No token validation in CI**~~ | N/A | ~~Add `scripts/css/find-unused-css.mjs` and `find-undeclared-css-vars.ps1` to CI pipeline to catch regressions.~~ **DONE** - Added as report-only steps to PR validation. |
 | **No token documentation page in showcase** | N/A | The Colors page exists but there's no dedicated "All Tokens" reference page showing spacing, radius, shadows, motion, etc. with live previews. |
-| **Responsive typography tokens exist but aren't demonstrated** | `ui-tokens/src/css/typography-responsive.css` | Add a responsive typography demo to the showcase. |
-| **`hsl(from var(...))` in zoned-date-time-picker** | `libs/ui-components/.../zoned-date-time-picker/` | Modern CSS - works in evergreen browsers but document the browser support baseline. |
+| **Responsive typography tokens exist but aren't demonstrated** | `libs/ui/styles/tokens/typography-responsive.css` | Add a responsive typography demo to the showcase. |
+| **`hsl(from var(...))` in zoned-date-time-picker** | `libs/ui/components/.../zoned-date-time-picker/` | Modern CSS - works in evergreen browsers but document the browser support baseline. |
 | **No style-dictionary or token build pipeline** | N/A | Currently raw CSS. Consider if token transformation (CSS -> JSON -> TS types) would benefit consumers wanting programmatic access. Low priority. |
 
 ---

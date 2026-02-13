@@ -1,5 +1,8 @@
 autoInstallPeers: true
 
+ignoredBuiltDependencies:
+  - '@compodoc/compodoc'
+
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - '@swc/core'

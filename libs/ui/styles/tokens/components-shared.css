@@ -1,0 +1,42 @@
+/**
+ * Cocoar Design System - Shared Component Size Tokens
+ *
+ * These tokens define the shared sizing system used across
+ * buttons, inputs, labels, and other form elements.
+ *
+ * Component-specific tokens (button, input, label, card, etc.)
+ * are now defined in their respective component token files
+ * within @cocoar/ui/components.
+ */
+
+:root {
+  /* ========================================
+     COMPONENT SIZE SYSTEM
+     Shared sizing tokens for consistent component sizes
+     across buttons, inputs, labels, and other form elements
+     ======================================== */
+
+  /* Component Heights */
+  --coar-component-xs-height: 27px;
+  --coar-component-sm-height: 32px;
+  --coar-component-md-height: 40px;
+  --coar-component-lg-height: 48px;
+
+  /* Component Font Sizes */
+  --coar-component-xs-font-size: 11px;
+  --coar-component-sm-font-size: 13px;
+  --coar-component-md-font-size: 14px;
+  --coar-component-lg-font-size: 16px;
+
+  /* Component Label Font Sizes (slightly smaller for labels) */
+  --coar-component-xs-label-font-size: 11px;
+  --coar-component-sm-label-font-size: 13px;
+  --coar-component-md-label-font-size: 14px;
+  --coar-component-lg-label-font-size: 15px;
+
+  /* Component Label Margins */
+  --coar-component-xs-label-margin: 4px;
+  --coar-component-sm-label-margin: 6px;
+  --coar-component-md-label-margin: 8px;
+  --coar-component-lg-label-margin: 10px;
+}

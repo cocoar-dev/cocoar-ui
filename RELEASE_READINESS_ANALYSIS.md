@@ -32,7 +32,7 @@
 
 The design token system is properly implemented and consistently used:
 
-- **Location:** `libs/ui-tokens/src/css/`
+- **Location:** `libs/ui/styles/tokens/`
 - **Structure:** Semantic layers (primitives → usage → components)
 - **Zero hardcoded values** in component CSS - all use `var(--coar-*)` pattern
 
@@ -86,7 +86,7 @@ No `console.log` detected in component code.
 
 #### Issue #1: Checkbox Custom State Type - ✅ **FIXED**
 
-**Location:** `libs/ui-components/src/lib/forms/checkbox/coar-checkbox.component.ts`
+**Location:** `libs/ui/components/src/lib/forms/checkbox/coar-checkbox.component.ts`
 
 ```typescript
 // NEW - standard boolean API
@@ -121,7 +121,7 @@ Updated files: `coar-select-base.ts`, `coar-radio.component.ts`, `coar-radio-gro
 
 #### Issue #4: Tab Component Missing Events (Medium Priority)
 
-**Location:** `libs/ui-components/src/lib/navigation/tabs/coar-tab.component.ts`
+**Location:** `libs/ui/components/src/lib/navigation/tabs/coar-tab.component.ts`
 
 Tabs only emit events through parent `CoarTabGroupComponent`. Consider adding:
 ```typescript
@@ -131,7 +131,7 @@ deactivated = output<void>();
 
 #### Issue #5: Menu Dual Selector (Low Priority) - **DECIDED: Keep As-Is**
 
-**Location:** `libs/ui-menu/src/lib/coar-submenu-item.component.ts:54`
+**Location:** `libs/ui/menu/src/lib/coar-submenu-item.component.ts:54`
 
 ```typescript
 selector: 'coar-submenu-item, coar-sub-flyout'  // Two selectors

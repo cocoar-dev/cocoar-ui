@@ -39,14 +39,16 @@ All published packages use the **`@cocoar/*`** namespace.
 
 ## 2.3 UI package names
 
-All UI libraries use the prefix **`ui-`**:
+All UI libraries use secondary entry points under the **`@cocoar/ui`** package:
 
 ```
-@cocoar/ui-tokens
-@cocoar/ui-components
-@cocoar/ui-forms
-@cocoar/ui-grid
-@cocoar/ui-icons
+@cocoar/ui              (design tokens)
+@cocoar/ui/components
+@cocoar/ui/forms
+@cocoar/ui/grid
+@cocoar/ui/icons
+@cocoar/ui/menu
+@cocoar/ui/overlay
 ```
 
 ## 2.4 Infrastructure package names
@@ -141,8 +143,8 @@ form-field.directive.ts
 Libraries inside `libs/` MUST use kebab-case:
 
 ```
-libs/ui-tokens/
-libs/ui-components/
+libs/ui/styles/tokens/
+libs/ui/components/
 ```
 
 **Note:** The Nx workspace is located at the repository root.
@@ -275,7 +277,7 @@ export class CoarButtonComponent {}
 * Component classes: **`CoarNameComponent`**
 * CSS variables: **`--coar-*`**
 * CSS classes: **`.coar-*`**
-* npm packages: **`@cocoar/ui-*`**
+* npm packages: **`@cocoar/ui/*`**
 * Repo name: **`cocoar-ui`**
 
 This file defines the authoritative naming standard for the entire `cocoar-ui` codebase.

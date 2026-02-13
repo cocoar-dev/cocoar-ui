@@ -4,7 +4,7 @@ import {
   CoarPasswordInputComponent,
   CoarCodeBlockComponent,
   CoarCardComponent,
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-password',
@@ -18,7 +18,7 @@ import {
   styleUrl: './password.page.css',
 })
 export class PasswordPage {
-  importCode = `import { CoarPasswordInputComponent } from '@cocoar/ui-components';`;
+  importCode = `import { CoarPasswordInputComponent } from '@cocoar/ui/components';`;
 
   // Demo values
   basicValue = signal('');

@@ -4,8 +4,8 @@ import {
   CoarTagComponent,
   CoarCardComponent,
   CoarCodeBlockComponent,
-} from '@cocoar/ui-components';
-import type { TagColor, TagSize } from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
+import type { TagColor, TagSize } from '@cocoar/ui/components';
 
 @Component({
   selector: 'app-tags',
@@ -20,7 +20,7 @@ import type { TagColor, TagSize } from '@cocoar/ui-components';
   styleUrl: './tags.page.css',
 })
 export class TagsPage {
-  importCode = `import { CoarTagComponent } from '@cocoar/ui-components';`;
+  importCode = `import { CoarTagComponent } from '@cocoar/ui/components';`;
 
   /** Tag color variants */
   colors: TagColor[] = ['neutral', 'success', 'warning', 'error', 'info', 'accent'];

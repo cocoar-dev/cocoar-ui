@@ -54,7 +54,7 @@ describe('CoarButtonComponent', () => {
 Some components use a locale formatting service (not a translation/i18n library). You can stub it like this:
 
 ```ts
-import { COAR_LOCALE_SERVICE } from '@cocoar/ui-components';
+import { COAR_LOCALE_SERVICE } from '@cocoar/ui/components';
 import { createCoarLocaleServiceStub } from '@cocoar/testing-angular';
 
 providers: [{ provide: COAR_LOCALE_SERVICE, useValue: createCoarLocaleServiceStub() }]
@@ -62,11 +62,11 @@ providers: [{ provide: COAR_LOCALE_SERVICE, useValue: createCoarLocaleServiceStu
 
 ### Overlay container + cleanup
 
-`@cocoar/ui-overlay` defaults to attaching overlays to `document.body`. For unit tests, you can route overlays into a dedicated container (via the overlay spec resolver token) and clean up after each test.
+`@cocoar/ui/overlay` defaults to attaching overlays to `document.body`. For unit tests, you can route overlays into a dedicated container (via the overlay spec resolver token) and clean up after each test.
 
 ```ts
 import { afterEach } from 'vitest';
-import { COAR_OVERLAY_SPEC_RESOLVERS } from '@cocoar/ui-overlay';
+import { COAR_OVERLAY_SPEC_RESOLVERS } from '@cocoar/ui/overlay';
 import {
   cleanupCoarOverlays,
   createCoarOverlayAttachmentResolver,

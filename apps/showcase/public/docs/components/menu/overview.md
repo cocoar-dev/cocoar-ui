@@ -2,7 +2,7 @@
 
 > **Complete menu component system for context menus, dropdowns, and navigation menus**
 
-The Cocoar Menu System provides a flexible set of components for building accessible, keyboard-navigable menus in Angular applications. It integrates seamlessly with the [Cocoar Overlay System](../../libs/ui-overlay/overview.md) for context menus and flyouts.
+The Cocoar Menu System provides a flexible set of components for building accessible, keyboard-navigable menus in Angular applications. It integrates seamlessly with the Cocoar Overlay System (`@cocoar/ui/overlay`) for context menus and flyouts.
 
 ---
 
@@ -66,13 +66,13 @@ The sidebar variant uses semantic neutral tokens and increases heading font size
 ## Installation
 
 ```bash
-npm install @cocoar/ui-menu @cocoar/ui-tokens
+npm install @cocoar/ui/menu @cocoar/ui
 ```
 
 Import CSS tokens (global stylesheet):
 
 ```css
-@import '@cocoar/ui-tokens/css/all.css';
+@import '@cocoar/ui/styles/tokens/all.css';
 ```
 
 ---
@@ -86,7 +86,7 @@ import {
   CoarMenuComponent,
   CoarMenuItemComponent,
   CoarMenuDividerComponent
-} from '@cocoar/ui-menu';
+} from '@cocoar/ui/menu';
 
 @Component({
   standalone: true,
@@ -120,7 +120,7 @@ import {
   CoarSubmenuItemComponent,
   CoarSubExpandComponent,
   CoarMenuDividerComponent
-} from '@cocoar/ui-menu';
+} from '@cocoar/ui/menu';
 
 @Component({
   standalone: true,
@@ -172,12 +172,12 @@ For context menus triggered by right-click or button actions, use the **Cocoar O
 
 ```typescript
 import { Component, ViewChild, TemplateRef, inject } from '@angular/core';
-import { createOverlayBuilder, coarMenuPreset, type OverlayRef } from '@cocoar/ui-overlay';
+import { createOverlayBuilder, coarMenuPreset, type OverlayRef } from '@cocoar/ui/overlay';
 import {
   CoarMenuComponent,
   CoarMenuItemComponent,
   CoarMenuDividerComponent
-} from '@cocoar/ui-components';
+} from '@cocoar/ui/components';
 
 @Component({
   standalone: true,
@@ -307,7 +307,7 @@ All menu components follow [ARIA Authoring Practices Guide for Menu](https://www
 
 ## Design Tokens
 
-All menu styling uses design tokens from `@cocoar/ui-tokens`:
+All menu styling uses design tokens from `@cocoar/ui`:
 
 ### Menu Container
 - `--coar-background-neutral-primary` — Menu background
@@ -374,14 +374,14 @@ The `coar-submenu-item` component provides flyout submenus:
 
 ## Integration with Overlay System
 
-Menus work seamlessly with the [Cocoar Overlay System](../../libs/ui-overlay/api.md) via the builder-only API.
+Menus work seamlessly with the Cocoar Overlay System (`@cocoar/ui/overlay`) via the builder-only API.
 
 ### Preset constants
 
 Use `coarMenuPreset` or `coarHoverMenuPreset` as reusable defaults:
 
 ```typescript
-import { createOverlayBuilder, coarMenuPreset } from '@cocoar/ui-overlay';
+import { createOverlayBuilder, coarMenuPreset } from '@cocoar/ui/overlay';
 
 const overlay = createOverlayBuilder(coarMenuPreset);
 
@@ -490,14 +490,14 @@ export class ActionMenuComponent {
 
 For detailed API documentation, see:
 - [Menu API Reference](./api.md)
-- [Cocoar Overlay System API](../../libs/ui-overlay/api.md)
+- Cocoar Overlay System API (`@cocoar/ui/overlay`)
 
 ---
 
 ## Related Components
 
 - [CoarIconComponent](../icon/overview.md) — Icon system used in menu items
-- [Cocoar Overlay System](../../libs/ui-overlay/overview.md) — Overlay builder used for context menus
+- Cocoar Overlay System (`@cocoar/ui/overlay`) — Overlay builder used for context menus
 - [CoarTooltipComponent](../tooltip/overview.md) — Alternative for informational overlays
 
 ---

@@ -6,9 +6,9 @@ import {
   CoarMenuItemComponent,
   CoarSubmenuItemComponent,
   CoarMenuDividerComponent,
-} from '@cocoar/ui-menu';
-import { coarMenuPreset, createOverlayBuilder, type OverlayRef } from '@cocoar/ui-overlay';
-import type { CoarMenuItemClickEvent } from '@cocoar/ui-menu';
+} from '@cocoar/ui/menu';
+import { coarMenuPreset, createOverlayBuilder, type OverlayRef } from '@cocoar/ui/overlay';
+import type { CoarMenuItemClickEvent } from '@cocoar/ui/menu';
 
 /**
  * Scenario to test nested menu close behavior.

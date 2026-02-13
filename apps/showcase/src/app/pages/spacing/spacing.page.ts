@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { CoarDividerComponent } from '@cocoar/ui-components';
+import { CoarDividerComponent } from '@cocoar/ui/components';
 
 interface SizeToken {
   name: string;
