@@ -178,6 +178,24 @@ describe('CoarCheckboxComponent', () => {
     });
   });
 
+  describe('hint message', () => {
+    it('should display hint text', () => {
+      fixture.componentRef.setInput('hint', 'Optional but recommended');
+      fixture.detectChanges();
+      const message = fixture.nativeElement.querySelector('.coar-checkbox-message');
+      expect(message?.textContent).toContain('Optional but recommended');
+    });
+
+    it('should display error over hint when both present', () => {
+      fixture.componentRef.setInput('hint', 'A hint');
+      fixture.componentRef.setInput('error', 'Required');
+      fixture.detectChanges();
+      const message = fixture.nativeElement.querySelector('.coar-checkbox-message');
+      expect(message?.textContent).toContain('Required');
+      expect(message?.textContent).not.toContain('A hint');
+    });
+  });
+
   describe('accessibility', () => {
     it('should have checkbox role', () => {
       const input = fixture.nativeElement.querySelector('input');
@@ -196,6 +214,36 @@ describe('CoarCheckboxComponent', () => {
       fixture.detectChanges();
       const input = fixture.nativeElement.querySelector('input');
       expect(input.name).toBe('agree');
+    });
+
+    it('should associate message with input via aria-describedby', () => {
+      fixture.componentRef.setInput('hint', 'A helpful hint');
+      fixture.detectChanges();
+
+      const input = fixture.nativeElement.querySelector('input');
+      const message = fixture.nativeElement.querySelector('.coar-checkbox-message');
+      expect(input?.getAttribute('aria-describedby')).toBe(message?.id);
+    });
+
+    it('should set aria-invalid when error is present', () => {
+      fixture.componentRef.setInput('error', 'Error message');
+      fixture.detectChanges();
+      const input = fixture.nativeElement.querySelector('input');
+      expect(input?.getAttribute('aria-invalid')).toBe('true');
+    });
+
+    it('should set aria-checked to mixed for indeterminate state', () => {
+      fixture.componentRef.setInput('indeterminate', true);
+      fixture.detectChanges();
+      const input = fixture.nativeElement.querySelector('input');
+      expect(input?.getAttribute('aria-checked')).toBe('mixed');
+    });
+
+    it('should set aria-readonly when readonly', () => {
+      fixture.componentRef.setInput('readonly', true);
+      fixture.detectChanges();
+      const input = fixture.nativeElement.querySelector('input');
+      expect(input?.getAttribute('aria-readonly')).toBe('true');
     });
   });
 });

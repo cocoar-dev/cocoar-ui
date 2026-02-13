@@ -49,6 +49,7 @@ export type RadioGroupSize = 's' | 'm' | 'l';
     '[class.coar-radio-group--disabled]': 'isDisabled()',
     '[class.coar-radio-group--error]': 'hasError()',
     '[attr.aria-label]': 'label()',
+    '[attr.aria-required]': 'required() || null',
     '[attr.aria-describedby]': 'hasMessage() ? messageId() : null',
   },
 })

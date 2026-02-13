@@ -28,8 +28,8 @@ describe('CoarLabelComponent', () => {
       expect(labelElement.textContent).toContain('Test Label');
     });
 
-    it('should have base class', () => {
-      expect(labelElement.classList.contains('coar-label')).toBe(true);
+    it('should have size class on host', () => {
+      expect(labelElement.classList.contains('coar-label--m')).toBe(true);
     });
   });
 

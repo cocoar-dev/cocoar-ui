@@ -147,8 +147,14 @@
             <tr>
               <td><code>name</code></td>
               <td><code>string</code></td>
-              <td><code>auto-generated</code></td>
+              <td><code>(required)</code></td>
               <td>Form control name for the radio group</td>
+            </tr>
+            <tr>
+              <td><code>label</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Accessible label for the group (sets aria-label)</td>
             </tr>
             <tr>
               <td><code>orientation</code></td>
@@ -157,10 +163,34 @@
               <td>Layout direction of radio buttons</td>
             </tr>
             <tr>
+              <td><code>size</code></td>
+              <td><code>'s' | 'm' | 'l'</code></td>
+              <td><code>'m'</code></td>
+              <td>Size of radio buttons in the group</td>
+            </tr>
+            <tr>
               <td><code>disabled</code></td>
               <td><code>boolean</code></td>
               <td><code>false</code></td>
               <td>Disable all radio buttons in the group</td>
+            </tr>
+            <tr>
+              <td><code>required</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Mark the group as required (sets aria-required)</td>
+            </tr>
+            <tr>
+              <td><code>error</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Error message displayed below the group</td>
+            </tr>
+            <tr>
+              <td><code>hint</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Hint text displayed below the group</td>
             </tr>
           </tbody>
         </table>
@@ -186,6 +216,23 @@
               <td><code>boolean</code></td>
               <td><code>false</code></td>
               <td>Disable this specific radio button</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>CoarRadioGroup Outputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>valueChange</code></td>
+              <td><code>T</code></td>
+              <td>Emits when the selected value changes</td>
             </tr>
           </tbody>
         </table>

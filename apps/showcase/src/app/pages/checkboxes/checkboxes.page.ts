@@ -28,9 +28,9 @@ export class CheckboxesPage {
   errorChecked = signal<boolean | undefined>(undefined);
   hintChecked = signal<boolean | undefined>(undefined);
   sizeXsChecked = signal<boolean | undefined>(true);
-  sizeSmChecked = signal<boolean | undefined>(true);
-  sizeMdChecked = signal<boolean | undefined>(true);
-  sizeLgChecked = signal<boolean | undefined>(true);
+  sizeSChecked = signal<boolean | undefined>(true);
+  sizeMChecked = signal<boolean | undefined>(true);
+  sizeLChecked = signal<boolean | undefined>(true);
 
   // Group demo
   selectedFruits = signal<string[]>(['apple']);

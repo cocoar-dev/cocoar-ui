@@ -31,6 +31,10 @@ import { CoarRadioGroupComponent } from './coar-radio-group.component';
     '[class.coar-radio--checked]': 'isChecked()',
     '[class.coar-radio--disabled]': 'isDisabled()',
     '[class.coar-radio--focused]': 'isFocused()',
+    '[class.coar-radio--s]': 'groupSize() === "s"',
+    '[class.coar-radio--m]': 'groupSize() === "m"',
+    '[class.coar-radio--l]': 'groupSize() === "l"',
+    '[class.coar-radio--error]': 'groupHasError()',
     '(click)': 'onClick($event)',
   },
 })
@@ -54,6 +58,9 @@ export class CoarRadioComponent<T = unknown> {
   protected isDisabled = computed(() => {
     return this.disabled() || (this.group?.isGroupDisabled() ?? false);
   });
+
+  protected groupSize = computed(() => this.group?.size() ?? 'm');
+  protected groupHasError = computed(() => (this.group?.error() ?? '').length > 0);
 
   protected radioName = computed(() => {
     return this.group?.name() ?? '';

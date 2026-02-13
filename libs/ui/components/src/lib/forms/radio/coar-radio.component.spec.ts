@@ -70,6 +70,72 @@ describe('CoarRadioGroupComponent', () => {
     it('should have role="radiogroup"', () => {
       expect(fixture.nativeElement.getAttribute('role')).toBe('radiogroup');
     });
+
+    it('should set aria-label when label is provided', () => {
+      fixture.componentRef.setInput('label', 'Choose option');
+      fixture.detectChanges();
+      expect(fixture.nativeElement.getAttribute('aria-label')).toBe('Choose option');
+    });
+
+    it('should set aria-required when required', () => {
+      fixture.componentRef.setInput('required', true);
+      fixture.detectChanges();
+      expect(fixture.nativeElement.getAttribute('aria-required')).toBe('true');
+    });
+
+    it('should not set aria-required when not required', () => {
+      expect(fixture.nativeElement.getAttribute('aria-required')).toBeNull();
+    });
+
+    it('should set aria-describedby when hint is present', () => {
+      fixture.componentRef.setInput('hint', 'Pick one');
+      fixture.detectChanges();
+      const message = fixture.nativeElement.querySelector('.coar-form-field-message');
+      expect(fixture.nativeElement.getAttribute('aria-describedby')).toBe(message?.id);
+    });
+
+    it('should set aria-describedby when error is present', () => {
+      fixture.componentRef.setInput('error', 'Selection required');
+      fixture.detectChanges();
+      const message = fixture.nativeElement.querySelector('.coar-form-field-message');
+      expect(fixture.nativeElement.getAttribute('aria-describedby')).toBe(message?.id);
+    });
+
+    it('should not set aria-describedby when no message', () => {
+      expect(fixture.nativeElement.getAttribute('aria-describedby')).toBeNull();
+    });
+  });
+
+  describe('error state', () => {
+    it('should apply error class when error message is provided', () => {
+      fixture.componentRef.setInput('error', 'Required');
+      fixture.detectChanges();
+      expect(fixture.nativeElement.classList).toContain('coar-radio-group--error');
+    });
+
+    it('should display error message', () => {
+      fixture.componentRef.setInput('error', 'Selection required');
+      fixture.detectChanges();
+      const message = fixture.nativeElement.querySelector('.coar-form-field-message');
+      expect(message?.textContent).toContain('Selection required');
+    });
+
+    it('should display error over hint when both present', () => {
+      fixture.componentRef.setInput('hint', 'A hint');
+      fixture.componentRef.setInput('error', 'An error');
+      fixture.detectChanges();
+      const message = fixture.nativeElement.querySelector('.coar-form-field-message');
+      expect(message?.textContent).toContain('An error');
+      expect(message?.textContent).not.toContain('A hint');
+    });
+  });
+
+  describe('size variants', () => {
+    it.each(['s', 'm', 'l'] as const)('should apply %s size class', (size) => {
+      fixture.componentRef.setInput('size', size);
+      fixture.detectChanges();
+      expect(fixture.nativeElement.classList).toContain(`coar-radio-group--${size}`);
+    });
   });
 });
 
@@ -169,5 +235,106 @@ describe('CoarRadioGroup with CoarRadio integration', () => {
     expect(radios[0].textContent).toContain('Option 1');
     expect(radios[1].textContent).toContain('Option 2');
     expect(radios[2].textContent).toContain('Option 3');
+  });
+
+  describe('focus and blur', () => {
+    it('should apply focused class on focus', () => {
+      const radios = fixture.nativeElement.querySelectorAll('coar-radio');
+      const input = radios[0].querySelector('input') as HTMLInputElement;
+      input.dispatchEvent(new FocusEvent('focus'));
+      fixture.detectChanges();
+      expect(radios[0].classList).toContain('coar-radio--focused');
+    });
+
+    it('should remove focused class on blur', () => {
+      const radios = fixture.nativeElement.querySelectorAll('coar-radio');
+      const input = radios[0].querySelector('input') as HTMLInputElement;
+      input.dispatchEvent(new FocusEvent('focus'));
+      fixture.detectChanges();
+      input.dispatchEvent(new FocusEvent('blur'));
+      fixture.detectChanges();
+      expect(radios[0].classList).not.toContain('coar-radio--focused');
+    });
+  });
+});
+
+@Component({
+  standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [FormsModule, CoarRadioGroupComponent, CoarRadioComponent],
+  template: `
+    <coar-radio-group
+      [(ngModel)]="selected"
+      name="styled-group"
+      [size]="groupSize()"
+      [error]="groupError()"
+      [hint]="groupHint()"
+      [required]="groupRequired()"
+    >
+      <coar-radio [value]="'a'">A</coar-radio>
+      <coar-radio [value]="'b'">B</coar-radio>
+    </coar-radio-group>
+  `,
+})
+class TestStyledHostComponent {
+  selected: string | null = null;
+  groupSize = signal<string>('m');
+  groupError = signal<string>('');
+  groupHint = signal<string>('');
+  groupRequired = signal(false);
+}
+
+describe('CoarRadioGroup size and error inheritance', () => {
+  let component: TestStyledHostComponent;
+  let fixture: ComponentFixture<TestStyledHostComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [TestStyledHostComponent],
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(TestStyledHostComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should apply default m size class to child radios', () => {
+    const radios = fixture.nativeElement.querySelectorAll('coar-radio');
+    expect(radios[0].classList).toContain('coar-radio--m');
+  });
+
+  it('should apply s size class to child radios when group is small', () => {
+    component.groupSize.set('s');
+    fixture.detectChanges();
+    const radios = fixture.nativeElement.querySelectorAll('coar-radio');
+    expect(radios[0].classList).toContain('coar-radio--s');
+    expect(radios[0].classList).not.toContain('coar-radio--m');
+  });
+
+  it('should apply l size class to child radios when group is large', () => {
+    component.groupSize.set('l');
+    fixture.detectChanges();
+    const radios = fixture.nativeElement.querySelectorAll('coar-radio');
+    expect(radios[0].classList).toContain('coar-radio--l');
+  });
+
+  it('should apply error class to child radios when group has error', () => {
+    component.groupError.set('Required');
+    fixture.detectChanges();
+    const radios = fixture.nativeElement.querySelectorAll('coar-radio');
+    expect(radios[0].classList).toContain('coar-radio--error');
+    expect(radios[1].classList).toContain('coar-radio--error');
+  });
+
+  it('should not apply error class when group has no error', () => {
+    const radios = fixture.nativeElement.querySelectorAll('coar-radio');
+    expect(radios[0].classList).not.toContain('coar-radio--error');
+  });
+
+  it('should set aria-required on group when required', () => {
+    component.groupRequired.set(true);
+    fixture.detectChanges();
+    const group = fixture.nativeElement.querySelector('coar-radio-group');
+    expect(group.getAttribute('aria-required')).toBe('true');
   });
 });

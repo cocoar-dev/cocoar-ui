@@ -128,9 +128,9 @@
         <p class="example-description">Checkboxes come in four sizes matching other form components.</p>
         <div class="example-demo sizes-column">
           <coar-checkbox size="xs" label="Extra small (27px height)" [checked]="sizeXsChecked()" (checkedChange)="sizeXsChecked.set($event)" />
-          <coar-checkbox size="s" label="Small (32px height)" [checked]="sizeSmChecked()" (checkedChange)="sizeSmChecked.set($event)" />
-          <coar-checkbox size="m" label="Medium (40px height) - default" [checked]="sizeMdChecked()" (checkedChange)="sizeMdChecked.set($event)" />
-          <coar-checkbox size="l" label="Large (48px height)" [checked]="sizeLgChecked()" (checkedChange)="sizeLgChecked.set($event)" />
+          <coar-checkbox size="s" label="Small (32px height)" [checked]="sizeSChecked()" (checkedChange)="sizeSChecked.set($event)" />
+          <coar-checkbox size="m" label="Medium (40px height) - default" [checked]="sizeMChecked()" (checkedChange)="sizeMChecked.set($event)" />
+          <coar-checkbox size="l" label="Large (48px height)" [checked]="sizeLChecked()" (checkedChange)="sizeLChecked.set($event)" />
         </div>
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>

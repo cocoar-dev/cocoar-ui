@@ -9,10 +9,6 @@
 
 :host {
   display: block;
-}
-
-.coar-label {
-  display: block;
   font-family: var(--coar-body-small-bold-family);
   font-weight: var(--coar-body-small-bold-weight);
   color: var(--coar-text-neutral-primary);
@@ -24,19 +20,19 @@
    SIZES
    ======================================== */
 
-.coar-label--xs {
+:host(.coar-label--xs) {
   font-size: var(--coar-component-xs-label-font-size);
 }
 
-.coar-label--s {
+:host(.coar-label--s) {
   font-size: var(--coar-component-s-label-font-size);
 }
 
-.coar-label--m {
+:host(.coar-label--m) {
   font-size: var(--coar-component-m-label-font-size);
 }
 
-.coar-label--l {
+:host(.coar-label--l) {
   font-size: var(--coar-component-l-label-font-size);
 }
 

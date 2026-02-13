@@ -167,7 +167,7 @@
 :host(.coar-checkbox--readonly)
   .coar-checkbox-wrapper:hover
   .coar-checkbox-box:not(.coar-checkbox-checked):not(.coar-checkbox-indeterminate) {
-  border-color: var(--coar-background-neutral-tertiary);
+  border-color: var(--coar-border-input);
 }
 
 :host(.coar-checkbox--readonly)
@@ -278,14 +278,14 @@
 /* Required indicator */
 .coar-checkbox-required {
   color: var(--coar-text-semantic-error-bold);
-  margin-left: 4px;
+  margin-left: var(--coar-spacing-xs);
 }
 
 /* Message (always reserves 1 line of space) */
 .coar-checkbox-message {
   display: block;
   margin-top: var(--coar-spacing-xs);
-  margin-left: 28px; /* md: 20px box + 8px gap */
+  margin-left: 28px; /* m: 20px box + 8px gap */
   height: calc(var(--coar-body-caption-size) * 1.4);
   font-family: var(--coar-body-caption-family);
   font-size: var(--coar-body-caption-size);
@@ -306,15 +306,15 @@
 }
 
 :host(.coar-checkbox--s) .coar-checkbox-message {
-  margin-left: 22px; /* sm: 16px box + 6px gap */
+  margin-left: 22px; /* s: 16px box + 6px gap */
 }
 
 :host(.coar-checkbox--m) .coar-checkbox-message {
-  margin-left: 28px; /* md: 20px box + 8px gap */
+  margin-left: 28px; /* m: 20px box + 8px gap */
 }
 
 :host(.coar-checkbox--l) .coar-checkbox-message {
-  margin-left: 34px; /* lg: 24px box + 10px gap */
+  margin-left: 34px; /* l: 24px box + 10px gap */
 }
 
 .coar-checkbox-message--error {

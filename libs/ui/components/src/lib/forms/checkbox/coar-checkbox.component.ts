@@ -135,11 +135,6 @@ export class CoarCheckboxComponent extends CoarControlValueAccessor<boolean | un
     this.cvaOnTouched();
   }
 
-  protected onLabelClick(): void {
-    if (!this.isDisabled()) {
-      this.inputRef()?.nativeElement.click();
-    }
-  }
 }
 
 function cryptoRandomId(): string {

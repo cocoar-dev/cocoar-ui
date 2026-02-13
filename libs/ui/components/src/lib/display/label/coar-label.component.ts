@@ -1,9 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
-  HostBinding,
   input,
-  ViewEncapsulation,
   booleanAttribute,
 } from '@angular/core';
 
@@ -35,10 +33,13 @@ export type CoarLabelSize = 'xs' | 's' | 'm' | 'l';
     }
   `,
   styleUrl: './coar-label.component.css',
-  encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'coar-label',
+    '[class.coar-label--xs]': 'size() === "xs"',
+    '[class.coar-label--s]': 'size() === "s"',
+    '[class.coar-label--m]': 'size() === "m"',
+    '[class.coar-label--l]': 'size() === "l"',
+    '[attr.for]': 'for() ?? null',
   },
 })
 export class CoarLabelComponent {
@@ -61,29 +62,4 @@ export class CoarLabelComponent {
   readonly for = input<string | undefined>(undefined);
 
   readonly text = input<string>('');
-
-  @HostBinding('class.coar-label--xs')
-  get isXs(): boolean {
-    return this.size() === 'xs';
-  }
-
-  @HostBinding('class.coar-label--s')
-  get isSm(): boolean {
-    return this.size() === 's';
-  }
-
-  @HostBinding('class.coar-label--m')
-  get isMd(): boolean {
-    return this.size() === 'm';
-  }
-
-  @HostBinding('class.coar-label--l')
-  get isLg(): boolean {
-    return this.size() === 'l';
-  }
-
-  @HostBinding('attr.for')
-  get forAttr(): string | null {
-    return this.for() ?? null;
-  }
 }

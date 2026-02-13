@@ -17,12 +17,12 @@
 
 :host(.coar-radio-group--vertical) .coar-radio-group {
   flex-direction: column;
-  gap: 0.5rem;
+  gap: var(--coar-spacing-s);
 }
 
 :host(.coar-radio-group--horizontal) .coar-radio-group {
   flex-direction: row;
-  gap: 1.5rem;
+  gap: var(--coar-spacing-xl);
 }
 
 /* ========================================
