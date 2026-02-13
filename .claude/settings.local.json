@@ -28,7 +28,9 @@
       "Bash(for dir in display forms date-time navigation overlay)",
       "Bash(do git mv \"libs/ui-components/src/lib/$dir\" \"libs/ui/components/src/lib/$dir\")",
       "Bash(done)",
-      "Bash(pnpm nx build:*)"
+      "Bash(pnpm nx build:*)",
+      "Bash(wc:*)",
+      "Bash(ls:*)"
     ]
   }
 }
