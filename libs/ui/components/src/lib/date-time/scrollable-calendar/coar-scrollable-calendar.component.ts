@@ -24,6 +24,7 @@ import type { DateFormatConfig } from '../_shared/coar-date-format';
 import type { CoarDateMarker } from '../_shared/coar-date-marker';
 import {
   coarCalculateIsoWeekNumber,
+  coarClampPlainDate,
   coarDetectDateFormatPatternFromIntl,
   coarGetCalendarGridDates,
   coarGetLocalizedWeekdays,
@@ -56,6 +57,7 @@ export interface CoarCalendarDay {
   readonly isOutsideMonth: boolean;
   readonly isToday: boolean;
   readonly isSelected: boolean;
+  readonly isFocused: boolean;
   readonly isDisabled: boolean;
   readonly isWeekend: boolean;
   readonly markers: CoarDateMarker[];
@@ -87,6 +89,9 @@ export interface CoarCalendarDay {
   templateUrl: './coar-scrollable-calendar.component.html',
   styleUrl: './coar-scrollable-calendar.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '(keydown)': 'onKeydown($event)',
+  },
 })
 export class CoarScrollableCalendarComponent {
   private readonly localizationService = inject(CoarLocalizationService, { optional: true });
@@ -171,18 +176,15 @@ export class CoarScrollableCalendarComponent {
   // Outputs
   // ============================================================
 
-  /** Emitted when the selected date changes */
-  valueChange = output<Temporal.PlainDate | null>();
-
-  /** Emitted when the visible/active month changes due to scrolling */
-  activeMonthChange = output<Temporal.PlainYearMonth>();
-
   /** Emitted when a date is clicked */
   dateSelected = output<Temporal.PlainDate>();
 
   // ============================================================
   // Internal State
   // ============================================================
+
+  /** Focused date for keyboard navigation */
+  protected readonly focusedDate = signal<Temporal.PlainDate | null>(null);
 
   /**
    * Today's date based on the configured timezone.
@@ -281,9 +283,21 @@ export class CoarScrollableCalendarComponent {
 
   protected firstDayOfWeek = computed(() => this.effectiveDateFormat().firstDayOfWeek);
 
-  protected daysOfWeek = computed(() =>
-    coarGetLocalizedWeekdays(this.effectiveLocale(), this.firstDayOfWeek())
-  );
+  protected daysOfWeek = computed(() => {
+    const language = this.currentLanguage();
+    const localeData = language ? this.localizationDataStore?.getLocaleData(language) : undefined;
+    if (localeData?.date?.dayNamesShort?.length === 7) {
+      // dayNamesShort is [Mon, Tue, Wed, Thu, Fri, Sat, Sun] (Monday-first)
+      const names = [...localeData.date.dayNamesShort];
+      if (this.firstDayOfWeek() === 7) {
+        // Sunday first: move Sunday from end to front
+        const sunday = names.pop()!;
+        names.unshift(sunday);
+      }
+      return names;
+    }
+    return coarGetLocalizedWeekdays(this.effectiveLocale(), this.firstDayOfWeek());
+  });
 
   /**
    * Weekday headers with weekend flag for styling.
@@ -315,12 +329,14 @@ export class CoarScrollableCalendarComponent {
   /** Flag to track pending scroll after month loading */
   private pendingScrollTarget: Temporal.PlainYearMonth | null = null;
 
-  /** Track previous marker/value/min/max state to avoid unnecessary rebuilds */
+  /** Track previous marker/value/min/max/focusedDate/locale state to avoid unnecessary rebuilds */
   private lastMarkersLength = 0;
   private lastValueString = '';
   private lastHighlightWeekends = false;
   private lastMinString = '';
   private lastMaxString = '';
+  private lastFocusedDateString = '';
+  private lastLocale = '';
 
   private readonly monthScrollTopInsetPx = 0;
 
@@ -346,33 +362,41 @@ export class CoarScrollableCalendarComponent {
       }
     });
 
-    // Rebuild months when markers, value, highlightWeekends, or min/max changes
+    // Rebuild months when markers, value, highlightWeekends, min/max, focusedDate, or locale changes
     // Min/max affects the isDisabled state of individual days
+    // Locale affects month names
     effect(() => {
       const markers = this.markers();
       const value = this.value();
       const highlightWeekends = this.highlightWeekends();
       const min = this.min();
       const max = this.max();
+      const focusedDate = this.focusedDate();
+      const locale = this.effectiveLocale();
 
       // Check if anything actually changed
       const valueString = value?.toString() ?? '';
       const markersLength = markers.length;
       const minString = min?.toString() ?? '';
       const maxString = max?.toString() ?? '';
+      const focusedDateString = focusedDate?.toString() ?? '';
 
       if (
         markersLength !== this.lastMarkersLength ||
         valueString !== this.lastValueString ||
         highlightWeekends !== this.lastHighlightWeekends ||
         minString !== this.lastMinString ||
-        maxString !== this.lastMaxString
+        maxString !== this.lastMaxString ||
+        focusedDateString !== this.lastFocusedDateString ||
+        locale !== this.lastLocale
       ) {
         this.lastMarkersLength = markersLength;
         this.lastValueString = valueString;
         this.lastHighlightWeekends = highlightWeekends;
         this.lastMinString = minString;
         this.lastMaxString = maxString;
+        this.lastFocusedDateString = focusedDateString;
+        this.lastLocale = locale;
 
         // Only rebuild if we have months (after initialization)
         if (this.months().length > 0) {
@@ -392,6 +416,20 @@ export class CoarScrollableCalendarComponent {
       if (currentMonths.length === 0) return;
 
       this.constrainMonthsToRange(minMonth, maxMonth);
+    });
+
+    // Initialize focused date: default to value or today
+    effect(() => {
+      const val = this.value();
+      if (val && !this.focusedDate()) {
+        this.focusedDate.set(val);
+      }
+    });
+
+    effect(() => {
+      if (this.value()) return;
+      if (this.focusedDate()) return;
+      this.focusedDate.set(this.today());
     });
   }
 
@@ -956,7 +994,6 @@ export class CoarScrollableCalendarComponent {
       // Update activeMonth after instant scroll (onScroll won't fire for instant jumps)
       this.isUpdatingFromScroll = true;
       this.activeMonth.set(target);
-      this.activeMonthChange.emit(target);
 
       // Reset flags after a short delay to allow any queued scroll events to be ignored
       setTimeout(() => {
@@ -1065,7 +1102,6 @@ export class CoarScrollableCalendarComponent {
       // Run inside Angular zone since scroll listener runs outside
       this.ngZone.run(() => {
         this.activeMonth.set(mostVisibleMonth);
-        this.activeMonthChange.emit(mostVisibleMonth);
       });
       // Reset flag after a microtask to ensure effect has run
       queueMicrotask(() => {
@@ -1077,18 +1113,159 @@ export class CoarScrollableCalendarComponent {
     this.checkInfiniteScroll();
   }
 
+  /** Handle keyboard navigation */
+  protected onKeydown(event: KeyboardEvent): void {
+    switch (event.key) {
+      case 'Enter':
+      case ' ': {
+        event.preventDefault();
+        const focused = this.focusedDate();
+        if (focused) {
+          this.selectDate(focused);
+        }
+        break;
+      }
+      case 'ArrowLeft':
+        event.preventDefault();
+        this.moveFocus(-1, 'day');
+        break;
+      case 'ArrowRight':
+        event.preventDefault();
+        this.moveFocus(1, 'day');
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        this.moveFocus(-7, 'day');
+        break;
+      case 'ArrowDown':
+        event.preventDefault();
+        this.moveFocus(7, 'day');
+        break;
+      case 'PageUp':
+        event.preventDefault();
+        if (event.shiftKey) {
+          this.moveFocus(-1, 'year');
+        } else {
+          this.moveFocus(-1, 'month');
+        }
+        break;
+      case 'PageDown':
+        event.preventDefault();
+        if (event.shiftKey) {
+          this.moveFocus(1, 'year');
+        } else {
+          this.moveFocus(1, 'month');
+        }
+        break;
+      case 'Home':
+        event.preventDefault();
+        this.focusedDate.set(this.today());
+        this.scrollToFocusedDate(this.today());
+        break;
+    }
+  }
+
   /** Handle date selection */
   protected selectDate(date: Temporal.PlainDate): void {
     if (this.isDateDisabled(date)) return;
 
     this.value.set(date);
-    this.valueChange.emit(date);
     this.dateSelected.emit(date);
+    this.focusedDate.set(date);
   }
 
   // ============================================================
   // Helper Methods
   // ============================================================
+
+  /**
+   * Moves keyboard focus by the given amount and unit.
+   * Clamps to min/max, auto-scrolls to keep the focused date visible.
+   */
+  private moveFocus(amount: number, unit: 'day' | 'month' | 'year'): void {
+    const current = this.focusedDate() ?? this.value() ?? this.today();
+
+    let newDate: Temporal.PlainDate;
+    switch (unit) {
+      case 'day':
+        newDate = current.add({ days: amount });
+        break;
+      case 'month':
+        newDate = current.add({ months: amount });
+        break;
+      case 'year':
+        newDate = current.add({ years: amount });
+        break;
+    }
+
+    newDate = coarClampPlainDate(newDate, { min: this.min(), max: this.max() });
+
+    this.focusedDate.set(newDate);
+    this.scrollToFocusedDate(newDate);
+  }
+
+  /**
+   * Scrolls to ensure the focused date's month is visible, then focuses the button element.
+   */
+  private scrollToFocusedDate(date: Temporal.PlainDate): void {
+    const targetMonth = date.toPlainYearMonth();
+    const earliest = this.earliestMonth();
+    const latest = this.latestMonth();
+
+    const isInRange =
+      Temporal.PlainYearMonth.compare(targetMonth, earliest) >= 0 &&
+      Temporal.PlainYearMonth.compare(targetMonth, latest) <= 0;
+
+    if (!isInRange) {
+      this.scrollToMonthWithLoad(targetMonth);
+      this.focusDateButtonAfterDelay(date);
+      return;
+    }
+
+    const container = this.scrollContainerRef()?.nativeElement;
+    if (!container) return;
+
+    const monthId = this.getMonthElementId(targetMonth);
+    const monthElement = container.querySelector(`#${monthId}`) as HTMLElement | null;
+
+    if (monthElement) {
+      const viewport = this.getScrollViewportElement();
+      if (viewport) {
+        const viewportRect = viewport.getBoundingClientRect();
+        const monthRect = monthElement.getBoundingClientRect();
+
+        const isAbove = monthRect.bottom < viewportRect.top;
+        const isBelow = monthRect.top > viewportRect.bottom;
+
+        if (isAbove || isBelow) {
+          this.scrollMonthElementToTop(monthElement, false);
+        }
+      }
+    }
+
+    this.focusDateButton(date);
+  }
+
+  private focusDateButton(date: Temporal.PlainDate): void {
+    requestAnimationFrame(() => {
+      const container = this.scrollContainerRef()?.nativeElement;
+      if (!container) return;
+
+      const dateStr = date.toString();
+      const button = container.querySelector(
+        `button[data-date="${dateStr}"]`
+      ) as HTMLElement | null;
+      if (button) {
+        button.focus();
+      }
+    });
+  }
+
+  private focusDateButtonAfterDelay(date: Temporal.PlainDate): void {
+    setTimeout(() => {
+      this.focusDateButton(date);
+    }, 200);
+  }
 
   /** Generate a unique element ID for a month */
   protected getMonthElementId(yearMonth: Temporal.PlainYearMonth): string {
@@ -1111,9 +1288,10 @@ export class CoarScrollableCalendarComponent {
 
   /** Create a calendar month object */
   private createCalendarMonth(yearMonth: Temporal.PlainYearMonth): CoarCalendarMonth {
-    const formatter = new Intl.DateTimeFormat(this.effectiveLocale(), { month: 'long' });
-    const jsDate = new Date(yearMonth.year, yearMonth.month - 1, 1);
-    const monthName = formatter.format(jsDate);
+    const language = this.currentLanguage();
+    const localeData = language ? this.localizationDataStore?.getLocaleData(language) : undefined;
+    const monthName = localeData?.date?.monthNames?.[yearMonth.month - 1]
+      ?? new Intl.DateTimeFormat(this.effectiveLocale(), { month: 'long' }).format(new Date(yearMonth.year, yearMonth.month - 1, 1));
 
     const gridCells = coarGetCalendarGridDates(yearMonth, this.firstDayOfWeek());
     const days = gridCells.map((cell) => this.createCalendarDay(cell.date, cell.isOutsideMonth));
@@ -1137,6 +1315,7 @@ export class CoarScrollableCalendarComponent {
   /** Create a calendar day object */
   private createCalendarDay(date: Temporal.PlainDate, isOutsideMonth: boolean): CoarCalendarDay {
     const selectedDate = this.value();
+    const focused = this.focusedDate();
     const dayOfWeek = date.dayOfWeek; // 1=Mon, 7=Sun
 
     // Find markers for this date (check if date falls within marker range)
@@ -1166,6 +1345,7 @@ export class CoarScrollableCalendarComponent {
       isOutsideMonth,
       isToday: Temporal.PlainDate.compare(date, this.today()) === 0,
       isSelected: selectedDate ? Temporal.PlainDate.compare(date, selectedDate) === 0 : false,
+      isFocused: focused ? Temporal.PlainDate.compare(date, focused) === 0 : false,
       isDisabled: this.isDateDisabled(date),
       isWeekend: dayOfWeek === 6 || dayOfWeek === 7, // Saturday or Sunday
       markers: dateMarkers,

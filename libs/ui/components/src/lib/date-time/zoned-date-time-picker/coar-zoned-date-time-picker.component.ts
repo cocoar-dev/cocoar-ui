@@ -8,15 +8,12 @@ import {
   model,
   output,
   signal,
-  TemplateRef,
   viewChild,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Temporal } from '@js-temporal/polyfill';
 import { Maskito } from '@maskito/core';
 import { maskitoDateTimeOptionsGenerator } from '@maskito/kit';
-
-import { type Placement } from '@cocoar/ui/overlay';
 
 import { CoarIconComponent } from '../../display/icon/coar-icon.component';
 import { CoarScrollableCalendarComponent } from '../scrollable-calendar/coar-scrollable-calendar.component';
@@ -25,8 +22,7 @@ import { CoarTimePickerComponent } from '../time-picker/coar-time-picker.compone
 import { CoarSingleSelectComponent } from '../../forms/select/coar-single-select.component';
 import { CoarSelectOption } from '../../forms/select/coar-select-option.interface';
 import { coarProvideValueAccessor } from '../../forms/_base/coar-control-value-accessor';
-import type { DateFormatConfig } from '../_shared/coar-date-format';
-import type { CoarDateMarker } from '../_shared/coar-date-marker';
+import { COAR_DATE_FORMAT_TO_MASKITO_MODE } from '../_shared/coar-date-format';
 import {
   coarFormatPlainDate,
   coarParsePlainDateFromInput,
@@ -36,6 +32,7 @@ import {
   type CoarTimeValue,
   coarDetect12HourFormat,
   coarFormatTime,
+  coarParseTimeInput,
   coarRoundMinutesToStep,
 } from '../_shared/coar-time-helpers';
 import { CoarDatePickerBase, type CoarDatePickerSize } from '../_shared/coar-date-picker-base';
@@ -204,28 +201,10 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
   private static nextId = 0;
 
   /** Unique ID for this component instance */
-  private readonly uid = `coar-zoned-date-time-picker-${CoarZonedDateTimePickerComponent.nextId++}`;
-
-  /** ID for the label element */
-  protected labelId = computed(() => `${this.uid}-label`);
-
-  /** ID for the input element */
-  protected inputId = computed(() => `${this.uid}-input`);
-
-  /** ID for the panel */
-  protected panelId = computed(() => `${this.uid}-panel`);
-
-  /** ID for the message element */
-  protected messageId = computed(() => `${this.uid}-message`);
+  protected override readonly uid = `coar-zoned-date-time-picker-${CoarZonedDateTimePickerComponent.nextId++}`;
 
   /** Reference to the input element */
   protected inputRef = viewChild<ElementRef<HTMLInputElement>>('dateInput');
-
-  /** Reference to the trigger element */
-  protected triggerRef = viewChild<ElementRef<HTMLElement>>('trigger');
-
-  /** Reference to the panel template */
-  protected panelTemplateRef = viewChild<TemplateRef<unknown>>('panelTemplate');
 
   /** Reference to the timezone search input */
   protected tzSearchInputRef = viewChild<ElementRef<HTMLInputElement>>('tzSearchInput');
@@ -764,22 +743,6 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
   });
 
   /**
-   * Markers for the currently selected date.
-   */
-  protected selectedDateMarkers = computed((): CoarDateMarker[] => {
-    const date = this.selectedDate();
-    if (!date) return [];
-
-    return this.markers().filter((marker) => {
-      const afterStart = Temporal.PlainDate.compare(date, marker.startDate) >= 0;
-      const beforeEnd = marker.endDate
-        ? Temporal.PlainDate.compare(date, marker.endDate) <= 0
-        : Temporal.PlainDate.compare(date, marker.startDate) === 0;
-      return afterStart && beforeEnd;
-    });
-  });
-
-  /**
    * The derived instant (UTC) from the current value.
    * Null if no value is selected.
    */
@@ -794,6 +757,25 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
 
   protected override getValue(): Temporal.ZonedDateTime | null {
     return this.value();
+  }
+
+  protected override getSelectedPlainDate(): Temporal.PlainDate | null {
+    return this.selectedDate();
+  }
+
+  protected override estimatePanelHeight(): number {
+    return 400;
+  }
+
+  protected override resetValue(): void {
+    this.value.set(null);
+    this.pendingTime.set(null);
+    this.valueChange.emit(null);
+  }
+
+  protected override onPanelClosed(): void {
+    this.isSelectingDisplayTimezone.set(false);
+    this.timezoneSearchQuery.set('');
   }
 
   // ============================================================
@@ -829,66 +811,6 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
       this.overlayRef?.close();
       this.overlayRef = null;
     });
-  }
-
-  // ============================================================
-  // Public Methods
-  // ============================================================
-
-  /** Open the picker panel */
-  override openPanel(): void {
-    if (this.isDisabled() || this.readonly()) return;
-    if (this.overlayRef) return;
-
-    const trigger = this.triggerRef()?.nativeElement;
-    const template = this.panelTemplateRef();
-    if (!trigger || !template) return;
-
-    const verticalPlacement = this.resolvePlacement(trigger, this.estimatePanelHeight());
-    this.panelPosition.set(verticalPlacement === 'top' ? 'top' : 'bottom');
-
-    const triggerWidth = trigger.getBoundingClientRect().width;
-    const panelMinWidth = this.showWeekNumbers() ? 528 : 480;
-
-    const horizontalAlignment = triggerWidth >= panelMinWidth ? '-end' : '';
-    const placement = `${verticalPlacement}${horizontalAlignment}` as Placement;
-
-    const ref = this.overlayBuilder
-      .anchor({ kind: 'element', element: trigger })
-      .position({
-        placement,
-        offset: 4,
-        flip: false,
-        shift: true,
-      })
-      .scroll({ strategy: 'reposition' })
-      .dismiss({ outsideClick: true, escapeKey: true })
-      .size({ mode: 'content' })
-      .fromTemplate(template)
-      .open({});
-
-    this.overlayRef = ref;
-    this.isOpen.set(true);
-    this.opened.emit();
-
-    ref.afterClosed$.subscribe(() => {
-      if (this.overlayRef !== ref) return;
-      this.overlayRef = null;
-      this.isOpen.set(false);
-      // Reset timezone picker state when panel closes
-      this.isSelectingDisplayTimezone.set(false);
-      this.timezoneSearchQuery.set('');
-      this.closed.emit();
-    });
-  }
-
-  /** Clear the selected value */
-  clearValue(event: Event): void {
-    event.stopPropagation();
-    this.value.set(null);
-    this.pendingTime.set(null);
-    this.valueChange.emit(null);
-    this.cvaOnChange(null);
   }
 
   // ============================================================
@@ -1187,10 +1109,6 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
   // Private Helpers
   // ============================================================
 
-  private estimatePanelHeight(): number {
-    return 400;
-  }
-
   private formatValue(val: Temporal.ZonedDateTime): string {
     const datePart = coarFormatPlainDate(val.toPlainDate(), this.dateFormat());
     const timePart = coarFormatTime(val.hour, val.minute, this.effectiveUse24Hour());
@@ -1212,27 +1130,10 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
     if (!date) return null;
 
     const timePart = parts.slice(1).join(' ');
-    const timeMatch = timePart.match(/^(\d{1,2}):(\d{2})(?:\s*(AM|PM))?$/i);
-    if (!timeMatch) return null;
+    const time = coarParseTimeInput(timePart);
+    if (!time) return null;
 
-    let hours = parseInt(timeMatch[1], 10);
-    const minutes = parseInt(timeMatch[2], 10);
-    const period = timeMatch[3]?.toUpperCase();
-
-    if (period) {
-      if (hours < 1 || hours > 12) return null;
-      if (period === 'AM') {
-        hours = hours === 12 ? 0 : hours;
-      } else {
-        hours = hours === 12 ? 12 : hours + 12;
-      }
-    } else {
-      if (hours < 0 || hours > 23) return null;
-    }
-
-    if (minutes < 0 || minutes > 59) return null;
-
-    const plainDateTime = date.toPlainDateTime({ hour: hours, minute: minutes });
+    const plainDateTime = date.toPlainDateTime({ hour: time.hours, minute: time.minutes });
     // Parse input in the value timezone (preserving the event's intent)
     // If no value exists yet, use the display timezone as the initial timezone
     const targetTz = this.valueTimeZone() ?? this.effectiveDisplayTimeZone();
@@ -1242,20 +1143,11 @@ export class CoarZonedDateTimePickerComponent extends CoarDatePickerBase<Tempora
   private initializeMaskito(inputElement: HTMLInputElement): void {
     const format = this.dateFormat();
     const separator = this.separator();
-
-    const modeMap: Record<DateFormatConfig['pattern'], 'dd/mm/yyyy' | 'mm/dd/yyyy' | 'yyyy/mm/dd'> =
-      {
-        'dd.mm.yyyy': 'dd/mm/yyyy',
-        'dd/mm/yyyy': 'dd/mm/yyyy',
-        'mm/dd/yyyy': 'mm/dd/yyyy',
-        'yyyy-mm-dd': 'yyyy/mm/dd',
-      };
-
     const minDate = this.minDate();
     const maxDate = this.maxDate();
 
     const options = maskitoDateTimeOptionsGenerator({
-      dateMode: modeMap[format],
+      dateMode: COAR_DATE_FORMAT_TO_MASKITO_MODE[format],
       timeMode: 'HH:MM',
       dateSeparator: separator,
       min: minDate ? coarTemporalPlainDateToDate(minDate) : undefined,

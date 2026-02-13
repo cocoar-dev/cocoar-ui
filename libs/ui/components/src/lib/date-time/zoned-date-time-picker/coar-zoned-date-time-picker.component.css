@@ -184,11 +184,11 @@
   font-weight: var(--coar-body-caption-weight);
   line-height: 1.2;
   letter-spacing: 0.02em;
-  color: hsl(from var(--coar-text-neutral-tertiary) h s l / 0.7);
+  color: var(--coar-text-neutral-tertiary);
   background-color: var(--coar-surface-input);
   white-space: nowrap;
   pointer-events: none;
-  border-radius: 3px;
+  border-radius: var(--coar-radius-xs);
 }
 
 .coar-zoned-date-time-picker-tz-inline--hidden {
@@ -217,7 +217,10 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  background: none;
+  border: none;
   padding: 4px;
+  font: inherit;
   border-radius: var(--coar-radius-xs);
   color: var(--coar-icon-neutral-secondary);
   cursor: default;
@@ -290,6 +293,9 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  background: none;
+  border: none;
+  padding: 0;
   width: 16px; /* Fixed width to prevent layout shift */
   margin-left: var(--coar-spacing-s);
   color: var(--coar-icon-neutral-disabled);
@@ -696,7 +702,7 @@
   background: var(--coar-background-neutral-secondary);
   font-family: var(--coar-body-caption-family);
   font-size: var(--coar-body-caption-size);
-  font-weight: 600;
+  font-weight: var(--coar-body-small-bold-weight);
   color: var(--coar-text-neutral-secondary);
   text-transform: uppercase;
   text-align: center;
@@ -849,7 +855,8 @@
 }
 
 /* Hide message space for embedded select */
-.coar-zoned-date-time-picker-value-tz-select::ng-deep .coar-form-field-message {
+/* TODO: replace with hideMessage input */
+:host ::ng-deep .coar-zoned-date-time-picker-value-tz-select .coar-form-field-message {
   display: none;
 }
 
@@ -929,9 +936,15 @@
   white-space: nowrap;
 }
 
+.coar-zoned-date-time-picker-events-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--coar-spacing-xs);
+}
+
 .coar-zoned-date-time-picker-event-dates {
   font-family: var(--coar-body-small-base-family);
-  font-size: 10px;
+  font-size: var(--coar-component-xs-font-size);
   color: var(--coar-text-neutral-secondary);
   line-height: 1.2;
 }
@@ -960,4 +973,28 @@
 
 .coar-form-field-message--error {
   color: var(--coar-text-semantic-error-bold);
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .coar-zoned-date-time-picker-trigger,
+  .coar-zoned-date-time-picker-tz-indicator,
+  .coar-zoned-date-time-picker-clear,
+  .coar-zoned-date-time-picker-btn,
+  .coar-zoned-date-time-picker-today-fab,
+  .coar-zoned-date-time-picker-tz-search-input,
+  .coar-zoned-date-time-picker-tz-search-close,
+  .coar-zoned-date-time-picker-year-btn,
+  .coar-zoned-date-time-picker-month-item,
+  .coar-zoned-date-time-picker-display-tz-button,
+  .coar-zoned-date-time-picker-tz-picker-item,
+  .coar-zoned-date-time-picker-footer,
+  .coar-zoned-date-time-picker-footer-tz,
+  .coar-zoned-date-time-picker-footer-lock,
+  .coar-zoned-date-time-picker-value-tz-cancel {
+    transition: none;
+  }
 }

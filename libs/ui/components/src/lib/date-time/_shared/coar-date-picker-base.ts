@@ -3,10 +3,13 @@ import {
   computed,
   DestroyRef,
   Directive,
+  ElementRef,
   inject,
   input,
   output,
   signal,
+  TemplateRef,
+  viewChild,
 } from '@angular/core';
 
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -183,6 +186,35 @@ export abstract class CoarDatePickerBase<T> extends CoarControlValueAccessor<T |
   closed = output<void>();
 
   // ============================================================
+  // View Queries (resolved from subclass templates)
+  // ============================================================
+
+  /** Reference to the trigger element */
+  protected triggerRef = viewChild<ElementRef<HTMLElement>>('trigger');
+
+  /** Reference to the panel template */
+  protected panelTemplateRef = viewChild<TemplateRef<unknown>>('panelTemplate');
+
+  // ============================================================
+  // ID Generation
+  // ============================================================
+
+  /** Unique ID for this component instance. Subclasses must set this with their selector prefix. */
+  protected abstract readonly uid: string;
+
+  /** ID for the label element */
+  protected labelId = computed(() => `${this.uid}-label`);
+
+  /** ID for the input element */
+  protected inputId = computed(() => `${this.uid}-input`);
+
+  /** ID for the panel */
+  protected panelId = computed(() => `${this.uid}-panel`);
+
+  /** ID for the message element */
+  protected messageId = computed(() => `${this.uid}-message`);
+
+  // ============================================================
   // Internal State
   // ============================================================
 
@@ -282,6 +314,44 @@ export abstract class CoarDatePickerBase<T> extends CoarControlValueAccessor<T |
    */
   protected abstract resolvedActiveMonth(): Temporal.PlainYearMonth;
 
+  /**
+   * Get the selected date as a PlainDate for marker filtering.
+   * For date picker: value()
+   * For datetime/zoned pickers: selectedDate() (extracted from value)
+   */
+  protected abstract getSelectedPlainDate(): Temporal.PlainDate | null;
+
+  /**
+   * Reset the value to null. Called by clearValue().
+   * Subclasses set their model to null, emit valueChange, and handle extra state (e.g. pendingTime).
+   */
+  protected abstract resetValue(): void;
+
+  /**
+   * Estimated panel height for overlay placement calculation.
+   */
+  protected abstract estimatePanelHeight(): number;
+
+  // ============================================================
+  // Computed: Selected Date Markers
+  // ============================================================
+
+  /**
+   * Markers for the currently selected date.
+   */
+  protected selectedDateMarkers = computed((): CoarDateMarker[] => {
+    const date = this.getSelectedPlainDate();
+    if (!date) return [];
+
+    return this.markers().filter((marker) => {
+      const afterStart = Temporal.PlainDate.compare(date, marker.startDate) >= 0;
+      const beforeEnd = marker.endDate
+        ? Temporal.PlainDate.compare(date, marker.endDate) <= 0
+        : Temporal.PlainDate.compare(date, marker.startDate) === 0;
+      return afterStart && beforeEnd;
+    });
+  });
+
   // ============================================================
   // Computed: Month List
   // ============================================================
@@ -306,13 +376,17 @@ export abstract class CoarDatePickerBase<T> extends CoarControlValueAccessor<T |
     const currentMonth = this.currentMonthNumber();
     const locale = this.effectiveLocale();
 
-    const formatter = new Intl.DateTimeFormat(locale, { month: 'short' });
+    const language = this.currentLanguage();
+    const localeData = language ? this.localizationDataStore?.getLocaleData(language) : undefined;
+    const cachedMonthNames = localeData?.date?.monthNamesShort;
+
+    const formatter = cachedMonthNames ? undefined : new Intl.DateTimeFormat(locale, { month: 'short' });
 
     const items: CoarMonthItem[] = [];
 
     for (let m = 1; m <= 12; m++) {
-      const jsDate = new Date(year, m - 1, 1);
-      const name = formatter.format(jsDate);
+      const name = cachedMonthNames?.[m - 1]
+        ?? formatter!.format(new Date(year, m - 1, 1));
       const yearMonth = Temporal.PlainYearMonth.from({ year, month: m });
 
       items.push({
@@ -417,9 +491,65 @@ export abstract class CoarDatePickerBase<T> extends CoarControlValueAccessor<T |
   }
 
   /**
-   * Open the picker panel. Subclasses must implement the actual opening logic.
+   * Open the picker panel.
    */
-  abstract openPanel(): void;
+  openPanel(): void {
+    if (this.isDisabled() || this.readonly()) return;
+    if (this.overlayRef) return;
+
+    const trigger = this.triggerRef()?.nativeElement;
+    const template = this.panelTemplateRef();
+    if (!trigger || !template) return;
+
+    const verticalPlacement = this.resolvePlacement(trigger, this.estimatePanelHeight());
+    this.panelPosition.set(verticalPlacement === 'top' ? 'top' : 'bottom');
+
+    const triggerWidth = trigger.getBoundingClientRect().width;
+    const panelMinWidth = this.showWeekNumbers() ? 528 : 480;
+
+    const horizontalAlignment = triggerWidth >= panelMinWidth ? '-end' : '';
+    const placement = `${verticalPlacement}${horizontalAlignment}` as Placement;
+
+    const ref = this.overlayBuilder
+      .anchor({ kind: 'element', element: trigger })
+      .position({
+        placement,
+        offset: 4,
+        flip: false,
+        shift: true,
+      })
+      .scroll({ strategy: 'reposition' })
+      .dismiss({ outsideClick: true, escapeKey: true })
+      .size({ mode: 'content' })
+      .fromTemplate(template)
+      .open({});
+
+    this.overlayRef = ref;
+    this.isOpen.set(true);
+    this.opened.emit();
+
+    ref.afterClosed$.subscribe(() => {
+      if (this.overlayRef !== ref) return;
+      this.overlayRef = null;
+      this.isOpen.set(false);
+      this.onPanelClosed();
+      this.closed.emit();
+    });
+  }
+
+  /**
+   * Hook called when the panel closes. Override in subclasses for cleanup.
+   */
+  protected onPanelClosed(): void {}
+
+  /**
+   * Clear the selected value.
+   */
+  clearValue(event: Event): void {
+    event.stopPropagation();
+    this.resetValue();
+    this.cvaOnChange(null);
+  }
 
   // ============================================================
   // Event Handlers

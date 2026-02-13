@@ -177,6 +177,9 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  background: none;
+  border: none;
+  padding: 0;
   margin-left: var(--coar-spacing-s);
   color: var(--coar-icon-neutral-disabled);
   cursor: pointer;
@@ -486,9 +489,15 @@
   white-space: nowrap;
 }
 
+.coar-plain-date-picker-events-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--coar-spacing-xs);
+}
+
 .coar-plain-date-picker-event-dates {
   font-family: var(--coar-body-small-base-family);
-  font-size: 10px;
+  font-size: var(--coar-component-xs-font-size);
   color: var(--coar-text-neutral-secondary);
   line-height: 1.2;
 }
@@ -518,4 +527,19 @@
 
 .coar-form-field-message--error {
   color: var(--coar-text-semantic-error-bold);
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .coar-plain-date-picker-trigger,
+  .coar-plain-date-picker-clear,
+  .coar-plain-date-picker-btn,
+  .coar-plain-date-picker-today-fab,
+  .coar-plain-date-picker-year-btn,
+  .coar-plain-date-picker-month-item {
+    transition: none;
+  }
 }

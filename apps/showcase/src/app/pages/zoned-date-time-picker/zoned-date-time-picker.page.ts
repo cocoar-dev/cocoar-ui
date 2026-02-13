@@ -43,6 +43,22 @@ export class ZonedDateTimePickerPage {
     Temporal.ZonedDateTime.from('2025-06-15T23:30[Asia/Tokyo]')
   );
 
+  // Size variants
+  xsDateTime = signal<Temporal.ZonedDateTime | null>(null);
+  smDateTime = signal<Temporal.ZonedDateTime | null>(null);
+  mdDateTime = signal<Temporal.ZonedDateTime | null>(null);
+  lgDateTime = signal<Temporal.ZonedDateTime | null>(null);
+
+  // States
+  disabledDateTime = signal<Temporal.ZonedDateTime | null>(
+    Temporal.ZonedDateTime.from('2025-06-15T14:30[Europe/Vienna]')
+  );
+  readonlyDateTime = signal<Temporal.ZonedDateTime | null>(
+    Temporal.ZonedDateTime.from('2025-06-15T14:30[Europe/Vienna]')
+  );
+  errorDateTime = signal<Temporal.ZonedDateTime | null>(null);
+  requiredDateTime = signal<Temporal.ZonedDateTime | null>(null);
+
   // Markers
   markerDateTime = signal<Temporal.ZonedDateTime | null>(null);
   holidayMarkers: CoarDateMarker[] = [

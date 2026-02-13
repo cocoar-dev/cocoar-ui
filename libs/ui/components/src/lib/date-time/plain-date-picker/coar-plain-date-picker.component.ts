@@ -7,7 +7,6 @@ import {
   input,
   model,
   output,
-  TemplateRef,
   viewChild,
   booleanAttribute,
 } from '@angular/core';
@@ -17,14 +16,11 @@ import { Temporal } from '@js-temporal/polyfill';
 import { Maskito } from '@maskito/core';
 import { maskitoDateOptionsGenerator } from '@maskito/kit';
 
-import { type Placement } from '@cocoar/ui/overlay';
-
 import { CoarIconComponent } from '../../display/icon/coar-icon.component';
 import { CoarScrollableCalendarComponent } from '../scrollable-calendar/coar-scrollable-calendar.component';
 import { CoarScrollbarDirective } from '../../display/scrollbar/coar-scrollbar.directive';
 import { coarProvideValueAccessor } from '../../forms/_base/coar-control-value-accessor';
-import type { DateFormatConfig } from '../_shared/coar-date-format';
-import type { CoarDateMarker } from '../_shared/coar-date-marker';
+import { COAR_DATE_FORMAT_TO_MASKITO_MODE } from '../_shared/coar-date-format';
 import {
   coarFormatPlainDate,
   coarParsePlainDateFromInput,
@@ -112,28 +108,10 @@ export class CoarPlainDatePickerComponent extends CoarDatePickerBase<Temporal.Pl
   private static nextId = 0;
 
   /** Unique ID for this component instance */
-  private readonly uid = `coar-plain-date-picker-${CoarPlainDatePickerComponent.nextId++}`;
-
-  /** ID for the label element */
-  protected labelId = computed(() => `${this.uid}-label`);
-
-  /** ID for the input element */
-  protected inputId = computed(() => `${this.uid}-input`);
-
-  /** ID for the panel */
-  protected panelId = computed(() => `${this.uid}-panel`);
-
-  /** ID for the message element */
-  protected messageId = computed(() => `${this.uid}-message`);
+  protected override readonly uid = `coar-plain-date-picker-${CoarPlainDatePickerComponent.nextId++}`;
 
   /** Reference to the input element */
   protected inputRef = viewChild<ElementRef<HTMLInputElement>>('dateInput');
-
-  /** Reference to the trigger element */
-  protected triggerRef = viewChild<ElementRef<HTMLElement>>('trigger');
-
-  /** Reference to the panel template */
-  protected panelTemplateRef = viewChild<TemplateRef<unknown>>('panelTemplate');
 
   // ============================================================
   // Computed Values (Date Picker Specific)
@@ -153,28 +131,25 @@ export class CoarPlainDatePickerComponent extends CoarDatePickerBase<Temporal.Pl
     return this.today().toPlainYearMonth();
   });
 
-  /**
-   * Markers for the currently selected date.
-   */
-  protected selectedDateMarkers = computed((): CoarDateMarker[] => {
-    const date = this.value();
-    if (!date) return [];
-
-    return this.markers().filter((marker) => {
-      const afterStart = Temporal.PlainDate.compare(date, marker.startDate) >= 0;
-      const beforeEnd = marker.endDate
-        ? Temporal.PlainDate.compare(date, marker.endDate) <= 0
-        : Temporal.PlainDate.compare(date, marker.startDate) === 0;
-      return afterStart && beforeEnd;
-    });
-  });
-
   // ============================================================
   // Abstract Method Implementations
   // ============================================================
 
   protected override getValue(): Temporal.PlainDate | null {
     return this.value();
+  }
+
+  protected override getSelectedPlainDate(): Temporal.PlainDate | null {
+    return this.value();
+  }
+
+  protected override estimatePanelHeight(): number {
+    return 340;
+  }
+
+  protected override resetValue(): void {
+    this.value.set(null);
+    this.valueChange.emit(null);
   }
 
   // ============================================================
@@ -209,62 +184,6 @@ export class CoarPlainDatePickerComponent extends CoarDatePickerBase<Temporal.Pl
       this.overlayRef?.close();
       this.overlayRef = null;
     });
-  }
-
-  // ============================================================
-  // Public Methods
-  // ============================================================
-
-  /** Open the picker panel */
-  override openPanel(): void {
-    if (this.isDisabled() || this.readonly()) return;
-    if (this.overlayRef) return;
-
-    const trigger = this.triggerRef()?.nativeElement;
-    const template = this.panelTemplateRef();
-    if (!trigger || !template) return;
-
-    const verticalPlacement = this.resolvePlacement(trigger, this.estimatePanelHeight());
-    this.panelPosition.set(verticalPlacement === 'top' ? 'top' : 'bottom');
-
-    const triggerWidth = trigger.getBoundingClientRect().width;
-    const panelMinWidth = this.showWeekNumbers() ? 528 : 480;
-
-    const horizontalAlignment = triggerWidth >= panelMinWidth ? '-end' : '';
-    const placement = `${verticalPlacement}${horizontalAlignment}` as Placement;
-
-    const ref = this.overlayBuilder
-      .anchor({ kind: 'element', element: trigger })
-      .position({
-        placement,
-        offset: 4,
-        flip: false,
-        shift: true,
-      })
-      .scroll({ strategy: 'reposition' })
-      .dismiss({ outsideClick: true, escapeKey: true })
-      .size({ mode: 'content' })
-      .fromTemplate(template)
-      .open({});
-
-    this.overlayRef = ref;
-    this.isOpen.set(true);
-    this.opened.emit();
-
-    ref.afterClosed$.subscribe(() => {
-      if (this.overlayRef !== ref) return;
-      this.overlayRef = null;
-      this.isOpen.set(false);
-      this.closed.emit();
-    });
-  }
-
-  /** Clear the selected value */
-  clearValue(event: Event): void {
-    event.stopPropagation();
-    this.value.set(null);
-    this.valueChange.emit(null);
-    this.cvaOnChange(null);
   }
 
   // ============================================================
@@ -343,27 +262,14 @@ export class CoarPlainDatePickerComponent extends CoarDatePickerBase<Temporal.Pl
   // Private Helpers
   // ============================================================
 
-  private estimatePanelHeight(): number {
-    return 340;
-  }
-
   private initializeMaskito(inputElement: HTMLInputElement): void {
     const format = this.dateFormat();
     const separator = this.separator();
-
-    const modeMap: Record<DateFormatConfig['pattern'], 'dd/mm/yyyy' | 'mm/dd/yyyy' | 'yyyy/mm/dd'> =
-      {
-        'dd.mm.yyyy': 'dd/mm/yyyy',
-        'dd/mm/yyyy': 'dd/mm/yyyy',
-        'mm/dd/yyyy': 'mm/dd/yyyy',
-        'yyyy-mm-dd': 'yyyy/mm/dd',
-      };
-
     const minDate = this.min();
     const maxDate = this.max();
 
     const options = maskitoDateOptionsGenerator({
-      mode: modeMap[format],
+      mode: COAR_DATE_FORMAT_TO_MASKITO_MODE[format],
       separator,
       min: minDate ? coarTemporalPlainDateToDate(minDate) : undefined,
       max: maxDate ? coarTemporalPlainDateToDate(maxDate) : undefined,

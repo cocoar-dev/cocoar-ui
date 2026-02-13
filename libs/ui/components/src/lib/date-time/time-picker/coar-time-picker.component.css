@@ -237,3 +237,14 @@
 .coar-time-picker__btn:hover:not(:disabled) {
   opacity: 1;
 }
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .coar-time-picker__btn,
+  .coar-time-picker__value {
+    transition: none;
+  }
+}

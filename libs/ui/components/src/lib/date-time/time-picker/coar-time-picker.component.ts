@@ -6,7 +6,6 @@ import {
   inject,
   input,
   model,
-  output,
   signal,
   booleanAttribute,
 } from '@angular/core';
@@ -136,9 +135,6 @@ export class CoarTimePickerComponent extends CoarControlValueAccessor<CoarTimeVa
 
   /** Current time value (two-way bindable with [(value)]) */
   value = model<CoarTimeValue | null>(null);
-
-  /** Emitted when the time value changes */
-  valueChange = output<CoarTimeValue | null>();
 
   // ============================================================
   // Internal State
@@ -513,7 +509,6 @@ export class CoarTimePickerComponent extends CoarControlValueAccessor<CoarTimeVa
       minutes: this.minutes(),
     };
     this.value.set(newValue);
-    this.valueChange.emit(newValue);
     this.cvaOnTouched();
   }
 }

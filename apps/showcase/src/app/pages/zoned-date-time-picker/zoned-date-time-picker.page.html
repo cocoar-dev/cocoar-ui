@@ -84,6 +84,36 @@
     </div>
 
     <!-- ============================================ -->
+    <!-- SIZES & STATES SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Sizes & States</h2>
+    <p class="component-section-description">Available in four sizes and various states.</p>
+
+    <div class="examples-grid">
+      <coar-card>
+        <h3>Size Variants</h3>
+        <p class="example-description">Extra-small, small, medium (default), and large.</p>
+        <div class="example-demo example-demo--sizes">
+          <coar-zoned-date-time-picker size="xs" label="Extra Small" [(value)]="xsDateTime" />
+          <coar-zoned-date-time-picker size="s" label="Small" [(value)]="smDateTime" />
+          <coar-zoned-date-time-picker size="m" label="Medium" [(value)]="mdDateTime" />
+          <coar-zoned-date-time-picker size="l" label="Large" [(value)]="lgDateTime" />
+        </div>
+      </coar-card>
+
+      <coar-card>
+        <h3>States</h3>
+        <p class="example-description">Disabled, readonly, error, and required states.</p>
+        <div class="example-demo example-demo--grid">
+          <coar-zoned-date-time-picker label="Disabled" [(value)]="disabledDateTime" disabled />
+          <coar-zoned-date-time-picker label="Readonly" [(value)]="readonlyDateTime" readonly />
+          <coar-zoned-date-time-picker label="Error State" [(value)]="errorDateTime" error="Please select a valid date/time" />
+          <coar-zoned-date-time-picker label="Required" [(value)]="requiredDateTime" required />
+        </div>
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
     <!-- API SECTION -->
     <!-- ============================================ -->
     <details class="api-section">
@@ -195,6 +225,36 @@
               <td><code>string</code></td>
               <td><code>''</code></td>
               <td>Error message to display</td>
+            </tr>
+            <tr>
+              <td><code>hint</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Hint text displayed below the input</td>
+            </tr>
+            <tr>
+              <td><code>locale</code></td>
+              <td><code>string</code></td>
+              <td><code>auto</code></td>
+              <td>Locale for date formatting (e.g., 'de-AT', 'en-US'). Uses locale service or browser default.</td>
+            </tr>
+            <tr>
+              <td><code>dateFormatConfig</code></td>
+              <td><code>DateFormatConfig</code></td>
+              <td><code>-</code></td>
+              <td>Date format and first day of week</td>
+            </tr>
+            <tr>
+              <td><code>timezoneFilter</code></td>
+              <td><code>string[]</code></td>
+              <td><code>[]</code></td>
+              <td>Filter patterns for available timezone options (supports wildcards, e.g., <code>'Europe/*'</code>)</td>
+            </tr>
+            <tr>
+              <td><code>clearable</code></td>
+              <td><code>boolean</code></td>
+              <td><code>true</code></td>
+              <td>Whether to show a clear button when a value is selected</td>
             </tr>
           </tbody>
         </table>

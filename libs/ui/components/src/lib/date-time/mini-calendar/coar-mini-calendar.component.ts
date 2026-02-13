@@ -6,7 +6,6 @@ import {
   inject,
   input,
   model,
-  output,
   signal,
   booleanAttribute,
 } from '@angular/core';
@@ -59,7 +58,6 @@ export class CoarMiniCalendarComponent {
 
   /** Current selected date (two-way bindable with [(value)]) */
   value = model<Temporal.PlainDate | null>(null);
-  valueChange = output<Temporal.PlainDate | null>();
 
   /** Minimum selectable date */
   min = input<Temporal.PlainDate | null>(null);
@@ -148,9 +146,21 @@ export class CoarMiniCalendarComponent {
 
   protected firstDayOfWeek = computed(() => this.effectiveDateFormat().firstDayOfWeek);
 
-  protected daysOfWeek = computed(() =>
-    coarGetLocalizedWeekdays(this.effectiveLocale(), this.firstDayOfWeek())
-  );
+  protected daysOfWeek = computed(() => {
+    const language = this.currentLanguage();
+    const localeData = language ? this.localizationDataStore?.getLocaleData(language) : undefined;
+    if (localeData?.date?.dayNamesShort?.length === 7) {
+      // dayNamesShort is [Mon, Tue, Wed, Thu, Fri, Sat, Sun] (Monday-first)
+      const names = [...localeData.date.dayNamesShort];
+      if (this.firstDayOfWeek() === 7) {
+        // Sunday first: move Sunday from end to front
+        const sunday = names.pop()!;
+        names.unshift(sunday);
+      }
+      return names;
+    }
+    return coarGetLocalizedWeekdays(this.effectiveLocale(), this.firstDayOfWeek());
+  });
 
   protected calendarDays = computed(() => {
     const viewMonth = this.viewDate();
@@ -160,9 +170,10 @@ export class CoarMiniCalendarComponent {
 
   protected viewMonth = computed(() => {
     const viewMonth = this.viewDate();
-    const formatter = new Intl.DateTimeFormat(this.effectiveLocale(), { month: 'long' });
-    const jsDate = new Date(viewMonth.year, viewMonth.month - 1, 1);
-    return formatter.format(jsDate);
+    const language = this.currentLanguage();
+    const localeData = language ? this.localizationDataStore?.getLocaleData(language) : undefined;
+    return localeData?.date?.monthNames?.[viewMonth.month - 1]
+      ?? new Intl.DateTimeFormat(this.effectiveLocale(), { month: 'long' }).format(new Date(viewMonth.year, viewMonth.month - 1, 1));
   });
 
   protected viewYear = computed(() => this.viewDate().year);
@@ -229,7 +240,6 @@ export class CoarMiniCalendarComponent {
     if (this.isDateDisabled(date)) return;
 
     this.value.set(date);
-    this.valueChange.emit(date);
     this.focusedDate.set(date);
   }
 

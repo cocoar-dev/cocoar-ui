@@ -114,3 +114,14 @@
   color: var(--coar-text-accent-primary);
   font-weight: var(--coar-body-small-bold-weight);
 }
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .coar-month-list__year-btn,
+  .coar-month-list__month {
+    transition: none;
+  }
+}

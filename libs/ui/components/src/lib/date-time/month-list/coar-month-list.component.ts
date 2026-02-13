@@ -18,7 +18,7 @@ import { of } from 'rxjs';
 
 import { CoarIconComponent } from '../../display/icon/coar-icon.component';
 import { CoarScrollbarDirective } from '../../display/scrollbar/coar-scrollbar.directive';
-import { CoarLocalizationService } from '@cocoar/localization';
+import { CoarLocalizationService, CoarLocalizationDataStore } from '@cocoar/localization';
 
 /**
  * Month list component for date/time picker navigation.
@@ -47,6 +47,7 @@ import { CoarLocalizationService } from '@cocoar/localization';
 })
 export class CoarMonthListComponent {
   private readonly localizationService = inject(CoarLocalizationService, { optional: true });
+  private readonly localizationDataStore = inject(CoarLocalizationDataStore, { optional: true });
 
   /** Current language from localization service (reactive) */
   private readonly currentLanguage = toSignal(
@@ -148,7 +149,11 @@ export class CoarMonthListComponent {
     const currentMonth = this.currentMonthNumber();
     const locale = this.effectiveLocale();
 
-    const formatter = new Intl.DateTimeFormat(locale, { month: 'long' });
+    const language = this.currentLanguage();
+    const localeData = language ? this.localizationDataStore?.getLocaleData(language) : undefined;
+    const cachedMonthNames = localeData?.date?.monthNames;
+
+    const formatter = cachedMonthNames ? undefined : new Intl.DateTimeFormat(locale, { month: 'long' });
 
     const items: Array<{
       month: number;
@@ -158,8 +163,8 @@ export class CoarMonthListComponent {
     }> = [];
 
     for (let m = 1; m <= 12; m++) {
-      const jsDate = new Date(year, m - 1, 1);
-      const name = formatter.format(jsDate);
+      const name = cachedMonthNames?.[m - 1]
+        ?? formatter!.format(new Date(year, m - 1, 1));
       const yearMonth = Temporal.PlainYearMonth.from({ year, month: m });
 
       items.push({

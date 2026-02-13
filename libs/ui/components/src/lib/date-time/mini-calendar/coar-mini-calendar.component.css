@@ -110,7 +110,7 @@
   justify-content: center;
   min-height: 32px;
   font-family: var(--coar-body-caption-family);
-  font-size: 10px;
+  font-size: var(--coar-component-xs-font-size);
   color: var(--coar-text-neutral-tertiary);
   opacity: 0.6;
 }
@@ -255,4 +255,16 @@
 
 .coar-mini-calendar-today:hover {
   background: var(--coar-background-accent-tertiary);
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .coar-mini-calendar-nav,
+  .coar-mini-calendar-day,
+  .coar-mini-calendar-today {
+    transition: none;
+  }
 }

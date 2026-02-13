@@ -23,15 +23,12 @@
     role="combobox"
   >
     <!-- Clear Button (left side) -->
-    <coar-icon
-      name="x"
-      source="coar-builtin"
-      size="auto"
-      class="coar-plain-date-time-picker-clear"
+    <button type="button" class="coar-plain-date-time-picker-clear"
       [class.coar-plain-date-time-picker-clear--hidden]="!showClearButton()"
-      aria-hidden="true"
-      (click)="clearValue($event)"
-    />
+      tabindex="-1" aria-label="Clear date"
+      (click)="clearValue($event)">
+      <coar-icon name="x" source="coar-builtin" size="auto" />
+    </button>
 
     <!-- Input -->
     <input
@@ -45,6 +42,7 @@
       [readonly]="readonly()"
       [attr.aria-labelledby]="label() ? labelId() : null"
       [attr.aria-invalid]="hasError()"
+      [attr.aria-describedby]="displayMessage() ? messageId() : null"
       autocomplete="off"
       (input)="onInputChange($event)"
       (blur)="onInputBlur()"
@@ -55,6 +53,7 @@
     <button
       type="button"
       class="coar-plain-date-time-picker-btn"
+      tabindex="-1"
       aria-label="Open picker"
       [disabled]="isDisabled() || readonly()"
       (click)="onTriggerClick()"
@@ -160,7 +159,7 @@
         @if (selectedDateMarkers().length > 0) {
           <div class="coar-plain-date-time-picker-events">
             <div class="coar-plain-date-time-picker-events-list" coarScrollbar [overflowX]="'hidden'" [overflowY]="'scroll'">
-              <div style="display: flex; gap: 6px; flex-direction: column">
+              <div class="coar-plain-date-time-picker-events-content">
                 @for (marker of selectedDateMarkers(); track marker.description) {
                   <div class="coar-plain-date-time-picker-event-item">
                     <span class="coar-plain-date-time-picker-event-dot"></span>

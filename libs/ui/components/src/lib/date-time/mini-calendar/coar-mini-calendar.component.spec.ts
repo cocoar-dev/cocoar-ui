@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { outputToObservable } from '@angular/core/rxjs-interop';
 
 import { Temporal } from '@js-temporal/polyfill';
 import { vi } from 'vitest';
@@ -36,7 +37,7 @@ describe('CoarMiniCalendarComponent', () => {
 
   it('should emit valueChange when selecting a date', () => {
     const spy = vi.fn();
-    component.valueChange.subscribe(spy);
+    outputToObservable(component.value).subscribe(spy);
 
     fixture.componentRef.setInput('value', Temporal.PlainDate.from('2025-06-15'));
     fixture.detectChanges();

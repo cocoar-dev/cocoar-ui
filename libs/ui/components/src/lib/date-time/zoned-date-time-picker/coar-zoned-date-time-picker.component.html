@@ -23,15 +23,12 @@
     role="combobox"
   >
     <!-- Clear Button (left side) -->
-    <coar-icon
-      name="x"
-      source="coar-builtin"
-      size="auto"
-      class="coar-zoned-date-time-picker-clear"
+    <button type="button" class="coar-zoned-date-time-picker-clear"
       [class.coar-zoned-date-time-picker-clear--hidden]="!showClearButton()"
-      aria-hidden="true"
-      (click)="clearValue($event)"
-    />
+      tabindex="-1" aria-label="Clear date"
+      (click)="clearValue($event)">
+      <coar-icon name="x" source="coar-builtin" size="auto" />
+    </button>
 
     <!-- Input -->
     <input
@@ -45,6 +42,7 @@
       [readonly]="readonly()"
       [attr.aria-labelledby]="label() ? labelId() : null"
       [attr.aria-invalid]="hasError()"
+      [attr.aria-describedby]="displayMessage() ? messageId() : null"
       autocomplete="off"
       (input)="onInputChange($event)"
       (blur)="onInputBlur()"
@@ -57,13 +55,12 @@
     </span>
 
     <!-- Timezone Indicator Icon (always rendered to prevent layout shift) -->
-    <span
+    <button type="button"
         class="coar-zoned-date-time-picker-tz-indicator"
         [class.coar-zoned-date-time-picker-tz-indicator--hidden]="!value()"
         [class.coar-zoned-date-time-picker-tz-indicator--clickable]="locationDiffersFromUser() || timezoneIndicatorState() !== 'home'"
         [class.coar-zoned-date-time-picker-tz-indicator--disabled]="!locationDiffersFromUser() && timezoneIndicatorState() === 'home'"
-        role="button"
-        [tabindex]="locationDiffersFromUser() || timezoneIndicatorState() !== 'home' ? 0 : -1"
+        tabindex="-1"
         [attr.aria-disabled]="!locationDiffersFromUser() && timezoneIndicatorState() === 'home' ? 'true' : null"
         [attr.aria-label]="
           locationDiffersFromUser()
@@ -74,8 +71,6 @@
             : 'Timezone: ' + popoverTimeZoneInfo().displayTzName
         "
         (click)="toggleTimeZoneView()"
-        (keydown.enter)="toggleTimeZoneView()"
-        (keydown.space)="toggleTimeZoneView(); $event.preventDefault()"
         [title]="
           locationDiffersFromUser()
             ? 'Viewing: ' +
@@ -102,12 +97,13 @@
             <coar-icon name="world" source="coar-builtin" size="s" />
           }
         }
-      </span>
+      </button>
 
     <!-- Calendar Icon -->
     <button
       type="button"
       class="coar-zoned-date-time-picker-btn"
+      tabindex="-1"
       aria-label="Open picker"
       [disabled]="isDisabled() || readonly()"
       (click)="onTriggerClick()"
@@ -161,6 +157,7 @@
                 type="text"
                 class="coar-zoned-date-time-picker-tz-search-input"
                 placeholder="Search timezone..."
+                aria-label="Search timezone"
                 [value]="timezoneSearchQuery()"
                 (input)="onTimezoneSearchChange($event)"
                 autocomplete="off"
@@ -278,7 +275,7 @@
             @if (selectedDateMarkers().length > 0) {
               <div class="coar-zoned-date-time-picker-events">
                 <div class="coar-zoned-date-time-picker-events-list" coarScrollbar [overflowX]="'hidden'" [overflowY]="'scroll'">
-                  <div style="display: flex; gap: 6px; flex-direction: column">
+                  <div class="coar-zoned-date-time-picker-events-content">
                     @for (marker of selectedDateMarkers(); track marker.description) {
                       <div class="coar-zoned-date-time-picker-event-item">
                         <span class="coar-zoned-date-time-picker-event-dot"></span>
