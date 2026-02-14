@@ -42,7 +42,8 @@ export class App {
 
   readonly languages = [
     { value: 'en', label: '🇬🇧 English' },
-    { value: 'de', label: '🇩🇪 Deutsch' },
+    { value: 'de-AT', label: '🇦🇹 Deutsch (AT)' },
+    { value: 'de-DE', label: '🇩🇪 Deutsch (DE)' },
   ];
 
   currentLanguage = toSignal(this.localization.languageState.value$, {

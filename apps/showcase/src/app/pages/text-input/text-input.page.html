@@ -7,14 +7,14 @@
     </p>
   </header>
 
-  <coar-code-block class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
+  <coar-code-block color="info" elevated class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
 
   <div class="examples-content">
     <!-- ============================================ -->
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Basic Usage</h3>
         <p class="example-description">Simple text input with label, placeholder, and hint.</p>
         <div class="example-demo">
@@ -38,7 +38,7 @@
         />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Validation States</h3>
         <p class="example-description">Required field indicator and error message display.</p>
         <div class="example-demo example-demo--two-col">
@@ -63,7 +63,7 @@
         />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Disabled & Readonly</h3>
         <p class="example-description">Non-interactive states for display or locked fields.</p>
         <div class="example-demo example-demo--two-col">
@@ -81,7 +81,7 @@
         />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Prefix & Suffix</h3>
         <p class="example-description">Add context with prefix or suffix text.</p>
         <div class="example-demo example-demo--two-col">
@@ -105,7 +105,7 @@
         />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Clear Button</h3>
         <p class="example-description">Optional clear button appears when input has value and is focused/hovered.</p>
         <div class="example-demo">
@@ -119,10 +119,18 @@
           />
         </div>
         <p class="demo-value">Value: {{ searchValue() || 'empty' }}</p>
-        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.clear" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block
+          coar-card-footer
+          coar-card-inset
+          borderless
+          [code]="codeExamples.clear"
+          language="html"
+          [showLineNumbers]="false"
+          [collapsed]="true"
+        />
       </coar-card>
 
-      <coar-card class="examples-grid__span">
+      <coar-card elevated class="examples-grid__span">
         <h3>Sizes</h3>
         <p class="example-description">Four size variants for different contexts.</p>
         <div class="example-demo example-demo--sizes">
@@ -131,7 +139,15 @@
           <coar-text-input size="m" label="Medium" placeholder="40px" />
           <coar-text-input size="l" label="Large" placeholder="48px" />
         </div>
-        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block
+          coar-card-footer
+          coar-card-inset
+          borderless
+          [code]="codeExamples.sizes"
+          language="html"
+          [showLineNumbers]="false"
+          [collapsed]="true"
+        />
       </coar-card>
     </div>
 
@@ -144,7 +160,7 @@
     </p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Basic Multiline</h3>
         <p class="example-description">Enable multiline mode for longer text content like bios or descriptions.</p>
         <div class="example-demo">
@@ -157,17 +173,33 @@
             (valueChange)="bioValue.set($event)"
           />
         </div>
-        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.multiline" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block
+          coar-card-footer
+          coar-card-inset
+          borderless
+          [code]="codeExamples.multiline"
+          language="html"
+          [showLineNumbers]="false"
+          [collapsed]="true"
+        />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Row Heights</h3>
         <p class="example-description">Control initial height with the rows property.</p>
         <div class="example-demo example-demo--two-col">
           <coar-text-input label="3 Rows" [rows]="3" placeholder="Default height..." />
           <coar-text-input label="6 Rows" [rows]="6" placeholder="Taller..." />
         </div>
-        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.multilineRows" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block
+          coar-card-footer
+          coar-card-inset
+          borderless
+          [code]="codeExamples.multilineRows"
+          language="html"
+          [showLineNumbers]="false"
+          [collapsed]="true"
+        />
       </coar-card>
     </div>
 
@@ -178,7 +210,7 @@
     <p class="component-section-description">Text inputs are fully accessible with native keyboard support and screen reader compatibility.</p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card color="info" elevated>
         <h3>Keyboard Navigation</h3>
         <p class="example-description">Standard input keyboard support for text entry and navigation.</p>
         <div class="keyboard-grid">
@@ -190,7 +222,7 @@
         </div>
       </coar-card>
 
-      <coar-card>
+      <coar-card color="info" elevated>
         <h3>Screen Reader Support</h3>
         <p class="example-description">Labels, hints, and errors are properly associated with inputs.</p>
         <div class="a11y-list">
@@ -215,13 +247,15 @@
       <coar-card>
         <h3>Number Input</h3>
         <p class="example-description">Numeric input with increment/decrement controls and validation.</p>
-        <coar-note color="info"><strong>See:</strong> <a href="/components/number-input">Number Input</a> for numeric values with step controls.</coar-note>
+        <coar-note color="info"
+          ><strong>See: </strong> <a href="/components/number-input">Number Input</a> for numeric values with step controls.</coar-note
+        >
       </coar-card>
 
       <coar-card>
         <h3>Password Input</h3>
         <p class="example-description">Secure password entry with show/hide toggle.</p>
-        <coar-note color="info"><strong>See:</strong> <a href="/components/password">Password Input</a> for masked password fields.</coar-note>
+        <coar-note color="info"><strong>See: </strong> <a href="/components/password">Password Input</a> for masked password fields.</coar-note>
       </coar-card>
     </div>
 

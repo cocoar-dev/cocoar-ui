@@ -149,8 +149,7 @@ export class CoarMonthListComponent {
     const currentMonth = this.currentMonthNumber();
     const locale = this.effectiveLocale();
 
-    const language = this.currentLanguage();
-    const localeData = language ? this.localizationDataStore?.getLocaleData(language) : undefined;
+    const localeData = locale ? this.localizationDataStore?.getLocaleData(locale) : undefined;
     const cachedMonthNames = localeData?.date?.monthNames;
 
     const formatter = cachedMonthNames ? undefined : new Intl.DateTimeFormat(locale, { month: 'long' });

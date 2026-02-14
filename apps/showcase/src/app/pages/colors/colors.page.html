@@ -16,18 +16,18 @@
 
     <div class="examples-grid examples-grid__span">
       @for (palette of primitives; track palette.name) {
-      <coar-card padding="m">
-        <h3>{{ palette.name }}</h3>
-        <code class="token-display">{{ palette.variable }}-[50-900]</code>
-        <div class="shades">
-          @for (shade of palette.shades; track shade.shade) {
-          <div class="shade-item">
-            <div class="shade-swatch" [style.background-color]="'var(' + shade.variable + ')'"></div>
-            <span class="shade-label">{{ shade.shade }}</span>
+        <coar-card padding="m" elevated>
+          <h3>{{ palette.name }}</h3>
+          <code class="token-display">{{ palette.variable }}-[50-900]</code>
+          <div class="shades">
+            @for (shade of palette.shades; track shade.shade) {
+              <div class="shade-item">
+                <div class="shade-swatch" [style.background-color]="'var(' + shade.variable + ')'"></div>
+                <span class="shade-label">{{ shade.shade }}</span>
+              </div>
+            }
           </div>
-          }
-        </div>
-      </coar-card>
+        </coar-card>
       }
     </div>
 
@@ -37,31 +37,32 @@
 
     <div class="examples-grid examples-grid__span">
       @for (group of semanticColors; track group.category) {
-      <coar-card padding="m" class="semantic-card">
-        <h3>{{ group.category }}</h3>
-        <div class="semantic-grid">
-          @for (color of group.colors; track color.name) {
-          <div class="semantic-item">
-            <div
-              class="semantic-swatch"
-              [style.background-color]="'var(' + color.variable + ')'"
-              [class.is-text]="color.variable.includes('text')"
-              [class.is-border]="color.variable.includes('border')"
-            >
-              @if (color.variable.includes('text')) {
-              <span class="text-sample" [style.color]="'var(' + color.variable + ')'">Aa</span>
-              } @if (color.variable.includes('border')) {
-              <div class="border-sample" [style.border-color]="'var(' + color.variable + ')'"></div>
-              }
-            </div>
-            <div class="semantic-info">
-              <span class="coar-body-small">{{ color.name }}</span>
-              <code class="token-name">{{ color.variable }}</code>
-            </div>
+        <coar-card padding="m" class="semantic-card" elevated>
+          <h3>{{ group.category }}</h3>
+          <div class="semantic-grid">
+            @for (color of group.colors; track color.name) {
+              <div class="semantic-item">
+                <div
+                  class="semantic-swatch"
+                  [style.background-color]="'var(' + color.variable + ')'"
+                  [class.is-text]="color.variable.includes('text')"
+                  [class.is-border]="color.variable.includes('border')"
+                >
+                  @if (color.variable.includes('text')) {
+                    <span class="text-sample" [style.color]="'var(' + color.variable + ')'">Aa</span>
+                  }
+                  @if (color.variable.includes('border')) {
+                    <div class="border-sample" [style.border-color]="'var(' + color.variable + ')'"></div>
+                  }
+                </div>
+                <div class="semantic-info">
+                  <span class="coar-body-small">{{ color.name }}</span>
+                  <code class="token-name">{{ color.variable }}</code>
+                </div>
+              </div>
+            }
           </div>
-          }
-        </div>
-      </coar-card>
+        </coar-card>
       }
     </div>
 
@@ -70,7 +71,7 @@
     <p class="component-section-description">How semantic colors create consistent UI across themes.</p>
 
     <div class="examples-grid">
-      <coar-card padding="m">
+      <coar-card padding="m" elevated>
         <div class="example-header">
           <span class="coar-body-bold">Card Title</span>
           <span class="coar-body-small" style="color: var(--coar-text-neutral-secondary)">Subtitle text</span>

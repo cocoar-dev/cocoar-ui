@@ -1,0 +1,98 @@
+<!-- Formatting Pipes (L10n) -->
+<section class="tw:mt-4 tw:mb-16">
+  <h2 class="coar-heading tw:mb-2">Formatting Pipes (L10n)</h2>
+  <p class="section-intro coar-body">
+    Format dates, numbers, currency, and percentages using locale-aware pipes. All pipes react to language changes automatically.
+  </p>
+
+  <div class="pipe-grid">
+    <div class="pipe-item">
+      <code class="pipe-code">&#123;&#123; now | coarDate &#125;&#125;</code>
+      <output class="pipe-output">{{ now | coarDate }}</output>
+    </div>
+    <div class="pipe-item">
+      <code class="pipe-code">&#123;&#123; 1234567.89 | coarNumber &#125;&#125;</code>
+      <output class="pipe-output">{{ largeNumber | coarNumber }}</output>
+    </div>
+    <div class="pipe-item">
+      <code class="pipe-code">&#123;&#123; 1234.56 | coarCurrency &#125;&#125;</code>
+      <output class="pipe-output">{{ price | coarCurrency }}</output>
+    </div>
+    <div class="pipe-item">
+      <code class="pipe-code">&#123;&#123; 1234.56 | coarCurrency:undefined:'EUR' &#125;&#125;</code>
+      <output class="pipe-output">{{ price | coarCurrency: undefined : 'EUR' }}</output>
+    </div>
+    <div class="pipe-item">
+      <code class="pipe-code">&#123;&#123; 0.25 | coarPercent &#125;&#125;</code>
+      <output class="pipe-output">{{ percent | coarPercent }}</output>
+    </div>
+  </div>
+</section>
+
+<!-- Order Summary -->
+<section class="tw:mb-16">
+  <h2 class="coar-heading tw:mb-2">Combined Example</h2>
+  <p class="section-intro coar-body">Real-world usage combining multiple formatting pipes.</p>
+
+  <div class="order-summary">
+    <div class="order-row">
+      <span>Date:</span>
+      <strong>{{ now | coarDate }}</strong>
+    </div>
+    <div class="order-row">
+      <span>Items:</span>
+      <strong>{{ itemCount | coarNumber: undefined : 0 }}</strong>
+    </div>
+    <div class="order-row">
+      <span>Subtotal:</span>
+      <strong>{{ subtotal | coarCurrency: undefined : 'USD' }}</strong>
+    </div>
+    <div class="order-row">
+      <span>Tax:</span>
+      <strong>{{ tax | coarPercent: undefined : 2 }}</strong>
+    </div>
+    <div class="order-row total">
+      <span>Total:</span>
+      <strong>{{ total | coarCurrency: undefined : 'USD' }}</strong>
+    </div>
+  </div>
+</section>
+
+<!-- Translation Pipe (i18n) -->
+<section class="tw:mb-16">
+  <h2 class="coar-heading tw:mb-2">Translation Pipe (i18n)</h2>
+  <p class="section-intro coar-body">
+    Translate text content using the <code>coarI18n</code> pipe. Translations react to language changes automatically.
+  </p>
+
+  <div class="pipe-grid">
+    <div class="pipe-item">
+      <code class="pipe-code">&#123;&#123; 'showcase.i18nPipe.demo.simpleKey.value' | coarI18n &#125;&#125;</code>
+      <output class="pipe-output">{{ 'showcase.i18nPipe.demo.simpleKey.value' | coarI18n }}</output>
+    </div>
+    <div class="pipe-item">
+      <code class="pipe-code">&#123;&#123; 'missing.key' | coarI18n:'Fallback text' &#125;&#125;</code>
+      <output class="pipe-output">{{ 'missing.key' | coarI18n: 'Fallback text' }}</output>
+    </div>
+    <div class="pipe-item">
+      <code class="pipe-code">&#123;&#123; 'showcase.i18nPipe.demo.params.value' | coarI18n:&#123; count: 3 &#125; &#125;&#125;</code>
+      <output class="pipe-output">{{ 'showcase.i18nPipe.demo.params.value' | coarI18n: { count: 3 } }}</output>
+    </div>
+  </div>
+
+  <coar-card elevated padding="m" class="tw:mt-8" color="info">
+    <h4 class="coar-caption">Translation File Format</h4>
+    <p class="coar-body-small">Nested JSON with <code>&#123;param&#125;</code> interpolation.</p>
+    <coar-code-block
+      coar-card-footer
+      coar-card-inset
+      borderless
+      [code]="translationsExample"
+      language="json"
+      [showLineNumbers]="false"
+      [collapsed]="false"
+      [collapsible]="false"
+      color="info"
+    />
+  </coar-card>
+</section>

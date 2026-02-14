@@ -11,17 +11,17 @@
     <p class="component-section-description">Corner rounding for cards, buttons, inputs, and other UI elements.</p>
 
     <div class="examples-grid examples-grid__span">
-      <coar-card padding="m">
+      <coar-card padding="m" elevated class="examples-grid__span">
         <code class="token-display">--coar-radius-[xxs|xs|s|m|l|xl|full]</code>
         <div class="radius-grid">
           @for (token of radiusTokens; track token.name) {
-          <div class="radius-item">
-            <div class="radius-preview" [style.border-radius]="'var(' + token.variable + ')'"></div>
-            <div class="token-info">
-              <span class="coar-body-small">{{ token.name }}</span>
-              <span class="coar-caption token-value">{{ token.value }}</span>
+            <div class="radius-item">
+              <div class="radius-preview" [style.border-radius]="'var(' + token.variable + ')'"></div>
+              <div class="token-info">
+                <span class="coar-body-small">{{ token.name }}</span>
+                <span class="coar-caption token-value">{{ token.value }}</span>
+              </div>
             </div>
-          </div>
           }
         </div>
       </coar-card>
@@ -32,19 +32,19 @@
     <p class="component-section-description">Border thickness for dividers, outlines, and component borders.</p>
 
     <div class="examples-grid">
-      <coar-card padding="m">
+      <coar-card padding="m" elevated class="examples-grid__span">
         <code class="token-display">--coar-stroke-width-[xs|s|m|l]</code>
         <div class="stroke-grid">
           @for (token of strokeTokens; track token.name) {
-          <div class="stroke-item">
-            <div class="stroke-preview">
-              <div class="stroke-line" [style.height]="'var(' + token.variable + ')'"></div>
+            <div class="stroke-item">
+              <div class="stroke-preview">
+                <div class="stroke-line" [style.height]="'var(' + token.variable + ')'"></div>
+              </div>
+              <div class="token-info">
+                <span class="coar-body-small">{{ token.name }}</span>
+                <span class="coar-caption token-value">{{ token.value }}</span>
+              </div>
             </div>
-            <div class="token-info">
-              <span class="coar-body-small">{{ token.name }}</span>
-              <span class="coar-caption token-value">{{ token.value }}</span>
-            </div>
-          </div>
           }
         </div>
       </coar-card>
@@ -55,19 +55,19 @@
     <p class="component-section-description">Margins, padding, and gaps for consistent layout spacing. Based on a 4px grid.</p>
 
     <div class="examples-grid">
-      <coar-card padding="m">
+      <coar-card padding="m" elevated class="examples-grid__span">
         <code class="token-display">--coar-spacing-[xxs|xs|s|m|l|xl|xxl|xxxl]</code>
         <div class="spacing-list">
           @for (token of spacingTokens; track token.name) {
-          <div class="spacing-row">
-            <div class="spacing-label">
-              <span class="coar-body-small">{{ token.name }}</span>
-              <span class="coar-caption token-value">{{ token.value }}</span>
+            <div class="spacing-row">
+              <div class="spacing-label">
+                <span class="coar-body-small">{{ token.name }}</span>
+                <span class="coar-caption token-value">{{ token.value }}</span>
+              </div>
+              <div class="spacing-bar-container">
+                <div class="spacing-bar" [style.width]="'var(' + token.variable + ')'"></div>
+              </div>
             </div>
-            <div class="spacing-bar-container">
-              <div class="spacing-bar" [style.width]="'var(' + token.variable + ')'"></div>
-            </div>
-          </div>
           }
         </div>
       </coar-card>
@@ -78,17 +78,17 @@
     <p class="component-section-description">Box shadows for depth and layering. Higher elevations create more prominent shadows.</p>
 
     <div class="examples-grid examples-grid__span">
-      <coar-card padding="m">
+      <coar-card padding="m" elevated class="examples-grid__span">
         <code class="token-display">--coar-shadow-[xs|s|m|l|xl|focus]</code>
         <div class="shadow-grid">
           @for (token of shadowTokens; track token.name) {
-          <div class="shadow-item" [class.shadow-focus]="token.name === 'Focus'">
-            <div class="shadow-preview" [style.box-shadow]="'var(' + token.variable + ')'" [class.focus-preview]="token.name === 'Focus'"></div>
-            <div class="shadow-info">
-              <span class="coar-body-small">{{ token.name }}</span>
-              <span class="coar-caption">{{ token.description }}</span>
+            <div class="shadow-item" [class.shadow-focus]="token.name === 'Focus'">
+              <div class="shadow-preview" [style.box-shadow]="'var(' + token.variable + ')'" [class.focus-preview]="token.name === 'Focus'"></div>
+              <div class="shadow-info">
+                <span class="coar-body-small">{{ token.name }}</span>
+                <span class="coar-caption">{{ token.description }}</span>
+              </div>
             </div>
-          </div>
           }
         </div>
       </coar-card>
@@ -99,7 +99,7 @@
     <p class="component-section-description">How radius and stroke tokens work together in components.</p>
 
     <div class="examples-grid examples-grid__span">
-      <coar-card padding="m">
+      <coar-card padding="m" elevated class="examples-grid__span">
         <div class="usage-example">
           <div class="example-cards">
             <div class="example-card card-xs">

@@ -246,10 +246,12 @@ export abstract class CoarDatePickerBase<T> extends CoarControlValueAccessor<T |
     const directConfig = this.dateFormatConfig();
     if (directConfig) return directConfig;
 
-    // Try to get from localization data store using the language key
+    // Try to get from localization data store using the effective locale key.
+    // The store is keyed by whatever string was passed to setLanguage() —
+    // could be a language code ('de') or a full BCP 47 tag ('de-AT').
     const _version = this.localizationDataStore?.dataVersion();
-    const language = this.currentLanguage();
-    const localeData = language ? this.localizationDataStore?.getLocaleData(language) : undefined;
+    const locale = this.effectiveLocale();
+    const localeData = locale ? this.localizationDataStore?.getLocaleData(locale) : undefined;
     if (localeData?.date) {
       const isoFirstDay = localeData.date.firstDayOfWeek === 0 ? 7 : localeData.date.firstDayOfWeek;
       return {
@@ -258,7 +260,6 @@ export abstract class CoarDatePickerBase<T> extends CoarControlValueAccessor<T |
       };
     }
 
-    const locale = this.effectiveLocale();
     const detectedPattern = coarDetectDateFormatPatternFromIntl(locale);
     return { pattern: detectedPattern ?? 'dd.mm.yyyy', firstDayOfWeek: 1 };
   });
@@ -376,8 +377,7 @@ export abstract class CoarDatePickerBase<T> extends CoarControlValueAccessor<T |
     const currentMonth = this.currentMonthNumber();
     const locale = this.effectiveLocale();
 
-    const language = this.currentLanguage();
-    const localeData = language ? this.localizationDataStore?.getLocaleData(language) : undefined;
+    const localeData = locale ? this.localizationDataStore?.getLocaleData(locale) : undefined;
     const cachedMonthNames = localeData?.date?.monthNamesShort;
 
     const formatter = cachedMonthNames ? undefined : new Intl.DateTimeFormat(locale, { month: 'short' });

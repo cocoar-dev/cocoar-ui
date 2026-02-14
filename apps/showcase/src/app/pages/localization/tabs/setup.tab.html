@@ -1,0 +1,102 @@
+<!-- Providers -->
+<section class="tw:mt-4 tw:mb-16">
+  <h2 class="coar-heading tw:mb-4">Providers</h2>
+  <p class="section-intro coar-body">
+    Add the localization providers to your app config. The Intl API provides complete formatting defaults for any BCP 47 tag &mdash; no locale files
+    needed. HTTP sources are optional for business-specific overrides.
+  </p>
+
+  <coar-code-block
+    [code]="setupExample"
+    language="typescript"
+    [showLineNumbers]="false"
+    [collapsed]="false"
+    [collapsible]="false"
+    elevated
+    color="info"
+  />
+</section>
+
+<!-- Source Priority -->
+<section class="tw:mb-16">
+  <h2 class="coar-heading tw:mb-4">Source Priority</h2>
+  <p class="section-intro coar-body">Sources are loaded in parallel and deep-merged. Later sources override earlier ones at field level.</p>
+
+  <ol class="architecture-list">
+    <li><strong>Intl Source</strong> &mdash; Browser Intl API (always first, provides complete defaults)</li>
+    <li><strong>HTTP Source</strong> &mdash; Optional JSON overrides for business rules</li>
+    <li><strong>Custom Sources</strong> &mdash; Extensible via multi-provider (SignalR, WebSocket, etc.)</li>
+  </ol>
+
+  <coar-note color="info">
+    <strong>Graceful degradation:</strong> If HTTP fails (404, timeout, invalid JSON), the system falls back to Intl defaults and logs a warning.
+  </coar-note>
+</section>
+
+<!-- File Fallback & Locale Data -->
+<section class="tw:mb-16">
+  <h2 class="coar-heading tw:mb-4">File Fallback Strategy</h2>
+  <p class="section-intro coar-body">HTTP loaders merge base + regional files automatically.</p>
+
+  <coar-code-block
+    [code]="fileFallbackExample"
+    language="text"
+    [showLineNumbers]="false"
+    [collapsed]="false"
+    [collapsible]="false"
+    elevated
+    color="info"
+  />
+
+  <p class="coar-body tw:mt-4">
+    Regional files are <strong>optional</strong> and only need keys that differ from the base. A missing regional file is silently ignored &mdash; the
+    base file serves all variants.
+  </p>
+</section>
+
+<!-- Translation & Locale Loading -->
+<section class="tw:mb-16">
+  <h2 class="coar-heading tw:mb-4">Loading Behavior</h2>
+
+  <div class="responsive-grid responsive-grid--md">
+    <coar-card elevated padding="m">
+      <h4 class="coar-caption">Translation Loading (i18n)</h4>
+      <ol class="architecture-list">
+        <li><strong>HTTP Loader (default)</strong> &mdash; Loads from <code>/i18n/&#123;lang&#125;.json</code></li>
+        <li><strong>Custom Loaders</strong> &mdash; Implement <code>CoarTranslationLoader</code> for SignalR, static, IndexedDB, etc.</li>
+      </ol>
+      <p class="coar-body-small">Translations are cached after first load. Switching back to a previous language is instant.</p>
+    </coar-card>
+
+    <coar-card elevated padding="m">
+      <h4 class="coar-caption">Locale Data Structure (L10n)</h4>
+      <p class="coar-body-small">Optional JSON files that override Intl defaults with business-specific formatting rules.</p>
+      <coar-code-block
+        coar-card-footer
+        coar-card-inset
+        borderless
+        [code]="localeDataExample"
+        language="json"
+        [showLineNumbers]="false"
+        [collapsed]="false"
+        [collapsible]="false"
+      />
+    </coar-card>
+  </div>
+</section>
+
+<!-- Custom HTTP Source -->
+<section class="tw:mb-16">
+  <h2 class="coar-heading tw:mb-4">Custom HTTP Source</h2>
+  <p class="section-intro coar-body">Configure custom URL patterns and headers for both L10n and i18n sources.</p>
+
+  <coar-code-block
+    [code]="customHttpSourceExample"
+    language="typescript"
+    [showLineNumbers]="false"
+    [collapsed]="false"
+    [collapsible]="false"
+    elevated
+    color="info"
+  />
+</section>

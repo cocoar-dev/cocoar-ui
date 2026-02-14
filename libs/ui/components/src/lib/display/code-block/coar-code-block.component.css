@@ -13,11 +13,11 @@
 
 /* Header */
 .coar-code-header {
+  background: var(--coar-code-block-header-bg);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem 0.75rem;
-  background: var(--coar-code-block-header-bg);
   border-bottom: 1px solid var(--coar-code-block-border);
   min-height: 36px;
 }
@@ -132,10 +132,71 @@
   display: block;
 }
 
-/* Borderless */
+/* Elevated — box-shadow for depth */
+:host(.coar-code-block--elevated) .coar-code-block {
+  box-shadow: var(--coar-elevation-medium);
+}
+
+/* Borderless — used inside cards (coar-card-inset) */
 .coar-code-block.borderless {
   border: none;
   border-radius: 0;
+}
+
+/* ========================================
+   COLOR VARIANTS
+   Override the header background and border to use semantic colors.
+   The code content area stays unchanged for syntax highlighting readability.
+   ======================================== */
+
+/* Info */
+:host(.coar-code-block--info) .coar-code-block {
+  border-color: var(--coar-border-semantic-info-subtle);
+}
+
+:host(.coar-code-block--info) .coar-code-header {
+  background: var(--coar-background-semantic-info-subtle);
+  border-bottom-color: var(--coar-border-semantic-info-subtle);
+}
+
+/* Success */
+:host(.coar-code-block--success) .coar-code-block {
+  border-color: var(--coar-border-semantic-success-subtle);
+}
+
+:host(.coar-code-block--success) .coar-code-header {
+  background: var(--coar-background-semantic-success-subtle);
+  border-bottom-color: var(--coar-border-semantic-success-subtle);
+}
+
+/* Warning */
+:host(.coar-code-block--warning) .coar-code-block {
+  border-color: var(--coar-border-semantic-warning-subtle);
+}
+
+:host(.coar-code-block--warning) .coar-code-header {
+  background: var(--coar-background-semantic-warning-subtle);
+  border-bottom-color: var(--coar-border-semantic-warning-subtle);
+}
+
+/* Error */
+:host(.coar-code-block--error) .coar-code-block {
+  border-color: var(--coar-border-semantic-error-subtle);
+}
+
+:host(.coar-code-block--error) .coar-code-header {
+  background: var(--coar-background-semantic-error-subtle);
+  border-bottom-color: var(--coar-border-semantic-error-subtle);
+}
+
+/* Accent */
+:host(.coar-code-block--accent) .coar-code-block {
+  border-color: var(--coar-border-accent-secondary);
+}
+
+:host(.coar-code-block--accent) .coar-code-header {
+  background: var(--coar-background-accent-secondary);
+  border-bottom-color: var(--coar-border-accent-secondary);
 }
 
 /* Collapsed state */

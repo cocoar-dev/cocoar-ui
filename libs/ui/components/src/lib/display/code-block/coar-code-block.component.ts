@@ -21,6 +21,8 @@ import 'prismjs/components/prism-json';
 import 'prismjs/components/prism-bash';
 import 'prismjs/components/prism-markup';
 
+export type CodeBlockColor = 'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent';
+
 @Component({
   selector: 'coar-code-block',
   standalone: true,
@@ -28,6 +30,15 @@ import 'prismjs/components/prism-markup';
   templateUrl: './coar-code-block.component.html',
   styleUrl: './coar-code-block.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.coar-code-block--elevated]': 'elevated()',
+    '[class.coar-code-block--neutral]': 'color() === "neutral"',
+    '[class.coar-code-block--success]': 'color() === "success"',
+    '[class.coar-code-block--warning]': 'color() === "warning"',
+    '[class.coar-code-block--error]': 'color() === "error"',
+    '[class.coar-code-block--info]': 'color() === "info"',
+    '[class.coar-code-block--accent]': 'color() === "accent"',
+  },
 })
 export class CoarCodeBlockComponent {
   private readonly injector = inject(Injector);
@@ -52,10 +63,16 @@ export class CoarCodeBlockComponent {
   /** Whether to hide the border and border-radius */
   borderless = input<boolean, unknown>(false, { transform: booleanAttribute });
 
+  /** Adds a box-shadow for elevation/depth */
+  elevated = input(false, { transform: booleanAttribute });
+
   /** Whether to show line numbers */
   showLineNumbers = input<boolean, unknown>(false, {
     transform: booleanAttribute,
   });
+
+  /** Color variant for the header area */
+  color = input<CodeBlockColor>('neutral');
 
   /** Maximum height before scrolling (0 = no limit) */
   maxHeight = input<number>(0);

@@ -70,7 +70,6 @@
   display: flex;
   gap: var(--coar-spacing-s);
   padding: var(--coar-spacing-s);
-  background: var(--coar-background-neutral-tertiary);
   border-radius: var(--coar-radius-s);
 }
 

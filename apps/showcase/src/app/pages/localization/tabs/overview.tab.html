@@ -1,0 +1,131 @@
+<!-- Three Concept Cards -->
+<section class="tw:mt-4 tw:mb-16">
+  <h2 class="coar-heading tw:mb-4">Three Independent Choices</h2>
+  <p class="section-intro coar-body">
+    Every formatted value depends on three independent choices. Most systems conflate them — this system resolves all three explicitly.
+  </p>
+
+  <div class="responsive-grid responsive-grid--md tw:mb-8">
+    <coar-card elevated padding="m" color="info">
+      <h4 class="coar-caption">Format <span class="concept-subtitle">the shape</span></h4>
+      <p class="coar-body-small">Controls structure: order, separators, numeric vs textual representation.</p>
+      <coar-card padding="s">
+        <div class="concept-row">
+          <code>dd.MM.yyyy</code>
+          <span class="concept-arrow">&rarr;</span>
+          <output>14.02.2026</output>
+        </div>
+        <div class="concept-row">
+          <code>MM/dd/yyyy</code>
+          <span class="concept-arrow">&rarr;</span>
+          <output>02/14/2026</output>
+        </div>
+      </coar-card>
+    </coar-card>
+
+    <coar-card elevated padding="m" color="info">
+      <h4 class="coar-caption">Language <span class="concept-subtitle">the words</span></h4>
+      <p class="coar-body-small">Controls which words appear: month names, weekday names.</p>
+      <coar-card padding="s">
+        <div class="concept-row">
+          <code>en</code>
+          <span class="concept-arrow">&rarr;</span>
+          <output>January, Monday</output>
+        </div>
+        <div class="concept-row">
+          <code>de</code>
+          <span class="concept-arrow">&rarr;</span>
+          <output>Januar, Montag</output>
+        </div>
+      </coar-card>
+    </coar-card>
+
+    <coar-card elevated padding="m" color="info">
+      <h4 class="coar-caption">Region <span class="concept-subtitle">the conventions</span></h4>
+      <p class="coar-body-small">Controls cultural expectations: first day of week, date order.</p>
+      <coar-card padding="s">
+        <div class="concept-row">
+          <code>de-DE</code>
+          <span class="concept-arrow">&rarr;</span>
+          <output>Januar</output>
+        </div>
+        <div class="concept-row">
+          <code>de-AT</code>
+          <span class="concept-arrow">&rarr;</span>
+          <output><strong>Jänner</strong></output>
+        </div>
+      </coar-card>
+    </coar-card>
+  </div>
+</section>
+
+<!-- BCP 47 Resolution -->
+<section class="tw:mb-16">
+  <h2 class="coar-heading tw:mb-4">BCP 47 Language Tags</h2>
+  <p class="section-intro coar-body">Both simple language codes and full BCP 47 tags are supported.</p>
+
+  <div class="bcp47-grid">
+    <div>
+      <p class="locale-table-group-label">German variants</p>
+      <div class="locale-table">
+        <div class="locale-table-header">
+          <span>Tag</span>
+          <span>Resolves to</span>
+          <span>Output</span>
+        </div>
+        <div class="locale-table-row">
+          <code>de</code>
+          <span>de-DE (implicit)</span>
+          <span>Januar, 14.01.2026</span>
+        </div>
+        <div class="locale-table-row locale-table-row--highlight">
+          <code>de-AT</code>
+          <span>de-AT (explicit)</span>
+          <span><strong>Jänner</strong>, 14.01.2026</span>
+        </div>
+        <div class="locale-table-row">
+          <code>de-DE</code>
+          <span>de-DE (explicit)</span>
+          <span>Januar, 14.01.2026</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <p class="locale-table-group-label">English variants</p>
+      <div class="locale-table">
+        <div class="locale-table-header">
+          <span>Tag</span>
+          <span>Resolves to</span>
+          <span>Output</span>
+        </div>
+        <div class="locale-table-row">
+          <code>en</code>
+          <span>en-US (implicit)</span>
+          <span>January, 01/14/2026</span>
+        </div>
+        <div class="locale-table-row locale-table-row--highlight">
+          <code>en-GB</code>
+          <span>en-GB (explicit)</span>
+          <span>January, <strong>14/01/2026</strong></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <coar-note color="info" class="tw:mt-4">
+    <code>setLanguage('de')</code> and <code>setLanguage('de-DE')</code> both work, but they are not identical.<br />
+    Bare <code>'de'</code> lets the browser assume a region.<br />
+    Use the full BCP 47 tag when the region matters &mdash; e.g., Austrian German (<code>de-AT</code>) uses "Jänner" instead of "Januar".
+  </coar-note>
+
+  <coar-code-block
+    [code]="localeResolutionExample"
+    language="typescript"
+    [showLineNumbers]="false"
+    [collapsed]="false"
+    [collapsible]="false"
+    class="tw:mt-4"
+    color="info"
+  />
+</section>

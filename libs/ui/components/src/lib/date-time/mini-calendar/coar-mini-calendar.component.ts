@@ -124,12 +124,13 @@ export class CoarMiniCalendarComponent {
     const directConfig = this.dateFormatConfig();
     if (directConfig) return directConfig;
 
-    // Try to get from localization data store using the language key
-    // The store uses language codes ('en', 'de') not full locales ('en-GB')
-    // Read dataVersion to establish signal dependency for async loading
+    // Try to get from localization data store using the effective locale.
+    // The store is keyed by whatever string was passed to setLanguage() —
+    // could be 'de' or 'de-AT'. Using effectiveLocale() ensures the per-instance
+    // locale input is respected.
     const _version = this.localizationDataStore?.dataVersion();
-    const language = this.currentLanguage();
-    const localeData = language ? this.localizationDataStore?.getLocaleData(language) : undefined;
+    const locale = this.effectiveLocale();
+    const localeData = locale ? this.localizationDataStore?.getLocaleData(locale) : undefined;
     if (localeData?.date) {
       // Convert 0-6 (Sun-Sat) format to ISO 1-7 (Mon-Sun) format
       const isoFirstDay = localeData.date.firstDayOfWeek === 0 ? 7 : localeData.date.firstDayOfWeek;
@@ -140,15 +141,15 @@ export class CoarMiniCalendarComponent {
     }
 
     // Fallback: detect pattern from Intl, default firstDayOfWeek to Monday
-    const detectedPattern = coarDetectDateFormatPatternFromIntl(this.effectiveLocale());
+    const detectedPattern = coarDetectDateFormatPatternFromIntl(locale);
     return { pattern: detectedPattern ?? 'dd.mm.yyyy', firstDayOfWeek: 1 };
   });
 
   protected firstDayOfWeek = computed(() => this.effectiveDateFormat().firstDayOfWeek);
 
   protected daysOfWeek = computed(() => {
-    const language = this.currentLanguage();
-    const localeData = language ? this.localizationDataStore?.getLocaleData(language) : undefined;
+    const locale = this.effectiveLocale();
+    const localeData = locale ? this.localizationDataStore?.getLocaleData(locale) : undefined;
     if (localeData?.date?.dayNamesShort?.length === 7) {
       // dayNamesShort is [Mon, Tue, Wed, Thu, Fri, Sat, Sun] (Monday-first)
       const names = [...localeData.date.dayNamesShort];
@@ -170,10 +171,10 @@ export class CoarMiniCalendarComponent {
 
   protected viewMonth = computed(() => {
     const viewMonth = this.viewDate();
-    const language = this.currentLanguage();
-    const localeData = language ? this.localizationDataStore?.getLocaleData(language) : undefined;
+    const locale = this.effectiveLocale();
+    const localeData = locale ? this.localizationDataStore?.getLocaleData(locale) : undefined;
     return localeData?.date?.monthNames?.[viewMonth.month - 1]
-      ?? new Intl.DateTimeFormat(this.effectiveLocale(), { month: 'long' }).format(new Date(viewMonth.year, viewMonth.month - 1, 1));
+      ?? new Intl.DateTimeFormat(locale, { month: 'long' }).format(new Date(viewMonth.year, viewMonth.month - 1, 1));
   });
 
   protected viewYear = computed(() => this.viewDate().year);

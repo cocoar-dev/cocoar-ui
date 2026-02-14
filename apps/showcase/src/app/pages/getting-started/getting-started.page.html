@@ -9,7 +9,7 @@
 
   <div class="steps-content">
     <!-- Step 1: Install -->
-    <coar-card>
+    <coar-card elevated color="info">
       <h3>1. Install</h3>
       <p class="coar-body-small">
         The <code>@cocoar/ui</code> package gives you everything you need to get started. It includes:
@@ -20,7 +20,7 @@
         <li><code>@cocoar/ui/menu</code> &mdash; menu &amp; sidebar</li>
         <li><code>@cocoar/ui/overlay</code> &mdash; tooltips, popovers, overlays</li>
       </ul>
-      <coar-code-block coar-card-footer coar-card-inset borderless
+      <coar-code-block color="info" coar-card-footer coar-card-inset borderless
         [code]="installCode"
         language="bash"
         [collapsible]="false"
@@ -28,7 +28,7 @@
     </coar-card>
 
     <!-- Additional Packages -->
-    <coar-card>
+    <coar-card elevated color="info">
       <h3>Additional Packages</h3>
       <p class="coar-body-small">
         Some packages are not included in <code>@cocoar/ui</code> and must be installed separately when needed:
@@ -39,20 +39,20 @@
         <li><code>@cocoar/localization</code> &mdash; i18n &amp; language management</li>
         <li><code>@cocoar/ui-routing</code> &mdash; fragment-based routing utilities</li>
       </ul>
-      <coar-code-block coar-card-footer coar-card-inset borderless
+      <coar-code-block color="info" coar-card-footer coar-card-inset borderless
         [code]="installExtraCode"
         language="bash"
-        [collapsed]="true"
+        [collapsible]="false"
       />
     </coar-card>
 
     <!-- Step 2: Import Design Tokens -->
-    <coar-card>
+    <coar-card elevated color="info">
       <h3>2. Import Design Tokens</h3>
       <p class="coar-body-small">
         Add the design tokens stylesheet to your application's global <code>styles.css</code>. This provides all CSS variables for colors, typography, spacing, and more.
       </p>
-      <coar-code-block coar-card-footer coar-card-inset borderless
+      <coar-code-block color="info" coar-card-footer coar-card-inset borderless
         [code]="importTokensCode"
         language="css"
         title="styles.css"
@@ -61,12 +61,12 @@
     </coar-card>
 
     <!-- Step 3: Import Components -->
-    <coar-card>
+    <coar-card elevated color="info">
       <h3>3. Import Components</h3>
       <p class="coar-body-small">
         Components are split across entry points. Import what you need into your standalone components.
       </p>
-      <coar-code-block coar-card-footer coar-card-inset borderless
+      <coar-code-block color="info" coar-card-footer coar-card-inset borderless
         [code]="componentImportsCode"
         language="typescript"
         [collapsible]="false"
@@ -74,20 +74,20 @@
     </coar-card>
 
     <!-- Step 4: Dark Mode -->
-    <coar-card>
+    <coar-card elevated color="info">
       <h3>4. Dark Mode</h3>
       <p class="coar-body-small">
         Toggle dark mode by adding the <code>.dark-mode</code> CSS class to the root element. All design tokens and components adapt automatically.
       </p>
-      <coar-code-block coar-card-footer coar-card-inset borderless
+      <coar-code-block color="info" coar-card-footer coar-card-inset borderless
         [code]="darkModeCode"
         language="html"
-        [collapsed]="true"
+        [collapsible]="false"
       />
     </coar-card>
 
     <!-- Step 5: Design Tokens -->
-    <coar-card>
+    <coar-card elevated color="info">
       <h3>5. Design Tokens</h3>
       <p class="coar-body-small">
         Use CSS variables from <code>@cocoar/ui</code> for consistent styling. Available token categories include:
@@ -99,10 +99,10 @@
         <li><code>--coar-radius-*</code> &mdash; border radii</li>
         <li><code>--coar-shadow-*</code> &mdash; elevation shadows</li>
       </ul>
-      <coar-code-block coar-card-footer coar-card-inset borderless
+      <coar-code-block color="info" coar-card-footer coar-card-inset borderless
         [code]="tokensCode"
         language="css"
-        [collapsed]="true"
+        [collapsible]="false"
       />
     </coar-card>
 
