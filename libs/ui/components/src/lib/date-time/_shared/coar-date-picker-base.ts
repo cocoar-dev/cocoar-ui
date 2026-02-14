@@ -540,6 +540,7 @@ export abstract class CoarDatePickerBase<T> extends CoarControlValueAccessor<T |
   /**
    * Hook called when the panel closes. Override in subclasses for cleanup.
    */
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   protected onPanelClosed(): void {}
 
   /**
