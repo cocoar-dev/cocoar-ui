@@ -21,8 +21,8 @@ describe('CoarTagComponent', () => {
   });
 
   describe('defaults', () => {
-    it('should have neutral color by default', () => {
-      expect(component.color()).toBe('neutral');
+    it('should have neutral variant by default', () => {
+      expect(component.variant()).toBe('neutral');
     });
 
     it('should have m size by default', () => {
@@ -34,13 +34,13 @@ describe('CoarTagComponent', () => {
     });
   });
 
-  describe('color variants', () => {
+  describe('variant options', () => {
     it.each(['neutral', 'success', 'warning', 'error', 'info', 'accent'] as const)(
-      'should apply %s color class',
-      (color) => {
-        fixture.componentRef.setInput('color', color);
+      'should apply %s variant class',
+      (variant) => {
+        fixture.componentRef.setInput('variant', variant);
         fixture.detectChanges();
-        expect(fixture.nativeElement.classList).toContain(`coar-tag--${color}`);
+        expect(fixture.nativeElement.classList).toContain(`coar-tag--${variant}`);
       }
     );
   });

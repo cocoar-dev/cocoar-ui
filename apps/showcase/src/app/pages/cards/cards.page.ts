@@ -64,12 +64,12 @@ export class CardsPage {
   </div>
 </coar-card>`;
 
-  insetExample = `<coar-card color="outlined">
+  insetExample = `<coar-card variant="outlined">
   <h3>Component Example</h3>
   <p>Content goes here...</p>
 </coar-card>`;
 
-  insetUsageExample = `<coar-card color="outlined">
+  insetUsageExample = `<coar-card variant="outlined">
   <h3>Component Example</h3>
   <p>Content goes here...</p>
   <coar-code-block coar-card-footer coar-card-inset borderless
@@ -80,60 +80,60 @@ export class CardsPage {
 </coar-card>`;
 
   colorsExample = `<!-- Neutral (default) -->
-<coar-card color="neutral">
+<coar-card variant="neutral">
   Default card style
 </coar-card>
 
 <!-- Success -->
-<coar-card color="success">
+<coar-card variant="success">
   Operation completed!
 </coar-card>
 
 <!-- Warning -->
-<coar-card color="warning">
+<coar-card variant="warning">
   Please review before proceeding
 </coar-card>
 
 <!-- Error -->
-<coar-card color="error">
+<coar-card variant="error">
   Something went wrong
 </coar-card>
 
 <!-- Info -->
-<coar-card color="info">
+<coar-card variant="info">
   Helpful information
 </coar-card>`;
 
   colorsElevatedExample = `<!-- Semantic colors with elevation -->
-<coar-card elevated color="success">
+<coar-card elevated variant="success">
   Success elevated
 </coar-card>
 
-<coar-card elevated color="warning">
+<coar-card elevated variant="warning">
   Warning elevated
 </coar-card>
 
-<coar-card elevated color="error">
+<coar-card elevated variant="error">
   Error elevated
 </coar-card>`;
 
-  comboExample = `<!-- Default with success color (has border) -->
-<coar-card color="success">
+  comboExample = `<!-- Default with success variant (has border) -->
+<coar-card variant="success">
   Success with border (default)
 </coar-card>
 
-<!-- Borderless with success color (no border) -->
-<coar-card borderless color="success">
+<!-- Borderless with success variant (no border) -->
+<coar-card borderless variant="success">
   Success without border
 </coar-card>
 
-<!-- Elevated with info color -->
-<coar-card elevated color="info">
+<!-- Elevated with info variant -->
+<coar-card elevated variant="info">
   Info with elevation
 </coar-card>
 
 <!-- Elevated + Borderless + warning -->
-<coar-card elevated borderless color="warning">
+<coar-card elevated borderless variant="warning">
   Elevated, no border, warning
 </coar-card>`;
 

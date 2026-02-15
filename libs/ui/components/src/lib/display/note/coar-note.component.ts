@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 
-export type NoteColor = 'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent';
+export type NoteVariant = 'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent';
 export type NotePadding = 's' | 'm' | 'l';
 
 /**
@@ -12,11 +12,11 @@ export type NotePadding = 's' | 'm' | 'l';
  *
  * @example
  * ```html
- * <coar-note color="info">
+ * <coar-note variant="info">
  *   <strong>Note:</strong> This is important information.
  * </coar-note>
  *
- * <coar-note color="warning" padding="l">
+ * <coar-note variant="warning" padding="l">
  *   <h4>Warning</h4>
  *   <p>Be careful with this action.</p>
  * </coar-note>
@@ -31,13 +31,13 @@ export type NotePadding = 's' | 'm' | 'l';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.coar-note]': 'true',
-    // Colors
-    '[class.coar-note--neutral]': 'color() === "neutral"',
-    '[class.coar-note--success]': 'color() === "success"',
-    '[class.coar-note--warning]': 'color() === "warning"',
-    '[class.coar-note--error]': 'color() === "error"',
-    '[class.coar-note--info]': 'color() === "info"',
-    '[class.coar-note--accent]': 'color() === "accent"',
+    // Variants
+    '[class.coar-note--neutral]': 'variant() === "neutral"',
+    '[class.coar-note--success]': 'variant() === "success"',
+    '[class.coar-note--warning]': 'variant() === "warning"',
+    '[class.coar-note--error]': 'variant() === "error"',
+    '[class.coar-note--info]': 'variant() === "info"',
+    '[class.coar-note--accent]': 'variant() === "accent"',
     // Padding
     '[class.coar-note--padding-s]': 'padding() === "s"',
     '[class.coar-note--padding-m]': 'padding() === "m"',
@@ -46,11 +46,11 @@ export type NotePadding = 's' | 'm' | 'l';
 })
 export class CoarNoteComponent {
   /**
-   * Note color scheme.
+   * Note semantic variant.
    * Determines the left border color and background tint.
-   * @default 'info'
+   * @default 'neutral'
    */
-  color = input<NoteColor>('neutral');
+  variant = input<NoteVariant>('neutral');
 
   /**
    * Note padding size.

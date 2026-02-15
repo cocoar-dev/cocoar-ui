@@ -1,1 +1,1 @@
-export { CoarCodeBlockComponent, type CodeBlockColor } from './coar-code-block.component';
+export { CoarCodeBlockComponent, type CodeBlockVariant } from './coar-code-block.component';

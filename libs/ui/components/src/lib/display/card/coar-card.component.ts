@@ -1,7 +1,7 @@
 import { booleanAttribute, ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 
-export type CardColor = 'neutral' | 'outlined' | 'success' | 'warning' | 'error' | 'info' | 'accent';
+export type CardVariant = 'neutral' | 'outlined' | 'success' | 'warning' | 'error' | 'info' | 'accent';
 export type CardPadding = 'none' | 's' | 'm' | 'l';
 
 @Component({
@@ -17,14 +17,14 @@ export type CardPadding = 'none' | 's' | 'm' | 'l';
     '[class.coar-card--elevated]': 'elevated()',
     // Borderless (no border) - default is false, so cards have borders by default
     '[class.coar-card--borderless]': 'borderless()',
-    // Colors
-    '[class.coar-card--neutral]': 'color() === "neutral"',
-    '[class.coar-card--outlined]': 'color() === "outlined"',
-    '[class.coar-card--success]': 'color() === "success"',
-    '[class.coar-card--warning]': 'color() === "warning"',
-    '[class.coar-card--error]': 'color() === "error"',
-    '[class.coar-card--info]': 'color() === "info"',
-    '[class.coar-card--accent]': 'color() === "accent"',
+    // Variants
+    '[class.coar-card--neutral]': 'variant() === "neutral"',
+    '[class.coar-card--outlined]': 'variant() === "outlined"',
+    '[class.coar-card--success]': 'variant() === "success"',
+    '[class.coar-card--warning]': 'variant() === "warning"',
+    '[class.coar-card--error]': 'variant() === "error"',
+    '[class.coar-card--info]': 'variant() === "info"',
+    '[class.coar-card--accent]': 'variant() === "accent"',
     // Padding
     '[class.coar-card--padding-none]': 'padding() === "none"',
     '[class.coar-card--padding-s]': 'padding() === "s"',
@@ -41,13 +41,13 @@ export class CoarCardComponent {
 
   /**
    * Removes the border from the card, leaving only background color.
-   * By default (false), cards have a visible border matching their color.
+   * By default (false), cards have a visible border matching their variant.
    * Use as boolean attribute: `<coar-card borderless>` or `[borderless]="true"`
    */
   borderless = input(false, { transform: booleanAttribute });
 
-  /** Card color scheme */
-  color = input<CardColor>('neutral');
+  /** Card semantic variant */
+  variant = input<CardVariant>('neutral');
 
   /** Card padding size */
   padding = input<CardPadding>('m');

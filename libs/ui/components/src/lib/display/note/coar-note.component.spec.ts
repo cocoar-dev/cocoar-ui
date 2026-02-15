@@ -19,16 +19,16 @@ describe('CoarNoteComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should have default color of neutral', () => {
-    expect(component.color()).toBe('neutral');
+  it('should have default variant of neutral', () => {
+    expect(component.variant()).toBe('neutral');
   });
 
   it('should have default padding of m', () => {
     expect(component.padding()).toBe('m');
   });
 
-  it('should apply color class', () => {
-    fixture.componentRef.setInput('color', 'warning');
+  it('should apply variant class', () => {
+    fixture.componentRef.setInput('variant', 'warning');
     fixture.detectChanges();
     expect(fixture.nativeElement.classList.contains('coar-note--warning')).toBe(true);
   });

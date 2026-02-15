@@ -28,9 +28,9 @@ test.describe('Card (isolated) @cards', () => {
     await expect(card).toHaveClass(/coar-card--borderless/);
   });
 
-  test('card with color variants apply correct styling', async ({ page }) => {
+  test('card with variant options apply correct styling', async ({ page }) => {
     await openScenario(page, 'card', {
-      color: 'success',
+      variant: 'success',
     });
 
     const card = page.locator('coar-card');

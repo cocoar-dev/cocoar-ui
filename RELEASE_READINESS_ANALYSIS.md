@@ -372,7 +372,7 @@ Inputs: variant, size, disabled, loading, type, iconStart, iconEnd,
 Outputs: clicked (MouseEvent)
 
 // CoarCardComponent
-Inputs: elevated, borderless, color, padding
+Inputs: elevated, borderless, variant, padding
 Outputs: (none - presentation only)
 ```
 

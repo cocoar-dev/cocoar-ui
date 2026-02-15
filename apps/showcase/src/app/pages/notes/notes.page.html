@@ -18,12 +18,12 @@
         <h3>Color Variants</h3>
         <p class="example-description">Six semantic color variants for different contexts and meanings.</p>
         <div class="example-demo notes-stack">
-          <coar-note color="neutral"><strong>Note:</strong> General information for the user.</coar-note>
-          <coar-note color="info"><strong>Tip:</strong> Here's a helpful tip to improve your workflow.</coar-note>
-          <coar-note color="success"><strong>Success:</strong> Your changes have been saved successfully.</coar-note>
-          <coar-note color="warning"><strong>Warning:</strong> This action cannot be undone.</coar-note>
-          <coar-note color="error"><strong>Error:</strong> Please fix the following issues before continuing.</coar-note>
-          <coar-note color="accent"><strong>Featured:</strong> Check out our new feature!</coar-note>
+          <coar-note variant="neutral"><strong>Note:</strong> General information for the user.</coar-note>
+          <coar-note variant="info"><strong>Tip:</strong> Here's a helpful tip to improve your workflow.</coar-note>
+          <coar-note variant="success"><strong>Success:</strong> Your changes have been saved successfully.</coar-note>
+          <coar-note variant="warning"><strong>Warning:</strong> This action cannot be undone.</coar-note>
+          <coar-note variant="error"><strong>Error:</strong> Please fix the following issues before continuing.</coar-note>
+          <coar-note variant="accent"><strong>Featured:</strong> Check out our new feature!</coar-note>
         </div>
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.colors" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
@@ -32,9 +32,9 @@
         <h3>Padding Sizes</h3>
         <p class="example-description">Three padding options for different content densities.</p>
         <div class="example-demo notes-stack">
-          <coar-note color="info" padding="s"><strong>Small:</strong> Compact note with minimal padding.</coar-note>
-          <coar-note color="info" padding="m"><strong>Medium:</strong> Standard note with balanced padding (default).</coar-note>
-          <coar-note color="info" padding="l"><strong>Large:</strong> Spacious note with generous padding for emphasis.</coar-note>
+          <coar-note variant="info" padding="s"><strong>Small:</strong> Compact note with minimal padding.</coar-note>
+          <coar-note variant="info" padding="m"><strong>Medium:</strong> Standard note with balanced padding (default).</coar-note>
+          <coar-note variant="info" padding="l"><strong>Large:</strong> Spacious note with generous padding for emphasis.</coar-note>
         </div>
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.padding" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
@@ -43,7 +43,7 @@
         <h3>Rich Content</h3>
         <p class="example-description">Notes can contain headings, paragraphs, lists, and other HTML content.</p>
         <div class="example-demo">
-          <coar-note color="warning">
+          <coar-note variant="warning">
             <h4>Important Notice</h4>
             <p>This action will affect all users in your organization.</p>
             <ul>
@@ -62,21 +62,21 @@
         <div class="use-cases-grid">
           <div class="use-case">
             <h4 class="coar-body-bold">Documentation Tips</h4>
-            <coar-note color="info"><strong>Pro Tip:</strong> Use keyboard shortcuts for faster navigation.</coar-note>
+            <coar-note variant="info"><strong>Pro Tip:</strong> Use keyboard shortcuts for faster navigation.</coar-note>
           </div>
           <div class="use-case">
             <h4 class="coar-body-bold">Deprecation Warnings</h4>
-            <coar-note color="warning"
+            <coar-note variant="warning"
               ><strong>Deprecated:</strong> This API will be removed in v3.0. Use <code>newMethod()</code> instead.</coar-note
             >
           </div>
           <div class="use-case">
             <h4 class="coar-body-bold">Breaking Changes</h4>
-            <coar-note color="error"><strong>Breaking Change:</strong> The signature of this method has changed.</coar-note>
+            <coar-note variant="error"><strong>Breaking Change:</strong> The signature of this method has changed.</coar-note>
           </div>
           <div class="use-case">
             <h4 class="coar-body-bold">Success Messages</h4>
-            <coar-note color="success"><strong>Complete:</strong> All tests passed. Ready for deployment.</coar-note>
+            <coar-note variant="success"><strong>Complete:</strong> All tests passed. Ready for deployment.</coar-note>
           </div>
         </div>
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.useCases" language="html" [showLineNumbers]="false" [collapsed]="true" />
@@ -131,10 +131,10 @@
           </thead>
           <tbody>
             <tr>
-              <td><code>color</code></td>
+              <td><code>variant</code></td>
               <td><code>'neutral' | 'info' | 'success' | 'warning' | 'error' | 'accent'</code></td>
               <td><code>'neutral'</code></td>
-              <td>Semantic color variant</td>
+              <td>Semantic variant</td>
             </tr>
             <tr>
               <td><code>padding</code></td>

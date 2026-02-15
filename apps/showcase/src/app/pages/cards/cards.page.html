@@ -11,7 +11,7 @@
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card variant="outlined">
         <h3>Basic Usage</h3>
         <p class="example-description">A simple card with neutral color and medium padding.</p>
         <div class="example-demo">
@@ -28,28 +28,28 @@
         <p class="example-description">Use <code>borderless</code> to remove the border, <code>elevated</code> to add depth.</p>
         <div class="example-demo variants-grid">
           <div class="variant-demo">
-            <coar-card color="outlined">
+            <coar-card variant="outlined">
               <h4 class="coar-body-large">Default</h4>
               <p class="coar-body-small">With border (default).</p>
             </coar-card>
             <span class="variant-label coar-caption">(default)</span>
           </div>
           <div class="variant-demo">
-            <coar-card color="outlined" borderless>
+            <coar-card variant="outlined" borderless>
               <h4 class="coar-body-large">Borderless</h4>
               <p class="coar-body-small">No border.</p>
             </coar-card>
             <span class="variant-label coar-caption">borderless</span>
           </div>
           <div class="variant-demo">
-            <coar-card color="outlined" elevated>
+            <coar-card variant="outlined" elevated>
               <h4 class="coar-body-large">Elevated</h4>
               <p class="coar-body-small">Raised with box-shadow.</p>
             </coar-card>
             <span class="variant-label coar-caption">elevated</span>
           </div>
           <div class="variant-demo">
-            <coar-card color="outlined" elevated borderless>
+            <coar-card variant="outlined" elevated borderless>
               <h4 class="coar-body-large">Elevated + Borderless</h4>
               <p class="coar-body-small">Raised, no border.</p>
             </coar-card>
@@ -114,11 +114,11 @@
     <p class="component-section-description">Use <code>coar-card-inset</code> on a footer element to make it flush with the card edges. Combine with <code>borderless</code> on code-block to avoid duplicate borders.</p>
 
     <div class="examples-grid">
-      <coar-card color="outlined">
+      <coar-card variant="outlined">
         <h3>Card with Code Block</h3>
         <p class="example-description">A code block as inset footer, flush with the card edges.</p>
         <div class="example-demo">
-          <coar-card color="outlined">
+          <coar-card variant="outlined">
             <h3 class="coar-body-large">Component Example</h3>
             <p class="coar-body">This card has a collapsible code block at the bottom, sitting flush against the card edges.</p>
             <coar-code-block coar-card-footer coar-card-inset borderless
@@ -143,27 +143,27 @@
         <h3>Color Variants</h3>
         <p class="example-description">Semantic colors for different contexts.</p>
         <div class="example-demo colors-grid">
-          <coar-card color="neutral">
+          <coar-card variant="neutral">
             <h4 class="coar-body-large">Neutral</h4>
             <p class="coar-body-small">Subtle gray background.</p>
           </coar-card>
-          <coar-card color="outlined">
+          <coar-card variant="outlined">
             <h4 class="coar-body-large">Outlined</h4>
             <p class="coar-body-small">Clean white/surface background with border.</p>
           </coar-card>
-          <coar-card color="success">
+          <coar-card variant="success">
             <h4 class="coar-body-large">Success</h4>
             <p class="coar-body-small">Operation completed successfully.</p>
           </coar-card>
-          <coar-card color="warning">
+          <coar-card variant="warning">
             <h4 class="coar-body-large">Warning</h4>
             <p class="coar-body-small">Please review before proceeding.</p>
           </coar-card>
-          <coar-card color="error">
+          <coar-card variant="error">
             <h4 class="coar-body-large">Error</h4>
             <p class="coar-body-small">Something went wrong. Please try again.</p>
           </coar-card>
-          <coar-card color="info">
+          <coar-card variant="info">
             <h4 class="coar-body-large">Info</h4>
             <p class="coar-body-small">Here's some helpful information.</p>
           </coar-card>
@@ -175,27 +175,27 @@
         <h3>Colors + Elevation</h3>
         <p class="example-description">Combine elevation with semantic colors for maximum visual impact.</p>
         <div class="example-demo colors-grid">
-          <coar-card elevated color="neutral">
+          <coar-card elevated variant="neutral">
             <h4 class="coar-body-large">Neutral</h4>
             <p class="coar-body-small">Elevated.</p>
           </coar-card>
-          <coar-card elevated color="outlined">
+          <coar-card elevated variant="outlined">
             <h4 class="coar-body-large">Outlined</h4>
             <p class="coar-body-small">Elevated.</p>
           </coar-card>
-          <coar-card elevated color="success">
+          <coar-card elevated variant="success">
             <h4 class="coar-body-large">Success</h4>
             <p class="coar-body-small">Elevated.</p>
           </coar-card>
-          <coar-card elevated color="warning">
+          <coar-card elevated variant="warning">
             <h4 class="coar-body-large">Warning</h4>
             <p class="coar-body-small">Elevated.</p>
           </coar-card>
-          <coar-card elevated color="error">
+          <coar-card elevated variant="error">
             <h4 class="coar-body-large">Error</h4>
             <p class="coar-body-small">Elevated.</p>
           </coar-card>
-          <coar-card elevated color="info">
+          <coar-card elevated variant="info">
             <h4 class="coar-body-large">Info</h4>
             <p class="coar-body-small">Elevated.</p>
           </coar-card>
@@ -222,10 +222,10 @@
           </thead>
           <tbody>
             <tr>
-              <td><code>color</code></td>
+              <td><code>variant</code></td>
               <td><code>'neutral' | 'outlined' | 'success' | 'warning' | 'error' | 'info' | 'accent'</code></td>
               <td><code>'neutral'</code></td>
-              <td>Semantic color variant</td>
+              <td>Semantic variant</td>
             </tr>
             <tr>
               <td><code>padding</code></td>

@@ -87,22 +87,22 @@
         <div class="usage-examples">
           <div class="usage-example">
             <h4 class="coar-body-small">Basic transition</h4>
-            <coar-code-block [code]="codeExamples.basicTransition" language="css" [showLineNumbers]="false" color="info" [collapsible]="false" />
+            <coar-code-block [code]="codeExamples.basicTransition" language="css" [showLineNumbers]="false" variant="info" [collapsible]="false" />
           </div>
 
           <div class="usage-example">
             <h4 class="coar-body-small">Custom transition with tokens</h4>
-            <coar-code-block [code]="codeExamples.customTransition" language="css" [showLineNumbers]="false" color="info" [collapsible]="false" />
+            <coar-code-block [code]="codeExamples.customTransition" language="css" [showLineNumbers]="false" variant="info" [collapsible]="false" />
           </div>
 
           <div class="usage-example">
             <h4 class="coar-body-small">Animation with duration</h4>
-            <coar-code-block [code]="codeExamples.animation" language="css" [showLineNumbers]="false" color="info" [collapsible]="false" />
+            <coar-code-block [code]="codeExamples.animation" language="css" [showLineNumbers]="false" variant="info" [collapsible]="false" />
           </div>
 
           <div class="usage-example">
             <h4 class="coar-body-small">Hover state with fast transition</h4>
-            <coar-code-block [code]="codeExamples.hoverState" language="css" [showLineNumbers]="false" color="info" [collapsible]="false" />
+            <coar-code-block [code]="codeExamples.hoverState" language="css" [showLineNumbers]="false" variant="info" [collapsible]="false" />
           </div>
         </div>
       </coar-card>
@@ -110,13 +110,13 @@
 
     <!-- Accessibility Note -->
     <div class="examples-grid examples-grid__span">
-      <coar-card padding="m" color="info" elevated class="examples-grid__span">
+      <coar-card padding="m" variant="info" elevated class="examples-grid__span">
         <h3>Accessibility</h3>
         <p class="example-description">
           All motion tokens respect the <code>prefers-reduced-motion</code> media query. When users prefer reduced motion, all durations automatically
           become 0ms.
         </p>
-        <coar-code-block [code]="codeExamples.reducedMotion" language="css" [showLineNumbers]="false" coar-card-inset borderless color="info" />
+        <coar-code-block [code]="codeExamples.reducedMotion" language="css" [showLineNumbers]="false" coar-card-inset borderless variant="info" />
       </coar-card>
     </div>
   </div>

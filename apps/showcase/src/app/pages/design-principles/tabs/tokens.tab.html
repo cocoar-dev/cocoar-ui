@@ -9,7 +9,7 @@
   <h3 class="coar-subheading tw:mt-6 tw:mb-3">Light Theme</h3>
   <coar-card class="color-swatches light-mode">
     @for (color of themeColors; track color.name) {
-    <coar-card [color]="color.color" elevated class="color-swatch-card">
+    <coar-card [variant]="color.color" elevated class="color-swatch-card">
       <span class="coar-body-small">{{ color.name }}</span>
     </coar-card>
     }
@@ -19,7 +19,7 @@
   <h3 class="coar-subheading tw:mt-6 tw:mb-3">Dark Theme</h3>
   <coar-card class="color-swatches dark-mode">
     @for (color of themeColors; track color.name) {
-    <coar-card [color]="color.color" elevated class="color-swatch-card">
+    <coar-card [variant]="color.color" elevated class="color-swatch-card">
       <span class="coar-body-small">{{ color.name }}</span>
     </coar-card>
     }
@@ -36,7 +36,7 @@
   </p>
   <div class="token-table">
     @for (radius of radiusTokens; track radius.token) {
-    <coar-card [color]="radius.token === '--coar-radius-xs' ? 'info' : 'neutral'" elevated class="token-row">
+    <coar-card [variant]="radius.token === '--coar-radius-xs' ? 'info' : 'neutral'" elevated class="token-row">
       <code class="token-name coar-body-small">{{ radius.token }}</code>
       <span class="token-value coar-body-small">{{ radius.value }}</span>
       <span class="token-usage coar-caption">{{ radius.usage }}</span>
@@ -44,7 +44,7 @@
     </coar-card>
     }
   </div>
-  <!-- <coar-card padding="s" color="info">
+  <!-- <coar-card padding="s" variant="info">
     <p class="coar-body-small"><strong>Default radius:</strong> <code>4px</code> (--coar-radius-xs)</p>
   </coar-card> -->
   <coar-divider [spacingTop]="32" />
@@ -56,7 +56,7 @@
   <p class="section-intro coar-body-small">All interactive components follow a consistent 3-tier sizing system.</p>
   <div class="sizing-demo">
     @for (size of sizingTokens; track size.size) {
-    <coar-card [color]="size.size === 'm' ? 'info' : 'neutral'" elevated class="sizing-row">
+    <coar-card [variant]="size.size === 'm' ? 'info' : 'neutral'" elevated class="sizing-row">
       <code class="size-name coar-body-small">{{ size.size }}</code>
       <span class="size-height coar-body-small">{{ size.height }}</span>
       <span class="size-usage coar-caption">{{ size.usage }}</span>
@@ -70,11 +70,11 @@
 <section class="tw:mb-16">
   <h2 class="coar-heading">Typography</h2>
   <div class="font-demo">
-    <coar-card color="info" elevated class="font-item">
+    <coar-card variant="info" elevated class="font-item">
       <span class="font-label coar-caption">Titles</span>
       <span class="font-sample" style="font-family: Inter, sans-serif; font-weight: 700">Inter Bold</span>
     </coar-card>
-    <coar-card color="info" elevated class="font-item">
+    <coar-card variant="info" elevated class="font-item">
       <span class="font-label coar-caption">Body</span>
       <span class="font-sample" style="font-family: Poppins, sans-serif">Poppins Regular</span>
     </coar-card>

@@ -6,7 +6,7 @@
   </p>
 
   <div class="responsive-grid responsive-grid--md tw:mb-8">
-    <coar-card elevated padding="m" color="info">
+    <coar-card elevated padding="m" variant="info">
       <h4 class="coar-caption">Format <span class="concept-subtitle">the shape</span></h4>
       <p class="coar-body-small">Controls structure: order, separators, numeric vs textual representation.</p>
       <coar-card padding="s">
@@ -23,7 +23,7 @@
       </coar-card>
     </coar-card>
 
-    <coar-card elevated padding="m" color="info">
+    <coar-card elevated padding="m" variant="info">
       <h4 class="coar-caption">Language <span class="concept-subtitle">the words</span></h4>
       <p class="coar-body-small">Controls which words appear: month names, weekday names.</p>
       <coar-card padding="s">
@@ -40,7 +40,7 @@
       </coar-card>
     </coar-card>
 
-    <coar-card elevated padding="m" color="info">
+    <coar-card elevated padding="m" variant="info">
       <h4 class="coar-caption">Region <span class="concept-subtitle">the conventions</span></h4>
       <p class="coar-body-small">Controls cultural expectations: first day of week, date order.</p>
       <coar-card padding="s">
@@ -113,7 +113,7 @@
     </div>
   </div>
 
-  <coar-note color="info" class="tw:mt-4">
+  <coar-note variant="info" class="tw:mt-4">
     <code>setLanguage('de')</code> and <code>setLanguage('de-DE')</code> both work, but they are not identical.<br />
     Bare <code>'de'</code> lets the browser assume a region.<br />
     Use the full BCP 47 tag when the region matters &mdash; e.g., Austrian German (<code>de-AT</code>) uses "Jänner" instead of "Januar".
@@ -126,6 +126,6 @@
     [collapsed]="false"
     [collapsible]="false"
     class="tw:mt-4"
-    color="info"
+    variant="info"
   />
 </section>

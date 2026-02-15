@@ -132,7 +132,7 @@ Consolidated findings from a full design system audit (Feb 2026) covering UI/UX,
 - [x] **Data-grid API table format**: Aligned to Name/Type/Default/Description format.
   - File: `apps/showcase/src/app/pages/data-grid/`
 
-- [x] **Notes page API discrepancy**: Documentation already correct — uses `color` matching component implementation.
+- [x] **Notes page API discrepancy**: Documentation updated — uses `variant` matching component implementation.
 
 ### 4.2 Cross-References
 
@@ -197,7 +197,7 @@ Consolidated findings from a full design system audit (Feb 2026) covering UI/UX,
 
 - [x] **Size naming standardized**: `sm` → `s`, `md` → `m`, `lg` → `l` across all components, tokens, CSS, templates, tests, showcase, and docs. Avatar `2xl` → `xxl`.
 - [x] **Event output naming standardized**: Menu-item `itemClick` → `clicked`, `itemHover` → `hovered` (Angular past-tense convention).
-- [x] **`color` vs `variant` input naming** — Documented: `variant` = visual hierarchy (buttons), `color` = semantic meaning (cards, tags, notes).
+- [x] **`color` → `variant` input naming** — Renamed `color` to `variant` on Card, Note, Tag, and CodeBlock. All components using semantic values now use `variant`. Icon keeps `color` since it accepts actual CSS color values.
 - [x] **`example-demo--grid` class** in selects page — Fixed by changing to `example-demo--two-col`.
 - [x] **Stale Figma references** — Removed from development-environment docs custom words list.
 

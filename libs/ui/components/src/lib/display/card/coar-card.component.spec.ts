@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CoarCardComponent, CardColor, CardPadding } from './coar-card.component';
+import { CoarCardComponent, CardVariant, CardPadding } from './coar-card.component';
 
 describe('CoarCardComponent', () => {
   let component: CoarCardComponent;
@@ -21,8 +21,8 @@ describe('CoarCardComponent', () => {
   });
 
   describe('defaults', () => {
-    it('should have neutral color by default', () => {
-      expect(component.color()).toBe('neutral');
+    it('should have neutral variant by default', () => {
+      expect(component.variant()).toBe('neutral');
     });
 
     it('should have m padding by default', () => {
@@ -42,13 +42,13 @@ describe('CoarCardComponent', () => {
     });
   });
 
-  describe('color variants', () => {
-    it.each(['neutral', 'success', 'warning', 'error', 'info', 'accent'] as CardColor[])(
-      'should apply %s color class',
-      (color) => {
-        fixture.componentRef.setInput('color', color);
+  describe('variant options', () => {
+    it.each(['neutral', 'success', 'warning', 'error', 'info', 'accent'] as CardVariant[])(
+      'should apply %s variant class',
+      (variant) => {
+        fixture.componentRef.setInput('variant', variant);
         fixture.detectChanges();
-        expect(fixture.nativeElement.classList).toContain(`coar-card--${color}`);
+        expect(fixture.nativeElement.classList).toContain(`coar-card--${variant}`);
       }
     );
   });
@@ -101,8 +101,8 @@ describe('CoarCardComponent', () => {
       expect(fixture.nativeElement.classList).toContain('coar-card--borderless');
     });
 
-    it('should support colored elevated cards', () => {
-      fixture.componentRef.setInput('color', 'success');
+    it('should support variant elevated cards', () => {
+      fixture.componentRef.setInput('variant', 'success');
       fixture.componentRef.setInput('elevated', true);
       fixture.detectChanges();
       expect(fixture.nativeElement.classList).toContain('coar-card--success');

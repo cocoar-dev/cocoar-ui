@@ -18,9 +18,9 @@ import { CoarNoteComponent } from '@cocoar/ui/components';
 </coar-note>
 ```
 
-## Color variants
+## Semantic variants
 
-Use `color` to select a semantic style:
+Use `variant` to select a semantic style:
 
 - `neutral` (default)
 - `info`
@@ -30,11 +30,11 @@ Use `color` to select a semantic style:
 - `accent`
 
 ```html
-<coar-note color="info">
+<coar-note variant="info">
   <strong>Tip:</strong> Here's a helpful tip.
 </coar-note>
 
-<coar-note color="warning">
+<coar-note variant="warning">
   <strong>Warning:</strong> This action cannot be undone.
 </coar-note>
 ```
@@ -48,9 +48,9 @@ Use `padding` to change the internal spacing:
 - `l`
 
 ```html
-<coar-note color="info" padding="s">Compact note.</coar-note>
-<coar-note color="info" padding="m">Standard note.</coar-note>
-<coar-note color="info" padding="l">Spacious note.</coar-note>
+<coar-note variant="info" padding="s">Compact note.</coar-note>
+<coar-note variant="info" padding="m">Standard note.</coar-note>
+<coar-note variant="info" padding="l">Spacious note.</coar-note>
 ```
 
 ## Rich content
@@ -58,7 +58,7 @@ Use `padding` to change the internal spacing:
 `coar-note` supports arbitrary projected HTML (headings, lists, etc.).
 
 ```html
-<coar-note color="warning">
+<coar-note variant="warning">
   <h4>Important Notice</h4>
   <p>This action will affect all users in your organization.</p>
   <ul>

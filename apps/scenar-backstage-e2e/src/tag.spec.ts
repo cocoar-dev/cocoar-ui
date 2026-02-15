@@ -10,9 +10,9 @@ test.describe('Tag (isolated) @tags', () => {
     await expect(tag).toHaveClass(/coar-tag/);
   });
 
-  test('tag with different colors apply styling', async ({ page }) => {
+  test('tag with different variants apply styling', async ({ page }) => {
     await openScenario(page, 'tag', {
-      color: 'warning',
+      variant: 'warning',
     });
 
     const tag = page.locator('coar-tag');

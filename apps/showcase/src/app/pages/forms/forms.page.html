@@ -172,7 +172,7 @@
         <h3>Reactive Forms Setup</h3>
         <p class="example-description">Define your form structure with validators in TypeScript.</p>
         <coar-code-block [code]="codeExamples.reactiveFormsExample" language="typescript" [showLineNumbers]="false" [collapsed]="false" />
-        <coar-note color="info" style="margin-top: var(--coar-spacing-m);">
+        <coar-note variant="info" style="margin-top: var(--coar-spacing-m);">
           <strong>Note:</strong> All Coar form controls work with <code>formControl</code>, <code>formControlName</code>, and <code>[(ngModel)]</code>.
         </coar-note>
       </coar-card>
@@ -181,7 +181,7 @@
         <h3>Validation Error Display</h3>
         <p class="example-description">Show validation errors using the <code>error</code> input.</p>
         <coar-code-block [code]="codeExamples.validationErrorsExample" language="html" [showLineNumbers]="false" [collapsed]="false" />
-        <coar-note color="info" style="margin-top: var(--coar-spacing-m);">
+        <coar-note variant="info" style="margin-top: var(--coar-spacing-m);">
           <strong>Pattern:</strong> Check <code>control.invalid && control.touched</code> before showing errors to avoid showing errors on pristine fields.
         </coar-note>
       </coar-card>
@@ -223,7 +223,7 @@
 
       <coar-card>
         <h3>Advanced</h3>
-        <coar-note color="info">
+        <coar-note variant="info">
           <strong>Angular Forms Integration:</strong> All form components implement <code>ControlValueAccessor</code> for seamless reactive and template-driven forms support.
         </coar-note>
       </coar-card>

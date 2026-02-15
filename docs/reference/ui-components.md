@@ -86,9 +86,9 @@ None.
 | elevated | boolean | no | false | Adds a box-shadow for elevation/depth.
 Use as boolean attribute: `<coar-card elevated>` or `[elevated]="true"` |
 | borderless | boolean | no | false | Removes the border from the card, leaving only background color.
-By default (false), cards have a visible border matching their color.
+By default (false), cards have a visible border matching their variant.
 Use as boolean attribute: `<coar-card borderless>` or `[borderless]="true"` |
-| color | 'neutral' \| 'outlined' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'accent' | no | 'neutral' | Card color scheme |
+| variant | 'neutral' \| 'outlined' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'accent' | no | 'neutral' | Card semantic variant |
 | padding | 'none' \| 'sm' \| 'md' \| 'lg' | no | 'md' | Card padding size |
 
 ### Outputs
@@ -272,7 +272,7 @@ Default: current year + 50 |
 ### Inputs
 | Name | Type | Required | Default | Description |
 | --- | --- | --- | --- | --- |
-| color | 'neutral' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'accent' | no | 'neutral' | Note color scheme.
+| variant | 'neutral' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'accent' | no | 'neutral' | Note semantic variant.
 Determines the left border color and background tint. |
 | padding | 'sm' \| 'md' \| 'lg' | no | 'md' | Note padding size. |
 
@@ -572,9 +572,9 @@ None.
 | elevated | boolean | no | false | Adds a box-shadow for elevation/depth.
 Use as boolean attribute: `<coar-tag elevated>` or `[elevated]="true"` |
 | borderless | boolean | no | false | Removes the border from the tag, leaving only background color.
-By default (false), tags have a visible border matching their color.
+By default (false), tags have a visible border matching their variant.
 Use as boolean attribute: `<coar-tag borderless>` or `[borderless]="true"` |
-| color | 'neutral' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'accent' | no | 'neutral' | Tag color scheme - matches Card colors |
+| variant | 'neutral' \| 'success' \| 'warning' \| 'error' \| 'info' \| 'accent' | no | 'neutral' | Tag semantic variant - matches Card variants |
 | size | 'sm' \| 'md' \| 'lg' | no | 'md' | Tag size |
 | closable | boolean | no | false | Whether the tag can be closed/removed |
 

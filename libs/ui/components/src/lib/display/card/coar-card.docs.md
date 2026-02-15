@@ -25,17 +25,17 @@ Cards support two boolean appearance modifiers:
 <coar-card elevated borderless>Elevated + borderless</coar-card>
 ```
 
-## Semantic colors
+## Semantic variants
 
-Use `color` for contextual backgrounds and borders.
+Use `variant` for contextual backgrounds and borders.
 
 ```html
-<coar-card color="neutral">Neutral (default)</coar-card>
-<coar-card color="success">Success</coar-card>
-<coar-card color="warning">Warning</coar-card>
-<coar-card color="error">Error</coar-card>
-<coar-card color="info">Info</coar-card>
-<coar-card color="accent">Accent</coar-card>
+<coar-card variant="neutral">Neutral (default)</coar-card>
+<coar-card variant="success">Success</coar-card>
+<coar-card variant="warning">Warning</coar-card>
+<coar-card variant="error">Error</coar-card>
+<coar-card variant="info">Info</coar-card>
+<coar-card variant="accent">Accent</coar-card>
 ```
 
 ## Padding

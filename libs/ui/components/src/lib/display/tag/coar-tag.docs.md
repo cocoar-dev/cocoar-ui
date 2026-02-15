@@ -8,21 +8,21 @@ Compared to badges (counts / status dots), tags are designed for keywords/labels
 
 ```html
 <coar-tag>Default</coar-tag>
-<coar-tag color="success">Published</coar-tag>
-<coar-tag color="warning">Draft</coar-tag>
+<coar-tag variant="success">Published</coar-tag>
+<coar-tag variant="warning">Draft</coar-tag>
 ```
 
-## Colors
+## Variants
 
-Tags support semantic color variants.
+Tags support semantic variants.
 
 ```html
-<coar-tag color="neutral">Neutral</coar-tag>
-<coar-tag color="success">Success</coar-tag>
-<coar-tag color="warning">Warning</coar-tag>
-<coar-tag color="error">Error</coar-tag>
-<coar-tag color="info">Info</coar-tag>
-<coar-tag color="accent">Accent</coar-tag>
+<coar-tag variant="neutral">Neutral</coar-tag>
+<coar-tag variant="success">Success</coar-tag>
+<coar-tag variant="warning">Warning</coar-tag>
+<coar-tag variant="error">Error</coar-tag>
+<coar-tag variant="info">Info</coar-tag>
+<coar-tag variant="accent">Accent</coar-tag>
 ```
 
 ## Sizes

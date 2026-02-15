@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, input, output, booleanAttribute } from '@angular/core';
 
 /**
- * Tag color variants - mirrors CardColor for visual consistency.
- * Tags are the "little brother" of Cards with the same color system.
+ * Tag semantic variants - mirrors CardVariant for visual consistency.
+ * Tags are the "little brother" of Cards with the same variant system.
  */
-export type TagColor = 'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent';
+export type TagVariant = 'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent';
 
 /**
  * Tag size variants.
@@ -18,7 +18,7 @@ export type TagSize = 's' | 'm' | 'l';
  * CoarTagComponent
  *
  * A compact label component for categorizing, labeling, or marking content.
- * Shares the same color system as CoarCard for visual consistency.
+ * Shares the same variant system as CoarCard for visual consistency.
  *
  * Unlike badges (pill-shaped, for counts/notifications), tags use
  * slight rounding and support interactive features like closing.
@@ -26,8 +26,8 @@ export type TagSize = 's' | 'm' | 'l';
  * @example
  * ```html
  * <coar-tag>Default</coar-tag>
- * <coar-tag color="success">Published</coar-tag>
- * <coar-tag color="warning" closable (closed)="onRemove()">Draft</coar-tag>
+ * <coar-tag variant="success">Published</coar-tag>
+ * <coar-tag variant="warning" closable (closed)="onRemove()">Draft</coar-tag>
  * ```
  */
 @Component({
@@ -46,13 +46,13 @@ export type TagSize = 's' | 'm' | 'l';
     '[class.coar-tag--elevated]': 'elevated()',
     // Borderless (no border)
     '[class.coar-tag--borderless]': 'borderless()',
-    // Colors
-    '[class.coar-tag--neutral]': 'color() === "neutral"',
-    '[class.coar-tag--success]': 'color() === "success"',
-    '[class.coar-tag--warning]': 'color() === "warning"',
-    '[class.coar-tag--error]': 'color() === "error"',
-    '[class.coar-tag--info]': 'color() === "info"',
-    '[class.coar-tag--accent]': 'color() === "accent"',
+    // Variants
+    '[class.coar-tag--neutral]': 'variant() === "neutral"',
+    '[class.coar-tag--success]': 'variant() === "success"',
+    '[class.coar-tag--warning]': 'variant() === "warning"',
+    '[class.coar-tag--error]': 'variant() === "error"',
+    '[class.coar-tag--info]': 'variant() === "info"',
+    '[class.coar-tag--accent]': 'variant() === "accent"',
   },
 })
 export class CoarTagComponent {
@@ -64,13 +64,13 @@ export class CoarTagComponent {
 
   /**
    * Removes the border from the tag, leaving only background color.
-   * By default (false), tags have a visible border matching their color.
+   * By default (false), tags have a visible border matching their variant.
    * Use as boolean attribute: `<coar-tag borderless>` or `[borderless]="true"`
    */
   borderless = input(false, { transform: booleanAttribute });
 
-  /** Tag color scheme - matches Card colors */
-  color = input<TagColor>('neutral');
+  /** Tag semantic variant - matches Card variants */
+  variant = input<TagVariant>('neutral');
 
   /** Tag size */
   size = input<TagSize>('m');

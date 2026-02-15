@@ -21,7 +21,7 @@ import 'prismjs/components/prism-json';
 import 'prismjs/components/prism-bash';
 import 'prismjs/components/prism-markup';
 
-export type CodeBlockColor = 'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent';
+export type CodeBlockVariant = 'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent';
 
 @Component({
   selector: 'coar-code-block',
@@ -32,12 +32,12 @@ export type CodeBlockColor = 'neutral' | 'success' | 'warning' | 'error' | 'info
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.coar-code-block--elevated]': 'elevated()',
-    '[class.coar-code-block--neutral]': 'color() === "neutral"',
-    '[class.coar-code-block--success]': 'color() === "success"',
-    '[class.coar-code-block--warning]': 'color() === "warning"',
-    '[class.coar-code-block--error]': 'color() === "error"',
-    '[class.coar-code-block--info]': 'color() === "info"',
-    '[class.coar-code-block--accent]': 'color() === "accent"',
+    '[class.coar-code-block--neutral]': 'variant() === "neutral"',
+    '[class.coar-code-block--success]': 'variant() === "success"',
+    '[class.coar-code-block--warning]': 'variant() === "warning"',
+    '[class.coar-code-block--error]': 'variant() === "error"',
+    '[class.coar-code-block--info]': 'variant() === "info"',
+    '[class.coar-code-block--accent]': 'variant() === "accent"',
   },
 })
 export class CoarCodeBlockComponent {
@@ -71,8 +71,8 @@ export class CoarCodeBlockComponent {
     transform: booleanAttribute,
   });
 
-  /** Color variant for the header area */
-  color = input<CodeBlockColor>('neutral');
+  /** Semantic variant for the header area */
+  variant = input<CodeBlockVariant>('neutral');
 
   /** Maximum height before scrolling (0 = no limit) */
   maxHeight = input<number>(0);

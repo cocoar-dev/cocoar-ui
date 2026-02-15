@@ -18,9 +18,9 @@
         <h3>Color Variants</h3>
         <p class="example-description">Six semantic color variants for different contexts and meanings.</p>
         <div class="example-demo tag-row">
-          @for (color of colors; track color) {
+          @for (variant of variants; track variant) {
             <div class="tag-item">
-              <coar-tag [color]="color">{{ color | titlecase }}</coar-tag>
+              <coar-tag [variant]="variant">{{ variant | titlecase }}</coar-tag>
             </div>
           }
         </div>
@@ -33,7 +33,7 @@
         <div class="example-demo tag-row tag-row--align-center">
           @for (size of sizes; track size) {
             <div class="tag-item">
-              <coar-tag [size]="size" color="accent">{{ size | uppercase }}</coar-tag>
+              <coar-tag [size]="size" variant="accent">{{ size | uppercase }}</coar-tag>
               <span class="tag-label coar-caption">{{ size }}</span>
             </div>
           }
@@ -45,8 +45,8 @@
         <h3>Elevated</h3>
         <p class="example-description">Add elevation with box-shadow for emphasis.</p>
         <div class="example-demo tag-row">
-          @for (color of colors; track color) {
-            <coar-tag [color]="color" elevated>{{ color | titlecase }}</coar-tag>
+          @for (variant of variants; track variant) {
+            <coar-tag [variant]="variant" elevated>{{ variant | titlecase }}</coar-tag>
           }
         </div>
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.elevated" language="html" [showLineNumbers]="false" [collapsed]="true" />
@@ -56,8 +56,8 @@
         <h3>Borderless</h3>
         <p class="example-description">Remove the border for a softer look.</p>
         <div class="example-demo tag-row">
-          @for (color of colors; track color) {
-            <coar-tag [color]="color" borderless>{{ color | titlecase }}</coar-tag>
+          @for (variant of variants; track variant) {
+            <coar-tag [variant]="variant" borderless>{{ variant | titlecase }}</coar-tag>
           }
         </div>
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.borderless" language="html" [showLineNumbers]="false" [collapsed]="true" />
@@ -76,7 +76,7 @@
         <p class="example-description">Tags can be removed by users. Click the x to remove a tag.</p>
         <div class="example-demo tag-row">
           @for (tag of tags(); track tag) {
-            <coar-tag color="accent" closable (closed)="removeTag(tag)">{{ tag }}</coar-tag>
+            <coar-tag variant="accent" closable (closed)="removeTag(tag)">{{ tag }}</coar-tag>
           }
           @if (tags().length === 0) {
             <span class="empty-state coar-body-small">All tags removed. </span>
@@ -93,33 +93,33 @@
           <coar-card padding="m">
             <h4 class="coar-body-large">Article Categories</h4>
             <div class="use-case-demo">
-              <coar-tag color="accent" size="s">Featured</coar-tag>
-              <coar-tag color="neutral" size="s">Technology</coar-tag>
-              <coar-tag color="neutral" size="s">Design</coar-tag>
+              <coar-tag variant="accent" size="s">Featured</coar-tag>
+              <coar-tag variant="neutral" size="s">Technology</coar-tag>
+              <coar-tag variant="neutral" size="s">Design</coar-tag>
             </div>
           </coar-card>
           <coar-card padding="m">
             <h4 class="coar-body-large">Status Labels</h4>
             <div class="use-case-demo">
-              <coar-tag color="success" size="s">Active</coar-tag>
-              <coar-tag color="warning" size="s">Pending</coar-tag>
-              <coar-tag color="error" size="s">Expired</coar-tag>
+              <coar-tag variant="success" size="s">Active</coar-tag>
+              <coar-tag variant="warning" size="s">Pending</coar-tag>
+              <coar-tag variant="error" size="s">Expired</coar-tag>
             </div>
           </coar-card>
           <coar-card padding="m">
             <h4 class="coar-body-large">Filter Tags</h4>
             <div class="use-case-demo">
-              <coar-tag color="accent" size="s" closable>React</coar-tag>
-              <coar-tag color="accent" size="s" closable>Angular</coar-tag>
-              <coar-tag color="accent" size="s" closable>Vue</coar-tag>
+              <coar-tag variant="accent" size="s" closable>React</coar-tag>
+              <coar-tag variant="accent" size="s" closable>Angular</coar-tag>
+              <coar-tag variant="accent" size="s" closable>Vue</coar-tag>
             </div>
           </coar-card>
           <coar-card padding="m">
             <h4 class="coar-body-large">Version Labels</h4>
             <div class="use-case-demo">
-              <coar-tag color="success" size="s">Stable</coar-tag>
-              <coar-tag color="warning" size="s">Beta</coar-tag>
-              <coar-tag color="info" size="s">v2.0</coar-tag>
+              <coar-tag variant="success" size="s">Stable</coar-tag>
+              <coar-tag variant="warning" size="s">Beta</coar-tag>
+              <coar-tag variant="info" size="s">v2.0</coar-tag>
             </div>
           </coar-card>
         </div>
@@ -175,10 +175,10 @@
           </thead>
           <tbody>
             <tr>
-              <td><code>color</code></td>
+              <td><code>variant</code></td>
               <td><code>'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent'</code></td>
               <td><code>'neutral'</code></td>
-              <td>Color variant</td>
+              <td>Semantic variant</td>
             </tr>
             <tr>
               <td><code>size</code></td>
