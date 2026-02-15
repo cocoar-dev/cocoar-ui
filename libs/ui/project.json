@@ -15,6 +15,7 @@
   "targets": {
     "build": {
       "executor": "@nx/angular:package",
+      "dependsOn": ["generate-docs", "^build"],
       "options": {
         "project": "libs/ui/ng-package.json",
         "tsConfig": "libs/ui/tsconfig.lib.json"
@@ -39,7 +40,20 @@
       "options": {
         "command": "node scripts/docs/extract-component-api.mjs",
         "cwd": "{workspaceRoot}"
-      }
+      },
+      "inputs": [
+        "{workspaceRoot}/libs/ui/components/src/**/*.ts",
+        "{workspaceRoot}/libs/ui/components/src/**/*.html",
+        "{workspaceRoot}/libs/ui/components/src/**/*.css",
+        "{workspaceRoot}/libs/ui/menu/src/**/*.ts",
+        "{workspaceRoot}/libs/ui/menu/src/**/*.html",
+        "{workspaceRoot}/libs/ui/menu/src/**/*.css",
+        "{workspaceRoot}/scripts/docs/**/*.mjs"
+      ],
+      "outputs": [
+        "{workspaceRoot}/libs/ui/llms.txt",
+        "{workspaceRoot}/libs/ui/llms-full.txt"
+      ]
     },
     "lint": {
       "executor": "@nx/eslint:lint"

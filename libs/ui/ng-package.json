@@ -3,5 +3,5 @@
   "dest": "../../dist/libs/ui",
   "lib": { "entryFile": "src/index.ts" },
   "allowedNonPeerDependencies": ["overlayscrollbars", "@cocoar/localization"],
-  "assets": ["styles"]
+  "assets": ["styles", "llms.txt", "llms-full.txt"]
 }

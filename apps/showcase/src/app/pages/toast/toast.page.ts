@@ -4,7 +4,6 @@ import {
   CoarButtonComponent,
   CoarCardComponent,
   CoarCodeBlockComponent,
-  CoarNoteComponent,
   CoarToastService,
   type CoarToastPosition,
 } from '@cocoar/ui/components';
@@ -12,12 +11,7 @@ import {
 @Component({
   selector: 'app-toast',
   standalone: true,
-  imports: [
-    CoarButtonComponent,
-    CoarCardComponent,
-    CoarCodeBlockComponent,
-    CoarNoteComponent,
-  ],
+  imports: [CoarButtonComponent, CoarCardComponent, CoarCodeBlockComponent],
   templateUrl: './toast.page.html',
   styleUrl: './toast.page.css',
 })

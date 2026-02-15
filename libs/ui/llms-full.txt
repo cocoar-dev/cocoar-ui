@@ -1,0 +1,2303 @@
+# Cocoar UI — Full API Reference
+> Angular 21 component library with design tokens. Package: @cocoar/ui
+
+Docs: https://cocoar-dev.github.io/cocoar-ui/
+Source: https://github.com/cocoar-dev/cocoar-ui
+
+---
+
+# Display
+
+## coar-button
+
+**Selector:** `<coar-button>`
+**Class:** `CoarButtonComponent`
+**Import:** `import { CoarButtonComponent } from '@cocoar/ui';`
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| variant | `ButtonVariant` | `'primary'` | No | Button visual variant |
+| size | `ButtonSize` | `'m'` | No | Button size |
+| disabled | `boolean` | `false` | No | Whether the button is disabled |
+| loading | `boolean` | `false` | No | Whether the button is in loading state |
+| type | `'button' | 'submit' | 'reset'` | `'button'` | No | Button type attribute |
+| iconStart | `string | undefined` | `undefined` | No | Icon to display before the label |
+| iconEnd | `string | undefined` | `undefined` | No | Icon to display after the label |
+| fullWidth | `boolean` | `false` | No | Whether the button should take full width |
+| ariaLabel | `string` | `''` | No | Optional aria-label applied to the underlying <button> element |
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| clicked | `MouseEvent` | Emitted when the button is clicked (not emitted when disabled or loading) |
+
+### Content Slots
+
+- Default slot: `<ng-content />`
+
+### Related Types
+
+```typescript
+type ButtonVariant = 'primary' | 'secondary' | 'tertiary' | 'danger' | 'ghost';
+```
+
+```typescript
+type ButtonSize = 'xs' | 's' | 'm' | 'l';
+```
+
+## coar-badge
+
+**Selector:** `<coar-badge>`
+**Class:** `CoarBadgeComponent`
+**Import:** `import { CoarBadgeComponent } from '@cocoar/ui';`
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| content | `string | number` | `''` | No | Content to display in the badge (number, text, or icon) |
+| variant | `BadgeVariant` | `'primary'` | No | Badge visual variant |
+| size | `BadgeSize` | `'m'` | No | Badge size |
+| pulse | `boolean` | `false` | No | Whether the badge should pulse/animate (for notifications) |
+| dot | `boolean` | `false` | No | Whether to show as a dot without content |
+| max | `number | null` | `null` | No | Maximum number to display (shows "99+" if exceeded) |
+| bordered | `boolean` | `false` | No | Whether to show a border around the badge |
+
+### Related Types
+
+```typescript
+type BadgeVariant = 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info';
+```
+
+```typescript
+type BadgeSize = 'xs' | 's' | 'm' | 'l' | 'xl' | 'auto';
+```
+
+## coar-tag
+
+**Selector:** `<coar-tag>`
+**Class:** `CoarTagComponent`
+**Import:** `import { CoarTagComponent } from '@cocoar/ui';`
+
+CoarTagComponent
+A compact label component for categorizing, labeling, or marking content.
+Shares the same variant system as CoarCard for visual consistency.
+Unlike badges (pill-shaped, for counts/notifications), tags use
+slight rounding and support interactive features like closing.
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| variant | `TagVariant` | `'neutral'` | No | Tag semantic variant - matches Card variants |
+| size | `TagSize` | `'m'` | No | Tag size |
+| closable | `boolean` | `false` | No | Whether the tag can be closed/removed |
+| elevated | `boolean` | `false` | No | Adds a box-shadow for elevation/depth. |
+| borderless | `boolean` | `false` | No | Removes the border from the tag, leaving only background color. |
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| closed | `void` | Emitted when the close button is clicked |
+
+### Content Slots
+
+- Default slot: `<ng-content />`
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-tag-bg` | — |
+| `--coar-tag-border-color` | — |
+
+### Related Types
+
+```typescript
+type TagVariant = 'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent';
+```
+Tag semantic variants - mirrors CardVariant for visual consistency.
+Tags are the "little brother" of Cards with the same variant system.
+
+```typescript
+type TagSize = 's' | 'm' | 'l';
+```
+Tag size variants.
+- s: Compact tags for dense UIs (10px font)
+- m: Default size (12px font)
+- l: Larger tags for emphasis (14px font)
+
+## coar-card
+
+**Selector:** `<coar-card>`
+**Class:** `CoarCardComponent`
+**Import:** `import { CoarCardComponent } from '@cocoar/ui';`
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| variant | `CardVariant` | `'neutral'` | No | Card semantic variant |
+| padding | `CardPadding` | `'m'` | No | Card padding size |
+| elevated | `boolean` | `false` | No | Adds a box-shadow for elevation/depth. |
+| borderless | `boolean` | `false` | No | Removes the border from the card, leaving only background color. |
+
+### Content Slots
+
+- `[coar-card-header]`
+- Default slot: `<ng-content />`
+- `[coar-card-footer]`
+- `[coar-card-inset]`
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-card-padding` | — |
+
+### Related Types
+
+```typescript
+type CardVariant = 'neutral' | 'outlined' | 'success' | 'warning' | 'error' | 'info' | 'accent';
+```
+
+```typescript
+type CardPadding = 'none' | 's' | 'm' | 'l';
+```
+
+## coar-note
+
+**Selector:** `<coar-note>`
+**Class:** `CoarNoteComponent`
+**Import:** `import { CoarNoteComponent } from '@cocoar/ui';`
+
+A callout/note component for highlighting information.
+Features a colored left border and subtle background.
+Use for tips, warnings, important information, or behavioral notes.
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| variant | `NoteVariant` | `'neutral'` | No | Note semantic variant. |
+| padding | `NotePadding` | `'m'` | No | Note padding size. |
+
+### Content Slots
+
+- Default slot: `<ng-content />`
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-note-border-color` | — |
+| `--coar-note-bg` | — |
+
+### Related Types
+
+```typescript
+type NoteVariant = 'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent';
+```
+
+```typescript
+type NotePadding = 's' | 'm' | 'l';
+```
+
+## coar-divider
+
+**Selector:** `<coar-divider>`
+**Class:** `CoarDividerComponent`
+**Import:** `import { CoarDividerComponent } from '@cocoar/ui';`
+
+A flexible divider component for visually separating content sections.
+Supports optional content (text, icons, etc.) via ng-content that can be
+aligned left, center, or right. When content is present, the divider line
+splits around it.
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| align | `DividerAlign` | `'center'` | No | Content alignment when ng-content is provided |
+| variant | `DividerVariant` | `'subtle'` | No | Visual style variant |
+| width | `number` | `90` | No | Width of the divider as a percentage (0-100) |
+| spacingTop | `number` | `0` | No | Spacing above the divider in pixels |
+| spacingBottom | `number` | `0` | No | Spacing below the divider in pixels |
+
+### Content Slots
+
+- Default slot: `<ng-content />`
+
+### Related Types
+
+```typescript
+type DividerAlign = 'left' | 'center' | 'right';
+```
+Content alignment options for the divider.
+- 'center': Content is centered with lines on both sides (default)
+- 'left': Content is aligned left with line on the right
+- 'right': Content is aligned right with line on the left
+
+```typescript
+type DividerVariant = 'subtle' | 'strong';
+```
+Visual style variants for the divider line.
+- 'subtle': Light, unobtrusive divider (default)
+- 'strong': More prominent divider
+
+## coar-table
+
+**Selector:** `<coar-table>`
+**Class:** `CoarTableComponent`
+**Import:** `import { CoarTableComponent } from '@cocoar/ui';`
+
+A simple table component that provides consistent styling.
+Default styling uses alternating row colors (zebra stripes) for readability.
+Use 'plain' variant for no stripes, or 'bordered' for full cell borders.
+Usage:
+```html
+<coar-table>
+  <thead>
+    <tr>
+      <th>Property</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>name</code></td>
+      <td><code>string</code></td>
+    </tr>
+  </tbody>
+</coar-table>
+```
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| variant | `CoarTableVariant` | `'default'` | No | Visual variant of the table: default (zebra stripes), plain (no stripes), bordered (cell borders) |
+| compact | `boolean` | `false` | No | Whether to use compact padding |
+| hover | `boolean` | `true` | No | Whether rows should highlight on hover |
+
+### Content Slots
+
+- Default slot: `<ng-content />`
+
+### Related Types
+
+```typescript
+type CoarTableVariant = 'default' | 'plain' | 'bordered';
+```
+
+## coar-label
+
+**Selector:** `<coar-label>`
+**Class:** `CoarLabelComponent`
+**Import:** `import { CoarLabelComponent } from '@cocoar/ui';`
+
+Standalone label component for consistent form labeling across the design system.
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| size | `CoarLabelSize` | `'m'` | No | Size of the label. Should match the size of the associated input/form element. |
+| required | `boolean` | `false` | No | Whether to show a required indicator (*) after the label text. |
+| for | `string | undefined` | `undefined` | No | The ID of the form element this label is associated with. |
+| text | `string` | `''` | No |  |
+
+### Content Slots
+
+- Default slot: `<ng-content />`
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-component-xs-label-font-size` | — |
+| `--coar-component-s-label-font-size` | — |
+| `--coar-component-m-label-font-size` | — |
+| `--coar-component-l-label-font-size` | — |
+
+### Related Types
+
+```typescript
+type CoarLabelSize = 'xs' | 's' | 'm' | 'l';
+```
+Available sizes for the label component.
+Matches the component size system used by buttons and inputs.
+
+## coar-icon
+
+**Selector:** `<coar-icon>`
+**Class:** `CoarIconComponent`
+**Import:** `import { CoarIconComponent } from '@cocoar/ui';`
+
+COAR Icon Component
+Icon component supporting DI-provided icon registries.
+Usage:
+```html
+<coar-icon name="settings" size="m"></coar-icon>
+```
+Size tokens:
+- xs = 12px
+- s = 16px
+- m = 20px (default)
+- l = 24px
+- xl = 32px
+- auto = fills parent container (use padding on parent to control)
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| name | `string` | — | No | Icon identifier. |
+| source | `string | undefined` | — | No | Optional icon source key. |
+| size | `CoarIconSize | string` | `'m'` | No | Icon size. Defaults to 'm' (20px). |
+| rotate | `number` | `0` | No | Rotation angle in degrees (0, 90, 180, 270, or any number). |
+| rotateTransition | `number | string` | — | No | Rotation transition animation. |
+| spin | `boolean` | `false` | No | Enable continuous spinning animation. |
+| color | `string` | `'inherit'` | No | Icon color. Can be any valid CSS color value. |
+| label | `string | number` | — | No | Optional text label to display next to the icon. |
+
+### Content Slots
+
+- Default slot: `<ng-content />`
+
+## CoarIconService
+
+**Kind:** Service (Injectable, providedIn: root)
+**Class:** `CoarIconService`
+**Import:** `import { CoarIconService } from '@cocoar/ui';`
+
+### Methods
+
+#### `getIcon(name: string, sourceKey?: string): Observable<string`
+Get an icon by name from a specific icon source.
+- If `sourceKey` is omitted, the default source is used.
+- If no source is configured, this throws to make misconfiguration obvious.
+
+#### `getRegisteredSources(): ReadonlyArray<CoarIconRegisteredSource>`
+List all registered icon sources.
+This is useful for UIs that allow users to browse icons grouped by source.
+
+#### `getAvailableIconKeys(sourceKey?: string): Observable<readonly`
+Get the available icon keys from a specific source.
+Throws if the source does not support listing keys.
+
+#### `clearCache(): void`
+
+#### `clearIconCache(name: string): void`
+
+### Related Types
+
+```typescript
+type CoarIconSize = 'xs' | 's' | 'm' | 'l' | 'xl' | 'auto';
+```
+
+```typescript
+type CoarIconRegisteredSource = Readonly<{
+  key: string;
+```
+
+## coar-avatar
+
+**Selector:** `<coar-avatar>`
+**Class:** `CoarAvatarComponent`
+**Import:** `import { CoarAvatarComponent } from '@cocoar/ui';`
+
+Avatar component for displaying user profile images with fallback to initials.
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| src | `string` | `''` | No | Image URL for the avatar |
+| name | `string` | `''` | No | User's full name (used for initials fallback and alt text) |
+| size | `AvatarSize` | `'m'` | No | Avatar size |
+| shape | `AvatarShape` | `'circle'` | No | Avatar shape |
+| clickable | `boolean` | `false` | No | Whether the avatar is interactive (clickable) |
+| initials | `string` | `''` | No | Custom initials override (otherwise computed from name) |
+| bgColor | `string` | `''` | No | Background color for initials (auto-generated from name if not set) |
+
+### Content Slots
+
+- Default slot: `<ng-content />`
+
+### Related Types
+
+```typescript
+type AvatarSize = 'xs' | 's' | 'm' | 'l' | 'xl' | 'xxl';
+```
+
+```typescript
+type AvatarShape = 'circle' | 'square';
+```
+
+## coar-code-block
+
+**Selector:** `<coar-code-block>`
+**Class:** `CoarCodeBlockComponent`
+**Import:** `import { CoarCodeBlockComponent } from '@cocoar/ui';`
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| language | `string` | `'html'` | No | Language for syntax highlighting |
+| title | `string` | `''` | No | Title/label for the code block |
+| collapsible | `boolean` | `true` | No | Whether the code block can be collapsed |
+| collapsed | `boolean` | `false` | No | Whether the code block starts collapsed |
+| showCopy | `boolean` | `true` | No | Whether to show the copy button |
+| borderless | `boolean` | `false` | No | Whether to hide the border and border-radius |
+| showLineNumbers | `boolean` | `false` | No | Whether to show line numbers |
+| variant | `CodeBlockVariant` | `'neutral'` | No | Semantic variant for the header area |
+| maxHeight | `number` | `0` | No | Maximum height before scrolling (0 = no limit) |
+| elevated | `boolean` | `false` | No | Adds a box-shadow for elevation/depth |
+| code | `string` | — | Yes | The code to display |
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-code-block-border` | — |
+| `--coar-code-block-bg` | — |
+| `--coar-code-block-header-bg` | — |
+| `--coar-code-block-text-muted` | — |
+| `--coar-code-block-text` | — |
+| `--coar-code-block-button-bg-hover` | — |
+| `--coar-code-block-comment` | — |
+| `--coar-code-block-punctuation` | — |
+| `--coar-code-block-number` | — |
+| `--coar-code-block-string` | — |
+| `--coar-code-block-operator` | — |
+| `--coar-code-block-keyword` | — |
+| `--coar-code-block-function` | — |
+| `--coar-code-block-class` | — |
+| `--coar-code-block-tag` | — |
+| `--coar-code-block-attr-name` | — |
+| `--coar-code-block-attr-value` | — |
+
+### Related Types
+
+```typescript
+type CodeBlockVariant = 'neutral' | 'success' | 'warning' | 'error' | 'info' | 'accent';
+```
+
+## [coarScrollbar]
+
+**Kind:** Directive
+**Selector:** `[coarScrollbar]`
+**Export As:** `coarScrollbar`
+**Class:** `CoarScrollbarDirective`
+**Import:** `import { CoarScrollbarDirective } from '@cocoar/ui';`
+
+Directive that applies custom overlay scrollbars to an element.
+Uses OverlayScrollbars library to replace native scrollbars with
+styleable overlay scrollbars while preserving native scroll behavior.
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| theme | `CoarScrollbarTheme` | `'dark'` | No | Theme for scrollbar appearance |
+| autoHide | `CoarScrollbarAutoHide` | `'leave'` | No | Auto-hide behavior for scrollbars |
+| autoHideDelay | `number` | `400` | No | Delay in ms before auto-hide triggers |
+| clickScroll | `boolean` | `true` | No | Whether clicking the track scrolls to that position |
+| overflowX | `CoarScrollbarOverflow` | `'scroll'` | No | Overflow behavior for x-axis |
+| overflowY | `CoarScrollbarOverflow` | `'scroll'` | No | Overflow behavior for y-axis |
+| defer | `boolean` | `true` | No | Whether to defer initialization until browser is idle |
+| overscrollBehavior | `'auto' | 'contain' | 'none'` | `'auto'` | No | Overscroll behavior to prevent scroll chaining to parent elements. |
+
+### Related Types
+
+```typescript
+type CoarScrollbarTheme = 'dark' | 'light';
+```
+Theme options for the scrollbar appearance.
+- 'dark': Dark scrollbar theme (default)
+- 'light': Light scrollbar theme
+
+```typescript
+type CoarScrollbarAutoHide = 'never' | 'scroll' | 'leave' | 'move';
+```
+Auto-hide behavior for the scrollbar.
+- 'never': Scrollbars are always visible
+- 'scroll': Scrollbars hide when not scrolling
+- 'leave': Scrollbars hide when pointer leaves the element
+- 'move': Scrollbars hide when pointer stops moving
+
+```typescript
+type CoarScrollbarOverflow = 'hidden' | 'scroll' | 'visible-hidden' | 'visible-scroll';
+```
+Overflow behavior for each axis.
+- 'hidden': Content is clipped, no scrollbar
+- 'scroll': Always show scrollbar
+- 'visible-hidden': Content visible but no scrollbar
+- 'visible-scroll': Content visible with scrollbar
+
+## coar-progress-bar
+
+**Selector:** `<coar-progress-bar>`
+**Class:** `CoarProgressBarComponent`
+**Import:** `import { CoarProgressBarComponent } from '@cocoar/ui';`
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| value | `number` | `0` | No | Current progress value (0 to max) |
+| max | `number` | `100` | No | Maximum progress value |
+| variant | `CoarProgressBarVariant` | `'accent'` | No | Visual variant |
+| size | `CoarProgressBarSize` | `'m'` | No | Bar height size |
+| indeterminate | `boolean` | `false` | No | Whether to show an indeterminate animation |
+| label | `string` | `''` | No | Accessible label for the progress bar |
+| showValue | `boolean` | `false` | No | Whether to display the percentage text |
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-progress-bar-height` | — |
+| `--coar-progress-bar-fill-color` | — |
+
+### Related Types
+
+```typescript
+type CoarProgressBarVariant = 'accent' | 'success' | 'warning' | 'error';
+```
+
+```typescript
+type CoarProgressBarSize = 's' | 'm' | 'l';
+```
+
+## coar-spinner
+
+**Selector:** `<coar-spinner>`
+**Class:** `CoarSpinnerComponent`
+**Import:** `import { CoarSpinnerComponent } from '@cocoar/ui';`
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| size | `CoarSpinnerSize` | `'m'` | No | Spinner size |
+| label | `string` | `'Loading'` | No | Accessible label |
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-spinner-size` | — |
+
+### Related Types
+
+```typescript
+type CoarSpinnerSize = 'xs' | 's' | 'm' | 'l';
+```
+
+## coar-link
+
+**Kind:** CSS-only component (no Angular class)
+**Import:** `@import '@cocoar/ui/components/display/link/coar-link.css';`
+
+### CSS Classes
+
+- `.coar-link`
+- `.coar-link--subtle`
+- `.coar-link--s`
+- `.coar-link--m`
+- `.coar-link--l`
+- `.coar-link--disabled`
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-text-accent-primary` | — |
+| `--coar-duration-fast` | — |
+| `--coar-component-m-font-size` | — |
+| `--coar-text-accent-secondary` | — |
+| `--coar-focus-shadow` | — |
+| `--coar-radius-xs` | — |
+| `--coar-text-neutral-secondary` | — |
+| `--coar-component-s-font-size` | — |
+| `--coar-component-l-font-size` | — |
+| `--coar-text-neutral-disabled` | — |
+
+---
+
+# Forms
+
+## coar-text-input
+
+**Selector:** `<coar-text-input>`
+**Class:** `CoarTextInputComponent`
+**Import:** `import { CoarTextInputComponent } from '@cocoar/ui';`
+**Forms:** Compatible with Angular Reactive Forms and ngModel (ControlValueAccessor)
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| label | `string` | `''` | No | Label text displayed above the input |
+| placeholder | `string` | `''` | No | Placeholder text shown when input is empty |
+| size | `CoarTextInputSize` | `'m'` | No | Input size - matches button/checkbox sizes for consistent layouts |
+| rows | `number` | `1` | No | Number of visible text rows (1 = single-line input, 2+ = textarea) |
+| disabled | `boolean` | `false` | No | Disables the input (greyed out, not focusable) |
+| readonly | `boolean` | `false` | No | Makes the input read-only (focusable but not editable) |
+| required | `boolean` | `false` | No | Marks the input as required, shows asterisk on label |
+| error | `string` | `''` | No | Error message to display below the input |
+| hint | `string` | `''` | No | Hint text displayed below the input |
+| clearable | `boolean` | `true` | No | Show clear button when input has value and is focused/hovered |
+| prefix | `string` | `''` | No | Text or symbol displayed before the input value |
+| suffix | `string` | `''` | No | Text or symbol displayed after the input value |
+| id | `string` | `''` | No | HTML id attribute for the input element |
+| name | `string` | `''` | No | HTML name attribute for form submission |
+| autocomplete | `string` | `''` | No | HTML autocomplete attribute |
+| maxlength | `number | undefined` | `undefined` | No | Maximum character length |
+
+### Two-Way Bindings (model)
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `string` | `''` | Current input value (two-way bindable with [(value)]) |
+
+> Use `[(name)]` for two-way binding or `(nameChange)` to listen for changes.
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| valueChange | `string` | Emits when input value changes |
+| blurred | `FocusEvent` | Emits when input loses focus |
+| focused | `FocusEvent` | Emits when input gains focus |
+| clear | `void` | Emits when clear button is clicked |
+
+### Content Slots
+
+- `[prefix]`
+- `[suffix]`
+- `[suffixAction]`
+
+### Related Types
+
+```typescript
+type CoarTextInputSize = 'xs' | 's' | 'm' | 'l';
+```
+
+## coar-number-input
+
+**Selector:** `<coar-number-input>`
+**Class:** `CoarNumberInputComponent`
+**Import:** `import { CoarNumberInputComponent } from '@cocoar/ui';`
+**Forms:** Compatible with Angular Reactive Forms and ngModel (ControlValueAccessor)
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| label | `string` | `''` | No | Label text displayed above the input |
+| placeholder | `string` | `''` | No | Placeholder text shown when input is empty |
+| size | `CoarNumberInputSize` | `'m'` | No | Input size - matches button/checkbox sizes for consistent layouts |
+| min | `number | undefined` | `undefined` | No | Minimum allowed value |
+| max | `number | undefined` | `undefined` | No | Maximum allowed value |
+| step | `number` | `1` | No | Step increment for arrows and keyboard |
+| decimals | `number` | `0` | No | Number of decimal places to display |
+| disabled | `boolean` | `false` | No | Disables the input (greyed out, not focusable) |
+| readonly | `boolean` | `false` | No | Makes the input read-only (focusable but not editable) |
+| required | `boolean` | `false` | No | Marks the input as required, shows asterisk on label |
+| error | `string` | `''` | No | Error message to display below the input |
+| hint | `string` | `''` | No | Hint text displayed below the input |
+| clearable | `boolean` | `true` | No | Show clear button when input has value and is focused/hovered |
+| stepperButtons | `CoarNumberInputStepperButtons` | `'none'` | No | Controls visibility of increment/decrement stepper buttons. |
+| prefix | `string` | `''` | No | Text or symbol displayed before the input value |
+| suffix | `string` | `''` | No | Text or symbol displayed after the input value |
+| locale | `string` | — | No | Locale identifier for number formatting (e.g., 'de-AT', 'en-US'). |
+| numberFormat | `NumberFormatConfig` | — | No | Number format configuration (decimal and thousand separators). |
+| id | `string` | `''` | No | HTML id attribute for the input element |
+| name | `string` | `''` | No | HTML name attribute for form submission |
+
+### Two-Way Bindings (model)
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `number | null` | `null` | Current numeric value. |
+
+> Use `[(name)]` for two-way binding or `(nameChange)` to listen for changes.
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| valueChange | `number | null` | Emits when input value changes |
+| blurred | `FocusEvent` | Emits when input loses focus |
+| focused | `FocusEvent` | Emits when input gains focus |
+| clear | `void` | Emits when clear button is clicked |
+
+### Content Slots
+
+- `[prefix]`
+- `[suffix]`
+
+### Related Types
+
+```typescript
+type CoarNumberInputSize = 'xs' | 's' | 'm' | 'l';
+```
+
+```typescript
+type CoarNumberInputStepperButtons = 'none' | 'increment' | 'decrement' | 'both';
+```
+
+```typescript
+interface NumberFormatConfig {readonly decimal: string;
+  readonly thousand: string;
+}
+```
+Configuration for number formatting
+
+## coar-password-input
+
+**Selector:** `<coar-password-input>`
+**Class:** `CoarPasswordInputComponent`
+**Import:** `import { CoarPasswordInputComponent } from '@cocoar/ui';`
+**Forms:** Compatible with Angular Reactive Forms and ngModel (ControlValueAccessor)
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| label | `string` | `''` | No | Label text displayed above the input |
+| placeholder | `string` | `''` | No | Placeholder text shown when input is empty |
+| size | `CoarPasswordInputSize` | `'m'` | No | Input size - matches other form elements for consistent layouts |
+| disabled | `boolean` | `false` | No | Disables the input (greyed out, not focusable) |
+| readonly | `boolean` | `false` | No | Makes the input read-only (focusable but not editable) |
+| required | `boolean` | `false` | No | Marks the input as required, shows asterisk on label |
+| error | `string` | `''` | No | Error message to display below the input |
+| hint | `string` | `''` | No | Hint text displayed below the input |
+| clearable | `boolean` | `true` | No | Show clear button when input has value and is focused/hovered |
+| id | `string` | `''` | No | HTML id attribute for the input element |
+| name | `string` | `''` | No | HTML name attribute for form submission |
+| autocomplete | `string` | `'current-password'` | No | HTML autocomplete attribute for browser autofill |
+| maxlength | `number | undefined` | `undefined` | No | Maximum character length |
+
+### Two-Way Bindings (model)
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `string` | `''` | Current password value. |
+
+> Use `[(name)]` for two-way binding or `(nameChange)` to listen for changes.
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| valueChange | `string` | Emits when password value changes |
+| blurred | `FocusEvent` | Emits when input loses focus |
+| focused | `FocusEvent` | Emits when input gains focus |
+| clear | `void` | Emits when clear button is clicked |
+
+### Related Types
+
+```typescript
+type CoarPasswordInputSize = 'xs' | 's' | 'm' | 'l';
+```
+
+## coar-checkbox
+
+**Selector:** `<coar-checkbox>`
+**Class:** `CoarCheckboxComponent`
+**Import:** `import { CoarCheckboxComponent } from '@cocoar/ui';`
+**Forms:** Compatible with Angular Reactive Forms and ngModel (ControlValueAccessor)
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| label | `string` | `''` | No | Label text displayed next to the checkbox |
+| indeterminate | `boolean` | `false` | No | Sets the checkbox to indeterminate state (visual only). |
+| disabled | `boolean` | `false` | No | Disables the checkbox (greyed out, not focusable) |
+| readonly | `boolean` | `false` | No | Prevents changes but keeps normal appearance and focus |
+| required | `boolean` | `false` | No | Marks as required, shows asterisk on label |
+| error | `string` | `''` | No | Error message to display below the checkbox |
+| hint | `string` | `''` | No | Hint text displayed below the checkbox |
+| size | `CoarCheckboxSize` | `'m'` | No | Checkbox size - matches input/button heights for consistent layouts |
+| id | `string` | `''` | No | HTML id attribute for the checkbox element |
+| name | `string` | `''` | No | HTML name attribute for form submission |
+| value | `string` | `''` | No | Value submitted with form when checked |
+
+### Two-Way Bindings (model)
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| checked | `boolean | undefined` | `undefined` | Checkbox checked state: true for checked, false for unchecked, undefined for pristine. |
+
+> Use `[(name)]` for two-way binding or `(nameChange)` to listen for changes.
+
+### Related Types
+
+```typescript
+type CoarCheckboxSize = 'xs' | 's' | 'm' | 'l';
+```
+
+## coar-radio-group
+
+**Selector:** `<coar-radio-group>`
+**Class:** `CoarRadioGroupComponent`
+**Import:** `import { CoarRadioGroupComponent } from '@cocoar/ui';`
+**Forms:** Compatible with Angular Reactive Forms and ngModel (ControlValueAccessor)
+
+Radio group component for single-choice selection.
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| label | `string` | `''` | No | Accessible label for the group |
+| orientation | `RadioGroupOrientation` | `'vertical'` | No | Layout orientation |
+| size | `RadioGroupSize` | `'m'` | No | Size of radio buttons |
+| disabled | `boolean` | `false` | No | Disables all radio buttons in the group |
+| required | `boolean` | `false` | No | Marks the group as required |
+| error | `string` | `''` | No | Error message to display |
+| hint | `string` | `''` | No | Hint text displayed below the group |
+| name | `string` | — | Yes | Group name for radio inputs |
+
+### Two-Way Bindings (model)
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `T | undefined` | `undefined` | Currently selected value |
+
+> Use `[(name)]` for two-way binding or `(nameChange)` to listen for changes.
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| valueChange | `T` | Emits when selection changes |
+
+### Content Slots
+
+- Default slot: `<ng-content />`
+
+## coar-radio
+
+**Selector:** `<coar-radio>`
+**Class:** `CoarRadioComponent`
+**Import:** `import { CoarRadioComponent } from '@cocoar/ui';`
+
+Individual radio button, must be used inside a coar-radio-group.
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| disabled | `boolean` | `false` | No | Disables this specific radio button |
+| value | `T` | — | Yes | Value of this radio option |
+
+### Content Slots
+
+- Default slot: `<ng-content />`
+
+### Related Types
+
+```typescript
+type RadioGroupOrientation = 'horizontal' | 'vertical';
+```
+
+```typescript
+type RadioGroupSize = 's' | 'm' | 'l';
+```
+
+## coar-multi-select
+
+**Selector:** `<coar-multi-select>`
+**Class:** `CoarMultiSelectComponent`
+**Import:** `import { CoarMultiSelectComponent } from '@cocoar/ui';`
+
+Multi-select dropdown component.
+Allows selecting multiple options from a list with checkboxes,
+keyboard navigation, search/filter support, and full forms integration.
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| clearable | `boolean` | `false` | No | Whether to show a clear button when values are selected |
+| maxDisplayItems | `number` | `3` | No | Maximum number of selected items to display before showing count |
+| showSelectAll | `boolean` | `false` | No | Whether to show "Select All" option |
+
+### Two-Way Bindings (model)
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `T[]` | `[]` | Current selected values (two-way bindable with [(value)]) |
+
+> Use `[(name)]` for two-way binding or `(nameChange)` to listen for changes.
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| valueChange | `T[]` | Emits when the selected values change |
+
+## coar-single-select
+
+**Selector:** `<coar-single-select>`
+**Class:** `CoarSingleSelectComponent`
+**Import:** `import { CoarSingleSelectComponent } from '@cocoar/ui';`
+
+Single-select dropdown component.
+Allows selecting one option from a list with keyboard navigation,
+search/filter support, and full forms integration.
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| clearable | `boolean` | `false` | No | Whether to show a clear button when a value is selected |
+
+### Two-Way Bindings (model)
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `T | null` | `null` | Current selected value (two-way bindable with [(value)]) |
+
+> Use `[(name)]` for two-way binding or `(nameChange)` to listen for changes.
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| valueChange | `T | null` | Emits when the selected value changes |
+
+## coar-tag-select
+
+**Selector:** `<coar-tag-select>`
+**Class:** `CoarTagSelectComponent`
+**Import:** `import { CoarTagSelectComponent } from '@cocoar/ui';`
+
+Tag-based multi-select component.
+Displays selected items as removable tag chips with support for
+creating new tags on-the-fly (optional), keyboard navigation,
+and full forms integration.
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| allowCreate | `boolean` | `false` | No | Allow creating new tags that don't exist in options |
+| maxTags | `number` | `0` | No | Maximum number of tags that can be selected (0 = unlimited) |
+| createPrefix | `string` | `'Create: '` | No | Text shown when creating a new tag |
+
+### Two-Way Bindings (model)
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `T[]` | `[]` | Current selected values (two-way bindable with [(value)]) |
+
+> Use `[(name)]` for two-way binding or `(nameChange)` to listen for changes.
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| valueChange | `T[]` | Emits when the selected values change |
+| tagCreated | `T` | Emits when a new tag is created |
+
+### Related Types
+
+```typescript
+interface CoarSelectOption {/** The value stored when this option is selected */
+  value: T;
+
+  /** The display label shown in the dropdown and selected state */
+  label: string;
+
+  /** Whether this option is disabled and cannot be selected */
+  disabled?: boolean;
+
+  /** Optional group this option belongs to (for grouped options) */
+  group?: string;
+
+  /** Optional icon to display next to the label */
+  icon?: string;
+}
+```
+Represents a selectable option in select components.
+
+## coar-switch
+
+**Selector:** `<coar-switch>`
+**Class:** `CoarSwitchComponent`
+**Import:** `import { CoarSwitchComponent } from '@cocoar/ui';`
+**Forms:** Compatible with Angular Reactive Forms and ngModel (ControlValueAccessor)
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| label | `string` | `''` | No | Label text displayed next to the switch |
+| disabled | `boolean` | `false` | No | Disables the switch |
+| readonly | `boolean` | `false` | No | Prevents changes but keeps normal appearance |
+| size | `CoarSwitchSize` | `'m'` | No | Switch size |
+| id | `string` | `''` | No | HTML id attribute |
+| name | `string` | `''` | No | HTML name attribute |
+| labelPosition | `'before' | 'after'` | `'after'` | No | Label position relative to the switch |
+
+### Two-Way Bindings (model)
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| checked | `boolean` | `false` | Switch checked state |
+
+> Use `[(name)]` for two-way binding or `(nameChange)` to listen for changes.
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-switch-track-width` | — |
+| `--coar-switch-track-height` | — |
+| `--coar-switch-thumb-size` | — |
+
+### Related Types
+
+```typescript
+type CoarSwitchSize = 's' | 'm' | 'l';
+```
+
+---
+
+# Navigation
+
+## coar-tab-group
+
+**Selector:** `<coar-tab-group>`
+**Class:** `CoarTabGroupComponent`
+**Import:** `import { CoarTabGroupComponent } from '@cocoar/ui';`
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| activeTab | `string` | `''` | No | The currently active tab id |
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| activeTabChange | `string` | Emits when the active tab changes |
+
+## coar-tab
+
+**Selector:** `<coar-tab>`
+**Class:** `CoarTabComponent`
+**Import:** `import { CoarTabComponent } from '@cocoar/ui';`
+
+Individual tab definition for use within CoarTabGroup.
+The tab label is provided as content projected into the component.
+This allows simple text, icons, badges, or any custom HTML.
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| disabled | `boolean` | `false` | No | Whether the tab is disabled |
+| loadingStrategy | `TabLoadingStrategy` | `'lazy'` | No | Loading strategy for the tab content. |
+| id | `string` | — | Yes | Unique identifier for the tab |
+| content | `TabContent` | — | Yes | The content to display in the tab panel. |
+
+### Content Slots
+
+- Default slot: `<ng-content />`
+
+### Related Types
+
+```typescript
+type TabLoadingStrategy = 'eager' | 'lazy';
+```
+Loading strategy for tab content:
+- 'lazy': Content is only rendered when tab is active (default)
+- 'eager': Content is always rendered, hidden when inactive
+
+```typescript
+type TabContent = TemplateRef<unknown> | Type<unknown>;
+```
+Content type that can be passed to a tab.
+Either a TemplateRef (from ng-template) or a Component class.
+
+## coar-sidebar
+
+**Selector:** `<coar-sidebar>`
+**Class:** `CoarSidebarComponent`
+**Import:** `import { CoarSidebarComponent } from '@cocoar/ui';`
+
+CoarSidebar: A three-part layout component for navigation sidebars.
+Provides three distinct slots via content projection:
+- **Header** (`[coar-sidebar-header]`): Fixed at top, for logo/title/branding
+- **Content** (default slot): Scrollable area for navigation menu or other content
+- **Footer** (`[coar-sidebar-footer]`): Fixed at bottom, for actions/settings/user info
+Responsibilities:
+- Provide consistent sidebar layout structure
+- Apply design tokens for width, spacing, colors
+- Handle scrolling behavior (only content area scrolls)
+- Support left/right positioning
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| position | `'left' | 'right'` | `'left'` | No | Sidebar position: left or right side of screen. |
+| collapsed | `boolean` | `false` | No | Collapsed state for narrow/icon-only sidebar. |
+
+### Content Slots
+
+- `[coar-sidebar-header]`
+- Default slot: `<ng-content />`
+- `[coar-sidebar-footer]`
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-sidebar-width` | 16rem |
+| `--coar-sidebar-min-width` | 12rem |
+| `--coar-sidebar-max-width` | 20rem |
+| `--coar-sidebar-background` | var(--coar-background-neutral-primary, #ffffff |
+| `--coar-sidebar-border` | 1px solid var(--coar-border-neutral-tertiary, #e5e5e5 |
+| `--coar-sidebar-collapsed-width` | 4rem |
+| `--coar-sidebar-content-padding` | var(--coar-spacing-s, 8px |
+
+## coar-breadcrumb-item
+
+**Selector:** `<coar-breadcrumb-item>`
+**Class:** `CoarBreadcrumbItemComponent`
+**Import:** `import { CoarBreadcrumbItemComponent } from '@cocoar/ui';`
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| active | `boolean` | `false` | No |  |
+
+### Content Slots
+
+- Default slot: `<ng-content />`
+
+## coar-breadcrumb
+
+**Selector:** `<coar-breadcrumb>`
+**Class:** `CoarBreadcrumbComponent`
+**Import:** `import { CoarBreadcrumbComponent } from '@cocoar/ui';`
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| separator | `string` | `'/'` | No |  |
+
+### Content Slots
+
+- Default slot: `<ng-content />`
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-breadcrumb-font-size` | var(--coar-font-size-s, 14px |
+| `--coar-breadcrumb-separator-gap` | var(--coar-spacing-xs, 4px |
+| `--coar-breadcrumb-separator-color` | var(--coar-text-neutral-tertiary, #999 |
+| `--coar-breadcrumb-link-color` | var(--coar-text-neutral-secondary, #555 |
+| `--coar-breadcrumb-active-color` | var(--coar-text-neutral-primary, #111 |
+
+## coar-pagination
+
+**Selector:** `<coar-pagination>`
+**Class:** `CoarPaginationComponent`
+**Import:** `import { CoarPaginationComponent } from '@cocoar/ui';`
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| pageSize | `number` | `10` | No |  |
+| maxVisiblePages | `number` | `5` | No |  |
+| showFirstLast | `boolean` | `true` | No |  |
+| disabled | `boolean` | `false` | No |  |
+| totalItems | `number` | — | Yes |  |
+
+### Two-Way Bindings (model)
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| currentPage | `number` | `1` |  |
+
+> Use `[(name)]` for two-way binding or `(nameChange)` to listen for changes.
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| pageChanged | `number` |  |
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-pagination-gap` | var(--coar-spacing-3xs, 2px |
+| `--coar-pagination-button-size` | 2rem |
+| `--coar-pagination-font-size` | var(--coar-font-size-s, 14px |
+| `--coar-pagination-hover-background` | var(--coar-background-neutral-tertiary, #f0f0f0 |
+| `--coar-pagination-active-background` | var(--coar-background-brand-primary, #0066cc |
+| `--coar-pagination-active-color` | var(--coar-text-on-brand-primary, #fff |
+
+### Related Types
+
+```typescript
+type PaginationPageItem = { type: 'page';
+```
+
+## coar-navbar
+
+**Selector:** `<coar-navbar>`
+**Class:** `CoarNavbarComponent`
+**Import:** `import { CoarNavbarComponent } from '@cocoar/ui';`
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| elevated | `boolean` | `true` | No |  |
+| bordered | `boolean` | `false` | No |  |
+
+### Content Slots
+
+- `[coar-navbar-start]`
+- `[coar-navbar-center]`
+- `[coar-navbar-end]`
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-navbar-height` | 3.5rem |
+| `--coar-navbar-padding-x` | var(--coar-spacing-l, 16px |
+| `--coar-navbar-background` | var(--coar-background-neutral-primary, #ffffff |
+| `--coar-navbar-border-color` | var(--coar-border-neutral-tertiary, #e5e5e5 |
+
+---
+
+# Overlay
+
+## coar-popover
+
+**Selector:** `<coar-popover>`
+**Class:** `CoarPopoverComponent`
+**Import:** `import { CoarPopoverComponent } from '@cocoar/ui';`
+
+A lightweight, hover/focus popover for rich tooltip-like content.
+Uses the overlay system for positioning with automatic placement and viewport clamping.
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| disabled | `boolean` | `false` | No | Disable popover behavior (still renders trigger content). |
+| openOnHover | `boolean` | `false` | No | Enable hover/focus behavior (desktop-friendly). Default: false |
+| openOnClick | `boolean` | `false` | No | Enable click/tap behavior (touch-friendly). Default: false |
+| interactive | `boolean` | `true` | No | Whether the panel should receive pointer events. Default: true |
+| fallbackToBestFit | `boolean` | `false` | No | When a concrete placement is set, fall back to best-fit when it doesn't fit. Default: false |
+| clampToViewport | `boolean` | `true` | No | Whether the panel should be clamped into the viewport. Default: true |
+
+### Content Slots
+
+- `[coarPopoverTrigger]`
+- `[coarPopoverContent]`
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-popover-min-width` | 200px |
+| `--coar-popover-max-width` | 360px |
+| `--coar-popover-max-height` | 240px |
+
+## coar-tooltip-overlay
+
+**Selector:** `<coar-tooltip-overlay>`
+**Class:** `CoarTooltipOverlayComponent`
+**Import:** `import { CoarTooltipOverlayComponent } from '@cocoar/ui';`
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| tooltipId | `string` | `''` | No |  |
+| content | `CoarTooltipOverlayContent | null` | `null` | No |  |
+| context | `object | null` | `null` | No | Context passed to template content via ngTemplateOutletContext. |
+| contentInjector | `Injector | null` | `null` | No | Injector for dynamic component content via NgComponentOutlet. |
+
+## [coarTooltip]
+
+**Kind:** Directive
+**Selector:** `[coarTooltip]`
+**Export As:** `coarTooltip`
+**Class:** `CoarTooltipDirective`
+**Import:** `import { CoarTooltipDirective } from '@cocoar/ui';`
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| coarTooltip | `CoarTooltipOverlayContent | null` | `null` | No | Tooltip content (string, TemplateRef, or Component type). |
+| coarTooltipContext | `object | null` | `null` | No | Optional context for TemplateRef tooltips. |
+| coarTooltipDisabled | `boolean` | `false` | No | Disable tooltip behavior. |
+| coarTooltipPlacement | `TooltipPlacement` | `'top'` | No | Placement preference. Default: 'top'. Use 'auto' for best-fit. |
+| coarTooltipOpenDelay | `number` | `0` | No | Delay (ms) before opening on hover/focus. Default: 0 |
+| coarTooltipCloseDelay | `number` | `0` | No | Delay (ms) before closing on leave/blur. Default: 0 |
+| coarTooltipClampToViewport | `boolean` | `true` | No | Whether the tooltip should be clamped into the viewport. Default: true |
+| coarTooltipFallbackToBestFit | `boolean` | `false` | No | When placement is explicit (not auto), fall back to best-fit when it doesn't fit. Default: false |
+
+## CoarTooltipService
+
+**Kind:** Service (Injectable, providedIn: root)
+**Class:** `CoarTooltipService`
+**Import:** `import { CoarTooltipService } from '@cocoar/ui';`
+
+### Methods
+
+#### `notifyClosed(id: string): void`
+
+### Related Types
+
+```typescript
+type CoarTooltipOverlayContent = string | TemplateRef<unknown> | Type<unknown>;
+```
+
+## [coarPopconfirm]
+
+**Selector:** `<[coarPopconfirm]>`
+**Class:** `CoarPopconfirmDirective`
+**Import:** `import { CoarPopconfirmDirective } from '@cocoar/ui';`
+
+Popconfirm directive for confirming actions with a small anchored popover.
+Intercepts clicks on the host element, shows a confirmation popover,
+and either proceeds with the action (confirm) or cancels.
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| popconfirmTitle | `string` | `''` | No | Optional title above the message |
+| confirmText | `string` | `'OK'` | No | Text for the confirm button |
+| cancelText | `string` | `'Cancel'` | No | Text for the cancel button |
+| confirmVariant | `'primary' | 'danger'` | `'primary'` | No | Variant for confirm button |
+| placement | `PopconfirmPlacement` | `'top'` | No | Placement relative to trigger element |
+| popconfirmDisabled | `boolean` | `false` | No | Whether popconfirm is disabled |
+| message | `string` | `''` | No | Confirmation message to display |
+| title | `string` | `''` | No | Optional title above the message |
+| confirmText | `string` | `'OK'` | No | Text for the confirm button |
+| cancelText | `string` | `'Cancel'` | No | Text for the cancel button |
+| confirmVariant | `'primary' | 'danger'` | `'primary'` | No | Variant for confirm button |
+| placement | `PopconfirmPlacement` | `'top'` | No | Placement for arrow positioning |
+| coarPopconfirm | `string` | — | Yes | Confirmation message to display |
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| confirmed | `void` | Emitted when user confirms |
+| cancelled | `void` | Emitted when user cancels |
+
+### Related Types
+
+```typescript
+type PopconfirmPlacement = 'top' | 'bottom' | 'left' | 'right';
+```
+
+## coar-dialog-shell
+
+**Selector:** `<coar-dialog-shell>`
+**Class:** `CoarDialogShellComponent`
+**Import:** `import { CoarDialogShellComponent } from '@cocoar/ui';`
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| dialogTitle | `string` | `''` | No |  |
+| dialogSize | `CoarDialogSize` | `'m'` | No |  |
+| showCloseButton | `boolean` | `true` | No |  |
+| contentContext | `unknown` | `null` | No |  |
+| confirmMode | `boolean` | `false` | No |  |
+| confirmMessage | `string` | `''` | No |  |
+| confirmText | `string` | `'Confirm'` | No |  |
+| cancelText | `string` | `'Cancel'` | No |  |
+| confirmVariant | `string` | `'primary'` | No |  |
+
+## CoarDialogService
+
+**Kind:** Service (Injectable, providedIn: root)
+**Class:** `CoarDialogService`
+**Import:** `import { CoarDialogService } from '@cocoar/ui';`
+
+### Methods
+
+#### `openComponent(component: Type<C>,
+    config: CoarDialogConfig<TResult> = {},
+    inputs?: Record<string, unknown>): CoarDialogRef<TResult>`
+
+#### `openTemplate(template: TemplateRef<TCtx>,
+    config: CoarDialogConfig<TResult> = {},
+    context?: TCtx): CoarDialogRef<TResult>`
+
+#### `confirm(options: CoarConfirmOptions): CoarDialogRef<boolean>`
+
+### Related Types
+
+```typescript
+type CoarDialogSize = 's' | 'm' | 'l';
+```
+
+```typescript
+interface CoarDialogConfig {title?: string;
+  size?: CoarDialogSize;
+  closeOnBackdropClick?: boolean;
+  closeOnEscape?: boolean;
+  showCloseButton?: boolean;
+  panelClass?: string | string[];
+  ariaLabel?: string;
+  ariaDescribedBy?: string;
+}
+```
+
+```typescript
+interface CoarDialogRef {close(result?: TResult): void;
+  readonly afterClosed$: Observable<TResult | undefined>;
+}
+```
+
+```typescript
+interface CoarConfirmOptions {title: string;
+  message: string;
+  confirmText?: string;
+  cancelText?: string;
+  confirmVariant?: 'primary' | 'danger';
+}
+```
+
+## coar-toast-container
+
+**Selector:** `<coar-toast-container>`
+**Class:** `CoarToastContainerComponent`
+**Import:** `import { CoarToastContainerComponent } from '@cocoar/ui';`
+
+## coar-toast
+
+**Selector:** `<coar-toast>`
+**Class:** `CoarToastComponent`
+**Import:** `import { CoarToastComponent } from '@cocoar/ui';`
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| variant | `CoarToastVariant` | `'info'` | No |  |
+| title | `string` | `''` | No |  |
+| message | `string` | `''` | No |  |
+| duration | `number` | `5000` | No |  |
+| dismissible | `boolean` | `true` | No |  |
+| showProgress | `boolean` | `true` | No |  |
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| dismissed | `void` |  |
+| actionClicked | `void` |  |
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-toast-background` | var(--coar-background-neutral-primary |
+
+## CoarToastService
+
+**Kind:** Service (Injectable, providedIn: root)
+**Class:** `CoarToastService`
+**Import:** `import { CoarToastService } from '@cocoar/ui';`
+
+### Methods
+
+#### `success(message: string, config?: Partial<CoarToastConfig>): CoarToastRef`
+
+#### `error(message: string, config?: Partial<CoarToastConfig>): CoarToastRef`
+
+#### `warning(message: string, config?: Partial<CoarToastConfig>): CoarToastRef`
+
+#### `info(message: string, config?: Partial<CoarToastConfig>): CoarToastRef`
+
+#### `show(config: CoarToastConfig): CoarToastRef`
+
+#### `dismissAll(): void`
+
+### Related Types
+
+```typescript
+type CoarToastVariant = 'success' | 'error' | 'warning' | 'info';
+```
+
+```typescript
+type CoarToastPosition = | 'top-right'
+  | 'top-left'
+  | 'top-center'
+  | 'bottom-right'
+  | 'bottom-left'
+  | 'bottom-center';
+```
+
+```typescript
+interface CoarToastConfig {variant?: CoarToastVariant;
+  title?: string;
+  message: string;
+  duration?: number;
+  dismissible?: boolean;
+  position?: CoarToastPosition;
+  showProgress?: boolean;
+  action?: { label: string; callback: () => void };
+}
+```
+
+```typescript
+interface CoarToastRef {dismiss(): void;
+  readonly afterDismissed$: Observable<void>;
+}
+```
+
+```typescript
+interface InternalToast {id: number;
+  variant: CoarToastVariant;
+  title: string;
+  message: string;
+  duration: number;
+  dismissible: boolean;
+  showProgress: boolean;
+  action: { label: string; callback: () => void } | null;
+  onDismiss: () => void;
+}
+```
+
+---
+
+# Date & Time
+
+## coar-plain-date-picker
+
+**Selector:** `<coar-plain-date-picker>`
+**Class:** `CoarPlainDatePickerComponent`
+**Import:** `import { CoarPlainDatePickerComponent } from '@cocoar/ui';`
+
+Date picker component with scrollable calendar.
+Returns strongly-typed `Temporal.PlainDate` values (timezone-independent, date only).
+Features:
+- Two-column layout: scrollable calendar on left, month list on right
+- No time selection (use `coar-plain-date-time-picker` if time is needed)
+- CSS-based virtualization for smooth scrolling through months
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| min | `Temporal.PlainDate | null` | `null` | No | Minimum selectable date |
+| max | `Temporal.PlainDate | null` | `null` | No | Maximum selectable date |
+| closeOnSelect | `boolean` | `false` | No | Whether to close the panel after selecting a date (default: false to allow viewing events) |
+
+### Two-Way Bindings (model)
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `Temporal.PlainDate | null` | `null` | Current selected value (two-way bindable with [(value)]) |
+
+> Use `[(name)]` for two-way binding or `(nameChange)` to listen for changes.
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| valueChange | `Temporal.PlainDate | null` | Emitted when the selected value changes |
+
+### Related Types
+
+```typescript
+type CoarPlainDatePickerSize = CoarDatePickerSize;
+```
+
+## coar-plain-date-time-picker
+
+**Selector:** `<coar-plain-date-time-picker>`
+**Class:** `CoarPlainDateTimePickerComponent`
+**Import:** `import { CoarPlainDateTimePickerComponent } from '@cocoar/ui';`
+
+Date-time picker component with scrollable calendar and time selection.
+Returns strongly-typed `Temporal.PlainDateTime` values (timezone-independent).
+Features:
+- Two-column layout: scrollable calendar on left, month list + time picker on right
+- Locale-aware time format (12h/24h auto-detection)
+- CSS-based virtualization for smooth scrolling through months
+- Min/max datetime constraints with time clamping
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| min | `Temporal.PlainDateTime | null` | `null` | No | Minimum selectable datetime |
+| max | `Temporal.PlainDateTime | null` | `null` | No | Maximum selectable datetime |
+| use24Hour | `boolean | 'auto'` | `'auto'` | No | Whether to use 24-hour time format. |
+| minuteStep | `1 | 5 | 10 | 15` | `5` | No | Step interval for minute selection (1, 5, 10, or 15) |
+| defaultTime | `CoarTimeValue` | `{ hours: 9, minutes: 0 }` | No | Default time to use when selecting a date without existing time. |
+
+### Two-Way Bindings (model)
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `Temporal.PlainDateTime | null` | `null` | Current selected value (two-way bindable with [(value)]) |
+
+> Use `[(name)]` for two-way binding or `(nameChange)` to listen for changes.
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| valueChange | `Temporal.PlainDateTime | null` | Emitted when the selected value changes |
+
+### Related Types
+
+```typescript
+type CoarPlainDateTimePickerSize = CoarDatePickerSize;
+```
+
+## coar-zoned-date-time-picker
+
+**Selector:** `<coar-zoned-date-time-picker>`
+**Class:** `CoarZonedDateTimePickerComponent`
+**Import:** `import { CoarZonedDateTimePickerComponent } from '@cocoar/ui';`
+
+Zoned date-time picker component with full timezone support.
+Returns strongly-typed `Temporal.ZonedDateTime` values that include:
+- The local date and time (user's intent)
+- The IANA timezone (context)
+- The instant (derived UTC moment)
+Key concepts:
+- **Value timezone**: Where the event "lives" - persisted with the value
+- **Display timezone**: User's viewing lens (from CoarTimeZoneService)
+This picker captures complete user intent, allowing you to:
+- Store the local time + timezone as source of truth
+- Derive the UTC instant for queries and ordering
+- Recalculate instants if DST rules change
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| timeZone | `string | null` | `null` | No | The timezone for the value. |
+| min | `Temporal.ZonedDateTime | null` | `null` | No | Minimum selectable datetime (in the value's timezone) |
+| max | `Temporal.ZonedDateTime | null` | `null` | No | Maximum selectable datetime (in the value's timezone) |
+| use24Hour | `boolean | 'auto'` | `'auto'` | No | Whether to use 24-hour time format. |
+| minuteStep | `1 | 5 | 10 | 15` | `5` | No | Step interval for minute selection (1, 5, 10, or 15) |
+| defaultTime | `CoarTimeValue` | `{ hours: 9, minutes: 0 }` | No | Default time to use when selecting a date without existing time. |
+| timezoneFilter | `string[]` | `[]` | No | Filter patterns for available timezone options. |
+
+### Two-Way Bindings (model)
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `Temporal.ZonedDateTime | null` | `null` | Current selected value (two-way bindable with [(value)]) |
+
+> Use `[(name)]` for two-way binding or `(nameChange)` to listen for changes.
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| valueChange | `Temporal.ZonedDateTime | null` | Emitted when the selected value changes |
+
+### Related Types
+
+```typescript
+type CoarZonedDateTimePickerSize = CoarDatePickerSize;
+```
+
+## coar-time-picker
+
+**Selector:** `<coar-time-picker>`
+**Class:** `CoarTimePickerComponent`
+**Import:** `import { CoarTimePickerComponent } from '@cocoar/ui';`
+**Forms:** Compatible with Angular Reactive Forms and ngModel (ControlValueAccessor)
+
+Time picker component with hours, minutes, and optional AM/PM selection.
+Supports both 12-hour and 24-hour formats, with locale-aware auto-detection.
+Values wrap around at boundaries (23→00, 59→00 with hour increment).
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| size | `CoarTimePickerSize` | `'m'` | No | Size variant |
+| readonly | `boolean` | `false` | No | Whether the picker is readonly |
+| disabled | `boolean` | `false` | No | Whether the picker is disabled |
+| use24Hour | `boolean | 'auto'` | `'auto'` | No | Whether to use 24-hour format. |
+| minuteStep | `1 | 5 | 10 | 15` | `5` | No | Step interval for minute selection. |
+| locale | `string` | — | No | Locale identifier for 12h/24h format detection. |
+| ariaLabel | `string` | `'Time'` | No | Label for screen readers (visually hidden). |
+| minTime | `CoarTimeValue | null` | `null` | No | Minimum allowed time (hours and minutes in 24h format). |
+| maxTime | `CoarTimeValue | null` | `null` | No | Maximum allowed time (hours and minutes in 24h format). |
+
+### Two-Way Bindings (model)
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `CoarTimeValue | null` | `null` | Current time value (two-way bindable with [(value)]) |
+
+> Use `[(name)]` for two-way binding or `(nameChange)` to listen for changes.
+
+### Related Types
+
+```typescript
+type CoarTimePickerSize = 'xs' | 's' | 'm' | 'l';
+```
+
+## coar-scrollable-calendar
+
+**Selector:** `<coar-scrollable-calendar>`
+**Class:** `CoarScrollableCalendarComponent`
+**Import:** `import { CoarScrollableCalendarComponent } from '@cocoar/ui';`
+
+Scrollable calendar component displaying multiple months vertically.
+Uses CSS `content-visibility: auto` for virtualization to optimize performance
+when displaying many months. The calendar scrolls vertically and syncs with
+an external month list for navigation.
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| min | `Temporal.PlainDate | null` | `null` | No | Minimum selectable date |
+| max | `Temporal.PlainDate | null` | `null` | No | Maximum selectable date |
+| locale | `string` | — | No | Locale identifier for date formatting (e.g., 'de-AT', 'en-US'). |
+| dateFormatConfig | `DateFormatConfig` | — | No | Date format configuration (pattern and first day of week) |
+| showWeekNumbers | `boolean` | `false` | No | Whether to show week numbers |
+| highlightWeekends | `boolean` | `false` | No | Whether to highlight weekend days (Saturday/Sunday) with a subtle background |
+| markers | `CoarDateMarker[]` | `[]` | No | Date markers for highlighting special dates (holidays, events, etc.) |
+| monthRange | `{ before: number; after: number }` | `{ before: 12, after: 12 }` | No | Number of months to display before and after the current year. |
+| maxMonthsInDom | `number` | `25` | No | Maximum number of months to keep in the DOM at once. |
+| monthsToLoad | `number` | `6` | No | Number of months to load when reaching the edge of the current range. |
+
+### Two-Way Bindings (model)
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `Temporal.PlainDate | null` | `null` | Current selected date (two-way bindable with [(value)]) |
+| activeMonth | `Temporal.PlainYearMonth` | `Temporal.Now.plainDateISO(` | Currently visible/active month (two-way bindable, syncs with scroll position) |
+
+> Use `[(name)]` for two-way binding or `(nameChange)` to listen for changes.
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| dateSelected | `Temporal.PlainDate` | Emitted when a date is clicked |
+
+### Related Types
+
+```typescript
+interface CoarCalendarMonth {readonly yearMonth: Temporal.PlainYearMonth;
+  readonly monthName: string;
+  readonly year: number;
+  readonly days: CoarCalendarDay[];
+  readonly weekNumbers: number[];
+}
+```
+Represents a single month view in the scrollable calendar.
+
+```typescript
+interface CoarCalendarDay {readonly date: Temporal.PlainDate;
+  readonly day: number;
+  readonly isOutsideMonth: boolean;
+  readonly isToday: boolean;
+  readonly isSelected: boolean;
+  readonly isFocused: boolean;
+  readonly isDisabled: boolean;
+  readonly isWeekend: boolean;
+  readonly markers: CoarDateMarker[];
+  readonly markerCssClass: string;
+  readonly markerTooltip: string | null;
+}
+```
+Represents a single day cell in the calendar.
+
+## coar-mini-calendar
+
+**Selector:** `<coar-mini-calendar>`
+**Class:** `CoarMiniCalendarComponent`
+**Import:** `import { CoarMiniCalendarComponent } from '@cocoar/ui';`
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| min | `Temporal.PlainDate | null` | `null` | No | Minimum selectable date |
+| max | `Temporal.PlainDate | null` | `null` | No | Maximum selectable date |
+| locale | `string` | — | No | Locale identifier for date formatting (e.g., 'de-AT', 'en-US'). |
+| dateFormatConfig | `DateFormatConfig` | — | No | Date format configuration (pattern and first day of week) |
+| showTodayButton | `boolean` | `true` | No | Whether to show a "Today" button |
+| showWeekNumbers | `boolean` | `false` | No | Whether to show week numbers |
+| highlightWeekends | `boolean` | `false` | No | Whether to highlight weekend days (Saturday/Sunday) with a subtle background |
+| markers | `CoarDateMarker[]` | `[]` | No | Date markers for highlighting special dates (holidays, events, etc.) |
+
+### Two-Way Bindings (model)
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| value | `Temporal.PlainDate | null` | `null` | Current selected date (two-way bindable with [(value)]) |
+
+> Use `[(name)]` for two-way binding or `(nameChange)` to listen for changes.
+
+## coar-month-list
+
+**Selector:** `<coar-month-list>`
+**Class:** `CoarMonthListComponent`
+**Import:** `import { CoarMonthListComponent } from '@cocoar/ui';`
+
+Month list component for date/time picker navigation.
+Displays a vertical list of month names with a year stepper at the top.
+The list height adapts to its container and becomes scrollable if all
+12 months don't fit.
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| locale | `string` | — | No | Locale identifier for month name formatting. |
+| minYear | `number` | `Temporal.Now.plainDateISO(` | No | Minimum year that can be selected. |
+| maxYear | `number` | `Temporal.Now.plainDateISO(` | No | Maximum year that can be selected. |
+
+### Two-Way Bindings (model)
+
+| Name | Type | Default | Description |
+|------|------|---------|-------------|
+| activeMonth | `Temporal.PlainYearMonth` | `Temporal.Now.plainDateISO(` | Currently active/visible month (two-way bindable) |
+
+> Use `[(name)]` for two-way binding or `(nameChange)` to listen for changes.
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| monthSelected | `Temporal.PlainYearMonth` | Emitted when a month is selected from the list |
+| yearChanged | `number` | Emitted when the year changes via stepper |
+
+## date-utilities
+
+**Kind:** Utility exports (types + helper functions)
+**Import:** `import { ... } from '@cocoar/ui';`
+
+### Types
+
+```typescript
+type CoarTimePeriod = 'AM' | 'PM';
+```
+AM/PM period indicator.
+
+### Interfaces
+
+```typescript
+interface DateFormatConfig {/** Date format pattern: 'dd.mm.yyyy', 'dd/mm/yyyy', 'mm/dd/yyyy', 'yyyy-mm-dd' */
+  readonly pattern: 'dd.mm.yyyy' | 'dd/mm/yyyy' | 'mm/dd/yyyy' | 'yyyy-mm-dd';
+
+  /** First day of week: 1 = Monday, 7 = Sunday */
+  readonly firstDayOfWeek: 1 | 7;
+}
+```
+Shared date formatting configuration.
+Note: This config is intentionally small so it can be used by multiple UI components
+(date picker, future calendar, etc.) without pulling in Angular-only code.
+
+```typescript
+interface CoarCalendarGridCell {readonly date: Temporal.PlainDate;
+  readonly isOutsideMonth: boolean;
+}
+```
+
+```typescript
+interface CoarDateMarker {/** Start date of the marker (or single date if no endDate) */
+  startDate: Temporal.PlainDate;
+  /** Optional end date for date ranges (inclusive) */
+  endDate?: Temporal.PlainDate;
+  /** Description shown as tooltip on hover */
+  description: string;
+  /** Optional custom CSS class for styling different marker types */
+  cssClass?: string;
+}
+```
+Represents a date marker for highlighting special dates (holidays, events, etc.).
+Supports single dates or date ranges.
+
+```typescript
+interface TimeFormatConfig {/**
+   * Whether to use 24-hour format (true) or 12-hour format with AM/PM (false).
+   * When set to 'auto', the format is detected from the user's locale.
+   */
+  readonly use24Hour: boolean | 'auto';
+
+  /**
+   * Step interval for minute selection.
+   * For example, 5 means minutes can only be 0, 5, 10, 15, etc.
+   */
+  readonly minuteStep: 1 | 5 | 10 | 15;
+}
+```
+Shared time formatting configuration.
+Note: This config is intentionally small so it can be used by multiple UI components
+(time picker, date-time picker, etc.) without pulling in Angular-only code.
+
+```typescript
+interface CoarTimeValue {readonly hours: number;
+  readonly minutes: number;
+}
+```
+Parsed time value with hours (0-23) and minutes (0-59).
+
+### Functions
+
+#### `coarDetectDateFormatPatternFromIntl(locale: string): DateFormatConfig['pattern']`
+
+#### `coarGetDateSeparatorForPattern(pattern: DateFormatConfig['pattern']): '.'`
+
+#### `coarGetLocalizedWeekdays(locale: string, firstDayOfWeek: 1 | 7): string[]`
+
+#### `coarFormatPlainDate(date: Temporal.PlainDate,
+  pattern: DateFormatConfig['pattern']): string`
+
+#### `coarParsePlainDateFromInput(text: string,
+  pattern: DateFormatConfig['pattern'],
+  constraints?: {
+    min?: Temporal.PlainDate | null;
+    max?: Temporal.PlainDate | null;
+  }): Temporal.PlainDate`
+
+#### `coarTemporalPlainDateToDate(date: Temporal.PlainDate): Date`
+
+#### `coarCalculateIsoWeekNumber(date: Temporal.PlainDate): number`
+
+#### `coarClampPlainDate(date: Temporal.PlainDate,
+  constraints?: {
+    min?: Temporal.PlainDate | null;
+    max?: Temporal.PlainDate | null;
+  }): Temporal.PlainDate`
+
+#### `coarGetCalendarGridDates(viewMonth: Temporal.PlainYearMonth,
+  firstDayOfWeek: 1 | 7): CoarCalendarGridCell[]`
+Returns a fixed 6x7 calendar grid (42 cells) for the given month.
+Includes leading/trailing days from adjacent months to fill the grid.
+
+#### `coarDetect12HourFormat(locale: string): boolean`
+Detects whether the given locale uses 12-hour time format.
+Uses Intl.DateTimeFormat to check if the locale's default time format
+includes a dayPeriod (AM/PM indicator).
+
+#### `coarFormatTime(hours: number, minutes: number, use24Hour: boolean): string`
+Formats a time value as a string.
+
+#### `coarParseTimeInput(text: string): CoarTimeValue`
+Parses a time string into hours and minutes.
+Supports both 24-hour and 12-hour formats:
+- 24h: "14:30", "08:00", "23:59"
+- 12h: "2:30 PM", "12:00 AM", "11:59 pm"
+
+#### `coarConvertTo12Hour(hours24: number): void`
+Converts 24-hour format hours to 12-hour format.
+
+#### `coarConvertTo24Hour(hours12: number, period: CoarTimePeriod): number`
+Converts 12-hour format to 24-hour format.
+
+#### `coarIncrementHours(hours: number, delta: number): number`
+Increments hours with wrap-around.
+
+#### `coarIncrementMinutes(minutes: number,
+  delta: number,
+  step = 1): void`
+Increments minutes with wrap-around and optional hour carry.
+
+#### `coarRoundMinutesToStep(minutes: number, step: number): number`
+Rounds minutes to the nearest step.
+
+#### `coarGetValidMinutes(step: 1 | 5 | 10 | 15): number[]`
+Gets valid minute values for a given step.
+
+---
+
+# Menu
+
+## coar-menu
+
+**Selector:** `<coar-menu>`
+**Class:** `CoarMenuComponent`
+**Import:** `import { CoarMenuComponent } from '@cocoar/ui';`
+
+CoarMenu: Shell component providing menu styling container.
+Responsibilities:
+- Apply consistent menu styling via CSS variables
+- Provide semantic menu container (<menu> or <div role="menu">)
+- Provide root cascade for sibling submenu tracking
+- No logic - just a styled wrapper
+Use standalone for inline menus, or as overlay content (via `createOverlayBuilder`) for context menus/flyouts.
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| showIconColumn | `boolean` | `true` | No | Controls whether the menu reserves and renders an icon column. |
+| borderless | `boolean` | `false` | No | Removes border, background, border-radius, and shadow for seamless embedding in containers. |
+
+### Content Slots
+
+- Default slot: `<ng-content />`
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-menu-min-width` | 12rem |
+| `--coar-menu-max-width` | 20rem |
+| `--coar-menu-padding` | 0.5rem |
+| `--coar-menu-gap` | 0.25rem |
+| `--coar-menu-background` | #f8f9fa |
+| `--coar-menu-border` | 1px solid var(--coar-border-neutral-tertiary, #d0d0d0 |
+| `--coar-menu-border-radius` | var(--coar-radius-s, 4px |
+| `--coar-menu-shadow` | var(--coar-shadow-s, none |
+
+## coar-menu-item
+
+**Selector:** `<coar-menu-item>`
+**Class:** `CoarMenuItemComponent`
+**Import:** `import { CoarMenuItemComponent } from '@cocoar/ui';`
+
+CoarMenuItem: Individual menu item with optional icon and submenu support.
+Responsibilities:
+- Render item text and optional icon
+- Handle click events
+- Support disabled state
+- Visual states: hover, active, focus
+- Trigger submenu (accordion or flyout via parent menu logic)
+Does NOT manage overlay directly - parent menu handles flyout logic.
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| label | `string` | — | No | Item text content |
+| icon | `string | undefined` | `undefined` | No | Optional icon identifier (rendered via CoarIconComponent) |
+| disabled | `boolean` | `false` | No | Disabled state prevents interaction |
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| clicked | `CoarMenuItemClickEvent` | Emitted when user clicks/selects the item. Menu closes by default unless preventDefault() is called. |
+| hovered | `Event` | Emitted when user hovers over item (for flyout trigger) |
+
+### Content Slots
+
+- Default slot: `<ng-content />`
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-menu-item-gap` | 0.75rem |
+| `--coar-menu-item-padding` | 0.5rem 0.75rem |
+| `--coar-menu-item-font-family` | var(--coar-font-family-body, Poppins |
+| `--coar-menu-item-font-weight` | var(--coar-font-weight-regular, 400 |
+| `--coar-menu-item-line-height` | 1.5 |
+| `--coar-menu-item-color` | var(--coar-text-neutral-primary, #545454 |
+| `--coar-menu-item-background` | transparent |
+| `--coar-menu-item-border-radius` | 0 |
+| `--coar-menu-item-margin` | 0 |
+| `--coar-menu-item-background-hover` | #f5f5f5 |
+| `--coar-menu-item-color-hover` | var(--coar-text-neutral-primary, #545454 |
+| `--coar-menu-item-background-focus` | #f5f5f5 |
+| `--coar-menu-item-outline-focus` | var(--coar-border-accent-primary, #156db7 |
+| `--coar-menu-item-color-disabled` | var(--coar-text-neutral-disabled, #999999 |
+| `--coar-menu-item-opacity-disabled` | 0.5 |
+| `--coar-menu-item-icon-slot-size` | 16px |
+
+## coar-menu-divider
+
+**Selector:** `<coar-menu-divider>`
+**Class:** `CoarMenuDividerComponent`
+**Import:** `import { CoarMenuDividerComponent } from '@cocoar/ui';`
+
+CoarMenuDivider: Visual separator between menu items.
+Simple horizontal line for grouping menu items.
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-menu-divider-margin` | 0.25rem 0.75rem |
+| `--coar-menu-divider-color` | var(--coar-border-neutral-tertiary, #e0e0e0 |
+
+## coar-menu-heading
+
+**Selector:** `<coar-menu-heading>`
+**Class:** `CoarMenuHeadingComponent`
+**Import:** `import { CoarMenuHeadingComponent } from '@cocoar/ui';`
+
+CoarMenuHeading: Non-interactive section label for menu groups.
+Responsibilities:
+- Display section/group heading text
+- Provide visual separation between menu sections
+- Non-interactive (no hover, no click, not focusable)
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| label | `string` | — | No | Optional explicit label text (alternative to content projection) |
+
+### Content Slots
+
+- Default slot: `<ng-content />`
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-menu-heading-padding` | 0.75rem 0.75rem 0.25rem 0.75rem |
+| `--coar-menu-heading-font-family` | var(--coar-font-family-body, Poppins |
+| `--coar-menu-heading-font-size` | var(--coar-component-xs-font-size, 11px |
+| `--coar-menu-heading-font-weight` | var(--coar-font-weight-semi-bold, 600 |
+| `--coar-menu-heading-line-height` | 1.4 |
+| `--coar-menu-heading-text-transform` | uppercase |
+| `--coar-menu-heading-letter-spacing` | 0.05em |
+| `--coar-menu-heading-color` | var(--coar-text-neutral-secondary, #6b7280 |
+| `--coar-menu-heading-spacing-top` | 0.2rem |
+
+## coar-submenu-item, coar-sub-flyout
+
+**Selector:** `<coar-submenu-item, coar-sub-flyout>`
+**Class:** `CoarSubmenuItemComponent`
+**Import:** `import { CoarSubmenuItemComponent } from '@cocoar/ui';`
+
+CoarSubmenuItem: Menu item that opens a submenu on hover.
+Responsibilities:
+- Render parent item with icon and label
+- Manage submenu overlay lifecycle
+- Support nested submenus (can contain other submenu-items)
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| icon | `string | undefined` | `undefined` | No | Optional icon identifier |
+| submenuData | `unknown` | `undefined` | No | Optional data to pass to the submenu template. |
+| disabled | `boolean` | `false` | No | Disabled state prevents interaction |
+| label | `string` | — | Yes | Label text for the menu item |
+
+## coar-sub-expand
+
+**Selector:** `<coar-sub-expand>`
+**Class:** `CoarSubExpandComponent`
+**Import:** `import { CoarSubExpandComponent } from '@cocoar/ui';`
+
+CoarSubExpand: Menu item that expands/collapses a submenu inline.
+Use this variant when you want nested options to stay visible (e.g. sidebar panels)
+while still reusing the same menu item types inside the submenu.
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| icon | `string | undefined` | `undefined` | No | Optional icon identifier |
+| open | `boolean | undefined` | `undefined` | No | Expanded state (two-way bindable with [(open)]) |
+| disabled | `boolean` | `false` | No | Disabled state prevents interaction |
+| label | `string` | — | Yes | Label text for the menu item |
+
+### Outputs
+
+| Name | Type | Description |
+|------|------|-------------|
+| openChange | `boolean` | Emits when expanded state changes (for [(open)]) |
+
+### CSS Custom Properties
+
+| Property | Default |
+|----------|---------|
+| `--coar-sub-expand-indent-offset` | 16px |
+| `--coar-sub-expand-line-color` | var(--coar-border-neutral-tertiary, #e5e5e5 |
+| `--coar-sub-expand-panel-padding-y` | var(--coar-spacing-1, 0.25rem |
+| `--coar-sub-expand-sidebar-spacing-top` | var(--coar-spacing-m, 12px |
+
+## ng-template[coarSubmenu]
+
+**Kind:** Directive
+**Selector:** `ng-template[coarSubmenu]`
+**Class:** `CoarSubmenuTemplateDirective`
+**Import:** `import { CoarSubmenuTemplateDirective } from '@cocoar/ui';`
+
+Marks an inline submenu template for a `coar-submenu-item`.
+This is optional: if a submenu item contains exactly one direct child `<ng-template>`,
+that template will be used even without this directive.
+
+## [coarMenuAimConfig]
+
+**Kind:** Directive
+**Selector:** `[coarMenuAimConfig]`
+**Class:** `CoarMenuAimConfigDirective`
+**Import:** `import { CoarMenuAimConfigDirective } from '@cocoar/ui';`
+
+### Inputs
+
+| Name | Type | Default | Required | Description |
+|------|------|---------|----------|-------------|
+| aimEnabled | `boolean | undefined` | `undefined` | No | Enable/disable menu-aim for this menu tree. |
+| aimDebugEnabled | `boolean | undefined` | `undefined` | No | Emit debug events for menu-aim visualization (showcase only). |
+| aimSwitchDelayMs | `number | undefined` | `undefined` | No | Delay before switching to a newly hovered sibling submenu when aim is detected. |
+| aimSampleMaxAgeMs | `number | undefined` | `undefined` | No | Maximum age of the last pointer sample used for intent detection. |
+
+### Related Types
+
+```typescript
+interface CoarMenuItemClickEvent {/** Call this to keep the menu open after clicking (prevents auto-close) */
+  keepMenuOpen(): void;
+  /** Original mouse event */
+  event: MouseEvent;
+}
+```
+Event emitted when a menu item is clicked.
+Provides control over menu closing behavior.
+
+```typescript
+interface CoarMenuAimConfig {readonly enabled: boolean;
+  /** Emits debug events consumed by the showcase to render the aim triangle overlay. */
+  readonly debugEnabled: boolean;
+  /** Delay before switching to a newly hovered sibling submenu when aim is detected. */
+  readonly switchDelayMs: number;
+  /** Maximum age of the last pointer sample used for intent detection. */
+  readonly sampleMaxAgeMs: number;
+}
+```
+
+```typescript
+interface CoarMenuAimConfigProvider {getMenuAimConfig(): CoarMenuAimConfig;
+}
+```

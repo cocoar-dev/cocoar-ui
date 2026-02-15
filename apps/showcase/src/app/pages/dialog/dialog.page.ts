@@ -4,7 +4,6 @@ import {
   CoarButtonComponent,
   CoarCardComponent,
   CoarCodeBlockComponent,
-  CoarNoteComponent,
   CoarDialogService,
   type CoarDialogSize,
 } from '@cocoar/ui/components';
@@ -25,12 +24,7 @@ class DialogDemoContentComponent {}
 @Component({
   selector: 'app-dialog',
   standalone: true,
-  imports: [
-    CoarButtonComponent,
-    CoarCardComponent,
-    CoarCodeBlockComponent,
-    CoarNoteComponent,
-  ],
+  imports: [CoarButtonComponent, CoarCardComponent, CoarCodeBlockComponent],
   templateUrl: './dialog.page.html',
   styleUrl: './dialog.page.css',
   exportAs: 'dialogPage',
