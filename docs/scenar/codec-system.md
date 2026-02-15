@@ -211,7 +211,3 @@ Potential improvements:
 - [ScenarioCodec Interface](../../tools/scenar/scenar-testing-playwright/src/lib/scenario-codecs.ts)
 - [Metadata JSON](../apps/scenar-backstage/public/registry.metadata.json)
 
----
-
-**Version:** 1.0.0
-**Last Updated:** 2026-01-02

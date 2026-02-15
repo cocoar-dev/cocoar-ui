@@ -1,8 +1,6 @@
 # Timezone Support in Cocoar Localization
 
-**Status:** ✅ Implemented
 **Package:** `@cocoar/localization`
-**Version:** 1.0.0
 
 ## Overview
 
@@ -304,17 +302,6 @@ All providers must return valid IANA timezone identifiers:
 
 Use the [IANA Time Zone Database](https://www.iana.org/time-zones) for reference.
 
-## Integration with DateTimePicker
-
-*(To be implemented in next phase)*
-
-The DateTimePicker will consume `CoarTimeZoneService` to:
-
-1. Display current timezone context (e.g., "New York, EST" badge)
-2. Apply timezone to `Temporal.PlainDateTime` → `Temporal.ZonedDateTime` conversion
-3. Handle DST gaps and overlaps
-4. Return structured output: `{ local: PlainDateTime, timeZoneId: string }`
-
 ## Technical Details
 
 ### Browser Provider Behavior
@@ -355,9 +342,8 @@ Providers may need RxJS operators (`switchMap`, `debounceTime`, etc.) for comple
 
 ## Related Documentation
 
-- **[Writing Component Docs](../writing-component-docs.md)** — Documentation standards
 - **[ARCHITECTURE.md](../../ARCHITECTURE.md)** — Framework purity, design patterns
-- **[Tech Articles: Date and Time](../../DateAndTime/)** — Deep dive on time handling best practices
+- **[Localization Overview](../foundations/localization/overview.md)** — Language management and L10n system
 
 ## Future Enhancements
 
@@ -367,7 +353,3 @@ Providers may need RxJS operators (`switchMap`, `debounceTime`, etc.) for comple
 - [ ] Common provider library (profile, org, geolocation)
 - [ ] SSR support (hydration of server-detected timezone)
 
----
-
-**Last Updated:** January 22, 2026
-**Author:** Cocoar Design System Team

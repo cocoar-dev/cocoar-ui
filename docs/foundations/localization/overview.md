@@ -76,7 +76,7 @@ import { CoarLocalizationService } from '@cocoar/localization';
   selector: 'app-language-switcher',
   template: `
     <div>
-      <p>Current: {{ locale.language() }}</p>
+      <p>Current: {{ locale.languageState.value }}</p>
       <button (click)="locale.setLanguage('de')">Deutsch</button>
       <button (click)="locale.setLanguage('en')">English</button>
     </div>
@@ -88,7 +88,7 @@ export class LanguageSwitcherComponent {
 ```
 
 When language changes:
-1. `locale.language()` signal updates
+1. `locale.languageState.value` updates
 2. L10n data reloads (if HTTP source configured)
 3. i18n translations reload (if HTTP source configured)
 4. All formatting pipes update automatically

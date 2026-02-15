@@ -24,9 +24,9 @@ The **Coar Design System** is an Nx monorepo providing:
 
 This repository currently targets the following stack:
 
-- **Angular:** 20.x
+- **Angular:** 21.x
 - **Nx:** 22.x
-- **Node.js:** 20.x or newer (22.x recommended)
+- **Node.js:** 22.x
 
 **Rationale:**
 
@@ -210,7 +210,7 @@ export class CoarButtonComponent {
 .coar-button {
   background: var(--coar-color-primary);
   padding: var(--coar-spacing-2) var(--coar-spacing-4);
-  border-radius: var(--coar-radius-md);
+  border-radius: var(--coar-radius-m);
 }
 
 .coar-button:hover {

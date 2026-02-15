@@ -4,7 +4,7 @@
 
 ---
 
-## 📚 Documentation Index
+## Documentation Index
 
 ### For AI Agents (Start Here!)
 
@@ -23,7 +23,7 @@ Concise templates and workflow for creating scenarios and Playwright tests. This
 
 ---
 
-## 🎯 Quick Reference by Task
+## Quick Reference by Task
 
 ### Task: Create a Scenario for a Component
 
@@ -44,7 +44,7 @@ export const scenario = defineScenario<CoarButtonComponent>({
   id: 'button',
   title: 'Button',
   description: 'Default button',
-  inputs: { label: 'Click' },
+  inputs: { variant: 'primary' },
 });
 ```
 
@@ -82,9 +82,8 @@ export const scenario = defineScenario<CoarTooltipScenarioComponent>({
 ### Task: Write a Playwright Test for a Scenario
 
 **Steps:**
-1. Read [AI Scenario-to-Test Workflow](./ai-scenario-to-test-workflow.md)
-2. See [Agent Skill](../../.github/skills/cocoar-scenarios/SKILL.md) test example
-3. Use `openScenario()` helper to navigate to scenario
+1. See [Agent Skill](../../.github/skills/cocoar-scenarios/SKILL.md) test example
+2. Use `openScenario()` helper to navigate to scenario
 4. Write assertions with Playwright locators
 5. Run with `nx e2e scenar-backstage-e2e`
 
@@ -107,11 +106,10 @@ test('button is clickable', async ({ page }) => {
 ### Task: Debug a Failing Test
 
 **Steps:**
-1. Read [Step 6: Debug Failures](./ai-scenario-to-test-workflow.md#step-6-debug-failures)
-2. Run test with trace: `nx e2e scenar-backstage-e2e`
+1. Run test with trace: `nx e2e scenar-backstage-e2e`
 2. Open trace viewer: `npx playwright show-trace test-results/.../trace.zip`
 3. Check screenshots, console logs, network requests
-4
+
 **Common issues:**
 - Wrong selector → Use more specific locator
 - Timing issue → Add explicit waits
@@ -120,7 +118,7 @@ test('button is clickable', async ({ page }) => {
 
 ---
 
-## 🔧 Common Commands
+## Common Commands
 
 ```bash
 # Generate/regenerate registry (auto-discovers scenarios)
@@ -147,7 +145,7 @@ npx playwright show-trace test-results/.../trace.zip
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 **How It Works:**
 
@@ -183,7 +181,7 @@ npx playwright show-trace test-results/.../trace.zip
 
 ---
 
-## 🔍 Key Concepts
+## Key Concepts
 
 ### Scenarios
 **What:** Testable, isolated instances of components with specific inputs
@@ -212,7 +210,7 @@ npx playwright show-trace test-results/.../trace.zip
 
 ---
 
-## 📖 Advanced Topics
+## Advanced Topics
 
 ### Custom Codecs
 See [Codec System](./codec-system.md) for implementing custom serialization.
@@ -228,19 +226,18 @@ Use scenarios to systematically test keyboard navigation, ARIA, and screen reade
 
 ---
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 | Problem | Solution | Reference |
 |---------|----------|-----------|
-| Scenario not found | Regenerate registry, check ID | [Troubleshooting Guide](./ai-scenario-to-test-workflow.md#troubleshooting-guide) |
-| Inputs not applied | Check signal usage, regenerate reAgent Skill](../../.github/skills/cocoar-scenarios/SKILL.md) |
-| Inputs not applied | Check signal usage, regenerate registry | [Agent Skill - Rules](../../.github/skills/cocoar-scenarios/SKILL.md#rules) |
+| Scenario not found | Regenerate registry, check ID | [Writing Scenarios](../writing-scenarios.md) |
+| Inputs not applied | Check signal usage, regenerate registry | [Agent Skill](../../.github/skills/cocoar-scenarios/SKILL.md) |
 | Test times out | Increase timeout, check selector | [Testing Guide](../testing.md) |
-| Directive not working | Import directive, check host component | [Agent Skill - Directive Template](../../.github/skills/cocoar-scenarios/SKILL.md#directive-host-component) |
-| Service not injected | Add to providers array | [Agent Skill - Providers](../../.github/skills/cocoar-scenarios/SKILL.md#component-with-provider
+| Directive not working | Import directive, check host component | [Agent Skill](../../.github/skills/cocoar-scenarios/SKILL.md) |
+| Service not injected | Add to providers array | [Agent Skill](../../.github/skills/cocoar-scenarios/SKILL.md) |
 ---
 
-## 🤝 Contributing
+## Contributing
 
 When adding new components, directives, or services:
 
@@ -255,12 +252,12 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) for complete guidelines.
 
 ---
 
-## 📝 Summary
+## Summary
 
 **For AI Agents:**
-- Start with [AI Scenarios Quick Start](./ai-scenarios-quick-start.md)
 - Use [Agent Skill](../../.github/skills/cocoar-scenarios/SKILL.md) for concise templates and workflow
-- GitHub Copilot loads this automatically when working with scenario
+- GitHub Copilot loads this automatically when working with scenarios
+
 **For Humans:**
 - Read [Writing Scenarios](../writing-scenarios.md) for comprehensive guide
 - Reference [Codec System](./codec-system.md) for advanced serialization

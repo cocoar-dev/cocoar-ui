@@ -74,6 +74,9 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 
+# Claude Code local settings (personal permissions, not shared)
+.claude/settings.local.json
+
 # Local development
 /local/
 .local/
@@ -94,3 +97,10 @@ lerna-debug.log*
 
 __screenshots__/
 nul
+
+# Generated documentation (rebuilt by generate-docs target)
+libs/ui/llms.txt
+libs/ui/llms-full.txt
+apps/showcase/public/llms.txt
+apps/showcase/public/llms-full.txt
+apps/showcase/src/generated/

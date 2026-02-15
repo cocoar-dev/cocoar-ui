@@ -131,13 +131,13 @@ This keeps per-library setup consistent and avoids duplicated boilerplate.
 ### Locale formatting stub
 
 This repo’s component libraries currently use locale *formatting* (numbers/dates), not a translation/i18n framework.
-If a component injects `COAR_LOCALIZATION_SERVICE`, you can stub it like this:
+If a component injects `CoarLocalizationService`, you can stub it like this:
 
 ```ts
-import { COAR_LOCALIZATION_SERVICE } from '@cocoar/ui/components';
+import { CoarLocalizationService } from '@cocoar/localization';
 import { createCoarLocalizationServiceStub } from '@cocoar/testing-angular';
 
-providers: [{ provide: COAR_LOCALIZATION_SERVICE, useValue: createCoarLocalizationServiceStub() }]
+providers: [{ provide: CoarLocalizationService, useValue: createCoarLocalizationServiceStub() }]
 ```
 
 ### Overlays in unit tests
@@ -250,8 +250,6 @@ Examples:
 - E2E tests: `apps/showcase-e2e/src/**`, `apps/scenar-backstage-e2e/src/**`
 
 ---
-
-## Troubleshooting
 
 ## Tagging Conventions (Playwright)
 

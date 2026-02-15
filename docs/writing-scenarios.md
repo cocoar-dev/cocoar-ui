@@ -63,16 +63,15 @@ Scenarios are defined using `defineScenario<T>()` from `@cocoar/scenar-abstracti
 **1. Create a scenario file:**
 
 ```typescript
-// libs/ui/components/src/lib/coar-button/button.scenario.ts
+// libs/ui/components/src/lib/display/button/button.scenario.ts
 import { defineScenario } from '@cocoar/scenar-abstractions';
 import { CoarButtonComponent } from './coar-button.component';
 
 export const scenario = defineScenario<CoarButtonComponent>({
   id: 'ui/button/primary',
   title: 'Primary Button',
-  description: 'Default primary button with label',
+  description: 'Default primary button',
   inputs: {
-    label: 'Click Me',
     variant: 'primary',
     disabled: false
   }
@@ -94,13 +93,14 @@ export const scenario = defineScenario<CoarButtonComponent>({
 
 ```
 libs/ui/components/src/lib/
-├── coar-button/
-│   ├── coar-button.component.ts
-│   ├── coar-button.component.spec.ts
-│   └── button.scenario.ts              ← Scenario file
-├── coar-icon/
-│   ├── coar-icon.component.ts
-│   └── icon.scenario.ts
+├── display/
+│   ├── button/
+│   │   ├── coar-button.component.ts
+│   │   ├── coar-button.component.spec.ts
+│   │   └── button.scenario.ts              ← Scenario file
+│   ├── icon/
+│   │   ├── coar-icon.component.ts
+│   │   └── icon.scenario.ts
 ```
 
 **Naming Convention:**
@@ -111,9 +111,10 @@ libs/ui/components/src/lib/
 
 ```
 libs/ui/components/src/lib/
-├── coar-table/
-│   ├── coar-table.component.ts
-│   └── coar-table.component.scenario.ts    ← Co-located scenario
+├── display/
+│   ├── table/
+│   │   ├── coar-table.component.ts
+│   │   └── coar-table.component.scenario.ts    ← Co-located scenario
 ```
 
 **Naming Convention:**
@@ -152,7 +153,7 @@ export const scenario = defineScenario<CoarIconComponent>({
   description: 'Icon with default settings',
   inputs: {
     name: 'home',
-    size: 'md',
+    size: 'm',
     color: 'inherit'
   }
 });
@@ -226,14 +227,14 @@ export const scenario = defineScenario<ComponentType>({
 The generator extracts default values from your component, so you only need to specify what's different:
 
 ```typescript
-// Component has: size = input<string>('md')
+// Component has: size = input<string>('m')
 // Scenario only overrides what's needed:
 export const largeIcon = defineScenario<CoarIconComponent>({
   id: 'icon/large',
   title: 'Large Icon',
   description: 'Icon with large size',
   inputs: {
-    size: 'lg'  // Only override size, other defaults are auto-extracted
+    size: 'l'  // Only override size, other defaults are auto-extracted
   }
 });
 ```
@@ -319,7 +320,7 @@ export const loadingButton = defineScenario<CoarButtonComponent>({
 ✅ You want clean separation of concerns
 
 ```typescript
-// libs/ui/components/src/lib/coar-badge/badge.scenario.ts
+// libs/ui/components/src/lib/display/badge/badge.scenario.ts
 import { defineScenario } from '@cocoar/scenar-abstractions';
 import { CoarBadgeComponent } from './coar-badge.component';
 
@@ -327,7 +328,7 @@ export const scenario = defineScenario<CoarBadgeComponent>({
   id: 'ui/badge/success',
   title: 'Success Badge',
   description: 'Badge with success variant',
-  inputs: { variant: 'success', label: 'Done' }
+  inputs: { variant: 'success', content: 'Done' }
 });
 ```
 
@@ -389,14 +390,14 @@ Registry generation runs automatically as a build dependency.
 
 **`apps/scenar-backstage/src/app/registry.generated.ts`**
 ```typescript
-import { scenario as scenario_base } from '../../../../libs/ui/components/src/lib/coar-icon/icon.scenario';
-import { scenario as scenario_base_1 } from '../../../../libs/ui/components/src/lib/coar-label/label.scenario';
+import { scenario as scenario_base } from '../../../../libs/ui/components/src/lib/display/icon/icon.scenario';
+import { scenario as scenario_base_1 } from '../../../../libs/ui/components/src/lib/display/label/label.scenario';
 
 export const SCENARIO_REGISTRY: Record<string, ScenarioDefinition> = {
   [scenario_base.id]: {
     ...scenario_base,
-    component: async () => (await import('../../../../libs/ui/components/src/lib/coar-icon/coar-icon.component')).CoarIconComponent,
-    inputs: { size: 'md', rotate: 0, spin: false, color: 'inherit' }
+    component: async () => (await import('../../../../libs/ui/components/src/lib/display/icon/coar-icon.component')).CoarIconComponent,
+    inputs: { size: 'm', rotate: 0, spin: false, color: 'inherit' }
   },
   // ... more scenarios
 };
@@ -414,14 +415,14 @@ export const SCENARIO_REGISTRY: Record<string, ScenarioDefinition> = {
       "title": "Icon Component",
       "description": "Icon with default settings",
       "component": {
-        "path": "libs/ui/components/src/lib/coar-icon/coar-icon.component.ts",
+        "path": "libs/ui/components/src/lib/display/icon/coar-icon.component.ts",
         "className": "CoarIconComponent"
       },
       "inputs": {
         "size": {
           "type": "input",
           "required": false,
-          "defaultValue": "md",
+          "defaultValue": "m",
           "tsType": "CoarIconSize | string"
         },
         "name": {
@@ -625,25 +626,25 @@ Concise guide with copy-paste templates for components, directives, and services
 
 ```typescript
 // 1. Read component
-// libs/ui/components/src/lib/coar-badge/coar-badge.component.ts
+// libs/ui/components/src/lib/display/badge/coar-badge.component.ts
 export class CoarBadgeComponent {
-  variant = input<'info' | 'success' | 'warning' | 'error'>('info');
-  label = input.required<string>();
-  size = input<'sm' | 'md' | 'lg'>('md');
+  variant = input<BadgeVariant>('primary');  // 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'info'
+  content = input.required<string | number>();
+  size = input<BadgeSize>('m');  // 'xs' | 's' | 'm' | 'l' | 'xl' | 'auto'
 }
 
 // 2. Create scenario file
-// libs/ui/components/src/lib/coar-badge/badge.scenario.ts
+// libs/ui/components/src/lib/display/badge/badge.scenario.ts
 import { defineScenario } from '@cocoar/scenar-abstractions';
 import { CoarBadgeComponent } from './coar-badge.component';
 
 export const infoScenario = defineScenario<CoarBadgeComponent>({
   id: 'ui/badge/info',
   title: 'Info Badge',
-  description: 'Badge with info variant (default)',
+  description: 'Badge with info variant',
   inputs: {
-    label: 'Information'
-    // variant and size use component defaults
+    content: 'Information',
+    variant: 'info'
   }
 });
 
@@ -652,7 +653,7 @@ export const successScenario = defineScenario<CoarBadgeComponent>({
   title: 'Success Badge',
   description: 'Badge indicating successful operation',
   inputs: {
-    label: 'Success',
+    content: 'Success',
     variant: 'success'
   }
 });
@@ -662,9 +663,9 @@ export const errorScenario = defineScenario<CoarBadgeComponent>({
   title: 'Error Badge',
   description: 'Badge indicating error state',
   inputs: {
-    label: 'Error',
+    content: 'Error',
     variant: 'error',
-    size: 'lg'
+    size: 'l'
   }
 });
 

@@ -163,7 +163,7 @@ Examples:
 --coar-color-primary
 --coar-color-surface
 --coar-color-text
---coar-radius-md
+--coar-radius-m
 --coar-spacing-2
 --coar-font-size-body
 ```

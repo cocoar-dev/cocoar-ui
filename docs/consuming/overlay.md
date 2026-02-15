@@ -53,14 +53,16 @@ If you want an overlay to stay open and remain at the same viewport location whi
 
 Example (fixed point):
 
-- Anchor at a point and disable scroll listeners so the overlay does not reposition or close.
+```ts
+const ref = overlay
+  .anchor({ kind: 'point', x: 100, y: 200 })
+  .position({ placement: 'bottom-start' })
+  .scroll({ strategy: 'noop' })
+  .fromTemplate(panelTemplate)
+  .open(undefined);
+```
 
-If you start from an element anchor but want it to become sticky, the simplest approach is:
-
-- compute the element's position once (when opening)
-- open the overlay with a `point` anchor using that position
-
-This way the overlay doesn't track the element while the user scrolls.
+If you start from an element anchor but want it to become sticky, compute the element's position once when opening, then use a `point` anchor with that position. This way the overlay doesn't track the element while the user scrolls.
 
 ## Notes
 

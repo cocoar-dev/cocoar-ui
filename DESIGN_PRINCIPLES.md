@@ -151,20 +151,20 @@ All interactive components follow a consistent 3-tier sizing system:
 
 | Size | Height | Usage |
 |------|--------|-------|
-| `sm` | 32px | Compact UI, data tables, toolbars |
-| `md` | 40px | **Default** — forms, dialogs |
-| `lg` | 48px | Prominent actions, hero sections |
+| `s` | 32px | Compact UI, data tables, toolbars |
+| `m` | 40px | **Default** — forms, dialogs |
+| `l` | 48px | Prominent actions, hero sections |
 
 **Rule:** Inputs and buttons at the same size must align perfectly.
 
 ```html
-<!-- ✅ Aligned — both md (40px) -->
-<coar-text-input size="md" />
-<coar-button size="md">Submit</coar-button>
+<!-- ✅ Aligned — both m (40px) -->
+<coar-text-input size="m" />
+<coar-button size="m">Submit</coar-button>
 
-<!-- ✅ Aligned — both sm (32px) -->
-<coar-text-input size="sm" />
-<coar-button size="sm">Search</coar-button>
+<!-- ✅ Aligned — both s (32px) -->
+<coar-text-input size="s" />
+<coar-button size="s">Search</coar-button>
 ```
 
 ---
@@ -443,7 +443,7 @@ clicked = output<MouseEvent>();
 
 // Use consistent naming
 @Input() variant: 'primary' | 'secondary' | 'tertiary' | 'danger' | 'ghost';
-@Input() size: 'sm' | 'md' | 'lg';
+@Input() size: 's' | 'm' | 'l';
 @Input() disabled: boolean;
 ```
 
@@ -481,5 +481,5 @@ Design systems with similar philosophy:
 
 ---
 
-*Last updated: November 2025*
+*Last updated: February 2026*
 *Version: 1.0.0*

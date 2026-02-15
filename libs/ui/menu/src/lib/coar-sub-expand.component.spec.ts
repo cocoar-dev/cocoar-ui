@@ -26,10 +26,6 @@ class TestHostComponent {
 describe('CoarSubExpandComponent', () => {
   let fixture: ComponentFixture<TestHostComponent>;
 
-  it('WIP: submenu behavior tests temporarily disabled', () => {
-    expect(true).toBe(true);
-  });
-
   function detectChanges(): void {
     fixture.detectChanges();
   }
@@ -44,7 +40,7 @@ describe('CoarSubExpandComponent', () => {
     detectChanges();
   });
 
-  it.skip('should render submenu content when opened (WIP: ui-menu refactor in progress)', () => {
+  it.skip('should render submenu content when opened', () => {
     // Panel is always in DOM but should not have --open class initially
     const initialPanel = fixture.debugElement.query(
       By.css('coar-sub-expand .coar-sub-expand__panel')
@@ -70,7 +66,7 @@ describe('CoarSubExpandComponent', () => {
     expect(fixture.debugElement.query(By.css('coar-sub-expand coar-menu-item'))).toBeTruthy();
   });
 
-  it.skip('should toggle open via click when two-way bound (WIP: ui-menu refactor in progress)', () => {
+  it.skip('should toggle open via click when two-way bound', () => {
     const header = fixture.debugElement.query(By.css('coar-sub-expand .coar-sub-expand'));
     expect(header).toBeTruthy();
 

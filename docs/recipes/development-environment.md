@@ -1,13 +1,11 @@
 # Development Environment Setup
 
-> **Status:** ✅ Complete
-> **Last Updated:** November 23, 2025
 
 This document describes the development environment configuration for the Cocoar Design System repository.
 
 ---
 
-## 🛠️ Tooling Overview
+## Tooling Overview
 
 ### Prettier (Code Formatting)
 - **Config:** `.prettierrc`
@@ -44,10 +42,10 @@ pnpm exec prettier --write .
 pnpm nx run-many --target=lint --all
 
 # Lint specific project
-pnpm nx lint ui-components
+pnpm nx lint ui
 
 # Auto-fix issues
-pnpm nx lint ui-components --fix
+pnpm nx lint ui --fix
 ```
 
 ### EditorConfig
@@ -87,7 +85,7 @@ pnpm nx lint ui-components --fix
 
 ---
 
-## 📋 Nx Module Boundaries
+## Nx Module Boundaries
 
 ESLint enforces strict dependency rules:
 
@@ -108,7 +106,7 @@ import { Button } from '@cocoar/ui/components'; // ERROR!
 
 ---
 
-## 🎨 Angular-Specific Rules
+## Angular-Specific Rules
 
 ### Component Rules
 - ✅ Prefix: `coar` (e.g., `<coar-button>`)
@@ -124,22 +122,22 @@ import { Button } from '@cocoar/ui/components'; // ERROR!
 - ✅ Selector style: `camelCase`
 
 ### Template Rules
-- ✅ Use `trackBy` for `*ngFor`
+- ✅ Use `track` expression with `@for`
 - ❌ No negated async pipe (use `!`)
 
 ---
 
-## 🚀 Quick Commands
+## Quick Commands
 
 ```bash
 # Format all files
 pnpm exec prettier --write .
 
 # Lint all projects
-pnpm nx run-many --target=lint --all
+pnpm nx run-many -t lint
 
 # Lint with auto-fix
-pnpm nx lint ui-components --fix
+pnpm nx lint ui --fix
 
 # Run all tests
 pnpm nx run-many --target=test --all
@@ -147,13 +145,13 @@ pnpm nx run-many --target=test --all
 # Build all libraries
 pnpm nx run-many --target=build --all
 
-# Build design tokens
-pnpm nx build ui-tokens
+# Build UI library (includes tokens)
+pnpm nx build ui
 ```
 
 ---
 
-## ✅ Pre-Commit Checklist
+## Pre-Commit Checklist
 
 Before committing code:
 
@@ -165,7 +163,7 @@ Before committing code:
 
 ---
 
-## 🔧 Configuration Files
+## Configuration Files
 
 | File | Purpose |
 |------|---------|
@@ -180,15 +178,14 @@ Before committing code:
 
 ---
 
-## 📚 Related Documentation
+## Related Documentation
 
 - [AGENTS.md](../AGENTS.md) - AI assistant guidelines
 - [ARCHITECTURE.md](../ARCHITECTURE.md) - Technical architecture
 - [NAMING.md](../NAMING.md) - Naming conventions
 - [CONTRIBUTING.md](../CONTRIBUTING.md) - Contribution guidelines
-- [testing.md](testing.md) - Testing (Vitest + Playwright)
+- [testing.md](../testing.md) - Testing (Vitest + Playwright)
 
 ---
 
-**Version:** 1.0.0
-**Environment:** Angular 21.0.6, Nx 22.3.3, Node 20+ (22.x recommended)
+**Environment:** Angular 21.x, Nx 22.x, Node 22.x

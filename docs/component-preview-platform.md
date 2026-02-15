@@ -1,4 +1,4 @@
-# Component Preview Platform (Working Title)
+# Component Preview Platform
 
 ## Summary
 
@@ -124,70 +124,15 @@ These can be evaluated later if there is a clear ROI.
 
 ---
 
-## Naming & Terminology
+## Terminology
 
-### Why rename now
+The platform uses the following terminology:
 
-Legacy CT naming (`CtHost`, older definition types, etc.) worked for bootstrapping, but if this grows into a real internal product, we should use names that communicate:
+| Term | Meaning |
+|------|---------|
+| **Scenario** | A reproducible component state defined with `defineScenario<T>()` |
+| **Backstage App** | The Angular host app that renders scenarios in isolation |
+| **Registry** | Auto-generated index of all scenarios (`SCENARIO_REGISTRY`) |
+| **Route** | `/__scenario/:id` — stable URL for each scenario |
 
-- **preview** (interactive rendering)
-- **scenarios** (reproducible component states)
-- **testing** (stable target surface)
-- **platform** (reusable, installable)
-
-### Suggested product names (candidates)
-
-These are intentionally neutral and “enterprise-friendly”. Pick one based on what resonates with your stakeholders.
-
-- **Coar Preview Platform**
-  - emphasizes the future (embedded previews + testing surface)
-- **Coar Component Preview**
-  - very literal; easy to explain
-- **Coar Component Lab**
-  - implies experimentation and exploration
-- **Coar UI Sandbox**
-  - familiar concept for devs; highlights isolation
-- **Coar UI Harness**
-  - strong testing connotation; less “product UI” connotation
-
-If you want to avoid “Coar” in the product name (for cross-brand use), drop it:
-
-- **Component Preview Platform**
-- **UI Scenario Host**
-- **Component Sandbox**
-
-### Suggested terminology inside code
-
-Replace “CT” with language that maps to the concepts:
-
-- **Host/App**
-  - `PreviewHost` / `PreviewApp` / `PreviewShell`
-- **Unit** → use **Scenario** or **Fixture**
-  - `Scenario` reads well for stakeholders
-  - `Fixture` reads well for testing-focused teams
-- **Registry**
-  - `ScenarioRegistry` / `PreviewRegistry`
-- **Route**
-  - `/__preview/:id` or `/__scenario/:id` (explicitly internal)
-
-### Naming recommendations (my vote)
-
-If the future includes a showcase “Preview” tab and a testing surface, the cleanest mental model is:
-
-- Product: **Coar Preview Platform**
-- Unit: **Scenario**
-- App: **Preview Host**
-
-So:
-
-- `PreviewHost`
-- `ScenarioDefinition<T>` (instead of legacy CT definition types)
-- `PREVIEW_REGISTRY` / `SCENARIO_REGISTRY`
-
-This keeps terminology consistent while still matching what preview tooling provides.
-
----
-
-## Stakeholder Explanation (Short Pitch)
-
-“We’re building a lightweight preview platform for our UI components. Each component state is rendered in isolation via a stable URL, which gives us a deterministic surface for Playwright tests and an interactive preview that can later be embedded into the showcase app. It’s the preview-iframe concept, but implemented in a controlled Angular-first way and tailored to our design system.”
+See [Writing Scenarios](writing-scenarios.md) for the full authoring guide and [Scenar System](scenar/README.md) for the technical documentation.

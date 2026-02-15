@@ -1,46 +1,31 @@
 # Coar Design System
 
-> Angular-based UI component libraries and design system
+> A design system and Angular component library built on CSS custom properties.
 
 [![License: Apache-2.0](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](LICENSE)
 
----
+## What is Coar?
 
-## 📚 Documentation
+Coar is a design system for Angular applications. It provides 40+ production-ready UI components, a full set of design tokens as CSS variables, and a showcase app for browsing them interactively.
 
-**New to this repository? Start here:**
+**Key principles:**
 
-1. **[README.md](README.md)** (this file) — Overview and quick start
-2. **[ARCHITECTURE.md](ARCHITECTURE.md)** — Technical architecture and patterns ⭐ **REQUIRED**
-3. **[NAMING.md](NAMING.md)** — Naming conventions ⭐ **REQUIRED**
-4. **[CONTRIBUTING.md](CONTRIBUTING.md)** — How to contribute
-5. **[AGENTS.md](AGENTS.md)** — AI assistant guidelines
-6. **[docs/testing.md](docs/testing.md)** — Testing (Vitest + Playwright) ⭐
-7. **[docs/testing-writing.md](docs/testing-writing.md)** — Writing tests (dev guide) ⭐
+- **Framework-pure** — All styling uses CSS custom properties (`--coar-*`). No Tailwind, no global CSS.
+- **Angular-native** — Built with Angular 21 signals, standalone components, and `ControlValueAccessor` for forms.
+- **Token-driven** — Colors, spacing, radii, and typography are all design tokens. Swap the token layer to re-theme.
 
-**Working with AI assistants?** AI tools must read all documentation files above.
+## Components
 
----
+| Category | Components |
+|----------|------------|
+| **Display** | Button, Badge, Tag, Card, Note, Divider, Table, Label, Icon, Avatar, Code Block, Progress Bar, Spinner, Link |
+| **Forms** | Text Input, Number Input, Password Input, Checkbox, Radio, Select (single, multi, tag), Switch |
+| **Navigation** | Tabs, Sidebar, Breadcrumb, Pagination, Navbar |
+| **Overlay** | Popover, Tooltip, Popconfirm, Dialog, Toast |
+| **Date & Time** | Date Picker, Date-Time Picker, Zoned Date-Time Picker, Time Picker, Scrollable Calendar, Mini Calendar, Month List |
+| **Menu** | Context Menu, Menu Bar |
 
-## Overview
-
-The **Coar Design System** is an Nx monorepo providing:
-
-* **Angular UI component libraries** (`@cocoar/ui/*`)
-* **Design tokens** delivered as CSS variables (`@cocoar/ui`)
-* **A showcase app** for interactive component previews
-* High-quality, brand-consistent UI components
-
----
-
-## Architecture
-
-* **Framework-pure libraries** - No Tailwind, only CSS variables
-* **Design tokens as CSS variables** - All styling via `--coar-*` tokens
-* **Nx monorepo** - Efficient build and test caching
-* **Showcase app** - Interactive component previews
-* **Playwright** - End-to-end testing
----
+All form components support Angular Reactive Forms via `ControlValueAccessor`.
 
 ## Install
 
@@ -48,9 +33,9 @@ The **Coar Design System** is an Nx monorepo providing:
 npm install @cocoar/ui
 ```
 
----
+## Quick Start
 
-## Usage
+1. Import the component:
 
 ```typescript
 import { CoarButtonComponent } from '@cocoar/ui/components';
@@ -58,20 +43,28 @@ import { CoarButtonComponent } from '@cocoar/ui/components';
 @Component({
   selector: 'app-root',
   imports: [CoarButtonComponent],
-  template: '<coar-button variant="primary">Click me</coar-button>'
+  template: '<coar-button variant="primary">Click me</coar-button>',
 })
 export class AppComponent {}
 ```
 
----
+2. Include the design tokens (CSS variables) in your global styles:
+
+```css
+@import '@cocoar/ui/styles';
+```
+
+That's it. Components are standalone — import only what you need.
 
 ## Development
+
+**Prerequisites:** Node.js 22.x, pnpm 10.x
 
 ```bash
 # Install dependencies
 pnpm install
 
-# Start the showcase app
+# Start the showcase app (http://localhost:4200)
 pnpm start
 
 # Lint / test / build
@@ -79,56 +72,43 @@ pnpm lint
 pnpm test
 pnpm build
 
-# Run e2e tests
+# E2E tests (Playwright)
 pnpm e2e
-
-# Run e2e tests in a different browser (local default is Chromium)
-pnpm e2e -- --browsers=firefox
-
-# Run e2e tests in all browsers (mainly for CI or debugging)
-pnpm e2e -- --browsers=all
+pnpm e2e -- --ui                  # Playwright UI mode
+pnpm e2e -- --browsers=firefox    # specific browser
 ```
-
----
-
-## Release
-
-This repository currently uses an **artifacts-only** release approach ("Option C"):
-
-- CI builds packages, runs `npm pack`, and uploads `.tgz` artifacts.
-- Publishing to npm is intentionally disabled (publish steps are present but commented out).
-
-See [docs/consuming/local-artifacts.md](docs/consuming/local-artifacts.md) for validating the built `.tgz` artifacts locally.
-
----
 
 ## Repository Structure
 
 ```
-libs/                     # Publishable libraries
-apps/                     # Angular apps
-  showcase/               Component showcase app
-  scenar-backstage/       Scenario host app (Scenar Backstage)
-  showcase-e2e/           Playwright e2e tests
-  scenar-backstage-e2e/   Playwright e2e tests (scenario host)
-docs/                     Additional documentation
+libs/
+  ui/                       @cocoar/ui — components, tokens, menu, overlay
+apps/
+  showcase/                 Interactive component showcase
+  showcase-e2e/             Playwright tests for showcase
+docs/                       Guides, patterns, and recipes
 ```
 
----
+See [ARCHITECTURE.md](ARCHITECTURE.md) for technical details.
+
+## Documentation
+
+| Document | Description |
+|----------|-------------|
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Technical architecture and design token system |
+| [NAMING.md](NAMING.md) | Naming conventions for selectors, classes, and tokens |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute |
+| [docs/testing.md](docs/testing.md) | Running tests (Vitest + Playwright) |
+| [docs/testing-writing.md](docs/testing-writing.md) | Writing tests |
+| [CHANGELOG.md](CHANGELOG.md) | Release history |
 
 ## Contributing
 
-Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-**Important:** Please read [AGENTS.md](AGENTS.md) and [NAMING.md](NAMING.md) for architecture and naming conventions.
-
----
+Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines, quality standards, and the definition of done.
 
 ## Security
 
 To report security vulnerabilities, see [SECURITY.md](SECURITY.md).
-
----
 
 ## License
 

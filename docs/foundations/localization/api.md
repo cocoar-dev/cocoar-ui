@@ -123,16 +123,6 @@ Translation service (injected via `COAR_I18N_PROVIDER`).
 - Returns key if translation missing
 - Supports `{{placeholder}}` interpolation
 
-**`tWithDefault(key: string, defaultValue: string, params?): string`**
-- Translates with fallback
-- Returns `defaultValue` if translation missing
-
-#### Properties
-
-**`translations: Signal<ReadonlyMap<string, string> | null>`**
-- Current translations as Signal
-- `null` if not loaded yet
-
 ---
 
 ## Data Types

@@ -2,7 +2,7 @@
 
 Reactive formatting pipes for dates, numbers, currency, and percentages.
 
-All pipes automatically update when the language changes via [CoarLocalizationService](../locale/README.md).
+All pipes automatically update when the language changes via [CoarLocalizationService](./overview.md).
 
 ## Available Pipes
 
@@ -175,22 +175,6 @@ registerLocaleData(localeFr);
 
 Without this, you'll get: `Missing locale data for the locale "de"`
 
-### 2. Provide CoarLocale
-
-```typescript
-// app.config.ts
-import { provideCoarLocalization } from '@cocoar/localization';
-
-export const appConfig: ApplicationConfig = {
-  providers: [
-    provideCoarLocalization({
-      defaultLanguage: 'en',
-      availableLanguages: ['en', 'de', 'fr'],
-    }),
-  ],
-};
-```
-
 ### 3. Import Pipes
 
 ```typescript
@@ -321,12 +305,10 @@ All pipes set `pure: false` to react to language changes. This is required but h
 
 ## Related
 
-- [CoarLocalizationService](../locale/README.md) - Central language management
-- [CoarI18nPipe](../i18n/coar-i18n.pipe.md) - Translation pipe
+- [CoarLocalizationService](./overview.md) - Central language management
+- [i18n Translation System](./i18n.md) - Translation system and pipe
 - [Angular Pipes](https://angular.dev/guide/pipes) - Official pipe documentation
 
 ---
 
 **Package:** `@cocoar/localization`
-**Version:** 1.0.0
-**License:** MIT
