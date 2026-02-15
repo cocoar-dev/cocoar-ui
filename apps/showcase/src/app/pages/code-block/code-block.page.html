@@ -4,14 +4,14 @@
     <p class="page-description">A versatile code display component with syntax hints, copy functionality, and collapsible sections.</p>
   </header>
 
-  <coar-code-block class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
+  <coar-code-block variant="info" elevated class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
 
   <div class="examples-content">
     <!-- ============================================ -->
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Basic Usage</h3>
         <p class="example-description">The code block automatically adapts to the current theme. Toggle the theme in the sidebar to see it change.</p>
         <div class="example-demo">
@@ -19,7 +19,7 @@
         </div>
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Language Support</h3>
         <p class="example-description">Display code in various languages with appropriate labels.</p>
         <div class="example-demo code-stack">
@@ -29,7 +29,7 @@
         </div>
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Collapsible</h3>
         <p class="example-description">Click the chevron to expand or collapse the code block.</p>
         <div class="example-demo">
@@ -37,7 +37,7 @@
         </div>
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Non-collapsible</h3>
         <p class="example-description">Always visible with no toggle option.</p>
         <div class="example-demo">
@@ -45,7 +45,7 @@
         </div>
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Without Copy Button</h3>
         <p class="example-description">For read-only display where copying is not needed.</p>
         <div class="example-demo">
@@ -53,7 +53,7 @@
         </div>
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Line Numbers</h3>
         <p class="example-description">Enable line numbers for easier referencing in docs and reviews.</p>
         <div class="example-demo">
@@ -69,7 +69,7 @@
     <p class="component-section-description">Limits the height with internal scrolling for long code snippets.</p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Scrollable Content</h3>
         <p class="example-description">Set a max height to enable scrolling for long code.</p>
         <div class="example-demo">

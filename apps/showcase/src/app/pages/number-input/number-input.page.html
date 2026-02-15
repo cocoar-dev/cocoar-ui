@@ -7,14 +7,14 @@
     </p>
   </header>
 
-  <coar-code-block variant="info" class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
+  <coar-code-block variant="info" elevated class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
 
   <div class="examples-content">
     <!-- ============================================ -->
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Basic Usage</h3>
         <p class="example-description">Simple number input with increment/decrement buttons.</p>
         <div class="example-demo">
@@ -38,7 +38,7 @@
         />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Min & Max Constraints</h3>
         <p class="example-description">Limit the value range. Buttons disable at boundaries.</p>
         <div class="example-demo">
@@ -63,7 +63,7 @@
         />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Step Increments</h3>
         <p class="example-description">Control increment size with the step property.</p>
         <div class="example-demo example-demo--three-col">
@@ -82,7 +82,7 @@
         />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Decimal Precision</h3>
         <p class="example-description">Control decimal places for currency, percentages, etc.</p>
         <div class="example-demo">
@@ -108,7 +108,7 @@
         />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Prefix & Suffix</h3>
         <p class="example-description">Add units or currency symbols.</p>
         <div class="example-demo example-demo--three-col">
@@ -134,7 +134,7 @@
         />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Figma-style Drag</h3>
         <p class="example-description">Click and drag the label horizontally to adjust the value.</p>
         <div class="example-demo">
@@ -164,7 +164,7 @@
     <p class="component-section-description">Support different number formats for locales like German (comma decimal) vs US (period decimal).</p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>German Format</h3>
         <p class="example-description">Comma as decimal separator, period as thousands.</p>
         <div class="example-demo">
@@ -181,7 +181,7 @@
         <p class="demo-value">Raw value: {{ germanPrice() ?? 'null' }}</p>
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>US Format</h3>
         <p class="example-description">Period as decimal separator, comma as thousands.</p>
         <div class="example-demo">
@@ -249,7 +249,7 @@
         />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Sizes</h3>
         <p class="example-description">Four size variants for different contexts.</p>
         <div class="example-demo example-demo--sizes">
@@ -269,7 +269,7 @@
         />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Disabled & Readonly</h3>
         <p class="example-description">Non-interactive states.</p>
         <div class="example-demo example-demo--two-col">

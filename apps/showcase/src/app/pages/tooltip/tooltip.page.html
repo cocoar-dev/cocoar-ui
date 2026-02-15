@@ -7,14 +7,14 @@
     </p>
   </header>
 
-  <coar-code-block class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
+  <coar-code-block variant="info" elevated class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
 
   <div class="examples-content">
     <!-- ============================================ -->
     <!-- WHEN TO USE -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>When to Use Which</h3>
         <p class="example-description">Choose the right component based on your use case.</p>
         <ul class="coar-body-small tooltip-usage-list">
@@ -34,7 +34,7 @@
     <p class="component-section-description">Non-interactive hints that appear on hover or focus.</p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Basic Tooltip</h3>
         <p class="example-description">Opens on hover and focus. Only one tooltip can be open globally at a time.</p>
         <div class="example-demo example-demo--row">
@@ -43,7 +43,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Best-Fit (Auto)</h3>
         <p class="example-description">Uses the floating system's best-fit algorithm to choose a placement.</p>
         <div class="example-demo example-demo--row">
@@ -137,7 +137,7 @@
     <p class="component-section-description">Richer content overlays that can be interactive and touch-friendly.</p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Hover/Focus Popover</h3>
         <p class="example-description">Desktop-friendly behavior: opens on hover and focus. Use for non-critical, informational content.</p>
         <div class="example-demo example-demo--row">
@@ -153,7 +153,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.popoverBasic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Click/Tap Popover (Pinned)</h3>
         <p class="example-description">
           Touch-friendly behavior: click opens and pins the popover. Click outside (or click the trigger again) to close.
@@ -173,7 +173,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.popoverClickOnly" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Non-Interactive Overlay</h3>
         <p class="example-description">
           When <code>interactive</code> is false, the panel does not capture pointer events. Useful when the overlay must not block interactions

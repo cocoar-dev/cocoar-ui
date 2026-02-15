@@ -6,14 +6,14 @@
     </p>
   </header>
 
-  <coar-code-block class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
+  <coar-code-block variant="info" elevated class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
 
   <div class="examples-content">
     <!-- ============================================ -->
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Basic Checkbox</h3>
         <p class="example-description">A simple checkbox with a label. Starts as undefined (pristine), becomes true or false after first click.</p>
         <div class="example-demo">
@@ -23,7 +23,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Pre-checked</h3>
         <p class="example-description">A checkbox that starts in checked state.</p>
         <div class="example-demo">
@@ -33,7 +33,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.checked" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Required Field</h3>
         <p class="example-description">Required checkboxes show an asterisk next to the label.</p>
         <div class="example-demo">
@@ -47,7 +47,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.required" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Error State</h3>
         <p class="example-description">Display validation errors below the checkbox.</p>
         <div class="example-demo">
@@ -63,7 +63,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.error" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>With Hint</h3>
         <p class="example-description">Add helper text below the checkbox.</p>
         <div class="example-demo">
@@ -77,7 +77,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.hint" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Disabled & Readonly</h3>
         <p class="example-description">Disabled checkboxes are greyed out. Readonly ones look normal but can't be changed.</p>
         <div class="example-demo checkbox-row">
@@ -101,7 +101,7 @@
     </p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Parent-Child Selection</h3>
         <p class="example-description">Click "Select all" to toggle all fruits. Individual clicks update the parent state.</p>
         <div class="example-demo checkbox-group">
@@ -123,7 +123,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.indeterminate" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Sizes</h3>
         <p class="example-description">Checkboxes come in four sizes matching other form components.</p>
         <div class="example-demo sizes-column">

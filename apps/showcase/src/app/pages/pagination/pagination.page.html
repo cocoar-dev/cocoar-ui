@@ -4,11 +4,11 @@
     <p class="page-description">A navigation component for moving between pages of content.</p>
   </header>
 
-  <coar-code-block class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
+  <coar-code-block variant="info" elevated class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
 
   <div class="examples-content">
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Basic Usage</h3>
         <p class="example-description">Standard pagination with 100 items and 10 items per page. Current page: {{ currentPage() }}</p>
         <div class="example-demo">
@@ -21,7 +21,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="basicExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Custom Page Size</h3>
         <p class="example-description">200 items with 20 items per page, starting at page 5. Current page: {{ currentPage2() }}</p>
         <div class="example-demo">
@@ -34,7 +34,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="customPageSizeExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Without First/Last Buttons</h3>
         <p class="example-description">Hide the first and last page navigation buttons.</p>
         <div class="example-demo">
@@ -47,7 +47,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="noFirstLastExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Disabled</h3>
         <p class="example-description">All controls are disabled.</p>
         <div class="example-demo">

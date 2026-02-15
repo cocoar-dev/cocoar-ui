@@ -6,11 +6,11 @@
     </p>
   </header>
 
-  <coar-code-block class="page-import" [code]="importCode" language="css" [collapsible]="false" />
+  <coar-code-block variant="info" elevated class="page-import" [code]="importCode" language="css" [collapsible]="false" />
 
   <div class="examples-content">
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Basic Link</h3>
         <p class="example-description">Default accent-colored link with underline on hover.</p>
         <div class="example-demo">
@@ -19,7 +19,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Subtle Link</h3>
         <p class="example-description">Muted link for secondary navigation or less prominent actions.</p>
         <div class="example-demo">
@@ -28,7 +28,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.subtle" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Size Variants</h3>
         <p class="example-description">Links in small, medium (default), and large sizes.</p>
         <div class="example-demo link-sizes">
@@ -39,7 +39,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Disabled Link</h3>
         <p class="example-description">Use aria-disabled to visually and functionally disable a link.</p>
         <div class="example-demo">

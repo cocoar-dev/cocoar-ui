@@ -7,14 +7,14 @@
     </p>
   </header>
 
-  <coar-code-block class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
+  <coar-code-block variant="info" elevated class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
 
   <div class="examples-content">
     <!-- ============================================ -->
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Basic Usage</h3>
         <p class="example-description">Add the <code>coarPopconfirm</code> directive to any button to require confirmation before an action.</p>
         <div class="example-demo">
@@ -47,7 +47,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>With Title</h3>
         <p class="example-description">Add a title and customize button text for clearer communication.</p>
         <div class="example-demo">
@@ -67,7 +67,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.withTitle" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Placements</h3>
         <p class="example-description">Position the popconfirm relative to the trigger element.</p>
         <div class="example-demo">
@@ -89,7 +89,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.placements" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Custom Button Text</h3>
         <p class="example-description">Customize confirm and cancel button text to match the action context.</p>
         <div class="example-demo">
@@ -131,7 +131,7 @@
     <p class="component-section-description">Guidelines for effective popconfirm usage.</p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Keyboard Navigation</h3>
         <p class="example-description">Popconfirm is fully accessible with keyboard and screen reader support.</p>
         <div class="accessibility-info">
@@ -147,7 +147,7 @@
         </p>
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Best Practices</h3>
         <p class="example-description">Do's and don'ts for effective confirmation dialogs.</p>
         <div class="best-practices-content">

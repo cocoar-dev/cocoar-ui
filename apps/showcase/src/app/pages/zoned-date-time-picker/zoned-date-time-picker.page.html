@@ -11,14 +11,14 @@
     </coar-note>
   </header>
 
-  <coar-code-block class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
+  <coar-code-block variant="info" elevated class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
 
   <div class="examples-content">
     <!-- ============================================ -->
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Basic Usage</h3>
         <p class="example-description">A zoned datetime picker that uses the timezone from <code>CoarTimeZoneService</code>.</p>
         <div class="example-demo">
@@ -31,7 +31,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="basicExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Intent vs Instant</h3>
         <p class="example-description">
           The key insight: <strong>store intent, derive math</strong>. ZonedDateTime preserves both what the user meant and what moment that
@@ -52,7 +52,7 @@
     <p class="component-section-description">ZonedDateTimePicker works with any IANA timezone. The timezone badge shows where the event "lives".</p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>World Clocks</h3>
         <p class="example-description">Same moment shown in different timezones.</p>
         <div class="demo-grid">
@@ -73,7 +73,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="timezoneExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>With Markers</h3>
         <p class="example-description">Add date markers to highlight important dates like holidays or events.</p>
         <div class="example-demo">
@@ -90,7 +90,7 @@
     <p class="component-section-description">Available in four sizes and various states.</p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Size Variants</h3>
         <p class="example-description">Extra-small, small, medium (default), and large.</p>
         <div class="example-demo example-demo--sizes">
@@ -101,7 +101,7 @@
         </div>
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>States</h3>
         <p class="example-description">Disabled, readonly, error, and required states.</p>
         <div class="example-demo example-demo--grid">
@@ -285,13 +285,13 @@
     <p class="component-section-description">Choose the right picker based on your use case.</p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Date Picker</h3>
         <p class="example-description">Select date only (no time component).</p>
         <coar-note variant="info"><strong>See:</strong> <a href="/components/plain-date-picker">Date Picker</a> for date-only values using <code>Temporal.PlainDate</code>.</coar-note>
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Date-Time Picker</h3>
         <p class="example-description">Select date and time without timezone.</p>
         <coar-note variant="info"><strong>See:</strong> <a href="/components/plain-date-time-picker">Date-Time Picker</a> for date + time values using <code>Temporal.PlainDateTime</code>.</coar-note>

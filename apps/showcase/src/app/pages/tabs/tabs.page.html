@@ -4,14 +4,14 @@
     <p class="page-description">A tabbed interface component for organizing content into separate views.</p>
   </header>
 
-  <coar-code-block class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
+  <coar-code-block variant="info" elevated class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
 
   <div class="examples-content">
     <!-- ============================================ -->
     <!-- BASIC EXAMPLES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Basic Usage</h3>
         <p class="example-description">Define tabs with a clean configuration. Content is referenced via <code>[content]</code> input.</p>
         <div class="example-demo">
@@ -24,7 +24,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="basicExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>With Icons</h3>
         <p class="example-description">Add icons to make tabs more visually distinctive.</p>
         <div class="example-demo">
@@ -37,7 +37,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="withIconsExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Disabled Tabs</h3>
         <p class="example-description">Disable tabs that shouldn't be accessible.</p>
         <div class="example-demo">
@@ -50,7 +50,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="disabledExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Rich Labels</h3>
         <p class="example-description">Use inline content for rich labels with badges, icons, or custom styling.</p>
         <div class="example-demo">
@@ -71,7 +71,7 @@
     <p class="component-section-description">Control tabs programmatically and understand content loading strategies.</p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Controlled State</h3>
         <p class="example-description">Control the active tab programmatically and respond to changes.</p>
         <div class="example-demo">
@@ -92,7 +92,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="controlledExample" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Lazy Loading</h3>
         <p class="example-description">
           All tab content is <strong>lazy by default</strong> — it's only rendered when the tab becomes active. Open the browser console to see
@@ -121,7 +121,7 @@
     <p class="component-section-description">The tabs component supports full keyboard navigation for accessibility.</p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Keyboard Shortcuts</h3>
         <p class="example-description">Navigate tabs using standard keyboard patterns.</p>
         <div class="keyboard-grid">

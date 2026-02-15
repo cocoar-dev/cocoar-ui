@@ -5,14 +5,14 @@
       A spec-driven imperative API for floating panels. Define WHAT you want to render and how it behaves (anchor, position, backdrop).
     </p>
   </header>
-  <coar-code-block class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
+  <coar-code-block variant="info" elevated class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
 
   <div class="examples-content">
     <!-- ============================================ -->
     <!-- BASIC ANCHOR TYPES -->
     <!-- ============================================ -->
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Connected Overlay (Element)</h3>
         <p class="example-description">Defines a template overlay and opens it anchored to an element.</p>
         <div class="example-demo example-demo--row">
@@ -25,7 +25,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.openConnected" language="ts" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Context Menu (Point)</h3>
         <p class="example-description">Right-click inside the box to open an overlay at pointer coordinates.</p>
         <div class="example-demo">
@@ -39,7 +39,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.openAtPoint" language="ts" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Global Center (Modal)</h3>
         <p class="example-description">Centers the overlay in the viewport with a modal backdrop.</p>
         <div class="example-demo example-demo--row">
@@ -49,7 +49,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.globalCenter" language="ts" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Parent-Attached (Container)</h3>
         <p class="example-description">Overlay attached to a specific parent container instead of body. Clamp/fallback use container boundaries.</p>
         <div class="example-demo">
@@ -70,7 +70,7 @@
     <p class="component-section-description">DI resolution, nested overlays, and hover-based menus.</p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>ResolveSpec via DI</h3>
         <p class="example-description">Register a DI resolver that defaults menu overlays to close-on-scroll when no scroll strategy is set.</p>
         <div class="example-demo example-demo--row">
@@ -82,7 +82,7 @@
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.resolveViaDi" language="ts" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Nested Overlays (Click)</h3>
         <p class="example-description">Test parent-child overlay hierarchy with sibling closure. Opening a sibling should close the previous one.</p>
         <div class="example-demo example-demo--column">
@@ -94,7 +94,7 @@
         </div>
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Nested Overlays (Hover)</h3>
         <p class="example-description">
           Same test but with HOVER instead of click. Hover over items to open submenus. Behaves like real menu system.
@@ -113,7 +113,7 @@
     <p class="component-section-description">Overlays implement focus trapping, keyboard navigation, and proper ARIA attributes for accessibility.</p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Keyboard Navigation</h3>
         <p class="example-description">Overlays support standard keyboard interactions for dismissal and focus management.</p>
         <div class="keyboard-grid">
@@ -126,7 +126,7 @@
         </coar-note>
       </coar-card>
 
-      <coar-card>
+      <coar-card elevated>
         <h3>Focus Management</h3>
         <p class="example-description">Overlays automatically manage focus for a better user experience.</p>
         <div class="a11y-list">

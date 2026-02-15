@@ -4,14 +4,14 @@
     <p class="page-description">Non-blocking notification messages for success, error, warning, and info states.</p>
   </header>
 
-  <coar-code-block class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
+  <coar-code-block variant="info" elevated class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
 
   <div class="examples-content">
     <h2 class="component-section-title">Variants</h2>
     <p class="component-section-description">Four semantic variants for different notification types.</p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>All Variants</h3>
         <p class="example-description">Trigger different toast variants.</p>
         <div class="example-demo demo-row">
@@ -28,7 +28,7 @@
     <p class="component-section-description">Toasts can be shown without a title for simple, single-line notifications.</p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Single-line Toast</h3>
         <p class="example-description">A compact toast with only a message.</p>
         <div class="example-demo demo-row">
@@ -41,7 +41,7 @@
     <p class="component-section-description">Error toasts default to persistent (no auto-dismiss). Set duration to 0 for any variant.</p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Persistent Error</h3>
         <p class="example-description">Must be manually dismissed.</p>
         <div class="example-demo demo-row">
@@ -56,7 +56,7 @@
     <p class="component-section-description">Override the default 5-second duration.</p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>10 Second Toast</h3>
         <p class="example-description">Custom duration with progress bar.</p>
         <div class="example-demo demo-row">
@@ -69,7 +69,7 @@
     <p class="component-section-description">Add an action button to toasts for undo or follow-up actions.</p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Toast with Action</h3>
         <p class="example-description">An undo action on a delete notification.</p>
         <div class="example-demo demo-row">
@@ -83,7 +83,7 @@
     <p class="component-section-description">Control where toasts appear on screen.</p>
 
     <div class="examples-grid">
-      <coar-card>
+      <coar-card elevated>
         <h3>Position Picker</h3>
         <p class="example-description">Select a position, then trigger a toast to see it appear there.</p>
         <div class="example-demo demo-column">
