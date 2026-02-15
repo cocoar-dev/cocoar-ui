@@ -37,7 +37,10 @@
       "WebFetch(domain:medium.com)",
       "mcp__chrome-devtools__take_screenshot",
       "mcp__chrome-devtools__take_snapshot",
-      "mcp__chrome-devtools__list_console_messages"
+      "mcp__chrome-devtools__list_console_messages",
+      "mcp__chrome-devtools__select_page",
+      "mcp__chrome-devtools__press_key",
+      "mcp__ide__getDiagnostics"
     ]
   }
 }

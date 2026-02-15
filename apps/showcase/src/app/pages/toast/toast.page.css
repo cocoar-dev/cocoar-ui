@@ -1,0 +1,19 @@
+/* ========================================
+   TOAST PAGE - Component-specific styles
+   ========================================
+   Shared styles are inherited from showcase-pages.css
+   Only add styles specific to this page here
+   ======================================== */
+
+.demo-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--coar-spacing-m);
+  align-items: flex-start;
+}
+
+.position-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--coar-spacing-xs);
+}

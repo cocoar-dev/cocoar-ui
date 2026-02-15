@@ -1,0 +1,159 @@
+:host {
+  display: inline-block;
+}
+
+/* Switch track sizes – define locally as CSS custom properties */
+:host(.coar-switch--s) {
+  --coar-switch-track-width: 32px;
+  --coar-switch-track-height: 18px;
+  --coar-switch-thumb-size: 14px;
+}
+
+:host(.coar-switch--m) {
+  --coar-switch-track-width: 40px;
+  --coar-switch-track-height: 22px;
+  --coar-switch-thumb-size: 18px;
+}
+
+:host(.coar-switch--l) {
+  --coar-switch-track-width: 48px;
+  --coar-switch-track-height: 26px;
+  --coar-switch-thumb-size: 22px;
+}
+
+/* Wrapper */
+.coar-switch-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--coar-spacing-s);
+  cursor: pointer;
+  user-select: none;
+}
+
+:host(.coar-switch--disabled) .coar-switch-wrapper {
+  cursor: not-allowed;
+}
+
+:host(.coar-switch--readonly) .coar-switch-wrapper {
+  cursor: default;
+}
+
+/* Hidden native input */
+.coar-switch-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Track */
+.coar-switch-track {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: var(--coar-switch-track-width);
+  height: var(--coar-switch-track-height);
+  border: 1px solid transparent;
+  border-radius: calc(var(--coar-switch-track-height) / 2);
+  background: var(--coar-color-gray-300);
+  transition: background var(--coar-duration-fast) ease,
+              border-color var(--coar-duration-fast) ease;
+}
+
+/* Track hover (off) */
+.coar-switch-wrapper:hover .coar-switch-track:not(.coar-switch-track--checked) {
+  background: var(--coar-color-gray-400);
+}
+
+/* Track checked */
+.coar-switch-track--checked {
+  background: var(--coar-background-accent-primary);
+  border-color: var(--coar-background-accent-primary);
+}
+
+/* Track hover (on) */
+.coar-switch-wrapper:hover .coar-switch-track--checked {
+  background: var(--coar-background-accent-hover);
+  border-color: var(--coar-background-accent-hover);
+}
+
+/* Thumb */
+.coar-switch-thumb {
+  position: absolute;
+  top: 50%;
+  left: 1px;
+  width: var(--coar-switch-thumb-size);
+  height: var(--coar-switch-thumb-size);
+  border-radius: 50%;
+  background: var(--coar-text-on-bold);
+  transform: translateY(-50%) translateX(0);
+  transition: transform var(--coar-duration-fast) ease;
+}
+
+/* Thumb checked position */
+.coar-switch-track--checked .coar-switch-thumb {
+  transform: translateY(-50%) translateX(calc(var(--coar-switch-track-width) - var(--coar-switch-thumb-size) - 4px));
+}
+
+/* Disabled state */
+:host(.coar-switch--disabled) .coar-switch-track {
+  opacity: 0.6;
+}
+
+:host(.coar-switch--disabled) .coar-switch-track--checked {
+  background: var(--coar-background-neutral-tertiary);
+  border-color: var(--coar-background-neutral-tertiary);
+}
+
+:host(.coar-switch--disabled) .coar-switch-wrapper:hover .coar-switch-track {
+  background: var(--coar-color-gray-300);
+}
+
+:host(.coar-switch--disabled) .coar-switch-wrapper:hover .coar-switch-track--checked {
+  background: var(--coar-background-neutral-tertiary);
+  border-color: var(--coar-background-neutral-tertiary);
+}
+
+/* Readonly hover – no change */
+:host(.coar-switch--readonly) .coar-switch-wrapper:hover .coar-switch-track:not(.coar-switch-track--checked) {
+  background: var(--coar-color-gray-300);
+}
+
+:host(.coar-switch--readonly) .coar-switch-wrapper:hover .coar-switch-track--checked {
+  background: var(--coar-background-accent-primary);
+  border-color: var(--coar-background-accent-primary);
+}
+
+/* Label */
+.coar-switch-label {
+  font-family: var(--coar-body-small-base-family);
+  font-size: var(--coar-component-m-font-size);
+  font-weight: var(--coar-body-small-base-weight);
+  color: var(--coar-text-neutral-primary);
+}
+
+:host(.coar-switch--s) .coar-switch-label {
+  font-size: var(--coar-component-s-font-size);
+}
+
+:host(.coar-switch--l) .coar-switch-label {
+  font-size: var(--coar-component-l-font-size);
+}
+
+:host(.coar-switch--disabled) .coar-switch-label {
+  color: var(--coar-text-neutral-disabled);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .coar-switch-track,
+  .coar-switch-thumb {
+    transition: none;
+  }
+}

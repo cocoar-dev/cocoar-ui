@@ -1,0 +1,19 @@
+/* ========================================
+   SWITCH PAGE - Component-specific styles
+   ========================================
+   Shared styles are inherited from showcase-pages.css
+   Only add styles specific to this page here
+   ======================================== */
+
+.switch-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: center;
+}
+
+.sizes-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

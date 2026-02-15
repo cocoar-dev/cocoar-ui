@@ -1,0 +1,123 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Navbar</h1>
+    <p class="page-description">A top-level navigation bar with three content slots for flexible layout.</p>
+  </header>
+
+  <coar-code-block class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
+
+  <div class="examples-content">
+    <div class="examples-grid">
+      <coar-card>
+        <h3>Basic Usage (Elevated)</h3>
+        <p class="example-description">Default navbar with a subtle shadow. Uses three slots: start, center, and end.</p>
+        <div class="example-demo navbar-demo">
+          <coar-navbar>
+            <div coar-navbar-start>
+              <strong>MyApp</strong>
+            </div>
+            <nav coar-navbar-center>
+              <a href="javascript:void(0)" class="nav-link">Home</a>
+              <a href="javascript:void(0)" class="nav-link">About</a>
+              <a href="javascript:void(0)" class="nav-link">Contact</a>
+            </nav>
+            <div coar-navbar-end>
+              <span class="nav-user">Admin</span>
+            </div>
+          </coar-navbar>
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="basicExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card>
+        <h3>Bordered</h3>
+        <p class="example-description">Navbar with a bottom border instead of shadow.</p>
+        <div class="example-demo navbar-demo">
+          <coar-navbar [elevated]="false" bordered>
+            <div coar-navbar-start>
+              <strong>MyApp</strong>
+            </div>
+            <nav coar-navbar-center>
+              <a href="javascript:void(0)" class="nav-link">Dashboard</a>
+              <a href="javascript:void(0)" class="nav-link">Reports</a>
+            </nav>
+            <div coar-navbar-end>
+              <span class="nav-user">Admin</span>
+            </div>
+          </coar-navbar>
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="borderedExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card>
+        <h3>Flat (No Shadow or Border)</h3>
+        <p class="example-description">A flat navbar without elevation or border.</p>
+        <div class="example-demo navbar-demo">
+          <coar-navbar [elevated]="false">
+            <div coar-navbar-start>
+              <strong>Flat Navbar</strong>
+            </div>
+            <div coar-navbar-end>
+              <a href="javascript:void(0)" class="nav-link">Help</a>
+            </div>
+          </coar-navbar>
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="flatExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <details class="api-section">
+      <summary>Navbar API</summary>
+      <div class="api-content">
+        <h4>Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>elevated</code></td>
+              <td><code>boolean</code></td>
+              <td><code>true</code></td>
+              <td>Whether the navbar has a box shadow</td>
+            </tr>
+            <tr>
+              <td><code>bordered</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Whether the navbar has a bottom border</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Content Slots</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Selector</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>[coar-navbar-start]</code></td>
+              <td>Left section (logo, app name)</td>
+            </tr>
+            <tr>
+              <td><code>[coar-navbar-center]</code></td>
+              <td>Center section (navigation links)</td>
+            </tr>
+            <tr>
+              <td><code>[coar-navbar-end]</code></td>
+              <td>Right section (user menu, actions)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+</div>

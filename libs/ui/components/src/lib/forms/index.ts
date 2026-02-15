@@ -5,6 +5,7 @@ export * from './password-input';
 export * from './checkbox';
 export * from './radio';
 export * from './select';
+export * from './switch';
 
 // CVA base class
 export * from './_base/coar-control-value-accessor';

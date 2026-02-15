@@ -1,0 +1,95 @@
+:host {
+  display: flex;
+  align-items: center;
+  gap: var(--coar-spacing-s);
+  width: 100%;
+}
+
+/* Size variants */
+:host(.coar-progress-bar--s) {
+  --coar-progress-bar-height: 2px;
+}
+
+:host(.coar-progress-bar--m) {
+  --coar-progress-bar-height: 4px;
+}
+
+:host(.coar-progress-bar--l) {
+  --coar-progress-bar-height: 8px;
+}
+
+/* Variant colors */
+:host(.coar-progress-bar--accent) {
+  --coar-progress-bar-fill-color: var(--coar-background-accent-primary);
+}
+
+:host(.coar-progress-bar--success) {
+  --coar-progress-bar-fill-color: var(--coar-background-semantic-success-bold);
+}
+
+:host(.coar-progress-bar--warning) {
+  --coar-progress-bar-fill-color: var(--coar-background-semantic-warning-bold);
+}
+
+:host(.coar-progress-bar--error) {
+  --coar-progress-bar-fill-color: var(--coar-background-semantic-error-bold);
+}
+
+/* Container */
+.coar-progress-bar-container {
+  flex: 1;
+  height: var(--coar-progress-bar-height);
+  border-radius: calc(var(--coar-progress-bar-height) / 2);
+  background: var(--coar-background-neutral-tertiary);
+  overflow: hidden;
+}
+
+/* Fill */
+.coar-progress-bar-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--coar-progress-bar-fill-color);
+  transition: width var(--coar-duration-fast) ease;
+}
+
+/* Indeterminate animation */
+:host(.coar-progress-bar--indeterminate) .coar-progress-bar-fill {
+  width: 30% !important;
+  animation: coar-progress-bar-indeterminate 1.5s ease-in-out infinite;
+}
+
+@keyframes coar-progress-bar-indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(200%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Percentage text */
+.coar-progress-bar-value {
+  flex-shrink: 0;
+  font-family: var(--coar-body-caption-family);
+  font-size: var(--coar-body-caption-size);
+  font-weight: var(--coar-body-caption-weight);
+  color: var(--coar-text-neutral-secondary);
+  min-width: 2.5em;
+  text-align: right;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .coar-progress-bar-fill {
+    transition: none;
+  }
+
+  :host(.coar-progress-bar--indeterminate) .coar-progress-bar-fill {
+    animation: none;
+    width: 100% !important;
+    opacity: 0.6;
+  }
+}

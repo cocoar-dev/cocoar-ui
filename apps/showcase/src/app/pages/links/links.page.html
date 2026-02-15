@@ -1,0 +1,93 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Link</h1>
+    <p class="page-description">
+      CSS-only link styles applied to native anchor elements. Supports accent and subtle variants, size modifiers, and disabled state.
+    </p>
+  </header>
+
+  <coar-code-block class="page-import" [code]="importCode" language="css" [collapsible]="false" />
+
+  <div class="examples-content">
+    <div class="examples-grid">
+      <coar-card>
+        <h3>Basic Link</h3>
+        <p class="example-description">Default accent-colored link with underline on hover.</p>
+        <div class="example-demo">
+          <a class="coar-link" href="javascript:void(0)">Default link</a>
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.basic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card>
+        <h3>Subtle Link</h3>
+        <p class="example-description">Muted link for secondary navigation or less prominent actions.</p>
+        <div class="example-demo">
+          <a class="coar-link coar-link--subtle" href="javascript:void(0)">Subtle link</a>
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.subtle" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card>
+        <h3>Size Variants</h3>
+        <p class="example-description">Links in small, medium (default), and large sizes.</p>
+        <div class="example-demo link-sizes">
+          <a class="coar-link coar-link--s" href="javascript:void(0)">Small link</a>
+          <a class="coar-link" href="javascript:void(0)">Medium link (default)</a>
+          <a class="coar-link coar-link--l" href="javascript:void(0)">Large link</a>
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.sizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card>
+        <h3>Disabled Link</h3>
+        <p class="example-description">Use aria-disabled to visually and functionally disable a link.</p>
+        <div class="example-demo">
+          <a class="coar-link" href="javascript:void(0)" aria-disabled="true" tabindex="-1">Disabled link</a>
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.disabled" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <details class="api-section">
+      <summary>Link API</summary>
+      <div class="api-content">
+        <h4>CSS Classes</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Class</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>.coar-link</code></td>
+              <td>Base link style with accent color and hover underline</td>
+            </tr>
+            <tr>
+              <td><code>.coar-link--subtle</code></td>
+              <td>Muted color variant for secondary links</td>
+            </tr>
+            <tr>
+              <td><code>.coar-link--s</code></td>
+              <td>Small font size</td>
+            </tr>
+            <tr>
+              <td><code>.coar-link--m</code></td>
+              <td>Medium font size (default)</td>
+            </tr>
+            <tr>
+              <td><code>.coar-link--l</code></td>
+              <td>Large font size</td>
+            </tr>
+            <tr>
+              <td><code>.coar-link--disabled</code></td>
+              <td>Disabled appearance (prefer aria-disabled="true")</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+</div>

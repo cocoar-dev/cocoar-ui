@@ -1,0 +1,63 @@
+<nav aria-label="Pagination" class="coar-pagination-nav">
+  @if (showFirstLast()) {
+    <button
+      type="button"
+      class="coar-pagination-button coar-pagination-button--nav"
+      [disabled]="disabled() || !canGoPrev()"
+      [attr.aria-label]="'Go to first page'"
+      (click)="goToPage(1)"
+    >
+      <coar-icon name="chevrons-left" size="s"></coar-icon>
+    </button>
+  }
+
+  <button
+    type="button"
+    class="coar-pagination-button coar-pagination-button--nav"
+    [disabled]="disabled() || !canGoPrev()"
+    [attr.aria-label]="'Go to previous page'"
+    (click)="goToPage(currentPage() - 1)"
+  >
+    <coar-icon name="chevron-left" size="s"></coar-icon>
+  </button>
+
+  @for (item of visiblePages(); track trackByItem($index, item)) {
+    @if (item.type === 'ellipsis') {
+      <span class="coar-pagination-ellipsis">...</span>
+    } @else {
+      <button
+        type="button"
+        class="coar-pagination-button coar-pagination-button--page"
+        [class.coar-pagination-button--active]="item.page === currentPage()"
+        [disabled]="disabled()"
+        [attr.aria-current]="item.page === currentPage() ? 'page' : null"
+        [attr.aria-label]="'Go to page ' + item.page"
+        (click)="goToPage(item.page)"
+      >
+        {{ item.page }}
+      </button>
+    }
+  }
+
+  <button
+    type="button"
+    class="coar-pagination-button coar-pagination-button--nav"
+    [disabled]="disabled() || !canGoNext()"
+    [attr.aria-label]="'Go to next page'"
+    (click)="goToPage(currentPage() + 1)"
+  >
+    <coar-icon name="chevron-right" size="s"></coar-icon>
+  </button>
+
+  @if (showFirstLast()) {
+    <button
+      type="button"
+      class="coar-pagination-button coar-pagination-button--nav"
+      [disabled]="disabled() || !canGoNext()"
+      [attr.aria-label]="'Go to last page'"
+      (click)="goToPage(totalPages())"
+    >
+      <coar-icon name="chevrons-right" size="s"></coar-icon>
+    </button>
+  }
+</nav>

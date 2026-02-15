@@ -1,0 +1,9 @@
+<div class="coar-progress-bar-container">
+  <div
+    class="coar-progress-bar-fill"
+    [style.width.%]="indeterminate() ? 100 : percentage()"
+  ></div>
+</div>
+@if (showValue() && !indeterminate()) {
+  <span class="coar-progress-bar-value">{{ percentage() }}%</span>
+}

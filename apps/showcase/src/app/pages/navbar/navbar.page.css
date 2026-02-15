@@ -1,0 +1,27 @@
+/* ========================================
+   NAVBAR PAGE - SPECIFIC STYLES
+   ========================================
+   Common styles are in: app/shared/showcase-pages.css
+   Only page-specific overrides belong here.
+   ======================================== */
+
+.navbar-demo {
+  border: 1px solid var(--coar-border-neutral-tertiary, #e5e5e5);
+  border-radius: var(--coar-radius-s, 6px);
+  overflow: hidden;
+}
+
+.nav-link {
+  color: var(--coar-text-neutral-secondary, #555);
+  text-decoration: none;
+  font-size: var(--coar-font-size-s, 14px);
+}
+
+.nav-link:hover {
+  color: var(--coar-text-neutral-primary, #111);
+}
+
+.nav-user {
+  font-size: var(--coar-font-size-s, 14px);
+  color: var(--coar-text-neutral-secondary, #555);
+}

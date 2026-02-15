@@ -1,0 +1,64 @@
+:host {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Size variants */
+:host(.coar-spinner--xs) {
+  --coar-spinner-size: 16px;
+}
+
+:host(.coar-spinner--s) {
+  --coar-spinner-size: 20px;
+}
+
+:host(.coar-spinner--m) {
+  --coar-spinner-size: 24px;
+}
+
+:host(.coar-spinner--l) {
+  --coar-spinner-size: 32px;
+}
+
+/* SVG */
+.coar-spinner-svg {
+  width: var(--coar-spinner-size);
+  height: var(--coar-spinner-size);
+  animation: coar-spinner-rotate 0.8s linear infinite;
+}
+
+/* Background circle */
+.coar-spinner-bg {
+  stroke: var(--coar-background-neutral-tertiary);
+  fill: none;
+}
+
+/* Spinning arc */
+.coar-spinner-arc {
+  stroke: var(--coar-background-accent-primary);
+  fill: none;
+  stroke-dasharray: 44 19;
+  stroke-dashoffset: 0;
+}
+
+@keyframes coar-spinner-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .coar-spinner-svg {
+    animation: none;
+  }
+
+  .coar-spinner-arc {
+    stroke-dasharray: none;
+    opacity: 0.6;
+  }
+}

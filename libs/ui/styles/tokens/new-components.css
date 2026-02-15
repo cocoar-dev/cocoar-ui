@@ -1,0 +1,104 @@
+/**
+ * Cocoar Design System - New Component Tokens
+ * Tokens for: Switch, Progress Bar, Spinner, Navbar, Breadcrumb, Pagination, Dialog, Toast
+ */
+
+:root {
+  /* ==========================================================================
+     SWITCH
+     ========================================================================== */
+
+  /* Track dimensions */
+  --coar-switch-s-track-width: 32px;
+  --coar-switch-s-track-height: 18px;
+  --coar-switch-m-track-width: 40px;
+  --coar-switch-m-track-height: 22px;
+  --coar-switch-l-track-width: 48px;
+  --coar-switch-l-track-height: 26px;
+
+  /* Thumb dimensions (circle inside track) */
+  --coar-switch-s-thumb-size: 14px;
+  --coar-switch-m-thumb-size: 18px;
+  --coar-switch-l-thumb-size: 22px;
+
+  /* Thumb offset from track edge */
+  --coar-switch-thumb-offset: 2px;
+
+  /* ==========================================================================
+     PROGRESS BAR
+     ========================================================================== */
+
+  --coar-progress-bar-s-height: 2px;
+  --coar-progress-bar-m-height: 4px;
+  --coar-progress-bar-l-height: 8px;
+  --coar-progress-bar-radius: var(--coar-radius-full);
+  --coar-progress-bar-background: var(--coar-background-neutral-tertiary);
+
+  /* ==========================================================================
+     SPINNER
+     ========================================================================== */
+
+  --coar-spinner-xs-size: 16px;
+  --coar-spinner-s-size: 20px;
+  --coar-spinner-m-size: 24px;
+  --coar-spinner-l-size: 32px;
+  --coar-spinner-stroke-width: 2.5;
+  --coar-spinner-color: var(--coar-background-accent-primary);
+
+  /* ==========================================================================
+     NAVBAR
+     ========================================================================== */
+
+  --coar-navbar-height: 56px;
+  --coar-navbar-padding-x: var(--coar-spacing-l);
+  --coar-navbar-background: var(--coar-background-neutral-primary);
+  --coar-navbar-border-color: var(--coar-border-neutral-tertiary);
+
+  /* ==========================================================================
+     BREADCRUMB
+     ========================================================================== */
+
+  --coar-breadcrumb-separator-color: var(--coar-text-neutral-tertiary);
+  --coar-breadcrumb-separator-gap: var(--coar-spacing-s);
+  --coar-breadcrumb-font-size: var(--coar-component-m-font-size);
+  --coar-breadcrumb-active-color: var(--coar-text-neutral-primary);
+  --coar-breadcrumb-link-color: var(--coar-text-accent-primary);
+
+  /* ==========================================================================
+     PAGINATION
+     ========================================================================== */
+
+  --coar-pagination-button-size: 32px;
+  --coar-pagination-gap: var(--coar-spacing-xs);
+  --coar-pagination-font-size: var(--coar-component-s-font-size);
+  --coar-pagination-active-background: var(--coar-background-accent-primary);
+  --coar-pagination-active-color: var(--coar-text-on-bold);
+  --coar-pagination-hover-background: var(--coar-background-neutral-tertiary);
+
+  /* ==========================================================================
+     DIALOG
+     ========================================================================== */
+
+  --coar-dialog-s-width: 400px;
+  --coar-dialog-m-width: 560px;
+  --coar-dialog-l-width: 720px;
+  --coar-dialog-padding: var(--coar-spacing-l);
+  --coar-dialog-header-gap: var(--coar-spacing-m);
+  --coar-dialog-border-radius: var(--coar-radius-l);
+  --coar-dialog-background: var(--coar-background-neutral-primary);
+
+  /* ==========================================================================
+     TOAST
+     ========================================================================== */
+
+  --coar-toast-width: 380px;
+  --coar-toast-padding: var(--coar-spacing-m);
+  --coar-toast-gap: var(--coar-spacing-m);
+  --coar-toast-border-radius: var(--coar-radius-m);
+  --coar-toast-border-width: 3px;
+  --coar-toast-background: var(--coar-background-neutral-primary);
+  --coar-toast-container-offset: var(--coar-spacing-m);
+  --coar-toast-stack-gap: var(--coar-spacing-s);
+  --coar-toast-progress-height: 3px;
+  --coar-toast-max-stack: 5;
+}

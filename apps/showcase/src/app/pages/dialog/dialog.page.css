@@ -1,0 +1,19 @@
+/* ========================================
+   DIALOG PAGE - Component-specific styles
+   ========================================
+   Shared styles are inherited from showcase-pages.css
+   Only add styles specific to this page here
+   ======================================== */
+
+.demo-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--coar-spacing-s);
+  align-items: flex-start;
+}
+
+.confirm-result {
+  font: var(--coar-body-s);
+  color: var(--coar-text-neutral-secondary);
+  margin: 0;
+}

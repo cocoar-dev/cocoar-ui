@@ -1,0 +1,68 @@
+/* ========================================
+   LINK - CSS-only component
+   ========================================
+   Applied to native <a> elements.
+   Usage: <a class="coar-link" href="...">Link</a>
+   ======================================== */
+
+.coar-link {
+  color: var(--coar-text-accent-primary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color var(--coar-duration-fast) ease;
+  font-size: var(--coar-component-m-font-size);
+}
+
+.coar-link:hover {
+  color: var(--coar-text-accent-secondary);
+  text-decoration: underline;
+}
+
+.coar-link:focus-visible {
+  outline: none;
+  box-shadow: var(--coar-focus-shadow);
+  border-radius: var(--coar-radius-xs);
+}
+
+.coar-link:active {
+  color: var(--coar-text-accent-secondary);
+}
+
+/* Subtle variant */
+.coar-link--subtle {
+  color: var(--coar-text-neutral-secondary);
+}
+
+.coar-link--subtle:hover {
+  color: var(--coar-text-accent-primary);
+  text-decoration: underline;
+}
+
+/* Size variants */
+.coar-link--s {
+  font-size: var(--coar-component-s-font-size);
+}
+
+.coar-link--m {
+  font-size: var(--coar-component-m-font-size);
+}
+
+.coar-link--l {
+  font-size: var(--coar-component-l-font-size);
+}
+
+/* Disabled appearance (applied via aria-disabled or class) */
+.coar-link[aria-disabled='true'],
+.coar-link--disabled {
+  color: var(--coar-text-neutral-disabled);
+  pointer-events: none;
+  cursor: default;
+  text-decoration: none;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .coar-link {
+    transition: none;
+  }
+}

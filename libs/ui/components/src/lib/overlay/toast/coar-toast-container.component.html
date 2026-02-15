@@ -1,0 +1,13 @@
+@for (toast of toasts(); track toast.id) {
+  <coar-toast
+    [variant]="toast.variant"
+    [title]="toast.title"
+    [message]="toast.message"
+    [duration]="toast.duration"
+    [dismissible]="toast.dismissible"
+    [showProgress]="toast.showProgress"
+    [action]="toast.action"
+    (dismissed)="onDismissed(toast.id)"
+    (actionClicked)="onDismissed(toast.id)"
+  />
+}

@@ -1,0 +1,210 @@
+:host {
+  display: block;
+  animation: coar-toast-slide-in 300ms ease-out;
+}
+
+.coar-toast {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--coar-spacing-s);
+  padding: var(--coar-spacing-m);
+  background: var(--coar-toast-background, var(--coar-background-neutral-primary));
+  border-radius: var(--coar-radius-m);
+  box-shadow: var(--coar-elevation-high);
+  border: 1px solid var(--coar-border-neutral);
+  border-left: 3px solid transparent;
+  position: relative;
+  overflow: hidden;
+  min-width: 320px;
+  max-width: 420px;
+}
+
+/* Variant border colors */
+.coar-toast--success {
+  border-left-color: var(--coar-background-semantic-success-bold);
+}
+
+.coar-toast--error {
+  border-left-color: var(--coar-background-semantic-error-bold);
+}
+
+.coar-toast--warning {
+  border-left-color: var(--coar-background-semantic-warning-bold);
+}
+
+.coar-toast--info {
+  border-left-color: var(--coar-background-semantic-info-bold);
+}
+
+/* Icon colors */
+.coar-toast--success .coar-toast-icon {
+  color: var(--coar-text-semantic-success-bold);
+}
+
+.coar-toast--error .coar-toast-icon {
+  color: var(--coar-text-semantic-error-bold);
+}
+
+.coar-toast--warning .coar-toast-icon {
+  color: var(--coar-text-semantic-warning-bold);
+}
+
+.coar-toast--info .coar-toast-icon {
+  color: var(--coar-text-semantic-info-bold);
+}
+
+.coar-toast-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+
+.coar-toast-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.coar-toast-title {
+  font: var(--coar-label-m);
+  color: var(--coar-text-neutral-primary);
+  margin-bottom: var(--coar-spacing-xxs);
+}
+
+.coar-toast-message {
+  font: var(--coar-body-s);
+  color: var(--coar-text-neutral-secondary);
+}
+
+/* No-title variant: single-line toast */
+:host(.coar-toast--no-title) .coar-toast {
+  align-items: center;
+}
+
+:host(.coar-toast--no-title) .coar-toast-message {
+  font: var(--coar-label-m);
+  color: var(--coar-text-neutral-primary);
+}
+
+.coar-toast-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--coar-spacing-xs);
+  flex-shrink: 0;
+}
+
+.coar-toast-action-btn {
+  background: none;
+  border: none;
+  padding: var(--coar-spacing-xxs) var(--coar-spacing-xs);
+  font: var(--coar-label-s);
+  color: var(--coar-text-brand-primary);
+  cursor: pointer;
+  border-radius: var(--coar-radius-s);
+  transition: background-color 150ms ease;
+}
+
+.coar-toast-action-btn:hover {
+  background-color: var(--coar-background-brand-secondary);
+}
+
+.coar-toast-action-btn:focus-visible {
+  outline: 2px solid var(--coar-border-focus);
+  outline-offset: -2px;
+}
+
+.coar-toast-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: var(--coar-spacing-xxs);
+  border-radius: var(--coar-radius-s);
+  color: var(--coar-text-neutral-secondary);
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.coar-toast-close:hover {
+  background-color: var(--coar-background-neutral-secondary);
+  color: var(--coar-text-neutral-primary);
+}
+
+.coar-toast-close:focus-visible {
+  outline: 2px solid var(--coar-border-focus);
+  outline-offset: -2px;
+}
+
+/* Progress bar */
+.coar-toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--coar-background-neutral-tertiary);
+}
+
+.coar-toast-progress-bar {
+  height: 100%;
+  background: var(--coar-background-neutral-quaternary);
+  transform-origin: left;
+  animation: coar-toast-progress linear forwards;
+}
+
+.coar-toast--success .coar-toast-progress-bar {
+  background: var(--coar-background-semantic-success-bold);
+}
+
+.coar-toast--error .coar-toast-progress-bar {
+  background: var(--coar-background-semantic-error-bold);
+}
+
+.coar-toast--warning .coar-toast-progress-bar {
+  background: var(--coar-background-semantic-warning-bold);
+}
+
+.coar-toast--info .coar-toast-progress-bar {
+  background: var(--coar-background-semantic-info-bold);
+}
+
+.coar-toast-progress-bar--paused {
+  animation-play-state: paused;
+}
+
+@keyframes coar-toast-progress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes coar-toast-slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    animation: none;
+  }
+
+  .coar-toast-action-btn,
+  .coar-toast-close {
+    transition: none;
+  }
+
+  .coar-toast-progress-bar {
+    animation: none;
+    transform: scaleX(0);
+  }
+}

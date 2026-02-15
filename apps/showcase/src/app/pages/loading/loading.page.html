@@ -1,0 +1,213 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Loading</h1>
+    <p class="page-description">
+      Loading indicators for progress and indeterminate states. Includes a progress bar for determinate/indeterminate progress and a spinner for loading states.
+    </p>
+  </header>
+
+  <coar-code-block class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
+
+  <div class="examples-content">
+    <!-- ============================================ -->
+    <!-- PROGRESS BAR SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Progress Bar</h2>
+
+    <div class="examples-grid">
+      <coar-card>
+        <h3>Basic Progress Bar</h3>
+        <p class="example-description">A simple determinate progress bar.</p>
+        <div class="example-demo">
+          <coar-progress-bar [value]="progressValue()" label="Upload progress" />
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.progressBasic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card>
+        <h3>Variants</h3>
+        <p class="example-description">Progress bar color variants for different semantic meanings.</p>
+        <div class="example-demo progress-stack">
+          <coar-progress-bar [value]="75" variant="accent" label="Accent" />
+          <coar-progress-bar [value]="75" variant="success" label="Success" />
+          <coar-progress-bar [value]="75" variant="warning" label="Warning" />
+          <coar-progress-bar [value]="75" variant="error" label="Error" />
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.progressVariants" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card>
+        <h3>Sizes</h3>
+        <p class="example-description">Progress bars come in three heights.</p>
+        <div class="example-demo progress-stack">
+          <coar-progress-bar [value]="60" size="s" label="Small" />
+          <coar-progress-bar [value]="60" size="m" label="Medium" />
+          <coar-progress-bar [value]="60" size="l" label="Large" />
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.progressSizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card>
+        <h3>With Percentage</h3>
+        <p class="example-description">Display the current percentage value next to the bar.</p>
+        <div class="example-demo">
+          <coar-progress-bar [value]="progressValue()" showValue label="Download" />
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.progressValue" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card>
+        <h3>Indeterminate</h3>
+        <p class="example-description">An animated bar for unknown progress duration.</p>
+        <div class="example-demo">
+          <coar-progress-bar indeterminate label="Loading..." />
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.progressIndeterminate" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SPINNER SECTION -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Spinner</h2>
+
+    <div class="examples-grid">
+      <coar-card>
+        <h3>Basic Spinner</h3>
+        <p class="example-description">A simple loading spinner.</p>
+        <div class="example-demo">
+          <coar-spinner />
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.spinnerBasic" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card>
+        <h3>Sizes</h3>
+        <p class="example-description">Spinners in four sizes for different contexts.</p>
+        <div class="example-demo spinner-row">
+          <div class="spinner-item">
+            <coar-spinner size="xs" />
+            <span class="spinner-size-label">xs (16px)</span>
+          </div>
+          <div class="spinner-item">
+            <coar-spinner size="s" />
+            <span class="spinner-size-label">s (20px)</span>
+          </div>
+          <div class="spinner-item">
+            <coar-spinner size="m" />
+            <span class="spinner-size-label">m (24px)</span>
+          </div>
+          <div class="spinner-item">
+            <coar-spinner size="l" />
+            <span class="spinner-size-label">l (32px)</span>
+          </div>
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.spinnerSizes" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card>
+        <h3>Custom Label</h3>
+        <p class="example-description">Provide a custom aria-label for screen readers.</p>
+        <div class="example-demo">
+          <coar-spinner label="Saving changes" />
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="codeExamples.spinnerLabel" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- API SECTIONS -->
+    <!-- ============================================ -->
+    <details class="api-section">
+      <summary>Progress Bar API</summary>
+      <div class="api-content">
+        <h4>Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>value</code></td>
+              <td><code>number</code></td>
+              <td><code>0</code></td>
+              <td>Current progress value (0 to max)</td>
+            </tr>
+            <tr>
+              <td><code>max</code></td>
+              <td><code>number</code></td>
+              <td><code>100</code></td>
+              <td>Maximum progress value</td>
+            </tr>
+            <tr>
+              <td><code>variant</code></td>
+              <td><code>'accent' | 'success' | 'warning' | 'error'</code></td>
+              <td><code>'accent'</code></td>
+              <td>Color variant</td>
+            </tr>
+            <tr>
+              <td><code>size</code></td>
+              <td><code>'s' | 'm' | 'l'</code></td>
+              <td><code>'m'</code></td>
+              <td>Bar height (2px / 4px / 8px)</td>
+            </tr>
+            <tr>
+              <td><code>indeterminate</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Show indeterminate animation</td>
+            </tr>
+            <tr>
+              <td><code>label</code></td>
+              <td><code>string</code></td>
+              <td><code>''</code></td>
+              <td>Accessible label (aria-label)</td>
+            </tr>
+            <tr>
+              <td><code>showValue</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Display percentage text</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+
+    <details class="api-section">
+      <summary>Spinner API</summary>
+      <div class="api-content">
+        <h4>Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>size</code></td>
+              <td><code>'xs' | 's' | 'm' | 'l'</code></td>
+              <td><code>'m'</code></td>
+              <td>Spinner size (16/20/24/32px)</td>
+            </tr>
+            <tr>
+              <td><code>label</code></td>
+              <td><code>string</code></td>
+              <td><code>'Loading'</code></td>
+              <td>Accessible label (aria-label)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+</div>

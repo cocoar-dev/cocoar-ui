@@ -1,0 +1,94 @@
+:host {
+  display: block;
+}
+
+.coar-dialog {
+  background: var(--coar-dialog-background, var(--coar-background-neutral-primary));
+  border-radius: var(--coar-dialog-border-radius, var(--coar-radius-l));
+  box-shadow: var(--coar-elevation-xl);
+  display: flex;
+  flex-direction: column;
+  max-height: 85vh;
+  overflow: hidden;
+}
+
+.coar-dialog--s {
+  width: var(--coar-dialog-s-width, 400px);
+}
+
+.coar-dialog--m {
+  width: var(--coar-dialog-m-width, 560px);
+}
+
+.coar-dialog--l {
+  width: var(--coar-dialog-l-width, 720px);
+}
+
+.coar-dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--coar-dialog-header-gap, var(--coar-spacing-m));
+  padding: var(--coar-dialog-padding, var(--coar-spacing-l));
+  padding-bottom: 0;
+}
+
+.coar-dialog-title {
+  margin: 0;
+  font: var(--coar-heading-s);
+  color: var(--coar-text-neutral-primary);
+  flex: 1;
+  min-width: 0;
+}
+
+.coar-dialog-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: var(--coar-spacing-xs);
+  border-radius: var(--coar-radius-s);
+  color: var(--coar-text-neutral-secondary);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.coar-dialog-close:hover {
+  background-color: var(--coar-background-neutral-secondary);
+  color: var(--coar-text-neutral-primary);
+}
+
+.coar-dialog-close:focus-visible {
+  outline: 2px solid var(--coar-border-focus);
+  outline-offset: -2px;
+}
+
+.coar-dialog-body {
+  padding: var(--coar-dialog-padding, var(--coar-spacing-l));
+  overflow-y: auto;
+  flex: 1;
+  color: var(--coar-text-neutral-primary);
+}
+
+.coar-dialog-body p {
+  margin: 0;
+  font: var(--coar-body-m);
+  color: var(--coar-text-neutral-secondary);
+}
+
+.coar-dialog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--coar-spacing-s);
+  padding: var(--coar-dialog-padding, var(--coar-spacing-l));
+  padding-top: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coar-dialog-close {
+    transition: none;
+  }
+}

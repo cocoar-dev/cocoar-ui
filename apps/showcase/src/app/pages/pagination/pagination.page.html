@@ -1,0 +1,136 @@
+<div class="component-page">
+  <header class="page-header">
+    <h1 class="coar-title">Pagination</h1>
+    <p class="page-description">A navigation component for moving between pages of content.</p>
+  </header>
+
+  <coar-code-block class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
+
+  <div class="examples-content">
+    <div class="examples-grid">
+      <coar-card>
+        <h3>Basic Usage</h3>
+        <p class="example-description">Standard pagination with 100 items and 10 items per page. Current page: {{ currentPage() }}</p>
+        <div class="example-demo">
+          <coar-pagination
+            [totalItems]="100"
+            [pageSize]="10"
+            [(currentPage)]="currentPage"
+          />
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="basicExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card>
+        <h3>Custom Page Size</h3>
+        <p class="example-description">200 items with 20 items per page, starting at page 5. Current page: {{ currentPage2() }}</p>
+        <div class="example-demo">
+          <coar-pagination
+            [totalItems]="200"
+            [pageSize]="20"
+            [(currentPage)]="currentPage2"
+          />
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="customPageSizeExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card>
+        <h3>Without First/Last Buttons</h3>
+        <p class="example-description">Hide the first and last page navigation buttons.</p>
+        <div class="example-demo">
+          <coar-pagination
+            [totalItems]="100"
+            [pageSize]="10"
+            [showFirstLast]="false"
+          />
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="noFirstLastExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+
+      <coar-card>
+        <h3>Disabled</h3>
+        <p class="example-description">All controls are disabled.</p>
+        <div class="example-demo">
+          <coar-pagination
+            [totalItems]="100"
+            [pageSize]="10"
+            disabled
+          />
+        </div>
+        <coar-code-block coar-card-footer coar-card-inset borderless [code]="disabledExample" language="html" [showLineNumbers]="false" [collapsed]="true" />
+      </coar-card>
+    </div>
+
+    <details class="api-section">
+      <summary>Pagination API</summary>
+      <div class="api-content">
+        <h4>Inputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Default</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>totalItems</code></td>
+              <td><code>number</code></td>
+              <td><code>-</code> (required)</td>
+              <td>Total number of items to paginate</td>
+            </tr>
+            <tr>
+              <td><code>pageSize</code></td>
+              <td><code>number</code></td>
+              <td><code>10</code></td>
+              <td>Number of items per page</td>
+            </tr>
+            <tr>
+              <td><code>currentPage</code></td>
+              <td><code>number</code></td>
+              <td><code>1</code></td>
+              <td>Current page number (1-based, two-way binding)</td>
+            </tr>
+            <tr>
+              <td><code>maxVisiblePages</code></td>
+              <td><code>number</code></td>
+              <td><code>5</code></td>
+              <td>Maximum number of page buttons visible</td>
+            </tr>
+            <tr>
+              <td><code>showFirstLast</code></td>
+              <td><code>boolean</code></td>
+              <td><code>true</code></td>
+              <td>Show first/last page buttons</td>
+            </tr>
+            <tr>
+              <td><code>disabled</code></td>
+              <td><code>boolean</code></td>
+              <td><code>false</code></td>
+              <td>Disable all pagination controls</td>
+            </tr>
+          </tbody>
+        </table>
+        <h4>Outputs</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>pageChanged</code></td>
+              <td><code>number</code></td>
+              <td>Emits when the current page changes</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </details>
+  </div>
+</div>

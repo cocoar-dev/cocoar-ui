@@ -2,8 +2,17 @@
  * Cocoar UI Components - Global Styles
  *
  * This file contains global styles for components that render content
- * outside of Angular's view encapsulation (e.g., overlay panels).
+ * outside of Angular's view encapsulation (e.g., overlay panels),
+ * and CSS-only components that use plain class selectors.
  */
+
+/* ========================================
+   LINK (CSS-only component)
+   ========================================
+   Applied to native <a> elements via .coar-link class.
+   Usage: <a class="coar-link" href="...">Link</a>
+   ======================================== */
+@import '../components/src/lib/display/link/coar-link.css';
 
 /* ========================================
    SELECT DROPDOWN SIZE VARIANTS

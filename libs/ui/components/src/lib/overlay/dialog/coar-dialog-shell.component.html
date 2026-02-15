@@ -1,0 +1,31 @@
+<div class="coar-dialog" [class]="'coar-dialog--' + dialogSize()">
+  @if (dialogTitle() || showCloseButton()) {
+  <div class="coar-dialog-header">
+    @if (dialogTitle()) {
+    <h2 class="coar-dialog-title" id="dialog-title">{{ dialogTitle() }}</h2>
+    }
+    @if (showCloseButton()) {
+    <button class="coar-dialog-close" (click)="onClose()" aria-label="Close dialog">
+      <coar-icon name="x" size="s" />
+    </button>
+    }
+  </div>
+  }
+
+  <div class="coar-dialog-body">
+    @if (confirmMode()) {
+      <p>{{ confirmMessage() }}</p>
+    } @else if (contentComponent()) {
+      <ng-container *ngComponentOutlet="contentComponent(); inputs: componentInputs()" />
+    } @else if (contentTemplate()) {
+      <ng-container *ngTemplateOutlet="contentTemplate(); context: contentContext()" />
+    }
+  </div>
+
+  @if (confirmMode()) {
+  <div class="coar-dialog-footer">
+    <coar-button variant="secondary" (clicked)="onCancel()">{{ cancelText() }}</coar-button>
+    <coar-button [variant]="confirmVariant() === 'danger' ? 'danger' : 'primary'" (clicked)="onConfirm()">{{ confirmText() }}</coar-button>
+  </div>
+  }
+</div>

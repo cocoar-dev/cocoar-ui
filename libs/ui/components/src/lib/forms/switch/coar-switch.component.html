@@ -1,0 +1,31 @@
+<label class="coar-switch-wrapper" [class.coar-switch-focused]="isFocused()">
+  @if (labelPosition() === 'before' && label()) {
+    <span class="coar-switch-label">{{ label() }}</span>
+  }
+
+  <!-- Hidden native input -->
+  <input
+    type="checkbox"
+    role="switch"
+    class="coar-switch-input"
+    [id]="inputId()"
+    [name]="name()"
+    [checked]="checked()"
+    [disabled]="isDisabled()"
+    [attr.aria-checked]="checked()"
+    [attr.aria-disabled]="isDisabled() ? 'true' : null"
+    [attr.aria-readonly]="readonly() ? 'true' : null"
+    (change)="onToggle($event)"
+    (focus)="onFocus()"
+    (blur)="onBlur()"
+  />
+
+  <!-- Custom track + thumb -->
+  <span class="coar-switch-track" [class.coar-switch-track--checked]="checked()">
+    <span class="coar-switch-thumb"></span>
+  </span>
+
+  @if (labelPosition() === 'after' && label()) {
+    <span class="coar-switch-label">{{ label() }}</span>
+  }
+</label>

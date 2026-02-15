@@ -102,6 +102,8 @@ export class CoarScrollbarDirective implements AfterViewInit, OnDestroy {
 
   private osInstance: OverlayScrollbars | null = null;
   private initialized = false;
+  private contentObserver: MutationObserver | null = null;
+  private updateDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 
   constructor() {
     // Register the ClickScrollPlugin for click-to-scroll functionality
@@ -208,6 +210,29 @@ export class CoarScrollbarDirective implements AfterViewInit, OnDestroy {
           viewport.style.overscrollBehavior = overscroll;
         }
       }
+
+      // Watch for descendant attribute changes (e.g. class toggles from expand/collapse
+      // animations using grid-template-rows) that change content size without triggering
+      // OverlayScrollbars' built-in observers.
+      this.observeContentChanges();
+    });
+  }
+
+  private observeContentChanges(): void {
+    const viewport = this.osInstance?.elements().viewport;
+    if (!viewport) return;
+
+    this.contentObserver = new MutationObserver(() => {
+      if (this.updateDebounceTimer) clearTimeout(this.updateDebounceTimer);
+      this.updateDebounceTimer = setTimeout(() => {
+        this.osInstance?.update(true);
+      }, 50);
+    });
+
+    this.contentObserver.observe(viewport, {
+      attributes: true,
+      attributeFilter: ['class'],
+      subtree: true,
     });
   }
 
@@ -227,6 +252,12 @@ export class CoarScrollbarDirective implements AfterViewInit, OnDestroy {
   }
 
   private destroy(): void {
+    this.contentObserver?.disconnect();
+    this.contentObserver = null;
+    if (this.updateDebounceTimer) {
+      clearTimeout(this.updateDebounceTimer);
+      this.updateDebounceTimer = null;
+    }
     this.osInstance?.destroy();
     this.osInstance = null;
     this.initialized = false;

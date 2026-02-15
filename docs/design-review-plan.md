@@ -159,27 +159,35 @@ Consolidated findings from a full design system audit (Feb 2026) covering UI/UX,
 
 ---
 
-## Phase 5: New Components for IDP Server
+## Phase 5: New Components for IDP Server — COMPLETE
 
 ### 5.1 Must-Have (blocks login/consent/profile)
 
-- [ ] **`CoarDialogService` / `CoarDialogComponent`** — leverage existing `coarModalPreset`. Needs: title, body content projection, footer actions, close button, size variants (s/m/l), `role="dialog"`, focus trapping, escape to close.
+- [x] **`CoarDialogService` / `CoarDialogShellComponent`** — Wraps `CoarOverlayService` with `coarModalPreset`. Supports component, template, and confirm dialog modes. Size variants (s/m/l), title, close button, focus trapping, escape to close. Types: `CoarDialogConfig`, `CoarDialogRef`, `CoarConfirmOptions`.
+  - Files: `libs/ui/components/src/lib/overlay/dialog/`
 
-- [ ] **`CoarToastService` / toast notification system** — needs: success/error/warning/info variants, auto-dismiss with configurable duration, stack positioning (top-right), manual dismiss, `aria-live` region.
+- [x] **`CoarToastService` / toast notification system** — success/error/warning/info variants with auto-dismiss (5000ms, error persistent at 0ms). Stacking (max 5), hover pauses timer, progress bar, action buttons, dismiss all. Uses `ApplicationRef` + `createComponent` (no overlay system). `aria-live="polite"`, error toasts use `role="alert"`.
+  - Files: `libs/ui/components/src/lib/overlay/toast/`
 
-- [ ] **`CoarSwitchComponent`** — toggle for "remember me", settings. Form control with CVA. Visually distinct from checkbox. Needs: disabled, readonly, sizes.
+- [x] **`CoarSwitchComponent`** — CVA-based form control with `model<boolean>()` two-way binding. Hidden `<input type="checkbox" role="switch">`, custom track+thumb visuals. Sizes (s/m/l), disabled, readonly, labelPosition (before/after).
+  - Files: `libs/ui/components/src/lib/forms/switch/`
 
-- [ ] **Styled link component or CSS class** — "Forgot password?" links need consistent styling with hover/focus states. Could be a CSS-only solution (`coar-link` class) or a lightweight component.
+- [x] **Styled link CSS classes** — CSS-only `.coar-link` with accent color, underline-on-hover, focus ring. Variants: `--subtle` (muted), sizes `--s`/`--m`/`--l`.
+  - Files: `libs/ui/components/src/lib/display/link/coar-link.css`
 
 ### 5.2 Must-Have (admin panel)
 
-- [ ] **`CoarBreadcrumbComponent`** — hierarchical navigation. Separator customization, last item non-clickable.
+- [x] **`CoarBreadcrumbComponent`** + `CoarBreadcrumbItemComponent` — `<nav aria-label="Breadcrumb">` with `<ol>`, CSS separator via `::before`, active item with `aria-current="page"`, customizable separator.
+  - Files: `libs/ui/components/src/lib/navigation/breadcrumb/`
 
-- [ ] **`CoarPaginationComponent`** — page size selector, page navigation, total items display.
+- [x] **`CoarPaginationComponent`** — 1-based page navigation with window algorithm, first/last/prev/next buttons, ellipsis, `CoarIconComponent` arrows. `model<number>()` two-way binding, `aria-current="page"` on current.
+  - Files: `libs/ui/components/src/lib/navigation/pagination/`
 
-- [ ] **`CoarNavbarComponent`** / top app bar — header with logo slot, action items slot, user menu slot.
+- [x] **`CoarNavbarComponent`** — Flexbox layout with three content projection slots (`[coar-navbar-start]`, `[coar-navbar-center]`, `[coar-navbar-end]`). Elevated (shadow) and bordered variants. `role="banner"`.
+  - Files: `libs/ui/components/src/lib/navigation/navbar/`
 
-- [ ] **`CoarProgressBarComponent`** / standalone `CoarSpinnerComponent` — loading indicators for page-level and inline use.
+- [x] **`CoarProgressBarComponent`** + `CoarSpinnerComponent` — Progress bar with `role="progressbar"`, variant colors (accent/success/warning/error), sizes (s/m/l), indeterminate mode. Spinner with SVG circle rotation, sizes (xs/s/m/l), `role="status"`. Both respect `prefers-reduced-motion`.
+  - Files: `libs/ui/components/src/lib/display/progress-bar/`, `libs/ui/components/src/lib/display/spinner/`
 
 ### 5.3 Nice-to-Have (polish)
 
@@ -207,7 +215,7 @@ Consolidated findings from a full design system audit (Feb 2026) covering UI/UX,
 
 | Item | Phase | Effort |
 |------|-------|--------|
-| **New components for IDP Server** | **5** | **Large** |
+| **Nice-to-have components (skeleton, empty state, stepper, etc.)** | **5.3** | **Medium** |
 
 ---
 

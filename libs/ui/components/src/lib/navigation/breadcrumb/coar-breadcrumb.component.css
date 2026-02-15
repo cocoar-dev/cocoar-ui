@@ -1,0 +1,40 @@
+:host {
+  display: block;
+  font-size: var(--coar-breadcrumb-font-size, var(--coar-font-size-s, 14px));
+}
+
+.coar-breadcrumb-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--coar-breadcrumb-separator-gap, var(--coar-spacing-xs, 4px));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+::ng-deep coar-breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+::ng-deep coar-breadcrumb-item + coar-breadcrumb-item::before {
+  content: attr(data-separator);
+  color: var(--coar-breadcrumb-separator-color, var(--coar-text-neutral-tertiary, #999));
+  margin-right: var(--coar-breadcrumb-separator-gap, var(--coar-spacing-xs, 4px));
+  user-select: none;
+}
+
+::ng-deep coar-breadcrumb-item a {
+  color: var(--coar-breadcrumb-link-color, var(--coar-text-neutral-secondary, #555));
+  text-decoration: none;
+}
+
+::ng-deep coar-breadcrumb-item a:hover {
+  text-decoration: underline;
+}
+
+::ng-deep coar-breadcrumb-item.coar-breadcrumb-item--active {
+  color: var(--coar-breadcrumb-active-color, var(--coar-text-neutral-primary, #111));
+  font-weight: 500;
+}

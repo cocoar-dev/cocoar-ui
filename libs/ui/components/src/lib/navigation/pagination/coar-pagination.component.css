@@ -1,0 +1,74 @@
+:host {
+  display: block;
+}
+
+.coar-pagination-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--coar-pagination-gap, var(--coar-spacing-3xs, 2px));
+}
+
+.coar-pagination-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--coar-pagination-button-size, 2rem);
+  height: var(--coar-pagination-button-size, 2rem);
+  padding: 0 var(--coar-spacing-xs, 4px);
+  font-size: var(--coar-pagination-font-size, var(--coar-font-size-s, 14px));
+  font-family: inherit;
+  line-height: 1;
+  border: 1px solid transparent;
+  border-radius: var(--coar-radius-xs, 4px);
+  background: transparent;
+  color: var(--coar-text-neutral-primary, #111);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  user-select: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coar-pagination-button {
+    transition: none;
+  }
+}
+
+.coar-pagination-button:hover:not(:disabled) {
+  background: var(--coar-pagination-hover-background, var(--coar-background-neutral-tertiary, #f0f0f0));
+}
+
+.coar-pagination-button:focus-visible {
+  outline: 2px solid var(--coar-focus-ring-color, var(--coar-border-brand-primary, #0066cc));
+  outline-offset: 1px;
+}
+
+.coar-pagination-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.coar-pagination-button--active {
+  background: var(--coar-pagination-active-background, var(--coar-background-brand-primary, #0066cc));
+  color: var(--coar-pagination-active-color, var(--coar-text-on-brand-primary, #fff));
+  font-weight: 600;
+}
+
+.coar-pagination-button--active:hover:not(:disabled) {
+  background: var(--coar-pagination-active-background, var(--coar-background-brand-primary, #0066cc));
+}
+
+.coar-pagination-ellipsis {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--coar-pagination-button-size, 2rem);
+  height: var(--coar-pagination-button-size, 2rem);
+  font-size: var(--coar-pagination-font-size, var(--coar-font-size-s, 14px));
+  color: var(--coar-text-neutral-tertiary, #999);
+  user-select: none;
+}
+
+:host(.coar-pagination--disabled) {
+  pointer-events: none;
+  opacity: 0.5;
+}

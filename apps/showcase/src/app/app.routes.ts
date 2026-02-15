@@ -201,4 +201,38 @@ export const appRoutes: Route[] = [
     path: 'popconfirm',
     loadComponent: () => import('./pages/popconfirm/popconfirm.page').then((m) => m.PopconfirmPage),
   },
+  {
+    path: 'links',
+    loadComponent: () => import('./pages/links/links.page').then((m) => m.LinksPage),
+  },
+  {
+    path: 'switch',
+    loadComponent: () => import('./pages/switch/switch.page').then((m) => m.SwitchPage),
+  },
+  {
+    path: 'loading',
+    loadComponent: () => import('./pages/loading/loading.page').then((m) => m.LoadingPage),
+  },
+  {
+    path: 'breadcrumb',
+    loadComponent: () =>
+      import('./pages/breadcrumb/breadcrumb.page').then((m) => m.BreadcrumbPage),
+  },
+  {
+    path: 'pagination',
+    loadComponent: () =>
+      import('./pages/pagination/pagination.page').then((m) => m.PaginationPage),
+  },
+  {
+    path: 'navbar',
+    loadComponent: () => import('./pages/navbar/navbar.page').then((m) => m.NavbarPage),
+  },
+  {
+    path: 'dialog',
+    loadComponent: () => import('./pages/dialog/dialog.page').then((m) => m.DialogPage),
+  },
+  {
+    path: 'toast',
+    loadComponent: () => import('./pages/toast/toast.page').then((m) => m.ToastPage),
+  },
 ];
