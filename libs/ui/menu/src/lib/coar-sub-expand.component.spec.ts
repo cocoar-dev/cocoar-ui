@@ -40,6 +40,11 @@ describe('CoarSubExpandComponent', () => {
     detectChanges();
   });
 
+  it('should render the sub-expand trigger', () => {
+    const trigger = fixture.debugElement.query(By.css('coar-sub-expand'));
+    expect(trigger).toBeTruthy();
+  });
+
   it.skip('should render submenu content when opened', () => {
     // Panel is always in DOM but should not have --open class initially
     const initialPanel = fixture.debugElement.query(
