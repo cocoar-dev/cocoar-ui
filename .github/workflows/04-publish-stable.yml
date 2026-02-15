@@ -124,20 +124,16 @@ jobs:
           path: artifacts
           retention-days: 90
 
-      # ============================================================
-      # TODO: Uncomment to publish stable releases to npmjs.com
-      # Requires NPM_TOKEN secret with publish access
-      # ============================================================
-      # - name: Setup npm registry
-      #   run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
-      #
-      # - name: Publish to npmjs.com
-      #   run: |
-      #     shopt -s nullglob
-      #     for pkg_dir in dist/libs/* dist/shared/*; do
-      #       if [ -d "$pkg_dir" ] && [ -f "$pkg_dir/package.json" ]; then
-      #         PKG_NAME=$(jq -r '.name' "$pkg_dir/package.json")
-      #         echo "Publishing $PKG_NAME@$RELEASE_VERSION"
-      #         (cd "$pkg_dir" && npm publish --access public)
-      #       fi
-      #     done
+      - name: Setup npm registry
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" >> ~/.npmrc
+
+      - name: Publish to npmjs.com
+        run: |
+          shopt -s nullglob
+          for pkg_dir in dist/libs/* dist/shared/*; do
+            if [ -d "$pkg_dir" ] && [ -f "$pkg_dir/package.json" ]; then
+              PKG_NAME=$(jq -r '.name' "$pkg_dir/package.json")
+              echo "Publishing $PKG_NAME@$RELEASE_VERSION"
+              (cd "$pkg_dir" && npm publish --access public)
+            fi
+          done
