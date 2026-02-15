@@ -60,17 +60,17 @@ describe('CoarNavbarComponent', () => {
     beforeEach(() => createFixture());
 
     it('should project start content', () => {
-      const start = hostElement.querySelector('.coar-navbar-start');
+      const start = hostElement.querySelector('[coar-navbar-start]');
       expect(start?.textContent).toContain('Logo');
     });
 
     it('should project center content', () => {
-      const center = hostElement.querySelector('.coar-navbar-center');
+      const center = hostElement.querySelector('[coar-navbar-center]');
       expect(center?.textContent).toContain('Links');
     });
 
     it('should project end content', () => {
-      const end = hostElement.querySelector('.coar-navbar-end');
+      const end = hostElement.querySelector('[coar-navbar-end]');
       expect(end?.textContent).toContain('Actions');
     });
   });
