@@ -10,7 +10,7 @@ Coar is a design system for Angular applications. It provides 40+ production-rea
 
 **Key principles:**
 
-- **Framework-pure** — All styling uses CSS custom properties (`--coar-*`). No Tailwind, no global CSS.
+- **Framework-pure** — Published libraries style via CSS custom properties (`--coar-*`) and component-scoped styles. No Tailwind dependency for consumers; the showcase app uses Tailwind (prefixed `tw:`) for page layout only.
 - **Angular-native** — Built with Angular 21 signals, standalone components, and `ControlValueAccessor` for forms.
 - **Token-driven** — Colors, spacing, radii, and typography are all design tokens. Swap the token layer to re-theme.
 

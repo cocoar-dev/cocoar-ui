@@ -44,7 +44,7 @@ All technical architecture details are in **[ARCHITECTURE.md](ARCHITECTURE.md)**
 ### Component Development
 - Use the **`coar-`** prefix for all component selectors (see NAMING.md)
 - Class names must start with **`Coar`** (e.g., `CoarButtonComponent`)
-- Use **CSS variables only** for styling - no Tailwind, no global CSS
+- Use **CSS variables only** for styling in published libraries. No Tailwind dependency for consumers; app-level layout tooling (e.g. the showcase's prefixed Tailwind utilities) must not leak into libraries.
 - Keep components framework-pure and reusable
 - Follow the Nx monorepo structure
 
