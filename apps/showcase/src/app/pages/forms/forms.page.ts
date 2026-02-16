@@ -124,7 +124,7 @@ onSubmit() {
   }
 
   const values = this.myForm.getRawValue();
-  console.log(values); // { email: '...', password: '...', rememberMe: false }
+  // Send values to your backend or state layer
 }`,
 
     validationErrorsExample: `<!-- Display validation errors using the error input -->
