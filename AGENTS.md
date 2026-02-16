@@ -26,7 +26,7 @@ When creating scenarios for component testing:
 
 When creating documentation for components:
 
-8. **[docs/writing-component-docs.md](docs/writing-component-docs.md)** — How to write JSDoc and `.docs.md` files
+8. **[docs/writing-scenarios.md](docs/writing-scenarios.md)** — How to write scenarios and `.docs.md` files
 
 **⚠️ IMPORTANT:** AI assistants MUST load NAMING.md, ARCHITECTURE.md, and CONTRIBUTING.md into context before generating or modifying any files.
 
@@ -110,7 +110,7 @@ Code comments should explain _why_ decisions were made, not _what_ the code does
 const observer = new IntersectionObserver(callback);
 
 // Fallback to primary color because hover tokens don't exist in all themes yet
-// TODO: Remove fallback when all themes define --coar-button-hover (Q2 2025)
+// TODO: Remove fallback when all themes define --coar-button-hover
 background: var(--coar-button-hover, var(--coar-color-primary));
 
 // role="button" required for Safari VoiceOver to announce clickable div
@@ -191,13 +191,13 @@ When working in this repository, AI assistants must:
 - [ ] Follow [.github/skills/cocoar-scenarios/SKILL.md](.github/skills/cocoar-scenarios/SKILL.md) templates
 - [ ] Regenerate registry after creating scenarios: `node scripts/scenar/generate-registry.mjs`
 
-### Documentation (see [docs/writing-component-docs.md](docs/writing-component-docs.md))
+### Documentation (see [docs/writing-scenarios.md](docs/writing-scenarios.md))
 
 - [ ] **Create `{kebab-name}.docs.md`** file for each component/directive
 - [ ] Place docs file **next to source** (e.g., `coar-button/coar-button.docs.md`)
 - [ ] Include: overview, usage examples, variants, accessibility, best practices
 - [ ] Use JSDoc comments in TypeScript for API documentation (auto-generated)
-- [ ] Run `pnpm docs:all` to regenerate documentation
+- [ ] Run `node scripts/docs/extract-component-api.mjs` to regenerate documentation
 
 **Documentation file naming:**
 ```

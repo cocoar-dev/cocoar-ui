@@ -117,11 +117,11 @@ We use **subtle, small radii**. This is not Bootstrap. No "pill buttons" or over
 | `--coar-radius-xl` | 6px | Hero sections (rare) |
 | `--coar-radius-full` | 999px | **Avoid** — only for avatars, floating action buttons |
 
-**Default radius: 4px (`--coar-radius-xs`)**
+**Default radius: 2px (`--coar-radius-xs`)**
 
 ```css
 /* ✅ Good — subtle radius */
-border-radius: var(--coar-radius-xs); /* 4px */
+border-radius: var(--coar-radius-xs); /* 2px */
 
 /* ❌ Avoid — overly rounded */
 border-radius: 24px;

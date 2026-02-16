@@ -83,9 +83,20 @@ pnpm e2e -- --browsers=firefox    # specific browser
 ```
 libs/
   ui/                       @cocoar/ui — components, tokens, menu, overlay
+  localization/             @cocoar/localization — i18n + timezone
+  data-grid/                @cocoar/data-grid
+  markdown-core/            Markdown parsing
+  markdown-viewer/          Markdown rendering component
+  ui-routing/               Router utilities
+shared/
+  ts-utils/                 @cocoar/ts-utils — pure TypeScript utilities
+tools/
+  testing-angular/          @cocoar/testing-angular — shared Vitest helpers
+  scenar/                   Scenario testing infrastructure
 apps/
   showcase/                 Interactive component showcase
-  showcase-e2e/             Playwright tests for showcase
+  scenar-backstage/         Scenario host app for isolated component testing
+  scenar-backstage-e2e/     Playwright tests for scenarios
 docs/                       Guides, patterns, and recipes
 ```
 

@@ -48,7 +48,7 @@ pnpm e2e -- --grep "menu"
 
 # Notes:
 # - When running via Nx directly, pass Playwright args after `--` (Nx arg separator):
-#   pnpm nx e2e showcase-e2e -- --headed
+#   pnpm nx e2e scenar-backstage-e2e -- --headed
 # - `--headed` and `--ui` are debugging modes (visible/interactive) and may require you to stop the run manually with Ctrl+C.
 
 # Run a tagged subset (component-focused / suite-focused)
@@ -186,9 +186,8 @@ providers: [...provideCoarNoopAnimations()]
 
 ### Host app
 
-This repo has two Playwright e2e projects:
+This repo has one Playwright e2e project:
 
-- `apps/showcase-e2e` runs against the **showcase app** (`apps/showcase`).
 - `apps/scenar-backstage-e2e` runs against the **scenario host app** (`apps/scenar-backstage`).
 
 ### Why e2e is wrapped
@@ -220,7 +219,7 @@ Under the hood:
 
 ### Running scenar-backstage e2e
 
-The root `pnpm e2e` script runs `showcase-e2e`. To run the scenario-host suite:
+The root `pnpm e2e` script runs `scenar-backstage-e2e`. You can also run it directly:
 
 ```bash
 pnpm nx run scenar-backstage-e2e:e2e
@@ -247,7 +246,7 @@ Examples:
 ## Where Tests Live
 
 - Unit tests: `*.spec.ts` next to components/services in `libs/**/src/`
-- E2E tests: `apps/showcase-e2e/src/**`, `apps/scenar-backstage-e2e/src/**`
+- E2E tests: `apps/scenar-backstage-e2e/src/**`
 
 ---
 
@@ -273,7 +272,7 @@ That’s expected behavior: the wrapper always shuts down the managed server. If
 
 ```bash
 pnpm start
-pnpm nx e2e showcase-e2e --headed
+pnpm nx e2e scenar-backstage-e2e --headed
 ```
 
 ---

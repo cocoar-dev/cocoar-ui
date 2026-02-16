@@ -111,15 +111,18 @@ For guidance on how to write tests (unit + e2e) and how to use Playwright tags c
 **Test Structure:**
 
 ```typescript
+import { describe, it, expect, vi } from 'vitest';
+import { renderCoarComponent, queryRequired } from '@cocoar/testing-angular';
+
 describe('CoarButtonComponent', () => {
-  it('should emit clicked event when clicked', () => {
+  it('should emit clicked event when clicked', async () => {
     // Arrange
-    const fixture = TestBed.createComponent(CoarButtonComponent);
-    const spy = jest.fn();
+    const fixture = await renderCoarComponent(CoarButtonComponent);
+    const spy = vi.fn();
     fixture.componentInstance.clicked.subscribe(spy);
 
     // Act
-    fixture.nativeElement.querySelector('button').click();
+    queryRequired<HTMLButtonElement>(fixture.nativeElement, 'button').click();
 
     // Assert
     expect(spy).toHaveBeenCalledTimes(1);
@@ -129,7 +132,7 @@ describe('CoarButtonComponent', () => {
 
 **Test Types:**
 - Unit tests: `*.spec.ts` files alongside components
-- E2E tests: Playwright tests in `apps/showcase-e2e/`
+- E2E tests: Playwright tests in `apps/scenar-backstage-e2e/`
 - Visual checks: validate component states in the showcase app
 
 ### Unit Test Helpers (Angular + Vitest)

@@ -226,13 +226,13 @@ Figma → token definitions → CSS variables
 
 # 7. Testing Naming
 
-## 8.1 Test file names
+## 7.1 Test file names
 
 ```
 *.spec.ts
 ```
 
-## 8.2 Test IDs
+## 7.2 Test IDs
 
 Test attributes may use:
 
@@ -243,7 +243,7 @@ data-coar-test="grid-row-1"
 
 ---
 
-# 9. Example Summary
+# 8. Example Summary
 
 ### Component
 

@@ -105,9 +105,20 @@ cocoar-ui/                  # Nx workspace root
 │   │   ├── components/         # Angular UI components
 │   │   ├── menu/               # Menu components
 │   │   └── overlay/            # Overlay/popover system
+│   ├── localization/           # @cocoar/localization — i18n + timezone
+│   ├── data-grid/              # @cocoar/data-grid
+│   ├── markdown-core/          # Markdown parsing
+│   ├── markdown-viewer/        # Markdown rendering component
+│   └── ui-routing/             # Router utilities
+├── shared/
+│   └── ts-utils/             # @cocoar/ts-utils — pure TypeScript utilities
+├── tools/
+│   ├── testing-angular/      # @cocoar/testing-angular — shared Vitest helpers
+│   └── scenar/               # Scenario testing infrastructure
 ├── apps/
 │   ├── showcase/             # Component showcase app
-│   └── showcase-e2e/          # Playwright E2E tests
+│   ├── scenar-backstage/     # Scenario host app (isolated component testing)
+│   └── scenar-backstage-e2e/ # Playwright E2E tests
 ├── nx.json               # Nx configuration
 ├── package.json          # Workspace dependencies
 └── tsconfig.base.json    # TypeScript base config
@@ -165,7 +176,7 @@ padding: var(--coar-spacing-4, 1rem);
 
 ```css
 /* Fallback to primary color because hover tokens don't exist in all themes yet */
-/* TODO: Remove fallback when all themes define --coar-button-hover (Q2 2025) */
+/* TODO: Remove fallback when all themes define --coar-button-hover */
 background: var(--coar-button-hover, var(--coar-color-primary));
 ```
 

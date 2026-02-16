@@ -24,7 +24,7 @@ pnpm e2e -- --grep "@menu"            # run tagged subset
 # Single project
 pnpm nx test ui                       # test one Nx project
 pnpm nx test ui --skip-nx-cache       # skip cache while iterating
-pnpm nx run showcase-e2e:lint-tags    # validate E2E test tags
+pnpm nx run scenar-backstage-e2e:lint-tags    # validate E2E test tags
 
 # Scenarios (isolated component testing)
 node scripts/scenar/generate-registry.mjs   # regenerate scenario registry
@@ -62,7 +62,6 @@ tools/
   scenar/                      # Scenario testing infrastructure
 apps/
   showcase/                    # Interactive component showcase
-  showcase-e2e/                # Playwright tests for showcase
   scenar-backstage/            # Scenario host app (http://localhost:4300)
   scenar-backstage-e2e/        # Playwright tests for scenarios
 ```
@@ -129,9 +128,9 @@ Additional test helpers: `createCoarLocaleServiceStub()`, `createCoarOverlayTest
 
 ### E2E Tests (Playwright)
 
-- Tests in `apps/showcase-e2e/src/` and `apps/scenar-backstage-e2e/src/`
+- Tests in `apps/scenar-backstage-e2e/src/`
 - **Must include tags** in describe/test titles: `@menu`, `@smoke`, `@a11y`, etc.
-- Tag lint: `pnpm nx run showcase-e2e:lint-tags`
+- Tag lint: `pnpm nx run scenar-backstage-e2e:lint-tags`
 
 ### Scenarios
 

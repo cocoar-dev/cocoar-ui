@@ -109,7 +109,7 @@ providers: [
 
 ### Where e2e tests live
 
-- `apps/showcase-e2e/src/**/*.spec.ts`
+- `apps/scenar-backstage-e2e/src/**/*.spec.ts`
 
 Scenario-host e2e tests live in:
 
@@ -119,7 +119,7 @@ Scenario-host e2e tests live in:
 
 Prefer this structure for new e2e specs:
 
-- One file per component page: `apps/showcase-e2e/src/components/<component>.spec.ts`
+- One file per component page: `apps/scenar-backstage-e2e/src/components/<component>.spec.ts`
 - Use `test.beforeEach()` to navigate to the component route
 
 Example:
@@ -152,7 +152,7 @@ Rules:
 
 1. Every e2e spec file must include **at least one** tag in a `test.describe()` title or a `test()` title.
 2. Tags must be **lowercase kebab-case**: `@menu`, `@code-block`, `@text-input`.
-3. Accessibility specs (under `apps/showcase-e2e/src/accessibility/`) must include `@a11y`.
+3. Accessibility specs (under `apps/scenar-backstage-e2e/src/accessibility/`) must include `@a11y`.
 4. The smoke suite must include `@smoke`.
 
 Common tags:
@@ -194,7 +194,7 @@ Note: `--grep "@fixme"` runs only the fixme-tagged subset, so its reported "skip
 We keep tags consistent with an automated check:
 
 ```bash
-pnpm nx run showcase-e2e:lint-tags
+pnpm nx run scenar-backstage-e2e:lint-tags
 ```
 
 This validates:
