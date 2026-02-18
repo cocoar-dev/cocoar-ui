@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.1.1] - 2026-02-18
+
+### Fixed
+
+- **Overlay — Angular CDK coexistence** (`@cocoar/ui/overlay`): Overlay host and backdrop
+  elements now use `popover="manual"`, placing them in the browser's
+  [top layer](https://developer.mozilla.org/en-US/docs/Glossary/Top_layer).
+  This fixes a stacking conflict where Angular CDK overlays (which also use `popover="manual"`)
+  would always render on top of Coar overlays regardless of open order. With this fix, both
+  overlay systems coexist correctly: whichever overlay is opened last is rendered on top.
+  UA default styles introduced by the `[popover]` attribute (`border`, `padding`, `background`,
+  `inset`, `margin`, `overflow`) are explicitly reset so existing visual behaviour is unchanged.
+
 ## [0.1.0] - 2026-02-15
 
 First public release of the Cocoar Design System.
