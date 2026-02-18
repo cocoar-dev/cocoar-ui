@@ -57,6 +57,7 @@ export class CoarOverlayRef implements OverlayRef {
   ) {
     this.host = document.createElement('div');
     this.host.className = 'coar-overlay-host';
+    this.host.setAttribute('popover', 'manual');
 
     this.panel = document.createElement('div');
     this.panel.className = 'coar-overlay-panel';
@@ -93,8 +94,14 @@ export class CoarOverlayRef implements OverlayRef {
 
     Object.assign(this.host.style, {
       position: 'fixed',
+      inset: 'unset',
       top: '0px',
       left: '0px',
+      margin: '0',
+      border: 'none',
+      padding: '0',
+      background: 'transparent',
+      overflow: 'visible',
       transform: 'translate3d(0px, 0px, 0px)',
       zIndex: `calc(var(--coar-z-overlay, 1000) + ${this.stackIndex * 2})`,
       opacity: '1',
@@ -143,18 +150,21 @@ export class CoarOverlayRef implements OverlayRef {
     if (backdrop.kind === 'modal') {
       const backdropEl = document.createElement('div');
       backdropEl.className = 'coar-overlay-backdrop';
+      backdropEl.setAttribute('popover', 'manual');
 
       Object.assign(backdropEl.style, {
         position: 'fixed',
-        top: '0px',
-        left: '0px',
-        right: '0px',
-        bottom: '0px',
+        inset: '0',
+        margin: '0',
+        border: 'none',
+        padding: '0',
+        overflow: 'visible',
         background: 'color-mix(in srgb, var(--coar-color-black) 40%, transparent)',
         zIndex: `calc(var(--coar-z-overlay-backdrop, 999) + ${this.stackIndex * 2})`,
       } satisfies Partial<CSSStyleDeclaration>);
 
       document.body.appendChild(backdropEl);
+      if ('showPopover' in backdropEl) backdropEl.showPopover();
       this.backdropElement = backdropEl;
 
       if (backdrop.closeOnBackdropClick !== false) {
@@ -173,6 +183,7 @@ export class CoarOverlayRef implements OverlayRef {
     const attachmentParent =
       attachment.strategy === 'parent' ? attachment.container : document.body;
     attachmentParent.appendChild(this.host);
+    if ('showPopover' in this.host) this.host.showPopover();
 
     this.installHoverTreeDismissIfEnabled();
 
@@ -429,9 +440,13 @@ export class CoarOverlayRef implements OverlayRef {
 
     this.destroyContent?.();
     this.destroyContent = null;
+    if ('hidePopover' in this.host) this.host.hidePopover();
     this.host.remove();
-    this.backdropElement?.remove();
-    this.backdropElement = null;
+    if (this.backdropElement) {
+      if ('hidePopover' in this.backdropElement) this.backdropElement.hidePopover();
+      this.backdropElement.remove();
+      this.backdropElement = null;
+    }
 
     if (this.spec.focus.restore !== false) {
       const el = this.restoreFocusTarget as HTMLElement | null;
