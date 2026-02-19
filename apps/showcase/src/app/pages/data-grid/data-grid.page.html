@@ -1,9 +1,7 @@
-<div class="component-page component-page--wide">
+<div class="component-page component-page">
   <header class="page-header">
     <h1 class="coar-title">Data Grid</h1>
-    <p class="page-description">
-      A powerful data grid powered by AG Grid with Cocoar theme integration and a fluent builder API.
-    </p>
+    <p class="page-description">A powerful data grid powered by AG Grid with Cocoar theme integration and a fluent builder API.</p>
   </header>
   <coar-code-block variant="info" elevated class="page-import" [code]="installCode" language="bash" [collapsible]="false" />
   <coar-code-block variant="info" elevated class="page-import" [code]="importCode" language="typescript" [collapsible]="false" />
@@ -17,14 +15,26 @@
         <h3>Basic Usage</h3>
         <p class="example-description">Use <code>CoarGridBuilder</code> to define columns and data with a fluent API.</p>
         <div class="example-preview">
-          <ag-grid-angular
-            class="ag-theme-cocoar"
-            [coarDataGrid]="basicGrid"
-            style="height: 400px; width: 100%;"
-          />
+          <ag-grid-angular class="ag-theme-cocoar" [coarDataGrid]="basicGrid" style="height: 400px; width: 100%" />
         </div>
-        <coar-code-block coar-card-footer coar-card-inset borderless [code]="basicCode" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
-        <coar-code-block coar-card-footer coar-card-inset borderless [code]="basicHtml" language="html" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block
+          coar-card-footer
+          coar-card-inset
+          borderless
+          [code]="basicCode"
+          language="typescript"
+          [showLineNumbers]="false"
+          [collapsed]="true"
+        />
+        <coar-code-block
+          coar-card-footer
+          coar-card-inset
+          borderless
+          [code]="basicHtml"
+          language="html"
+          [showLineNumbers]="false"
+          [collapsed]="true"
+        />
       </coar-card>
     </div>
 
@@ -39,34 +49,210 @@
         <h3>Row Selection</h3>
         <p class="example-description">Enable single or multiple row selection with click handlers.</p>
         <div class="example-preview">
-          <ag-grid-angular
-            class="ag-theme-cocoar"
-            [coarDataGrid]="selectionGrid"
-            style="height: 300px; width: 100%;"
-          />
+          <ag-grid-angular class="ag-theme-cocoar" [coarDataGrid]="selectionGrid" style="height: 300px; width: 100%" />
         </div>
-        @if (selectedUser) {
+        @if (selectedUser(); as user) {
           <div class="selected-info">
-            Selected: <strong>{{ selectedUser.name }}</strong> ({{ selectedUser.email }})
+            Selected: <strong>{{ user.name }}</strong> ({{ user.email }})
           </div>
         }
-        <coar-code-block coar-card-footer coar-card-inset borderless [code]="selectionCode" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block
+          coar-card-footer
+          coar-card-inset
+          borderless
+          [code]="selectionCode"
+          language="typescript"
+          [showLineNumbers]="false"
+          [collapsed]="true"
+        />
       </coar-card>
 
       <coar-card [elevated]="true" class="grid-card">
         <h3>Conditional Styling</h3>
         <p class="example-description">Apply dynamic styles to rows and cells based on data.</p>
         <div class="example-preview styled-grid">
-          <ag-grid-angular
-            class="ag-theme-cocoar"
-            [coarDataGrid]="styledGrid"
-            style="height: 300px; width: 100%;"
-          />
+          <ag-grid-angular class="ag-theme-cocoar" [coarDataGrid]="styledGrid" style="height: 300px; width: 100%" />
         </div>
-        <coar-code-block coar-card-footer coar-card-inset borderless [code]="styledCode" language="typescript" [showLineNumbers]="false" [collapsed]="true" />
+        <coar-code-block
+          coar-card-footer
+          coar-card-inset
+          borderless
+          [code]="styledCode"
+          language="typescript"
+          [showLineNumbers]="false"
+          [collapsed]="true"
+        />
         <coar-code-block coar-card-footer coar-card-inset borderless [code]="styledCss" language="css" [showLineNumbers]="false" [collapsed]="true" />
       </coar-card>
     </div>
+
+    <!-- ============================================ -->
+    <!-- COLUMN FACTORY TYPES -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Column Factory Types</h2>
+    <p class="component-section-description">
+      Use factory methods like <code>date()</code>, <code>number()</code>, <code>currency()</code>, and <code>boolean()</code> for automatic
+      formatting.
+    </p>
+
+    <div class="examples-grid">
+      <coar-card [elevated]="true" class="grid-card">
+        <h3>Typed Columns</h3>
+        <p class="example-description">
+          The column factory callback provides <code>date()</code>, <code>number()</code>, <code>currency()</code>, and
+          <code>boolean()</code> shorthand methods that auto-format cell values.
+        </p>
+        <div class="example-preview">
+          <ag-grid-angular class="ag-theme-cocoar" [coarDataGrid]="factoryGrid" style="height: 350px; width: 100%" />
+        </div>
+        <coar-code-block
+          coar-card-footer
+          coar-card-inset
+          borderless
+          [code]="factoryCode"
+          language="typescript"
+          [showLineNumbers]="false"
+          [collapsed]="true"
+        />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- SORTING & DEFAULT SORT -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Sorting & Default Sort</h2>
+    <p class="component-section-description">Pre-sort grids, define custom comparators, and enable quick filtering on columns.</p>
+
+    <div class="examples-grid">
+      <coar-card [elevated]="true" class="grid-card">
+        <h3>Default Sort with Custom Comparator</h3>
+        <p class="example-description">
+          This grid loads pre-sorted by salary (descending). The Name column uses a custom comparator that sorts by last name. Try clicking the Name
+          header to see it in action.
+        </p>
+        <div class="example-preview">
+          <ag-grid-angular class="ag-theme-cocoar" [coarDataGrid]="sortingGrid" style="height: 350px; width: 100%" />
+        </div>
+        <coar-code-block
+          coar-card-footer
+          coar-card-inset
+          borderless
+          [code]="sortingCode"
+          language="typescript"
+          [showLineNumbers]="false"
+          [collapsed]="true"
+        />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- EDITING -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Editing</h2>
+    <p class="component-section-description">Enable inline editing with full-row edit mode and focus-based stop.</p>
+
+    <div class="examples-grid">
+      <coar-card [elevated]="true" class="grid-card">
+        <h3>Full Row Edit</h3>
+        <p class="example-description">
+          Double-click a row to enter edit mode. All editable cells in the row become active at once. Click outside to commit changes.
+        </p>
+        <div class="example-preview">
+          <ag-grid-angular class="ag-theme-cocoar" [coarDataGrid]="editingGrid" style="height: 350px; width: 100%" />
+        </div>
+        <coar-code-block
+          coar-card-footer
+          coar-card-inset
+          borderless
+          [code]="editingCode"
+          language="typescript"
+          [showLineNumbers]="false"
+          [collapsed]="true"
+        />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- CELL RENDERER COLUMNS -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Cell Renderer Columns</h2>
+    <p class="component-section-description">
+      Use <code>tag()</code>, <code>icon()</code>, and <code>localDate()</code> factory methods to render rich cell content with Cocoar components.
+    </p>
+
+    <div class="examples-grid">
+      <coar-card [elevated]="true" class="grid-card">
+        <h3>Tag, Icon &amp; Date Renderers</h3>
+        <p class="example-description">
+          Status and priority columns render as <code>&lt;coar-tag&gt;</code> elements with variant mapping. The type column renders
+          <code>&lt;coar-icon&gt;</code>, and the date column uses locale-aware <code>CoarDatePipe</code>.
+        </p>
+        <div class="example-preview">
+          <ag-grid-angular class="ag-theme-cocoar" [coarDataGrid]="cellRendererGrid" style="height: 300px; width: 100%" />
+        </div>
+        <coar-code-block
+          coar-card-footer
+          coar-card-inset
+          borderless
+          [code]="cellRendererCode"
+          language="typescript"
+          [showLineNumbers]="false"
+          [collapsed]="true"
+        />
+      </coar-card>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- CONTEXT MENU & VIEWPORT EVENTS -->
+    <!-- ============================================ -->
+    <h2 class="component-section-title">Context Menu & Viewport Events</h2>
+    <p class="component-section-description">
+      Open a custom context menu on right-click using the overlay system and <code>CoarMenuComponent</code>.
+    </p>
+
+    <div class="examples-grid">
+      <coar-card [elevated]="true" class="grid-card">
+        <h3>Grid Context Menu</h3>
+        <p class="example-description">
+          Right-click a cell or the empty viewport area to open a context menu. <em>Ctrl+right-click passes through to the browser.</em>
+        </p>
+        <div class="example-preview">
+          <ag-grid-angular class="ag-theme-cocoar" [coarDataGrid]="eventsGrid" style="height: 350px; width: 100%" />
+        </div>
+        <div class="event-info">
+          @if (lastEvent()) {
+            Last event: <strong>{{ lastEvent() }}</strong>
+          } @else {
+            <em>No events captured yet. Try right-clicking a cell or the empty area.</em>
+          }
+        </div>
+        <coar-code-block
+          coar-card-footer
+          coar-card-inset
+          borderless
+          [code]="eventsCode"
+          language="typescript"
+          [showLineNumbers]="false"
+          [collapsed]="true"
+        />
+      </coar-card>
+    </div>
+
+    <!-- Context menu template (rendered by overlay) -->
+    <ng-template #gridContextMenu>
+      <coar-menu>
+        @if (contextMenuTarget(); as user) {
+          <coar-menu-item (clicked)="handleContextAction('copy-name')">Copy "{{ user.name }}"</coar-menu-item>
+          <coar-menu-item (clicked)="handleContextAction('copy-email')">Copy "{{ user.email }}"</coar-menu-item>
+          <coar-menu-divider />
+          <coar-menu-item (clicked)="handleContextAction('edit')">Edit row</coar-menu-item>
+          <coar-menu-item (clicked)="handleContextAction('delete')">Delete row</coar-menu-item>
+        } @else {
+          <coar-menu-item (clicked)="handleContextAction('add')">Add new row</coar-menu-item>
+          <coar-menu-item (clicked)="handleContextAction('refresh')">Refresh data</coar-menu-item>
+        }
+      </coar-menu>
+    </ng-template>
 
     <!-- ============================================ -->
     <!-- API SECTION -->
@@ -84,14 +270,159 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td><code>columns()</code></td><td><code>function</code></td><td>Define column configurations using column builder functions</td></tr>
-            <tr><td><code>rowData()</code></td><td><code>function</code></td><td>Set the data array to display in the grid</td></tr>
-            <tr><td><code>rowId()</code></td><td><code>function</code></td><td>Define how to extract unique row IDs from data objects</td></tr>
-            <tr><td><code>rowSelection()</code></td><td><code>function</code></td><td>Enable 'single' or 'multiple' row selection mode</td></tr>
-            <tr><td><code>rowClassRules()</code></td><td><code>function</code></td><td>Apply CSS classes conditionally to rows based on data</td></tr>
-            <tr><td><code>onRowClicked()</code></td><td><code>function</code></td><td>Handle row click events with callback</td></tr>
+            <tr>
+              <td><code>columns()</code></td>
+              <td><code>function</code></td>
+              <td>Define column configurations using column builder functions</td>
+            </tr>
+            <tr>
+              <td><code>defaultColDef()</code></td>
+              <td><code>function</code></td>
+              <td>Set default column definition applied to all columns</td>
+            </tr>
+            <tr>
+              <td><code>rowData()</code></td>
+              <td><code>function</code></td>
+              <td>Set the data array to display in the grid</td>
+            </tr>
+            <tr>
+              <td><code>rowData$()</code></td>
+              <td><code>function</code></td>
+              <td>Set the data as an observable for async/streaming data</td>
+            </tr>
+            <tr>
+              <td><code>rowId()</code></td>
+              <td><code>function</code></td>
+              <td>Define how to extract unique row IDs from data objects</td>
+            </tr>
+            <tr>
+              <td><code>rowSelection()</code></td>
+              <td><code>function</code></td>
+              <td>Enable 'single' or 'multiple' row selection mode</td>
+            </tr>
+            <tr>
+              <td><code>rowClassRules()</code></td>
+              <td><code>function</code></td>
+              <td>Apply CSS classes conditionally to rows based on data</td>
+            </tr>
+            <tr>
+              <td><code>rowClass()</code></td>
+              <td><code>function</code></td>
+              <td>Set a dynamic row class function</td>
+            </tr>
+            <tr>
+              <td><code>defaultSort()</code></td>
+              <td><code>function</code></td>
+              <td>Set initial sort column and direction (e.g. <code>'salary', 'desc'</code>)</td>
+            </tr>
+            <tr>
+              <td><code>sortFunction()</code></td>
+              <td><code>function</code></td>
+              <td>Set a custom post-sort function to reorder rows after AG Grid sorts</td>
+            </tr>
+            <tr>
+              <td><code>fullRowEdit()</code></td>
+              <td><code>function</code></td>
+              <td>Enable full-row editing mode (all cells in a row edit at once)</td>
+            </tr>
+            <tr>
+              <td><code>stopEditingWhenCellsLoseFocus()</code></td>
+              <td><code>function</code></td>
+              <td>Commit edits when cells lose focus</td>
+            </tr>
+            <tr>
+              <td><code>shiftResizeMode()</code></td>
+              <td><code>function</code></td>
+              <td>Enable shift-key column resize mode</td>
+            </tr>
+            <tr>
+              <td><code>animateRows()</code></td>
+              <td><code>function</code></td>
+              <td>Enable or disable row animation</td>
+            </tr>
+            <tr>
+              <td><code>columnState()</code></td>
+              <td><code>function</code></td>
+              <td>Restore column widths, order, and visibility from saved state</td>
+            </tr>
+            <tr>
+              <td><code>openRows()</code></td>
+              <td><code>function</code></td>
+              <td>Set which parent rows are expanded (observable of row IDs)</td>
+            </tr>
+            <tr>
+              <td><code>externalFilter()</code></td>
+              <td><code>function</code></td>
+              <td>Set an external filter function applied outside the grid</td>
+            </tr>
+            <tr>
+              <td><code>updateExternalFilterWhen()</code></td>
+              <td><code>function</code></td>
+              <td>Re-trigger external filter when the given observable emits</td>
+            </tr>
+            <tr>
+              <td><code>updateSortAndFilterWhen()</code></td>
+              <td><code>function</code></td>
+              <td>Re-trigger sort and filter when the given observable emits</td>
+            </tr>
+            <tr>
+              <td><code>onRowClicked()</code></td>
+              <td><code>function</code></td>
+              <td>Handle row click events with callback</td>
+            </tr>
+            <tr>
+              <td><code>onRowDoubleClicked()</code></td>
+              <td><code>function</code></td>
+              <td>Handle row double-click events</td>
+            </tr>
+            <tr>
+              <td><code>onCellClicked()</code></td>
+              <td><code>function</code></td>
+              <td>Handle cell click events</td>
+            </tr>
+            <tr>
+              <td><code>onCellDoubleClicked()</code></td>
+              <td><code>function</code></td>
+              <td>Handle cell double-click events</td>
+            </tr>
+            <tr>
+              <td><code>onCellContextMenu()</code></td>
+              <td><code>function</code></td>
+              <td>Handle cell right-click (Ctrl+click passes through)</td>
+            </tr>
+            <tr>
+              <td><code>onViewportClick()</code></td>
+              <td><code>function</code></td>
+              <td>Handle click on empty grid viewport area</td>
+            </tr>
+            <tr>
+              <td><code>onViewportContextMenu()</code></td>
+              <td><code>function</code></td>
+              <td>Handle right-click on empty grid viewport area</td>
+            </tr>
+            <tr>
+              <td><code>onGridReady()</code></td>
+              <td><code>function</code></td>
+              <td>Handle grid ready event (access API)</td>
+            </tr>
+            <tr>
+              <td><code>onGridSizeChanged()</code></td>
+              <td><code>function</code></td>
+              <td>Handle grid size changed event</td>
+            </tr>
+            <tr>
+              <td><code>option()</code></td>
+              <td><code>function</code></td>
+              <td>Set any AG Grid option directly as a key-value escape hatch</td>
+            </tr>
+            <tr>
+              <td><code>options()</code></td>
+              <td><code>function</code></td>
+              <td>Merge additional AG Grid options object</td>
+            </tr>
           </tbody>
         </table>
+
         <h4>Column Builder Methods</h4>
         <table class="api-table">
           <thead>
@@ -102,11 +433,189 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td><code>field()</code></td><td><code>function</code></td><td>Set the data field name to bind to this column</td></tr>
-            <tr><td><code>header()</code></td><td><code>function</code></td><td>Set the column header text displayed to users</td></tr>
-            <tr><td><code>width() / flex()</code></td><td><code>function</code></td><td>Set fixed width (pixels) or flex sizing (proportion)</td></tr>
-            <tr><td><code>sortable()</code></td><td><code>function</code></td><td>Enable column sorting by clicking header</td></tr>
-            <tr><td><code>cellClass()</code></td><td><code>function</code></td><td>Apply CSS classes to cells in this column</td></tr>
+            <tr>
+              <td><code>field()</code></td>
+              <td><code>function</code></td>
+              <td>Set the data field name to bind to this column</td>
+            </tr>
+            <tr>
+              <td><code>header()</code></td>
+              <td><code>function</code></td>
+              <td>Set the column header text displayed to users</td>
+            </tr>
+            <tr>
+              <td><code>headerTooltip()</code></td>
+              <td><code>function</code></td>
+              <td>Set a tooltip on the column header</td>
+            </tr>
+            <tr>
+              <td><code>width() / flex()</code></td>
+              <td><code>function</code></td>
+              <td>Set fixed width (pixels) or flex sizing (proportion)</td>
+            </tr>
+            <tr>
+              <td><code>fixedWidth()</code></td>
+              <td><code>function</code></td>
+              <td>Set width, minWidth, and maxWidth to the same value</td>
+            </tr>
+            <tr>
+              <td><code>minWidth() / maxWidth()</code></td>
+              <td><code>function</code></td>
+              <td>Set minimum or maximum column width</td>
+            </tr>
+            <tr>
+              <td><code>sortable()</code></td>
+              <td><code>function</code></td>
+              <td>Enable column sorting by clicking header</td>
+            </tr>
+            <tr>
+              <td><code>resizable()</code></td>
+              <td><code>function</code></td>
+              <td>Enable or disable column resizing</td>
+            </tr>
+            <tr>
+              <td><code>hidden()</code></td>
+              <td><code>function</code></td>
+              <td>Show or hide the column</td>
+            </tr>
+            <tr>
+              <td><code>pinned()</code></td>
+              <td><code>function</code></td>
+              <td>Pin column to 'left' or 'right'</td>
+            </tr>
+            <tr>
+              <td><code>lockPosition()</code></td>
+              <td><code>function</code></td>
+              <td>Lock the column position</td>
+            </tr>
+            <tr>
+              <td><code>cellClass()</code></td>
+              <td><code>function</code></td>
+              <td>Apply CSS classes to cells in this column</td>
+            </tr>
+            <tr>
+              <td><code>cellStyle()</code></td>
+              <td><code>function</code></td>
+              <td>Apply inline styles to cells</td>
+            </tr>
+            <tr>
+              <td><code>classRule()</code></td>
+              <td><code>function</code></td>
+              <td>Add a conditional CSS class rule</td>
+            </tr>
+            <tr>
+              <td><code>cellRenderer()</code></td>
+              <td><code>function</code></td>
+              <td>Set a custom cell renderer component</td>
+            </tr>
+            <tr>
+              <td><code>cellRendererConfig()</code></td>
+              <td><code>function</code></td>
+              <td>Set cell renderer with a config object pattern</td>
+            </tr>
+            <tr>
+              <td><code>valueFormatter()</code></td>
+              <td><code>function</code></td>
+              <td>Set a display formatter function</td>
+            </tr>
+            <tr>
+              <td><code>valueGetter()</code></td>
+              <td><code>function</code></td>
+              <td>Set a value getter to transform data</td>
+            </tr>
+            <tr>
+              <td><code>tooltip()</code></td>
+              <td><code>function</code></td>
+              <td>Show tooltip with field value or custom function</td>
+            </tr>
+            <tr>
+              <td><code>filter()</code></td>
+              <td><code>function</code></td>
+              <td>Enable or disable column filtering</td>
+            </tr>
+            <tr>
+              <td><code>quickFilter()</code></td>
+              <td><code>function</code></td>
+              <td>Set quick filter text extractor or disable quick filtering</td>
+            </tr>
+            <tr>
+              <td><code>comparator()</code></td>
+              <td><code>function</code></td>
+              <td>Set a custom sort comparator function</td>
+            </tr>
+            <tr>
+              <td><code>rowDrag()</code></td>
+              <td><code>function</code></td>
+              <td>Enable row drag on this column</td>
+            </tr>
+            <tr>
+              <td><code>onCellDoubleClicked()</code></td>
+              <td><code>function</code></td>
+              <td>Handle cell double-click event on this column</td>
+            </tr>
+            <tr>
+              <td><code>option()</code></td>
+              <td><code>function</code></td>
+              <td>Set any AG Grid ColDef option directly as an escape hatch</td>
+            </tr>
+            <tr>
+              <td><code>customize()</code></td>
+              <td><code>function</code></td>
+              <td>Apply custom modifications to the column definition</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4>Column Factory Methods</h4>
+        <table class="api-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th>Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>field()</code></td>
+              <td><code>function</code></td>
+              <td>Create a plain column builder for the given field</td>
+            </tr>
+            <tr>
+              <td><code>date()</code></td>
+              <td><code>function</code></td>
+              <td>Create a date column with formatting ('short', 'long', 'datetime', or custom)</td>
+            </tr>
+            <tr>
+              <td><code>number()</code></td>
+              <td><code>function</code></td>
+              <td>Create a right-aligned number column with locale formatting</td>
+            </tr>
+            <tr>
+              <td><code>currency()</code></td>
+              <td><code>function</code></td>
+              <td>Create a right-aligned currency column (default USD)</td>
+            </tr>
+            <tr>
+              <td><code>boolean()</code></td>
+              <td><code>function</code></td>
+              <td>Create a boolean column displaying Yes/No or custom values</td>
+            </tr>
+            <tr>
+              <td><code>tag()</code></td>
+              <td><code>function</code></td>
+              <td>Create a tag column rendering <code>&lt;coar-tag&gt;</code> elements with variant mapping</td>
+            </tr>
+            <tr>
+              <td><code>icon()</code></td>
+              <td><code>function</code></td>
+              <td>Create an icon column rendering <code>&lt;coar-icon&gt;</code> from the cell value</td>
+            </tr>
+            <tr>
+              <td><code>localDate()</code></td>
+              <td><code>function</code></td>
+              <td>Create a locale-aware date column using <code>CoarDatePipe</code> cell renderer</td>
+            </tr>
           </tbody>
         </table>
       </div>

@@ -728,7 +728,6 @@ coar-table.api-table td:nth-child(3):last-child {
   margin-bottom: var(--coar-spacing-m);
 }
 
-
 /* ========================================
    EXAMPLES-FIRST LAYOUT (new pattern)
    ========================================
@@ -740,7 +739,7 @@ coar-table.api-table td:nth-child(3):last-child {
 /* Two-column grid for example cards */
 .examples-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  /* grid-template-columns: repeat(2, minmax(0, 1fr)); */
   gap: var(--coar-spacing-l);
   margin-bottom: var(--coar-spacing-l);
   align-items: start;

@@ -7,6 +7,9 @@ import type {
   ValueGetterFunc,
   CellDoubleClickedEvent,
   ITooltipParams,
+  GetQuickFilterTextParams,
+  RowDragCallback,
+  IRowNode,
 } from 'ag-grid-community';
 
 /**
@@ -230,6 +233,61 @@ export class CoarGridColumnBuilder<TData = unknown, TValue = unknown> {
   /** Set filter parameters */
   filterParams(params: Record<string, unknown>): this {
     this.#colDef.filterParams = params;
+    return this;
+  }
+
+  // ============================================================
+  // Quick Filter
+  // ============================================================
+
+  /** Set quick filter text extractor or disable quick filtering for this column */
+  quickFilter(
+    fn: boolean | ((params: GetQuickFilterTextParams<TData, TValue>) => string)
+  ): this {
+    if (typeof fn === 'boolean') {
+      this.#colDef.getQuickFilterText = fn ? undefined : () => '';
+    } else {
+      this.#colDef.getQuickFilterText = fn;
+    }
+    return this;
+  }
+
+  // ============================================================
+  // Sorting
+  // ============================================================
+
+  /** Set custom sort comparator */
+  comparator(
+    fn: (
+      valueA: TValue,
+      valueB: TValue,
+      nodeA: IRowNode<TData>,
+      nodeB: IRowNode<TData>,
+      isDescending: boolean
+    ) => number
+  ): this {
+    this.#colDef.comparator = fn as ColDef<TData, TValue>['comparator'];
+    return this;
+  }
+
+  // ============================================================
+  // Row Drag
+  // ============================================================
+
+  /** Enable row drag on this column */
+  rowDrag(value: boolean | RowDragCallback<TData, TValue> = true): this {
+    this.#colDef.rowDrag = value;
+    return this;
+  }
+
+  // ============================================================
+  // Cell Renderer (config pattern)
+  // ============================================================
+
+  /** Set cell renderer with config object (params wrapped in `config` key) */
+  cellRendererConfig(component: Type<unknown>, config: Record<string, unknown> | object): this {
+    this.#colDef.cellRenderer = component;
+    this.#colDef.cellRendererParams = { ...this.#colDef.cellRendererParams, config };
     return this;
   }
 

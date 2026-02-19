@@ -14,6 +14,11 @@ export { CoarDataGridDirective } from './lib/directive';
 // Theme (Cocoar-styled AG Grid theme)
 export { cocoarTheme, createCocoarTheme } from './lib/theme/cocoar-theme';
 
+// Cell renderer config types (public API)
+export type { TagCellRendererConfig } from './lib/cell-renderers';
+export type { IconCellRendererConfig } from './lib/cell-renderers';
+export type { DateCellRendererConfig } from './lib/cell-renderers';
+
 // Types (re-exports from AG Grid + Cocoar extensions)
 export * from './lib/models';
 

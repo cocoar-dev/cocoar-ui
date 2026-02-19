@@ -13,6 +13,8 @@ export type {
   RowDoubleClickedEvent,
   CellClickedEvent,
   CellDoubleClickedEvent,
+  CellContextMenuEvent,
+  GridSizeChangedEvent,
   ColumnState,
   GetRowIdFunc,
   RowClassParams,
@@ -21,6 +23,9 @@ export type {
   CellClassParams,
   ICellRendererParams,
   IRowNode,
+  PostSortRowsParams,
+  GetQuickFilterTextParams,
+  RowDragCallback,
 } from 'ag-grid-community';
 
 /**

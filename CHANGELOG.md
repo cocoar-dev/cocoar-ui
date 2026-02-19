@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.2.0] - 2026-02-19
+
+### Changed
+
+- **data-grid:** Upgrade AG Grid peer dependency from `^33.0.0` to `^35.0.0` (`ag-grid-community`, `ag-grid-angular`)
+- **data-grid:** Migrate `rowSelection` internally from deprecated string format to AG Grid v35 object format (`{ mode: 'singleRow' | 'multiRow' }`). Public builder API unchanged.
+- **data-grid:** Remove deprecated `suppressPropertyNamesCheck` from default grid options
+
+### Added
+
+- **data-grid:** Comprehensive README with full API documentation for grid builder, column builder, column factory, directive, theming, cell renderers, and usage examples
+
+### Removed
+
+- **data-grid:** Delete `coar-data-grid.docs.md` (content consolidated into README)
+
 ## [0.1.1] - 2026-02-18
 
 ### Fixed

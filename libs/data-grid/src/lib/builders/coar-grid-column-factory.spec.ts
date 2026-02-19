@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { CoarGridColumnFactory } from './coar-grid-column-factory';
 import { CoarGridColumnBuilder } from './coar-grid-column-builder';
+import { CoarTagCellRendererComponent } from '../cell-renderers/tag-cell-renderer.component';
+import { CoarIconCellRendererComponent } from '../cell-renderers/icon-cell-renderer.component';
+import { CoarDateCellRendererComponent } from '../cell-renderers/date-cell-renderer.component';
 
 interface TestRow {
   id: number;
@@ -8,6 +11,8 @@ interface TestRow {
   amount: number;
   date: string;
   status: 'active' | 'inactive';
+  tags: string;
+  icon: string;
   isEnabled: boolean;
 }
 
@@ -164,6 +169,146 @@ describe('CoarGridColumnFactory', () => {
 
       expect(formatter({ value: true })).toBe('Active');
       expect(formatter({ value: false })).toBe('Inactive');
+    });
+  });
+
+  describe('tag', () => {
+    it('should create a tag column builder', () => {
+      const factory = new CoarGridColumnFactory<TestRow>();
+      const builder = factory.tag('tags');
+
+      expect(builder).toBeInstanceOf(CoarGridColumnBuilder);
+    });
+
+    it('should set the correct field', () => {
+      const factory = new CoarGridColumnFactory<TestRow>();
+      const colDef = factory.tag('tags').build();
+
+      expect(colDef.field).toBe('tags');
+    });
+
+    it('should configure the tag cell renderer component', () => {
+      const factory = new CoarGridColumnFactory<TestRow>();
+      const colDef = factory.tag('tags').build();
+
+      expect(colDef.cellRenderer).toBe(CoarTagCellRendererComponent);
+    });
+
+    it('should pass config via cellRendererParams', () => {
+      const factory = new CoarGridColumnFactory<TestRow>();
+      const config = { variantMap: { active: 'success' as const }, size: 's' as const };
+      const colDef = factory.tag('tags', config).build();
+
+      expect(colDef.cellRendererParams?.['config']).toEqual(config);
+    });
+
+    it('should enable sorting by default', () => {
+      const factory = new CoarGridColumnFactory<TestRow>();
+      const colDef = factory.tag('tags').build();
+
+      expect(colDef.sortable).toBe(true);
+    });
+
+    it('should set a comparator for tag sorting', () => {
+      const factory = new CoarGridColumnFactory<TestRow>();
+      const colDef = factory.tag('tags').build();
+
+      expect(colDef.comparator).toBeDefined();
+    });
+
+    it('should sort string tag values alphabetically', () => {
+      const factory = new CoarGridColumnFactory<TestRow>();
+      const colDef = factory.tag('tags').build();
+      const comparator = colDef.comparator as (a: unknown, b: unknown) => number;
+
+      expect(comparator('b,a', 'a,b')).toBe(0); // same tags, different order
+      expect(comparator('alpha', 'beta')).toBeLessThan(0);
+      expect(comparator('beta', 'alpha')).toBeGreaterThan(0);
+    });
+
+    it('should sort array tag values alphabetically', () => {
+      const factory = new CoarGridColumnFactory<TestRow>();
+      const colDef = factory.tag('tags').build();
+      const comparator = colDef.comparator as (a: unknown, b: unknown) => number;
+
+      expect(comparator(['b', 'a'], ['a', 'b'])).toBe(0);
+      expect(comparator(['alpha'], ['beta'])).toBeLessThan(0);
+    });
+  });
+
+  describe('icon', () => {
+    it('should create an icon column builder', () => {
+      const factory = new CoarGridColumnFactory<TestRow>();
+      const builder = factory.icon('icon');
+
+      expect(builder).toBeInstanceOf(CoarGridColumnBuilder);
+    });
+
+    it('should set the correct field', () => {
+      const factory = new CoarGridColumnFactory<TestRow>();
+      const colDef = factory.icon('icon').build();
+
+      expect(colDef.field).toBe('icon');
+    });
+
+    it('should configure the icon cell renderer component', () => {
+      const factory = new CoarGridColumnFactory<TestRow>();
+      const colDef = factory.icon('icon').build();
+
+      expect(colDef.cellRenderer).toBe(CoarIconCellRendererComponent);
+    });
+
+    it('should pass config via cellRendererParams', () => {
+      const factory = new CoarGridColumnFactory<TestRow>();
+      const config = { size: 's' as const, color: 'red' };
+      const colDef = factory.icon('icon', config).build();
+
+      expect(colDef.cellRendererParams?.['config']).toEqual(config);
+    });
+
+    it('should use empty config when none provided', () => {
+      const factory = new CoarGridColumnFactory<TestRow>();
+      const colDef = factory.icon('icon').build();
+
+      expect(colDef.cellRendererParams?.['config']).toEqual({});
+    });
+  });
+
+  describe('localDate', () => {
+    it('should create a localDate column builder', () => {
+      const factory = new CoarGridColumnFactory<TestRow>();
+      const builder = factory.localDate('date');
+
+      expect(builder).toBeInstanceOf(CoarGridColumnBuilder);
+    });
+
+    it('should set the correct field', () => {
+      const factory = new CoarGridColumnFactory<TestRow>();
+      const colDef = factory.localDate('date').build();
+
+      expect(colDef.field).toBe('date');
+    });
+
+    it('should configure the date cell renderer component', () => {
+      const factory = new CoarGridColumnFactory<TestRow>();
+      const colDef = factory.localDate('date').build();
+
+      expect(colDef.cellRenderer).toBe(CoarDateCellRendererComponent);
+    });
+
+    it('should enable sorting by default', () => {
+      const factory = new CoarGridColumnFactory<TestRow>();
+      const colDef = factory.localDate('date').build();
+
+      expect(colDef.sortable).toBe(true);
+    });
+
+    it('should pass config via cellRendererParams', () => {
+      const factory = new CoarGridColumnFactory<TestRow>();
+      const config = { showSeconds: true };
+      const colDef = factory.localDate('date', config).build();
+
+      expect(colDef.cellRendererParams?.['config']).toEqual(config);
     });
   });
 });

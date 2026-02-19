@@ -1,7 +1,14 @@
-import { Directive, Input, OnDestroy, OnInit, inject } from '@angular/core';
+import { Directive, HostListener, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
 
 import { CoarGridBuilder } from '../builders/coar-grid-builder';
+
+const VIEWPORT_CLASSES = ['ag-body-viewport', 'ag-center-cols-viewport'];
+
+function isViewportTarget(event: MouseEvent): boolean {
+  const target = event.target as HTMLElement;
+  return VIEWPORT_CLASSES.some((cls) => target.classList.contains(cls));
+}
 
 /**
  * Directive that binds a CoarGridBuilder to an AG Grid instance.
@@ -59,5 +66,32 @@ export class CoarDataGridDirective<TData> implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.#gridBuilder?._destroy();
+  }
+
+  @HostListener('click', ['$event'])
+  onHostClick($event: MouseEvent): void {
+    if ($event.ctrlKey) return;
+
+    const handler = this.#gridBuilder?._getViewportClickHandler();
+    if (handler && isViewportTarget($event)) {
+      $event.preventDefault();
+      handler($event, this.#agGrid.api);
+    }
+  }
+
+  @HostListener('contextmenu', ['$event'])
+  onHostContextMenu($event: MouseEvent): void {
+    if ($event.ctrlKey) return;
+
+    if (isViewportTarget($event)) {
+      const handler = this.#gridBuilder?._getViewportContextMenuHandler();
+      if (handler) {
+        $event.preventDefault();
+        handler($event, this.#agGrid.api);
+      }
+    } else if (this.#gridBuilder?._hasCellContextMenuHandler()) {
+      // Suppress the browser context menu — AG Grid's onCellContextMenu handles it
+      $event.preventDefault();
+    }
   }
 }
