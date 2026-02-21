@@ -171,7 +171,9 @@ describe('CoarGridColumnFactory', () => {
 
     it('should support custom true/false values', () => {
       const factory = new CoarGridColumnFactory<TestRow>();
-      const colDef = factory.boolean('isEnabled', { trueValue: 'Active', falseValue: 'Inactive' }).build();
+      const colDef = factory
+        .boolean('isEnabled', { trueValue: 'Active', falseValue: 'Inactive' })
+        .build();
       const formatter = colDef.valueFormatter as (params: { value: boolean }) => string;
 
       expect(formatter({ value: true })).toBe('Active');

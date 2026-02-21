@@ -165,7 +165,12 @@ export class CoarGridColumnFactory<TData = unknown> {
     builder.comparator((valueA, valueB) => {
       const normalize = (v: unknown): string => {
         if (Array.isArray(v)) return v.map(String).sort().join(',');
-        if (typeof v === 'string') return v.split(separator).map((s) => s.trim()).sort().join(',');
+        if (typeof v === 'string')
+          return v
+            .split(separator)
+            .map((s) => s.trim())
+            .sort()
+            .join(',');
         return String(v ?? '');
       };
       return normalize(valueA).localeCompare(normalize(valueB));

@@ -58,7 +58,10 @@ export class CoarTagCellRendererComponent implements ICellRendererAngularComp {
     }));
   }
 
-  private resolveValueForLabels(value: unknown, valueFormatted: string | null | undefined): unknown {
+  private resolveValueForLabels(
+    value: unknown,
+    valueFormatted: string | null | undefined
+  ): unknown {
     if (valueFormatted == null) return value;
 
     // If the underlying value is already structured for tag rendering (array/object),

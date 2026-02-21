@@ -111,8 +111,7 @@ export class CoarTagSelectComponent<T = string> extends CoarSelectBase<T[]> {
 
     if (index < 0 || index >= available.length) return null;
 
-    const displayIndex =
-      this.dropdownPosition() === 'top' ? available.length - 1 - index : index;
+    const displayIndex = this.dropdownPosition() === 'top' ? available.length - 1 - index : index;
 
     return `${this.inputId()}-option-${displayIndex}`;
   });

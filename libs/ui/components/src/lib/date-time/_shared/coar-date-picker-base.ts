@@ -380,13 +380,14 @@ export abstract class CoarDatePickerBase<T> extends CoarControlValueAccessor<T |
     const localeData = locale ? this.localizationDataStore?.getLocaleData(locale) : undefined;
     const cachedMonthNames = localeData?.date?.monthNamesShort;
 
-    const formatter = cachedMonthNames ? undefined : new Intl.DateTimeFormat(locale, { month: 'short' });
+    const formatter = cachedMonthNames
+      ? undefined
+      : new Intl.DateTimeFormat(locale, { month: 'short' });
 
     const items: CoarMonthItem[] = [];
 
     for (let m = 1; m <= 12; m++) {
-      const name = cachedMonthNames?.[m - 1]
-        ?? formatter!.format(new Date(year, m - 1, 1));
+      const name = cachedMonthNames?.[m - 1] ?? formatter!.format(new Date(year, m - 1, 1));
       const yearMonth = Temporal.PlainYearMonth.from({ year, month: m });
 
       items.push({

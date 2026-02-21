@@ -74,7 +74,7 @@ These are the building blocks that make up an `OverlaySpec<TInputs>`.
 | `AnchorSpec` | `{ kind: 'element' \| 'point' \| 'virtual', ... }` | Where the overlay is anchored (DOM element / pointer point / virtual position). |
 | `PositionSpec` | `{ placement, offset?, flip?, shift? }` | Placement and collision behavior. |
 | `Placement` | union of placement strings | `top`, `bottom-start`, `right-end`, `center`, etc. |
-| `SizeSpec` | `{ mode, minWidth?, minHeight?, maxWidth?, maxHeight? }` | Sizing policy (content, clamped, fixed). |
+| `SizeSpec` | `{ overflow?, width?, height?, minWidth?, minHeight?, maxWidth?, maxHeight? }` | CSS-like sizing constraints (numbers in px, `'anchor'/'viewport'`, or CSS lengths). |
 | `BackdropSpec` | `{ kind: 'none' } \| { kind: 'modal', closeOnBackdropClick? }` | Backdrop policy. |
 | `ScrollSpec` | `{ strategy: 'noop' \| 'reposition' \| 'close' }` | What to do on scroll. |
 | `DismissSpec` | `{ outsideClick?, escapeKey?, hoverTree? }` | Dismissal triggers. |
