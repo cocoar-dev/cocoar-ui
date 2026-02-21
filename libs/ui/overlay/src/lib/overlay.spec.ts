@@ -18,7 +18,6 @@ describe('overlay-settings', () => {
   it('defines modal overlay defaults', () => {
     expect(coarModalPreset.backdrop).toEqual({ kind: 'modal', closeOnBackdropClick: true });
     expect(coarModalPreset.size).toEqual({
-      mode: 'content-clamped',
       maxWidth: 'viewport',
       maxHeight: 'viewport',
     });

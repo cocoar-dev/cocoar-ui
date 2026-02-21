@@ -170,7 +170,6 @@ export class CoarTooltipDirective {
       .position(position)
       .scroll({ strategy: 'reposition' })
       .dismiss({ outsideClick: false, escapeKey: true })
-      .size({ mode: 'content' })
       .a11y({ role: 'tooltip' })
       .fromComponent(CoarTooltipOverlayComponent)
       .open({

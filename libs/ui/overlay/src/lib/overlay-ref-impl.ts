@@ -520,30 +520,49 @@ export class CoarOverlayRef implements OverlayRef {
 
     const viewport = getViewportRect();
 
+    const toCssPx = (n: number): string => `${n}px`;
+
     const resolveMin = (
-      value: number | 'anchor' | undefined,
+      value: number | 'anchor' | string | undefined,
       anchorSize: number
-    ): number | null => {
-      if (value === 'anchor') return anchorSize;
-      if (typeof value === 'number') return value;
+    ): string | null => {
+      if (value === 'anchor') return toCssPx(anchorSize);
+      if (typeof value === 'number') return toCssPx(value);
+      if (typeof value === 'string' && value.trim().length > 0) return value;
       return null;
     };
 
     const resolveMax = (
-      value: number | 'viewport' | undefined,
+      value: number | 'viewport' | string | undefined,
       viewportSize: number
-    ): number | null => {
-      if (value === 'viewport') return viewportSize;
-      if (typeof value === 'number') return value;
+    ): string | null => {
+      if (value === 'viewport') return toCssPx(viewportSize);
+      if (typeof value === 'number') return toCssPx(value);
+      if (typeof value === 'string' && value.trim().length > 0) return value;
+      return null;
+    };
+
+    const resolveFixed = (
+      value: number | 'anchor' | 'viewport' | string | undefined,
+      anchorSize: number,
+      viewportSize: number
+    ): string | null => {
+      if (value === 'anchor') return toCssPx(anchorSize);
+      if (value === 'viewport') return toCssPx(viewportSize);
+      if (typeof value === 'number') return toCssPx(value);
+      if (typeof value === 'string' && value.trim().length > 0) return value;
       return null;
     };
 
     const anchorRect = getAnchorRect(this.spec.anchor, viewport);
-    const minWidthPx = resolveMin(size.minWidth, anchorRect.width);
-    const minHeightPx = resolveMin(size.minHeight, anchorRect.height);
+    const minWidth = resolveMin(size.minWidth, anchorRect.width);
+    const minHeight = resolveMin(size.minHeight, anchorRect.height);
 
-    const maxWidthPx = resolveMax(size.maxWidth, viewport.width);
-    const maxHeightPx = resolveMax(size.maxHeight, viewport.height);
+    const maxWidth = resolveMax(size.maxWidth, viewport.width);
+    const maxHeight = resolveMax(size.maxHeight, viewport.height);
+
+    const width = resolveFixed(size.width, anchorRect.width, viewport.width);
+    const height = resolveFixed(size.height, anchorRect.height, viewport.height);
 
     this.host.style.width = '';
     this.host.style.height = '';
@@ -553,23 +572,25 @@ export class CoarOverlayRef implements OverlayRef {
     this.host.style.maxHeight = '';
     this.host.style.overflow = '';
 
-    if (minWidthPx != null && minWidthPx > 0) this.host.style.minWidth = `${minWidthPx}px`;
-    if (minHeightPx != null && minHeightPx > 0) this.host.style.minHeight = `${minHeightPx}px`;
+    if (minWidth != null) this.host.style.minWidth = minWidth;
+    if (minHeight != null) this.host.style.minHeight = minHeight;
 
-    if (size.mode === 'content') {
+    if (maxWidth != null) this.host.style.maxWidth = maxWidth;
+    if (maxHeight != null) this.host.style.maxHeight = maxHeight;
+
+    if (width != null) this.host.style.width = width;
+    if (height != null) this.host.style.height = height;
+
+    if (size.overflow != null) {
+      this.host.style.overflow = size.overflow;
       return;
     }
 
-    if (size.mode === 'content-clamped') {
-      if (maxWidthPx != null) this.host.style.maxWidth = `${maxWidthPx}px`;
-      if (maxHeightPx != null) this.host.style.maxHeight = `${maxHeightPx}px`;
-      this.host.style.overflow = 'auto';
-      return;
+    const hasExplicitConstraint =
+      width != null || height != null || maxWidth != null || maxHeight != null;
+    if (hasExplicitConstraint) {
+      this.host.style.overflow = 'hidden';
     }
-
-    if (maxWidthPx != null) this.host.style.width = `${maxWidthPx}px`;
-    if (maxHeightPx != null) this.host.style.height = `${maxHeightPx}px`;
-    this.host.style.overflow = 'auto';
   }
 
   private applyA11y(): void {

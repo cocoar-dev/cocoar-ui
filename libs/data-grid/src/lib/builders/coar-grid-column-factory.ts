@@ -133,6 +133,10 @@ export class CoarGridColumnFactory<TData = unknown> {
     const { trueValue = 'Yes', falseValue = 'No' } = options;
     const builder = new CoarGridColumnBuilder<TData, boolean>(fieldName);
 
+    // AG Grid infers `cellDataType: 'boolean'` by default, which uses a checkbox renderer.
+    // For this factory we want the formatted label (Yes/No) to be displayed instead.
+    builder.option('cellDataType', false);
+
     builder.valueFormatter((params) => {
       if (params.value === null || params.value === undefined) return '';
       return params.value ? trueValue : falseValue;

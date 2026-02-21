@@ -18,7 +18,7 @@ export const coarModalPreset: OverlaySettings<unknown> = {
   backdrop: { kind: 'modal', closeOnBackdropClick: true },
   anchor: { kind: 'virtual', placement: 'center' },
   focus: { trap: true, restore: true },
-  size: { mode: 'content-clamped', maxWidth: 'viewport', maxHeight: 'viewport' },
+  size: { maxWidth: 'viewport', maxHeight: 'viewport' },
   position: { placement: 'center', offset: 0, flip: false, shift: true },
   a11y: { role: 'dialog' },
   attachment: { strategy: 'body' },

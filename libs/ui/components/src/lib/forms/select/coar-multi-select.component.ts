@@ -257,7 +257,7 @@ export class CoarMultiSelectComponent<T = unknown> extends CoarSelectBase<T[]> {
       .position({ placement, offset: 4, flip: false, shift: false })
       .scroll({ strategy: 'reposition' })
       .dismiss({ outsideClick: true, escapeKey: true })
-      .size({ mode: 'content', minWidth: 'anchor' })
+      .size({ minWidth: 'anchor' })
       .panelClass(sizeClass)
       .fromTemplate(template)
       .open({});

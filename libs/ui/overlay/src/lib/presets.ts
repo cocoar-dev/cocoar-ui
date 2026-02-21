@@ -20,7 +20,7 @@ export const coarModalPreset: OverlayPreset = (b) => {
   b.backdrop('modal');
   b.anchor({ kind: 'virtual', placement: 'center' });
   b.focus({ trap: true, restore: true });
-  b.size({ mode: 'content-clamped', maxWidth: 'viewport', maxHeight: 'viewport' });
+  b.size({ maxWidth: 'viewport', maxHeight: 'viewport' });
   b.position({ placement: 'center', offset: 0, flip: false, shift: true });
   b.a11y({ role: 'dialog' });
   b.attachment({ strategy: 'body' });

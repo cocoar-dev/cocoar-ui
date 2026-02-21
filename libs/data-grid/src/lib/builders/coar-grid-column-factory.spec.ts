@@ -146,6 +146,13 @@ describe('CoarGridColumnFactory', () => {
       expect(builder).toBeInstanceOf(CoarGridColumnBuilder);
     });
 
+    it('should disable cell data type inference to avoid checkbox rendering', () => {
+      const factory = new CoarGridColumnFactory<TestRow>();
+      const colDef = factory.boolean('isEnabled').build();
+
+      expect(colDef.cellDataType).toBe(false);
+    });
+
     it('should format true as Yes by default', () => {
       const factory = new CoarGridColumnFactory<TestRow>();
       const colDef = factory.boolean('isEnabled').build();

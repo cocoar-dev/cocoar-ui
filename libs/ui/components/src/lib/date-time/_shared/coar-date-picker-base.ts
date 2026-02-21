@@ -520,7 +520,6 @@ export abstract class CoarDatePickerBase<T> extends CoarControlValueAccessor<T |
       })
       .scroll({ strategy: 'reposition' })
       .dismiss({ outsideClick: true, escapeKey: true })
-      .size({ mode: 'content' })
       .fromTemplate(template)
       .open({});
 

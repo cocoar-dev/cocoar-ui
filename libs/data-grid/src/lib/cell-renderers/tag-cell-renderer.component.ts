@@ -40,20 +40,33 @@ export class CoarTagCellRendererComponent implements ICellRendererAngularComp {
   agInit(params: ICellRendererParams & { config?: TagCellRendererConfig }): void {
     this.config = params.config ?? {};
     this.size = this.config.size ?? 's';
-    this.updateTags(params.value);
+    this.updateTags(params.value, params.valueFormatted);
   }
 
   refresh(params: ICellRendererParams & { config?: TagCellRendererConfig }): boolean {
-    this.updateTags(params.value);
+    this.config = params.config ?? this.config;
+    this.size = this.config.size ?? this.size;
+    this.updateTags(params.value, params.valueFormatted);
     return true;
   }
 
-  private updateTags(value: unknown): void {
-    const rawLabels = this.extractLabels(value);
+  private updateTags(value: unknown, valueFormatted: string | null | undefined): void {
+    const rawLabels = this.extractLabels(this.resolveValueForLabels(value, valueFormatted));
     this.tags = rawLabels.map((label) => ({
       label: this.translateLabel(label),
       variant: this.resolveVariant(label),
     }));
+  }
+
+  private resolveValueForLabels(value: unknown, valueFormatted: string | null | undefined): unknown {
+    if (valueFormatted == null) return value;
+
+    // If the underlying value is already structured for tag rendering (array/object),
+    // prefer it over the formatted string to preserve multiple tags.
+    if (Array.isArray(value)) return value;
+    if (value != null && typeof value === 'object') return value;
+
+    return valueFormatted;
   }
 
   private extractLabels(value: unknown): string[] {

@@ -165,7 +165,6 @@ export class CoarPopoverComponent {
       })
       .scroll({ strategy: 'reposition' })
       .dismiss({ outsideClick: false, escapeKey: true })
-      .size({ mode: 'content' })
       .a11y({ role: 'tooltip' })
       .fromTemplate(template)
       .open({});

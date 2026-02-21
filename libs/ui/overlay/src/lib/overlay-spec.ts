@@ -73,11 +73,24 @@ export interface PositionSpec {
 }
 
 export interface SizeSpec {
-  mode: 'content' | 'content-clamped' | 'fixed';
-  minWidth?: number | 'anchor';
-  minHeight?: number | 'anchor';
-  maxWidth?: number | 'viewport';
-  maxHeight?: number | 'viewport';
+  /**
+   * Optional overflow behavior for the overlay host.
+   *
+   * When omitted, the overlay runtime may apply a safe default when size constraints are present.
+   */
+  overflow?: 'visible' | 'hidden' | 'auto' | 'scroll' | 'clip' | (string & {});
+  /** Fixed width. Numbers are treated as px; strings are used as-is. */
+  width?: number | 'anchor' | 'viewport' | (string & {});
+  /** Fixed height. Numbers are treated as px; strings are used as-is. */
+  height?: number | 'anchor' | 'viewport' | (string & {});
+  /** Minimum width. Numbers are treated as px; strings are used as-is (e.g. '90%', '24rem'). */
+  minWidth?: number | 'anchor' | (string & {});
+  /** Minimum height. Numbers are treated as px; strings are used as-is (e.g. '50vh'). */
+  minHeight?: number | 'anchor' | (string & {});
+  /** Maximum width. Numbers are treated as px; strings are used as-is (e.g. '90%', '60vw'). */
+  maxWidth?: number | 'viewport' | (string & {});
+  /** Maximum height. Numbers are treated as px; strings are used as-is (e.g. '100vh'). */
+  maxHeight?: number | 'viewport' | (string & {});
 }
 
 export type BackdropSpec =
@@ -144,8 +157,11 @@ export const COAR_OVERLAY_DEFAULTS = {
   attachment: { strategy: 'body' } as const satisfies AttachmentSpec,
 } as const;
 
-export type ResolvedOverlaySpec<TInputs> = Required<
-  Omit<OverlaySpec<TInputs>, 'content' | 'panelClass'>
-> &
-  Pick<Required<OverlaySpec<TInputs>>, 'content'> &
-  Pick<OverlaySpec<TInputs>, 'panelClass'>;
+export type ResolvedOverlaySpec<TInputs> = Omit<
+  Required<OverlaySpec<TInputs>>,
+  'content' | 'panelClass' | 'size'
+> & {
+  content: ContentSpec<TInputs>;
+  size?: SizeSpec;
+  panelClass?: string | string[];
+};

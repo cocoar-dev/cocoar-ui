@@ -208,7 +208,7 @@ describe('CoarOverlayService', () => {
     const opener = TestBed.runInInjectionContext(() =>
       createOverlayBuilder()
         .anchor({ kind: 'element', element: origin })
-        .size({ mode: 'content-clamped', minWidth: 'anchor', maxHeight: 200 })
+        .size({ minWidth: 'anchor', maxHeight: 200 })
         .fromText()
     );
 
@@ -509,11 +509,11 @@ describe('CoarOverlayService', () => {
     scrollParent.remove();
   });
 
-  it("applies SizeSpec in 'content-clamped' mode (maxWidth/maxHeight + overflow)", () => {
+  it('applies SizeSpec maxWidth/maxHeight', () => {
     const opener = TestBed.runInInjectionContext(() =>
       createOverlayBuilder()
         .anchor({ kind: 'point', x: 10, y: 10 })
-        .size({ mode: 'content-clamped', maxWidth: 123, maxHeight: 456 })
+        .size({ maxWidth: 123, maxHeight: 456 })
         .fromText()
     );
 
@@ -522,14 +522,32 @@ describe('CoarOverlayService', () => {
     const host = document.body.querySelector('.coar-overlay-host') as HTMLElement;
     expect(host.style.maxWidth).toBe('123px');
     expect(host.style.maxHeight).toBe('456px');
-    expect(host.style.overflow).toBe('auto');
+    expect(host.style.width).toBe('');
+    expect(host.style.height).toBe('');
+    expect(host.style.overflow).toBe('hidden');
   });
 
-  it("applies SizeSpec in 'fixed' mode (width/height + overflow)", () => {
+  it('supports CSS length strings in SizeSpec', () => {
     const opener = TestBed.runInInjectionContext(() =>
       createOverlayBuilder()
         .anchor({ kind: 'point', x: 10, y: 10 })
-        .size({ mode: 'fixed', maxWidth: 111, maxHeight: 222 })
+        .size({ maxWidth: '90%', maxHeight: '50vh' })
+        .fromText()
+    );
+
+    opener.open({ text: 'Clamped CSS' });
+
+    const host = document.body.querySelector('.coar-overlay-host') as HTMLElement;
+    expect(host.style.maxWidth).toBe('90%');
+    expect(host.style.maxHeight).toBe('50vh');
+    expect(host.style.overflow).toBe('hidden');
+  });
+
+  it('applies SizeSpec width/height', () => {
+    const opener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder()
+        .anchor({ kind: 'point', x: 10, y: 10 })
+        .size({ width: 111, height: 222 })
         .fromText()
     );
 
@@ -538,7 +556,40 @@ describe('CoarOverlayService', () => {
     const host = document.body.querySelector('.coar-overlay-host') as HTMLElement;
     expect(host.style.width).toBe('111px');
     expect(host.style.height).toBe('222px');
-    expect(host.style.overflow).toBe('auto');
+    expect(host.style.overflow).toBe('hidden');
+  });
+
+  it('applies max constraints alongside width/height (CSS clamp semantics)', () => {
+    const opener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder()
+        .anchor({ kind: 'point', x: 10, y: 10 })
+        .size({ width: 111, height: 222, maxWidth: 333, maxHeight: 444 })
+        .fromText()
+    );
+
+    opener.open({ text: 'Fixed precedence' });
+
+    const host = document.body.querySelector('.coar-overlay-host') as HTMLElement;
+    expect(host.style.width).toBe('111px');
+    expect(host.style.height).toBe('222px');
+    expect(host.style.maxWidth).toBe('333px');
+    expect(host.style.maxHeight).toBe('444px');
+  });
+
+  it('supports CSS length strings for width/height', () => {
+    const opener = TestBed.runInInjectionContext(() =>
+      createOverlayBuilder()
+        .anchor({ kind: 'point', x: 10, y: 10 })
+        .size({ width: '90vw', height: '100vh' })
+        .fromText()
+    );
+
+    opener.open({ text: 'Fixed CSS' });
+
+    const host = document.body.querySelector('.coar-overlay-host') as HTMLElement;
+    expect(host.style.width).toBe('90vw');
+    expect(host.style.height).toBe('100vh');
+    expect(host.style.overflow).toBe('hidden');
   });
 
   it('traps focus with Tab and Shift+Tab for the topmost trapping overlay', () => {

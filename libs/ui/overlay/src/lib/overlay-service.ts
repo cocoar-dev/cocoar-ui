@@ -189,7 +189,7 @@ export class CoarOverlayService {
       content,
       anchor: resolvedSpec.anchor ?? COAR_OVERLAY_DEFAULTS.anchor,
       position: resolvedSpec.position ?? COAR_OVERLAY_DEFAULTS.position,
-      size: resolvedSpec.size ?? { mode: 'content' },
+      size: resolvedSpec.size,
       backdrop: resolvedSpec.backdrop ?? COAR_OVERLAY_DEFAULTS.backdrop,
       scroll: resolvedSpec.scroll ?? COAR_OVERLAY_DEFAULTS.scroll,
       dismiss: resolvedSpec.dismiss ?? COAR_OVERLAY_DEFAULTS.dismiss,
