@@ -23,10 +23,14 @@ import { CoarGridColumnBuilder } from './coar-grid-column-builder';
 import { CoarGridColumnFactory } from './coar-grid-column-factory';
 import { cocoarTheme } from '../theme/cocoar-theme';
 
+type ColumnBuilderLike<TData> = {
+  build(): ColDef<TData>;
+};
+
 /** Column definition input - either a builder or a factory function */
 export type ColumnDefinition<TData> =
-  | CoarGridColumnBuilder<TData, any>
-  | ((factory: CoarGridColumnFactory<TData>) => CoarGridColumnBuilder<TData, any>);
+  | ColumnBuilderLike<TData>
+  | ((factory: CoarGridColumnFactory<TData>) => ColumnBuilderLike<TData>);
 
 /**
  * Fluent builder for AG Grid configuration.
@@ -118,10 +122,8 @@ export class CoarGridBuilder<TData = unknown> {
   columns(definitions: ColumnDefinition<TData>[]): this {
     const factory = new CoarGridColumnFactory<TData>();
     this.#columnDefs = definitions.map((def) => {
-      if (def instanceof CoarGridColumnBuilder) {
-        return def.build();
-      }
-      return def(factory).build();
+      if (typeof def === 'function') return def(factory).build();
+      return def.build();
     });
     return this;
   }
@@ -273,10 +275,7 @@ export class CoarGridBuilder<TData = unknown> {
 
   /** Handle grid ready event */
   onGridReady(handler: (event: GridReadyEvent<TData>) => void): this {
-    this.#gridOptions.onGridReady = this.#composeHandler(
-      this.#gridOptions.onGridReady,
-      handler
-    );
+    this.#gridOptions.onGridReady = this.#composeHandler(this.#gridOptions.onGridReady, handler);
     return this;
   }
 
@@ -480,7 +479,9 @@ export class CoarGridBuilder<TData = unknown> {
   }
 
   /** @internal Get viewport context menu handler (for directive) */
-  _getViewportContextMenuHandler(): (($event: MouseEvent, api: GridApi<TData>) => void) | undefined {
+  _getViewportContextMenuHandler():
+    | (($event: MouseEvent, api: GridApi<TData>) => void)
+    | undefined {
     return this.#viewportContextMenuHandler;
   }
 
